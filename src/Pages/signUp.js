@@ -2,6 +2,8 @@ import React from 'react'
 import { faEnvelope, faLock, faCheckCircle, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import UserPool from "../UserPool";
+import axios from 'axios'
+
 
 class SignUp extends React.Component {
     constructor(props) {
@@ -40,7 +42,7 @@ class SignUp extends React.Component {
                 <div class="field">
                     <label class="label">Token</label>
                     <p class="control has-icons-left">
-                        <input class="input" type="text" placeholder="Token" name="token" />
+                        <input class="input" type="text" placeholder="Token" name="token" onChange={this.handleTokenChange}/>
                         <span class="icon is-small is-left">
                             <FontAwesomeIcon icon={faLock}></FontAwesomeIcon>
                         </span>
@@ -100,8 +102,8 @@ class SignUp extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        console.log("before error message: " + this.state.error_message)
 
+        console.log(this.state)
         var error_mess = []
         if (!(this.state.first_name && this.state.last_name)) {
             error_mess = error_mess.concat("All fields are required.");
@@ -111,7 +113,8 @@ class SignUp extends React.Component {
             error_mess = error_mess.concat("Password must meet requirements.");
         } else if (this.state.role !== "Alumni") {
             error_mess = error_mess.concat("We're unable to sign you up as a student yet.");
-        } else if (event.target.token.value !== "token") {
+        } else if (this.state.token !== "token") {
+
             error_mess = error_mess.concat("Token is invalid");
         } else {
             UserPool.signUp(this.state.email,this.state.password,[],null,(err,data)=>{
@@ -121,6 +124,9 @@ class SignUp extends React.Component {
                         error_mess=error_mess.concat("email already exists!");
                     }
 
+                }else{
+                    // axios.post('http://localhost:3000')
+                    // console.log(res)
                 }
 
                 console.log(data)

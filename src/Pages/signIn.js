@@ -3,12 +3,14 @@ import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {CognitoUser, AuthenticationDetails} from 'amazon-cognito-identity-js'
 import UserPool from "../UserPool";
+import axios from "axios";
 class SignIn extends React.Component {
     constructor(props) {
         super();
         this.state={
             email:"",
-            password:""
+            password:"",
+            error_message:""
         }
 
         this.handleSubmit=this.handleSubmit.bind(this)
@@ -16,7 +18,6 @@ class SignIn extends React.Component {
 
     handleSubmit(event){
         event.preventDefault();
-        console.log(this.state)
 
         const user = new CognitoUser({
             Username: this.state.email,
@@ -28,26 +29,38 @@ class SignIn extends React.Component {
             Password:this.state.password
         });
 
+        console.log(authDetails)
+
+
         user.authenticateUser(authDetails,{
-            OnSucess: data =>{
-                console.log(data)
+            onSuccess: data =>{
+                console.log('onSucess: ', data)
+                axios.post('http://localhost:5000/testing',{email:this.state.email},{
+                    headers:{
+                        'Access-Control-Allow-Origin':'*'
+                    }
+                })
             },
             onFailure:err =>{
-                console.error(err)
+                this.setState({error_message:err.message})
+                console.error('onFailure: ',err.message)
             },
             newPasswordRequired: data =>{
                 console.log(data)
         }
-        })
+        });
     }
 
     render() {
+        var message_list=this.state.error_message;
         return (
             <>
                 <div className="columns is-centered">
                     <div className="column is-4-widescreen is-5-desktop is-7-tablet">
                         <div className="card">
                             <div className="card-content">
+                                {this.state.error_message?<div className="notification is-danger">{this.state.error_message}</div>:""}
+
 
                                 <div className="field">
                                     <label className="label">Email</label>
