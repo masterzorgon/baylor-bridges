@@ -3,6 +3,7 @@ import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {CognitoUser, AuthenticationDetails} from 'amazon-cognito-identity-js'
 import UserPool from "../UserPool";
+
 class SignIn extends React.Component {
     constructor(props) {
         super();
@@ -30,10 +31,10 @@ class SignIn extends React.Component {
 
         user.authenticateUser(authDetails,{
             OnSucess: data =>{
-                console.log(data)
+                console.log("Log In Success!", data)
             },
             onFailure:err =>{
-                console.error(err)
+                console.error("Log In Error!", err)
             },
             newPasswordRequired: data =>{
                 console.log(data)

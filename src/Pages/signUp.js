@@ -11,7 +11,7 @@ class SignUp extends React.Component {
             last_name: "",
             email: "",
             password: "",
-            role: "Student",
+            role: "Alumni",
             token: "",
             valid_email: false,
             valid_password: {
@@ -36,12 +36,12 @@ class SignUp extends React.Component {
 
     renderToken() {
         return (
-            <div class="block">
-                <div class="field">
-                    <label class="label">Token</label>
-                    <p class="control has-icons-left">
-                        <input class="input" type="text" placeholder="Token" name="token" />
-                        <span class="icon is-small is-left">
+            <div className="block">
+                <div className="field">
+                    <label className="label">Token</label>
+                    <p className="control has-icons-left">
+                        <input className="input" type="text" placeholder="Token" name="token" onChange={this.handleTokenChange} />
+                        <span className="icon is-small is-left">
                             <FontAwesomeIcon icon={faLock}></FontAwesomeIcon>
                         </span>
                     </p>
@@ -62,7 +62,7 @@ class SignUp extends React.Component {
     handlePasswordChange(event) {
         var password = event.target.value;
         var is_cap = /[A-Z]/.test(password);
-        var is_special = /[!|?|@|#|$|%|^|&|*]/.test(password);
+        var is_special = /[!|?|@|#|$|%|^|&|*|{|}|(|)|~]/.test(password);
         var is_length = event.target.value.length >= 6; // Cloudy: Said at least 6
 
         this.setState({
@@ -111,7 +111,7 @@ class SignUp extends React.Component {
             error_mess = error_mess.concat("Password must meet requirements.");
         } else if (this.state.role !== "Alumni") {
             error_mess = error_mess.concat("We're unable to sign you up as a student yet.");
-        } else if (event.target.token.value !== "token") {
+        } else if (this.state.token !== "token") {
             error_mess = error_mess.concat("Token is invalid");
         } else {
             UserPool.signUp(this.state.email,this.state.password,[],null,(err,data)=>{
@@ -243,8 +243,8 @@ class SignUp extends React.Component {
                                         <div className="control is-expanded">
                                             <div className="select is-fullwidth">
                                                 <select id="accountType" onChange={this.handleRoleChange} name="role">
-                                                    <option value="Student">Current Student</option>
                                                     <option value="Alumni">Alumni</option>
+                                                    <option value="Student">Current Student</option>
                                                 </select>
                                             </div>
                                         </div>
