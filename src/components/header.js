@@ -6,7 +6,7 @@ class Header extends React.Component {
             <nav className="navbar box" role="navigation"
                 aria-label="main navigation">
                 <div className="navbar-brand">
-                    <a className="navbar-item" href="/home">
+                    <a className="navbar-item" href="/">
                         <img alt="Baylor University logo" src="https://www.click2houston.com/resizer/3v3i6TY06rcxVuEOiQZbJjApyeA=/640x360/smart/filters:format(jpeg):strip_exif(true):strip_icc(true):no_upscale(true):quality(65)/cloudfront-us-east-1.images.arcpublishing.com/gmg/MISBRBEDPZAR5BN2GDORMZITPI.jpg" width="50" height="50"></img>
                     </a>
 
@@ -20,7 +20,7 @@ class Header extends React.Component {
 
                 <div id="navbarBasicExample" className="navbar-menu">
                     <div className="navbar-start">
-                        <a className="navbar-item" href="/home">Home</a>
+                        <a className="navbar-item" href="/">Home</a>
                         {/* <a className="navbar-item" href="">Documentation</a> */}
 
                         <div className="navbar-item has-dropdown is-hoverable">
