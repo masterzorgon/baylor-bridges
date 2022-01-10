@@ -6,8 +6,8 @@ import Header from "./components/header";
 import Home from "./Pages/Home"
 import About from "./Pages/About";
 import Testing from "./Pages/testPage";
-import SignIn from "./Pages/SignIn";
-import SignUp from "./Pages/SignUp";
+import SignIn from "./Pages/signIn";
+import SignUp from "./Pages/signUp";
 
 import 'bulma/css/bulma.min.css';
 import './App.css';
