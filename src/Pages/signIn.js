@@ -35,11 +35,7 @@ class SignIn extends React.Component {
         user.authenticateUser(authDetails,{
             onSuccess: data =>{
                 console.log('onSucess: ', data)
-                axios.post('http://localhost:5000/testing',{email:this.state.email},{
-                    headers:{
-                        'Access-Control-Allow-Origin':'*'
-                    }
-                })
+                axios.post('/testing',{email:this.state.email})
             },
             onFailure:err =>{
                 this.setState({error_message:err.message})
