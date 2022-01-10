@@ -39,7 +39,7 @@ class Home extends React.Component {
                     <div className="tile is-ancestor">
                         <div classNamme="tile is-parent">
                             <div className="tile is-12">
-                                <USAMap onClick={this.mapHandler} customize={statesCustomConfig} />
+                                <USAMap onClick={this.mapHandler} customize={statesCustomConfig}/>
                             </div>
                         </div>
                         <div className="tile is-parent">
@@ -47,12 +47,27 @@ class Home extends React.Component {
                                 {/* TODO: Card info */}
                                 <div className="card">
                                     <div className="card-content">
+                                        <div className="media">
+                                            <div className="media-left">
+                                                <figure className="image ">
+                                                    <img src="https://bulma.io/images/placeholders/128x128.png"
+                                                         alt="Placeholder image"/>
+                                                </figure>
+                                                <button className="button is-primary"> connect </button>
+                                            </div>
+                                            <div className="media-content">
+                                                <h1 className="title is-4">Dr. John Smith</h1>
+                                                <p className="subtitle is-6">Senior Lecturer</p>
+                                                <p><strong>Location: </strong> Waco, TX</p>
+                                                <p><strong>Graduate Class: </strong>Fall, 2022</p>
+                                                <p><strong>Contact Info: </strong> Hidden</p>
+
+
+                                            </div>
+                                        </div>
+
                                         <div className="content">
-                                            <h1>Alumini</h1>
-                                            <p>
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                                Mauris sagittis pellentesque lacus eleifend lacinia...
-                                            </p>
+
                                         </div>
                                     </div>
                                 </div>
