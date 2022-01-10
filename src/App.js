@@ -1,23 +1,32 @@
-import "./components/header"
-import Header from "./components/header";
-import ReactDOM from "react-dom";
-import Home from "./Pages/Home"
+
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import Header from "./components/header";
+import Home from "./Pages/Home"
+import About from "./Pages/About";
 import Testing from "./Pages/testPage";
 import SignIn from "./Pages/signIn";
 import SignUp from "./Pages/signUp";
+
+import 'bulma/css/bulma.min.css';
+import './App.css';
+
 function App() {
     return (
-        <Router>
-            <Header/>
-            <a>Go to home page</a>
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/testing" element={<Testing/>} />
-                <Route path="/signIn" element={<SignIn/>} />
-                <Route path="/signUp" element={<SignUp/>} />
-            </Routes>
-        </Router>
+        <>
+            <Header />
+            <Router>
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/testing" element={<Testing />} />
+                    <Route path="/sign-in" element={<SignIn />} />
+                    <Route path="/sign-up" element={<SignUp />} />
+                </Routes>
+            </Router>
+        </>
+        
     );
 }
 
