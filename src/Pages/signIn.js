@@ -1,38 +1,27 @@
 import React from 'react'
-import {faEnvelope,faLock} from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 class SignIn extends React.Component {
-    constructor(props) {
-        super();
-    }
+    // TODO: Sign In functionality
 
     render() {
         return (
-            <div>
-                <title>Sign In Page</title>
-                <body className="body">
-                <div className="columns is-desktop is-centered section is-medium ">
-                    <div className="card column is-3-widescreen is-3-desktop is-center">
-                        <div className="tabs is-centered is-medium">
-                            <ul>
-                                <li className="is-active"><a>Sign In</a></li>
-                                <li><a href="/signUp">Sign Up</a></li>
-                            </ul>
-                        </div>
+            <>
+                <div className="columns is-centered">
+                    <div className="column is-4-widescreen is-5-desktop is-7-tablet">
+                        <div className="card">
+                            <div className="card-content">
 
-                        <div className="box">
-                            <form method="POST" action="/signIn">
                                 <div className="field">
                                     <label className="label">Email</label>
                                     <div className="control has-icons-left">
                                         <input className="input" name="email" type="email" placeholder="Email Address"
-                                               autoFocus=""/>
+                                            autoFocus="" />
                                         <span className="icon is-small is-left">
-                            <i className="fas fa-envelope"></i>
+                                            <i className="fas fa-envelope"></i>
                                             <FontAwesomeIcon icon={faEnvelope}></FontAwesomeIcon>
-                            </span>
-
+                                        </span>
                                     </div>
                                 </div>
 
@@ -40,30 +29,26 @@ class SignIn extends React.Component {
                                     <label className="label">Password</label>
                                     <div className="control has-icons-left">
                                         <input className="input" name="password" type="password"
-                                               placeholder="Password"/>
+                                            placeholder="Password" />
                                         <span className="icon is-small is-left">
-                                        <FontAwesomeIcon icon={faLock}></FontAwesomeIcon>
-                            </span>
+                                            <FontAwesomeIcon icon={faLock}></FontAwesomeIcon>
+                                        </span>
                                     </div>
                                 </div>
 
                                 <div className="field">
                                     <label className="checkbox">
-                                        <input type="checkbox" name="remember"/>
+                                        <input type="checkbox" />
                                         Remember me
                                     </label>
                                 </div>
 
                                 <button className="button is-block is-primary is-fullwidth">Login</button>
-                            </form>
+                            </div>
                         </div>
-
                     </div>
                 </div>
-
-                </body>
-
-            </div>
+            </>
         )
     }
 }

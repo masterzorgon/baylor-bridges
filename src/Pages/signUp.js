@@ -1,30 +1,10 @@
 import React from 'react'
-import {faEnvelope, faLock, faCheckCircle, faCheck} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import { faEnvelope, faLock, faCheckCircle, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import UserPool from "../UserPool";
-function render_token() {
-    return (
-        <div class="block">
-            <div class="field">
-                <label class="label">Token</label>
-                <p class="control has-icons-left">
-                    <input class="input" type="text" placeholder="Token" name="token"/>
-                    <span class="icon is-small is-left">
-                        <FontAwesomeIcon icon={faLock}></FontAwesomeIcon>
-                    </span>
-                </p>
-            </div>
-            <br/>
-        </div>
-
-    )
-        ;
-}
-
 
 class SignUp extends React.Component {
     constructor(props) {
-
         super(props);
         this.state = {
             first_name: "",
@@ -50,8 +30,25 @@ class SignUp extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    render_token() {
+        return (
+            <div class="block">
+                <div class="field">
+                    <label class="label">Token</label>
+                    <p class="control has-icons-left">
+                        <input class="input" type="text" placeholder="Token" name="token" />
+                        <span class="icon is-small is-left">
+                            <FontAwesomeIcon icon={faLock}></FontAwesomeIcon>
+                        </span>
+                    </p>
+                </div>
+                <br />
+            </div>
+        );
+    }
+
     handleSelection(event) {
-        this.setState({role: event.target.value})
+        this.setState({ role: event.target.value })
         console.log("the role now is " + this.state.role)
     };
 
@@ -65,7 +62,7 @@ class SignUp extends React.Component {
             var reg = /^\w+([-+.'][^\s]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
 
             if (reg.test(email)) {
-                this.setState({valid_email: true})
+                this.setState({ valid_email: true })
                 console.log("valide email!")
             } else {
                 this.setState({
@@ -75,7 +72,7 @@ class SignUp extends React.Component {
             }
         } else if (target.name === "password") {
             console.log(name + ": " + target.value)
-            this.setState({password: target.value})
+            this.setState({ password: target.value })
             var is_cap = /[A-Z]/.test(target.value)
             var is_special = /[!|?|@|#|$|%|^|&|*]/.test(target.value)
             var is_length = target.value.length > 6;
@@ -97,19 +94,19 @@ class SignUp extends React.Component {
                 this.state.valid_password.length = false
             }
 
-            if(is_length&&is_special&&is_cap){
-                let check_list=this.state.valid_password
-                check_list.all_check=true
-                this.setState({valid_password:check_list})
+            if (is_length && is_special && is_cap) {
+                let check_list = this.state.valid_password
+                check_list.all_check = true
+                this.setState({ valid_password: check_list })
             }
 
 
         } else if (name === "confirmed_password") {
             if (this.state.password === target.value) {
 
-                this.setState({valid_confirmed_password: true})
+                this.setState({ valid_confirmed_password: true })
             } else {
-                this.setState({valid_confirmed_password: false})
+                this.setState({ valid_confirmed_password: false })
             }
         }
 
@@ -142,87 +139,64 @@ class SignUp extends React.Component {
         } else if (event.target.token.value != "token") {
             error_mess = error_mess.concat("token is invalid");
 
-        }else{
-            UserPool.signUp(this.state.email,this.state.password,[],null,(err,data)=>{
-                if(err){
+        } else {
+            UserPool.signUp(this.state.email, this.state.password, [], null, (err, data) => {
+                if (err) {
                     console.error(err)
-
                 }
 
                 console.log(data)
             })
         }
 
-        this.setState({error_message: error_mess})
+        this.setState({ error_message: error_mess })
         console.log("after error message: " + this.state.error_message)
-
-
     }
 
 
     render() {
-
-
         var message_list = this.state.error_message;
+
         return (
-            <div>
-                <body className="body baylorAlumni-Background1">
-                <div className="columns is-desktop is-centered section is-medium ">
-                    <div className="card column is-4-widescreen is-4-desktop is-center">
-                        <div className="tabs is-centered is-medium">
-                            <ul>
-                                <li><a href="/signIn">Sign In</a></li>
-                                <li className="is-active"><a>Sign Up</a></li>
-                            </ul>
-                        </div>
-
-                        <div className="card-content">
-                            {message_list.map(function (mes, index) {
-                                return <div className="notification is-danger">{mes}</div>
-                            })}
-
-                            <form onSubmit={this.handleSubmit}>
+            <>
+                <div className="columns is-centered">
+                    <div className="column is-4-widescreen is-5-desktop is-7-tablet">
+                        <div className="card">
+                            <div className="card-content">
+                                {message_list.map(function (mes, index) {
+                                    return <div className="notification is-danger">{mes}</div>
+                                })}
 
                                 <div className="columns">
                                     <div className="field column is-half-desktop is-full-mobile">
                                         <label className="label">First Name</label>
                                         <div className="control">
-                                            <input className="input" type="text" placeholder="first name"
-                                                   name="first_name"
-                                                // value={this.state.first_name}
-                                                // onChange={this.handleInputChange}
-                                            />
+                                            <input className="input" type="text" placeholder="first name" name="first_name" />
                                         </div>
                                     </div>
 
                                     <div className="field column is-half-desktop is-full-mobile">
                                         <label className="label">Last Name</label>
                                         <div className="control">
-                                            <input className="input" type="text" placeholder="last name"
-                                                   name="last_name"
-                                                // value={this.state.last_name}
-                                                // onChange={this.handleInputChange}
-                                            />
+                                            <input className="input" type="text" placeholder="last name" name="last_name" />
                                         </div>
                                     </div>
                                 </div>
 
                                 <div className="field">
-
                                     <label className="label">Email</label>
                                     <div className="control has-icons-left has-icons-right">
                                         <input className={this.state.valid_email ? "input is-success" : "input"}
-                                               type="email" placeholder="Email Address" name="email"
-                                               onChange={this.handleInputChange}
+                                            type="email" placeholder="Email Address" name="email"
+                                            onChange={this.handleInputChange}
                                         />
                                         <span className="icon is-small is-left">
-                            <FontAwesomeIcon icon={faEnvelope}></FontAwesomeIcon>
+                                            <FontAwesomeIcon icon={faEnvelope}></FontAwesomeIcon>
 
-                            </span>
+                                        </span>
                                         <span className="icon is-small is-right">
-                                            {this.state.valid_email ? <FontAwesomeIcon icon={faCheck}/> : ""}
-                            </span>
-
+                                            {this.state.valid_email ? <FontAwesomeIcon icon={faCheck} /> : ""}
+                                        </span>
                                     </div>
                                 </div>
 
@@ -233,36 +207,36 @@ class SignUp extends React.Component {
                                             className={this.state.valid_password.all_check ? "input is-success" : "input"}
                                             type="password" placeholder="Password" name="password"
                                             id="password"
-                                            onChange={this.handleInputChange}/>
+                                            onChange={this.handleInputChange} />
                                         <span className="icon is-small is-left">
-                                <FontAwesomeIcon icon={faLock}></FontAwesomeIcon>
-                            </span>
+                                            <FontAwesomeIcon icon={faLock}></FontAwesomeIcon>
+                                        </span>
 
                                     </div>
                                     <label>
-                            <span
-                                className={this.state.valid_password.cap ? "icon has-text-success" : "icon has-text-grey-light"}
-                                id="cap">
-                            <FontAwesomeIcon icon={faCheckCircle}></FontAwesomeIcon>
-                            </span>
+                                        <span
+                                            className={this.state.valid_password.cap ? "icon has-text-success" : "icon has-text-grey-light"}
+                                            id="cap">
+                                            <FontAwesomeIcon icon={faCheckCircle}></FontAwesomeIcon>
+                                        </span>
                                         must contain 1 capital letter, {this.state.valid_password.cap.value}</label>
-                                    <br/>
+                                    <br />
 
                                     <label>
-                            <span
-                                className={this.state.valid_password.special_char ? "icon has-text-success" : "icon has-text-grey-light"}
-                                id="special">
-                            <FontAwesomeIcon icon={faCheckCircle}></FontAwesomeIcon>
-                            </span>
-                                        must contain 1 special letter:@, #, $, %, ^, &, *</label> <br/>
+                                        <span
+                                            className={this.state.valid_password.special_char ? "icon has-text-success" : "icon has-text-grey-light"}
+                                            id="special">
+                                            <FontAwesomeIcon icon={faCheckCircle}></FontAwesomeIcon>
+                                        </span>
+                                        must contain 1 special letter:@, #, $, %, ^, &, *</label> <br />
 
 
                                     <label>
-                            <span
-                                className={this.state.valid_password.length ? "icon has-text-success" : "icon has-text-grey-light"}
-                                id="length">
-                            <FontAwesomeIcon icon={faCheckCircle}></FontAwesomeIcon>
-                            </span>
+                                        <span
+                                            className={this.state.valid_password.length ? "icon has-text-success" : "icon has-text-grey-light"}
+                                            id="length">
+                                            <FontAwesomeIcon icon={faCheckCircle}></FontAwesomeIcon>
+                                        </span>
                                         must contain at least 6 characthers</label>
                                 </div>
 
@@ -276,8 +250,8 @@ class SignUp extends React.Component {
                                             onChange={this.handleInputChange}
                                         />
                                         <span className="icon is-small is-left">
-                                <FontAwesomeIcon icon={faLock}></FontAwesomeIcon>
-                            </span>
+                                            <FontAwesomeIcon icon={faLock}></FontAwesomeIcon>
+                                        </span>
                                     </div>
                                 </div>
 
@@ -295,23 +269,14 @@ class SignUp extends React.Component {
                                     </div>
                                 </div>
 
-                                {this.state.role === 'Alumni' ? render_token() : ""}
+                                {this.state.role === 'Alumni' ? this.render_token() : ""}
 
-
-                                <div className="block has-text-centered">
-                                    <button className="button is-primary">
-                                        Submit
-                                    </button>
-                                </div>
-
-                            </form>
-
+                                <button className="button is-block is-primary is-fullwidth" onClick={this.handleSubmit}>Submit</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                </body>
-            </div>
+            </>
         )
     }
 }

@@ -9,6 +9,7 @@ import SignIn from "./Pages/signIn";
 import SignUp from "./Pages/signUp";
 
 import 'bulma/css/bulma.min.css';
+import './App.css';
 
 function App() {
     return (
