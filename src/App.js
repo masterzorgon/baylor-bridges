@@ -8,18 +8,22 @@ import Testing from "./Pages/testPage";
 import SignIn from "./Pages/signIn";
 import SignUp from "./Pages/signUp";
 
+import 'bulma/css/bulma.min.css';
+
 function App() {
     return (
-        <Router>
-            <Header/>
-            <Routes>
-                <Route path="/" component={Home} />
-                <Route path="/home" component={Home} />
-                <Route path="/testing" component={Testing} />
-                <Route path="/sign-in" component={SignIn} />
-                <Route path="/sign-up" component={SignUp} />
-            </Routes>
-        </Router>
+        <>
+            <Header />
+            <Router>
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/testing" element={<Testing />} />
+                    <Route path="/sign-in" element={<SignIn />} />
+                    <Route path="/sign-up" element={<SignUp />} />
+                </Routes>
+            </Router>
+        </>
+        
     );
 }
 
