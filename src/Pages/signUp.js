@@ -145,7 +145,10 @@ class SignUp extends React.Component {
         }else{
             UserPool.signUp(this.state.email,this.state.password,[],null,(err,data)=>{
                 if(err){
-                    console.error(err)
+                    console.log(err)
+                    if(err==="UsernameExistsException"){
+                        error_mess=error_mess.concat("email already exists!");
+                    }
 
                 }
 
