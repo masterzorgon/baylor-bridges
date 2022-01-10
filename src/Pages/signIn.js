@@ -2,7 +2,7 @@ import React from 'react'
 import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {CognitoUser, AuthenticationDetails} from 'amazon-cognito-identity-js'
-import UserPool from "../UserPool";
+import UserPool from '../UserPool';
 
 class SignIn extends React.Component {
     constructor(props) {
@@ -21,24 +21,24 @@ class SignIn extends React.Component {
 
         const user = new CognitoUser({
             Username: this.state.email,
-            Pool:UserPool
+            Pool: UserPool
         })
 
         const authDetails = new AuthenticationDetails({
-            Username:this.state.email,
-            Password:this.state.password
+            Username: this.state.email,
+            Password: this.state.password
         });
 
         user.authenticateUser(authDetails,{
-            OnSucess: data =>{
+            OnSuccess: (data) => {
                 console.log("Log In Success!", data)
             },
-            onFailure:err =>{
+            onFailure: (err) => {
                 console.error("Log In Error!", err)
             },
-            newPasswordRequired: data =>{
-                console.log(data)
-        }
+            newPasswordRequired: (data) => {
+                console.log("New Password Required!", data)
+            }
         })
     }
 
@@ -70,6 +70,7 @@ class SignIn extends React.Component {
                                         <input className="input" name="password" type="password"
                                                placeholder="Password"
                                                onChange={(event)=>this.setState({password:event.target.value})}
+                                               
                                         />
                                         <span className="icon is-small is-left">
                                             <FontAwesomeIcon icon={faLock}></FontAwesomeIcon>
@@ -80,7 +81,7 @@ class SignIn extends React.Component {
                                 <div className="field">
                                     <label className="checkbox">
                                         <input type="checkbox" />
-                                        Remember me
+                                        <>  Remember me</>
                                     </label>
                                 </div>
 
