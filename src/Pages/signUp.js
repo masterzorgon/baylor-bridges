@@ -20,7 +20,7 @@ class SignUp extends React.Component {
                 special_char: false,
                 length: false
             },
-            valid_confirm_password: false,
+            valid_confirm_password: null,
             error_message: []
         };
 
@@ -34,7 +34,7 @@ class SignUp extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    render_token() {
+    renderToken() {
         return (
             <div class="block">
                 <div class="field">
@@ -78,7 +78,7 @@ class SignUp extends React.Component {
 
     handleConfirmPasswordChange(event) {
         this.setState({
-            valid_confirmed_password: (event.target.value === this.state.password),
+            valid_confirm_password: (event.target.value === this.state.password),
         });
     };
 
@@ -127,6 +127,15 @@ class SignUp extends React.Component {
         console.log("after error message: " + this.state.error_message)
     }
 
+    getConfirmPasswordClassName() {
+        if (this.state.valid_confirm_password === true) {
+            return "input is-success";
+        } else if (this.state.valid_confirm_password === false) {
+            return "input is-danger";
+        } else {
+            return "input";
+        }
+    }
 
     render() {
         var message_list = this.state.error_message;
@@ -213,9 +222,9 @@ class SignUp extends React.Component {
                                     <label className="label">Confirm Password</label>
                                     <div className="control has-icons-left">
                                         <input
-                                            className={this.state.valid_confirm_password ? "input is-success" : "input is-danger"}
+                                            className={this.getConfirmPasswordClassName()}
                                             type="password" placeholder="Password"
-                                            name="confirmed_password"
+                                            name="confirm_password"
                                             onChange={this.handleConfirmPasswordChange}
                                         />
                                         <span className="icon is-small is-left">
@@ -238,7 +247,7 @@ class SignUp extends React.Component {
                                     </div>
                                 </div>
 
-                                {this.state.role === 'Alumni' ? this.render_token() : ""}
+                                {this.state.role === 'Alumni' ? this.renderToken() : ""}
 
                                 <button className="button is-block is-primary is-fullwidth" onClick={this.handleSubmit}>Submit</button>
                             </div>
