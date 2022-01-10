@@ -30,11 +30,12 @@ class SignIn extends React.Component {
         });
 
         user.authenticateUser(authDetails,{
-            OnSuccess: (data) => {
+            onSuccess: (data) => {
                 console.log("Log In Success!", data)
             },
             onFailure: (err) => {
                 console.error("Log In Error!", err)
+                // TODO: add failure message to UI for user
             },
             newPasswordRequired: (data) => {
                 console.log("New Password Required!", data)
