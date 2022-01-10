@@ -58,87 +58,44 @@ class SignUp extends React.Component {
 
         console.log(name + ": " + target.value)
         if (target.name === "email") {
-            var email = target.value
             var reg = /^\w+([-+.'][^\s]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+            let is_valid = reg.test(target.value);
 
-            if (reg.test(email)) {
-                this.setState({ valid_email: true })
-                console.log("valide email!")
-            } else {
-                this.setState({
-                    valid_email: false
-                })
-                console.log("not valide email!")
-            }
+            this.setState({ valid_email: is_valid });
         } else if (target.name === "password") {
-            console.log(name + ": " + target.value)
-            this.setState({ password: target.value })
-            var is_cap = /[A-Z]/.test(target.value)
-            var is_special = /[!|?|@|#|$|%|^|&|*]/.test(target.value)
-            var is_length = target.value.length > 6;
-            if (is_cap) {
-                this.state.valid_password.cap = true
-            } else {
-                this.state.valid_password.cap = false
-            }
+            var is_cap = /[A-Z]/.test(target.value);
+            var is_special = /[!|?|@|#|$|%|^|&|*]/.test(target.value);
+            var is_length = target.value.length >= 6; // Cloudy: Said at least 6
 
-            if (is_special) {
-                this.state.valid_password.special_char = true
-            } else {
-                this.state.valid_password.special_char = false
-            }
-
-            if (is_length) {
-                this.state.valid_password.length = true
-            } else {
-                this.state.valid_password.length = false
-            }
-
-            if (is_length && is_special && is_cap) {
-                let check_list = this.state.valid_password
-                check_list.all_check = true
-                this.setState({ valid_password: check_list })
-            }
-
-
+            this.setState({
+                password: target.value,
+                valid_password: {
+                    all_check: (is_length && is_special && is_cap),
+                    cap: is_cap,
+                    special_char: is_special,
+                    length: is_length,
+                }
+            });
         } else if (name === "confirmed_password") {
-            if (this.state.password === target.value) {
-
-                this.setState({ valid_confirmed_password: true })
-            } else {
-                this.setState({ valid_confirmed_password: false })
-            }
+            this.setState({ valid_confirmed_password: (target.value === this.state.password) });
         }
 
         console.log(this.state.valid_password)
-
     }
 
     handleSubmit(event) {
         event.preventDefault();
-
-        this.setState({
-            first_name: event.target.first_name.value,
-            last_name: event.target.last_name.value,
-            email: event.target.email.value,
-            password: event.target.password.value,
-            role: event.target.role.value,
-            error_message: []
-        })
         console.log("before error message: " + this.state.error_message)
 
         var error_mess = []
         if (!(this.state.first_name && this.state.last_name)) {
             error_mess = error_mess.concat("field can not be empty!");
-
         } else if (!(this.state.valid_email && this.state.valid_password.all_check)) {
             error_mess = error_mess.concat("format for email/password not valid");
-        } else if (this.state.role != "Alumni") {
+        } else if (this.state.role !== "Alumni") {
             error_mess = error_mess.concat("can not register student account yet!");
-
-        } else if (event.target.token.value != "token") {
+        } else if (event.target.token.value !== "token") {
             error_mess = error_mess.concat("token is invalid");
-
         } else {
             UserPool.signUp(this.state.email, this.state.password, [], null, (err, data) => {
                 if (err) {
