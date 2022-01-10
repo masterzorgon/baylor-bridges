@@ -114,9 +114,13 @@ class SignUp extends React.Component {
         } else if (event.target.token.value !== "token") {
             error_mess = error_mess.concat("Token is invalid");
         } else {
-            UserPool.signUp(this.state.email, this.state.password, [], null, (err, data) => {
-                if (err) {
-                    console.error(err)
+            UserPool.signUp(this.state.email,this.state.password,[],null,(err,data)=>{
+                if(err){
+                    console.log(err)
+                    if(err==="UsernameExistsException"){
+                        error_mess=error_mess.concat("email already exists!");
+                    }
+
                 }
 
                 console.log(data)
