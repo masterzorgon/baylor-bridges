@@ -35,7 +35,7 @@ class Home extends React.Component {
 
         return (
             <>
-                <div className="container">
+                <div className="container home">
                     <div className="tile is-ancestor">
                         <div classNamme="tile is-parent">
                             <div className="tile is-12">
@@ -43,7 +43,19 @@ class Home extends React.Component {
                             </div>
                         </div>
                         <div className="tile is-parent">
-                            <div className="tile is-12">
+                            <div className="tile is-12 is-vertical">
+                                {/* TODO: Card info */}
+                                <div className="card">
+                                    <div className="card-content">
+                                        <div className="content">
+                                            <h1>Alumini</h1>
+                                            <p>
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                                Mauris sagittis pellentesque lacus eleifend lacinia...
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div className="card">
                                     <div className="card-content">
                                         <div className="content">
