@@ -16,7 +16,7 @@ class Home extends React.Component {
         ];
     }
 
-    makeStatsConfig() {
+    getStatsConfig() {
         const config = {};
         const states = this.getAllStates();
 
@@ -31,14 +31,31 @@ class Home extends React.Component {
     }
 
     render() {
-        const statesCustomConfig = this.makeStatsConfig();
+        const statesCustomConfig = this.getStatsConfig();
 
         return (
             <>
                 <div className="container">
-                    <div classNamme="columns">
-                        <div className="column">
-                            <USAMap onClick={this.mapHandler} customize={statesCustomConfig} />
+                    <div className="tile is-ancestor">
+                        <div classNamme="tile is-parent">
+                            <div className="tile is-12">
+                                <USAMap onClick={this.mapHandler} customize={statesCustomConfig} />
+                            </div>
+                        </div>
+                        <div className="tile is-parent">
+                            <div className="tile is-12">
+                                <div className="card">
+                                    <div className="card-content">
+                                        <div className="content">
+                                            <h1>Alumini</h1>
+                                            <p>
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                                Mauris sagittis pellentesque lacus eleifend lacinia...
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
