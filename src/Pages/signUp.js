@@ -125,8 +125,13 @@ class SignUp extends React.Component {
                     }
 
                 }else{
-                    // axios.post('http://localhost:3000')
-                    // console.log(res)
+                    axios.post('/signUp',{
+                        first_name:this.state.first_name,
+                        last_name:this.state.last_name,
+                        email:this.state.email,
+                        role:this.state.role
+                    }).then()
+
                 }
 
                 console.log(data)
