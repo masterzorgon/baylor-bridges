@@ -1,7 +1,7 @@
 import React from 'react'
 import {faEnvelope, faLock, faCheckCircle, faCheck} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-
+import UserPool from "../UserPool";
 function render_token() {
     return (
         <div class="block">
@@ -142,6 +142,15 @@ class SignUp extends React.Component {
         } else if (event.target.token.value != "token") {
             error_mess = error_mess.concat("token is invalid");
 
+        }else{
+            UserPool.signUp(this.state.email,this.state.password,[],null,(err,data)=>{
+                if(err){
+                    console.error(err)
+
+                }
+
+                console.log(data)
+            })
         }
 
         this.setState({error_message: error_mess})
