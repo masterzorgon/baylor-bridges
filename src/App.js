@@ -1,21 +1,23 @@
-import "./components/header"
-import Header from "./components/header";
-import ReactDOM from "react-dom";
-import Home from "./Pages/Home"
+
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import Header from "./components/header";
+import Home from "./Pages/Home"
 import Testing from "./Pages/testPage";
 import SignIn from "./Pages/signIn";
 import SignUp from "./Pages/signUp";
+
 function App() {
     return (
         <Router>
             <Header/>
-            <a>Go to home page</a>
             <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/testing" element={<Testing/>} />
-                <Route path="/signIn" element={<SignIn/>} />
-                <Route path="/signUp" element={<SignUp/>} />
+                <Route path="/" component={Home} />
+                <Route path="/home" component={Home} />
+                <Route path="/testing" component={Testing} />
+                <Route path="/sign-in" component={SignIn} />
+                <Route path="/sign-up" component={SignUp} />
             </Routes>
         </Router>
     );
