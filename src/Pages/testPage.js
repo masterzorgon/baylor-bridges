@@ -1,4 +1,4 @@
-import '../components/header'
+import '../components/Header'
 
 function Testing() {
     return (
