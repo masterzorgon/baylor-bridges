@@ -18,7 +18,6 @@ function App() {
     return (
         <Account>
             <Header />
-            <Status />
             <Router>
                 <Routes>
                     <Route path="/" element={<Home />} />

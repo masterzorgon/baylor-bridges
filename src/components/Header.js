@@ -1,5 +1,5 @@
 import React from "react";
-
+import Status from "./Status"
 class Header extends React.Component {
     render() {
         return (
@@ -43,8 +43,7 @@ class Header extends React.Component {
                     <div className="navbar-end">
                         <div className="navbar-item">
                             <div className="buttons">
-                                <a className="button is-light" href="/sign-in">Sign in</a>
-                                <a className="button is-primary has-text-weight-bold" href="/sign-up">Sign up</a>
+                                <Status/>
                             </div>
                         </div>
                     </div>

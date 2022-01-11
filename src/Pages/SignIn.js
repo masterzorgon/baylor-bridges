@@ -15,6 +15,7 @@ const SignIn = () => {
         authenticate(email, password)
             .then(data => {
                 console.log("Logged In!", data)
+                window.location.href="/"
             })
             .catch(err => {
                 console.error("Failed To Log In", err)
