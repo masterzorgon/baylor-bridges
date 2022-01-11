@@ -1,10 +1,10 @@
-import React, {useState, useContext, useEffect} from "react";
-import {AccountContext} from "./Account";
+import React, { useState, useContext, useEffect } from "react";
+import { AccountContext } from "./Account";
 
 const Status = () => {
     const [status, setStatus] = useState(false);
 
-    const {getSession, logout} = useContext(AccountContext)
+    const { getSession, logout } = useContext(AccountContext)
 
     useEffect(() => {
         getSession().then(session => {
@@ -25,8 +25,12 @@ const Status = () => {
 
     var authenticated =
         <div className="navbar-end">
-            <a className="navbar-item">Hi,User</a>
-            <a className="navbar-item  button is-primary " onClick={logout}>Logout</a>
+            <div className="navbar-item">
+                <div className="buttons">
+                    <a className="navbar-item">Hi,User</a>
+                    <a className="navbar-item  button is-primary " onClick={logout}>Logout</a>
+                </div>
+            </div>
         </div>
 
 
