@@ -1,5 +1,5 @@
 import React from "react";
-import Status from "./Status";
+import NavbarAccount from "./NavbarAccount";
 import Pool from '../UserPool'
 
 class Navbar extends React.Component {
@@ -45,7 +45,7 @@ class Navbar extends React.Component {
                         </div>
                     </div>
 
-                        <Status/>
+                        <NavbarAccount/>
 
                 </div>
             </nav>

@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { AccountContext } from "./Account";
 
-const Status = () => {
+const NavbarAccount = () => {
     const [status, setStatus] = useState(false);
 
     const { getSession, logout } = useContext(AccountContext)
@@ -26,9 +26,9 @@ const Status = () => {
     var authenticated =
         <div className="navbar-end">
             <div className="navbar-item">
+                <a className="navbar-item" href="/">Hi, User</a>
                 <div className="buttons">
-                    <a className="navbar-item">Hi,User</a>
-                    <a className="navbar-item  button is-primary " onClick={logout}>Logout</a>
+                    <a className="navbar-item button is-light" href="/" onClick={logout}>Logout</a>
                 </div>
             </div>
         </div>
@@ -38,4 +38,4 @@ const Status = () => {
 
 };
 
-export default Status;
+export default NavbarAccount;

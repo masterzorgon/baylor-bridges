@@ -9,7 +9,7 @@ import Testing from "./Pages/testPage";
 import SignIn from "./Pages/SignIn";
 import SignUp from "./Pages/SignUp";
 import { Account } from './components/Account';
-import Status from './components/Status';
+import NavbarAccount from './components/NavbarAccount';
 
 import 'bulma/css/bulma.min.css';
 import './App.css';
