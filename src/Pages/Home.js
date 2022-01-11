@@ -6,6 +6,7 @@ class Home extends React.Component {
         alert(event.target.dataset.name);
         // TODO: Display right panel for alumini list
     }
+    
 
     getAllStates() {
         return [
