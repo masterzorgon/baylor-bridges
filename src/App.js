@@ -14,10 +14,10 @@ import Status from './components/Status';
 import 'bulma/css/bulma.min.css';
 import './App.css';
 
+// is <Status /> not going to be included? 
 function App() {
     return (
         <Account>
-            <Status />
             <Header />
             <Router>
                 <Routes>
