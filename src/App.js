@@ -8,13 +8,14 @@ import About from "./Pages/About";
 import Testing from "./Pages/testPage";
 import SignIn from "./Pages/signIn";
 import SignUp from "./Pages/signUp";
+import { Account } from './components/Account';
 
 import 'bulma/css/bulma.min.css';
 import './App.css';
 
 function App() {
     return (
-        <>
+        <Account>
             <Header />
             <Router>
                 <Routes>
@@ -25,7 +26,7 @@ function App() {
                     <Route path="/sign-up" element={<SignUp />} />
                 </Routes>
             </Router>
-        </>
+        </Account>
         
     );
 }
