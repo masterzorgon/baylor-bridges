@@ -2,12 +2,12 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import Header from "./components/header";
+import Header from "./components/Header";
 import Home from "./Pages/Home"
 import About from "./Pages/About";
 import Testing from "./Pages/testPage";
-import SignIn from "./Pages/signIn";
-import SignUp from "./Pages/signUp";
+import SignIn from "./Pages/SignIn";
+import SignUp from "./Pages/SignUp";
 import { Account } from './components/Account';
 import Status from './components/Status';
 
