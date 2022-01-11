@@ -13,14 +13,15 @@ const NavbarAccount = () => {
         });
     });
 
-    var unauthenticated = <div className="navbar-end">
-        <div className="navbar-item">
-            <div className="buttons">
-                <a className="button is-light" href="/sign-in">Sign in</a>
-                <a className="button is-primary" href="/sign-up">Sign up</a>
+    var unauthenticated =
+        <div className="navbar-end">
+            <div className="navbar-item">
+                <div className="buttons">
+                    <a className="button is-light" href="/sign-in">Sign in</a>
+                    <a className="button is-primary" href="/sign-up">Sign up</a>
+                </div>
             </div>
-        </div>
-    </div>;
+        </div>;
 
 
     var authenticated =
@@ -31,7 +32,7 @@ const NavbarAccount = () => {
                     <a className="navbar-item button is-light" href="/" onClick={logout}>Logout</a>
                 </div>
             </div>
-        </div>
+        </div>;
 
 
     return <div>{status ? authenticated : unauthenticated}</div>
