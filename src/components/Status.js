@@ -13,7 +13,7 @@ const Status = () => {
         });
     });
 
-    return <div>{status ? (<button className="button is-pulled-right is-block is-primary " onClick={logout}>Logout</button>) : "Please Login (refresh for updated status)"}</div>;
+    return <div>{status ? (<button className="button is-block is-primary " onClick={logout}>Logout</button>) : "Please Login (refresh for updated status)"}</div>;
 };
 
 export default Status;

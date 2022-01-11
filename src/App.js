@@ -17,8 +17,8 @@ import './App.css';
 function App() {
     return (
         <Account>
-            <Header />
             <Status />
+            <Header />
             <Router>
                 <Routes>
                     <Route path="/" element={<Home />} />
