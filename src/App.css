@@ -36,3 +36,19 @@
     transform: rotate(360deg);
   }
 }
+
+path {
+  pointer-events: all;
+}
+path:hover {
+  opacity: 0.50;
+  cursor: pointer;
+}
+
+.home .tile .card {
+  margin-bottom: 1rem;
+}
+
+.navbar .search-bar{
+  width: 24em;
+}

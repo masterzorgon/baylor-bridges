@@ -1,5 +1,3 @@
-import '../components/Header'
-
 function Testing() {
     return (
         <div>
