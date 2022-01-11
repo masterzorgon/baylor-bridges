@@ -9,10 +9,13 @@ import Testing from "./Pages/testPage";
 import SignIn from "./Pages/SignIn";
 import SignUp from "./Pages/SignUp";
 import { Account } from './components/Account';
+import  Alumni_Register_Experience from './Pages/Alumni_Register_Experience'
 import Status from './components/Status';
 
 import 'bulma/css/bulma.min.css';
 import './App.css';
+import SideBar from "./components/Alumni_Register_SideBar";
+import Alumni_Register_SideBar from "./components/Alumni_Register_SideBar";
 
 function App() {
     return (
@@ -25,6 +28,7 @@ function App() {
                     <Route path="/testing" element={<Testing />} />
                     <Route path="/sign-in" element={<SignIn />} />
                     <Route path="/sign-up" element={<SignUp />} />
+                        <Route path="/Alumni-Edit-profile/Experience" element={<Alumni_Register_Experience />}/>
                 </Routes>
             </Router>
         </Account>

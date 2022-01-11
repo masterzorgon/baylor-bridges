@@ -4,7 +4,6 @@ import Pool from '../UserPool'
 
 class Header extends React.Component {
     render() {
-        console.log(Pool.getCurrentUser())
         return (
             <nav className="navbar box" role="navigation" aria-label="main navigation">
                 <div className="navbar-brand">
