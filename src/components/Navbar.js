@@ -2,7 +2,7 @@ import React from "react";
 import Status from "./Status";
 import Pool from '../UserPool'
 
-class Header extends React.Component {
+class Navbar extends React.Component {
     render() {
         console.log(Pool.getCurrentUser())
         return (
@@ -53,4 +53,4 @@ class Header extends React.Component {
     }
 }
 
-export default Header;
+export default Navbar;
