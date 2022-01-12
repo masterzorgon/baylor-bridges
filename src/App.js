@@ -2,7 +2,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import Header from "./components/Header";
+import Navbar from "./components/Navbar";
 import Home from "./Pages/Home"
 import About from "./Pages/About";
 import Testing from "./Pages/testPage";
@@ -12,15 +12,17 @@ import { Account } from './components/Account';
 import  Alumni_Register_Experience from './Pages/Alumni_Register_Experience'
 import Status from './components/Status';
 
+
 import 'bulma/css/bulma.min.css';
 import './App.css';
 import SideBar from "./components/Alumni_Register_SideBar";
 import Alumni_Register_SideBar from "./components/Alumni_Register_SideBar";
 
+// is <Status /> not going to be included? 
 function App() {
     return (
         <Account>
-            <Header />
+            <Navbar />
             <Router>
                 <Routes>
                     <Route path="/" element={<Home />} />

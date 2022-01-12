@@ -1,8 +1,8 @@
 import React from "react";
-import Status from "./Status";
+import NavbarAccount from "./NavbarAccount";
 import Pool from '../UserPool'
 
-class Header extends React.Component {
+class Navbar extends React.Component {
     render() {
         return (
             <nav className="navbar box" role="navigation" aria-label="main navigation">
@@ -44,7 +44,7 @@ class Header extends React.Component {
                         </div>
                     </div>
 
-                        <Status/>
+                        <NavbarAccount/>
 
                 </div>
             </nav>
@@ -52,4 +52,4 @@ class Header extends React.Component {
     }
 }
 
-export default Header;
+export default Navbar;
