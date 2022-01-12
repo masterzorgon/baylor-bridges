@@ -38,7 +38,7 @@ class Home extends React.Component {
             <>
                 <div className="container home">
                     <div className="tile is-ancestor">
-                        <div classNamme="tile is-parent">
+                        <div className="tile is-parent">
                             <div className="tile is-12">
                                 <USAMap onClick={this.mapHandler} customize={statesCustomConfig}/>
                             </div>
@@ -51,8 +51,7 @@ class Home extends React.Component {
                                         <div className="media">
                                             <div className="media-left">
                                                 <figure className="image ">
-                                                    <img src="https://bulma.io/images/placeholders/128x128.png"
-                                                         alt="Placeholder image"/>
+                                                    <img src="https://bulma.io/images/placeholders/128x128.png" alt=""/>
                                                 </figure>
                                                 <button className="button is-primary"> connect </button>
                                             </div>

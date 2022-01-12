@@ -1,16 +1,22 @@
 import React from "react";
+import NavbarAccount from "./NavbarAccount";
+import Pool from '../UserPool'
 
-class Header extends React.Component {
+class Navbar extends React.Component {
     render() {
+        console.log(Pool.getCurrentUser())
         return (
             <nav className="navbar box" role="navigation" aria-label="main navigation">
                 <div className="navbar-brand">
                     <a className="navbar-item" href="/">
-                        <img alt="Baylor University logo" src="https://www.click2houston.com/resizer/3v3i6TY06rcxVuEOiQZbJjApyeA=/640x360/smart/filters:format(jpeg):strip_exif(true):strip_icc(true):no_upscale(true):quality(65)/cloudfront-us-east-1.images.arcpublishing.com/gmg/MISBRBEDPZAR5BN2GDORMZITPI.jpg" width="50" height="50"></img>
+                        <img alt="Baylor University logo"
+                             src="https://www.click2houston.com/resizer/3v3i6TY06rcxVuEOiQZbJjApyeA=/640x360/smart/filters:format(jpeg):strip_exif(true):strip_icc(true):no_upscale(true):quality(65)/cloudfront-us-east-1.images.arcpublishing.com/gmg/MISBRBEDPZAR5BN2GDORMZITPI.jpg"
+                             width="50" height="50"></img>
                     </a>
 
                     {/* TODO: Responsive hamburger menu on mobile */}
-                    <div alt="Menu logo" role="button" className="navbar-burger burger" aria-label="menu" aria-expanded="true" data-target="navbarBasicExample">
+                    <div alt="Menu logo" role="button" className="navbar-burger burger" aria-label="menu"
+                         aria-expanded="true" data-target="navbarBasicExample">
                         <span aria-hidden="true"></span>
                         <span aria-hidden="true"></span>
                         <span aria-hidden="true"></span>
@@ -35,23 +41,16 @@ class Header extends React.Component {
                         </div>
 
                         <div className="navbar-item">
-                            <input class="input is-normal search-bar" type="text" placeholder="Search people" />
+                            <input class="input is-normal search-bar" type="text" placeholder="Search people"/>
                         </div>
                     </div>
 
+                        <NavbarAccount/>
 
-                    <div className="navbar-end">
-                        <div className="navbar-item">
-                            <div className="buttons">
-                                <a className="button is-light" href="/sign-in">Sign in</a>
-                                <a className="button is-primary has-text-weight-bold" href="/sign-up">Sign up</a>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </nav>
         )
     }
 }
 
-export default Header;
+export default Navbar;
