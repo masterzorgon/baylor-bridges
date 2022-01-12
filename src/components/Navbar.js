@@ -94,6 +94,7 @@ class Navbar extends React.Component {
                             </Popover>
                         </Popover.Group>
                         
+                        {/* Search people */}
                         <div className="hidden md:flex-1 md:flex md:items-center md:justify-between ml-6 mr-12 max-w-md">
                             <label htmlFor="email" className="sr-only">
                                 Search people
@@ -106,7 +107,8 @@ class Navbar extends React.Component {
                                 placeholder="Search people"
                             />
                         </div>
-
+                        
+                        {/* Account sign in / up / out */}
                         <div className="flex items-center md:ml-12">
                             <a href="/sign-in" className="text-base font-medium text-gray-500 hover:text-gray-900">
                                 Sign in
