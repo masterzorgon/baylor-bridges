@@ -2,6 +2,8 @@ import React from 'react'
 import { faEnvelope, faLock, faCheckCircle, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import UserPool from "../UserPool";
+import axios from 'axios'
+
 
 class SignUp extends React.Component {
     constructor(props) {
@@ -83,46 +85,41 @@ class SignUp extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        console.log("before error message: " + this.state.error_message);
-
-        var error_message = []
-        if (this.state.first_name === "" || this.state.last_name === "" || this.state.email === "" || this.state.password === "" || this.state.role === "" || this.state.token === "") {
-            error_message.push("All fields are required.");
-        }
-
-        if (!this.state.valid_email) {
-            error_message.push("Email must be valid.");
-        }
-
-        if (!this.state.valid_password.all_check) {
-            error_message.push("Password must meet requirements.");
-        }
-
-        if (this.state.role !== "Alumni") {
-            error_message.push("We're unable to sign you up as a student at the moment.");
-        }
-
-        if (this.state.token !== "token") {
-            error_message.push("Token is invalid.");
-        }
-
-        if (error_message.length === 0) {
-            UserPool.signUp(this.state.email, this.state.password, [], null, (err, data) => {
-                if (err) {
-                    var error_arr = String(err).split(":");
-                    error_message.push(error_arr[1]);
-                    this.setState({ is_succeed: false, error_message: error_message });
-
-                    if (error_arr[0] === "UsernameExistsException") {
-                        this.setState({ valid_email: false });
+        console.log(this.state)
+        var error_mess = []
+        if (!(this.state.first_name && this.state.last_name)) {
+            error_mess = error_mess.concat("All fields are required.");
+        } else if (!this.state.valid_email) {
+            error_mess = error_mess.concat("Email must be valid.");
+        } else if (!this.state.valid_password.all_check) {
+            error_mess = error_mess.concat("Password must meet requirements.");
+        } else if (this.state.role !== "Alumni") {
+            error_mess = error_mess.concat("We're unable to sign you up as a student yet.");
+        } else if (this.state.token !== "token") {
+            error_mess = error_mess.concat("Token is invalid");
+        } else {
+            UserPool.signUp(this.state.email,this.state.password,[],null,(err,data)=>{
+                if(err){
+                    console.log(err)
+                    if(err==="UsernameExistsException"){
+                        error_mess=error_mess.concat("email already exists!");
                     }
-                } else {
-                    this.setState({ is_succeed: true });
+
+                }else{
+                    axios.post('/signUp',{
+                        first_name:this.state.first_name,
+                        last_name:this.state.last_name,
+                        email:this.state.email,
+                        role:this.state.role
+                    }).then()
+
                 }
-            });
+
+
+        });
         }
 
-        this.setState({ error_message: error_message });
+        this.setState({ error_message: error_mess });
         console.log("after error message: " + this.state.error_message);
     }
 

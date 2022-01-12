@@ -53,15 +53,13 @@ class Home extends React.Component {
                                                 <figure className="image ">
                                                     <img src="https://bulma.io/images/placeholders/128x128.png" alt=""/>
                                                 </figure>
-                                                <button className="button is-primary"> connect </button>
+                                                {/*<button className="button is-primary"> connect </button>*/}
                                             </div>
                                             <div className="media-content">
                                                 <h1 className="title is-4">Dr. John Smith</h1>
-                                                <p className="subtitle is-6">Senior Lecturer</p>
-                                                <p><strong>Location: </strong> Waco, TX</p>
-                                                <p><strong>Graduate Class: </strong>Fall, 2022</p>
-                                                <p><strong>Contact Info: </strong> Hidden</p>
-
+                                                <p className="subtitle is-6">Senior Lecturer, Fall 2022</p>
+                                                <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                              </p>
 
                                             </div>
                                         </div>
