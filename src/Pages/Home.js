@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import USAMap from "react-usa-map";
 
 class Home extends React.Component {

@@ -1,6 +1,6 @@
-import React from 'react'
+import React from "react";
 import { faEnvelope, faLock, faCheckCircle, faCheck } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import UserPool from "../UserPool";
 
 class SignUp extends React.Component {
@@ -36,13 +36,13 @@ class SignUp extends React.Component {
     }
 
     handleFirstNameChange(event) {
-        this.setState({ first_name: event.target.value })
-    };
+        this.setState({ first_name: event.target.value });
+    }
 
     handleLastNameChange(event) {
-        this.setState({ last_name: event.target.value })
-    };
-
+        this.setState({ last_name: event.target.value });
+    }
+    
     handlePasswordChange(event) {
         var password = event.target.value;
         var is_cap = /[A-Z]/.test(password);
@@ -58,34 +58,34 @@ class SignUp extends React.Component {
                 length: is_length,
             }
         });
-    };
+    }
 
     handleConfirmPasswordChange(event) {
         this.setState({
             valid_confirm_password: (event.target.value === this.state.password),
         });
-    };
+    }
 
     handleEmailChange(event) {
         var email = event.target.value;
         var reg = /^\w+([-+.'][^\s]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
         let is_valid = reg.test(email);
         this.setState({ email: email, valid_email: is_valid });
-    };
+    }
 
     handleRoleChange(event) {
         this.setState({ role: event.target.value });
-    };
+    }
 
     handleTokenChange(event) {
         this.setState({ token: event.target.value });
-    };
+    }
 
     handleSubmit(event) {
         event.preventDefault();
         console.log("before error message: " + this.state.error_message);
 
-        var error_message = []
+        var error_message = [];
         if (this.state.first_name === "" || this.state.last_name === "" || this.state.email === "" || this.state.password === "" || this.state.role === "" || this.state.token === "") {
             error_message.push("All fields are required.");
         }
@@ -143,7 +143,7 @@ class SignUp extends React.Component {
                     <div className="card">
                         <div className="card-content">
                             {this.state.error_message.map(function (mes, index) {
-                                return <div className="notification is-danger">{mes}</div>
+                                <div className="notification is-danger">{mes}</div>;
                             })}
 
                             <div className="columns">
@@ -243,7 +243,7 @@ class SignUp extends React.Component {
                                 </div>
                             </div>
 
-                            {this.state.role === 'Alumni' ? this.renderToken() : ""}
+                            {this.state.role === "Alumni" ? this.renderToken() : ""}
 
                             <button className="button is-block is-primary is-fullwidth" onClick={this.handleSubmit}>Submit</button>
                         </div>

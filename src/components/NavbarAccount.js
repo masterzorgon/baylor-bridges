@@ -4,7 +4,7 @@ import { AccountContext } from "./Account";
 const NavbarAccount = () => {
     const [status, setStatus] = useState(false);
 
-    const { getSession, logout } = useContext(AccountContext)
+    const { getSession, logout } = useContext(AccountContext);
 
     useEffect(() => {
         getSession().then(session => {
@@ -35,7 +35,7 @@ const NavbarAccount = () => {
         </div>;
 
 
-    return <div>{status ? authenticated : unauthenticated}</div>
+    return <div>{status ? authenticated : unauthenticated}</div>;
 
 };
 
