@@ -38,14 +38,12 @@ class SignUp extends React.Component {
 
     renderToken() {
         return (
-
             <div className="block">
                 <div className="field">
                     <label className="label">Token</label>
                     <p className="control has-icons-left">
                         <input className="input" type="text" placeholder="Token" name="token" onChange={this.handleTokenChange} />
                         <span className="icon is-small is-left">
-
                             <FontAwesomeIcon icon={faLock}></FontAwesomeIcon>
                         </span>
                     </p>
@@ -116,7 +114,6 @@ class SignUp extends React.Component {
         } else if (this.state.role !== "Alumni") {
             error_mess = error_mess.concat("We're unable to sign you up as a student yet.");
         } else if (this.state.token !== "token") {
-
             error_mess = error_mess.concat("Token is invalid");
         } else {
             UserPool.signUp(this.state.email,this.state.password,[],null,(err,data)=>{
