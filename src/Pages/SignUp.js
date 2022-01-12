@@ -2,6 +2,8 @@ import React from 'react'
 import { faEnvelope, faLock, faCheckCircle, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import UserPool from "../UserPool";
+import axios from 'axios'
+
 
 class SignUp extends React.Component {
     constructor(props) {
@@ -36,12 +38,14 @@ class SignUp extends React.Component {
 
     renderToken() {
         return (
+
             <div className="block">
                 <div className="field">
                     <label className="label">Token</label>
                     <p className="control has-icons-left">
                         <input className="input" type="text" placeholder="Token" name="token" onChange={this.handleTokenChange} />
                         <span className="icon is-small is-left">
+
                             <FontAwesomeIcon icon={faLock}></FontAwesomeIcon>
                         </span>
                     </p>
@@ -100,8 +104,8 @@ class SignUp extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        console.log("before error message: " + this.state.error_message)
 
+        console.log(this.state)
         var error_mess = []
         if (!(this.state.first_name && this.state.last_name)) {
             error_mess = error_mess.concat("All fields are required.");
@@ -112,6 +116,7 @@ class SignUp extends React.Component {
         } else if (this.state.role !== "Alumni") {
             error_mess = error_mess.concat("We're unable to sign you up as a student yet.");
         } else if (this.state.token !== "token") {
+
             error_mess = error_mess.concat("Token is invalid");
         } else {
             UserPool.signUp(this.state.email,this.state.password,[],null,(err,data)=>{
@@ -120,6 +125,14 @@ class SignUp extends React.Component {
                     if(err==="UsernameExistsException"){
                         error_mess=error_mess.concat("email already exists!");
                     }
+
+                }else{
+                    axios.post('/signUp',{
+                        first_name:this.state.first_name,
+                        last_name:this.state.last_name,
+                        email:this.state.email,
+                        role:this.state.role
+                    }).then()
 
                 }
 
