@@ -10,8 +10,6 @@ import SignIn from "./Pages/SignIn";
 import SignUp from "./Pages/SignUp";
 import { Account } from './components/Account';
 import  Alumni_Register_Experience from './Pages/Alumni_Register_Experience'
-import Status from './components/Status';
-
 
 import 'bulma/css/bulma.min.css';
 import './App.css';

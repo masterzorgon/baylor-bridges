@@ -119,7 +119,7 @@ class SignUp extends React.Component {
         });
         }
 
-        this.setState({ error_message: error_message });
+        this.setState({ error_message: error_mess });
         console.log("after error message: " + this.state.error_message);
     }
 
