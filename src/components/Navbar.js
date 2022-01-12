@@ -9,11 +9,12 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
-export default class Navbar extends React.Component {
+class Navbar extends React.Component {
     render() {
         return (
             <Popover className="relative bg-white">
-                <div className="flex shadow justify-between items-center px-4 py-6 sm:px-6 md:justify-start md:space-x-10">
+                <div className="flex shadow-md justify-between items-center px-4 py-6 sm:px-6 md:justify-start md:space-x-10">
+                    {/* Baylor University logo */}
                     <div>
                         <a href="/" className="flex">
                             <span className="sr-only">Baylor Bridge</span>
@@ -24,12 +25,16 @@ export default class Navbar extends React.Component {
                             />
                         </a>
                     </div>
+
+                    {/* Mobile burger open button */}
                     <div className="-mr-2 -my-2 md:hidden">
                         <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
                             <span className="sr-only">Open menu</span>
                             <MenuIcon className="h-6 w-6" aria-hidden="true" />
                         </Popover.Button>
                     </div>
+
+                    {/* Desktop navbar items */}
                     <div className="hidden md:flex-1 md:flex md:items-center md:justify-between">
                         <Popover.Group as="nav" className="flex space-x-10">
                             <a href="/" className="text-base font-medium text-gray-500 hover:text-gray-900">
@@ -54,7 +59,8 @@ export default class Navbar extends React.Component {
                                                 aria-hidden="true"
                                             />
                                         </Popover.Button>
-
+                                        
+                                        {/* Sub-menu for "More" */}
                                         <Transition
                                             as={Fragment}
                                             enter="transition ease-out duration-200"
@@ -87,6 +93,20 @@ export default class Navbar extends React.Component {
                                 )}
                             </Popover>
                         </Popover.Group>
+                        
+                        <div className="hidden md:flex-1 md:flex md:items-center md:justify-between ml-6 mr-12 max-w-md">
+                            <label htmlFor="email" className="sr-only">
+                                Search people
+                            </label>
+                            <input
+                                type="search"
+                                name="search"
+                                id="search"
+                                className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                placeholder="Search people"
+                            />
+                        </div>
+
                         <div className="flex items-center md:ml-12">
                             <a href="/sign-in" className="text-base font-medium text-gray-500 hover:text-gray-900">
                                 Sign in
@@ -98,6 +118,7 @@ export default class Navbar extends React.Component {
                     </div>
                 </div>
 
+                {/* This point below is mobile burger menu */}
                 <Transition
                     as={Fragment}
                     enter="duration-200 ease-out"
@@ -114,8 +135,8 @@ export default class Navbar extends React.Component {
                                     <div>
                                         <img
                                             className="h-8 w-auto"
-                                            src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                                            alt="Workflow"
+                                            src="https://www.click2houston.com/resizer/3v3i6TY06rcxVuEOiQZbJjApyeA=/640x360/smart/filters:format(jpeg):strip_exif(true):strip_icc(true):no_upscale(true):quality(65)/cloudfront-us-east-1.images.arcpublishing.com/gmg/MISBRBEDPZAR5BN2GDORMZITPI.jpg"
+                                            alt="Baylor University logo"
                                         />
                                     </div>
                                     <div className="-mr-2">
@@ -133,29 +154,20 @@ export default class Navbar extends React.Component {
                             </div>
                             <div className="py-6 px-5">
                                 <div className="grid grid-cols-2 gap-4">
-                                    <a href="#" className="text-base font-medium text-gray-900 hover:text-gray-700">
-                                        Pricing
+                                    <a href="/" className="text-base font-medium text-gray-900 hover:text-gray-700">
+                                        Home
                                     </a>
-
-                                    <a href="#" className="text-base font-medium text-gray-900 hover:text-gray-700">
-                                        Docs
+                                    <a href="/" className="text-base font-medium text-gray-900 hover:text-gray-700">
+                                        Contact
                                     </a>
-
-                                    <a href="#" className="text-base font-medium text-gray-900 hover:text-gray-700">
-                                        Enterprise
-                                    </a>
-                                    
                                 </div>
                                 <div className="mt-6">
-                                    <a
-                                        href="#"
-                                        className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
-                                    >
+                                    <a href="/sign-up" className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
                                         Sign up
                                     </a>
                                     <p className="mt-6 text-center text-base font-medium text-gray-500">
-                                        Existing customer?{" "}
-                                        <a href="#" className="text-indigo-600 hover:text-indigo-500">
+                                        Existing student or alumini?{" "}
+                                        <a href="/sign-in" className="text-indigo-600 hover:text-indigo-500">
                                             Sign in
                                         </a>
                                     </p>
@@ -168,3 +180,5 @@ export default class Navbar extends React.Component {
         );
     }
 }
+
+export default Navbar;
