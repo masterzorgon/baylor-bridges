@@ -13,7 +13,7 @@ class Navbar extends React.Component {
     render() {
         return (
             <Popover className="relative bg-white">
-                <div className="flex shadow-md justify-between items-center px-4 py-6 sm:px-6 md:justify-start md:space-x-10">
+                <div className="flex shadow-md justify-between items-center px-4 py-7 sm:px-6 md:justify-start md:space-x-10">
                     {/* Baylor University logo */}
                     <div>
                         <a href="/" className="flex">
