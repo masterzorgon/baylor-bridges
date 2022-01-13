@@ -26,9 +26,9 @@ class SignUp extends React.Component {
                 length: false
             },
             valid_confirm_password: null,
-            error_message: [],
             is_succeed: false,
             agreed: false,
+            can_submit: false,
         };
 
         this.handleConfirmPasswordChange = this.handleConfirmPasswordChange.bind(this);
@@ -39,6 +39,7 @@ class SignUp extends React.Component {
         this.handleRoleChange = this.handleRoleChange.bind(this);
         this.handleTokenChange = this.handleTokenChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.checkFormCompletion = this.checkFormCompletion.bind(this);
     }
 
     roles = [
@@ -52,10 +53,12 @@ class SignUp extends React.Component {
 
     handleFirstNameChange(event) {
         this.setState({ first_name: event.target.value });
+        this.checkFormCompletion({...this.state, first_name: event.target.value});
     }
 
     handleLastNameChange(event) {
         this.setState({ last_name: event.target.value });
+        this.checkFormCompletion({ ...this.state, last_name: event.target.value });
     }
 
     handlePasswordChange(event) {
@@ -64,7 +67,8 @@ class SignUp extends React.Component {
         var is_special = /[!|?|@|#|$|%|^|&|*|{|}|(|)|~]/.test(password);
         var is_length = event.target.value.length >= 6; // Cloudy: Said at least 6
 
-        this.setState({
+        var state = {
+            ...this.state,
             password: password,
             valid_password: {
                 all_check: (is_length && is_special && is_cap),
@@ -72,76 +76,86 @@ class SignUp extends React.Component {
                 special_char: is_special,
                 length: is_length,
             }
-        });
+        };
+
+        this.setState(state);
+        this.checkFormCompletion(state);
     }
 
     handleConfirmPasswordChange(event) {
-        this.setState({
-            valid_confirm_password: (event.target.value === this.state.password),
-        });
+        var state = { ...this.state, valid_confirm_password: (event.target.value === this.state.password) };
+        this.setState(state);
+        this.checkFormCompletion(state);
     }
 
     handleEmailChange(event) {
         var email = event.target.value;
         var reg = /^\w+([-+.'][^\s]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
         let is_valid = reg.test(email);
-        this.setState({ email: email, valid_email: is_valid });
+
+        var state = { ...this.state, email: email, valid_email: is_valid };
+        this.setState(state);
+        this.checkFormCompletion(state);
     }
 
     handleRoleChange(value) {
-        console.log(value);
-        this.setState({ role: value });
+        var state = { ...this.state, role: value };
+        this.setState(state);
+        this.checkFormCompletion(state);
     }
 
     handleTokenChange(event) {
-        this.setState({ token: event.target.value });
+        var state = { ...this.state, token: event.target.value };
+        this.setState(state);
+        this.checkFormCompletion(state);
     }
 
-    handleSubmit(event) {
-        event.preventDefault();
-        console.log("before error message: " + this.state.error_message);
-
+    checkFormCompletion(state) {
         var error_message = [];
-        if (this.state.first_name === "" || this.state.last_name === "" || this.state.email === "" || this.state.password === "" || this.state.role === "" || this.state.token === "") {
+        if (state.first_name === "" || state.last_name === "" || state.email === "" || state.password === "" || state.role === "" || state.token === "") {
             error_message.push("All fields are required.");
         }
 
-        if (!this.state.valid_email) {
+        if (!state.valid_email) {
             error_message.push("Email must be valid.");
         }
 
-        if (!this.state.valid_password.all_check) {
+        if (!state.valid_password.all_check) {
             error_message.push("Password must meet requirements.");
         }
 
-        if (this.state.role !== "Alumni") {
+        if (state.role !== "Alumni") {
             error_message.push("We're unable to sign you up as a student at the moment.");
         }
 
-        if (this.state.token !== "token") {
+        if (state.token !== "token") {
             error_message.push("Token is invalid.");
         }
 
-        if (error_message.length === 0) {
-            UserPool.signUp(this.state.email, this.state.password, [], null, (err, data) => {
-                if (err) {
-                    var error_arr = String(err).split(":");
-                    error_message.push(error_arr[1]);
-                    this.setState({ is_succeed: false, error_message: error_message });
-
-                    if (error_arr[0] === "UsernameExistsException") {
-                        this.setState({ valid_email: false });
-                    }
-                } else {
-                    this.setState({ is_succeed: true });
-                }
-            });
+        if (state.agreed === false) {
+            error_message.push("You must agree to the terms and conditions.");
         }
 
-        this.setState({ error_message: error_message });
-        console.log("after error message: " + this.state.error_message);
+        console.log(error_message);
+
+        this.setState({ can_submit: (error_message.length === 0) });
     }
-    
+
+    handleSubmit(event) {
+        UserPool.signUp(this.state.email, this.state.password, [], null, (err, data) => {
+            if (err) {
+                var error_arr = String(err).split(":");
+                this.setState({ is_succeed: false });
+
+                if (error_arr[0] === "UsernameExistsException") {
+                    this.setState({ valid_email: false });
+                }
+            } else {
+                this.setState({ is_succeed: true });
+            }
+        });
+    }
+
     renderForm() {
         return (
             <>
@@ -403,7 +417,11 @@ class SignUp extends React.Component {
                                         <div className="flex-shrink-0">
                                             <Switch
                                                 checked={this.state.agreed}
-                                                onChange={(value) => { this.setState({ agreed: value });}}
+                                                onChange={(value) => {
+                                                    var state = { ...this.state, agreed: value };
+                                                    this.setState(state);
+                                                    this.checkFormCompletion(state);
+                                                }}
                                                 className={classNames(
                                                     this.state.agreed ? "bg-indigo-600" : "bg-gray-200",
                                                     "relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -439,8 +457,9 @@ class SignUp extends React.Component {
                                 <div className="sm:col-span-2">
                                     <button
                                         type="submit"
-                                        className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                        className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-25"
                                         onClick={this.handleSubmit}
+                                        disabled={!this.state.can_submit}
                                     >
                                         Create
                                     </button>
