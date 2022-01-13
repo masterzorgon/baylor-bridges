@@ -15,7 +15,7 @@ class Navbar extends React.Component {
     render() {
         return (
             <Popover className="relative bg-white">
-                <div className="flex shadow-md justify-between items-center px-4 py-7 sm:px-6 md:justify-start md:space-x-10">
+                <div className="flex shadow-md justify-between items-center px-4 py-5 sm:px-6 md:justify-start md:space-x-10">
                     {/* Baylor University logo */}
                     <div>
                         <a href="/" className="flex">
@@ -105,7 +105,7 @@ class Navbar extends React.Component {
                                 type="search"
                                 name="search"
                                 id="search"
-                                className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md bg-gray-200 p-3 border-transparent"
                                 placeholder="Search people"
                             />
                         </div>
