@@ -1,22 +1,25 @@
 import React, { useState, useContext } from "react";
 import { AccountContext } from "../components/Account";
+import { XCircleIcon } from "@heroicons/react/solid";
 
 const SignIn = () => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error_message, setErrorMessage] = useState(null);
 
     const { authenticate } = useContext(AccountContext);
 
     const onSubmit = (event) => {
-        event.preventDefault();
         authenticate(email, password)
             .then(data => {
                 console.log("Logged In!", data);
                 window.location.href = "/";
+                setErrorMessage(null);
             })
             .catch(err => {
                 console.error("Failed To Log In", err);
+                setErrorMessage(err.message);
             });
     };
 
@@ -35,6 +38,25 @@ const SignIn = () => {
                 <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
                     <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
                         <div className="space-y-6">
+                            {/* Error message */}
+                            {
+                                error_message !== null &&
+                                <div className="bg-red-50 rounded-md p-4 mt-3">
+                                    <div className="flex">
+                                        <div className="flex-shrink-0">
+                                            <XCircleIcon className="h-5 w-5 text-red-400" aria-hidden="true" />
+                                        </div>
+                                        <div className="ml-2">
+                                            <div className="text-red-700 text-sm">
+                                                <ul className="">
+                                                    <li>{error_message}</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
                             <div>
                                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                                     Email address
@@ -47,7 +69,10 @@ const SignIn = () => {
                                         autoComplete="email"
                                         required
                                         className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                        onChange={(event) => setEmail(event.target.value)}
+                                        onChange={(event) => {
+                                            setEmail(event.target.value);
+                                            setErrorMessage(null);
+                                        }}
                                     />
                                 </div>
                             </div>
@@ -102,52 +127,6 @@ const SignIn = () => {
                     </div>
                 </div>
             </div>
-            {/* <div className="columns is-centered">
-                <div className="column is-4-widescreen is-5-desktop is-7-tablet">
-                    <div className="card">
-                        <div className="card-content">
-                            <form onSubmit={onSubmit}>
-                                <div className="field">
-                                    <label className="label">Email</label>
-                                    <div className="control has-icons-left">
-                                        <input className="input" name="email" type="email" placeholder="Email Address"
-                                            autoFocus="" value={email}
-                                            onChange={(event)=>setEmail(event.target.value)}
-                                        />
-                                        <span className="icon is-small is-left">
-                                            <i className="fas fa-envelope"></i>
-                                            <FontAwesomeIcon icon={faEnvelope}></FontAwesomeIcon>
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <div className="field" id="password">
-                                    <label className="label">Password</label>
-                                    <div className="control has-icons-left">
-                                        <input className="input" name="password" type="password"
-                                            placeholder="Password" value={password}
-                                            onChange={(event)=>setPassword(event.target.value)}
-                                                
-                                        />
-                                        <span className="icon is-small is-left">
-                                            <FontAwesomeIcon icon={faLock}></FontAwesomeIcon>
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <div className="field">
-                                    <label className="checkbox">
-                                        <input type="checkbox" />
-                                        <>  Remember me</>
-                                    </label>
-                                </div>
-
-                                <button className="button is-block is-primary is-fullwidth" type="submit">Login</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div> */}
         </>
     );
 };
