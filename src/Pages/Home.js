@@ -275,6 +275,8 @@ class Home extends React.Component {
                                         <div className="flex-1 truncate">
                                             <div className="flex items-center space-x-3">
                                                 <h3 className="text-gray-900 text-lg font-medium truncate">{alumnus.first_name} {alumnus.last_name}</h3>
+                                                <h4 className="text-gray-600 text-base font-medium truncate italic">{alumnus.occupation}, {alumnus.graduate_semester} {alumnus.graduate_year}</h4>
+
                                             </div>
                                             <p className="text-gray-500 text-sm break-normal truncate">{alumnus.biography}</p>
                                         </div>
