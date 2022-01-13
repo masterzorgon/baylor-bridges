@@ -32,6 +32,8 @@ class SignUp extends React.Component {
             is_email_registered: false,
         };
 
+        // TODO: Display error message (for ambiguous reason)
+
         this.handleConfirmPasswordChange = this.handleConfirmPasswordChange.bind(this);
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
