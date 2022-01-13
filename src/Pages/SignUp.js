@@ -208,7 +208,7 @@ class SignUp extends React.Component {
                                             name="first-name"
                                             id="first-name"
                                             autoComplete="given-name"
-                                            className="py-2 px-3 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+                                            className="py-2 px-3 block w-full shadow-sm focus:ring-emerald-500 focus:border-emerald-500 border-gray-300 rounded-md"
                                             onChange={this.handleFirstNameChange}
                                         />
                                     </div>
@@ -225,7 +225,7 @@ class SignUp extends React.Component {
                                             name="last-name"
                                             id="last-name"
                                             autoComplete="family-name"
-                                            className="py-2 px-3 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+                                            className="py-2 px-3 block w-full shadow-sm focus:ring-emerald-500 focus:border-emerald-500 border-gray-300 rounded-md"
                                             onChange={this.handleLastNameChange}
                                         />
                                     </div>
@@ -245,7 +245,7 @@ class SignUp extends React.Component {
                                             name="email"
                                             type="email"
                                             autoComplete="email"
-                                            className="pl-10 py-2 px-3 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+                                            className="pl-10 py-2 px-3 block w-full shadow-sm focus:ring-emerald-500 focus:border-emerald-500 border-gray-300 rounded-md"
                                             onChange={this.handleEmailChange}
                                         />
                                         {(this.state.valid_email === false || this.state.is_email_registered === true) && this.state.email !== "" &&
@@ -293,7 +293,7 @@ class SignUp extends React.Component {
                                             name="password"
                                             type="password"
                                             autoComplete="password"
-                                            className="py-2 px-3 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+                                            className="py-2 px-3 block w-full shadow-sm focus:ring-emerald-500 focus:border-emerald-500 border-gray-300 rounded-md"
                                             onChange={this.handlePasswordChange}
                                         />
                                         {this.state.valid_password === false && this.state.password !== "" &&
@@ -358,7 +358,7 @@ class SignUp extends React.Component {
                                             name="confirm-password"
                                             type="password"
                                             autoComplete="password"
-                                            className="py-2 px-3 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+                                            className="py-2 px-3 block w-full shadow-sm focus:ring-emerald-500 focus:border-emerald-500 border-gray-300 rounded-md"
                                             onChange={this.handleConfirmPasswordChange}
                                         />
                                         {this.state.valid_confirm_password === false && this.state.password !== "" &&
@@ -382,7 +382,7 @@ class SignUp extends React.Component {
                                                 {/* Select box input */}
                                                 <Listbox.Label className="block text-sm font-medium text-gray-700">Role</Listbox.Label>
                                                 <div className="mt-1 relative">
-                                                    <Listbox.Button className="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-3 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                    <Listbox.Button className="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-3 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
                                                         <span className="block truncate">{this.roleValueToTitle(this.state.role)}</span>
                                                         <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                                                             <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
@@ -403,7 +403,7 @@ class SignUp extends React.Component {
                                                                     key={role.value}
                                                                     className={({ active }) =>
                                                                         classNames(
-                                                                            active ? "text-white bg-indigo-600" : "text-gray-900",
+                                                                            active ? "text-white bg-emerald-600" : "text-gray-900",
                                                                             "cursor-default select-none relative py-2 pl-8 pr-4"
                                                                         )
                                                                     }
@@ -418,7 +418,7 @@ class SignUp extends React.Component {
                                                                             {selected ? (
                                                                                 <span
                                                                                     className={classNames(
-                                                                                        active ? "text-white" : "text-indigo-600",
+                                                                                        active ? "text-white" : "text-emerald-600",
                                                                                         "absolute inset-y-0 left-0 flex items-center pl-1.5"
                                                                                     )}
                                                                                 >
@@ -452,8 +452,8 @@ class SignUp extends React.Component {
                                                     this.checkFormCompletion(state);
                                                 }}
                                                 className={classNames(
-                                                    this.state.agreed ? "bg-indigo-600" : "bg-gray-200",
-                                                    "relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                                    this.state.agreed ? "bg-emerald-600" : "bg-gray-200",
+                                                    "relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
                                                 )}
                                             >
                                                 <span className="sr-only">Agree to policies</span>
@@ -486,7 +486,7 @@ class SignUp extends React.Component {
                                 <div className="sm:col-span-2">
                                     <button
                                         type="submit"
-                                        className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-25"
+                                        className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-25"
                                         onClick={this.handleSubmit}
                                         disabled={!this.state.can_submit}
                                     >
@@ -513,7 +513,7 @@ class SignUp extends React.Component {
                         name="token"
                         type="text"
                         autoComplete="token"
-                        className="py-2 px-3 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
+                        className="py-2 px-3 block w-full shadow-sm focus:ring-emerald-500 focus:border-emerald-500 border-gray-300 rounded-md"
                         onChange={this.handleTokenChange}
                     />
                 </div>

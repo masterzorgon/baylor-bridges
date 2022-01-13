@@ -30,7 +30,7 @@ class Navbar extends React.Component {
 
                     {/* Mobile burger open button */}
                     <div className="-mr-2 -my-2 md:hidden">
-                        <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                        <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-emerald-500">
                             <span className="sr-only">Open menu</span>
                             <MenuIcon className="h-6 w-6" aria-hidden="true" />
                         </Popover.Button>
@@ -49,7 +49,7 @@ class Navbar extends React.Component {
                                         <Popover.Button
                                             className={classNames(
                                                 open ? "text-gray-900" : "text-gray-500",
-                                                "group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                                "group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
                                             )}
                                         >
                                             <span>More</span>
@@ -105,7 +105,7 @@ class Navbar extends React.Component {
                                 type="search"
                                 name="search"
                                 id="search"
-                                className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md bg-gray-200 p-3 border-transparent"
+                                className="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md bg-gray-200 p-3 border-transparent"
                                 placeholder="Search people"
                             />
                         </div>
@@ -137,7 +137,7 @@ class Navbar extends React.Component {
                                         />
                                     </div>
                                     <div className="-mr-2">
-                                        <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                                        <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-emerald-500">
                                             <span className="sr-only">Close menu</span>
                                             <XIcon className="h-6 w-6" aria-hidden="true" />
                                         </Popover.Button>
@@ -159,12 +159,12 @@ class Navbar extends React.Component {
                                     </a>
                                 </div>
                                 <div className="mt-6">
-                                    <a href="/sign-up" className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
+                                    <a href="/sign-up" className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-600 hover:bg-emerald-700">
                                         Sign up
                                     </a>
                                     <p className="mt-6 text-center text-base font-medium text-gray-500">
                                         Existing student or alumini?{" "}
-                                        <a href="/sign-in" className="text-indigo-600 hover:text-indigo-500">
+                                        <a href="/sign-in" className="text-emerald-600 hover:text-emerald-500">
                                             Sign in
                                         </a>
                                     </p>

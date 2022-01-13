@@ -27,7 +27,7 @@ const NavbarAccount = () => {
             <a href="/sign-in" className="text-base font-medium text-gray-500 hover:text-gray-900">
                 Sign in
             </a>
-            <a href="/sign-up" className="ml-8 inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
+            <a href="/sign-up" className="ml-8 inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-600 hover:bg-emerald-700">
                 Sign up
             </a>
         </div>;
@@ -37,7 +37,7 @@ const NavbarAccount = () => {
         <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 mr-4">
             <button
                 type="button"
-                className="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
             >
                 <span className="sr-only">View notifications</span>
                 <BellIcon className="h-6 w-6" aria-hidden="true" />
@@ -46,7 +46,7 @@ const NavbarAccount = () => {
             {/* Profile dropdown */}
             <Menu as="div" className="ml-3 relative">
                 <div>
-                    <Menu.Button className="bg-white rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <Menu.Button className="bg-white rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
                         <span className="sr-only">Open user menu</span>
                         <img
                             className="h-8 w-8 rounded-full"
