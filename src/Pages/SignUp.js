@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { Switch, Listbox, Transition } from "@headlessui/react";
-import { MailIcon, ExclamationCircleIcon, CheckIcon, SelectorIcon } from "@heroicons/react/solid";
+import { MailIcon, ExclamationCircleIcon, CheckIcon, SelectorIcon, XCircleIcon, CheckCircleIcon } from "@heroicons/react/solid";
 
 import UserPool from "../UserPool";
 
@@ -272,6 +272,48 @@ class SignUp extends React.Component {
                                                 <ExclamationCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />
                                             </div>
                                         }
+                                    </div>
+
+                                    <div className={classNames(this.state.valid_password.all_check === true ? "bg-green-50" : "bg-red-50", "rounded-md p-4 mt-3")}>
+                                        <div className="flex">
+                                            <div className="flex-shrink-0">
+                                                {this.state.valid_password.length === false && <XCircleIcon className="h-5 w-5 text-red-400" aria-hidden="true" />}
+                                                {this.state.valid_password.length === true && <CheckCircleIcon className="h-5 w-5 text-green-400" aria-hidden="true" />}
+                                            </div>
+                                            <div className="ml-2">
+                                                <div className={classNames(this.state.valid_password.length === true ? "text-green-700" : "text-red-700", "text-sm")}>
+                                                    <ul className="">
+                                                        <li>Must be at least 6 characters</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="flex">
+                                            <div className="flex-shrink-0">
+                                                {this.state.valid_password.cap === false && <XCircleIcon className="h-5 w-5 text-red-400" aria-hidden="true" />}
+                                                {this.state.valid_password.cap === true && <CheckCircleIcon className="h-5 w-5 text-green-400" aria-hidden="true" />}
+                                            </div>
+                                            <div className="ml-2">
+                                                <div className={classNames(this.state.valid_password.cap === true ? "text-green-700" : "text-red-700", "text-sm")}>
+                                                    <ul className="">
+                                                        <li>Must include at least one capital letter</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="flex">
+                                            <div className="flex-shrink-0">
+                                                {this.state.valid_password.special_char === false && <XCircleIcon className="h-5 w-5 text-red-400" aria-hidden="true" />}
+                                                {this.state.valid_password.special_char === true && <CheckCircleIcon className="h-5 w-5 text-green-400" aria-hidden="true" />}
+                                            </div>
+                                            <div className="ml-2">
+                                                <div className={classNames(this.state.valid_password.special_char === true ? "text-green-700" : "text-red-700", "text-sm")}>
+                                                    <ul className="">
+                                                        <li>Must include at least one of the special characters: @, #, $, %, ^, &, *</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
