@@ -4,6 +4,8 @@ import { Popover, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon, } from "@heroicons/react/outline";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 
+import NavbarAccount from "./NavbarAccount";
+
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -109,14 +111,7 @@ class Navbar extends React.Component {
                         </div>
                         
                         {/* Account sign in / up / out */}
-                        <div className="flex items-center md:ml-12">
-                            <a href="/sign-in" className="text-base font-medium text-gray-500 hover:text-gray-900">
-                                Sign in
-                            </a>
-                            <a href="/sign-up" className="ml-8 inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
-                                Sign up
-                            </a>
-                        </div>
+                        <NavbarAccount />
                     </div>
                 </div>
 
