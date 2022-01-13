@@ -29,6 +29,7 @@ class SignUp extends React.Component {
             is_succeed: false,
             agreed: false,
             can_submit: false,
+            is_email_registered: false,
         };
 
         this.handleConfirmPasswordChange = this.handleConfirmPasswordChange.bind(this);
@@ -93,7 +94,7 @@ class SignUp extends React.Component {
         var reg = /^\w+([-+.'][^\s]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
         let is_valid = reg.test(email);
 
-        var state = { ...this.state, email: email, valid_email: is_valid };
+        var state = { ...this.state, email: email, valid_email: is_valid, is_email_registered: false };
         this.setState(state);
         this.checkFormCompletion(state);
     }
@@ -148,7 +149,7 @@ class SignUp extends React.Component {
                 this.setState({ is_succeed: false });
 
                 if (error_arr[0] === "UsernameExistsException") {
-                    this.setState({ valid_email: false });
+                    this.setState({ is_email_registered: true });
                 }
             } else {
                 this.setState({ is_succeed: true });
@@ -240,16 +241,37 @@ class SignUp extends React.Component {
                                             className="pl-10 py-2 px-3 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md"
                                             onChange={this.handleEmailChange}
                                         />
-                                        {this.state.valid_email === false && this.state.email !== "" &&
+                                        {(this.state.valid_email === false || this.state.is_email_registered === true) && this.state.email !== "" &&
                                             <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                                                 <ExclamationCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />
                                             </div>
                                         }
                                     </div>
+
+                                    {/* Email format invalid */}
                                     {this.state.valid_email === false && this.state.email !== "" &&
                                         <p className="mt-2 text-sm text-red-600" id="email-error">
                                             Your email address is invalid.
                                         </p>
+                                    }
+
+                                    {/* Email is registered */}
+                                    {
+                                        this.state.is_email_registered === true &&
+                                        <div className="bg-red-50 rounded-md p-4 mt-3">
+                                            <div className="flex">
+                                                <div className="flex-shrink-0">
+                                                    <XCircleIcon className="h-5 w-5 text-red-400" aria-hidden="true" />
+                                                </div>
+                                                <div className="ml-2">
+                                                    <div className="text-red-700 text-sm">
+                                                        <ul className="">
+                                                            <li>This email address is associated with another account.</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     }
                                 </div>
 
