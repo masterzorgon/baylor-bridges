@@ -12,16 +12,23 @@ import { Account } from "./components/Account";
 
 import "./App.css";
 
+function components(... components) {
+    return (
+        <>
+            { components.map(component => component) }
+        </>
+    );
+}
+
 // is <Status /> not going to be included? 
 function App() {
     return (
         <Account>
-            <Navbar />
             <Router>
                 <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/about" element={<About />} />
-                    <Route path="/testing" element={<Testing />} />
+                    <Route path="/" element={components(<Navbar />, <Home />)} />
+                    <Route path="/about" element={components(<Navbar />, <About />)} />
+                    <Route path="/testing" element={components(<Navbar />, <Testing />)} />
                     <Route path="/sign-in" element={<SignIn />} />
                     <Route path="/sign-up" element={<SignUp />} />
                 </Routes>
