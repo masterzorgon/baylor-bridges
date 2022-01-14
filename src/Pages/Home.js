@@ -99,7 +99,7 @@ class Home extends React.Component {
 
 
                     {/* USA population map */}
-                    <div className="max-w-7xl mx-auto sm:px-6 lg:px-6">
+                    <div className="max-w-7xl mx-auto sm:px-6 lg:px-6 my-6">
                         <div className="relative flex">
                             <USAMap onClick={this.mapHandler} customize={statesCustomConfig} />
                         </div>
@@ -145,6 +145,7 @@ class Home extends React.Component {
                     </div>
                 </div>
 
+                {/* Features */}
                 <div className="bg-white">
                     <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:py-24 lg:px-8 lg:grid lg:grid-cols-3 lg:gap-x-8">
                         <div>
@@ -166,6 +167,34 @@ class Home extends React.Component {
                                     </div>
                                 ))}
                             </dl>
+                        </div>
+                    </div>
+                </div>
+
+                {/* CTA Section */}
+                <div className="bg-white">
+                    <div className="max-w-7xl mx-auto text-center py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
+                        <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                            <span className="block">Ready to dive in?</span>
+                            <span className="block">Start your free trial today.</span>
+                        </h2>
+                        <div className="mt-8 flex justify-center">
+                            <div className="inline-flex rounded-md shadow">
+                                <a
+                                    href="#"
+                                    className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700"
+                                >
+                                    Get started
+                                </a>
+                            </div>
+                            <div className="ml-3 inline-flex">
+                                <a
+                                    href="#"
+                                    className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-emerald-700 bg-emerald-100 hover:bg-emerald-200"
+                                >
+                                    Learn more
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
