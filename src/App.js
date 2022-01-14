@@ -28,7 +28,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={components(<Navbar />, <Home />, <Footer />)} />
                     <Route path="/about" element={components(<Navbar />, <About />, <Footer />)} />
-                    <Route path="/search" element={components(<Navbar />, <Search />)} />
+                    <Route path="/search" element={components(<Navbar />, <Search />, <Footer />)} />
                     <Route path="/sign-in" element={<SignIn />} />
                     <Route path="/sign-up" element={<SignUp />} />
                 </Routes>

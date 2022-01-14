@@ -14,7 +14,7 @@ function classNames(...classes) {
 class Navbar extends React.Component {
     render() {
         return (
-            <Popover className="relative bg-white z-50">
+            <Popover className="relative bg-white z-50 sticky top-0">
                 <div className="flex shadow-md justify-between items-center px-4 py-5 sm:px-6 md:justify-start md:space-x-10">
                     {/* Baylor University logo */}
                     <div>
