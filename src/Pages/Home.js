@@ -1,233 +1,6 @@
 import React from "react";
 import USAMap from "react-usa-map";
 
-const alumini = [
-    {
-        "alumni_id": 1,
-        "biography": "This is the bio.",
-        "city": "New York",
-        "email": "Joseph_Yu1@baylor.edu",
-        "experiences": [
-            {
-                "description": "testing",
-                "exper_id": 1,
-                "start_time": "Sat, 13 Jan 2018 10:26:00 GMT",
-                "stop_time": "Thu, 13 Jan 2022 10:26:05 GMT",
-                "title": "title 1",
-                "user_id": 1
-            }
-        ],
-        "first_name": "Joseph",
-        "graduate_semester": "Spring",
-        "graduate_year": 2022,
-        "last_name": "Yu",
-        "occupation": "Alumni",
-        "password": "123456789",
-        "prefix": "Mr.",
-        "role": "alumni",
-        "state": "NY",
-        "user_id": 1
-    },
-    {
-        "alumni_id": 2,
-        "biography": null,
-        "city": "Waco",
-        "email": "tinaxiayanli@foxmail.com",
-        "experiences": [],
-        "first_name": "Tina",
-        "graduate_semester": null,
-        "graduate_year": null,
-        "last_name": "Li",
-        "occupation": "Alumni",
-        "password": "password",
-        "prefix": null,
-        "role": "alumni",
-        "state": "TX",
-        "user_id": 2
-    },
-    {
-        "alumni_id": 4,
-        "biography": "here is bio",
-        "city": null,
-        "contactinfo": {
-            "contact_id": 1,
-            "email_address": null,
-            "email_address_optional": null,
-            "phone_number": 13307486196,
-            "phone_number_optional": null,
-            "status": [
-                true,
-                true,
-                true,
-                true
-            ],
-            "user_id": 4
-        },
-        "email": "abc@gmail.com",
-        "experiences": [],
-        "first_name": "Tina",
-        "graduate_semester": "Spring",
-        "graduate_year": 1984,
-        "last_name": "Plum",
-        "occupation": "Alumni",
-        "password": "password",
-        "prefix": "Ms.",
-        "role": "alumni",
-        "state": null,
-        "user_id": 4
-    },
-    {
-        "alumni_id": 5,
-        "biography": "here is bio for testing",
-        "city": "Austin",
-        "contactinfo": {
-            "contact_id": 2,
-            "email_address": null,
-            "email_address_optional": null,
-            "phone_number": 13307486196,
-            "phone_number_optional": null,
-            "status": [
-                true,
-                true,
-                true,
-                true
-            ],
-            "user_id": 5
-        },
-        "email": "tinaxiayanli@foxmail.com",
-        "experiences": [],
-        "first_name": "Tina",
-        "graduate_semester": "Fall",
-        "graduate_year": 1986,
-        "last_name": "Plum",
-        "occupation": "Alumni",
-        "password": "password",
-        "prefix": "Ms.",
-        "role": "alumni",
-        "state": "TX",
-        "user_id": 5
-    },
-    {
-        "alumni_id": 6,
-        "biography": null,
-        "city": "somewhere",
-        "email": "test2@gmail.com",
-        "experiences": [],
-        "first_name": "xiayan",
-        "graduate_semester": null,
-        "graduate_year": null,
-        "last_name": "Li",
-        "occupation": "Alumni",
-        "password": "password",
-        "prefix": null,
-        "role": "alumni",
-        "state": "HI",
-        "user_id": 6
-    },
-    {
-        "alumni_id": 7,
-        "biography": null,
-        "city": null,
-        "email": "testing3@abc.com",
-        "experiences": [],
-        "first_name": "Hello",
-        "graduate_semester": null,
-        "graduate_year": null,
-        "last_name": "world",
-        "occupation": "Alumni",
-        "password": "password",
-        "prefix": null,
-        "role": "alumni",
-        "state": null,
-        "user_id": 7
-    },
-    {
-        "alumni_id": 8,
-        "biography": null,
-        "city": null,
-        "email": "testing2@abc.com",
-        "experiences": [],
-        "first_name": "Hello",
-        "graduate_semester": null,
-        "graduate_year": null,
-        "last_name": "world",
-        "occupation": "Alumni",
-        "password": "password",
-        "prefix": null,
-        "role": "alumni",
-        "state": null,
-        "user_id": 8
-    },
-    {
-        "alumni_id": 9,
-        "biography": null,
-        "city": null,
-        "email": "testing4@abc.com",
-        "experiences": [],
-        "first_name": "xiayan",
-        "graduate_semester": null,
-        "graduate_year": null,
-        "last_name": "Li",
-        "occupation": "Alumni",
-        "password": "password",
-        "prefix": null,
-        "role": "alumni",
-        "state": null,
-        "user_id": 9
-    },
-    {
-        "alumni_id": 10,
-        "biography": null,
-        "city": null,
-        "email": "abc2@gmail.com",
-        "experiences": [],
-        "first_name": "testing2",
-        "graduate_semester": null,
-        "graduate_year": null,
-        "last_name": "testing",
-        "occupation": "Alumni",
-        "password": "password",
-        "prefix": null,
-        "role": "alumni",
-        "state": null,
-        "user_id": 10
-    },
-    {
-        "alumni_id": 11,
-        "biography": null,
-        "city": null,
-        "email": "abc5@abc.com",
-        "experiences": [],
-        "first_name": "xiayan",
-        "graduate_semester": null,
-        "graduate_year": null,
-        "last_name": "Li",
-        "occupation": "Alumni",
-        "password": "password",
-        "prefix": null,
-        "role": "alumni",
-        "state": null,
-        "user_id": 11
-    },
-    {
-        "alumni_id": 12,
-        "biography": null,
-        "city": null,
-        "email": "abc6@abc.com",
-        "experiences": [],
-        "first_name": "xiayan",
-        "graduate_semester": null,
-        "graduate_year": null,
-        "last_name": "Li",
-        "occupation": "Alumni",
-        "password": "password",
-        "prefix": null,
-        "role": "alumni",
-        "state": null,
-        "user_id": 12
-    }
-];
-
 class Home extends React.Component {
     mapHandler(event) {
         alert(event.target.dataset.name);
@@ -261,32 +34,100 @@ class Home extends React.Component {
         const statesCustomConfig = this.getStatsConfig();
 
         return (
-            <>
-                <div className="grid grid-cols-3 gap-2 mx-10 my-6">
-                    <div className="col-span-2 relative flex">
-                        <USAMap onClick={this.mapHandler} customize={statesCustomConfig} />
-                    </div>
-                    <div className="col-span-1">
-                        <ul className="grid grid-cols-1 gap-6">
-                            {alumini.slice(0, 5).map((alumnus) => (
-                                <li key={alumnus.email} className="col-span-1 bg-white rounded-lg shadow divide-y divide-gray-200">
-                                    <div className="w-full flex items-center justify-between p-6 space-x-6">
-                                        <img className="w-12 h-12 bg-gray-300 rounded-full flex-shrink-0" src={alumnus.imageUrl} alt="" />
-                                        <div className="flex-1 truncate">
-                                            <div className="flex items-center space-x-3">
-                                                <h3 className="text-gray-900 text-lg font-medium truncate">{alumnus.first_name} {alumnus.last_name}</h3>
-                                                <h4 className="text-gray-600 text-base font-medium truncate italic">{alumnus.occupation}, {alumnus.graduate_semester} {alumnus.graduate_year}</h4>
-
-                                            </div>
-                                            <p className="text-gray-500 text-sm break-normal truncate">{alumnus.biography}</p>
+            <main>
+                <div>
+                    {/* Hero card */}
+                    <div className="relative my-8">
+                        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gray-100" />
+                        <div className="max-w-7xl mx-auto sm:px-6 lg:px-1">
+                            <div className="relative shadow-xl sm:rounded-2xl sm:overflow-hidden">
+                                <div className="absolute inset-0">
+                                    <img
+                                        className="h-full w-full object-cover"
+                                        src="https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2830&q=80&sat=-100"
+                                        alt="People working on laptops"
+                                    />
+                                    <div className="absolute inset-0 bg-emerald-700 mix-blend-multiply" />
+                                </div>
+                                <div className="relative px-4 py-16 sm:px-6 sm:py-24 lg:py-32 lg:px-8">
+                                    <h1 className="text-center text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
+                                        <span className="block text-white">Take control of your</span>
+                                        <span className="block text-emerald-200">customer support</span>
+                                    </h1>
+                                    <p className="mt-6 max-w-lg mx-auto text-center text-xl text-emerald-200 sm:max-w-3xl">
+                                        Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt
+                                        amet fugiat veniam occaecat fugiat aliqua.
+                                    </p>
+                                    <div className="mt-10 max-w-sm mx-auto sm:max-w-none sm:flex sm:justify-center">
+                                        <div className="space-y-4 sm:space-y-0 sm:mx-auto sm:inline-grid sm:grid-cols-2 sm:gap-5">
+                                            <a
+                                                href="/"
+                                                className="flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-emerald-700 bg-white hover:bg-emerald-50 sm:px-8"
+                                            >
+                                                Get started
+                                            </a>
+                                            <a
+                                                href="/"
+                                                className="flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-emerald-500 bg-opacity-60 hover:bg-opacity-70 sm:px-8"
+                                            >
+                                                Live demo
+                                            </a>
                                         </div>
                                     </div>
-                                </li>
-                            ))}
-                        </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    {/* USA population map */}
+                    <div className="grid grid-cols-3 gap-2 mx-10 my-6">
+                        <div className="col-span-3 relative flex">
+                            <USAMap onClick={this.mapHandler} customize={statesCustomConfig} />
+                        </div>
+                    </div>
+
+
+                    {/* Logo cloud */}
+                    <div className="bg-gray-100">
+                        <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+                            <p className="text-center text-sm font-semibold uppercase text-gray-500 tracking-wide">
+                                Trusted by over 5 very average small businesses
+                            </p>
+                            <div className="mt-6 grid grid-cols-2 gap-8 md:grid-cols-6 lg:grid-cols-5">
+                                <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
+                                    <img className="h-12" src="https://tailwindui.com/img/logos/tuple-logo-gray-400.svg" alt="Tuple" />
+                                </div>
+                                <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
+                                    <img className="h-12" src="https://tailwindui.com/img/logos/mirage-logo-gray-400.svg" alt="Mirage" />
+                                </div>
+                                <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
+                                    <img
+                                        className="h-12"
+                                        src="https://tailwindui.com/img/logos/statickit-logo-gray-400.svg"
+                                        alt="StaticKit"
+                                    />
+                                </div>
+                                <div className="col-span-1 flex justify-center md:col-span-2 md:col-start-2 lg:col-span-1">
+                                    <img
+                                        className="h-12"
+                                        src="https://tailwindui.com/img/logos/transistor-logo-gray-400.svg"
+                                        alt="Transistor"
+                                    />
+                                </div>
+                                <div className="col-span-2 flex justify-center md:col-span-2 md:col-start-4 lg:col-span-1">
+                                    <img
+                                        className="h-12"
+                                        src="https://tailwindui.com/img/logos/workcation-logo-gray-400.svg"
+                                        alt="Workcation"
+                                    />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </>
+
+            </main>
         );
     }
 }
