@@ -8,14 +8,15 @@ import About from "./Pages/About";
 import Testing from "./Pages/testPage";
 import SignIn from "./Pages/SignIn";
 import SignUp from "./Pages/SignUp";
+import Footer from "./components/Footer";
 import { Account } from "./components/Account";
 
 import "./App.css";
 
-function components(... components) {
+function components(...components) {
     return (
         <>
-            { components.map(component => component) }
+            {components.map(component => component)}
         </>
     );
 }
@@ -26,15 +27,15 @@ function App() {
         <Account>
             <Router>
                 <Routes>
-                    <Route path="/" element={components(<Navbar />, <Home />)} />
-                    <Route path="/about" element={components(<Navbar />, <About />)} />
-                    <Route path="/testing" element={components(<Navbar />, <Testing />)} />
+                    <Route path="/" element={ components(<Navbar />, <Home />, <Footer />) } />
+                    <Route path="/about" element={ components(<Navbar />, <About />, <Footer />) } />
+                    <Route path="/testing" element={ components(<Navbar />, <Testing />, <Footer />) } />
                     <Route path="/sign-in" element={<SignIn />} />
                     <Route path="/sign-up" element={<SignUp />} />
                 </Routes>
             </Router>
         </Account>
-        
+
     );
 }
 
