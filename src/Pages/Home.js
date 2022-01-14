@@ -37,9 +37,8 @@ class Home extends React.Component {
             <main>
                 <div>
                     {/* Hero card */}
-                    <div className="relative my-8">
-                        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gray-100" />
-                        <div className="max-w-7xl mx-auto sm:px-6 lg:px-1">
+                    <div className="relative my-6">
+                        <div className="max-w-7xl mx-auto sm:px-6 lg:px-6">
                             <div className="relative shadow-xl sm:rounded-2xl sm:overflow-hidden">
                                 <div className="absolute inset-0">
                                     <img
@@ -81,8 +80,8 @@ class Home extends React.Component {
 
 
                     {/* USA population map */}
-                    <div className="grid grid-cols-3 gap-2 mx-10 my-6">
-                        <div className="col-span-3 relative flex">
+                    <div className="max-w-7xl mx-auto sm:px-6 lg:px-6">
+                        <div className="relative flex">
                             <USAMap onClick={this.mapHandler} customize={statesCustomConfig} />
                         </div>
                     </div>
@@ -90,7 +89,7 @@ class Home extends React.Component {
 
                     {/* Logo cloud */}
                     <div className="bg-gray-100">
-                        <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+                        <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-6">
                             <p className="text-center text-sm font-semibold uppercase text-gray-500 tracking-wide">
                                 Trusted by over 5 very average small businesses
                             </p>
