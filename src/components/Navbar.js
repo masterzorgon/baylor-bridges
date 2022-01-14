@@ -36,7 +36,7 @@ class Navbar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            is_focus: false,
+            is_focus: true,
         };
     }
 
@@ -45,27 +45,7 @@ class Navbar extends React.Component {
             <>
                 {
                     this.state.is_focus &&
-                    <>
-                        <div className="z-40 bg-stone-900 fixed top-0 w-full h-full opacity-60"></div>
-
-                        {/* TODO: Move this part to search people textbox, making sure they re always aligned */}
-                        <div className="z-50 fixed bg-white shadow-md px-5 py-2 rounded-md w-full max-w-md mt-4" style={{ "top": "5.42rem", "left": "37.1rem" }}>
-                            <ul className="divide-y divide-gray-200">
-                                {people.map((person) => (
-                                    <li key={person.email} className="py-4 flex">
-                                        <img className="h-10 w-10 rounded-full" src={person.image} alt="" />
-                                        <div className="ml-3">
-                                            <p className="text-sm font-medium text-gray-900">{person.name}</p>
-                                            <p className="text-sm text-gray-500">{person.email}</p>
-                                        </div>
-                                    </li>
-                                ))}
-                                <a key="more" className="py-3 pb-2 flex text-sm text-emerald-800" href="/search">
-                                    More results
-                                </a>
-                            </ul>
-                        </div>
-                    </>
+                    <div className="z-40 bg-stone-900 fixed top-0 w-full h-full opacity-60"></div>
                 }
                 <Popover className="bg-white z-50 sticky top-0">
                     <div className="flex shadow-md justify-between items-center px-4 py-5 sm:px-6 md:justify-start md:space-x-10">
@@ -150,7 +130,7 @@ class Navbar extends React.Component {
                             </Popover.Group>
                         
                             {/* Search people */}
-                            <div className="hidden md:flex-1 md:flex md:items-center md:justify-between ml-6 mr-12 max-w-md">
+                            <div className="hidden md:flex-1 md:flex md:items-center md:justify-between ml-6 mr-12 max-w-md relative">
                                 <label htmlFor="email" className="sr-only">
                                 Search people
                                 </label>
@@ -166,6 +146,26 @@ class Navbar extends React.Component {
                                         placeholder="Search people"
                                     />
                                 </div>
+
+                                {
+                                    this.state.is_focus &&
+                                    <div className="z-50 absolute bg-white shadow-md px-5 py-2 rounded-md w-full max-w-md mt-4 top-16">
+                                        <ul className="divide-y divide-gray-200">
+                                            {people.map((person) => (
+                                                <li key={person.email} className="py-4 flex">
+                                                    <img className="h-10 w-10 rounded-full" src={person.image} alt="" />
+                                                    <div className="ml-3">
+                                                        <p className="text-sm font-medium text-gray-900">{person.name}</p>
+                                                        <p className="text-sm text-gray-500">{person.email}</p>
+                                                    </div>
+                                                </li>
+                                            ))}
+                                            <a key="more" className="py-3 pb-2 flex text-sm text-emerald-800" href="/search">
+                                                More results
+                                            </a>
+                                        </ul>
+                                    </div>
+                                }
                             </div>
                         
                             {/* Account sign in / up / out */}
