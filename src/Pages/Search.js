@@ -344,7 +344,7 @@ const Search = (props) => {
         <>
             <div className="grid grid-cols-2">
                 <div className="col-span-1">
-                    <div className="bg-gray-100 sticky p-2 h-screen" style={{ "top": "5.34rem" }}>
+                    <div className="bg-gray-100 sticky p-2 h-screen" style={{ "top": "5.4rem" }}>
                         <div className="align-middle relative flex">
                             <USAMap onClick={mapHandler} />
                         </div>
@@ -352,7 +352,11 @@ const Search = (props) => {
                 </div>
                 <div className="col-span-1 px-4">
                     {/* Filters */}
-                    <div className="bg-white sticky flex items-center justify-between px-6 py-4" style={{ "top": "5.34rem" }}>
+                    <div className="bg-white sticky flex items-center justify-between px-6 py-4" style={{ "top": "5.4rem" }}>
+                        {/* White cover for sticky filter div, for visuals only */}
+                        <div className="absolute bg-inherit w-full" style={{ "top": "-2rem", "height": "4rem", "left": "0rem" }}></div>
+                        
+                        {/* Filters */}
                         <Menu as="div" className="relative z-10 inline-block text-left">
                             <div>
                                 <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
