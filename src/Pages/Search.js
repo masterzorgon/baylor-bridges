@@ -282,11 +282,19 @@ const applications = [
 const sortOptions = [
     { name: "Name", href: "#name" },
     { name: "Class", href: "#class" },
-    { name: "Research", href: "#research" },
+    { name: "Location", href: "#location" },
     { name: "Occupation", href: "#occupation" },
 ];
 
 const filters = [
+    {
+        id: "role",
+        name: "Role",
+        options: [
+            { value: "#alumni", label: "Alumni" },
+            { value: "#student", label: "Current student" },
+        ],
+    },
     {
         id: "class",
         name: "Class",
@@ -315,25 +323,7 @@ const filters = [
             { value: "2001", label: "2001" },
             { value: "2000", label: "2000" },
         ],
-    },
-    {
-        id: "research",
-        name: "Research",
-        options: [
-            { value: "clothing-company", label: "Clothing Company" },
-            { value: "fashion-inc", label: "Fashion Inc." },
-            { value: "shoes-n-more", label: "Shoes 'n More" },
-        ],
-    },
-    {
-        id: "occupation",
-        name: "Occupation",
-        options: [
-            { value: "white", label: "White" },
-            { value: "black", label: "Black" },
-            { value: "grey", label: "Grey" },
-        ],
-    },
+    }
 ];
 
 // TODO: Mobile responsive for everything in this page
