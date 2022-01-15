@@ -277,13 +277,13 @@ const Navbar = (props) => {
                     leaveFrom="opacity-100 scale-100"
                     leaveTo="opacity-0 scale-95"
                 >
-                    <Popover.Panel focus className="absolute top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden">
-                        <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white divide-y-2 divide-gray-50">
-                            <div className="pt-5 pb-6 px-5">
+                    <Popover.Panel focus className="absolute top-0 inset-x-0 transition transform origin-top-right md:hidden">
+                        <div className="space-y-1 bg-white shadow-lg divide-y-2 divide-gray-50">
+                            <div className="py-4 px-4">
                                 <div className="flex items-center justify-between">
                                     <div>
                                         <img
-                                            className="h-8 w-auto"
+                                            className="h-8 w-auto sm:h-10"
                                             src="https://www.click2houston.com/resizer/3v3i6TY06rcxVuEOiQZbJjApyeA=/640x360/smart/filters:format(jpeg):strip_exif(true):strip_icc(true):no_upscale(true):quality(65)/cloudfront-us-east-1.images.arcpublishing.com/gmg/MISBRBEDPZAR5BN2GDORMZITPI.jpg"
                                             alt="Baylor University logo"
                                         />
@@ -295,32 +295,58 @@ const Navbar = (props) => {
                                         </Popover.Button>
                                     </div>
                                 </div>
-                                <div className="mt-6">
-                                    <nav className="grid gap-6">
-                                        
-                                    </nav>
-                                </div>
                             </div>
-                            <div className="py-6 px-5">
-                                <div className="grid grid-cols-2 gap-4">
+                            <div className="pt-3 pb-6 px-6 space-y-1">
+                                {/* Navbar links */}
+                                <div className="grid grid-cols-1 gap-6">
                                     <a href="/" className="text-base font-medium text-gray-900 hover:text-gray-700">
                                         Home
                                     </a>
                                     <a href="/" className="text-base font-medium text-gray-900 hover:text-gray-700">
-                                        Contact
+                                        About
                                     </a>
                                 </div>
-                                <div className="mt-6">
-                                    <a href="/sign-up" className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-600 hover:bg-emerald-700">
-                                        Sign up
-                                    </a>
-                                    <p className="mt-6 text-center text-base font-medium text-gray-500">
-                                        Existing student or alumini?{" "}
-                                        <a href="/sign-in" className="text-emerald-600 hover:text-emerald-500">
-                                            Sign in
+
+                                {/* Account sign in / up / out */}
+                                {
+                                    !isSignedIn &&
+                                    <div className="pt-6">
+                                        <a href="/sign-up" className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-600 hover:bg-emerald-700">
+                                            Sign up
                                         </a>
-                                    </p>
-                                </div>
+                                        <p className="mt-6 text-center text-base font-medium text-gray-500">
+                                            Existing student or alumini?{" "}
+                                            <a href="/sign-in" className="text-emerald-600 hover:text-emerald-500">
+                                                Sign in
+                                            </a>
+                                        </p>
+                                    </div>
+                                }
+                                {
+                                    isSignedIn &&
+                                    <div className="pt-7 pb-2">
+                                        <div className="flex items-center">
+                                            <div className="flex-shrink-0">
+                                                <img
+                                                    className="h-10 w-10 rounded-full"
+                                                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                                    alt=""
+                                                />
+                                            </div>
+                                            <div className="ml-3">
+                                                <div className="text-base font-medium text-gray-800">Tom Cook</div>
+                                                <div className="text-sm font-medium text-gray-500">tom@example.com</div>
+                                            </div>
+                                            <button
+                                                type="button"
+                                                className="ml-auto flex-shrink-0 bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                                            >
+                                                <span className="sr-only">View notifications</span>
+                                                <BellIcon className="h-6 w-6" aria-hidden="true" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                }
                             </div>
                         </div>
                     </Popover.Panel>
