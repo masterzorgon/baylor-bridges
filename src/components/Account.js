@@ -6,6 +6,7 @@ const AccountContext = createContext();
 
 const Account = (props) => {
 
+    // TODO since authentication is on backend, fix this function
     const getSession = async () => {
         return await new Promise((resolve, reject) => {
             const user = Pool.getCurrentUser();
