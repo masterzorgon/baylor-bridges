@@ -52,7 +52,7 @@ const Navbar = (props) => {
             {/* TODO: Add transition */}
             {
                 isFocus &&
-                <div className="z-40 bg-stone-900 fixed top-0 w-full h-full opacity-60"></div>
+                <div className="z-40 bg-black fixed top-0 w-full h-full opacity-70" onClick={() => setFocus(false)}></div>
             }
             <Popover className="bg-white z-50 sticky top-0">
                 <div className="flex shadow-md justify-between items-center px-4 py-5 sm:px-6 md:justify-start md:space-x-10">
@@ -152,8 +152,8 @@ const Navbar = (props) => {
                                     className="pl-10 shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md bg-gray-200 p-3 border-transparent"
                                     placeholder="Search people"
                                     autoComplete="off"
+                                    value={searchText}
                                     onFocus={() => setFocus(true)}
-                                    onBlur={() => searchText !== "" ? setFocus(true) : setFocus(false)}
                                     onChange={(event) => {
                                         setSearchText(event.target.value);
                                     }}
