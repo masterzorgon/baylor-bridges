@@ -1,6 +1,7 @@
-import React, { useState, useContext } from "react";
-import { AccountContext } from "../components/Account";
-import { XCircleIcon } from "@heroicons/react/solid";
+import React, {useState} from "react";
+// import {AccountContext} from "../components/Account";
+import {XCircleIcon} from "@heroicons/react/solid";
+import axios from "axios";
 
 const SignIn = () => {
 
@@ -8,20 +9,43 @@ const SignIn = () => {
     const [password, setPassword] = useState("");
     const [error_message, setErrorMessage] = useState(null);
 
-    const { authenticate } = useContext(AccountContext);
+    // const {authenticate} = useContext(AccountContext);
 
     const onSubmit = (event) => {
-        authenticate(email, password)
-            .then(data => {
-                console.log("Logged In!", data);
+        console.log("get submit function!");
+        event.preventDefault();
+        axios({
+            method: "POST",
+            url: "/signIn",
+            params: {email: email, password: password}
+        }).then((response) => {
+            const res = response.data;
+            console.log(res);
+            if (res.status === "success") {
                 window.location.href = "/";
-                setErrorMessage(null);
-            })
-            .catch(err => {
-                console.error("Failed To Log In", err);
-                setErrorMessage(err.message);
-            });
+            } else {
+                console.log("it failed: ");
+                setErrorMessage(res.message);
+            }
+        }).catch(err =>{
+            console.error("catch error: ",err);
+        });
     };
+
+
+    // const onSubmit = (event) =>
+    //
+    //     authenticate(email, password)
+    //         .then(data => {
+    //             console.log("Logged In!", data);
+    //             window.location.href = "/";
+    //             setErrorMessage(null);
+    //         })
+    //         .catch(err => {
+    //             console.error("Failed To Log In", err);
+    //             setErrorMessage(err.message);
+    //         });
+    // };
 
     return (
         <>
@@ -44,7 +68,7 @@ const SignIn = () => {
                                 <div className="bg-red-50 rounded-md p-4 mt-3">
                                     <div className="flex">
                                         <div className="flex-shrink-0">
-                                            <XCircleIcon className="h-5 w-5 text-red-400" aria-hidden="true" />
+                                            <XCircleIcon className="h-5 w-5 text-red-400" aria-hidden="true"/>
                                         </div>
                                         <div className="ml-2">
                                             <div className="text-red-700 text-sm">
