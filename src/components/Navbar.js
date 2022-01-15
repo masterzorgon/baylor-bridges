@@ -184,9 +184,9 @@ const Navbar = (props) => {
                                 show={isFocus}
                             >
                                 <div className="z-50 absolute bg-white shadow-md py-2 rounded-md w-full max-w-md mt-4 top-16">
-                                    <ul className="divide-y divide-gray-200">
+                                    <ul className="">
                                         {people.map((person) => (
-                                            <li key={person.email} className="py-4 px-5 flex hover:bg-gray-100">
+                                            <li key={person.email} className="py-4 px-5 flex hover:bg-gray-50">
                                                 <img className="h-10 w-10 rounded-full" src={person.image} alt="" />
                                                 <div className="ml-3">
                                                     <p className="text-sm font-medium text-gray-900">{person.name}</p>
@@ -194,10 +194,10 @@ const Navbar = (props) => {
                                                 </div>
                                             </li>
                                         ))}
-                                        <a key="more" className="py-3 px-5 pb-2 flex text-sm text-emerald-800 font-medium" href="/search">
-                                            More results
-                                        </a>
                                     </ul>
+                                    <a key="more" className="py-3 px-5 pb-2 flex text-sm text-emerald-800 font-medium" href="/search">
+                                        More results
+                                    </a>
                                 </div>
                             </Transition>
                         </div>
