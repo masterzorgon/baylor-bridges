@@ -53,7 +53,7 @@ class Home extends React.Component {
                 <div>
                     {/* Hero card */}
                     {/* FIXME: Hero card seems not fitting */}
-                    <div className="relative my-6">
+                    <div className="relative sm:my-6">
                         <div className="max-w-7xl mx-auto sm:px-6 lg:px-6">
                             <div className="relative shadow-xl sm:rounded-2xl sm:overflow-hidden">
                                 <div className="absolute inset-0">
