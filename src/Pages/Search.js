@@ -280,24 +280,45 @@ const applications = [
 ];
 
 const sortOptions = [
-    { name: "Most Popular", href: "#" },
-    { name: "Best Rating", href: "#" },
-    { name: "Newest", href: "#" },
+    { name: "Name", href: "#name" },
+    { name: "Class", href: "#class" },
+    { name: "Research", href: "#research" },
+    { name: "Occupation", href: "#occupation" },
 ];
 
 const filters = [
     {
-        id: "category",
-        name: "Category",
+        id: "class",
+        name: "Class",
         options: [
-            { value: "tees", label: "Tees" },
-            { value: "crewnecks", label: "Crewnecks" },
-            { value: "hats", label: "Hats" },
+            { value: "2022", label: "2022" },
+            { value: "2021", label: "2021" },
+            { value: "2020", label: "2020" },
+            { value: "2019", label: "2019" },
+            { value: "2018", label: "2018" },
+            { value: "2017", label: "2017" },
+            { value: "2016", label: "2016" },
+            { value: "2015", label: "2015" },
+            { value: "2014", label: "2014" },
+            { value: "2013", label: "2013" },
+            { value: "2012", label: "2012" },
+            { value: "2011", label: "2011" },
+            { value: "2010", label: "2010" },
+            { value: "2009", label: "2009" },
+            { value: "2008", label: "2008" },
+            { value: "2007", label: "2007" },
+            { value: "2006", label: "2006" },
+            { value: "2005", label: "2005" },
+            { value: "2004", label: "2004" },
+            { value: "2003", label: "2003" },
+            { value: "2002", label: "2002" },
+            { value: "2001", label: "2001" },
+            { value: "2000", label: "2000" },
         ],
     },
     {
-        id: "brand",
-        name: "Brand",
+        id: "research",
+        name: "Research",
         options: [
             { value: "clothing-company", label: "Clothing Company" },
             { value: "fashion-inc", label: "Fashion Inc." },
@@ -305,21 +326,12 @@ const filters = [
         ],
     },
     {
-        id: "color",
-        name: "Color",
+        id: "occupation",
+        name: "Occupation",
         options: [
             { value: "white", label: "White" },
             { value: "black", label: "Black" },
             { value: "grey", label: "Grey" },
-        ],
-    },
-    {
-        id: "sizes",
-        name: "Sizes",
-        options: [
-            { value: "s", label: "S" },
-            { value: "m", label: "M" },
-            { value: "l", label: "L" },
         ],
     },
 ];
@@ -332,15 +344,15 @@ const Search = (props) => {
         <>
             <div className="grid grid-cols-2">
                 <div className="col-span-1">
-                    <div className="bg-gray-100 sticky p-2 h-screen" style={{ "top": "5.4rem" }}>
+                    <div className="bg-gray-100 sticky p-2 h-screen" style={{ "top": "5.34rem" }}>
                         <div className="align-middle relative flex">
                             <USAMap onClick={mapHandler} />
                         </div>
                     </div>
                 </div>
-                <div className="col-span-1 p-4">
+                <div className="col-span-1 px-4">
                     {/* Filters */}
-                    <div className="sticky flex items-center justify-between px-6 pt-2 pb-4">
+                    <div className="bg-white sticky flex items-center justify-between px-6 py-4" style={{ "top": "5.34rem" }}>
                         <Menu as="div" className="relative z-10 inline-block text-left">
                             <div>
                                 <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
