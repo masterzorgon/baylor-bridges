@@ -1,6 +1,7 @@
 import React, {createContext} from "react";
 import {CognitoUser, AuthenticationDetails} from "amazon-cognito-identity-js";
 import Pool from "../UserPool";
+import axios from "axios";
 
 const AccountContext = createContext();
 
@@ -50,11 +51,22 @@ const Account = (props) => {
     };
 
     const logout = () => {
-        const user = Pool.getCurrentUser();
-        if (user) {
-            user.signOut();
-            window.location.href="/";
-        }
+        // const user = Pool.getCurrentUser();
+        // if (user) {
+        //     user.signOut();
+        //     window.location.href="/";
+        // }
+        axios.post("/logOut").then(response=>{
+            const res=response.data;
+            console.log(res);
+            if(res.status==="success"){
+                window.location.href="/";
+            }else{
+                console.error("error message",res.message);
+            }
+        }).catch(err=>{
+            console.error("catch error: ",err);
+        });
     };
 
     return(

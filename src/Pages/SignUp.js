@@ -2,7 +2,8 @@ import React, { Fragment } from "react";
 import { Switch, Listbox, Transition } from "@headlessui/react";
 import { MailIcon, ExclamationCircleIcon, CheckIcon, SelectorIcon, XCircleIcon, CheckCircleIcon } from "@heroicons/react/solid";
 
-import UserPool from "../UserPool";
+// import UserPool from "../UserPool";
+import axios from "axios";
 
 
 function classNames(...classes) {
@@ -146,16 +147,22 @@ class SignUp extends React.Component {
     }
 
     handleSubmit(event) {
-        UserPool.signUp(this.state.email, this.state.password, [], null, (err, data) => {
-            if (err) {
-                var error_arr = String(err).split(":");
-                this.setState({ is_succeed: false });
-
-                if (error_arr[0] === "UsernameExistsException") {
-                    this.setState({ is_email_registered: true });
-                }
+        console.log("handle submit sign up");
+        axios.post("/signUp", {
+            first_name: this.state.first_name,
+            last_name: this.state.last_name,
+            email: this.state.email,
+            role: this.state.role,
+            password: this.state.password
+        }).then((response) => {
+            const res = response.data;
+            console.log(res);
+            if (res.status === "success") {
+                // TODO redirect after success
+                window.location.href = "/";
             } else {
-                this.setState({ is_succeed: true });
+                console.error("error message: ",res);
+                //    TODO dealing with sign up error
             }
         });
     }
