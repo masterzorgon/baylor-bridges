@@ -50,10 +50,21 @@ const Navbar = (props) => {
         <>
             {/* Semi transparent cover */}
             {/* TODO: Add transition */}
-            {
-                isFocus &&
-                <div className="z-40 bg-black fixed top-0 w-full h-full opacity-60" onClick={() => setFocus(false)}></div>
-            }
+            <Transition
+                as={Fragment}
+                enter="transition ease-out duration-400"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
+                leave="transition ease-in duration-75"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+                show={isFocus}
+            >
+                <div className="fixed z-40">
+                    <div className="fixed bg-black top-0 w-full h-full opacity-60" onClick={() => setFocus(false)}></div>
+                </div>
+            </Transition>
+
             <Popover className="bg-white z-50 sticky top-0">
                 <div className="flex shadow-md justify-between items-center px-4 py-5 sm:px-6 md:justify-start md:space-x-10">
                     {/* Baylor University logo */}
@@ -162,8 +173,16 @@ const Navbar = (props) => {
 
                             {/* Search results */}
                             {/* TODO: Add transition */}
-                            {
-                                isFocus &&
+                            <Transition
+                                as={Fragment}
+                                enter="transition ease-out duration-200"
+                                enterFrom="transform opacity-0 scale-95"
+                                enterTo="transform opacity-100 scale-100"
+                                leave="transition ease-in duration-75"
+                                leaveFrom="transform opacity-100 scale-100"
+                                leaveTo="transform opacity-0 scale-95"
+                                show={isFocus}
+                            >
                                 <div className="z-50 absolute bg-white shadow-md py-2 rounded-md w-full max-w-md mt-4 top-16">
                                     <ul className="divide-y divide-gray-200">
                                         {people.map((person) => (
@@ -180,7 +199,7 @@ const Navbar = (props) => {
                                         </a>
                                     </ul>
                                 </div>
-                            }
+                            </Transition>
                         </div>
                         
                         {/* Account sign in / up / out */}
