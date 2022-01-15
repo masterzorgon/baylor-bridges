@@ -52,7 +52,7 @@ const Navbar = (props) => {
             {/* TODO: Add transition */}
             {
                 isFocus &&
-                <div className="z-40 bg-black fixed top-0 w-full h-full opacity-70" onClick={() => setFocus(false)}></div>
+                <div className="z-40 bg-black fixed top-0 w-full h-full opacity-60" onClick={() => setFocus(false)}></div>
             }
             <Popover className="bg-white z-50 sticky top-0">
                 <div className="flex shadow-md justify-between items-center px-4 py-5 sm:px-6 md:justify-start md:space-x-10">
@@ -164,10 +164,10 @@ const Navbar = (props) => {
                             {/* TODO: Add transition */}
                             {
                                 isFocus &&
-                                <div className="z-50 absolute bg-white shadow-md px-5 py-2 rounded-md w-full max-w-md mt-4 top-16">
+                                <div className="z-50 absolute bg-white shadow-md py-2 rounded-md w-full max-w-md mt-4 top-16">
                                     <ul className="divide-y divide-gray-200">
                                         {people.map((person) => (
-                                            <li key={person.email} className="py-4 flex">
+                                            <li key={person.email} className="py-4 px-5 flex hover:bg-gray-100">
                                                 <img className="h-10 w-10 rounded-full" src={person.image} alt="" />
                                                 <div className="ml-3">
                                                     <p className="text-sm font-medium text-gray-900">{person.name}</p>
@@ -175,7 +175,7 @@ const Navbar = (props) => {
                                                 </div>
                                             </li>
                                         ))}
-                                        <a key="more" className="py-3 pb-2 flex text-sm text-emerald-800 font-medium" href="/search">
+                                        <a key="more" className="py-3 px-5 pb-2 flex text-sm text-emerald-800 font-medium" href="/search">
                                             More results
                                         </a>
                                     </ul>
@@ -227,7 +227,7 @@ const Navbar = (props) => {
                                         leaveFrom="transform opacity-100 scale-100"
                                         leaveTo="transform opacity-0 scale-95"
                                     >
-                                        <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-2xl py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                        <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-2xl py-2 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                                             <Menu.Item>
                                                 {({ active }) => (
                                                     <a
