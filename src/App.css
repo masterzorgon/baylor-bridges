@@ -1,3 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+html{
+  font-family: 'Inter', sans-serif !important;
+}
+
 .App {
   text-align: center;
 }
@@ -43,12 +53,4 @@ path {
 path:hover {
   opacity: 0.50;
   cursor: pointer;
-}
-
-.home .tile .card {
-  margin-bottom: 1rem;
-}
-
-.navbar .search-bar{
-  width: 24em;
 }
