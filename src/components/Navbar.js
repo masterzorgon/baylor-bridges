@@ -38,6 +38,8 @@ const Navbar = (props) => {
 
     return (
         <>
+            {/* Semi transparent cover */}
+            {/* TODO: Add transition */}
             {
                 isFocus &&
                 <div className="z-40 bg-stone-900 fixed top-0 w-full h-full opacity-60"></div>
@@ -139,6 +141,7 @@ const Navbar = (props) => {
                                     id="search"
                                     className="pl-10 shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md bg-gray-200 p-3 border-transparent"
                                     placeholder="Search people"
+                                    autoComplete="off"
                                     onFocus={() => setFocus(true)}
                                     onBlur={() => searchText !== "" ? setFocus(true) : setFocus(false)}
                                     onChange={(event) => {
@@ -147,6 +150,8 @@ const Navbar = (props) => {
                                 />
                             </div>
 
+                            {/* Search results */}
+                            {/* TODO: Add transition */}
                             {
                                 isFocus &&
                                 <div className="z-50 absolute bg-white shadow-md px-5 py-2 rounded-md w-full max-w-md mt-4 top-16">
