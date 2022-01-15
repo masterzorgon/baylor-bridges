@@ -5,7 +5,7 @@ import { MenuIcon, XIcon, SearchIcon, BellIcon } from "@heroicons/react/outline"
 import { ChevronDownIcon } from "@heroicons/react/solid";
 
 import { AccountContext } from "./Account";
-
+import axios from "axios";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -37,12 +37,26 @@ const Navbar = (props) => {
     const [searchText, setSearchText] = useState("");
 
     // For current signed in account display
-    const [isSignedIn, setSignedIn] = useState(false);
-    const { getSession, logout } = useContext(AccountContext);
+    const [isSignedIn,setSignedIn] = useState(false);
+    const { logout } = useContext(AccountContext);
 
     useEffect(() => {
-        getSession().then(session => {
-            setSignedIn(true);
+        // getSession().then(session => {
+        //     setSignedIn(true);
+        // });
+
+        axios.get("/isAuthenticated").then(res=>{
+            const result=res.data;
+            console.log("navBar: ",result);
+
+            if(result.is_auth){
+                console.log("is auth!");
+                setSignedIn(true);
+            }else{
+                console.log("not auth!");
+            }
+        }).catch(err=>{
+            console.error("navbar Auth error: ",err);
         });
     });
 

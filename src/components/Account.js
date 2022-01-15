@@ -60,7 +60,8 @@ const Account = (props) => {
             const res=response.data;
             console.log(res);
             if(res.status==="success"){
-                window.location.href="/";
+                // window.location.href="/";
+                console.log("success");
             }else{
                 console.error("error message",res.message);
             }
