@@ -175,7 +175,7 @@ const Navbar = (props) => {
                                                 </div>
                                             </li>
                                         ))}
-                                        <a key="more" className="py-3 pb-2 flex text-sm text-emerald-800" href="/search">
+                                        <a key="more" className="py-3 pb-2 flex text-sm text-emerald-800 font-medium" href="/search">
                                             More results
                                         </a>
                                     </ul>
