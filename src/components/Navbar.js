@@ -41,23 +41,17 @@ const Navbar = (props) => {
     const { logout } = useContext(AccountContext);
 
     useEffect(() => {
-        // getSession().then(session => {
-        //     setSignedIn(true);
-        // });
-
-        axios.get("/isAuthenticated").then(res=>{
-            const result=res.data;
-            console.log("navBar: ",result);
-
-            if(result.is_auth){
-                console.log("is auth!");
-                setSignedIn(true);
-            }else{
-                console.log("not auth!");
-            }
-        }).catch(err=>{
-            console.error("navbar Auth error: ",err);
-        });
+        axios.get("/account")
+            .then(response => {
+                if(response.status === 200){
+                    setSignedIn(true);
+                }else{
+                    console.log("not auth!");
+                    setSignedIn(false);
+                }
+            }).catch(err=>{
+                console.error("navbar Auth error: ",err);
+            });
     });
 
     return (
