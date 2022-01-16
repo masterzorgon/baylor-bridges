@@ -9,43 +9,21 @@ const SignIn = () => {
     const [password, setPassword] = useState("");
     const [error_message, setErrorMessage] = useState(null);
 
-    // const {authenticate} = useContext(AccountContext);
-
     const onSubmit = (event) => {
-        console.log("get submit function!");
-        event.preventDefault();
-        axios({
-            method: "POST",
-            url: "/signIn",
-            params: {email: email, password: password}
-        }).then((response) => {
-            const res = response.data;
-            console.log(res);
-            if (res.status === "success") {
+        axios.post("/signIn", {
+            email: email,
+            password: password
+        }).then(response => {
+            console.log(response);
+            if (response.status === 200) {
                 window.location.href = "/";
             } else {
-                console.log("it failed: ");
-                setErrorMessage(res.message);
+                setErrorMessage(response.data.message);
             }
-        }).catch(err =>{
-            console.error("catch error: ",err);
+        }).catch(error => {
+            console.log(error);
         });
     };
-
-
-    // const onSubmit = (event) =>
-    //
-    //     authenticate(email, password)
-    //         .then(data => {
-    //             console.log("Logged In!", data);
-    //             window.location.href = "/";
-    //             setErrorMessage(null);
-    //         })
-    //         .catch(err => {
-    //             console.error("Failed To Log In", err);
-    //             setErrorMessage(err.message);
-    //         });
-    // };
 
     return (
         <>
