@@ -1,27 +1,21 @@
-import React, {useState} from "react";
-// import {AccountContext} from "../components/Account";
+import React, { useState, useContext} from "react";
 import {XCircleIcon} from "@heroicons/react/solid";
-import axios from "axios";
+
+import {AccountContext} from "../components/Account";
 
 const SignIn = () => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error_message, setErrorMessage] = useState(null);
+    const { signIn } = useContext(AccountContext);
 
     const onSubmit = (event) => {
-        axios.post("/signIn", {
-            email: email,
-            password: password
-        }).then(response => {
+        signIn(email, password).then(response => {
             console.log(response);
-            if (response.status === 200) {
-                window.location.href = "/";
-            } else {
-                setErrorMessage(response.data.message);
-            }
+            window.location.href = "/";
         }).catch(error => {
-            console.log(error);
+            setErrorMessage(error.message);
         });
     };
 
