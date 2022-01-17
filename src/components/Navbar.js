@@ -1,11 +1,10 @@
 /* This example requires Tailwind CSS v2.0+ */
-import React, { Fragment, useState, useEffect, useContext } from "react";
+import React, { Fragment, useState, useContext } from "react";
 import { Popover, Transition, Menu } from "@headlessui/react";
 import { MenuIcon, XIcon, SearchIcon, BellIcon } from "@heroicons/react/outline";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 
 import { AccountContext } from "./Account";
-import axios from "axios";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -37,22 +36,7 @@ const Navbar = (props) => {
     const [searchText, setSearchText] = useState("");
 
     // For current signed in account display
-    const [isSignedIn,setSignedIn] = useState(false);
-    const { logout } = useContext(AccountContext);
-
-    useEffect(() => {
-        axios.get("/account")
-            .then(response => {
-                if(response.status === 200){
-                    setSignedIn(true);
-                }else{
-                    console.log("not auth!");
-                    setSignedIn(false);
-                }
-            }).catch(err=>{
-                console.error("navbar Auth error: ",err);
-            });
-    });
+    const { account, signOut } = useContext(AccountContext);
 
     return (
         <>
@@ -212,7 +196,7 @@ const Navbar = (props) => {
                         
                         {/* Account sign in / up / out */}
                         {
-                            !isSignedIn &&
+                            account === null &&
                             <div className="flex items-center md:ml-12">
                                 <a href="/sign-in" className="text-base font-medium text-gray-500 hover:text-gray-900">
                                     Sign in
@@ -223,7 +207,7 @@ const Navbar = (props) => {
                             </div>
                         }
                         {
-                            isSignedIn &&
+                            account !== null &&
                             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 mr-4 gap-3">
                                 <button
                                     type="button"
@@ -280,7 +264,7 @@ const Navbar = (props) => {
                                                     <a
                                                         href="/"
                                                         className={classNames(active ? "bg-gray-100" : "", "block px-6 py-3 text-sm text-gray-700")}
-                                                        onClick={logout}
+                                                        onClick={signOut}
                                                     >
                                                         Sign out
                                                     </a>
@@ -336,7 +320,7 @@ const Navbar = (props) => {
 
                                 {/* Account sign in / up / out */}
                                 {
-                                    !isSignedIn &&
+                                    account === null &&
                                     <div className="pt-6">
                                         <a href="/sign-up" className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-600 hover:bg-emerald-700">
                                             Sign up
@@ -350,7 +334,7 @@ const Navbar = (props) => {
                                     </div>
                                 }
                                 {
-                                    isSignedIn &&
+                                    account !== null &&
                                     <div className="pt-7 pb-2">
                                         <div className="flex items-center">
                                             <div className="flex-shrink-0">
