@@ -28,6 +28,8 @@ axios.defaults.headers = {
     "Expires": "0",
 };
 
+axios.defaults.baseURL = "http://localhost:5000";
+
 function App() {
     return (
         <Account>

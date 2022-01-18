@@ -43,7 +43,7 @@ const Account = (props) => {
                 } else {
                     reject(false);
                 }
-            }).catch(err => {
+            }).catch(error => {
                 reject(false);
             });
         });
