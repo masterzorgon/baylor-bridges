@@ -1,5 +1,5 @@
 /* This example requires Tailwind CSS v2.0+ */
-import React, { Fragment, useState, useContext } from "react";
+import React, { Fragment, useState, useContext, useEffect } from "react";
 import { Popover, Transition, Menu } from "@headlessui/react";
 import { MenuIcon, XIcon, SearchIcon, BellIcon } from "@heroicons/react/outline";
 import { ChevronDownIcon } from "@heroicons/react/solid";
@@ -36,7 +36,17 @@ const Navbar = (props) => {
     const [searchText, setSearchText] = useState("");
 
     // For current signed in account display
-    const { account, signOut } = useContext(AccountContext);
+    const { signOut, getAccount } = useContext(AccountContext);
+    const [account, setAccount] = useState(null);
+
+    useEffect(() => {
+        getAccount()
+            .then(account => {
+                setAccount(account);
+            });
+    }, [getAccount]);
+
+    console.log(account);
 
     return (
         <>
