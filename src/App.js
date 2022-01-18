@@ -26,9 +26,11 @@ axios.defaults.headers = {
     "Cache-Control": "no-cache",
     "Pragma": "no-cache",
     "Expires": "0",
+    "Access-Control-Allow-Origin": "*",
 };
 
 axios.defaults.baseURL = "http://localhost:5000";
+axios.defaults.withCredentials = true;
 
 function App() {
     return (
