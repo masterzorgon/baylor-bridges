@@ -43,10 +43,17 @@ const Navbar = (props) => {
         getAccount()
             .then(account => {
                 setAccount(account);
+                console.log("current account", account);
             });
     }, [getAccount]);
 
-    console.log(account);
+    const handleSignOut = () => {
+        signOut()
+            .then(() => {
+                setAccount(null);
+                window.location.href = "/";
+            });
+    };
 
     return (
         <>
@@ -271,13 +278,12 @@ const Navbar = (props) => {
                                             </Menu.Item>
                                             <Menu.Item>
                                                 {({ active }) => (
-                                                    <a
-                                                        href="/"
-                                                        className={classNames(active ? "bg-gray-100" : "", "block px-6 py-3 text-sm text-gray-700")}
-                                                        onClick={signOut}
+                                                    <button
+                                                        className={classNames(active ? "bg-gray-100" : "", "block px-6 py-3 text-sm text-gray-700 w-full text-left")}
+                                                        onClick={handleSignOut}
                                                     >
                                                         Sign out
-                                                    </a>
+                                                    </button>
                                                 )}
                                             </Menu.Item>
                                         </Menu.Items>

@@ -39,12 +39,12 @@ const Account = (props) => {
         return await new Promise((resolve, reject) => {
             axios.post("/signOut").then(response => {
                 if (response.status === 200) {
-                    resolve(true);
+                    resolve(response.data);
                 } else {
-                    reject(false);
+                    reject(response.data);
                 }
             }).catch(error => {
-                reject(false);
+                reject(error);
             });
         });
     };
