@@ -12,11 +12,6 @@ const features = [
     { name: "Coming Soon - Manage Workload", description: "Manage friend request you would like to recieve every week" },
 ];
 
-const openInNewTab = (url) => {
-    const newWindow = window.open(url, "_blank", "noopener,noreferrer");
-    if (newWindow) newWindow.opener = null;
-};
-
 const Home = () => {
     // const getAllStates = () => {
     //     return [
@@ -190,7 +185,9 @@ const Home = () => {
                         </div>
                         <div className="ml-3 inline-flex">
                             <a
-                                onClick={() => openInNewTab("https://www.baylor.edu/prehealth/index.php?id=981654")}href="#"
+                                href="https://www.baylor.edu/prehealth/index.php?id=981654"
+                                target="_blank"
+                                rel="noreferrer"
                                 className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-emerald-700 bg-emerald-100 hover:bg-emerald-200"
                             >
                                     Learn more
