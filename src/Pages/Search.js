@@ -310,8 +310,8 @@ const filters = [
 const Search = (props) => {
     return (
         <>
-            <div className="grid grid-cols-2">
-                <div className="col-span-1">
+            <div className="grid grid-cols-1 lg:grid-cols-2">
+                <div className="hidden lg:block col-span-1">
                     <div className="bg-gray-100 sticky p-2 h-screen" style={{ "top": "5.4rem" }}>
                         <div className="align-middle relative flex">
                             <USAMap onClick={mapHandler} />
@@ -320,7 +320,7 @@ const Search = (props) => {
                 </div>
                 <div className="col-span-1 px-4">
                     {/* Filters */}
-                    <div className="bg-white sticky flex items-center justify-between px-6 py-5 pt-6 z-30" style={{ "top": "5.4rem" }}>
+                    <div className="bg-white sticky flex items-center justify-between px-6 py-5 sm:pt-6 md:pt-6 lg:pt-6 pt-2 z-30" style={{ "top": "5.4rem" }}>
                         {/* White cover for sticky filter div, for visuals only */}
                         <div className="absolute bg-inherit w-full" style={{ "top": "-2rem", "height": "4rem", "left": "0rem" }}></div>
                         
