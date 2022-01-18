@@ -36,16 +36,20 @@ const Navbar = (props) => {
     const [searchText, setSearchText] = useState("");
 
     // For current signed in account display
-    const { signOut, getAccount } = useContext(AccountContext);
+    const { signOut, getAccount, getAccountLocal } = useContext(AccountContext);
     const [account, setAccount] = useState(null);
 
     useEffect(() => {
+        setAccount(getAccountLocal());
         getAccount()
             .then(account => {
                 setAccount(account);
                 console.log("current account", account);
+            })
+            .catch(error => {
+                setAccount(null);
             });
-    }, [getAccount]);
+    }, [getAccount, getAccountLocal]);
 
     const handleSignOut = () => {
         signOut()
