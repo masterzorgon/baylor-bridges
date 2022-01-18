@@ -15,6 +15,7 @@ const Account = (props) => {
                     window.localStorage.setItem("account", JSON.stringify(response.data));
                     resolve(response.data);
                 } else {
+                    window.localStorage.removeItem("account");
                     reject(response.data);
                 }
             }).catch(error => {
@@ -31,6 +32,7 @@ const Account = (props) => {
                     window.localStorage.setItem("account", JSON.stringify(response.data));
                     resolve(response.data);
                 } else {
+                    window.localStorage.removeItem("account");
                     reject(response.data);
                 }
             }).catch(error => {
