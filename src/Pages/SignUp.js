@@ -192,8 +192,8 @@ class SignUp extends React.Component {
                         {/* Title and subtitle */}
                         <a className="text-center" href="/">
                             <img
-                                className="mx-auto h-12 w-auto"
-                                src="https://www.click2houston.com/resizer/3v3i6TY06rcxVuEOiQZbJjApyeA=/640x360/smart/filters:format(jpeg):strip_exif(true):strip_icc(true):no_upscale(true):quality(65)/cloudfront-us-east-1.images.arcpublishing.com/gmg/MISBRBEDPZAR5BN2GDORMZITPI.jpg"
+                                className="mx-auto h-20 w-auto"
+                                src="Baylor-University-Athletics-01.svg"
                                 alt="Workflow"
                             />
                             <h2 className="mt-6 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Sign up</h2>
