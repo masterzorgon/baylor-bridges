@@ -27,6 +27,8 @@ const Account = (props) => {
         return await new Promise((resolve, reject) => {
             axios.get("/account").then(response => {
                 if (response.status === 200) {
+                    // Store to local storage and resolve
+                    window.localStorage.setItem("account", JSON.stringify(response.data));
                     resolve(response.data);
                 } else {
                     reject(response.data);
