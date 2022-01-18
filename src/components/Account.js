@@ -4,8 +4,6 @@ import axios from "axios";
 const AccountContext = createContext();
 
 const Account = (props) => {
-    const [account, setAccount] = React.useState(null);
-
     const signIn = async (email, password) => {
         return await new Promise((resolve, reject) => {
             axios.post("/signIn", {
@@ -13,8 +11,21 @@ const Account = (props) => {
                 password: password
             }).then(response => {
                 if (response.status === 200) {
-                    setAccount(response.data);
-                    resolve(account);
+                    resolve(response.data);
+                } else {
+                    reject(response.data);
+                }
+            }).catch(error => {
+                reject(error);
+            });
+        });
+    };
+
+    const getAccount = async () => {
+        return await new Promise((resolve, reject) => {
+            axios.get("/account").then(response => {
+                if (response.status === 200) {
+                    resolve(response.data);
                 } else {
                     reject(response.data);
                 }
@@ -28,19 +39,18 @@ const Account = (props) => {
         return await new Promise((resolve, reject) => {
             axios.post("/signOut").then(response => {
                 if (response.status === 200) {
-                    setAccount(null);
-                    resolve(response.data);
+                    resolve(true);
                 } else {
-                    reject(response.data);
+                    reject(false);
                 }
             }).catch(err => {
-                reject(err);
+                reject(false);
             });
         });
     };
 
     return (
-        <AccountContext.Provider value={{ signIn, account, logout: signOut }}>
+        <AccountContext.Provider value={{ signIn, getAccount, signOut }}>
             {props.children}
         </AccountContext.Provider>
     );
