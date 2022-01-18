@@ -98,12 +98,13 @@ const Home = () => {
                             </div>
                         </div>
                     </div>
+                    <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gray-100 -z-10 lg:hidden"></div>
                 </div>
 
 
                 {/* USA population map */}
                 {/* TODO: Center map and show population, and text below */}
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-6 my-6 grid grid-cols-3 gap-4">
+                <div className="max-w-7xl mx-auto sm:px-6 lg:px-6 my-6 grid grid-cols-3 gap-2 hidden lg:grid">
                     <div className="relative flex col-span-2">
                         <USAMap customize={statesCustomConfig} />
                     </div>
@@ -121,7 +122,7 @@ const Home = () => {
 
                 {/* Logo cloud */}
                 {/* TODO: Add logos for baylor prehealth student orginization, ABB, and baylor prehealth office */}
-                <div className="bg-gray-100">
+                <div className="bg-gray-100 -mt-6 lg:mt-0">
                     <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-6">
                         <p className="text-center text-sm font-semibold uppercase text-gray-500 tracking-wide">
                                 Project Collaborators
