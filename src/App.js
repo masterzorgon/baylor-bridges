@@ -1,6 +1,7 @@
 
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import axios from "axios";
 
 import Navbar from "./components/Navbar";
 import Home from "./Pages/Home";
@@ -20,6 +21,12 @@ function components(...components) {
         </>
     );
 }
+
+axios.defaults.headers = {
+    "Cache-Control": "no-cache",
+    "Pragma": "no-cache",
+    "Expires": "0",
+};
 
 function App() {
     return (
