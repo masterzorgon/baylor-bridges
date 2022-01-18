@@ -315,7 +315,7 @@ const Navbar = (props) => {
                                     <div>
                                         <img
                                             className="h-8 w-auto sm:h-10"
-                                            src="https://www.click2houston.com/resizer/3v3i6TY06rcxVuEOiQZbJjApyeA=/640x360/smart/filters:format(jpeg):strip_exif(true):strip_icc(true):no_upscale(true):quality(65)/cloudfront-us-east-1.images.arcpublishing.com/gmg/MISBRBEDPZAR5BN2GDORMZITPI.jpg"
+                                            src="Baylor-University-Athletics-01.svg"
                                             alt="Baylor University logo"
                                         />
                                     </div>
