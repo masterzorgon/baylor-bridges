@@ -103,9 +103,18 @@ const Home = () => {
 
                 {/* USA population map */}
                 {/* TODO: Center map and show population, and text below */}
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-6 my-6">
-                    <div className="relative flex">
+                <div className="max-w-7xl mx-auto sm:px-6 lg:px-6 my-6 grid grid-cols-3 gap-4">
+                    <div className="relative flex col-span-2">
                         <USAMap customize={statesCustomConfig} />
+                    </div>
+                    <div className="col-span-1 relative">
+                        <div className="absolute bottom-0 mb-16">
+                            <h2 className="text-base font-semibold text-emerald-600 uppercase tracking-wide">Everything you need</h2>
+                            <p className="mt-2 text-3xl font-extrabold text-gray-900">Alumni Connection Platform</p>
+                            <p className="mt-4 text-lg text-gray-500">
+                                    Providing Environment for Students and Alumni to discover New Connections and foster deeper relationship with one another.
+                            </p>
+                        </div>
                     </div>
                 </div>
 
