@@ -18,7 +18,7 @@ class SignUp extends React.Component {
             last_name: "",
             email: "",
             password: "",
-            role: "Alumni",
+            role: "alumni",
             token: "",
             valid_email: false,
             valid_password: {
@@ -48,8 +48,8 @@ class SignUp extends React.Component {
     }
 
     roles = [
-        { value: "Alumni", title: "Alumini" },
-        { value: "Student", title: "Current student" },
+        { value: "alumni", title: "Alumni" },
+        { value: "student", title: "Current student" },
     ];
 
     roleValueToTitle(value) {
@@ -129,7 +129,7 @@ class SignUp extends React.Component {
             error_message.push("Password must meet requirements.");
         }
 
-        if (state.role !== "Alumni") {
+        if (state.role !== "alumni") {
             error_message.push("We're unable to sign you up as a student at the moment.");
         }
 
@@ -446,7 +446,7 @@ class SignUp extends React.Component {
                                 </div>
 
                                 {/* Alumini Token */}
-                                {this.state.role === "Alumni" ? this.renderToken() : ""}
+                                {this.state.role === "alumni" ? this.renderToken() : ""}
 
                                 {/* Term Agreement */}
                                 <div className="sm:col-span-2">
