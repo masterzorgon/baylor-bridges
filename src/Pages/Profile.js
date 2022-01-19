@@ -1,11 +1,14 @@
 
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import {
     CheckIcon,
     ThumbUpIcon,
     UserIcon,
 } from "@heroicons/react/solid";
 import { LinkIcon } from "@heroicons/react/outline";
+
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const eventTypes = {
     applied: { icon: UserIcon, bgColorClass: "bg-gray-400" },
@@ -60,6 +63,27 @@ function classNames(...classes) {
 }
 
 const Profile = () => {
+    const { user_id } = useParams();
+    const [profileAccount, setProfileAccount] = useState({ contactinfo: {}, experiences: []});
+    console.log(user_id);
+
+    useEffect(() => {
+        let url = "";
+
+        if (user_id === undefined) {
+            url = "/account/profile";
+        } else {
+            url = `/account/profile/${user_id}`;
+        }
+
+        axios.get(url)
+            .then(({ data }) => {
+                setProfileAccount(data);
+            });
+    }, [user_id, setProfileAccount]);
+
+    console.log(profileAccount);
+
     return (
         <>
             <div className="min-h-full bg-gray-100">
@@ -78,10 +102,8 @@ const Profile = () => {
                                 </div>
                             </div>
                             <div>
-                                <h1 className="text-3xl font-bold text-gray-900">Ricardo Cooper</h1>
-                                <p className="text-sm font-medium text-gray-500">
-                                    This is the headline of the profile.
-                                </p>
+                                <h1 className="text-3xl font-bold text-gray-900">{profileAccount.prefix} {profileAccount.first_name} {profileAccount.last_name}</h1>
+                                <p className="text-sm font-medium text-gray-500">{profileAccount.headline}</p>
                             </div>
                         </div>
                         <div className="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3">
@@ -103,40 +125,38 @@ const Profile = () => {
                                         <h2 id="applicant-information-title" className="text-lg leading-6 font-medium text-gray-900">
                                             Personal Information
                                         </h2>
-                                        <p className="mt-1 max-w-2xl text-sm text-gray-500">Personal details and application.</p>
+                                        <p className="mt-1 max-w-2xl text-sm text-gray-500">Personal details and contact information.</p>
                                     </div>
                                     <div className="border-t border-gray-200 px-4 py-5 sm:px-6">
                                         <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
                                             <div className="sm:col-span-1">
                                                 <dt className="text-sm font-medium text-gray-500">Occupation</dt>
-                                                <dd className="mt-1 text-sm text-gray-900">Backend Developer</dd>
+                                                <dd className="mt-1 text-sm text-gray-900 capitalize">{profileAccount.occupation}</dd>
                                             </div>
                                             <div className="sm:col-span-1">
                                                 <dt className="text-sm font-medium text-gray-500">Graduated in</dt>
-                                                <dd className="mt-1 text-sm text-gray-900">Fall 2008</dd>
+                                                <dd className="mt-1 text-sm text-gray-900 capitalize">{profileAccount.graduate_semester} {profileAccount.graduate_year}</dd>
                                             </div>
                                             <div className="sm:col-span-1">
                                                 <dt className="text-sm font-medium text-gray-500">City</dt>
-                                                <dd className="mt-1 text-sm text-gray-900">TX</dd>
+                                                <dd className="mt-1 text-sm text-gray-900 capitalize">{profileAccount.city}</dd>
                                             </div>
                                             <div className="sm:col-span-1">
                                                 <dt className="text-sm font-medium text-gray-500">Role</dt>
-                                                <dd className="mt-1 text-sm text-gray-900">Alumni</dd>
+                                                <dd className="mt-1 text-sm text-gray-900 capitalize">{profileAccount.role}</dd>
                                             </div>
                                             <div className="sm:col-span-1">
                                                 <dt className="text-sm font-medium text-gray-500">Email</dt>
-                                                <dd className="mt-1 text-sm text-gray-900">yunfan.yang1@sss.ssss</dd>
+                                                <dd className="mt-1 text-sm text-gray-900 lowercase">{profileAccount.contactinfo.email_address ? profileAccount.contactinfo.email_address : ""}</dd>
                                             </div>
                                             <div className="sm:col-span-1">
                                                 <dt className="text-sm font-medium text-gray-500">Phone</dt>
-                                                <dd className="mt-1 text-sm text-gray-900">+1 403-444-4444</dd>
+                                                <dd className="mt-1 text-sm text-gray-900">{profileAccount.contactinfo.phone_number ? profileAccount.contactinfo.phone_number : ""}</dd>
                                             </div>
                                             <div className="sm:col-span-2">
                                                 <dt className="text-sm font-medium text-gray-500">Biography</dt>
                                                 <dd className="mt-1 text-sm text-gray-900">
-                                                    Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat.
-                                                    Excepteur qui ipsum aliquip consequat sint. Sit id mollit nulla mollit nostrud in ea officia
-                                                    proident. Irure nostrud pariatur mollit ad adipisicing reprehenderit deserunt qui eu.
+                                                    {profileAccount.biography ? profileAccount.biography : ""}
                                                 </dd>
                                             </div>
                                         </dl>
@@ -144,7 +164,7 @@ const Profile = () => {
                                 </div>
                             </section>
 
-                            {/* Comments*/}
+                            {/* Experiences */}
                             <section aria-labelledby="notes-title">
                                 <div className="bg-white shadow sm:rounded-lg sm:overflow-hidden">
                                     <div className="divide-y divide-gray-200">
@@ -155,50 +175,36 @@ const Profile = () => {
                                         </div>
                                         <div className="px-4 py-6 sm:px-6">
                                             <ul className="space-y-8">
-                                                <li className="">
-                                                    <p className="font-medium">Testing 1</p>
-                                                    <p className="font-medium text-sm text-gray-500 mt-0.5"><time dateTime="2020-08-25">August 25, 2020</time> - <time dateTime="2020-08-25">August 25, 2020</time></p>
-                                                    <p className="mt-2 text-sm text-gray-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tincidunt nunc ipsum tempor purus vitae id. Morbi in vestibulum nec varius. Et diam cursus quis sed purus nam.</p>
-                                                    <div className="mt-4">
-                                                        <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
-                                                            <li className="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
-                                                                <div className="w-0 flex-1 flex items-center">
-                                                                    <LinkIcon className="flex-shrink-0 h-5 w-5 text-gray-400" />
-                                                                    <span className="ml-2 flex-1 w-0 truncate text-gray-700">
-                                                                        pub test
-                                                                    </span>
-                                                                </div>
-                                                                <div className="ml-4 flex-shrink-0">
-                                                                    <a href="/ururrlrl" className="font-medium text-emerald-600 hover:text-emerald-500">
-                                                                        Open
-                                                                    </a>
-                                                                </div>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </li>
-                                                <li className="">
-                                                    <p className="font-medium">Testing 1</p>
-                                                    <p className="font-medium text-sm text-gray-500 mt-0.5"><time dateTime="2020-08-25">August 25, 2020</time> - <time dateTime="2020-08-25">August 25, 2020</time></p>
-                                                    <p className="mt-2 text-sm text-gray-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tincidunt nunc ipsum tempor purus vitae id. Morbi in vestibulum nec varius. Et diam cursus quis sed purus nam.</p>
-                                                    <div className="mt-4">
-                                                        <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
-                                                            <li className="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
-                                                                <div className="w-0 flex-1 flex items-center">
-                                                                    <LinkIcon className="flex-shrink-0 h-5 w-5 text-gray-400" />
-                                                                    <span className="ml-2 flex-1 w-0 truncate text-gray-700">
-                                                                        pub test
-                                                                    </span>
-                                                                </div>
-                                                                <div className="ml-4 flex-shrink-0">
-                                                                    <a href="/ururrlrl" className="font-medium text-emerald-600 hover:text-emerald-500">
-                                                                        Open
-                                                                    </a>
-                                                                </div>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </li>
+                                                {
+                                                    profileAccount.experiences.map((experience, index) => (
+                                                        <li className="" key={experience.exper_id}>
+                                                            <p className="font-medium">{experience.title}</p>
+                                                            <p className="font-medium text-sm text-gray-500 mt-0.5"><time dateTime={experience.start_time}>{experience.start_time}</time> - <time dateTime={experience.start_time}>{experience.start_time}</time></p>
+                                                            <p className="mt-2 text-sm text-gray-700">{experience.description}</p>
+                                                            <div className="mt-4">
+                                                                <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
+                                                                    {
+                                                                        experience.publications.map((publication, index) => (
+                                                                            <li className="pl-3 pr-4 py-3 flex items-center justify-between text-sm" key={publication.pub_id}>
+                                                                                <div className="w-0 flex-1 flex items-center">
+                                                                                    <LinkIcon className="flex-shrink-0 h-5 w-5 text-gray-400" />
+                                                                                    <span className="ml-2 flex-1 w-0 truncate text-gray-700">
+                                                                                        pub test
+                                                                                    </span>
+                                                                                </div>
+                                                                                <div className="ml-4 flex-shrink-0">
+                                                                                    <a href={publication.duo_link} className="font-medium text-emerald-600 hover:text-emerald-500">
+                                                                                        Open
+                                                                                    </a>
+                                                                                </div>
+                                                                            </li>
+                                                                        ))
+                                                                    }
+                                                                </ul>
+                                                            </div>
+                                                        </li>
+                                                    ))
+                                                }
                                             </ul>
                                         </div>
                                     </div>

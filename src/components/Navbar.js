@@ -262,7 +262,7 @@ const Navbar = (props) => {
                                             <Menu.Item>
                                                 {({ active }) => (
                                                     <a
-                                                        href="/"
+                                                        href="/profile"
                                                         className={classNames(active ? "bg-gray-100" : "", "block px-6 py-3 text-sm text-gray-700")}
                                                     >
                                                         Your Profile
