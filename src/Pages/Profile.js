@@ -137,38 +137,72 @@ const Profile = () => {
                                         <p className="mt-1 max-w-2xl text-sm text-gray-500">Personal details and contact information.</p>
                                     </div>
                                     <div className="border-t border-gray-200 px-4 py-5 sm:px-6">
-                                        <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
-                                            <div className="sm:col-span-1">
-                                                <dt className="text-sm font-medium text-gray-500">Occupation</dt>
-                                                <dd className="mt-1 text-sm text-gray-900 capitalize">{profileAccount.occupation}</dd>
-                                            </div>
-                                            <div className="sm:col-span-1">
-                                                <dt className="text-sm font-medium text-gray-500">Graduated in</dt>
-                                                <dd className="mt-1 text-sm text-gray-900 capitalize">{profileAccount.graduate_semester} {profileAccount.graduate_year}</dd>
-                                            </div>
-                                            <div className="sm:col-span-1">
-                                                <dt className="text-sm font-medium text-gray-500">City</dt>
-                                                <dd className="mt-1 text-sm text-gray-900 capitalize">{profileAccount.city}</dd>
-                                            </div>
-                                            <div className="sm:col-span-1">
-                                                <dt className="text-sm font-medium text-gray-500">Role</dt>
-                                                <dd className="mt-1 text-sm text-gray-900 capitalize">{profileAccount.role}</dd>
-                                            </div>
-                                            <div className="sm:col-span-1">
-                                                <dt className="text-sm font-medium text-gray-500">Email</dt>
-                                                <dd className="mt-1 text-sm text-gray-900 lowercase">{profileAccount.contactinfo.email_address ? profileAccount.contactinfo.email_address : ""}</dd>
-                                            </div>
-                                            <div className="sm:col-span-1">
-                                                <dt className="text-sm font-medium text-gray-500">Phone</dt>
-                                                <dd className="mt-1 text-sm text-gray-900">{profileAccount.contactinfo.phone_number ? profileAccount.contactinfo.phone_number : ""}</dd>
-                                            </div>
-                                            <div className="sm:col-span-2">
-                                                <dt className="text-sm font-medium text-gray-500">Biography</dt>
-                                                <dd className="mt-1 text-sm text-gray-900">
-                                                    {profileAccount.biography ? profileAccount.biography : ""}
-                                                </dd>
-                                            </div>
-                                        </dl>
+                                        {
+                                            profileAccount.occupation === undefined &&
+                                            <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+                                                <div className="sm:col-span-1">
+                                                    <dt data-placeholder className="w-1/3 bg-gray-200 h-4 rounded-md mb-1 mt-1"></dt>
+                                                    <dd data-placeholder className="w-1/2 bg-gray-200 h-5 rounded-md"></dd>
+                                                </div>
+                                                <div className="sm:col-span-1">
+                                                    <dt data-placeholder className="w-1/3 bg-gray-200 h-4 rounded-md mb-1 mt-1"></dt>
+                                                    <dd data-placeholder className="w-1/2 bg-gray-200 h-5 rounded-md"></dd>
+                                                </div>
+                                                <div className="sm:col-span-1">
+                                                    <dt data-placeholder className="w-1/3 bg-gray-200 h-4 rounded-md mb-1 mt-1"></dt>
+                                                    <dd data-placeholder className="w-1/2 bg-gray-200 h-5 rounded-md"></dd>
+                                                </div><div className="sm:col-span-1">
+                                                    <dt data-placeholder className="w-1/3 bg-gray-200 h-4 rounded-md mb-1 mt-1"></dt>
+                                                    <dd data-placeholder className="w-1/2 bg-gray-200 h-5 rounded-md"></dd>
+                                                </div>
+                                                <div className="sm:col-span-1">
+                                                    <dt data-placeholder className="w-1/3 bg-gray-200 h-4 rounded-md mb-1 mt-1"></dt>
+                                                    <dd data-placeholder className="w-1/2 bg-gray-200 h-5 rounded-md"></dd>
+                                                </div><div className="sm:col-span-1">
+                                                    <dt data-placeholder className="w-1/3 bg-gray-200 h-4 rounded-md mb-1 mt-1"></dt>
+                                                    <dd data-placeholder className="w-1/2 bg-gray-200 h-5 rounded-md"></dd>
+                                                </div>
+                                                <div className="sm:col-span-2">
+                                                    <dt data-placeholder className="w-1/3 bg-gray-200 h-4 rounded-md mb-1 mt-1"></dt>
+                                                    <dd data-placeholder className="w-full bg-gray-200 h-5 rounded-md"></dd>
+                                                </div>
+                                            </dl>
+                                        }
+                                        {
+                                            profileAccount.occupation !== undefined &&
+                                            <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+                                                <div className="sm:col-span-1">
+                                                    <dt className="text-sm font-medium text-gray-500">Occupation</dt>
+                                                    <dd className="mt-1 text-sm text-gray-900 capitalize">{profileAccount.occupation}</dd>
+                                                </div>
+                                                <div className="sm:col-span-1">
+                                                    <dt className="text-sm font-medium text-gray-500">Graduated in</dt>
+                                                    <dd className="mt-1 text-sm text-gray-900 capitalize">{profileAccount.graduate_semester} {profileAccount.graduate_year}</dd>
+                                                </div>
+                                                <div className="sm:col-span-1">
+                                                    <dt className="text-sm font-medium text-gray-500">City</dt>
+                                                    <dd className="mt-1 text-sm text-gray-900 capitalize">{profileAccount.city}</dd>
+                                                </div>
+                                                <div className="sm:col-span-1">
+                                                    <dt className="text-sm font-medium text-gray-500">Role</dt>
+                                                    <dd className="mt-1 text-sm text-gray-900 capitalize">{profileAccount.role}</dd>
+                                                </div>
+                                                <div className="sm:col-span-1">
+                                                    <dt className="text-sm font-medium text-gray-500">Email</dt>
+                                                    <dd className="mt-1 text-sm text-gray-900 lowercase">{profileAccount.contactinfo.email_address ? profileAccount.contactinfo.email_address : "-"}</dd>
+                                                </div>
+                                                <div className="sm:col-span-1">
+                                                    <dt className="text-sm font-medium text-gray-500">Phone</dt>
+                                                    <dd className="mt-1 text-sm text-gray-900">{profileAccount.contactinfo.phone_number ? profileAccount.contactinfo.phone_number : "-"}</dd>
+                                                </div>
+                                                <div className="sm:col-span-2">
+                                                    <dt className="text-sm font-medium text-gray-500">Biography</dt>
+                                                    <dd className="mt-1 text-sm text-gray-900">
+                                                        {profileAccount.biography ? profileAccount.biography : ""}
+                                                    </dd>
+                                                </div>
+                                            </dl>
+                                        }
                                     </div>
                                 </div>
                             </section>
