@@ -103,8 +103,8 @@ const Profile = () => {
                             {
                                 profileAccount.first_name === undefined &&
                                 <div className="h-14 w-96">
-                                    <div data-placeholder className="w-full bg-gray-200 h-9 rounded-md mb-1"></div>
-                                    <div data-placeholder className="w-full bg-gray-200 h-4 rounded-md"></div>
+                                    <div data-placeholder className="w-full h-9 rounded-md mb-1"></div>
+                                    <div data-placeholder className="w-full h-4 rounded-md"></div>
                                 </div>
                             }
                             {
@@ -141,30 +141,30 @@ const Profile = () => {
                                             profileAccount.occupation === undefined &&
                                             <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
                                                 <div className="sm:col-span-1">
-                                                    <dt data-placeholder className="w-1/3 bg-gray-200 h-4 rounded-md mb-1 mt-1"></dt>
-                                                    <dd data-placeholder className="w-1/2 bg-gray-200 h-5 rounded-md"></dd>
+                                                    <dt data-placeholder className="w-1/3 h-4 rounded-md mb-1 mt-1"></dt>
+                                                    <dd data-placeholder className="w-1/2 h-5 rounded-md"></dd>
                                                 </div>
                                                 <div className="sm:col-span-1">
-                                                    <dt data-placeholder className="w-1/3 bg-gray-200 h-4 rounded-md mb-1 mt-1"></dt>
-                                                    <dd data-placeholder className="w-1/2 bg-gray-200 h-5 rounded-md"></dd>
+                                                    <dt data-placeholder className="w-1/3 h-4 rounded-md mb-1 mt-1"></dt>
+                                                    <dd data-placeholder className="w-1/2 h-5 rounded-md"></dd>
                                                 </div>
                                                 <div className="sm:col-span-1">
-                                                    <dt data-placeholder className="w-1/3 bg-gray-200 h-4 rounded-md mb-1 mt-1"></dt>
-                                                    <dd data-placeholder className="w-1/2 bg-gray-200 h-5 rounded-md"></dd>
+                                                    <dt data-placeholder className="w-1/3 h-4 rounded-md mb-1 mt-1"></dt>
+                                                    <dd data-placeholder className="w-1/2 h-5 rounded-md"></dd>
                                                 </div><div className="sm:col-span-1">
-                                                    <dt data-placeholder className="w-1/3 bg-gray-200 h-4 rounded-md mb-1 mt-1"></dt>
-                                                    <dd data-placeholder className="w-1/2 bg-gray-200 h-5 rounded-md"></dd>
+                                                    <dt data-placeholder className="w-1/3 h-4 rounded-md mb-1 mt-1"></dt>
+                                                    <dd data-placeholder className="w-1/2 h-5 rounded-md"></dd>
                                                 </div>
                                                 <div className="sm:col-span-1">
-                                                    <dt data-placeholder className="w-1/3 bg-gray-200 h-4 rounded-md mb-1 mt-1"></dt>
-                                                    <dd data-placeholder className="w-1/2 bg-gray-200 h-5 rounded-md"></dd>
+                                                    <dt data-placeholder className="w-1/3 h-4 rounded-md mb-1 mt-1"></dt>
+                                                    <dd data-placeholder className="w-1/2 h-5 rounded-md"></dd>
                                                 </div><div className="sm:col-span-1">
-                                                    <dt data-placeholder className="w-1/3 bg-gray-200 h-4 rounded-md mb-1 mt-1"></dt>
-                                                    <dd data-placeholder className="w-1/2 bg-gray-200 h-5 rounded-md"></dd>
+                                                    <dt data-placeholder className="w-1/3 h-4 rounded-md mb-1 mt-1"></dt>
+                                                    <dd data-placeholder className="w-1/2 h-5 rounded-md"></dd>
                                                 </div>
                                                 <div className="sm:col-span-2">
-                                                    <dt data-placeholder className="w-1/3 bg-gray-200 h-4 rounded-md mb-1 mt-1"></dt>
-                                                    <dd data-placeholder className="w-full bg-gray-200 h-5 rounded-md"></dd>
+                                                    <dt data-placeholder className="w-1/3 h-4 rounded-md mb-1 mt-1"></dt>
+                                                    <dd data-placeholder className="w-full h-5 rounded-md"></dd>
                                                 </div>
                                             </dl>
                                         }

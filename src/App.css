@@ -58,6 +58,7 @@ path:hover {
 [data-placeholder]{
   overflow: hidden;
   position: relative;
+  background: rgb(235, 237, 240);
 }
 
 [data-placeholder]::after {
