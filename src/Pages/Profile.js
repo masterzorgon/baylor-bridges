@@ -64,8 +64,8 @@ function classNames(...classes) {
 
 const Profile = () => {
     const { user_id } = useParams();
-    const [profileAccount, setProfileAccount] = useState({ contactinfo: {}, experiences: []});
-    console.log(user_id);
+    const [profileAccount, setProfileAccount] = useState({ unload: true, contactinfo: {}, experiences: []});
+    console.log(profileAccount.unload);
 
     useEffect(() => {
         let url = "";
@@ -82,7 +82,6 @@ const Profile = () => {
             });
     }, [user_id, setProfileAccount]);
 
-    console.log(profileAccount);
 
     return (
         <>
@@ -101,10 +100,20 @@ const Profile = () => {
                                     <span className="absolute inset-0 shadow-inner rounded-full" aria-hidden="true" />
                                 </div>
                             </div>
-                            <div>
-                                <h1 className="text-3xl font-bold text-gray-900">{profileAccount.prefix} {profileAccount.first_name} {profileAccount.last_name}</h1>
-                                <p className="text-sm font-medium text-gray-500">{profileAccount.headline}</p>
-                            </div>
+                            {
+                                profileAccount.first_name === undefined &&
+                                <div className="h-14 w-96">
+                                    <div data-placeholder className="w-full bg-gray-200 h-9 rounded-md mb-1"></div>
+                                    <div data-placeholder className="w-full bg-gray-200 h-4 rounded-md"></div>
+                                </div>
+                            }
+                            {
+                                profileAccount.first_name !== undefined &&
+                                <div>
+                                    <h1 className="text-3xl font-bold text-gray-900">{profileAccount.prefix} {profileAccount.first_name} {profileAccount.last_name}</h1>
+                                    <p className="text-sm font-medium text-gray-500">{profileAccount.headline}</p>
+                                </div>
+                            }
                         </div>
                         <div className="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3">
                             <button
