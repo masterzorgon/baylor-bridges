@@ -32,7 +32,7 @@ axios.defaults.headers = {
 
 axios.defaults.baseURL = "http://localhost:5000";
 axios.defaults.withCredentials = true;
-axios.defaults.timeout = 1500;
+axios.defaults.timeout = 3000;
 axios.defaults.cancelToken = null;
 
 function App() {
@@ -46,7 +46,7 @@ function App() {
 
                     <Route path="/profile" element={components(<Navbar />, <Profile />, <Footer />)} />
                     <Route path="/profile/:user_id" element={components(<Navbar />, <Profile />, <Footer />)} />
-                    
+
                     <Route path="/sign-in" element={<SignIn />} />
                     <Route path="/sign-up" element={<SignUp />} />
                 </Routes>
