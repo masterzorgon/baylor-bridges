@@ -44,7 +44,6 @@ const Navbar = (props) => {
         getAccount()
             .then(account => {
                 setAccount(account);
-                console.log("current account", account);
             })
             .catch(error => {
                 setAccount(null);
