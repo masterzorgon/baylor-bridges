@@ -65,7 +65,7 @@ function classNames(...classes) {
 const Profile = () => {
     const { user_id } = useParams();
     const [profileAccount, setProfileAccount] = useState({ unload: true, contactinfo: {}, experiences: []});
-    console.log(profileAccount.unload);
+    console.log(user_id);
 
     useEffect(() => {
         let url = "";
@@ -73,7 +73,7 @@ const Profile = () => {
         if (user_id === undefined) {
             url = "/account/profile";
         } else {
-            url = `/account/profile/${user_id}`;
+            url = `/account/${user_id}/profile`;
         }
 
         axios.get(url)
