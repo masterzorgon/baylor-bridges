@@ -36,6 +36,7 @@ const Account = (props) => {
                     reject(response.data);
                 }
             }).catch(error => {
+                window.localStorage.removeItem("account");
                 reject(error);
             });
         });
