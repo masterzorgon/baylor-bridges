@@ -9,8 +9,8 @@ const features = [
     { name: "Info Security Customization", description: "You can manage which of your phone numbers, email addresses, or biogrgaphy you would like to show to the public." },
     { name: "Alumni Exploration", description: "You can find New Connections with our fascinating search page detailed filters and US map user interface.",},
     { name: "Student Engagement", description: "You can interact with current Baylor Prehealth students through student and alumni-led projects regarding research, leadership, mentorship, and more." },
-    { name: "Coming Soon - Become Friends", description: "Establish a solid connection by becoming friends with your new found Alumni" },
-    { name: "Coming Soon - Manage Workload", description: "Manage friend request you would like to recieve every week" },
+    // { name: "Coming Soon - Become Friends", description: "Establish a solid connection by becoming friends with your new found Alumni" },
+    // { name: "Coming Soon - Manage Workload", description: "Manage friend request you would like to recieve every week" },
 ];
 
 const Home = () => {
@@ -238,7 +238,7 @@ const Home = () => {
                         </p>
                     </div>
                     <div className="mt-12 lg:mt-0 lg:col-span-2">
-                        <dl className="space-y-10 sm:space-y-0 sm:grid sm:grid-cols-2 sm:grid-rows-3 sm:grid-flow-col sm:gap-x-6 sm:gap-y-10 lg:gap-x-8">
+                        <dl className="space-y-10 sm:space-y-0 sm:grid sm:grid-cols-2 sm:grid-rows-2 sm:grid-flow-col sm:gap-x-6 sm:gap-y-10 lg:gap-x-8">
                             {features.map((feature) => (
                                 <div key={feature.name} className="relative">
                                     <dt>
