@@ -32,7 +32,7 @@ axios.defaults.headers = {
 
 axios.defaults.baseURL = "http://localhost:5000";
 axios.defaults.withCredentials = true;
-axios.defaults.timeout = 3000;
+axios.defaults.timeout = 5000;
 axios.defaults.cancelToken = null;
 
 function App() {
@@ -52,7 +52,6 @@ function App() {
                 </Routes>
             </Router>
         </Account>
-
     );
 }
 

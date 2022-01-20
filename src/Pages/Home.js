@@ -9,8 +9,8 @@ const features = [
     { name: "Info Security Customization", description: "You can manage which of your phone numbers, email addresses, or biogrgaphy you would like to show to the public." },
     { name: "Alumni Exploration", description: "You can find New Connections with our fascinating search page detailed filters and US map user interface.",},
     { name: "Student Engagement", description: "You can interact with current Baylor Prehealth students through student and alumni-led projects regarding research, leadership, mentorship, and more." },
-    { name: "Coming Soon - Become Friends", description: "Establish a solid connection by becoming friends with your new found Alumni" },
-    { name: "Coming Soon - Manage Workload", description: "Manage friend request you would like to recieve every week" },
+    // { name: "Coming Soon - Become Friends", description: "Establish a solid connection by becoming friends with your new found Alumni" },
+    // { name: "Coming Soon - Manage Workload", description: "Manage friend request you would like to recieve every week" },
 ];
 
 const Home = () => {
@@ -115,112 +115,22 @@ const Home = () => {
                 <div className="bg-gray-100 -mt-6 lg:mt-0">
                     <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-6">
                         <p className="text-center text-sm font-semibold uppercase text-gray-500 tracking-wide">
-                                Project Collaborators
+                                Supported By
                         </p>
                         {/* TODO: add logo*/}
-                        <div className="mt-6 grid grid-cols-2 gap-8 md:grid-cols-6 lg:grid-cols-5">
+
+                        <div className="mt-6 grid grid-cols-1 gap-8 md:grid-cols-2">
                             <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
-                                <img 
-                                    className="h-12" 
-                                    src="https://tailwindui.com/img/logos/tuple-logo-gray-400.svg"
-                                    alt="Tuple" />
-                            </div>
-                            <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
-                                <img 
-                                    className="h-12" 
-                                    src="https://tailwindui.com/img/logos/mirage-logo-gray-400.svg" 
+                                <img
+                                    className="h-9 md:h-14 w-auto"
+                                    src="Baylor-Prehealth.png"
                                     alt="Mirage" />
                             </div>
                             <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
-                                <img
-                                    className="h-12"
-                                    src="https://tailwindui.com/img/logos/statickit-logo-gray-400.svg"
-                                    alt="StaticKit"
-                                />
-                            </div>
-                            <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
-                                <img
-                                    className="h-12"
-                                    src="https://tailwindui.com/img/logos/statickit-logo-gray-400.svg"
-                                    alt="StaticKit"
-                                />
-                            </div>
-                            <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
-                                <img
-                                    className="h-12"
-                                    src="https://tailwindui.com/img/logos/statickit-logo-gray-400.svg"
-                                    alt="StaticKit"
-                                />
-                            </div>
-                        </div>
-                        <div className="mt-6 grid grid-cols-2 gap-8 md:grid-cols-6 lg:grid-cols-5">
-                            <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
                                 <img 
-                                    className="h-12" 
-                                    src="https://tailwindui.com/img/logos/tuple-logo-gray-400.svg" 
+                                    className="h-9 md:h-14 w-auto" 
+                                    src="Baylor-CS.png" 
                                     alt="Tuple" />
-                            </div>
-                            <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
-                                <img 
-                                    className="h-12" 
-                                    src="https://tailwindui.com/img/logos/mirage-logo-gray-400.svg" 
-                                    alt="Mirage" />
-                            </div>
-                            <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
-                                <img
-                                    className="h-12"
-                                    src="https://tailwindui.com/img/logos/statickit-logo-gray-400.svg"
-                                    alt="StaticKit"
-                                />
-                            </div>
-                            <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
-                                <img
-                                    className="h-12"
-                                    src="https://tailwindui.com/img/logos/statickit-logo-gray-400.svg"
-                                    alt="StaticKit"
-                                />
-                            </div>
-                            <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
-                                <img
-                                    className="h-12"
-                                    src="https://tailwindui.com/img/logos/statickit-logo-gray-400.svg"
-                                    alt="StaticKit"
-                                />
-                            </div>
-                        </div>
-                        <div className="mt-6 grid grid-cols-2 gap-8 md:grid-cols-6 lg:grid-cols-5">
-                            <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
-                                <img 
-                                    className="h-12" 
-                                    src="https://tailwindui.com/img/logos/tuple-logo-gray-400.svg" 
-                                    alt="Tuple" />
-                            </div>
-                            <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
-                                <img 
-                                    className="h-12" 
-                                    src="https://tailwindui.com/img/logos/mirage-logo-gray-400.svg" 
-                                    alt="Mirage" />
-                            </div>
-                            <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
-                                <img
-                                    className="h-12"
-                                    src="https://tailwindui.com/img/logos/statickit-logo-gray-400.svg"
-                                    alt="StaticKit"
-                                />
-                            </div>
-                            <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
-                                <img
-                                    className="h-12"
-                                    src="https://tailwindui.com/img/logos/statickit-logo-gray-400.svg"
-                                    alt="StaticKit"
-                                />
-                            </div>
-                            <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
-                                <img
-                                    className="h-12"
-                                    src="https://tailwindui.com/img/logos/statickit-logo-gray-400.svg"
-                                    alt="StaticKit"
-                                />
                             </div>
                         </div>
                     </div>
@@ -238,7 +148,7 @@ const Home = () => {
                         </p>
                     </div>
                     <div className="mt-12 lg:mt-0 lg:col-span-2">
-                        <dl className="space-y-10 sm:space-y-0 sm:grid sm:grid-cols-2 sm:grid-rows-3 sm:grid-flow-col sm:gap-x-6 sm:gap-y-10 lg:gap-x-8">
+                        <dl className="space-y-10 sm:space-y-0 sm:grid sm:grid-cols-2 sm:grid-rows-2 sm:grid-flow-col sm:gap-x-6 sm:gap-y-10 lg:gap-x-8">
                             {features.map((feature) => (
                                 <div key={feature.name} className="relative">
                                     <dt>
