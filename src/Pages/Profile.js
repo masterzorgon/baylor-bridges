@@ -187,14 +187,19 @@ const Profile = () => {
                                                     <dt className="text-sm font-medium text-gray-500">Role</dt>
                                                     <dd className="mt-1 text-sm text-gray-900 capitalize">{profileAccount.role}</dd>
                                                 </div>
-                                                <div className="sm:col-span-1">
-                                                    <dt className="text-sm font-medium text-gray-500">Email</dt>
-                                                    <dd className="mt-1 text-sm text-gray-900 lowercase">{profileAccount.contactinfo.email_address ? profileAccount.contactinfo.email_address : "-"}</dd>
-                                                </div>
-                                                <div className="sm:col-span-1">
-                                                    <dt className="text-sm font-medium text-gray-500">Phone</dt>
-                                                    <dd className="mt-1 text-sm text-gray-900">{profileAccount.contactinfo.phone_number ? profileAccount.contactinfo.phone_number : "-"}</dd>
-                                                </div>
+                                                {
+                                                    profileAccount.contactinfo &&
+                                                        <>
+                                                            <div className="sm:col-span-1">
+                                                                <dt className="text-sm font-medium text-gray-500">Email</dt>
+                                                                <dd className="mt-1 text-sm text-gray-900 lowercase">{profileAccount.contactinfo.email_address ? profileAccount.contactinfo.email_address : "-"}</dd>
+                                                            </div>
+                                                            <div className="sm:col-span-1">
+                                                                <dt className="text-sm font-medium text-gray-500">Phone</dt>
+                                                                <dd className="mt-1 text-sm text-gray-900">{profileAccount.contactinfo.phone_number ? profileAccount.contactinfo.phone_number : "-"}</dd>
+                                                            </div>
+                                                        </>
+                                                }
                                                 <div className="sm:col-span-2">
                                                     <dt className="text-sm font-medium text-gray-500">Biography</dt>
                                                     <dd className="mt-1 text-sm text-gray-900">
