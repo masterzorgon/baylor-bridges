@@ -79,6 +79,9 @@ const Profile = () => {
         axios.get(url)
             .then(({ data }) => {
                 setProfileAccount(data);
+            })
+            .catch(err => {
+                window.location.href = "/404";
             });
     }, [user_id, setProfileAccount]);
 
