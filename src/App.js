@@ -11,6 +11,7 @@ import SignUp from "./Pages/SignUp";
 import Footer from "./components/Footer";
 import Search from "./Pages/Search";
 import Profile from "./Pages/Profile";
+import NotFound from "./Pages/404";
 import { Account } from "./components/Account";
 
 import "./App.css";
@@ -49,6 +50,8 @@ function App() {
 
                     <Route path="/sign-in" element={<SignIn />} />
                     <Route path="/sign-up" element={<SignUp />} />
+
+                    <Route path="*" element={components(<Navbar />, <NotFound />, <Footer />)} />
                 </Routes>
             </Router>
         </Account>
