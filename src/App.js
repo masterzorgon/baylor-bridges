@@ -1,6 +1,6 @@
 
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import axios from "axios";
 
 import Navbar from "./components/Navbar";
@@ -51,7 +51,8 @@ function App() {
                     <Route path="/sign-in" element={<SignIn />} />
                     <Route path="/sign-up" element={<SignUp />} />
 
-                    <Route path="*" element={components(<Navbar />, <NotFound />, <Footer />)} />
+                    <Route path="/404" element={components(<Navbar />, <NotFound />, <Footer />)} />
+                    <Route path="*" element={<Navigate to="/404" />} />
                 </Routes>
             </Router>
         </Account>
