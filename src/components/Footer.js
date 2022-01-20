@@ -2,12 +2,12 @@ import React from "react";
 
 const navigation = {
     main: [
-        { name: "About", href: "#" },
+        { name: "About", href: "/about" },
         { name: "Accessibility", href: "#" },
         { name: "Partners", href: "#" },
     ],
     social: [
-        {
+        /*{
             name: "Facebook",
             href: "#",
             icon: (props) => (
@@ -68,7 +68,9 @@ const navigation = {
                 </svg>
             ),
         },
+        */
     ],
+    
 };
 
 export default function Footer() {
