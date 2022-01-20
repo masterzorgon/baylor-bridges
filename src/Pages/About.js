@@ -36,6 +36,96 @@ const mentorship = [
             "Bio goes here...",
         linkedinUrl: "#",
     },
+    {
+        name: "Will Chan",
+        role: "Student Team Leader",
+        imageUrl:
+            "https://images.unsplash.com/photo-1505840717430-882ce147ef2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+        bio:
+            "Bio goes here...",
+        linkedinUrl: "#",
+    },
+    {
+        name: "Daniel Thomas",
+        role: "Student Team Leader",
+        imageUrl:
+            "https://images.unsplash.com/photo-1505840717430-882ce147ef2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+        bio:
+            "Bio goes here...",
+        linkedinUrl: "#",
+    },
+    {
+        name: "Krupa George",
+        role: "Student Team Leader",
+        imageUrl:
+            "https://images.unsplash.com/photo-1505840717430-882ce147ef2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+        bio:
+            "Bio goes here...",
+        linkedinUrl: "#",
+    },
+    {
+        name: "Austin Childress",
+        role: "Student Team Leader",
+        imageUrl:
+            "https://images.unsplash.com/photo-1505840717430-882ce147ef2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+        bio:
+            "Bio goes here...",
+        linkedinUrl: "#",
+    },
+    {
+        name: "Kayla Murphy",
+        role: "Student Team Leader",
+        imageUrl:
+            "https://images.unsplash.com/photo-1505840717430-882ce147ef2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+        bio:
+            "Bio goes here...",
+        linkedinUrl: "#",
+    },
+    {
+        name: "Daniel Hendrick",
+        role: "Student Team Leader",
+        imageUrl:
+            "https://images.unsplash.com/photo-1505840717430-882ce147ef2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+        bio:
+            "Bio goes here...",
+        linkedinUrl: "#",
+    },
+    {
+        name: "Nathan Rogers",
+        role: "Student Team Leader",
+        imageUrl:
+            "https://images.unsplash.com/photo-1505840717430-882ce147ef2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+        bio:
+            "Bio goes here...",
+        linkedinUrl: "#",
+    },
+    {
+        name: "Samantha Allen",
+        role: "Student Team Leader",
+        imageUrl:
+            "https://images.unsplash.com/photo-1505840717430-882ce147ef2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+        bio:
+            "Bio goes here...",
+        linkedinUrl: "#",
+    },
+    {
+        name: "Orhue Odaro",
+        role: "Student Team Leader",
+        imageUrl:
+            "https://images.unsplash.com/photo-1505840717430-882ce147ef2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+        bio:
+            "Bio goes here...",
+        linkedinUrl: "#",
+    },
+    {
+        name: "Shreya Goyal",
+        role: "Student Team Leader",
+        imageUrl:
+            "https://images.unsplash.com/photo-1505840717430-882ce147ef2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+        bio:
+            "Bio goes here...",
+        linkedinUrl: "#",
+    },
     // More people...
 ];
 
@@ -59,6 +149,87 @@ const leadership = [
             "Bio goes here...",
         linkedinUrl: "#",
     },
+    {
+        name: "Carolyn Carper",
+        role: "Team member",
+        imageUrl:
+            "https://images.unsplash.com/photo-1505840717430-882ce147ef2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+        bio:
+            "Bio goes here...",
+        linkedinUrl: "#",
+    },
+    {
+        name: "Ryan Keller",
+        role: "Team member",
+        imageUrl:
+            "https://images.unsplash.com/photo-1505840717430-882ce147ef2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+        bio:
+            "Bio goes here...",
+        linkedinUrl: "#",
+    },
+    {
+        name: "Cassidy Parchall",
+        role: "Team member",
+        imageUrl:
+            "https://images.unsplash.com/photo-1505840717430-882ce147ef2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+        bio:
+            "Bio goes here...",
+        linkedinUrl: "#",
+    },
+    {
+        name: "William McCunniff",
+        role: "Team member",
+        imageUrl:
+            "https://images.unsplash.com/photo-1505840717430-882ce147ef2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+        bio:
+            "Bio goes here...",
+        linkedinUrl: "#",
+    },
+    {
+        name: "Kevin Shah",
+        role: "Team member",
+        imageUrl:
+            "https://images.unsplash.com/photo-1505840717430-882ce147ef2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+        bio:
+            "Bio goes here...",
+        linkedinUrl: "#",
+    },
+    {
+        name: "Alan Keister",
+        role: "Team member",
+        imageUrl:
+            "https://images.unsplash.com/photo-1505840717430-882ce147ef2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+        bio:
+            "Bio goes here...",
+        linkedinUrl: "#",
+    },
+    {
+        name: "Alejandra Perez",
+        role: "Team member",
+        imageUrl:
+            "https://images.unsplash.com/photo-1505840717430-882ce147ef2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+        bio:
+            "Bio goes here...",
+        linkedinUrl: "#",
+    },
+    {
+        name: "Theresa Aguilar",
+        role: "Team member",
+        imageUrl:
+            "https://images.unsplash.com/photo-1505840717430-882ce147ef2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+        bio:
+            "Bio goes here...",
+        linkedinUrl: "#",
+    },
+    {
+        name: "Meha Fox",
+        role: "Team member",
+        imageUrl:
+            "https://images.unsplash.com/photo-1505840717430-882ce147ef2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+        bio:
+            "Bio goes here...",
+        linkedinUrl: "#",
+    },
     // More people...
 ];
 
@@ -67,6 +238,51 @@ const research = [
     {
         name: "Alex Crego",
         role: "Student Team Leader",
+        imageUrl:
+            "https://images.unsplash.com/photo-1505840717430-882ce147ef2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+        bio:
+            "Bio goes here...",
+        linkedinUrl: "#",
+    },
+    {
+        name: "Greg Hoy",
+        role: "Team member",
+        imageUrl:
+            "https://images.unsplash.com/photo-1505840717430-882ce147ef2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+        bio:
+            "Bio goes here...",
+        linkedinUrl: "#",
+    },
+    {
+        name: "Corbin Goerlich",
+        role: "Team member",
+        imageUrl:
+            "https://images.unsplash.com/photo-1505840717430-882ce147ef2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+        bio:
+            "Bio goes here...",
+        linkedinUrl: "#",
+    },
+    {
+        name: "Huongi Nguyen",
+        role: "Team member",
+        imageUrl:
+            "https://images.unsplash.com/photo-1505840717430-882ce147ef2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+        bio:
+            "Bio goes here...",
+        linkedinUrl: "#",
+    },
+    {
+        name: "Sam Han",
+        role: "Team member",
+        imageUrl:
+            "https://images.unsplash.com/photo-1505840717430-882ce147ef2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
+        bio:
+            "Bio goes here...",
+        linkedinUrl: "#",
+    },
+    {
+        name: "Taylor Kohn",
+        role: "Team member",
         imageUrl:
             "https://images.unsplash.com/photo-1505840717430-882ce147ef2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
         bio:
