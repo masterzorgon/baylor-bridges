@@ -1,5 +1,7 @@
 import React from "react";
 
+// TODO: Replace the profile pictures with actual pictures 
+
 // chair profiles
 const chair = [
     {
