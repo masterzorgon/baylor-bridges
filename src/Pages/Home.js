@@ -3,11 +3,12 @@ import USAMap from "react-usa-map";
 import { CheckIcon } from "@heroicons/react/outline";
 import axios from "axios";
 
+// This is where the features in the landing page is configured
 const features = [
     { name: "Advertise Yourself", description: "You can manage your personal contact info and add personalized experience to your profile.",},
     { name: "Info Security Customization", description: "You can manage which of your phone numbers, email addresses, or biogrgaphy you would like to show to the public." },
     { name: "Alumni Exploration", description: "You can find New Connections with our fascinating search page detailed filters and US map user interface.",},
-    { name: "Mobile View", description: "Web Application is also accesible on your iphone or android" },
+    { name: "Student Engagement", description: "You can interact with current Baylor Prehealth students through student and alumni-led projects regarding research, leadership, mentorship, and more." },
     { name: "Coming Soon - Become Friends", description: "Establish a solid connection by becoming friends with your new found Alumni" },
     { name: "Coming Soon - Manage Workload", description: "Manage friend request you would like to recieve every week" },
 ];
@@ -77,17 +78,11 @@ const Home = () => {
                                 <div className="mt-10 max-w-sm mx-auto sm:max-w-none sm:flex sm:justify-center">
                                     <div className="space-y-4 sm:space-y-0 sm:mx-auto sm:inline-grid sm:grid-cols-1 sm:gap-5">
                                         <a
-                                            href="/"
+                                            href="/sign-up"
                                             className="flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-emerald-700 bg-white hover:bg-emerald-50 sm:px-9"
                                         >
-                                                Get started
+                                                Sign Up
                                         </a>
-                                        {/*<a
-                                                href="/"
-                                                className="flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-emerald-500 bg-opacity-60 hover:bg-opacity-70 sm:px-8"
-                                            >
-                                                Live demo
-                                            </a> */}
                                     </div>
                                 </div>
                             </div>
@@ -105,7 +100,7 @@ const Home = () => {
                     </div>
                     <div className="col-span-1 relative">
                         <div className="absolute bottom-0 mb-16">
-                            <h2 className="text-base font-semibold text-emerald-600 uppercase tracking-wide">Everything you need</h2>
+                            <h2 className="text-base font-semibold text-emerald-600 uppercase tracking-wide">Alumni Heat Map</h2>
                             <p className="mt-2 text-3xl font-extrabold text-gray-900">Alumni Connection Platform</p>
                             <p className="mt-4 text-lg text-gray-500">
                                     Providing Environment for Students and Alumni to discover New Connections and foster deeper relationship with one another.
@@ -122,12 +117,103 @@ const Home = () => {
                         <p className="text-center text-sm font-semibold uppercase text-gray-500 tracking-wide">
                                 Project Collaborators
                         </p>
-                        <div className="mt-6 grid grid-cols-2 gap-8 md:grid-cols-6 lg:grid-cols-3">
+                        {/* TODO: add logo*/}
+                        <div className="mt-6 grid grid-cols-2 gap-8 md:grid-cols-6 lg:grid-cols-5">
                             <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
-                                <img className="h-12" src="https://tailwindui.com/img/logos/tuple-logo-gray-400.svg" alt="Tuple" />
+                                <img 
+                                    className="h-12" 
+                                    src="https://tailwindui.com/img/logos/tuple-logo-gray-400.svg" 
+                                    alt="Tuple" />
                             </div>
                             <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
-                                <img className="h-12" src="https://tailwindui.com/img/logos/mirage-logo-gray-400.svg" alt="Mirage" />
+                                <img 
+                                    className="h-12" 
+                                    src="https://tailwindui.com/img/logos/mirage-logo-gray-400.svg" 
+                                    alt="Mirage" />
+                            </div>
+                            <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
+                                <img
+                                    className="h-12"
+                                    src="https://tailwindui.com/img/logos/statickit-logo-gray-400.svg"
+                                    alt="StaticKit"
+                                />
+                            </div>
+                            <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
+                                <img
+                                    className="h-12"
+                                    src="https://tailwindui.com/img/logos/statickit-logo-gray-400.svg"
+                                    alt="StaticKit"
+                                />
+                            </div>
+                            <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
+                                <img
+                                    className="h-12"
+                                    src="https://tailwindui.com/img/logos/statickit-logo-gray-400.svg"
+                                    alt="StaticKit"
+                                />
+                            </div>
+                        </div>
+                        <div className="mt-6 grid grid-cols-2 gap-8 md:grid-cols-6 lg:grid-cols-5">
+                            <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
+                                <img 
+                                    className="h-12" 
+                                    src="https://tailwindui.com/img/logos/tuple-logo-gray-400.svg" 
+                                    alt="Tuple" />
+                            </div>
+                            <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
+                                <img 
+                                    className="h-12" 
+                                    src="https://tailwindui.com/img/logos/mirage-logo-gray-400.svg" 
+                                    alt="Mirage" />
+                            </div>
+                            <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
+                                <img
+                                    className="h-12"
+                                    src="https://tailwindui.com/img/logos/statickit-logo-gray-400.svg"
+                                    alt="StaticKit"
+                                />
+                            </div>
+                            <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
+                                <img
+                                    className="h-12"
+                                    src="https://tailwindui.com/img/logos/statickit-logo-gray-400.svg"
+                                    alt="StaticKit"
+                                />
+                            </div>
+                            <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
+                                <img
+                                    className="h-12"
+                                    src="https://tailwindui.com/img/logos/statickit-logo-gray-400.svg"
+                                    alt="StaticKit"
+                                />
+                            </div>
+                        </div>
+                        <div className="mt-6 grid grid-cols-2 gap-8 md:grid-cols-6 lg:grid-cols-5">
+                            <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
+                                <img 
+                                    className="h-12" 
+                                    src="https://tailwindui.com/img/logos/tuple-logo-gray-400.svg" 
+                                    alt="Tuple" />
+                            </div>
+                            <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
+                                <img 
+                                    className="h-12" 
+                                    src="https://tailwindui.com/img/logos/mirage-logo-gray-400.svg" 
+                                    alt="Mirage" />
+                            </div>
+                            <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
+                                <img
+                                    className="h-12"
+                                    src="https://tailwindui.com/img/logos/statickit-logo-gray-400.svg"
+                                    alt="StaticKit"
+                                />
+                            </div>
+                            <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
+                                <img
+                                    className="h-12"
+                                    src="https://tailwindui.com/img/logos/statickit-logo-gray-400.svg"
+                                    alt="StaticKit"
+                                />
                             </div>
                             <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
                                 <img
