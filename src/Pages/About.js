@@ -78,7 +78,7 @@ const mentorship = [
         imageUrl:
             "https://images.unsplash.com/photo-1505840717430-882ce147ef2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
         bio:
-            "Bio goes here...",
+            "I graduated from Baylor in 2018 with a major in Biology and minor in Chemistry. I loved my time at Baylor and being a part of the pre-health community, especially MSO. Now I am a fourth year medical student at the University of Minnesota applying to psychiatry and combined medicine/psychiatry residency programs. I am interested in older adult mental health, developing models of care to better integrate mental health and medical care, quality improvement work, and medical education. Mentorship was a huge part of my pre-med and now medical training and I look forward to meeting some of you through Baylor Bridges! ",
         linkedinUrl: "#",
     },
     {
@@ -96,7 +96,7 @@ const mentorship = [
         imageUrl:
             "https://images.unsplash.com/photo-1505840717430-882ce147ef2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
         bio:
-            "Bio goes here...",
+            "BA from BU '12, med school at UTH followed by orthopedic surgery residency, fellowship in adult reconstruction (joints) at Cleveland Clinic, plan to return to Houston as an attending. ",
         linkedinUrl: "#",
     },
     {
@@ -182,7 +182,7 @@ const leadership = [
         imageUrl:
             "https://images.unsplash.com/photo-1505840717430-882ce147ef2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
         bio:
-            "Bio goes here...",
+            "After graduating from Baylor in 2007 with a degree in Business Administration, I attended TTUHSC School of Medicine in Lubbock where I completed a combination MD/MBA program.  My love of every single specialty led me to Family Medicine where I attended the Waco Family Medicine Residency Program.  I currently practice at the Baylor Scott and White Hillcrest Midway Clinic and love the family life with a wonderful wife and 3 young children.",
         linkedinUrl: "#",
     },
     {
@@ -259,7 +259,7 @@ const research = [
         imageUrl:
             "https://images.unsplash.com/photo-1505840717430-882ce147ef2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
         bio:
-            "Bio goes here...",
+            "Corbin Goerlich is a general surgery resident at the Johns Hopkins Hospital and a postdoctoral fellow in the Cardiac Xenotransplantation lab of Muhammad Mohiuddin, MD, and Bartley Griffith, MD, at the University of Maryland School of Medicine (Baltimore, MD). He is completing a PhD in immunology with a thesis titled, “The Clinical Translation of Life-supporting Cardiac Xenografts From Genetically Engineered Pigs for Human Transplantation.” He is part of the team that performed the first Genetically Engineered Pig-to-Human Cardiac Xenotransplantation. He is applying to Cardiothoracic Surgery fellowship in 2022. Prior to this, Goerlich graduated from Baylor University (Waco, TX), with a BBA and received his MD from McGovern Medical School (Houston, TX).",
         linkedinUrl: "#",
     },
     {
