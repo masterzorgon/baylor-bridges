@@ -3,33 +3,34 @@ import React, { Fragment, useState, useContext, useEffect } from "react";
 import { Popover, Transition, Menu } from "@headlessui/react";
 import { MenuIcon, XIcon, SearchIcon, BellIcon } from "@heroicons/react/outline";
 import { ChevronDownIcon } from "@heroicons/react/solid";
-
+import axios from "axios";
 import { AccountContext } from "./Account";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
-const people = [
-    {
-        name: "Calvin Hawkins",
-        email: "calvin.hawkins@example.com",
-        image:
-            "https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    },
-    {
-        name: "Kristen Ramos",
-        email: "kristen.ramos@example.com",
-        image:
-            "https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    },
-    {
-        name: "Ted Fox",
-        email: "ted.fox@example.com",
-        image:
-            "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    },
-];
+const avatar="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80";
+// const people = [
+//     {
+//         name: "Calvin Hawkins",
+//         email: "calvin.hawkins@example.com",
+//         image:
+//             "https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+//     },
+//     {
+//         name: "Kristen Ramos",
+//         email: "kristen.ramos@example.com",
+//         image:
+//             "https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+//     },
+//     {
+//         name: "Ted Fox",
+//         email: "ted.fox@example.com",
+//         image:
+//             "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+//     },
+// ];
 
 const Navbar = (props) => {
     const [isFocus, setFocus] = useState(false);
@@ -38,7 +39,7 @@ const Navbar = (props) => {
     // For current signed in account display
     const { signOut, getAccount, getAccountLocal } = useContext(AccountContext);
     const [account, setAccount] = useState(null);
-
+    const [profile, setProfile] = useState([]);
     useEffect(() => {
         setAccount(getAccountLocal());
         getAccount()
@@ -56,6 +57,19 @@ const Navbar = (props) => {
                 setAccount(null);
                 window.location.href = "/";
             });
+    };
+
+    const handleSearchLoading =(keywords)=>{
+        console.log("handle search loading for keywords: ",keywords);
+        axios.get("/searchBarResult",{
+            params:{
+                keywords:keywords
+            }
+        }).then((res)=>{
+            // console.log(res.data);
+            setProfile(res.data);
+            console.log(profile);
+        });
     };
 
     return (
@@ -124,7 +138,7 @@ const Navbar = (props) => {
                                                 aria-hidden="true"
                                             />
                                         </Popover.Button>
-                                        
+
                                         {/* Sub-menu for "More" */}
                                         <Transition
                                             as={Fragment}
@@ -158,7 +172,7 @@ const Navbar = (props) => {
                                 )}
                             </Popover>
                         </Popover.Group>
-                        
+
                         {/* Search people */}
                         <div className="hidden md:flex-1 md:flex md:items-center md:justify-between ml-6 mr-12 max-w-md relative">
                             <label htmlFor="email" className="sr-only">
@@ -179,6 +193,8 @@ const Navbar = (props) => {
                                     onFocus={() => setFocus(true)}
                                     onChange={(event) => {
                                         setSearchText(event.target.value);
+                                        handleSearchLoading(event.target.value);
+
                                     }}
                                 />
                             </div>
@@ -197,23 +213,24 @@ const Navbar = (props) => {
                             >
                                 <div className="z-50 absolute bg-white shadow-md py-2 rounded-md w-full max-w-md mt-4 top-16">
                                     <ul className="">
-                                        {people.map((person) => (
+                                        {profile.map((person) => (
                                             <li key={person.email} className="py-4 px-5 flex hover:bg-gray-50">
-                                                <img className="h-10 w-10 rounded-full" src={person.image} alt="" />
+                                                {/* TODO adding account avatar later*/}
+                                                <img className="h-10 w-10 rounded-full" src={avatar} alt="" />
                                                 <div className="ml-3">
-                                                    <p className="text-sm font-medium text-gray-900">{person.name}</p>
-                                                    <p className="text-sm text-gray-500">{person.email}</p>
+                                                    <p className="text-sm font-medium text-gray-900">{person.first_name} {person.last_name}</p>
+                                                    <p className="text-sm text-gray-500">{person.occupation}</p>
                                                 </div>
                                             </li>
                                         ))}
                                     </ul>
-                                    <a key="more" className="py-3 px-5 pb-2 flex text-sm text-emerald-800 font-medium" href="/search">
+                                    <a key="more" className="py-3 px-5 pb-2 flex text-sm text-emerald-800 font-medium" href={"/search?keywords="+searchText}>
                                         More results
                                     </a>
                                 </div>
                             </Transition>
                         </div>
-                        
+
                         {/* Account sign in / up / out */}
                         {
                             account === null &&
