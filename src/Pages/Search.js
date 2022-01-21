@@ -1,8 +1,10 @@
-import React, { Fragment } from "react";
+import React, {Fragment, useEffect,useState} from "react";
 import { Menu, Popover, Transition } from "@headlessui/react";
-import { CheckCircleIcon, ChevronRightIcon, MailIcon, ChevronLeftIcon, ChevronDownIcon } from "@heroicons/react/solid";
+import {  ChevronRightIcon, MailIcon, ChevronLeftIcon, ChevronDownIcon } from "@heroicons/react/solid";
 import USAMap from "react-usa-map";
+import {useSearchParams} from "react-router-dom";
 
+import axios from "axios";
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
@@ -12,272 +14,273 @@ function mapHandler(event) {
     // TODO: Display right panel for alumini list
 }
 
-const applications = [
-    {
-        applicant: {
-            name: "Ricardo Cooper",
-            email: "ricardo.cooper@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Kristen Ramos",
-            email: "kristen.ramos@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ted Fox",
-            email: "ted.fox@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ted Fox",
-            email: "ted.fox@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ted Fox",
-            email: "ted.fox@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ted Fox",
-            email: "ted.fox@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ted Fox",
-            email: "ted.fox@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ted Fox",
-            email: "ted.fox@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ted Fox",
-            email: "ted.fox@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ted Fox",
-            email: "ted.fox@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ted Fox",
-            email: "ted.fox@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ted Fox",
-            email: "ted.fox@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ted Fox",
-            email: "ted.fox@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ted Fox",
-            email: "ted.fox@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ricardo Cooper",
-            email: "ricardo.cooper@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ted Fox",
-            email: "ted.fox@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ted Fox",
-            email: "ted.fox@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ricardo Cooper",
-            email: "ricardo.cooper@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ted Fox",
-            email: "ted.fox@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ted Fox",
-            email: "ted.fox@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ted Fox",
-            email: "ted.fox@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ted Fox",
-            email: "ted.fox@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-];
+const avatar_url="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80";
+// const applications = [
+//     {
+//         applicant: {
+//             name: "Ricardo Cooper",
+//             email: "ricardo.cooper@example.com",
+//             imageUrl:
+//                 "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+//         },
+//         date: "2020-01-07",
+//         dateFull: "January 7, 2020",
+//         stage: "Completed phone screening",
+//         href: "#",
+//     },
+//     {
+//         applicant: {
+//             name: "Kristen Ramos",
+//             email: "kristen.ramos@example.com",
+//             imageUrl:
+//                 "https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+//         },
+//         date: "2020-01-07",
+//         dateFull: "January 7, 2020",
+//         stage: "Completed phone screening",
+//         href: "#",
+//     },
+//     {
+//         applicant: {
+//             name: "Ted Fox",
+//             email: "ted.fox@example.com",
+//             imageUrl:
+//                 "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+//         },
+//         date: "2020-01-07",
+//         dateFull: "January 7, 2020",
+//         stage: "Completed phone screening",
+//         href: "#",
+//     },
+//     {
+//         applicant: {
+//             name: "Ted Fox",
+//             email: "ted.fox@example.com",
+//             imageUrl:
+//                 "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+//         },
+//         date: "2020-01-07",
+//         dateFull: "January 7, 2020",
+//         stage: "Completed phone screening",
+//         href: "#",
+//     },
+//     {
+//         applicant: {
+//             name: "Ted Fox",
+//             email: "ted.fox@example.com",
+//             imageUrl:
+//                 "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+//         },
+//         date: "2020-01-07",
+//         dateFull: "January 7, 2020",
+//         stage: "Completed phone screening",
+//         href: "#",
+//     },
+//     {
+//         applicant: {
+//             name: "Ted Fox",
+//             email: "ted.fox@example.com",
+//             imageUrl:
+//                 "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+//         },
+//         date: "2020-01-07",
+//         dateFull: "January 7, 2020",
+//         stage: "Completed phone screening",
+//         href: "#",
+//     },
+//     {
+//         applicant: {
+//             name: "Ted Fox",
+//             email: "ted.fox@example.com",
+//             imageUrl:
+//                 "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+//         },
+//         date: "2020-01-07",
+//         dateFull: "January 7, 2020",
+//         stage: "Completed phone screening",
+//         href: "#",
+//     },
+//     {
+//         applicant: {
+//             name: "Ted Fox",
+//             email: "ted.fox@example.com",
+//             imageUrl:
+//                 "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+//         },
+//         date: "2020-01-07",
+//         dateFull: "January 7, 2020",
+//         stage: "Completed phone screening",
+//         href: "#",
+//     },
+//     {
+//         applicant: {
+//             name: "Ted Fox",
+//             email: "ted.fox@example.com",
+//             imageUrl:
+//                 "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+//         },
+//         date: "2020-01-07",
+//         dateFull: "January 7, 2020",
+//         stage: "Completed phone screening",
+//         href: "#",
+//     },
+//     {
+//         applicant: {
+//             name: "Ted Fox",
+//             email: "ted.fox@example.com",
+//             imageUrl:
+//                 "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+//         },
+//         date: "2020-01-07",
+//         dateFull: "January 7, 2020",
+//         stage: "Completed phone screening",
+//         href: "#",
+//     },
+//     {
+//         applicant: {
+//             name: "Ted Fox",
+//             email: "ted.fox@example.com",
+//             imageUrl:
+//                 "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+//         },
+//         date: "2020-01-07",
+//         dateFull: "January 7, 2020",
+//         stage: "Completed phone screening",
+//         href: "#",
+//     },
+//     {
+//         applicant: {
+//             name: "Ted Fox",
+//             email: "ted.fox@example.com",
+//             imageUrl:
+//                 "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+//         },
+//         date: "2020-01-07",
+//         dateFull: "January 7, 2020",
+//         stage: "Completed phone screening",
+//         href: "#",
+//     },
+//     {
+//         applicant: {
+//             name: "Ted Fox",
+//             email: "ted.fox@example.com",
+//             imageUrl:
+//                 "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+//         },
+//         date: "2020-01-07",
+//         dateFull: "January 7, 2020",
+//         stage: "Completed phone screening",
+//         href: "#",
+//     },
+//     {
+//         applicant: {
+//             name: "Ted Fox",
+//             email: "ted.fox@example.com",
+//             imageUrl:
+//                 "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+//         },
+//         date: "2020-01-07",
+//         dateFull: "January 7, 2020",
+//         stage: "Completed phone screening",
+//         href: "#",
+//     },
+//     {
+//         applicant: {
+//             name: "Ricardo Cooper",
+//             email: "ricardo.cooper@example.com",
+//             imageUrl:
+//                 "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+//         },
+//         date: "2020-01-07",
+//         dateFull: "January 7, 2020",
+//         stage: "Completed phone screening",
+//         href: "#",
+//     },
+//     {
+//         applicant: {
+//             name: "Ted Fox",
+//             email: "ted.fox@example.com",
+//             imageUrl:
+//                 "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+//         },
+//         date: "2020-01-07",
+//         dateFull: "January 7, 2020",
+//         stage: "Completed phone screening",
+//         href: "#",
+//     },
+//     {
+//         applicant: {
+//             name: "Ted Fox",
+//             email: "ted.fox@example.com",
+//             imageUrl:
+//                 "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+//         },
+//         date: "2020-01-07",
+//         dateFull: "January 7, 2020",
+//         stage: "Completed phone screening",
+//         href: "#",
+//     },
+//     {
+//         applicant: {
+//             name: "Ricardo Cooper",
+//             email: "ricardo.cooper@example.com",
+//             imageUrl:
+//                 "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+//         },
+//         date: "2020-01-07",
+//         dateFull: "January 7, 2020",
+//         stage: "Completed phone screening",
+//         href: "#",
+//     },
+//     {
+//         applicant: {
+//             name: "Ted Fox",
+//             email: "ted.fox@example.com",
+//             imageUrl:
+//                 "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+//         },
+//         date: "2020-01-07",
+//         dateFull: "January 7, 2020",
+//         stage: "Completed phone screening",
+//         href: "#",
+//     },
+//     {
+//         applicant: {
+//             name: "Ted Fox",
+//             email: "ted.fox@example.com",
+//             imageUrl:
+//                 "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+//         },
+//         date: "2020-01-07",
+//         dateFull: "January 7, 2020",
+//         stage: "Completed phone screening",
+//         href: "#",
+//     },
+//     {
+//         applicant: {
+//             name: "Ted Fox",
+//             email: "ted.fox@example.com",
+//             imageUrl:
+//                 "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+//         },
+//         date: "2020-01-07",
+//         dateFull: "January 7, 2020",
+//         stage: "Completed phone screening",
+//         href: "#",
+//     },
+//     {
+//         applicant: {
+//             name: "Ted Fox",
+//             email: "ted.fox@example.com",
+//             imageUrl:
+//                 "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+//         },
+//         date: "2020-01-07",
+//         dateFull: "January 7, 2020",
+//         stage: "Completed phone screening",
+//         href: "#",
+//     },
+// ];
 
 const sortOptions = [
     { name: "Name", href: "#name" },
@@ -308,6 +311,32 @@ const filters = [
 // TODO: On mobile, hide map, replace with a filter
 
 const Search = (props) => {
+    const [searchParams] = useSearchParams();
+
+    const keywords=searchParams.get("keywords");
+    const sort=searchParams.get("sort");
+    const role=searchParams.get("role");
+    const graduate_class=searchParams.get("class");
+
+
+    const [profiles,setProfiles]=useState([]);
+
+    useEffect(()=>{
+        console.log(keywords,sort,role,graduate_class);
+        axios.get("/searchBarResult",{
+            params:{
+                keywords:keywords,
+                detailed:true
+            }
+        }).then((res)=>{
+            console.log("search bar result is: ");
+            console.log(res.data);
+            setProfiles(res.data.profiles);
+            console.log(profiles);
+        });
+
+    });
+
     return (
         <>
             <div className="grid grid-cols-1 lg:grid-cols-2">
@@ -323,7 +352,7 @@ const Search = (props) => {
                     <div className="bg-white sticky flex items-center justify-between px-6 py-5 sm:pt-6 md:pt-6 lg:pt-6 pt-2 z-30" style={{ "top": "5.4rem" }}>
                         {/* White cover for sticky filter div, for visuals only */}
                         <div className="absolute bg-inherit w-full" style={{ "top": "-2rem", "height": "4rem", "left": "0rem" }}></div>
-                        
+
                         {/* Filters */}
                         <Menu as="div" className="relative z-10 inline-block text-left">
                             <div>
@@ -424,31 +453,32 @@ const Search = (props) => {
                     {/* People list */}
                     <div className="bg-white overflow-hidden sm:rounded-md">
                         <ul className="divide-y divide-gray-100">
-                            {applications.map((application) => (
-                                <li key={application.applicant.email}>
-                                    <a href={application.href} className="block hover:bg-gray-50">
+                            {profiles.map((profile) => (
+                                <li key={profile.use_id}>
+                                    {/*TODO add href for account detail page*/}
+                                    <a  className="block hover:bg-gray-50">
                                         <div className="flex items-center px-4 py-4 sm:px-6">
                                             <div className="min-w-0 flex-1 flex items-center">
                                                 <div className="flex-shrink-0">
-                                                    <img className="h-12 w-12 rounded-full" src={application.applicant.imageUrl} alt="" />
+                                                    <img className="h-12 w-12 rounded-full" src={avatar_url} alt="" />
                                                 </div>
                                                 <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
                                                     <div>
-                                                        <p className="text-sm font-medium text-emerald-600 truncate">{application.applicant.name}</p>
+                                                        <p className="text-sm font-medium text-emerald-600 truncate">{profile.first_name} {profile.last_name}</p>
                                                         <p className="mt-2 flex items-center text-sm text-gray-500">
                                                             <MailIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />
-                                                            <span className="truncate">{application.applicant.email}</span>
+                                                            <span className="truncate">{profile.headline}</span>
                                                         </p>
                                                     </div>
                                                     <div className="hidden md:block">
                                                         <div>
                                                             <p className="text-sm text-gray-900">
-                                                                Applied on <time dateTime={application.date}>{application.dateFull}</time>
+                                                                {profile.city} {profile.state}
                                                             </p>
-                                                            <p className="mt-2 flex items-center text-sm text-gray-500">
-                                                                <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-400" aria-hidden="true" />
-                                                                {application.stage}
-                                                            </p>
+                                                            {/*<p className="mt-2 flex items-center text-sm text-gray-500">*/}
+                                                            {/*    <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-400" aria-hidden="true" />*/}
+                                                            {/*    {application.stage}*/}
+                                                            {/*</p>*/}
                                                         </div>
                                                     </div>
                                                 </div>
