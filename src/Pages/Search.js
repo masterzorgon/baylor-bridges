@@ -335,7 +335,7 @@ const Search = (props) => {
             console.log(profiles);
         });
 
-    });
+    },[]);
 
     return (
         <>
