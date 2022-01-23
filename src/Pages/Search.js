@@ -349,9 +349,29 @@ const Search = (props) => {
             console.log(res.data);
             setProfiles(res.data.profiles);
             //console.log(profiles);
+
+            var config = {};
+            var max = 0;
+
+            // Find the state with the highest number of people
+            for (const value of Object.values(res.data.map_stats)) {
+                if(max < value) {
+                    max = value;
+                }
+            }
+
+            // Make config dictionary
+            for (const [key, value] of Object.entries(res.data.map_stats)) {
+                var opacity = value / max * 0.95;
+
+                config[key] = {};
+                config[key].fill = `rgba(21, 71, 52, ${opacity})`;
+            }
+
+            setStateCustomConfig(config);
         });
 
-        axios.get("/landingPage/map")
+        /* axios.get("/landingPage/map")
             .then(res => {
                 var config = {};
                 var max = 0;
@@ -373,6 +393,7 @@ const Search = (props) => {
 
                 setStateCustomConfig(config);
             });
+        */
 
     }, [keywords, sort, role, graduate_class, states]);
 
