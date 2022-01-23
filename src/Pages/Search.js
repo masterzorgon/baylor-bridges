@@ -312,7 +312,7 @@ const Search = (props) => {
     const keywords=searchParams.get("keywords");
     const sort=searchParams.get("sort");
     const [role, setRole]=useState(searchParams.get("role"));
-    const graduate_class=searchParams.get("class");
+    const [graduate_class, setGraduate_class]=useState(searchParams.get("class"));
     const [states, setStates]=useState(searchParams.get("state"));
 
     const [statesCustomConfig, setStateCustomConfig] = useState({});
@@ -492,7 +492,7 @@ const Search = (props) => {
                             <a className="text-base font-small text-gray-500 hover:text-gray-900" href={"/search?keywords="}>
                                 Clear Search
                             </a>
-                            <a href="#" onClick={() => setRole("alumni") } className="ml-5 items-center justify-center px-1 py-2 border border-transparent shadow-sm text-base font-small text-white bg-emerald-600 hover:bg-emerald-700">
+                            <a href="#" onClick={() => setGraduate_class("2022") } className="ml-5 items-center justify-center px-1 py-2 border border-transparent shadow-sm text-base font-small text-white bg-emerald-600 hover:bg-emerald-700">
                                 Apply Filters
                             </a>
                         </div>
