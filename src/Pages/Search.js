@@ -9,11 +9,6 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
-function mapHandler(event) {
-    alert(event.target.dataset.name);
-    // TODO: Display right panel for alumini list
-}
-
 const avatar_url = "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80";
 // const applications = [
 //     {
@@ -282,6 +277,7 @@ const avatar_url = "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e
 //     },
 // ];
 
+
 const sortOptions = [
     { name: "Name", href: "#name" },
     { name: "Class", href: "#class" },
@@ -315,26 +311,91 @@ const Search = (props) => {
 
     const keywords = searchParams.get("keywords");
     const sort = searchParams.get("sort");
-    const role = searchParams.get("role");
-    const graduate_class = searchParams.get("class");
+    const [role, setRole] = useState(searchParams.get("role"));
+    const [graduate_class, setGraduate_class] = useState(searchParams.get("class"));
+    const [states, setStates] = useState(searchParams.get("state"));
+
+    const [statesCustomConfig, setStateCustomConfig] = useState({});
 
 
     const [profiles, setProfiles] = useState([]);
+
+    function mapHandler(event) {
+        if (event.target.dataset.name === states) {
+            console.log("Cancelling state filter selection");
+            setStates();
+        } else {
+            console.log("selected " + event.target.dataset.name);
+            setStates(event.target.dataset.name);
+        }
+        setRole(searchParams.get("role"));
+    }
+
+
 
     useEffect(() => {
         console.log(keywords, sort, role, graduate_class);
         axios.get("/searchBarResult", {
             params: {
                 keywords: keywords,
-                detailed: "true"
+                detailed: true,
+                sort: sort,
+                role: role,
+                class: graduate_class,
+                state: states
             }
         }).then((res) => {
             console.log("search bar result is: ");
             console.log(res.data);
             setProfiles(res.data.profiles);
-            console.log(profiles);
+            //console.log(profiles);
+
+            var config = {};
+            var max = 0;
+
+            // Find the state with the highest number of people
+            for (const value of Object.values(res.data.map_stats)) {
+                if (max < value) {
+                    max = value;
+                }
+            }
+
+            // Make config dictionary
+            for (const [key, value] of Object.entries(res.data.map_stats)) {
+                var opacity = value / max * 0.95;
+
+                config[key] = {};
+                config[key].fill = `rgba(21, 71, 52, ${opacity})`;
+            }
+
+            setStateCustomConfig(config);
         });
-    });
+
+        /* axios.get("/landingPage/map")
+            .then(res => {
+                var config = {};
+                var max = 0;
+
+                // Find the state with the highest number of people
+                for (const value of Object.values(res.data)) {
+                    if(max < value) {
+                        max = value;
+                    }
+                }
+
+                // Make config dictionary
+                for (const [key, value] of Object.entries(res.data)) {
+                    var opacity = value / max * 0.95;
+
+                    config[key] = {};
+                    config[key].fill = `rgba(21, 71, 52, ${opacity})`;
+                }
+
+                setStateCustomConfig(config);
+            });
+        */
+
+    }, [keywords, sort, role, graduate_class, states]);
 
     return (
         <>
@@ -342,7 +403,7 @@ const Search = (props) => {
                 <div className="hidden lg:block col-span-1">
                     <div className="bg-gray-100 sticky p-2 h-screen" style={{ "top": "5.4rem" }}>
                         <div className="align-middle relative flex">
-                            <USAMap onClick={mapHandler} />
+                            <USAMap customize={statesCustomConfig} onClick={mapHandler} />
                         </div>
                     </div>
                 </div>
@@ -376,7 +437,7 @@ const Search = (props) => {
                                 <Menu.Items className="origin-top-left absolute left-0 z-10 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                                     <div className="py-1">
                                         {sortOptions.map((option) => (
-                                            <Menu.Item key={option}>
+                                            <Menu.Item key={option.name}>
                                                 {({ active }) => (
                                                     <a
                                                         href={option.href}
@@ -401,11 +462,11 @@ const Search = (props) => {
                                     <div>
                                         <Popover.Button className="group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
                                             <span>{section.name}</span>
-                                            {sectionIdx === 0 ? (
-                                                <span className="ml-1.5 rounded py-0.5 px-1.5 bg-gray-200 text-xs font-semibold text-gray-700 tabular-nums">
-                                                    1
-                                                </span>
-                                            ) : null}
+                                            {/* {sectionIdx === 0 ? (
+                                                //<span className="ml-1.5 rounded py-0.5 px-1.5 bg-gray-200 text-xs font-semibold text-gray-700 tabular-nums">
+                                                    0 
+                                                //</span>
+                                            //</div>) : null} */}
                                             <ChevronDownIcon
                                                 className="flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500"
                                                 aria-hidden="true"
@@ -447,6 +508,16 @@ const Search = (props) => {
                                 </Popover>
                             ))}
                         </Popover.Group>
+
+                        <div className="flex items-center md:ml-2">
+                            <a className="text-base font-small text-gray-500 hover:text-gray-900" href={"/search?keywords="}>
+                                Clear Search
+                            </a>
+                            <a href="#" onClick={() => setGraduate_class("2022")} className="ml-5 items-center justify-center px-1 py-2 border border-transparent shadow-sm text-base font-small text-white bg-emerald-600 hover:bg-emerald-700">
+                                Apply Filters
+                            </a>
+                        </div>
+
                     </div>
 
                     {/* People list */}
@@ -509,7 +580,7 @@ const Search = (props) => {
                                 <div>
                                     <p className="text-sm text-gray-700">
                                         Showing <span className="font-medium">1</span> to <span className="font-medium">10</span> of{" "}
-                                        <span className="font-medium">97</span> results
+                                        <span className="font-medium">{profiles.length}</span> results
                                     </p>
                                 </div>
                                 <div>
