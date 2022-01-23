@@ -8,8 +8,8 @@ function classNames(...classes) {
 const SettingsNavbar = (props) => {
     const tabs = [
         { id: "general", name: "General", href: "general" },
-        { id: "password", name: "Password", href: "password" },
-        { id: "notifications", name: "Notifications", href: "notifications" },
+        { id: "experience", name: "Experience", href: "experience" },
+        { id: "workload", name: "Workload", href: "workload" },
     ];
 
     return (
