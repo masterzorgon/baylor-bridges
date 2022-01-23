@@ -488,6 +488,15 @@ const Search = (props) => {
                             ))}
                         </Popover.Group>
 
+                        <div className="flex items-center md:ml-2">
+                            <a className="text-base font-small text-gray-500 hover:text-gray-900" href={"/search?keywords="}>
+                                Clear Search
+                            </a>
+                            <a href="#" onClick={() => setRole("alumni") } className="ml-5 items-center justify-center px-1 py-2 border border-transparent shadow-sm text-base font-small text-white bg-emerald-600 hover:bg-emerald-700">
+                                Apply Filters
+                            </a>
+                        </div>
+
                     </div>
 
                     {/* People list */}
