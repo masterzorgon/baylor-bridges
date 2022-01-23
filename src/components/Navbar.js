@@ -85,7 +85,7 @@ const Navbar = (props) => {
                             <span className="sr-only">Baylor Bridge</span>
                             <img
                                 className="h-8 w-auto sm:h-10"
-                                src="Baylor-University-Athletics-01.svg"
+                                src="/Baylor-University-Athletics-01.svg"
                                 alt=""
                             />
                         </a>
