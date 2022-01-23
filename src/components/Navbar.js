@@ -80,7 +80,7 @@ const Navbar = (props) => {
             <Popover className="bg-white z-50 sticky top-0">
                 <div className="flex shadow-md justify-between items-center px-4 py-5 sm:px-6 md:justify-start md:space-x-10">
                     {/* Baylor University logo */}
-                    <div>
+                    <div className="h-8 w-auto sm:h-10">
                         <a href="/" className="flex">
                             <span className="sr-only">Baylor Bridge</span>
                             <img
@@ -272,7 +272,7 @@ const Navbar = (props) => {
                                             <Menu.Item>
                                                 {({ active }) => (
                                                     <a
-                                                        href="/"
+                                                        href="/settings"
                                                         className={classNames(active ? "bg-gray-100" : "", "block px-6 py-3 text-sm text-gray-700")}
                                                     >
                                                         Settings
