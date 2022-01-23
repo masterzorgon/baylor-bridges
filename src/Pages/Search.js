@@ -1,8 +1,8 @@
-import React, {Fragment, useEffect,useState} from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Menu, Popover, Transition } from "@headlessui/react";
-import {  ChevronRightIcon, MailIcon, ChevronLeftIcon, ChevronDownIcon } from "@heroicons/react/solid";
+import { ChevronRightIcon, MailIcon, ChevronLeftIcon, ChevronDownIcon } from "@heroicons/react/solid";
 import USAMap from "react-usa-map";
-import {useSearchParams} from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 import axios from "axios";
 function classNames(...classes) {
@@ -14,7 +14,7 @@ function mapHandler(event) {
     // TODO: Display right panel for alumini list
 }
 
-const avatar_url="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80";
+const avatar_url = "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80";
 // const applications = [
 //     {
 //         applicant: {
@@ -313,28 +313,27 @@ const filters = [
 const Search = (props) => {
     const [searchParams] = useSearchParams();
 
-    const keywords=searchParams.get("keywords");
-    const sort=searchParams.get("sort");
-    const role=searchParams.get("role");
-    const graduate_class=searchParams.get("class");
+    const keywords = searchParams.get("keywords");
+    const sort = searchParams.get("sort");
+    const role = searchParams.get("role");
+    const graduate_class = searchParams.get("class");
 
 
-    const [profiles,setProfiles]=useState([]);
+    const [profiles, setProfiles] = useState([]);
 
-    useEffect(()=>{
-        console.log(keywords,sort,role,graduate_class);
-        axios.get("/searchBarResult",{
-            params:{
-                keywords:keywords,
-                detailed:true
+    useEffect(() => {
+        console.log(keywords, sort, role, graduate_class);
+        axios.get("/searchBarResult", {
+            params: {
+                keywords: keywords,
+                detailed: "true"
             }
-        }).then((res)=>{
+        }).then((res) => {
             console.log("search bar result is: ");
             console.log(res.data);
             setProfiles(res.data.profiles);
             console.log(profiles);
         });
-
     });
 
     return (
@@ -456,7 +455,7 @@ const Search = (props) => {
                             {profiles.map((profile) => (
                                 <li key={profile.use_id}>
                                     {/*TODO add href for account detail page*/}
-                                    <a  className="block hover:bg-gray-50">
+                                    <a className="block hover:bg-gray-50">
                                         <div className="flex items-center px-4 py-4 sm:px-6">
                                             <div className="min-w-0 flex-1 flex items-center">
                                                 <div className="flex-shrink-0">
