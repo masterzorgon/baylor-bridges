@@ -71,15 +71,15 @@ const General = () => {
             const height = 10;
             const width = height;
 
-            if (account.photo !== null) {
+            if (!account.photo) {
                 const initials = account.first_name.charAt(0) + account.last_name.charAt(0);
                 return <span className={`inline-flex items-center justify-center h-${height} w-${width} rounded-full bg-gray-500`}>
                     <span className="text-sm font-medium leading-none text-white">{initials}</span>
-                </span>;   
+                </span>;
             } else {
                 return <img
                     className={`h-${height} w-${width} rounded-full`}
-                    src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                    src={account.photo}
                     alt=""
                 />;
             }

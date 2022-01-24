@@ -58,6 +58,24 @@ const Navbar = (props) => {
             });
     };
 
+    const getPhoto = () => {
+        const height = 8;
+        const width = height;
+
+        if (!account.photo) {
+            const initials = account.first_name.charAt(0) + account.last_name.charAt(0);
+            return <span className={`inline-flex items-center justify-center h-${height} w-${width} rounded-full bg-gray-500`}>
+                <span className="text-xs font-medium leading-none text-white">{initials}</span>
+            </span>;
+        } else {
+            return <img
+                className={`h-${height} w-${width} rounded-full`}
+                src={account.photo}
+                alt=""
+            />;
+        }
+    };
+
     return (
         <>
             {/* Semi transparent cover */}
@@ -242,11 +260,7 @@ const Navbar = (props) => {
                                     <div>
                                         <Menu.Button className="bg-white rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
                                             <span className="sr-only">Open user menu</span>
-                                            <img
-                                                className="h-8 w-8 rounded-full"
-                                                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                                alt=""
-                                            />
+                                            { getPhoto() }
                                         </Menu.Button>
                                     </div>
                                     <Transition
