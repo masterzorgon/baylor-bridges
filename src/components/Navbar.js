@@ -142,15 +142,11 @@ const Navbar = (props) => {
                                                         <a href="/about" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
                                                             <div className="ml-4 text-base font-medium text-gray-900">About</div>
                                                         </a>
+                                                        {/*TODO to create this page and connect the url*/}
                                                         <a href="/" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
-                                                            <div className="ml-4 text-base font-medium text-gray-900">Jobs</div>
+                                                            <div className="ml-4 text-base font-medium text-gray-900">Contact Us</div>
                                                         </a>
-                                                        <a href="/" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
-                                                            <div className="ml-4 text-base font-medium text-gray-900">Contact</div>
-                                                        </a>
-                                                        <a href="/" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
-                                                            <div className="ml-4 text-base font-medium text-gray-900">Report an issue</div>
-                                                        </a>
+
                                                     </div>
                                                 </div>
                                             </Popover.Panel>
