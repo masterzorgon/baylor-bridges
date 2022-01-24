@@ -311,7 +311,7 @@ const Navbar = (props) => {
                                     <div>
                                         <img
                                             className="h-8 w-auto sm:h-10"
-                                            src="Baylor-University-Athletics-01.svg"
+                                            src="/Baylor-University-Athletics-01.svg"
                                             alt="Baylor University logo"
                                         />
                                     </div>
@@ -354,7 +354,7 @@ const Navbar = (props) => {
                                     <div className="pt-7 pb-2">
                                         <div className="flex items-center">
                                             <div className="flex-shrink-0">
-                                                <Photo />
+                                                <Photo size="10" />
                                             </div>
                                             <div className="ml-3">
                                                 <div className="text-base font-medium text-gray-800">{account.first_name} { account.last_name }</div>
