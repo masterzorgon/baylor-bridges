@@ -63,7 +63,7 @@ const profile = {
 };
 
 
-const General = () => {
+const Profile = () => {
     const { getAccountLocal } = useContext(AccountContext);
     const [account, setAccount] = useState(null);
 
@@ -119,7 +119,7 @@ const General = () => {
                                     </div>
                                     <div className="px-4 sm:px-6 md:px-0">
                                         <div className="py-6">
-                                            <SettingsNavbar current="general" />
+                                            <SettingsNavbar current="profile" />
                                             {
                                                 account !== null && Object.entries(profile).map(([section_key, section]) => (
                                                     <div key={section_key} className="mt-10 divide-y divide-gray-200">
@@ -167,4 +167,4 @@ const General = () => {
     );
 };
 
-export default General;
+export default Profile;

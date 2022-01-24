@@ -7,7 +7,7 @@ function classNames(...classes) {
 
 const SettingsNavbar = (props) => {
     const tabs = [
-        { id: "general", name: "General", href: "general" },
+        { id: "profile", name: "Profile", href: "profile" },
         { id: "experience", name: "Experience", href: "experience" },
         { id: "workload", name: "Workload", href: "workload" },
     ];

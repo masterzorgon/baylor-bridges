@@ -12,7 +12,7 @@ import Footer from "./components/Footer";
 import Search from "./Pages/Search";
 import Profile from "./Pages/Profile";
 import NotFound from "./Pages/404";
-import General from "./Pages/settings/General";
+import { default as SettingsProfile } from "./Pages/settings/Profile";
 import { Account } from "./components/Account";
 
 import "./App.css";
@@ -46,8 +46,8 @@ function App() {
                     <Route path="/about" element={components(<Navbar />, <About />, <Footer />)} />
                     <Route path="/search" element={components(<Navbar />, <Search />, <Footer />)} />
 
-                    <Route path="/settings" element={<Navigate to="/settings/general" />} />
-                    <Route path="/settings/general" element={components(<Navbar />, <General />, <Footer />)} />
+                    <Route path="/settings" element={<Navigate to="/settings/profile" />} />
+                    <Route path="/settings/profile" element={components(<Navbar />, <SettingsProfile />, <Footer />)} />
 
                     <Route path="/profile" element={components(<Navbar />, <Profile />, <Footer />)} />
                     <Route path="/profile/:user_id" element={components(<Navbar />, <Profile />, <Footer />)} />
