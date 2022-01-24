@@ -66,11 +66,7 @@ const Profile = () => {
     const { getAccountLocal } = useContext(AccountContext);
     const [account, setAccount] = useState(null);
 
-    const getValue = (section_key, field) => {
-        if (field.value === "photo") {
-            return <Photo size="10" />;
-        }
-
+    const getValueRaw = (section_key, field) => {
         var account_from = account;
         if (section_key !== "basic") {
             account_from = account[section_key];
@@ -84,35 +80,49 @@ const Profile = () => {
             ));
             return string;
         } else {
-            return account_from[field.value] ? account_from[field.value] : <div className="text-gray-400">Not set</div>;
+            return account_from[field.value] ? account_from[field.value] : null;
+        }
+    };        
+
+    const getValue = (section_key, field) => {
+        if (field.value === "photo") {
+            return <Photo size="10" />;
+        }
+
+        const value = getValueRaw(section_key, field);
+        if (value === null) {
+            return <div className="text-gray-400">Not set</div>;
+        } else {
+            return value;
         }
     };
 
     const getButtons = (section_key, field) => {
-        const update = (
-            <button
-                type="button"
-                className="bg-white rounded-md font-medium text-emerald-600 hover:text-emerald-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
-            >Update</button>
-        );
+        const makeButton = (text) => {
+            return (
+                <button
+                    type="button"
+                    className="bg-white rounded-md font-medium text-emerald-600 hover:text-emerald-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                >{text}</button>
+            );
+        };
 
         if (field.value === "photo") {
             return (
                 <>
-                    <button
-                        type="button"
-                        className="bg-white rounded-md font-medium text-emerald-600 hover:text-emerald-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
-                    >Update</button>
+                    {makeButton("Update")}
                     <span className="text-gray-300 mt-2.5" aria-hidden="true">|</span>
-                    <button
-                        type="button"
-                        className="bg-white rounded-md font-medium text-emerald-600 hover:text-emerald-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
-                    >Remove</button>
+                    {makeButton("Remove")}
                 </>
             );
         }
 
-        return update;
+        const value = getValueRaw(section_key, field);
+        if (value === null) {
+            return makeButton("Set");
+        }
+
+        return makeButton("Update");
     };
 
     useEffect(() => {
