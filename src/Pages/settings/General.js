@@ -3,6 +3,7 @@ import axios from "axios";
 
 import SettingsNavbar from "../../components/SettingsNavbar";
 import { AccountContext } from "../../components/Account";
+import Photo from "../../components/Photo";
 
 
 const profile = {
@@ -68,21 +69,7 @@ const General = () => {
 
     const getValue = (section_key, field) => {
         if (field.value === "photo") {
-            const height = 10;
-            const width = height;
-
-            if (!account.photo) {
-                const initials = account.first_name.charAt(0) + account.last_name.charAt(0);
-                return <span className={`inline-flex items-center justify-center h-${height} w-${width} rounded-full bg-gray-500`}>
-                    <span className="text-sm font-medium leading-none text-white">{initials}</span>
-                </span>;
-            } else {
-                return <img
-                    className={`h-${height} w-${width} rounded-full`}
-                    src={account.photo}
-                    alt=""
-                />;
-            }
+            return <Photo size="10" />;
         }
 
         var account_from = account;

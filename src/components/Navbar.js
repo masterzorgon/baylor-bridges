@@ -5,6 +5,7 @@ import { MenuIcon, XIcon, SearchIcon, BellIcon } from "@heroicons/react/outline"
 import { ChevronDownIcon } from "@heroicons/react/solid";
 
 import { AccountContext } from "./Account";
+import Photo from "./Photo";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -56,24 +57,6 @@ const Navbar = (props) => {
                 setAccount(null);
                 window.location.href = "/";
             });
-    };
-
-    const getPhoto = () => {
-        const height = 8;
-        const width = height;
-
-        if (!account.photo) {
-            const initials = account.first_name.charAt(0) + account.last_name.charAt(0);
-            return <span className={`inline-flex items-center justify-center h-${height} w-${width} rounded-full bg-gray-500`}>
-                <span className="text-xs font-medium leading-none text-white">{initials}</span>
-            </span>;
-        } else {
-            return <img
-                className={`h-${height} w-${width} rounded-full`}
-                src={account.photo}
-                alt=""
-            />;
-        }
     };
 
     return (
@@ -260,7 +243,7 @@ const Navbar = (props) => {
                                     <div>
                                         <Menu.Button className="bg-white rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
                                             <span className="sr-only">Open user menu</span>
-                                            { getPhoto() }
+                                            <Photo />
                                         </Menu.Button>
                                     </div>
                                     <Transition
@@ -371,11 +354,7 @@ const Navbar = (props) => {
                                     <div className="pt-7 pb-2">
                                         <div className="flex items-center">
                                             <div className="flex-shrink-0">
-                                                <img
-                                                    className="h-10 w-10 rounded-full"
-                                                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                                    alt=""
-                                                />
+                                                <Photo />
                                             </div>
                                             <div className="ml-3">
                                                 <div className="text-base font-medium text-gray-800">{account.first_name} { account.last_name }</div>
