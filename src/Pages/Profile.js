@@ -279,7 +279,7 @@ const Profile = () => {
 
                                 {/* Activity Feed */}
                                 <div className="mt-6 flow-root">
-                                    <ul role="list" className="-mb-8">
+                                    <ul className="-mb-8">
                                         {timeline.map((item, itemIdx) => (
                                             <li key={item.id}>
                                                 <div className="relative pb-8">
