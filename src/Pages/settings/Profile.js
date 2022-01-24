@@ -9,7 +9,7 @@ import Photo from "../../components/Photo";
 const profile = {
     basic: {
         title: "Basic",
-        description: "This information will be displayed publicly so be careful what you share.",
+        description: "The following information will be displayed publicly to everyone.",
         fields: {
             photo: {
                 title: "Photo",
@@ -46,7 +46,7 @@ const profile = {
     },
     contact_info: {
         title: "Contact Information",
-        description: "Manage the contact way you preferred to connect with people",
+        description: "Manage your contact information and how they should be displayed.",
         fields: {
             email: {
                 title: "Email address",
