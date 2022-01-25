@@ -10,8 +10,12 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
-function generateFilterSort(role,grad_class,sort){
+function generateFilterSort(role,graduate_class,sort){
     let sortValue=["Name","Class","Location","Occupation"];
+    let roleValue =["Alumni", "Current student"];
+    // TODO to fill all the class ranges
+    let graduate_class_value=["2022-2026","2012-2022","2002-2012"];
+     
     let sortOptions = [];
     // sort should return a single value, role and grad_class should return an array of values
     for (const s of sortValue){
@@ -21,11 +25,45 @@ function generateFilterSort(role,grad_class,sort){
             sortOptions.push({name:s,href:"#"+s,current:false});
         }
     }
-        
 
-    console.log(sortOptions);
-    return sortOptions;
+    let filters={role:[],class:[]};
+    for (const r of roleValue){
+        if (role!==null && role.includes(r)){
+            filters.role.push({value:"#"+r,label:r,checked:true});
+        }else{
+            filters.role.push({value:"#"+r,label:r,checked:false});
+        }
+    }
 
+    for (const c of graduate_class_value){
+        if (graduate_class!==null && graduate_class.includes(c)){
+            filters.class.push({value:"#"+c,label:c,checked:true});
+        }else{
+            filters.class.push({value:"#"+c,label:c,checked:false});
+        }
+    }
+
+   
+
+    console.log(filters);
+    return [sortOptions,filters];
+
+}
+
+function handleCheckFilter(option,options){
+    if (options!==null && options.includes(option)){
+        const index = options.indexOf(option);
+        if (index > -1) {
+            options.splice(index, 1); // 2nd parameter means remove one item only
+        }
+
+    }else{
+        if (options===null) options=[];
+        options.push(option);
+    }
+
+    console.log("now the options is ",options);
+    return options;
 }
 const avatar_url = "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80";
 
@@ -38,6 +76,7 @@ const filters = {
 
     ],
     class: [
+        // list all the year ranges
         { value: "#2022——2026", label: "2022-2026" },
         { value: "#2012-2022", label: "2012-2022" },
         { value: "#2002-2012", label: "2002-2012" }
@@ -54,7 +93,7 @@ const Search = (props) => {
     const keywords = searchParams.get("keywords");
     const [sort,setSort] = useState(searchParams.get("sort"));
     const [role, setRole] = useState(searchParams.get("role"));
-    const [graduate_class] = useState(searchParams.get("class"));
+    const [graduate_class,setGraduateClass] = useState(searchParams.get("class"));
     const [states, setStates] = useState(searchParams.get("state"));
 
     const [statesCustomConfig, setStateCustomConfig] = useState({});
@@ -116,7 +155,7 @@ const Search = (props) => {
             setStateCustomConfig(config);
         });
 
-        setSortOptions(generateFilterSort(role,graduate_class,sort));
+        setSortOptions(generateFilterSort(role,graduate_class,sort)[0]);
         console.log("this sortOptions is",sortOptions);
         console.log(generateFilterSort(role,graduate_class,sort));
 
@@ -174,7 +213,7 @@ const Search = (props) => {
                                             <legend className="block font-medium">Role</legend>
                                             <div className="pt-6 space-y-6 sm:pt-4 sm:space-y-4">
                                                 {filters.role.map((option, optionIdx) => (
-                                                    <div key={option.value} className="flex items-center text-base sm:text-sm">
+                                                    <div key={option.value} className="flex items-center text-base sm:text-sm"                                                    >
                                                         <input
                                                             id={`role-${optionIdx}`}
                                                             name="role[]"
@@ -182,6 +221,7 @@ const Search = (props) => {
                                                             type="checkbox"
                                                             className="flex-shrink-0 h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
                                                             defaultChecked={option.checked}
+                                                            onClick={()=> setRole(handleCheckFilter(option.label,role))}
                                                         />
                                                         <label htmlFor={`role-${optionIdx}`} className="ml-3 min-w-0 flex-1 text-gray-600">
                                                             {option.label}
@@ -202,6 +242,7 @@ const Search = (props) => {
                                                             type="checkbox"
                                                             className="flex-shrink-0 h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
                                                             defaultChecked={option.checked}
+                                                            onClick={()=>setGraduateClass(handleCheckFilter(option.label,graduate_class))}
                                                         />
                                                         <label htmlFor={`class-${optionIdx}`} className="ml-3 min-w-0 flex-1 text-gray-600">
                                                             {option.label}
