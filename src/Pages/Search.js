@@ -14,16 +14,15 @@ function generateFilterSort(role,grad_class,sort){
     let sortValue=["Name","Class","Location","Occupation"];
     let sortOptions = [];
     // sort should return a single value, role and grad_class should return an array of values
-    if (sort !== null){
-        for (const s of sortValue){
-            if (s ===sort){
-                sortOptions.push({name:s,href:"#"+s,current:true});
-            }else{
-                sortOptions.push({name:s,href:"#"+s,current:false});
-            }
+    for (const s of sortValue){
+        if (s ===sort){
+            sortOptions.push({name:s,href:"#"+s,current:true});
+        }else{
+            sortOptions.push({name:s,href:"#"+s,current:false});
         }
-        
     }
+        
+
     console.log(sortOptions);
     return sortOptions;
 
@@ -53,7 +52,7 @@ const Search = (props) => {
     const [searchParams] = useSearchParams();
 
     const keywords = searchParams.get("keywords");
-    const sort = searchParams.get("sort");
+    const [sort,setSort] = useState(searchParams.get("sort"));
     const [role, setRole] = useState(searchParams.get("role"));
     const [graduate_class] = useState(searchParams.get("class"));
     const [states, setStates] = useState(searchParams.get("state"));
@@ -94,6 +93,7 @@ const Search = (props) => {
             console.log(res.data);
             setProfiles(res.data.profiles);
             console.log("profile is",profiles);
+            console.log("sort is ",sort);
 
             var config = {};
             var max = 0;
@@ -116,9 +116,9 @@ const Search = (props) => {
             setStateCustomConfig(config);
         });
 
-        setSortOptions(generateFilterSort(role,graduate_class,"Name"));
+        setSortOptions(generateFilterSort(role,graduate_class,sort));
         console.log("this sortOptions is",sortOptions);
-        console.log(generateFilterSort(role,graduate_class,"Name"));
+        console.log(generateFilterSort(role,graduate_class,sort));
 
 
     }, [keywords, sort, role, graduate_class, states]);
@@ -239,7 +239,7 @@ const Search = (props) => {
                                                 <div className="py-1">
                                                     
                                                     {sortOptions.map((option) => (
-                                                        <Menu.Item key={option.name}>
+                                                        <Menu.Item key={option.name} onClick={()=>setSort(option.name)}>
                                                             {({ active }) => (
                                                                 <a
                                                                     href={option.href}
