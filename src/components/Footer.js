@@ -2,12 +2,12 @@ import React from "react";
 
 const navigation = {
     main: [
-        { name: "About", href: "#" },
-        { name: "Accessibility", href: "#" },
-        { name: "Partners", href: "#" },
+        {name: "Home", href: "/"},
+        { name: "About", href: "/about" },
+        { name: "Contact Us", href: "/contactUs" }
     ],
     social: [
-        {
+        /*{
             name: "Facebook",
             href: "#",
             icon: (props) => (
@@ -68,7 +68,9 @@ const navigation = {
                 </svg>
             ),
         },
+        */
     ],
+    
 };
 
 export default function Footer() {
@@ -84,15 +86,15 @@ export default function Footer() {
                         </div>
                     ))}
                 </nav>
-                <div className="mt-8 flex justify-center space-x-6">
+                {/*<div className="mt-8 flex justify-center space-x-6">
                     {navigation.social.map((item) => (
                         <a key={item.name} href={item.href} className="text-gray-400 hover:text-gray-500">
                             <span className="sr-only">{item.name}</span>
                             <item.icon className="h-6 w-6" aria-hidden="true" />
                         </a>
                     ))}
-                </div>
-                <p className="mt-8 text-center text-base text-gray-400">&copy; 2020 Workflow, Inc. All rights reserved.</p>
+                    </div> */}
+                <p className="mt-8 text-center text-base text-gray-400">&copy; 2021-2022 Baylor Bridges&trade; All rights reserved.</p>
             </div>
         </footer>
     );

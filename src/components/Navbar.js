@@ -5,6 +5,7 @@ import { MenuIcon, XIcon, SearchIcon, BellIcon } from "@heroicons/react/outline"
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import axios from "axios";
 import { AccountContext } from "./Account";
+import Photo from "./Photo";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -94,12 +95,12 @@ const Navbar = (props) => {
             <Popover className="bg-white z-50 sticky top-0">
                 <div className="flex shadow-md justify-between items-center px-4 py-5 sm:px-6 md:justify-start md:space-x-10">
                     {/* Baylor University logo */}
-                    <div>
+                    <div className="h-8 w-auto sm:h-10">
                         <a href="/" className="flex">
                             <span className="sr-only">Baylor Bridge</span>
                             <img
                                 className="h-8 w-auto sm:h-10"
-                                src="Baylor-University-Athletics-01.svg"
+                                src="/Baylor-University-Athletics-01.svg"
                                 alt=""
                             />
                         </a>
@@ -152,18 +153,14 @@ const Navbar = (props) => {
                                             <Popover.Panel className="absolute z-10 left-1/2 transform -translate-x-1/2 mt-3 px-2 w-screen max-w-xs sm:px-0">
                                                 <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
                                                     <div className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
-                                                        <a href="/" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
+                                                        <a href="/about" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
                                                             <div className="ml-4 text-base font-medium text-gray-900">About</div>
                                                         </a>
-                                                        <a href="/" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
-                                                            <div className="ml-4 text-base font-medium text-gray-900">Jobs</div>
+                                                        {/*TODO to create this page and connect the url*/}
+                                                        <a href="/contactUs" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
+                                                            <div className="ml-4 text-base font-medium text-gray-900">Contact Us</div>
                                                         </a>
-                                                        <a href="/" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
-                                                            <div className="ml-4 text-base font-medium text-gray-900">Contact</div>
-                                                        </a>
-                                                        <a href="/" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
-                                                            <div className="ml-4 text-base font-medium text-gray-900">Report an issue</div>
-                                                        </a>
+
                                                     </div>
                                                 </div>
                                             </Popover.Panel>
@@ -186,7 +183,7 @@ const Navbar = (props) => {
                                     type="search"
                                     name="search"
                                     id="search"
-                                    className="pl-10 shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md bg-gray-200 p-3 border-transparent"
+                                    className="pl-10 shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md bg-gray-100 p-3 border-transparent"
                                     placeholder="Search people"
                                     autoComplete="off"
                                     value={searchText}
@@ -259,11 +256,7 @@ const Navbar = (props) => {
                                     <div>
                                         <Menu.Button className="bg-white rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
                                             <span className="sr-only">Open user menu</span>
-                                            <img
-                                                className="h-8 w-8 rounded-full"
-                                                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                                alt=""
-                                            />
+                                            <Photo />
                                         </Menu.Button>
                                     </div>
                                     <Transition
@@ -289,7 +282,7 @@ const Navbar = (props) => {
                                             <Menu.Item>
                                                 {({ active }) => (
                                                     <a
-                                                        href="/"
+                                                        href="/settings"
                                                         className={classNames(active ? "bg-gray-100" : "", "block px-6 py-3 text-sm text-gray-700")}
                                                     >
                                                         Settings
@@ -331,7 +324,7 @@ const Navbar = (props) => {
                                     <div>
                                         <img
                                             className="h-8 w-auto sm:h-10"
-                                            src="Baylor-University-Athletics-01.svg"
+                                            src="/Baylor-University-Athletics-01.svg"
                                             alt="Baylor University logo"
                                         />
                                     </div>
@@ -349,7 +342,7 @@ const Navbar = (props) => {
                                     <a href="/" className="text-base font-medium text-gray-900 hover:text-gray-700">
                                         Home
                                     </a>
-                                    <a href="/" className="text-base font-medium text-gray-900 hover:text-gray-700">
+                                    <a href="/about" className="text-base font-medium text-gray-900 hover:text-gray-700">
                                         About
                                     </a>
                                 </div>
@@ -374,11 +367,7 @@ const Navbar = (props) => {
                                     <div className="pt-7 pb-2">
                                         <div className="flex items-center">
                                             <div className="flex-shrink-0">
-                                                <img
-                                                    className="h-10 w-10 rounded-full"
-                                                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                                    alt=""
-                                                />
+                                                <Photo size="10" />
                                             </div>
                                             <div className="ml-3">
                                                 <div className="text-base font-medium text-gray-800">{account.first_name} { account.last_name }</div>

@@ -64,7 +64,7 @@ function classNames(...classes) {
 
 const Profile = () => {
     const { user_id } = useParams();
-    const [profileAccount, setProfileAccount] = useState({ unload: true, contactinfo: {}, experiences: []});
+    const [profileAccount, setProfileAccount] = useState(null);
     console.log(user_id);
 
     useEffect(() => {
@@ -79,6 +79,9 @@ const Profile = () => {
         axios.get(url)
             .then(({ data }) => {
                 setProfileAccount(data);
+            })
+            .catch(err => {
+                window.location.href = "/404";
             });
     }, [user_id, setProfileAccount]);
 
@@ -101,14 +104,14 @@ const Profile = () => {
                                 </div>
                             </div>
                             {
-                                profileAccount.first_name === undefined &&
+                                profileAccount === null &&
                                 <div className="h-14 w-96">
                                     <div data-placeholder className="w-full h-9 rounded-md mb-1"></div>
                                     <div data-placeholder className="w-full h-4 rounded-md"></div>
                                 </div>
                             }
                             {
-                                profileAccount.first_name !== undefined &&
+                                profileAccount !== null &&
                                 <div>
                                     <h1 className="text-3xl font-bold text-gray-900">{profileAccount.prefix} {profileAccount.first_name} {profileAccount.last_name}</h1>
                                     <p className="text-sm font-medium text-gray-500">{profileAccount.headline}</p>
@@ -138,7 +141,7 @@ const Profile = () => {
                                     </div>
                                     <div className="border-t border-gray-200 px-4 py-5 sm:px-6">
                                         {
-                                            profileAccount.occupation === undefined &&
+                                            profileAccount === null &&
                                             <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
                                                 <div className="sm:col-span-1">
                                                     <dt data-placeholder className="w-1/3 h-4 rounded-md mb-1 mt-1"></dt>
@@ -169,7 +172,7 @@ const Profile = () => {
                                             </dl>
                                         }
                                         {
-                                            profileAccount.occupation !== undefined &&
+                                            profileAccount !== null &&
                                             <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
                                                 <div className="sm:col-span-1">
                                                     <dt className="text-sm font-medium text-gray-500">Occupation</dt>
@@ -187,20 +190,33 @@ const Profile = () => {
                                                     <dt className="text-sm font-medium text-gray-500">Role</dt>
                                                     <dd className="mt-1 text-sm text-gray-900 capitalize">{profileAccount.role}</dd>
                                                 </div>
-                                                <div className="sm:col-span-1">
-                                                    <dt className="text-sm font-medium text-gray-500">Email</dt>
-                                                    <dd className="mt-1 text-sm text-gray-900 lowercase">{profileAccount.contactinfo.email_address ? profileAccount.contactinfo.email_address : "-"}</dd>
-                                                </div>
-                                                <div className="sm:col-span-1">
-                                                    <dt className="text-sm font-medium text-gray-500">Phone</dt>
-                                                    <dd className="mt-1 text-sm text-gray-900">{profileAccount.contactinfo.phone_number ? profileAccount.contactinfo.phone_number : "-"}</dd>
-                                                </div>
-                                                <div className="sm:col-span-2">
-                                                    <dt className="text-sm font-medium text-gray-500">Biography</dt>
-                                                    <dd className="mt-1 text-sm text-gray-900">
-                                                        {profileAccount.biography ? profileAccount.biography : ""}
-                                                    </dd>
-                                                </div>
+                                                {
+                                                    profileAccount.contact_info &&
+                                                    <>
+                                                        {
+                                                            profileAccount.contact_info.email_address &&
+                                                            <div className="sm:col-span-1">
+                                                                <dt className="text-sm font-medium text-gray-500">Email</dt>
+                                                                <dd className="mt-1 text-sm text-gray-900 lowercase">{profileAccount.contact_info.email_address}</dd>
+                                                            </div>
+                                                        }
+                                                        {profileAccount.contact_info.phone_number &&
+                                                            <div className="sm:col-span-1">
+                                                                <dt className="text-sm font-medium text-gray-500">Phone</dt>
+                                                                <dd className="mt-1 text-sm text-gray-900">{profileAccount.contact_info.phone_number}</dd>
+                                                            </div>
+                                                        }
+                                                    </>
+                                                }
+                                                {
+                                                    profileAccount.contact_info &&
+                                                    <div className="sm:col-span-2">
+                                                        <dt className="text-sm font-medium text-gray-500">Biography</dt>
+                                                        <dd className="mt-1 text-sm text-gray-900">
+                                                            {profileAccount.biography}
+                                                        </dd>
+                                                    </div>
+                                                }
                                             </dl>
                                         }
                                     </div>
@@ -219,7 +235,7 @@ const Profile = () => {
                                         <div className="px-4 py-6 sm:px-6">
                                             <ul className="space-y-8">
                                                 {
-                                                    profileAccount.experiences.map((experience, index) => (
+                                                    profileAccount !== null && profileAccount.experiences.map((experience, index) => (
                                                         <li className="" key={experience.exper_id}>
                                                             <p className="font-medium">{experience.title}</p>
                                                             <p className="font-medium text-sm text-gray-500 mt-0.5"><time dateTime={experience.start_time}>{experience.start_time}</time> - <time dateTime={experience.start_time}>{experience.start_time}</time></p>
@@ -263,7 +279,7 @@ const Profile = () => {
 
                                 {/* Activity Feed */}
                                 <div className="mt-6 flow-root">
-                                    <ul role="list" className="-mb-8">
+                                    <ul className="-mb-8">
                                         {timeline.map((item, itemIdx) => (
                                             <li key={item.id}>
                                                 <div className="relative pb-8">

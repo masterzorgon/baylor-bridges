@@ -3,13 +3,14 @@ import USAMap from "react-usa-map";
 import { CheckIcon } from "@heroicons/react/outline";
 import axios from "axios";
 
+// This is where the features in the landing page is configured
 const features = [
     { name: "Advertise Yourself", description: "You can manage your personal contact info and add personalized experience to your profile.",},
     { name: "Info Security Customization", description: "You can manage which of your phone numbers, email addresses, or biogrgaphy you would like to show to the public." },
     { name: "Alumni Exploration", description: "You can find New Connections with our fascinating search page detailed filters and US map user interface.",},
-    { name: "Mobile View", description: "Web Application is also accesible on your iphone or android" },
-    { name: "Coming Soon - Become Friends", description: "Establish a solid connection by becoming friends with your new found Alumni" },
-    { name: "Coming Soon - Manage Workload", description: "Manage friend request you would like to recieve every week" },
+    { name: "Student Engagement", description: "You can interact with current Baylor Prehealth students through student and alumni-led projects regarding research, leadership, mentorship, and more." },
+    // { name: "Coming Soon - Become Friends", description: "Establish a solid connection by becoming friends with your new found Alumni" },
+    // { name: "Coming Soon - Manage Workload", description: "Manage friend request you would like to recieve every week" },
 ];
 
 const Home = () => {
@@ -60,7 +61,7 @@ const Home = () => {
                             <div className="absolute inset-0">
                                 <img
                                     className="h-full w-full object-cover"
-                                    src="https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2830&q=80&sat=-100"
+                                    src="landing_page_background.jfif"
                                     alt="People working on laptops"
                                 />
                                 <div className="absolute inset-0 bg-emerald-700 mix-blend-multiply" />
@@ -77,17 +78,11 @@ const Home = () => {
                                 <div className="mt-10 max-w-sm mx-auto sm:max-w-none sm:flex sm:justify-center">
                                     <div className="space-y-4 sm:space-y-0 sm:mx-auto sm:inline-grid sm:grid-cols-1 sm:gap-5">
                                         <a
-                                            href="/"
+                                            href="/sign-up"
                                             className="flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-emerald-700 bg-white hover:bg-emerald-50 sm:px-9"
                                         >
-                                                Get started
+                                                Sign Up
                                         </a>
-                                        {/*<a
-                                                href="/"
-                                                className="flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-emerald-500 bg-opacity-60 hover:bg-opacity-70 sm:px-8"
-                                            >
-                                                Live demo
-                                            </a> */}
                                     </div>
                                 </div>
                             </div>
@@ -105,7 +100,7 @@ const Home = () => {
                     </div>
                     <div className="col-span-1 relative">
                         <div className="absolute bottom-0 mb-16">
-                            <h2 className="text-base font-semibold text-emerald-600 uppercase tracking-wide">Everything you need</h2>
+                            <h2 className="text-base font-semibold text-emerald-600 uppercase tracking-wide">Alumni Heat Map</h2>
                             <p className="mt-2 text-3xl font-extrabold text-gray-900">Alumni Connection Platform</p>
                             <p className="mt-4 text-lg text-gray-500">
                                     Providing Environment for Students and Alumni to discover New Connections and foster deeper relationship with one another.
@@ -120,21 +115,22 @@ const Home = () => {
                 <div className="bg-gray-100 -mt-6 lg:mt-0">
                     <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-6">
                         <p className="text-center text-sm font-semibold uppercase text-gray-500 tracking-wide">
-                                Project Collaborators
+                                Supported By
                         </p>
-                        <div className="mt-6 grid grid-cols-2 gap-8 md:grid-cols-6 lg:grid-cols-3">
-                            <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
-                                <img className="h-12" src="https://tailwindui.com/img/logos/tuple-logo-gray-400.svg" alt="Tuple" />
-                            </div>
-                            <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
-                                <img className="h-12" src="https://tailwindui.com/img/logos/mirage-logo-gray-400.svg" alt="Mirage" />
-                            </div>
+                        {/* TODO: add logo*/}
+
+                        <div className="mt-6 grid grid-cols-1 gap-8 md:grid-cols-2">
                             <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
                                 <img
-                                    className="h-12"
-                                    src="https://tailwindui.com/img/logos/statickit-logo-gray-400.svg"
-                                    alt="StaticKit"
-                                />
+                                    className="h-9 md:h-14 w-auto"
+                                    src="Baylor-Prehealth.png"
+                                    alt="Mirage" />
+                            </div>
+                            <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
+                                <img 
+                                    className="h-9 md:h-14 w-auto" 
+                                    src="Baylor-CS.png" 
+                                    alt="Tuple" />
                             </div>
                         </div>
                     </div>
@@ -152,7 +148,7 @@ const Home = () => {
                         </p>
                     </div>
                     <div className="mt-12 lg:mt-0 lg:col-span-2">
-                        <dl className="space-y-10 sm:space-y-0 sm:grid sm:grid-cols-2 sm:grid-rows-3 sm:grid-flow-col sm:gap-x-6 sm:gap-y-10 lg:gap-x-8">
+                        <dl className="space-y-10 sm:space-y-0 sm:grid sm:grid-cols-2 sm:grid-rows-2 sm:grid-flow-col sm:gap-x-6 sm:gap-y-10 lg:gap-x-8">
                             {features.map((feature) => (
                                 <div key={feature.name} className="relative">
                                     <dt>
