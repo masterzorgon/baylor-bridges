@@ -4,7 +4,7 @@ const navigation = {
     main: [
         {name: "Home", href: "/"},
         { name: "About", href: "/about" },
-        { name: "Contact Us", href: "#" }
+        { name: "Contact Us", href: "/contactUs" }
     ],
     social: [
         /*{

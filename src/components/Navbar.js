@@ -143,7 +143,7 @@ const Navbar = (props) => {
                                                             <div className="ml-4 text-base font-medium text-gray-900">About</div>
                                                         </a>
                                                         {/*TODO to create this page and connect the url*/}
-                                                        <a href="/" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
+                                                        <a href="/contactUs" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
                                                             <div className="ml-4 text-base font-medium text-gray-900">Contact Us</div>
                                                         </a>
 
