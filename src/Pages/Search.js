@@ -1,88 +1,63 @@
-import React, { Fragment, useEffect, useState } from "react";
-import { Menu, Transition, Disclosure } from "@headlessui/react";
-import { ChevronRightIcon, MailIcon, ChevronLeftIcon, ChevronDownIcon, FilterIcon } from "@heroicons/react/solid";
+/* eslint-disable no-unused-vars */
+import React, {Fragment,useEffect,useState} from "react";
+import {Menu, Popover, Transition} from "@headlessui/react";
+import {ChevronRightIcon, MailIcon,  ChevronDownIcon} from "@heroicons/react/solid";
+import {TrashIcon} from "@heroicons/react/outline";
 import USAMap from "react-usa-map";
-import { useSearchParams } from "react-router-dom";
-
+import {useSearchParams} from "react-router-dom";
 import axios from "axios";
-// import { faPassport } from "@fortawesome/free-solid-svg-icons";
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
-function generateFilterSort(role,graduate_class,sort){
-    let sortValue=["Name","Class","Location","Occupation"];
-    let roleValue =["Alumni", "Current student"];
+function generateFilterSort(role, graduate_class, sort) {
+    let sortValue = ["Name", "Class", "Location", "Occupation"];
+    let roleValue = ["Alumni", "Current student"];
     // TODO to fill all the class ranges
-    let graduate_class_value=["2022-2026","2012-2022","2002-2012"];
-     
+    let graduate_class_value = ["2022-2026", "2012-2022", "2002-2012"];
+
     let sortOptions = [];
     // sort should return a single value, role and grad_class should return an array of values
-    for (const s of sortValue){
-        if (s ===sort){
-            sortOptions.push({name:s,href:"#"+s,current:true});
-        }else{
-            sortOptions.push({name:s,href:"#"+s,current:false});
+    for (const s of sortValue) {
+        if (s === sort) {
+            sortOptions.push({name: s, href: "#" + s, current: true});
+        } else {
+            sortOptions.push({name: s, href: "#" + s, current: false});
         }
     }
 
-    let filters={role:[],class:[]};
-    for (const r of roleValue){
-        if (role!==null && role.includes(r)){
-            filters.role.push({value:"#"+r,label:r,checked:true});
-        }else{
-            filters.role.push({value:"#"+r,label:r,checked:false});
+
+    let filters = [{id:"role",name:"Role",options:[]},
+        {id:"class",name:"Class",options:[]}
+    ];
+
+    for (const r of roleValue) {
+        if (role !== null && role.includes(r)) {
+            filters[0].options.push({value: "#" + r, label: r, checked: true});
+        } else {
+            filters[0].options.push({value: "#" + r, label: r, checked: false});
         }
     }
 
-    for (const c of graduate_class_value){
-        if (graduate_class!==null && graduate_class.includes(c)){
-            filters.class.push({value:"#"+c,label:c,checked:true});
-        }else{
-            filters.class.push({value:"#"+c,label:c,checked:false});
+    for (const c of graduate_class_value) {
+        if (graduate_class !== null && graduate_class.includes(c)) {
+            filters[1].options.push({value: "#" + c, label: c, checked: true});
+        } else {
+            filters[1].options.push({value: "#" + c, label: c, checked: false});
         }
     }
 
-   
-
-    console.log(filters);
-    return [sortOptions,filters];
+    return [sortOptions, filters];
 
 }
 
-function handleCheckFilter(option,options){
-    if (options!==null && options.includes(option)){
-        const index = options.indexOf(option);
-        if (index > -1) {
-            options.splice(index, 1); // 2nd parameter means remove one item only
-        }
 
-    }else{
-        if (options===null) options=[];
-        options.push(option);
-    }
 
-    console.log("now the options is ",options);
-    return options;
-}
 const avatar_url = "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80";
 
 
 
-const filters = {
-    role: [
-        { value: "#alumni", label: "Alumni" },
-        { value: "#student", label: "Current student" },
 
-    ],
-    class: [
-        // list all the year ranges
-        { value: "#2022——2026", label: "2022-2026" },
-        { value: "#2012-2022", label: "2012-2022" },
-        { value: "#2002-2012", label: "2002-2012" }
-
-    ]
-};
 
 // TODO: Mobile responsive for everything in this page
 // TODO: On mobile, hide map, replace with a filter
@@ -91,9 +66,10 @@ const Search = (props) => {
     const [searchParams] = useSearchParams();
 
     const keywords = searchParams.get("keywords");
-    const [sort,setSort] = useState(searchParams.get("sort"));
+    // eslint-disable-next-line no-unused-vars
+    const [sort, setSort] = useState(searchParams.get("sort"));
     const [role, setRole] = useState(searchParams.get("role"));
-    const [graduate_class,setGraduateClass] = useState(searchParams.get("class"));
+    const [graduate_class, setGraduateClass] = useState(searchParams.get("class"));
     const [states, setStates] = useState(searchParams.get("state"));
 
     const [statesCustomConfig, setStateCustomConfig] = useState({});
@@ -101,7 +77,8 @@ const Search = (props) => {
 
     const [profiles, setProfiles] = useState([]);
     // eslint-disable-next-line no-unused-vars
-    const [sortOptions,setSortOptions]=useState([]);
+    const [sortOptions, setSortOptions] = useState([]);
+    const [filtersOptions, setFiltersOptions]=useState([]);
 
     function mapHandler(event) {
         if (event.target.dataset.name === states) {
@@ -114,7 +91,32 @@ const Search = (props) => {
         setRole(searchParams.get("role"));
     }
 
+    // eslint-disable-next-line no-unused-vars
+    function handleCheckFilter(option, optionsName) {
+        let options=null;
+        if (optionsName === "role"){
+            options=role;
+        }else{
+            options=graduate_class;
+        }
 
+        if (options !== null && options.includes(option)) {
+            const index = options.indexOf(option);
+            if (index > -1) {
+                options.splice(index, 1); // 2nd parameter means remove one item only
+            }
+
+        } else {
+            if (options === null) options = [];
+            options.push(option);
+        }
+
+        if (optionsName === "role"){
+            setRole(options);
+        }else{
+            setGraduateClass(options);
+        }
+    }
 
     useEffect(() => {
         console.log(keywords, sort, role, graduate_class);
@@ -131,8 +133,8 @@ const Search = (props) => {
             console.log("search bar result is: ");
             console.log(res.data);
             setProfiles(res.data.profiles);
-            console.log("profile is",profiles);
-            console.log("sort is ",sort);
+            console.log("profile is", profiles);
+            console.log("sort is ", sort);
 
             var config = {};
             var max = 0;
@@ -155,9 +157,10 @@ const Search = (props) => {
             setStateCustomConfig(config);
         });
 
-        setSortOptions(generateFilterSort(role,graduate_class,sort)[0]);
-        console.log("this sortOptions is",sortOptions);
-        console.log(generateFilterSort(role,graduate_class,sort));
+        const [get_sort,get_filter] = generateFilterSort(role, graduate_class, sort);
+        setSortOptions(get_sort);
+        setFiltersOptions(get_filter);
+        console.log("filter options is ",filtersOptions);
 
 
     }, [keywords, sort, role, graduate_class, states]);
@@ -166,143 +169,138 @@ const Search = (props) => {
         <>
             <div className="grid grid-cols-1 lg:grid-cols-2">
                 <div className="hidden lg:block col-span-1">
-                    <div className="bg-gray-100 sticky p-2 h-screen" style={{ "top": "5.4rem" }}>
+                    <div className="bg-gray-100 sticky p-2 h-screen" style={{"top": "5.4rem"}}>
                         <div className="align-middle relative flex">
-                            <USAMap customize={statesCustomConfig} onClick={mapHandler} />
+                            <USAMap onClick={mapHandler}/>
                         </div>
                     </div>
                 </div>
                 <div className="col-span-1 px-4">
                     {/* Filters */}
-                    <div className="bg-white sticky flex items-center justify-between px-6 py-5 sm:pt-6 md:pt-6 lg:pt-6 pt-2 z-30" style={{ "top": "5.4rem" }}>
+                    <div
+                        className="bg-white sticky flex items-center justify-between px-6 py-5 sm:pt-6 md:pt-6 lg:pt-6 pt-2 z-30"
+                        style={{"top": "5.4rem"}}>
                         {/* White cover for sticky filter div, for visuals only */}
-                        <div className="absolute bg-inherit w-full" style={{ "top": "-2rem", "height": "4rem", "left": "0rem" }}></div>
+                        <div className="absolute bg-inherit w-full"
+                            style={{"top": "-2rem", "height": "4rem", "left": "0rem"}}></div>
+
+                        {/* Sort */}
+                        <Menu as="div" className="relative z-10 inline-block text-left">
+                            <div>
+                                <Menu.Button
+                                    className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                                    Sort
+                                    <ChevronDownIcon
+                                        className="flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500"
+                                        aria-hidden="true"
+                                    />
+                                </Menu.Button>
+                            </div>
+
+                            <Transition
+                                as={Fragment}
+                                enter="transition ease-out duration-100"
+                                enterFrom="transform opacity-0 scale-95"
+                                enterTo="transform opacity-100 scale-100"
+                                leave="transition ease-in duration-75"
+                                leaveFrom="transform opacity-100 scale-100"
+                                leaveTo="transform opacity-0 scale-95"
+                            >
+                                <Menu.Items className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                    <div className="py-1">
+
+                                        {sortOptions.map((option) => (
+                                            <Menu.Item key={option.name} onClick={()=>setSort(option.name)}>
+                                                {({ active }) => (
+                                                    <a
+                                                        href={option.href}
+                                                        className={classNames(
+                                                            option.current ? "font-medium text-gray-900" : "text-gray-500",
+                                                            active ? "bg-gray-100" : "",
+                                                            "block px-4 py-2 text-sm"
+                                                        )}
+                                                    >
+                                                        {option.name}
+                                                    </a>
+                                                )}
+                                            </Menu.Item>
+                                        ))}
+                                    </div>
+                                </Menu.Items>
+                            </Transition>
+                        </Menu>
+
 
                         {/* Filters */}
-                        {/* Filters */}
-                        <Disclosure
-                            as="section"
-                            aria-labelledby="filter-heading"
-                            className="relative z-10 border-t border-b border-gray-200 grid items-center"
-                        >
-                            <h2 id="filter-heading" className="sr-only">
-                                Filters
-                            </h2>
-                            <div className="relative col-start-1 row-start-1 py-4">
-                                <div className="max-w-7xl mx-auto flex space-x-6 divide-x divide-gray-200 text-sm px-4 sm:px-6 lg:px-8">
+                        <Popover.Group className="hidden sm:flex sm:items-baseline sm:space-x-8">
+                            {/* Clear filters */}
+                            <Popover as="div" id="desktop-menu" className="relative z-10 inline-block text-left">
+                                <Popover.Button
+                                    className="group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                                    <span className="text-transparent">Clear</span>
+                                    <TrashIcon
+                                        className="flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500"
+                                    />
+                                </Popover.Button>
+                            </Popover>
+
+                            {filtersOptions.map((section, sectionIdx) => (
+                                <Popover as="div" key={section.name} id="desktop-menu"
+                                    className="relative z-10 inline-block text-left">
                                     <div>
-                                        <Disclosure.Button className="group text-gray-700 font-medium flex items-center">
-                                            <FilterIcon
-                                                className="flex-none w-5 h-5 mr-2 text-gray-400 group-hover:text-gray-500"
+                                        <Popover.Button
+                                            className="group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                                            <span>{section.name}</span>
+                                            {sectionIdx === 0 ? (
+                                                <span
+                                                    className="ml-1.5 rounded py-0.5 px-1.5 bg-gray-200 text-xs font-semibold text-gray-700 tabular-nums">
+                                                    1
+                                                </span>
+                                            ) : null}
+                                            <ChevronDownIcon
+                                                className="flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500"
                                                 aria-hidden="true"
                                             />
-                                            2 Filters
-                                        </Disclosure.Button>
+                                        </Popover.Button>
                                     </div>
-                                    <div className="pl-6">
-                                        <button type="button" className="text-gray-500">
-                                            Clear all
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <Disclosure.Panel className="border-t border-gray-200 py-10">
-                                <div className="max-w-7xl mx-auto grid grid-cols-2 gap-x-4 px-4 text-sm sm:px-6 md:gap-x-6 lg:px-8">
-                                    <div className="grid grid-cols-1 gap-y-10 auto-rows-min md:grid-cols-2 md:gap-x-6">
-                                        <fieldset>
-                                            <legend className="block font-medium">Role</legend>
-                                            <div className="pt-6 space-y-6 sm:pt-4 sm:space-y-4">
-                                                {filters.role.map((option, optionIdx) => (
-                                                    <div key={option.value} className="flex items-center text-base sm:text-sm"                                                    >
+
+                                    <Transition
+                                        as={Fragment}
+                                        enter="transition ease-out duration-100"
+                                        enterFrom="transform opacity-0 scale-95"
+                                        enterTo="transform opacity-100 scale-100"
+                                        leave="transition ease-in duration-75"
+                                        leaveFrom="transform opacity-100 scale-100"
+                                        leaveTo="transform opacity-0 scale-95"
+                                    >
+                                        <Popover.Panel
+                                            className="origin-top-right absolute right-0 mt-2 bg-white rounded-md shadow-lg p-4 ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                            <form className="space-y-4">
+                                                {section.options.map((option, optionIdx) => (
+                                                    <div key={option.value} className="flex items-center">
                                                         <input
-                                                            id={`role-${optionIdx}`}
-                                                            name="role[]"
+                                                            id={`filter-${section.id}-${optionIdx}`}
+                                                            name={`${section.id}[]`}
                                                             defaultValue={option.value}
                                                             type="checkbox"
-                                                            className="flex-shrink-0 h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
+                                                            className="h-4 w-4 border-gray-300 rounded text-emerald-600 focus:ring-emerald-500"
                                                             defaultChecked={option.checked}
-                                                            onClick={()=> setRole(handleCheckFilter(option.label,role))}
+                                                            onClick={()=>handleCheckFilter(option.label,section.id)}
                                                         />
-                                                        <label htmlFor={`role-${optionIdx}`} className="ml-3 min-w-0 flex-1 text-gray-600">
+                                                        <label
+                                                            htmlFor={`filter-${section.id}-${optionIdx}`}
+                                                            className="ml-3 pr-6 text-sm font-medium text-gray-900 whitespace-nowrap"
+                                                        >
                                                             {option.label}
                                                         </label>
                                                     </div>
                                                 ))}
-                                            </div>
-                                        </fieldset>
-                                        <fieldset>
-                                            <legend className="block font-medium">Class</legend>
-                                            <div className="pt-6 space-y-6 sm:pt-4 sm:space-y-4">
-                                                {filters.class.map((option, optionIdx) => (
-                                                    <div key={option.value} className="flex items-center text-base sm:text-sm">
-                                                        <input
-                                                            id={`class-${optionIdx}`}
-                                                            name="class[]"
-                                                            defaultValue={option.value}
-                                                            type="checkbox"
-                                                            className="flex-shrink-0 h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
-                                                            defaultChecked={option.checked}
-                                                            onClick={()=>setGraduateClass(handleCheckFilter(option.label,graduate_class))}
-                                                        />
-                                                        <label htmlFor={`class-${optionIdx}`} className="ml-3 min-w-0 flex-1 text-gray-600">
-                                                            {option.label}
-                                                        </label>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </fieldset>
-                                    </div>
-                                </div>
-                            </Disclosure.Panel>
-                            <div className="col-start-1 row-start-1 py-4">
-                                <div className="flex justify-end max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                                    <Menu as="div" className="relative inline-block">
-                                        <div className="flex">
-                                            <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                                                Sort
-                                                <ChevronDownIcon
-                                                    className="flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500"
-                                                    aria-hidden="true"
-                                                />
-                                            </Menu.Button>
-                                        </div>
-
-                                        <Transition
-                                            as={Fragment}
-                                            enter="transition ease-out duration-100"
-                                            enterFrom="transform opacity-0 scale-95"
-                                            enterTo="transform opacity-100 scale-100"
-                                            leave="transition ease-in duration-75"
-                                            leaveFrom="transform opacity-100 scale-100"
-                                            leaveTo="transform opacity-0 scale-95"
-                                        >
-                                            <Menu.Items className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                                <div className="py-1">
-                                                    
-                                                    {sortOptions.map((option) => (
-                                                        <Menu.Item key={option.name} onClick={()=>setSort(option.name)}>
-                                                            {({ active }) => (
-                                                                <a
-                                                                    href={option.href}
-                                                                    className={classNames(
-                                                                        option.current ? "font-medium text-gray-900" : "text-gray-500",
-                                                                        active ? "bg-gray-100" : "",
-                                                                        "block px-4 py-2 text-sm"
-                                                                    )}
-                                                                >
-                                                                    {option.name}
-                                                                </a>
-                                                            )}
-                                                        </Menu.Item>
-                                                    ))}
-                                                </div>
-                                            </Menu.Items>
-                                        </Transition>
-                                    </Menu>
-                                </div>
-                            </div>
-                        </Disclosure>
-
+                                            </form>
+                                        </Popover.Panel>
+                                    </Transition>
+                                </Popover>
+                            ))}
+                        </Popover.Group>
                     </div>
 
                     {/* People list */}
@@ -346,89 +344,7 @@ const Search = (props) => {
                                 </li>
                             ))}
                         </ul>
-                        <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
-                            <div className="flex-1 flex justify-between sm:hidden">
-                                <a
-                                    href="#"
-                                    className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-                                >
-                                    Previous
-                                </a>
-                                <a
-                                    href="#"
-                                    className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-                                >
-                                    Next
-                                </a>
-                            </div>
-                            <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                                <div>
-                                    <p className="text-sm text-gray-700">
-                                        Showing <span className="font-medium">1</span> to <span className="font-medium">10</span> of{" "}
-                                        <span className="font-medium">{profiles.length}</span> results
-                                    </p>
-                                </div>
-                                <div>
-                                    <nav className="relative z-0 inline-flex rounded-md -space-x-px" aria-label="Pagination">
-                                        <a
-                                            href="#"
-                                            className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-                                        >
-                                            <span className="sr-only">Previous</span>
-                                            <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
-                                        </a>
-                                        {/* Current: "z-10 bg-emerald-50 border-emerald-500 text-emerald-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" */}
-                                        <a
-                                            href="#"
-                                            aria-current="page"
-                                            className="z-10 bg-emerald-50 border-emerald-500 text-emerald-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium"
-                                        >
-                                            1
-                                        </a>
-                                        <a
-                                            href="#"
-                                            className="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium"
-                                        >
-                                            2
-                                        </a>
-                                        <a
-                                            href="#"
-                                            className="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 hidden md:inline-flex relative items-center px-4 py-2 border text-sm font-medium"
-                                        >
-                                            3
-                                        </a>
-                                        <span className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">
-                                            ...
-                                        </span>
-                                        <a
-                                            href="#"
-                                            className="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 hidden md:inline-flex relative items-center px-4 py-2 border text-sm font-medium"
-                                        >
-                                            8
-                                        </a>
-                                        <a
-                                            href="#"
-                                            className="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium"
-                                        >
-                                            9
-                                        </a>
-                                        <a
-                                            href="#"
-                                            className="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium"
-                                        >
-                                            10
-                                        </a>
-                                        <a
-                                            href="#"
-                                            className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-                                        >
-                                            <span className="sr-only">Next</span>
-                                            <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
-                                        </a>
-                                    </nav>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>
