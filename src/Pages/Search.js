@@ -14,8 +14,17 @@ function generateFilterSort(role, graduate_class, sort) {
     console.log("generate filter sort options");
     let sortValue = ["Name", "Class", "Location", "Occupation"];
     let roleValue = ["Alumni", "Current student"];
-    // TODO to fill all the class ranges
-    let graduate_class_value = ["2022-2026", "2012-2022", "2002-2012"];
+
+    // to generate class ranges options based on the current year
+    let current_year=new Date().getFullYear();
+    let graduate_class_value = [];
+    graduate_class_value.push(current_year.toString()+"-"+(current_year+4).toString());
+    let year = current_year;
+    for(let i =0;i<6;i+=1){
+        graduate_class_value.push((year-10).toString()+"-"+year.toString());
+        year=year-10;
+    }
+    console.log(graduate_class_value);
 
     let sortOptions = [];
     // sort should return a single value, role and grad_class should return an array of values
@@ -255,12 +264,14 @@ const Search = (props) => {
                                         <Popover.Button
                                             className="group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
                                             <span>{section.name}</span>
-                                            {sectionIdx === 0 ? (
+
+                                            {/* todo showing how many filters are selected? */}
+                                            {/* {sectionIdx === 0 ? (
                                                 <span
                                                     className="ml-1.5 rounded py-0.5 px-1.5 bg-gray-200 text-xs font-semibold text-gray-700 tabular-nums">
                                                     1
                                                 </span>
-                                            ) : null}
+                                            ) : null} */}
                                             <ChevronDownIcon
                                                 className="flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500"
                                                 aria-hidden="true"
