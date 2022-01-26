@@ -11,6 +11,7 @@ function classNames(...classes) {
 }
 
 function generateFilterSort(role, graduate_class, sort) {
+    console.log("generate filter sort options");
     let sortValue = ["Name", "Class", "Location", "Occupation"];
     let roleValue = ["Alumni", "Current student"];
     // TODO to fill all the class ranges
@@ -71,6 +72,7 @@ const Search = (props) => {
     const [role, setRole] = useState(searchParams.get("role"));
     const [graduate_class, setGraduateClass] = useState(searchParams.get("class"));
     const [states, setStates] = useState(searchParams.get("state"));
+    const [test,setTest]=useState(0);
 
     const [statesCustomConfig, setStateCustomConfig] = useState({});
 
@@ -92,14 +94,8 @@ const Search = (props) => {
     }
 
     // eslint-disable-next-line no-unused-vars
-    function handleCheckFilter(option, optionsName) {
-        let options=null;
-        if (optionsName === "role"){
-            options=role;
-        }else{
-            options=graduate_class;
-        }
-
+    function handleCheckFilter(option, options) {
+        console.log("options is ",options, "option is ",option);
         if (options !== null && options.includes(option)) {
             const index = options.indexOf(option);
             if (index > -1) {
@@ -110,16 +106,16 @@ const Search = (props) => {
             if (options === null) options = [];
             options.push(option);
         }
+        console.log("options now is ",options);
 
-        if (optionsName === "role"){
-            setRole(options);
-        }else{
-            setGraduateClass(options);
-        }
+        return options;
     }
 
     useEffect(() => {
+        console.log("calling use Effect");
+        console.log("test is ",test);
         console.log(keywords, sort, role, graduate_class);
+
         axios.get("/searchBarResult", {
             params: {
                 keywords: keywords,
@@ -130,11 +126,10 @@ const Search = (props) => {
                 state: states
             }
         }).then((res) => {
-            console.log("search bar result is: ");
-            console.log(res.data);
+
             setProfiles(res.data.profiles);
-            console.log("profile is", profiles);
-            console.log("sort is ", sort);
+            // console.log("profile is", profiles);
+            // console.log("sort is ", sort);
 
             var config = {};
             var max = 0;
@@ -163,7 +158,7 @@ const Search = (props) => {
         console.log("filter options is ",filtersOptions);
 
 
-    }, [keywords, sort, role, graduate_class, states]);
+    }, [keywords, sort,role,graduate_class, states,test]);
 
     return (
         <>
@@ -242,7 +237,6 @@ const Search = (props) => {
                                     <TrashIcon
                                         className="flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500"
                                         onClick={()=> {
-                                            console.log("click trash");
                                             setRole(null);
                                             setGraduateClass(null);
                                         }}
@@ -291,7 +285,21 @@ const Search = (props) => {
                                                             type="checkbox"
                                                             className="h-4 w-4 border-gray-300 rounded text-emerald-600 focus:ring-emerald-500"
                                                             defaultChecked={option.checked}
-                                                            onClick={()=>handleCheckFilter(option.label,section.id)}
+                                                            onClick={()=>{
+
+                                                                if (section.id === "role"){
+                                                                    console.log("clicking role");
+                                                                    setRole(handleCheckFilter(option.label,role));
+                                                                    console.log("role now is ",role);
+
+                                                                }else{
+                                                                    console.log("clicking class");
+                                                                    setGraduateClass(handleCheckFilter(option.label,graduate_class));
+                                                                }
+
+                                                                setTest(test+1);
+                                                                
+                                                            }}
                                                         />
                                                         <label
                                                             htmlFor={`filter-${section.id}-${optionIdx}`}
