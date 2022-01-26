@@ -113,16 +113,20 @@ const Search = (props) => {
 
     useEffect(() => {
         console.log("calling use Effect");
-        console.log("test is ",test);
         console.log(keywords, sort, role, graduate_class);
+        let roleValue = null;
+        let classValue=null;
+        if (role !==null) roleValue=role.toString();
+        if(graduate_class!==null) classValue=graduate_class.toString();
+
 
         axios.get("/searchBarResult", {
             params: {
                 keywords: keywords,
                 detailed: true,
                 sort: sort,
-                role: role,
-                class: graduate_class,
+                role: roleValue,
+                class: classValue,
                 state: states
             }
         }).then((res) => {
