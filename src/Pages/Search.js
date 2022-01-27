@@ -94,6 +94,8 @@ const Search = (props) => {
     const [filtersOptions, setFiltersOptions]=useState([]);
 
     function mapHandler(event) {
+
+        setNeedUpdate(true);
         if (event.target.dataset.name === states) {
             console.log("Cancelling state filter selection");
             setStates();
@@ -215,7 +217,7 @@ const Search = (props) => {
                 <div className="hidden lg:block col-span-1">
                     <div className="bg-gray-100 sticky p-2 h-screen" style={{"top": "5.4rem"}}>
                         <div className="align-middle relative flex">
-                            <USAMap onClick={mapHandler}/>
+                            <USAMap customize={statesCustomConfig} onClick={mapHandler}/>
                         </div>
                     </div>
                 </div>
