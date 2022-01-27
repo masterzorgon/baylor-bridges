@@ -10,37 +10,38 @@ import Photo from "../../components/Photo";
 const profile = {
     basic: {
         title: "Basic",
-        description: "The following information will be displayed publicly to everyone.",
+        description: "The following information will be displayed publically to everyone.",
         fields: {
             photo: {
                 title: "Photo",
-                value: "photo",
-                type: "file",
+                value: { type: "photo", key: "photo" },
             },
             name: {
                 title: "Name",
-                value: ["prefix", "first_name", "last_name"],
-                type: ["text", "text", "text"],
+                value: [
+                    { type: "text", title: "Prefix", placeholder: "Prefix", key: "prefix" },
+                    { type: "text", title: "First name", placeholder: "First name", key: "first_name" },
+                    { type: "text", title: "Last name", placeholder: "Last name", key: "last_name" },
+                ],
             },
             headline: {
                 title: "Headline",
-                value: "headline",
-                type: "text",
+                value: { type: "text", title: "Headline", placeholder: "Headline", key: "headline" },
             },
             occupation: {
                 title: "Occupation",
-                value: "occupation",
-                type: "text",
+                value: { type: "text", title: "Occupation", placeholder: "Occupation", key: "occupation" },
             },
             location: {
                 title: "Location",
-                value: ["city", "state"],
-                type: ["text", "dropdown"],
+                value: [
+                    { type: "text", title: "City", placeholder: "City", key: "city" },
+                    { type: "dropdown", title: "State", placeholder: "State", key: "state" },
+                ],
             },
             biography: {
                 title: "Biography",
-                value: "biography",
-                type: "textarea",
+                value: { type: "textarea", title: "Biography", placeholder: "Biography", key: "biography" },
             },
         }
     },
@@ -50,13 +51,11 @@ const profile = {
         fields: {
             email: {
                 title: "Email address",
-                value: "email",
-                type: "text",
+                value: { type: "text", title: "Email address", placeholder: "Email address", key: "email" },
             },
             phone: {
                 title: "Phone number",
-                value: "phone",
-                type: "text",
+                value: { type: "text", title: "Phone number", placeholder: "Phone number", key: "phone" },
             },
         }
     }
@@ -66,31 +65,37 @@ const profile = {
 const Profile = () => {
     const { getAccountLocal } = useContext(AccountContext);
     const [account, setAccount] = useState(null);
+
     const [open, setOpen] = useState(false);
+    const [field, setField] = useState(null);
+    const [update, setUpdate] = useState({});
 
     const getValueRaw = (section_key, field) => {
-        var account_from = account;
-        if (section_key !== "basic") {
-            account_from = account[section_key];
-            console.log(account_from);
-        }
-
-        if (Array.isArray(field.value)) {
-            var string = "";
-            field.value.map((value, index) => (
-                string += account_from[value] + " "
-            ));
-            return string;
-        } else {
-            return account_from[field.value] ? account_from[field.value] : null;
-        }
-    };        
-
-    const getValue = (section_key, field) => {
-        if (field.value === "photo") {
+        // Photo
+        if (field.value.type === "photo") {
             return <Photo size="10" />;
         }
 
+        // Basic section would be from root, other sections from their sub-dictionary
+        var account_from = account;
+        if (section_key !== "basic") {
+            account_from = account[section_key];
+        }
+
+        // If field value is an array, then traverse the array to concatenate the values from `account`
+        // Otherwise, return the value from `account`
+        if (Array.isArray(field.value)) {
+            var string = "";
+            field.value.map((value, index) => (
+                string += account_from[value.key] + " "
+            ));
+            return string;
+        } else {
+            return account_from[field.value.key] ? account_from[field.value.key] : null;
+        }
+    };
+
+    const getValue = (section_key, field) => {
         const value = getValueRaw(section_key, field);
         if (value === null) {
             return <div className="text-gray-400">Not set</div>;
@@ -128,8 +133,79 @@ const Profile = () => {
         return makeButton("Update");
     };
 
+    const getModal = (field) => {
+        const handleChange = (e, value) => {
+            setUpdate({ ...update, [field.key]: value });
+            console.log(update);
+        };
+
+        const getTypeDom = (value) => {
+            if (value.type === "file") {
+                return <></>;
+            } else if (value.type === "text") {
+                return (
+                    <div>
+                        <label htmlFor={value.key} className="block text-sm font-medium text-gray-700 sr-only">
+                            {value.title}
+                        </label>
+                        <div className="mt-1">
+                            <input
+                                type={value.type}
+                                name={value.key}
+                                id={value.key}
+                                className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                placeholder={value.placeholder}
+                                value={account[value.key]}
+                                onChange={(e) => handleChange(e, value)}
+                            />
+                        </div>
+                    </div>
+                );
+            } else if (value.type === "textarea") {
+                return (
+                    <div>
+                        <label htmlFor="comment" className="block text-sm font-medium text-gray-700">
+                            Add your comment
+                        </label>
+                        <div className="mt-1">
+                            <textarea
+                                rows={4}
+                                name="comment"
+                                id="comment"
+                                className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                defaultValue={""}
+                            />
+                        </div>
+                    </div>
+                );
+            } else if (value.type === "dropdown") {
+                return <></>;
+            }
+        };
+
+        if (!field) {
+            return;
+        }
+
+        if (Array.isArray(field.value)) {
+            return (
+                <>
+                    <legend className="block text-sm font-medium text-gray-700">{ field.title }</legend>
+                    {
+                        field.value.map((value, index) => (
+                            getTypeDom(value)
+                        ))
+                    }
+                </>
+            );
+        } else {
+            return getTypeDom(field.value);
+        }
+    };
+
     const handleOpenUpdate = (section_key, field) => {
-        console.log(section_key, field);
+        setUpdate({});
+        setField(field);
         setOpen(true);
     };
 
@@ -142,10 +218,8 @@ const Profile = () => {
         axios.get("/account/profile")
             .then(res => {
                 setAccount(res.data);
-                console.log(res.data);
             })
             .catch(err => {
-                console.log(err);
             });
     }, [getAccountLocal]);
 
@@ -230,39 +304,8 @@ const Profile = () => {
                             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
-                            <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
-                                <div className="sm:flex sm:items-start">
-                                    <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                                        
-                                    </div>
-                                    <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                                        <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
-                                            Deactivate account
-                                        </Dialog.Title>
-                                        <div className="mt-2">
-                                            <p className="text-sm text-gray-500">
-                                                Are you sure you want to deactivate your account? All of your data will be permanently removed
-                                                from our servers forever. This action cannot be undone.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="mt-5 sm:mt-4 sm:ml-10 sm:pl-4 sm:flex">
-                                    <button
-                                        type="button"
-                                        className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:w-auto sm:text-sm"
-                                        onClick={() => setOpen(false)}
-                                    >
-                                        Deactivate
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 px-4 py-2 bg-white text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                                        onClick={() => setOpen(false)}
-                                    >
-                                        Cancel
-                                    </button>
-                                </div>
+                            <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6 -space-y-px">
+                                {getModal(field)}
                             </div>
                         </Transition.Child>
                     </div>
