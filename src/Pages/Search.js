@@ -78,8 +78,8 @@ const Search = (props) => {
     const keywords = searchParams.get("keywords");
     // eslint-disable-next-line no-unused-vars
     const [sort, setSort] = useState(searchParams.get("sort"));
-    const [role, setRole] = useState(searchParams.get("role"));
-    const [graduate_class, setGraduateClass] = useState(searchParams.get("class"));
+    const [role, setRole] = useState(searchParams.get("role").split(","));
+    const [graduate_class, setGraduateClass] = useState(searchParams.get("class").split(","));
     const [states, setStates] = useState(searchParams.get("state"));
     const [test,setTest]=useState(0);
     
@@ -116,7 +116,7 @@ const Search = (props) => {
             }
 
         } else {
-            if (options === null) options = [];
+            if (options === null || options[0]==="") options = [];
             options.push(option);
         }
         console.log("options now is ",options);
@@ -172,8 +172,8 @@ const Search = (props) => {
         console.log(keywords, sort, role, graduate_class);
         let roleValue = null;
         let classValue=null;
-        if (role !==null) roleValue=role.toString();
-        if(graduate_class!==null) classValue=graduate_class.toString();
+        if (role !==null || role==="") roleValue=role.toString();
+        if(graduate_class!==null || role==="") classValue=graduate_class.toString();
         console.log("profile in useEffect is ",profiles);
 
         if (profiles.length ===0 || needUpdate){
@@ -208,6 +208,11 @@ const Search = (props) => {
             });
                 
         }
+
+        //form new url
+        let new_url="/search?keywords="+(keywords||"")+"&sort="+(sort||"")+"&role="+(roleValue||"")+"&class="+(classValue||"")+"&state="+(states||"");
+        console.log(new_url);
+        window.history.replaceState(null,"Baylor Bridges",new_url);
 
     }, [keywords,sort,role,graduate_class, states,test]);
 
