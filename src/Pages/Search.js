@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import { Menu, Popover, Transition } from "@headlessui/react";
 import { CheckCircleIcon, ChevronRightIcon, MailIcon, ChevronLeftIcon, ChevronDownIcon } from "@heroicons/react/solid";
+import { TrashIcon } from "@heroicons/react/outline";
 import USAMap from "react-usa-map";
 
 function classNames(...classes) {
@@ -324,7 +325,7 @@ const Search = (props) => {
                         {/* White cover for sticky filter div, for visuals only */}
                         <div className="absolute bg-inherit w-full" style={{ "top": "-2rem", "height": "4rem", "left": "0rem" }}></div>
                         
-                        {/* Filters */}
+                        {/* Sort */}
                         <Menu as="div" className="relative z-10 inline-block text-left">
                             <div>
                                 <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
@@ -367,7 +368,19 @@ const Search = (props) => {
                             </Transition>
                         </Menu>
 
+
+                        {/* Filters */}
                         <Popover.Group className="hidden sm:flex sm:items-baseline sm:space-x-8">
+                            {/* Clear filters */}
+                            <Popover as="div" id="desktop-menu" className="relative z-10 inline-block text-left">
+                                <Popover.Button className="group inline-flex items-center justify-center text-sm font-medium text-gray-400 hover:text-gray-700">
+                                    <span className="text-transparent" aria-hidden="true">Clear</span>
+                                    <TrashIcon
+                                        className="flex-shrink-0 -mr-1 ml-1 h-5 w-5" 
+                                    />
+                                </Popover.Button>
+                            </Popover>
+
                             {filters.map((section, sectionIdx) => (
                                 <Popover as="div" key={section.name} id="desktop-menu" className="relative z-10 inline-block text-left">
                                     <div>
