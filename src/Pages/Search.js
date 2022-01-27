@@ -24,8 +24,7 @@ function generateFilterSort(role, graduate_class, sort) {
         graduate_class_value.push((year-10).toString()+"-"+year.toString());
         year=year-10;
     }
-    console.log(graduate_class_value);
-
+    
     let sortOptions = [];
     // sort should return a single value, role and grad_class should return an array of values
     for (const s of sortValue) {
@@ -63,6 +62,7 @@ function generateFilterSort(role, graduate_class, sort) {
 
 
 
+
 const avatar_url = "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80";
 
 
@@ -82,6 +82,8 @@ const Search = (props) => {
     const [graduate_class, setGraduateClass] = useState(searchParams.get("class"));
     const [states, setStates] = useState(searchParams.get("state"));
     const [test,setTest]=useState(0);
+    
+    const [needUpdate,setNeedUpdate] = useState(false);
 
     const [statesCustomConfig, setStateCustomConfig] = useState({});
 
@@ -120,28 +122,22 @@ const Search = (props) => {
         return options;
     }
 
-    useEffect(() => {
-        console.log("calling use Effect");
-        console.log(keywords, sort, role, graduate_class);
-        let roleValue = null;
-        let classValue=null;
-        if (role !==null) roleValue=role.toString();
-        if(graduate_class!==null) classValue=graduate_class.toString();
 
+    async function getProfiles(keywords,roleValue,classValue,states){
 
         axios.get("/searchBarResult", {
             params: {
                 keywords: keywords,
                 detailed: true,
-                sort: sort,
                 role: roleValue,
                 class: classValue,
                 state: states
             }
         }).then((res) => {
 
-            setProfiles(res.data.profiles);
-            // console.log("profile is", profiles);
+            // setProfiles(res.data.profiles);
+            let profile_data=res.data.profiles;
+            console.log("profile is", profile_data);
             // console.log("sort is ", sort);
 
             var config = {};
@@ -163,15 +159,55 @@ const Search = (props) => {
             }
 
             setStateCustomConfig(config);
+            setProfiles(profile_data);
         });
+
+    }
+
+    useEffect(() => {
+
+        console.log("calling use Effect");
+        console.log(keywords, sort, role, graduate_class);
+        let roleValue = null;
+        let classValue=null;
+        if (role !==null) roleValue=role.toString();
+        if(graduate_class!==null) classValue=graduate_class.toString();
+        console.log("profile in useEffect is ",profiles);
+
+        if (profiles.length ===0 || needUpdate){
+            console.log("need get profiles");
+            getProfiles(keywords,roleValue,classValue,states);
+        }
+
+        setNeedUpdate(false);
+
 
         const [get_sort,get_filter] = generateFilterSort(role, graduate_class, sort);
         setSortOptions(get_sort);
         setFiltersOptions(get_filter);
-        console.log("filter options is ",filtersOptions);
 
+        // sort the profiles
+        if (sort==="Name"){
+            profiles.sort(function(a,b){
+                return (a.first_name+a.last_name).localeCompare(b.first_name+b.last_name);
+            });                 
+        }else if(sort==="Class"){
+            profiles.sort(function(a,b){
+                return a.graduate_year-b.graduate_year;
+            });
+        }else if(sort==="Location"){
+            profiles.sort(function(a,b){
+                return (a.state+a.city).localeCompare(b.state+b.state);
+            });
+                
+        }else if(sort==="Occupation"){
+            profiles.sort(function(a,b){
+                return a.occupation.localeCompare(b.occupation);
+            });
+                
+        }
 
-    }, [keywords, sort,role,graduate_class, states,test]);
+    }, [keywords,sort,role,graduate_class, states,test]);
 
     return (
         <>
@@ -250,6 +286,7 @@ const Search = (props) => {
                                     <TrashIcon
                                         className="flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500"
                                         onClick={()=> {
+                                            setNeedUpdate(true);
                                             setRole(null);
                                             setGraduateClass(null);
                                         }}
@@ -302,6 +339,7 @@ const Search = (props) => {
                                                             defaultChecked={option.checked}
                                                             onClick={()=>{
 
+                                                                setNeedUpdate(true);
                                                                 if (section.id === "role"){
                                                                     console.log("clicking role");
                                                                     setRole(handleCheckFilter(option.label,role));
