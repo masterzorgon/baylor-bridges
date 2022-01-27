@@ -373,10 +373,10 @@ const Search = (props) => {
                         <Popover.Group className="hidden sm:flex sm:items-baseline sm:space-x-8">
                             {/* Clear filters */}
                             <Popover as="div" id="desktop-menu" className="relative z-10 inline-block text-left">
-                                <Popover.Button className="group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                                    <span className="text-transparent">Clear</span>
+                                <Popover.Button className="group inline-flex items-center justify-center text-sm font-medium text-gray-400 hover:text-gray-700">
+                                    <span className="text-transparent" aria-hidden="true">Clear</span>
                                     <TrashIcon
-                                        className="flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500" 
+                                        className="flex-shrink-0 -mr-1 ml-1 h-5 w-5" 
                                     />
                                 </Popover.Button>
                             </Popover>
