@@ -1,12 +1,24 @@
 import React, { Fragment, useState, useEffect, useContext } from "react";
-import { Dialog, Transition } from "@headlessui/react";
+import { Dialog, Transition,Menu } from "@headlessui/react";
 import axios from "axios";
 
 import SettingsNavbar from "../../components/SettingsNavbar";
 import { AccountContext } from "../../components/Account";
 import Photo from "../../components/Photo";
+import { ChevronDownIcon } from "@heroicons/react/solid";
 
+function classNames(...classes) {
+    return classes.filter(Boolean).join(" ");
+}
 
+// eslint-disable-next-line no-unused-vars
+const states=[
+    "AZ", "NY", "CT", "MD", "WA", "OR", "NV", "NM", "DC", "DE", "MA", "MN", "WI", "IL",
+    "VT", "RI", "NJ", "CO", "CA", "PA", "VA", "GA", "ME", "NH", "HI", "ID", "MT", "IN",
+    "TE", "AK", "KY", "NC", "WV", "WY", "ND", "SD", "NE", "UT", "TN", "KS", "OK", "TX",
+    "IO", "MO", "AR", "AL", "MS", "LA", "MI", "LA", "FL", "SC", "OH", "IA",
+];
+  
 const profile = {
     basic: {
         title: "Basic",
@@ -140,9 +152,11 @@ const Profile = () => {
         };
 
         const getTypeDom = (value) => {
+            console.log("the value in getTypeDom is ",value);
             if (value.type === "file") {
                 return <></>;
             } else if (value.type === "text") {
+                console.log("the ",value.title," is type ",value.type);
                 return (
                     <div>
                         <label htmlFor={value.key} className="block text-sm font-medium text-gray-700 sr-only">
@@ -179,7 +193,54 @@ const Profile = () => {
                     </div>
                 );
             } else if (value.type === "dropdown") {
-                return <></>;
+                return (
+                    <div>
+                        <label htmlFor="dropdown" className="block text-sm font-medium text-gray-700">
+                        state
+                        </label>
+
+                        <Menu as="div" className="relative inline-block text-left">
+                            <div>
+                                <Menu.Button className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
+                                    {account[value.key]}
+                                    <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
+                                </Menu.Button>
+                            </div>
+
+                            <Transition
+                                as={Fragment}
+                                enter="transition ease-out duration-100"
+                                enterFrom="transform opacity-0 scale-95"
+                                enterTo="transform opacity-100 scale-100"
+                                leave="transition ease-in duration-75"
+                                leaveFrom="transform opacity-100 scale-100"
+                                leaveTo="transform opacity-0 scale-95"
+                            >
+                                <Menu.Items className="origin-top-right absolute right-0 mt-2 w-20 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none overflow-auto max-h-60">
+                                    <div className="py-1">
+                                        {states.map((state,stateIdx)=>(
+                                            <Menu.Item key={state+"_option"}>
+                                                {({ active }) => (
+                                                    <a
+                                                        href="/"
+                                                        className={classNames(
+                                                            active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                                                            "block px-4 py-2 text-sm"
+                                                        )}
+                                                    >
+                                                        {state}{console.log(state)}
+                                                    </a>
+                                                )}
+                                            </Menu.Item>
+                                        ))}
+
+
+                                    </div>
+                                </Menu.Items>
+                            </Transition>
+                        </Menu>
+                    </div>
+                );
             }
         };
 
@@ -200,7 +261,7 @@ const Profile = () => {
             );
         } else {
             return getTypeDom(field.value);
-        }
+        } 
     };
 
     const handleOpenUpdate = (section_key, field) => {
@@ -304,8 +365,8 @@ const Profile = () => {
                             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
-                            <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6 -space-y-px">
-                                {getModal(field)}
+                            <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6 -space-y-px">
+                                {getModal(field)}{console.log("field is ",field)}
                             </div>
                         </Transition.Child>
                     </div>
