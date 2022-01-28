@@ -382,9 +382,9 @@ const Search = (props) => {
                     <div className="bg-white overflow-hidden sm:rounded-md">
                         <ul className="divide-y divide-gray-100">
                             {profiles.map((profile) => (
-                                <li key={profile.use_id}>
+                                <li key={profile.user_id} >
                                     {/*TODO add href for account detail page*/}
-                                    <a className="block hover:bg-gray-50">
+                                    <a className="block hover:bg-gray-50" href={"/profile/"+profile.user_id} target="_blank" rel="noreferrer">
                                         <div className="flex items-center px-4 py-4 sm:px-6">
                                             <div className="min-w-0 flex-1 flex items-center">
                                                 <div className="flex-shrink-0">
