@@ -211,13 +211,15 @@ const Navbar = (props) => {
                                 <div className="z-50 absolute bg-white shadow-md py-2 rounded-md w-full max-w-md mt-4 top-16">
                                     <ul className="">
                                         {profile.map((person) => (
-                                            <li key={person.email} className="py-4 px-5 flex hover:bg-gray-50">
-                                                {/* TODO adding account avatar later*/}
-                                                <img className="h-10 w-10 rounded-full" src={avatar} alt="" />
-                                                <div className="ml-3">
-                                                    <p className="text-sm font-medium text-gray-900">{person.first_name} {person.last_name}</p>
-                                                    <p className="text-sm text-gray-500">{person.occupation}</p>
-                                                </div>
+                                            <li key={person.email}>
+                                                <a  className="py-4 px-5 flex hover:bg-gray-50" href={"/profile/"+person.user_id} target="_blank" rel="noreferrer">
+                                                    {/* TODO adding account avatar later*/}
+                                                    <img className="h-10 w-10 rounded-full" src={avatar} alt="" />
+                                                    <div className="ml-3">
+                                                        <p className="text-sm font-medium text-gray-900">{person.first_name} {person.last_name}</p>
+                                                        <p className="text-sm text-gray-500">{person.occupation}</p>
+                                                    </div>
+                                                </a>
                                             </li>
                                         ))}
                                     </ul>
