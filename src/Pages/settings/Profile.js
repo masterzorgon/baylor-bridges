@@ -11,12 +11,16 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
-// eslint-disable-next-line no-unused-vars
 const states=[
     "AZ", "NY", "CT", "MD", "WA", "OR", "NV", "NM", "DC", "DE", "MA", "MN", "WI", "IL",
     "VT", "RI", "NJ", "CO", "CA", "PA", "VA", "GA", "ME", "NH", "HI", "ID", "MT", "IN",
     "TE", "AK", "KY", "NC", "WV", "WY", "ND", "SD", "NE", "UT", "TN", "KS", "OK", "TX",
     "IO", "MO", "AR", "AL", "MS", "LA", "MI", "LA", "FL", "SC", "OH", "IA",
+];
+
+// eslint-disable-next-line no-unused-vars
+const contact_status=[
+    "self","Alumni","public"
 ];
   
 const profile = {
@@ -63,11 +67,13 @@ const profile = {
         fields: {
             email: {
                 title: "Email address",
-                value: { type: "text", title: "Email address", placeholder: "Email address", key: "email" },
+                value: [{ type: "text", title: "Email address", placeholder: "Email address", key: "email" },
+                    { type: "dropdown", title: "Visibility", placeholder: "self", key: "email_visibility" },]
             },
             phone: {
                 title: "Phone number",
-                value: { type: "text", title: "Phone number", placeholder: "Phone number", key: "phone" },
+                value: [{ type: "text", title: "Phone number", placeholder: "Phone number", key: "phone" },
+                    { type: "dropdown", title: "Visibility", placeholder: "self", key: "phone_visibility" },]
             },
         }
     }
@@ -151,6 +157,55 @@ const Profile = () => {
             console.log(update);
         };
 
+        // const getSubmitButton = () =>{
+
+        // }
+
+        const generate_dropdown_list =(type)=>{
+            if (type==="Visibility"){
+                return(
+                    <>
+                        {contact_status.map((status,stateIdx)=>(
+                            <Menu.Item key={status+"_option"}>
+                                {({ active }) => (
+                                    <a
+                                        href="/"
+                                        className={classNames(
+                                            active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                                            "block px-4 py-2 text-sm"
+                                        )}
+                                    >
+                                        {status}
+                                    </a>
+                                )}
+                            </Menu.Item>
+                    
+                        ))};
+                    </>);
+            }else{
+                return(
+                    <>
+                        {states.map((state,stateIdx)=>(
+                            <Menu.Item key={state+"_option"}>
+                                {({ active }) => (
+                                    <a
+                                        href="/"
+                                        className={classNames(
+                                            active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                                            "block px-4 py-2 text-sm"
+                                        )}
+                                    >
+                                        {state}{console.log(state)}
+                                    </a>
+                                )}
+                            </Menu.Item>
+                    
+                        ))};
+                    </>);
+            
+            }
+        };
+
         const getTypeDom = (value) => {
             console.log("the value in getTypeDom is ",value);
             if (value.type === "file") {
@@ -170,7 +225,9 @@ const Profile = () => {
                                 className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                 placeholder={value.placeholder}
                                 value={account[value.key]}
-                                onChange={(e) => handleChange(e, value)}
+                                onChange={(e) => {
+                                    handleChange(e, value);
+                                }}
                             />
                         </div>
                     </div>
@@ -196,13 +253,15 @@ const Profile = () => {
                 return (
                     <div>
                         <label htmlFor="dropdown" className="block text-sm font-medium text-gray-700">
-                        state
+                            {value.title}
                         </label>
 
                         <Menu as="div" className="relative inline-block text-left">
                             <div>
                                 <Menu.Button className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
-                                    {account[value.key]}
+                                    {/* fixme showing the correct value here */}
+                                    {value.title==="Visibility"?account[value.key]:account["contact_info"][value.key]}
+                                    
                                     <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
                                 </Menu.Button>
                             </div>
@@ -216,24 +275,9 @@ const Profile = () => {
                                 leaveFrom="transform opacity-100 scale-100"
                                 leaveTo="transform opacity-0 scale-95"
                             >
-                                <Menu.Items className="origin-top-right absolute right-0 mt-2 w-20 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none overflow-auto max-h-60">
+                                <Menu.Items className="origin-top-right absolute right-0 mt-2 w-30 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none overflow-auto max-h-60">
                                     <div className="py-1">
-                                        {states.map((state,stateIdx)=>(
-                                            <Menu.Item key={state+"_option"}>
-                                                {({ active }) => (
-                                                    <a
-                                                        href="/"
-                                                        className={classNames(
-                                                            active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                                                            "block px-4 py-2 text-sm"
-                                                        )}
-                                                    >
-                                                        {state}{console.log(state)}
-                                                    </a>
-                                                )}
-                                            </Menu.Item>
-                                        ))}
-
+                                        {generate_dropdown_list(value.title)}
 
                                     </div>
                                 </Menu.Items>
