@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { Fragment, useState, useEffect, useContext } from "react";
 import { Dialog, Transition,Menu } from "@headlessui/react";
 import axios from "axios";
@@ -86,7 +87,8 @@ const Profile = () => {
 
     const [open, setOpen] = useState(false);
     const [field, setField] = useState(null);
-    const [update, setUpdate] = useState({});
+    const [update, setUpdate] = useState(null);
+    const [Refresh,setRefresh]=useState(false);
 
     const getValueRaw = (section_key, field) => {
         // Photo
@@ -153,8 +155,11 @@ const Profile = () => {
 
     const getModal = (field) => {
         const handleChange = (e, value) => {
-            setUpdate({ ...update, [field.key]: value });
+            let newUpdate=update;
+            newUpdate[value.key]=e.target.value;
+            setUpdate(newUpdate);
             console.log(update);
+            setRefresh(true);
         };
 
         // const getSubmitButton = () =>{
@@ -195,7 +200,7 @@ const Profile = () => {
                                             "block px-4 py-2 text-sm"
                                         )}
                                     >
-                                        {state}{console.log(state)}
+                                        {state}
                                     </a>
                                 )}
                             </Menu.Item>
@@ -207,11 +212,9 @@ const Profile = () => {
         };
 
         const getTypeDom = (value) => {
-            console.log("the value in getTypeDom is ",value);
             if (value.type === "file") {
                 return <></>;
             } else if (value.type === "text") {
-                console.log("the ",value.title," is type ",value.type);
                 return (
                     <div>
                         <label htmlFor={value.key} className="block text-sm font-medium text-gray-700 sr-only">
@@ -224,7 +227,7 @@ const Profile = () => {
                                 id={value.key}
                                 className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                 placeholder={value.placeholder}
-                                value={account[value.key]}
+                                value={update[value.key]}
                                 onChange={(e) => {
                                     handleChange(e, value);
                                 }}
@@ -321,26 +324,54 @@ const Profile = () => {
     };
 
     const handleOpenUpdate = (section_key, field) => {
-        setUpdate({});
+        let newUpdate={};
+        console.log(field);
+
+        if(Array.isArray(field.value)){
+            for (const f of field.value){
+                if(field.title==="Email address" || field.title==="Phone number"){
+                    newUpdate[f.key]=account["contact_info"][f.key];
+
+                }else{
+                    newUpdate[f.key]=account[f.key];
+                }
+
+            }
+        }else{
+            newUpdate[field.value.key]=account[field.value.key];
+        }
+        setUpdate(newUpdate);
+        console.log(newUpdate);
         setField(field);
         setOpen(true);
     };
 
     useEffect(() => {
-        var account = getAccountLocal();
-        if (account === null) {
-            window.location.href = "/signin";
-        }
+        console.log("calling use effect");
 
-        axios.get("/account/profile")
-            .then(res => {
-                setAccount(res.data);
-            })
-            .catch(err => {
-            });
-    }, [getAccountLocal]);
+        setRefresh(false);
+        // // TODO reduce the backend request
+        // var account = getAccountLocal();
+        // if (account === null) {
+        //     window.location.href = "/signin";
+        // }
+
+        if (account===null){
+            axios.get("/account/profile")
+                .then(res => {
+                    setAccount(res.data);
+                    
+                })
+                .catch(err => {
+                    if (err.response.status===401){
+                        window.location.href="/signin";
+                    }
+                });
+        }
+    }, [getAccountLocal,Refresh]);
 
     return (
+        
         <>
             <div>
                 {/* Content area */}
@@ -422,7 +453,7 @@ const Profile = () => {
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
                             <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6 -space-y-px">
-                                {getModal(field)}{console.log("field is ",field)}
+                                {getModal(field)}
                             </div>
                         </Transition.Child>
                     </div>
