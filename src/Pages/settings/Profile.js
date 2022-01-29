@@ -455,11 +455,9 @@ const Profile = () => {
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
                             <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6 -space-y-px">
-<<<<<<< HEAD
+
                                 {getModal(field)}
-=======
-                                {getModal(field)}{console.log("field is ", field)}
->>>>>>> dc4f4f9e0af763263b4c0cf8712c0bb9bef9926a
+
                             </div>
                         </Transition.Child>
                     </div>
