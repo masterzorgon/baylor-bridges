@@ -15,6 +15,7 @@ import NotFound from "./Pages/404";
 import ContactUs from "./Pages/contactUs";
 import { default as SettingsProfile } from "./Pages/settings/Profile";
 import { Account } from "./components/Account";
+import PrivacyPolicy from "./Pages/policies&terms/PrivacyPolicy";
 
 import "./App.css";
 
@@ -59,6 +60,8 @@ function App() {
                     <Route path="/404" element={components(<Navbar />, <NotFound />, <Footer />)} />
                     <Route path="*" element={<Navigate to="/404" />} />
                     <Route path="/contactUs" element={components(<Navbar/>, <ContactUs/> ,<Footer/>)}/>
+
+                    <Route path="/terms/privacyPolicies" element={components(<Navbar/>,<PrivacyPolicy/>,<Footer/>)}/>
                 </Routes>
             </Router>
         </Account>
