@@ -310,7 +310,13 @@ const Profile = () => {
                 </>
             );
         } else {
-            return getTypeDom(field.value);
+
+            return( 
+                <>
+                    <legend className="block text-sm font-medium text-gray-700">{field.title}</legend>
+                    {getTypeDom(field.value)}
+                </>
+            );
         } 
     };
 
