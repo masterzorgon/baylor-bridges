@@ -155,7 +155,25 @@ const Profile = () => {
 
     const handleSubmit=()=>{
         console.log("the submitted update is ",update);
-        setOpen(false);
+        axios.put("/account/profile",update).then(res=>{
+
+
+            //update ccount without read from backend
+            let newAccount=account;
+            if ("email" in update || "phone" in update){
+                for (const [key,value] of Object.entries(update)){
+                    newAccount["contact_info"][key]=value;
+                }
+            }else{
+                for (const [key,value] of Object.entries(update)){
+                    newAccount[key]=value;
+                }
+            }
+            console.log("new account is ",newAccount);
+            setAccount(newAccount);
+            setOpen(false);
+        });
+        
 
     };
 
@@ -378,18 +396,16 @@ const Profile = () => {
         //     window.location.href = "/signin";
         // }
 
-        if (account===null){
-            axios.get("/account/profile")
-                .then(res => {
-                    setAccount(res.data);
+        axios.get("/account/profile")
+            .then(res => {
+                setAccount(res.data);
                     
-                })
-                .catch(err => {
-                    if (err.response.status===401){
-                        window.location.href="/signin";
-                    }
-                });
-        }
+            })
+            .catch(err => {
+                if (err.response.status && err.response.status===401){
+                    window.location.href="/signin";
+                }
+            });
     }, [getAccountLocal,Refresh]);
 
     return (
