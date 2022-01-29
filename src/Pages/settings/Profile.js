@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { Fragment, useState, useEffect, useContext } from "react";
-import { Dialog, Transition,Menu } from "@headlessui/react";
+import { Dialog, Transition, Menu } from "@headlessui/react";
 import axios from "axios";
 
 import SettingsNavbar from "../../components/SettingsNavbar";
@@ -12,7 +12,7 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
-const states=[
+const states = [
     "AZ", "NY", "CT", "MD", "WA", "OR", "NV", "NM", "DC", "DE", "MA", "MN", "WI", "IL",
     "VT", "RI", "NJ", "CO", "CA", "PA", "VA", "GA", "ME", "NH", "HI", "ID", "MT", "IN",
     "TE", "AK", "KY", "NC", "WV", "WY", "ND", "SD", "NE", "UT", "TN", "KS", "OK", "TX",
@@ -20,10 +20,10 @@ const states=[
 ];
 
 // eslint-disable-next-line no-unused-vars
-const contact_status=[
-    "self","Alumni","public"
+const contact_status = [
+    "self", "Alumni", "public"
 ];
-  
+
 const profile = {
     basic: {
         title: "Basic",
@@ -166,12 +166,12 @@ const Profile = () => {
 
         // }
 
-        const generate_dropdown_list =(type)=>{
-            if (type==="Visibility"){
-                return(
+        const generate_dropdown_list = (type) => {
+            if (type === "Visibility") {
+                return (
                     <>
-                        {contact_status.map((status,stateIdx)=>(
-                            <Menu.Item key={status+"_option"}>
+                        {contact_status.map((status, stateIdx) => (
+                            <Menu.Item key={status + "_option"}>
                                 {({ active }) => (
                                     <a
                                         href="/"
@@ -184,14 +184,14 @@ const Profile = () => {
                                     </a>
                                 )}
                             </Menu.Item>
-                    
+
                         ))};
                     </>);
-            }else{
-                return(
+            } else {
+                return (
                     <>
-                        {states.map((state,stateIdx)=>(
-                            <Menu.Item key={state+"_option"}>
+                        {states.map((state, stateIdx) => (
+                            <Menu.Item key={state + "_option"}>
                                 {({ active }) => (
                                     <a
                                         href="/"
@@ -204,17 +204,19 @@ const Profile = () => {
                                     </a>
                                 )}
                             </Menu.Item>
-                    
+
                         ))};
                     </>);
-            
+
             }
         };
 
         const getTypeDom = (value) => {
+
             if (value.type === "file") {
                 return <></>;
             } else if (value.type === "text") {
+
                 return (
                     <div>
                         <label htmlFor={value.key} className="block text-sm font-medium text-gray-700 sr-only">
@@ -264,13 +266,13 @@ const Profile = () => {
                                 <Menu.Button className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
                                     {/* fixme showing the correct value here */}
                                     {
-                                        value.title==="Visibility"?
+                                        value.title === "Visibility" ?
                                             account["contact_info"][value.key]
                                             :
                                             account[value.key]
 
                                     }
-                                    
+
                                     <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
                                 </Menu.Button>
                             </div>
@@ -304,7 +306,7 @@ const Profile = () => {
         if (Array.isArray(field.value)) {
             return (
                 <>
-                    <legend className="block text-sm font-medium text-gray-700">{ field.title }</legend>
+                    <legend className="block text-sm font-medium text-gray-700">{field.title}</legend>
                     {
                         field.value.map((value, index) => (
                             getTypeDom(value)
@@ -314,13 +316,13 @@ const Profile = () => {
             );
         } else {
 
-            return( 
+            return (
                 <>
                     <legend className="block text-sm font-medium text-gray-700">{field.title}</legend>
                     {getTypeDom(field.value)}
                 </>
             );
-        } 
+        }
     };
 
     const handleOpenUpdate = (section_key, field) => {
@@ -453,7 +455,11 @@ const Profile = () => {
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
                             <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6 -space-y-px">
+<<<<<<< HEAD
                                 {getModal(field)}
+=======
+                                {getModal(field)}{console.log("field is ", field)}
+>>>>>>> dc4f4f9e0af763263b4c0cf8712c0bb9bef9926a
                             </div>
                         </Transition.Child>
                     </div>
