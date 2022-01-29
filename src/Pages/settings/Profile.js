@@ -395,6 +395,7 @@ const Profile = () => {
         }
         setUpdate(newUpdate);
         console.log(newUpdate);
+        // todo fix the null field
         setField(field);
         setOpen(true);
     };
