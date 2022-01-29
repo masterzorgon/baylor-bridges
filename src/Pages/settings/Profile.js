@@ -153,6 +153,12 @@ const Profile = () => {
         return makeButton("Update");
     };
 
+    const handleSubmit=()=>{
+        console.log("the submitted update is ",update);
+        setOpen(false);
+
+    };
+
     const getModal = (field) => {
         const handleChange = (e, value) => {
             let newUpdate=update;
@@ -312,6 +318,13 @@ const Profile = () => {
                             getTypeDom(value)
                         ))
                     }
+                    <button
+                        type="submit"
+                        className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        onClick={()=>handleSubmit()}
+                    >
+                        Save
+                    </button>
                 </>
             );
         } else {
@@ -320,6 +333,13 @@ const Profile = () => {
                 <>
                     <legend className="block text-sm font-medium text-gray-700">{field.title}</legend>
                     {getTypeDom(field.value)}
+                    <button
+                        type="submit"
+                        className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        onClick={()=>handleSubmit()}
+                    >
+                    Save
+                    </button>
                 </>
             );
         }
