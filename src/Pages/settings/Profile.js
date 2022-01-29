@@ -157,8 +157,10 @@ const Profile = () => {
         console.log("the submitted update is ",update);
         axios.put("/account/profile",update).then(res=>{
 
+            console.log(res);
 
             //update ccount without read from backend
+            // do we want to keep this inside of axios to be update async?
             let newAccount=account;
             if ("email" in update || "phone" in update){
                 for (const [key,value] of Object.entries(update)){
