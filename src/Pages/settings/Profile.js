@@ -192,22 +192,30 @@ const Profile = () => {
 
         // }
 
-        const generate_dropdown_list = (type) => {
+        const generate_dropdown_list = (type,key) => {
+            // console.log("the key is ",key);
             if (type === "Visibility") {
                 return (
                     <>
                         {contact_status.map((status, stateIdx) => (
                             <Menu.Item key={status + "_option"}>
                                 {({ active }) => (
-                                    <a
-                                        href="/"
+                                    <div
                                         className={classNames(
                                             active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                                             "block px-4 py-2 text-sm"
                                         )}
+                                        onClick={()=>{
+                                            console.log("you click ",status);
+                                            let newUpdate=update;
+                                            newUpdate[key]=status;
+                                            setUpdate(newUpdate);
+                                            console.log(newUpdate);
+                                            setRefresh(true);
+                                        }}
                                     >
                                         {status}
-                                    </a>
+                                    </div>
                                 )}
                             </Menu.Item>
 
@@ -219,15 +227,22 @@ const Profile = () => {
                         {states.map((state, stateIdx) => (
                             <Menu.Item key={state + "_option"}>
                                 {({ active }) => (
-                                    <a
-                                        href="/"
+                                    <div
                                         className={classNames(
                                             active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                                             "block px-4 py-2 text-sm"
                                         )}
+                                        onClick={()=>{
+                                            console.log("you click ",state);
+                                            let newUpdate=update;
+                                            newUpdate[key]=state;
+                                            setUpdate(newUpdate);
+                                            console.log(newUpdate);
+                                            setRefresh(true);
+                                        }}
                                     >
                                         {state}
-                                    </a>
+                                    </div>
                                 )}
                             </Menu.Item>
 
@@ -293,14 +308,7 @@ const Profile = () => {
                         <Menu as="div" className="relative inline-block text-left">
                             <div>
                                 <Menu.Button className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
-                                    {/* fixme showing the correct value here */}
-                                    {
-                                        value.title === "Visibility" ?
-                                            account["contact_info"][value.key]
-                                            :
-                                            account[value.key]
-
-                                    }
+                                    {update[value.key]}
 
                                     <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
                                 </Menu.Button>
@@ -317,7 +325,7 @@ const Profile = () => {
                             >
                                 <Menu.Items className="origin-top-right absolute right-0 mt-2 w-30 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none overflow-auto max-h-60">
                                     <div className="py-1">
-                                        {generate_dropdown_list(value.title)}
+                                        {generate_dropdown_list(value.title,value.key)}
 
                                     </div>
                                 </Menu.Items>
