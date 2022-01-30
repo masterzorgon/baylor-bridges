@@ -68,13 +68,17 @@ const profile = {
         fields: {
             email: {
                 title: "Email address",
-                value: [{ type: "text", title: "Email address", placeholder: "Email address", key: "email" },
-                    { type: "dropdown", title: "Visibility", placeholder: "self", key: "email_visibility" },]
+                value: [
+                    { type: "text", title: "Email address", placeholder: "Email address", key: "email" },
+                    { type: "dropdown", title: "Visibility", placeholder: "self", key: "email_visibility" },
+                ]
             },
             phone: {
                 title: "Phone number",
-                value: [{ type: "text", title: "Phone number", placeholder: "Phone number", key: "phone" },
-                    { type: "dropdown", title: "Visibility", placeholder: "self", key: "phone_visibility" },]
+                value: [
+                    { type: "text", title: "Phone number", placeholder: "Phone number", key: "phone" },
+                    { type: "dropdown", title: "Visibility", placeholder: "self", key: "phone_visibility" },
+                ]
             },
         }
     }
@@ -88,7 +92,7 @@ const Profile = () => {
     const [open, setOpen] = useState(false);
     const [field, setField] = useState(null);
     const [update, setUpdate] = useState(null);
-    const [Refresh,setRefresh]=useState(false);
+    const [Refresh, setRefresh] = useState(false);
 
     const getValueRaw = (section_key, field) => {
         // Photo
@@ -153,36 +157,36 @@ const Profile = () => {
         return makeButton("Update");
     };
 
-    const handleSubmit=()=>{
-        console.log("the submitted update is ",update);
-        axios.put("/account/profile",update).then(res=>{
+    const handleSubmit = () => {
+        console.log("the submitted update is ", update);
+        axios.put("/account/profile", update).then(res => {
 
             console.log(res);
 
             //update ccount without read from backend
             // do we want to keep this inside of axios to be update async?
-            let newAccount=account;
-            if ("email" in update || "phone" in update){
-                for (const [key,value] of Object.entries(update)){
-                    newAccount["contact_info"][key]=value;
+            let newAccount = account;
+            if ("email" in update || "phone" in update) {
+                for (const [key, value] of Object.entries(update)) {
+                    newAccount["contact_info"][key] = value;
                 }
-            }else{
-                for (const [key,value] of Object.entries(update)){
-                    newAccount[key]=value;
+            } else {
+                for (const [key, value] of Object.entries(update)) {
+                    newAccount[key] = value;
                 }
             }
-            console.log("new account is ",newAccount);
+            console.log("new account is ", newAccount);
             setAccount(newAccount);
             setOpen(false);
         });
-        
+
 
     };
 
     const getModal = (field) => {
         const handleChange = (e, value) => {
-            let newUpdate=update;
-            newUpdate[value.key]=e.target.value;
+            let newUpdate = update;
+            newUpdate[value.key] = e.target.value;
             setUpdate(newUpdate);
             console.log(update);
             setRefresh(true);
@@ -192,7 +196,7 @@ const Profile = () => {
 
         // }
 
-        const generate_dropdown_list = (type,key) => {
+        const generate_dropdown_list = (type, key) => {
             // console.log("the key is ",key);
             if (type === "Visibility") {
                 return (
@@ -205,10 +209,10 @@ const Profile = () => {
                                             active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                                             "block px-4 py-2 text-sm"
                                         )}
-                                        onClick={()=>{
-                                            console.log("you click ",status);
-                                            let newUpdate=update;
-                                            newUpdate[key]=status;
+                                        onClick={() => {
+                                            console.log("you click ", status);
+                                            let newUpdate = update;
+                                            newUpdate[key] = status;
                                             setUpdate(newUpdate);
                                             console.log(newUpdate);
                                             setRefresh(true);
@@ -232,10 +236,10 @@ const Profile = () => {
                                             active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                                             "block px-4 py-2 text-sm"
                                         )}
-                                        onClick={()=>{
-                                            console.log("you click ",state);
-                                            let newUpdate=update;
-                                            newUpdate[key]=state;
+                                        onClick={() => {
+                                            console.log("you click ", state);
+                                            let newUpdate = update;
+                                            newUpdate[key] = state;
                                             setUpdate(newUpdate);
                                             console.log(newUpdate);
                                             setRefresh(true);
@@ -325,7 +329,7 @@ const Profile = () => {
                             >
                                 <Menu.Items className="origin-top-right absolute right-0 mt-2 w-30 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none overflow-auto max-h-60">
                                     <div className="py-1">
-                                        {generate_dropdown_list(value.title,value.key)}
+                                        {generate_dropdown_list(value.title, value.key)}
 
                                     </div>
                                 </Menu.Items>
@@ -352,7 +356,7 @@ const Profile = () => {
                     <button
                         type="submit"
                         className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                        onClick={()=>handleSubmit()}
+                        onClick={() => handleSubmit()}
                     >
                         Save
                     </button>
@@ -367,9 +371,9 @@ const Profile = () => {
                     <button
                         type="submit"
                         className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                        onClick={()=>handleSubmit()}
+                        onClick={() => handleSubmit()}
                     >
-                    Save
+                        Save
                     </button>
                 </>
             );
@@ -377,21 +381,21 @@ const Profile = () => {
     };
 
     const handleOpenUpdate = (section_key, field) => {
-        let newUpdate={};
+        let newUpdate = {};
         console.log(field);
 
-        if(Array.isArray(field.value)){
-            for (const f of field.value){
-                if(field.title==="Email address" || field.title==="Phone number"){
-                    newUpdate[f.key]=account["contact_info"][f.key];
+        if (Array.isArray(field.value)) {
+            for (const f of field.value) {
+                if (field.title === "Email address" || field.title === "Phone number") {
+                    newUpdate[f.key] = account["contact_info"][f.key];
 
-                }else{
-                    newUpdate[f.key]=account[f.key];
+                } else {
+                    newUpdate[f.key] = account[f.key];
                 }
 
             }
-        }else{
-            newUpdate[field.value.key]=account[field.value.key];
+        } else {
+            newUpdate[field.value.key] = account[field.value.key];
         }
         setUpdate(newUpdate);
         console.log(newUpdate);
@@ -413,17 +417,17 @@ const Profile = () => {
         axios.get("/account/profile")
             .then(res => {
                 setAccount(res.data);
-                    
+
             })
             .catch(err => {
-                if (err.response.status && err.response.status===401){
-                    window.location.href="/signin";
+                if (err.response.status && err.response.status === 401) {
+                    window.location.href = "/signin";
                 }
             });
-    }, [getAccountLocal,Refresh]);
+    }, [getAccountLocal, Refresh]);
 
     return (
-        
+
         <>
             <div>
                 {/* Content area */}
