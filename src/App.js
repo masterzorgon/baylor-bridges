@@ -17,6 +17,7 @@ import { default as SettingsProfile } from "./Pages/settings/Profile";
 import { Account } from "./components/Account";
 import PrivacyPolicy from "./Pages/policies&terms/PrivacyPolicy";
 import TermsConditions from "./Pages/policies&terms/Terms&Conditions";
+import CookiePolicies from "./Pages/policies&terms/CookiePolicy";
 
 import "./App.css";
 
@@ -64,6 +65,8 @@ function App() {
 
                     <Route path="/terms/privacyPolicies" element={components(<Navbar/>,<PrivacyPolicy/>,<Footer/>)}/>
                     <Route path="/terms/termsConditions" element={components(<Navbar/>,<TermsConditions/>,<Footer/>)}/>
+                    <Route path="/terms/cookiePolicies" element={components(<Navbar/>,<CookiePolicies/>,<Footer/>)}/>
+
                 </Routes>
             </Router>
         </Account>
