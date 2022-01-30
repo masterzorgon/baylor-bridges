@@ -83,7 +83,7 @@ export default function TermsConditions() {
                 <div className="relative px-4 sm:px-6 lg:px-8">
                     <div className="text-lg max-w-prose mx-auto">
                         <h1>
-                            <span className="block text-base text-center text-indigo-600 font-semibold tracking-wide uppercase">
+                            <span className="block text-base text-center text-emerald-600 font-semibold tracking-wide uppercase">
                             Terms and Conditions for Baylor Bridges, Last updated: January 28, 2022
                             </span>
                             <span className="mt-2 block text-3xl text-center leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
@@ -94,7 +94,7 @@ export default function TermsConditions() {
                         Please read these terms and conditions carefully before using Our Service.</p>
                         
                     </div>
-                    <div className="mt-6 prose prose-indigo prose-lg text-gray-500 mx-auto">
+                    <div className="mt-6 prose prose-emerald prose-lg text-gray-500 mx-auto">
                         <h1>Interpretation and Definitions</h1>
                         <h2>Interpretation</h2>
                         <p>The words of which the initial letter is capitalized have meanings defined under the following conditions. The following definitions shall have the same meaning regardless of whether they appear in singular or in plural.</p>
