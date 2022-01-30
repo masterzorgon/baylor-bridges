@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-vars */
 import React, { Fragment, useState, useEffect, useContext } from "react";
-import { Dialog, Transition, Menu } from "@headlessui/react";
+import { Dialog, Transition, Menu, Listbox } from "@headlessui/react";
+import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
 import axios from "axios";
 
 import SettingsNavbar from "../../components/SettingsNavbar";
 import { AccountContext } from "../../components/Account";
 import Photo from "../../components/Photo";
-import { ChevronDownIcon } from "@heroicons/react/solid";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -21,7 +21,7 @@ const states = [
 
 // eslint-disable-next-line no-unused-vars
 const contact_status = [
-    "self", "Alumni", "public"
+    "self", "alumni", "public"
 ];
 
 const profile = {
@@ -53,7 +53,7 @@ const profile = {
                 title: "Location",
                 value: [
                     { type: "text", title: "City", placeholder: "City", key: "city" },
-                    { type: "dropdown", title: "State", placeholder: "State", key: "state" },
+                    { type: "dropdown", title: "State", placeholder: "State", key: "state", option: states },
                 ],
             },
             biography: {
@@ -92,7 +92,10 @@ const Profile = () => {
     const [open, setOpen] = useState(false);
     const [field, setField] = useState(null);
     const [update, setUpdate] = useState(null);
-    const [Refresh, setRefresh] = useState(false);
+    const [refresh, setRefresh] = useState(false);
+
+    const [selected, setSelected] = useState({});
+
 
     const getValueRaw = (section_key, field) => {
         // Photo
@@ -192,72 +195,7 @@ const Profile = () => {
             setRefresh(true);
         };
 
-        // const getSubmitButton = () =>{
-
-        // }
-
-        const generate_dropdown_list = (type, key) => {
-            // console.log("the key is ",key);
-            if (type === "Visibility") {
-                return (
-                    <>
-                        {contact_status.map((status, stateIdx) => (
-                            <Menu.Item key={status + "_option"}>
-                                {({ active }) => (
-                                    <div
-                                        className={classNames(
-                                            active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                                            "block px-4 py-2 text-sm"
-                                        )}
-                                        onClick={() => {
-                                            console.log("you click ", status);
-                                            let newUpdate = update;
-                                            newUpdate[key] = status;
-                                            setUpdate(newUpdate);
-                                            console.log(newUpdate);
-                                            setRefresh(true);
-                                        }}
-                                    >
-                                        {status}
-                                    </div>
-                                )}
-                            </Menu.Item>
-
-                        ))};
-                    </>);
-            } else {
-                return (
-                    <>
-                        {states.map((state, stateIdx) => (
-                            <Menu.Item key={state + "_option"}>
-                                {({ active }) => (
-                                    <div
-                                        className={classNames(
-                                            active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                                            "block px-4 py-2 text-sm"
-                                        )}
-                                        onClick={() => {
-                                            console.log("you click ", state);
-                                            let newUpdate = update;
-                                            newUpdate[key] = state;
-                                            setUpdate(newUpdate);
-                                            console.log(newUpdate);
-                                            setRefresh(true);
-                                        }}
-                                    >
-                                        {state}
-                                    </div>
-                                )}
-                            </Menu.Item>
-
-                        ))};
-                    </>);
-
-            }
-        };
-
         const getTypeDom = (value) => {
-
             if (value.type === "file") {
                 return <></>;
             } else if (value.type === "text") {
@@ -305,36 +243,63 @@ const Profile = () => {
             } else if (value.type === "dropdown") {
                 return (
                     <div>
-                        <label htmlFor="dropdown" className="block text-sm font-medium text-gray-700">
-                            {value.title}
-                        </label>
+                        <Listbox value={selected} onChange={setSelected}>
+                            {({ open }) => (
+                                <>
+                                    <label className="block text-sm font-medium text-gray-700 sr-only">{value.title}</label>
+                                    <div className="mt-1 relative">
+                                        <Listbox.Button className="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                            <span className="block truncate">{selected.name}</span>
+                                            <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                                                <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                                            </span>
+                                        </Listbox.Button>
 
-                        <Menu as="div" className="relative inline-block text-left">
-                            <div>
-                                <Menu.Button className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
-                                    {update[value.key]}
+                                        <Transition
+                                            show={open}
+                                            as={Fragment}
+                                            leave="transition ease-in duration-100"
+                                            leaveFrom="opacity-100"
+                                            leaveTo="opacity-0"
+                                        >
+                                            <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                                                {value.option.map((option) => (
+                                                    <Listbox.Option
+                                                        key={option + "_" + value.key}
+                                                        className={({ active }) =>
+                                                            classNames(
+                                                                active ? "text-white bg-indigo-600" : "text-gray-900",
+                                                                "cursor-default select-none relative py-2 pl-8 pr-4"
+                                                            )
+                                                        }
+                                                        value={option}
+                                                    >
+                                                        {({ selected, active }) => (
+                                                            <>
+                                                                <span className={classNames(selected ? "font-semibold" : "font-normal", "block truncate")}>
+                                                                    {option}
+                                                                </span>
 
-                                    <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
-                                </Menu.Button>
-                            </div>
-
-                            <Transition
-                                as={Fragment}
-                                enter="transition ease-out duration-100"
-                                enterFrom="transform opacity-0 scale-95"
-                                enterTo="transform opacity-100 scale-100"
-                                leave="transition ease-in duration-75"
-                                leaveFrom="transform opacity-100 scale-100"
-                                leaveTo="transform opacity-0 scale-95"
-                            >
-                                <Menu.Items className="origin-top-right absolute right-0 mt-2 w-30 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none overflow-auto max-h-60">
-                                    <div className="py-1">
-                                        {generate_dropdown_list(value.title, value.key)}
-
+                                                                {selected ? (
+                                                                    <span
+                                                                        className={classNames(
+                                                                            active ? "text-white" : "text-indigo-600",
+                                                                            "absolute inset-y-0 left-0 flex items-center pl-1.5"
+                                                                        )}
+                                                                    >
+                                                                        <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                                                                    </span>
+                                                                ) : null}
+                                                            </>
+                                                        )}
+                                                    </Listbox.Option>
+                                                ))}
+                                            </Listbox.Options>
+                                        </Transition>
                                     </div>
-                                </Menu.Items>
-                            </Transition>
-                        </Menu>
+                                </>
+                            )}
+                        </Listbox>
                     </div>
                 );
             }
@@ -424,7 +389,7 @@ const Profile = () => {
                     window.location.href = "/signin";
                 }
             });
-    }, [getAccountLocal, Refresh]);
+    }, [getAccountLocal, refresh]);
 
     return (
 
