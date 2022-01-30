@@ -16,6 +16,9 @@ import ContactUs from "./Pages/contactUs";
 import { default as SettingsProfile } from "./Pages/settings/Profile";
 import {default as SettingsExperience} from "./Pages/settings/Experience";
 import { Account } from "./components/Account";
+import PrivacyPolicy from "./Pages/policies&terms/PrivacyPolicy";
+import TermsConditions from "./Pages/policies&terms/Terms&Conditions";
+import CookiePolicies from "./Pages/policies&terms/CookiePolicy";
 
 import "./App.css";
 
@@ -61,6 +64,11 @@ function App() {
                     <Route path="/404" element={components(<Navbar />, <NotFound />, <Footer />)} />
                     <Route path="*" element={<Navigate to="/404" />} />
                     <Route path="/contactUs" element={components(<Navbar/>, <ContactUs/> ,<Footer/>)}/>
+
+                    <Route path="/terms/privacyPolicies" element={components(<Navbar/>,<PrivacyPolicy/>,<Footer/>)}/>
+                    <Route path="/terms/termsConditions" element={components(<Navbar/>,<TermsConditions/>,<Footer/>)}/>
+                    <Route path="/terms/cookiePolicies" element={components(<Navbar/>,<CookiePolicies/>,<Footer/>)}/>
+
                 </Routes>
             </Router>
         </Account>
