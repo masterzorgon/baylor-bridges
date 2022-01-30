@@ -16,6 +16,7 @@ import ContactUs from "./Pages/contactUs";
 import { default as SettingsProfile } from "./Pages/settings/Profile";
 import { Account } from "./components/Account";
 import PrivacyPolicy from "./Pages/policies&terms/PrivacyPolicy";
+import TermsConditions from "./Pages/policies&terms/Terms&Conditions";
 
 import "./App.css";
 
@@ -62,6 +63,7 @@ function App() {
                     <Route path="/contactUs" element={components(<Navbar/>, <ContactUs/> ,<Footer/>)}/>
 
                     <Route path="/terms/privacyPolicies" element={components(<Navbar/>,<PrivacyPolicy/>,<Footer/>)}/>
+                    <Route path="/terms/termsConditions" element={components(<Navbar/>,<TermsConditions/>,<Footer/>)}/>
                 </Routes>
             </Router>
         </Account>
