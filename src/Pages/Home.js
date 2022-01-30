@@ -103,7 +103,7 @@ const Home = () => {
                             <h2 className="text-base font-semibold text-emerald-600 uppercase tracking-wide">Alumni Heat Map</h2>
                             <p className="mt-2 text-3xl font-extrabold text-gray-900">Alumni Connection Platform</p>
                             <p className="mt-4 text-lg text-gray-500">
-                                    Providing Environment for Students and Alumni to discover New Connections and foster deeper relationship with one another.
+                                    Dynamic US map displaying the density of Baylor Alumni and updates according to searches by the user.
                             </p>
                         </div>
                     </div>
