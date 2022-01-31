@@ -191,31 +191,33 @@ const Profile = () => {
                                                     <dd className="mt-1 text-sm text-gray-900 capitalize">{profileAccount.role}</dd>
                                                 </div>
                                                 {
-                                                    profileAccount.contact_info &&
-                                                    <>
-                                                        {
-                                                            profileAccount.contact_info.email_address &&
+                                                    profileAccount.contact_info?
+                                                        <>
+                                                            {
+                                                                profileAccount.contact_info.email &&
                                                             <div className="sm:col-span-1">
                                                                 <dt className="text-sm font-medium text-gray-500">Email</dt>
-                                                                <dd className="mt-1 text-sm text-gray-900 lowercase">{profileAccount.contact_info.email_address}</dd>
+                                                                <dd className="mt-1 text-sm text-gray-900 lowercase">{profileAccount.contact_info.email}</dd>
                                                             </div>
-                                                        }
-                                                        {profileAccount.contact_info.phone_number &&
+                                                            }
+                                                            {profileAccount.contact_info.phone &&
                                                             <div className="sm:col-span-1">
                                                                 <dt className="text-sm font-medium text-gray-500">Phone</dt>
-                                                                <dd className="mt-1 text-sm text-gray-900">{profileAccount.contact_info.phone_number}</dd>
+                                                                <dd className="mt-1 text-sm text-gray-900">{profileAccount.contact_info.phone}</dd>
                                                             </div>
-                                                        }
-                                                    </>
+                                                            }
+                                                        </>
+                                                        :<></>
                                                 }
                                                 {
-                                                    profileAccount.contact_info &&
-                                                    <div className="sm:col-span-2">
-                                                        <dt className="text-sm font-medium text-gray-500">Biography</dt>
-                                                        <dd className="mt-1 text-sm text-gray-900">
-                                                            {profileAccount.biography}
-                                                        </dd>
-                                                    </div>
+                                                    profileAccount.contact_info ?
+                                                        <div className="sm:col-span-2">
+                                                            <dt className="text-sm font-medium text-gray-500">Biography</dt>
+                                                            <dd className="mt-1 text-sm text-gray-900">
+                                                                {profileAccount.biography}
+                                                            </dd>
+                                                        </div>
+                                                        :<></>
                                                 }
                                             </dl>
                                         }

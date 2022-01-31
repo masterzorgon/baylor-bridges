@@ -1,334 +1,245 @@
-import React, { Fragment } from "react";
-import { Menu, Popover, Transition } from "@headlessui/react";
-import { CheckCircleIcon, ChevronRightIcon, MailIcon, ChevronLeftIcon, ChevronDownIcon } from "@heroicons/react/solid";
-import { TrashIcon } from "@heroicons/react/outline";
+/* eslint-disable no-unused-vars */
+import React, {Fragment,useEffect,useState} from "react";
+import {Menu, Popover, Transition} from "@headlessui/react";
+import {ChevronRightIcon, MailIcon,  ChevronDownIcon} from "@heroicons/react/solid";
+import {TrashIcon} from "@heroicons/react/outline";
 import USAMap from "react-usa-map";
-
+import {useSearchParams} from "react-router-dom";
+import axios from "axios";
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
-function mapHandler(event) {
-    alert(event.target.dataset.name);
-    // TODO: Display right panel for alumini list
+function generateFilterSort(role, graduate_class, sort) {
+    console.log("generate filter sort options");
+    let sortValue = ["Name", "Class", "Location", "Occupation"];
+    let roleValue = ["Alumni", "Current student"];
+
+    // to generate class ranges options based on the current year
+    let current_year=new Date().getFullYear();
+    let graduate_class_value = [];
+    graduate_class_value.push(current_year.toString()+"-"+(current_year+4).toString());
+    let year = current_year;
+    for(let i =0;i<6;i+=1){
+        graduate_class_value.push((year-10).toString()+"-"+year.toString());
+        year=year-10;
+    }
+    
+    let sortOptions = [];
+    // sort should return a single value, role and grad_class should return an array of values
+    for (const s of sortValue) {
+        if (s === sort) {
+            sortOptions.push({name: s, href: "#" + s, current: true});
+        } else {
+            sortOptions.push({name: s, href: "#" + s, current: false});
+        }
+    }
+
+
+    let filters = [{id:"role",name:"Role",options:[]},
+        {id:"class",name:"Class",options:[]}
+    ];
+
+    for (const r of roleValue) {
+        if (role !== null && role.includes(r)) {
+            filters[0].options.push({value: "#" + r, label: r, checked: true});
+        } else {
+            filters[0].options.push({value: "#" + r, label: r, checked: false});
+        }
+    }
+
+    for (const c of graduate_class_value) {
+        if (graduate_class !== null && graduate_class.includes(c)) {
+            filters[1].options.push({value: "#" + c, label: c, checked: true});
+        } else {
+            filters[1].options.push({value: "#" + c, label: c, checked: false});
+        }
+    }
+
+    return [sortOptions, filters];
+
 }
 
-const applications = [
-    {
-        applicant: {
-            name: "Ricardo Cooper",
-            email: "ricardo.cooper@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Kristen Ramos",
-            email: "kristen.ramos@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ted Fox",
-            email: "ted.fox@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ted Fox",
-            email: "ted.fox@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ted Fox",
-            email: "ted.fox@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ted Fox",
-            email: "ted.fox@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ted Fox",
-            email: "ted.fox@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ted Fox",
-            email: "ted.fox@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ted Fox",
-            email: "ted.fox@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ted Fox",
-            email: "ted.fox@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ted Fox",
-            email: "ted.fox@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ted Fox",
-            email: "ted.fox@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ted Fox",
-            email: "ted.fox@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ted Fox",
-            email: "ted.fox@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ricardo Cooper",
-            email: "ricardo.cooper@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ted Fox",
-            email: "ted.fox@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ted Fox",
-            email: "ted.fox@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ricardo Cooper",
-            email: "ricardo.cooper@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ted Fox",
-            email: "ted.fox@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ted Fox",
-            email: "ted.fox@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ted Fox",
-            email: "ted.fox@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-    {
-        applicant: {
-            name: "Ted Fox",
-            email: "ted.fox@example.com",
-            imageUrl:
-                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-        },
-        date: "2020-01-07",
-        dateFull: "January 7, 2020",
-        stage: "Completed phone screening",
-        href: "#",
-    },
-];
 
-const sortOptions = [
-    { name: "Name", href: "#name" },
-    { name: "Class", href: "#class" },
-    { name: "Location", href: "#location" },
-    { name: "Occupation", href: "#occupation" },
-];
 
-const filters = [
-    {
-        id: "role",
-        name: "Role",
-        options: [
-            { value: "#alumni", label: "Alumni" },
-            { value: "#student", label: "Current student" },
-        ],
-    },
-    {
-        id: "class",
-        name: "Class",
-        options: [
-            { value: "2022", label: "2022" },
-        ],
-    }
-];
+
+const avatar_url = "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80";
+
+
+
+
 
 // TODO: Mobile responsive for everything in this page
 // TODO: On mobile, hide map, replace with a filter
 
 const Search = (props) => {
+    const [searchParams] = useSearchParams();
+
+    const keywords = searchParams.get("keywords");
+    // eslint-disable-next-line no-unused-vars
+    const [sort, setSort] = useState(searchParams.get("sort"));
+    const [role, setRole] = useState(searchParams.get("role").split(","));
+    const [graduate_class, setGraduateClass] = useState(searchParams.get("class").split(","));
+    const [states, setStates] = useState(searchParams.get("state"));
+    const [test,setTest]=useState(0);
+    
+    const [needUpdate,setNeedUpdate] = useState(false);
+
+    const [statesCustomConfig, setStateCustomConfig] = useState({});
+
+
+    const [profiles, setProfiles] = useState([]);
+    // eslint-disable-next-line no-unused-vars
+    const [sortOptions, setSortOptions] = useState([]);
+    const [filtersOptions, setFiltersOptions]=useState([]);
+
+    function mapHandler(event) {
+
+        setNeedUpdate(true);
+        if (event.target.dataset.name === states) {
+            console.log("Cancelling state filter selection");
+            setStates();
+        } else {
+            console.log("selected " + event.target.dataset.name);
+            setStates(event.target.dataset.name);
+        }
+        setRole(searchParams.get("role"));
+    }
+
+    // eslint-disable-next-line no-unused-vars
+    function handleCheckFilter(option, options) {
+        console.log("options is ",options, "option is ",option);
+        if (options !== null && options.includes(option)) {
+            const index = options.indexOf(option);
+            if (index > -1) {
+                options.splice(index, 1); // 2nd parameter means remove one item only
+            }
+
+        } else {
+            if (options === null || options[0]==="") options = [];
+            options.push(option);
+        }
+        console.log("options now is ",options);
+
+        return options;
+    }
+
+
+    async function getProfiles(keywords,roleValue,classValue,states){
+
+        axios.get("/searchBarResult", {
+            params: {
+                keywords: keywords,
+                detailed: true,
+                role: roleValue,
+                class: classValue,
+                state: states
+            }
+        }).then((res) => {
+
+            // setProfiles(res.data.profiles);
+            let profile_data=res.data.profiles;
+            console.log("profile is", profile_data);
+            // console.log("sort is ", sort);
+
+            var config = {};
+            var max = 0;
+
+            // Find the state with the highest number of people
+            for (const value of Object.values(res.data.map_stats)) {
+                if (max < value) {
+                    max = value;
+                }
+            }
+
+            // Make config dictionary
+            for (const [key, value] of Object.entries(res.data.map_stats)) {
+                var opacity = value / max * 0.95;
+
+                config[key] = {};
+                config[key].fill = `rgba(21, 71, 52, ${opacity})`;
+            }
+
+            setStateCustomConfig(config);
+            setProfiles(profile_data);
+        });
+
+    }
+
+    useEffect(() => {
+
+        console.log("calling use Effect");
+        console.log(keywords, sort, role, graduate_class);
+        let roleValue = null;
+        let classValue=null;
+        if (role !==null || role==="") roleValue=role.toString();
+        if(graduate_class!==null || role==="") classValue=graduate_class.toString();
+        console.log("profile in useEffect is ",profiles);
+
+        if (profiles.length ===0 || needUpdate){
+            console.log("need get profiles");
+            getProfiles(keywords,roleValue,classValue,states);
+        }
+
+        setNeedUpdate(false);
+
+
+        const [get_sort,get_filter] = generateFilterSort(role, graduate_class, sort);
+        setSortOptions(get_sort);
+        setFiltersOptions(get_filter);
+
+        // sort the profiles
+        if (sort==="Name"){
+            profiles.sort(function(a,b){
+                return (a.first_name+a.last_name).localeCompare(b.first_name+b.last_name);
+            });                 
+        }else if(sort==="Class"){
+            profiles.sort(function(a,b){
+                return a.graduate_year-b.graduate_year;
+            });
+        }else if(sort==="Location"){
+            profiles.sort(function(a,b){
+                return (a.state+a.city).localeCompare(b.state+b.state);
+            });
+                
+        }else if(sort==="Occupation"){
+            profiles.sort(function(a,b){
+                return a.occupation.localeCompare(b.occupation);
+            });
+                
+        }
+
+        //form new url
+        let new_url="/search?keywords="+(keywords||"")+"&sort="+(sort||"")+"&role="+(roleValue||"")+"&class="+(classValue||"")+"&state="+(states||"");
+        console.log(new_url);
+        window.history.replaceState(null,"Baylor Bridges",new_url);
+
+    }, [keywords,sort,role,graduate_class, states,test]);
+
     return (
         <>
             <div className="grid grid-cols-1 lg:grid-cols-2">
                 <div className="hidden lg:block col-span-1">
-                    <div className="bg-gray-100 sticky p-2 h-screen" style={{ "top": "5.4rem" }}>
+                    <div className="bg-gray-100 sticky p-2 h-screen" style={{"top": "5.4rem"}}>
                         <div className="align-middle relative flex">
-                            <USAMap onClick={mapHandler} />
+                            <USAMap customize={statesCustomConfig} onClick={mapHandler}/>
                         </div>
                     </div>
                 </div>
                 <div className="col-span-1 px-4">
                     {/* Filters */}
-                    <div className="bg-white sticky flex items-center justify-between px-6 py-5 sm:pt-6 md:pt-6 lg:pt-6 pt-2 z-30" style={{ "top": "5.4rem" }}>
+                    <div
+                        className="bg-white sticky flex items-center justify-between px-6 py-5 sm:pt-6 md:pt-6 lg:pt-6 pt-2 z-30"
+                        style={{"top": "5.4rem"}}>
                         {/* White cover for sticky filter div, for visuals only */}
-                        <div className="absolute bg-inherit w-full" style={{ "top": "-2rem", "height": "4rem", "left": "0rem" }}></div>
-                        
+                        <div className="absolute bg-inherit w-full"
+                            style={{"top": "-2rem", "height": "4rem", "left": "0rem"}}></div>
+
                         {/* Sort */}
                         <Menu as="div" className="relative z-10 inline-block text-left">
                             <div>
-                                <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                                <Menu.Button
+                                    className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
                                     Sort
                                     <ChevronDownIcon
                                         className="flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500"
@@ -346,16 +257,18 @@ const Search = (props) => {
                                 leaveFrom="transform opacity-100 scale-100"
                                 leaveTo="transform opacity-0 scale-95"
                             >
-                                <Menu.Items className="origin-top-left absolute left-0 z-10 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                <Menu.Items className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                                     <div className="py-1">
+
                                         {sortOptions.map((option) => (
-                                            <Menu.Item key={option}>
+                                            <Menu.Item key={option.name} onClick={()=>setSort(option.name)}>
                                                 {({ active }) => (
                                                     <a
                                                         href={option.href}
                                                         className={classNames(
+                                                            option.current ? "font-medium text-gray-900" : "text-gray-500",
                                                             active ? "bg-gray-100" : "",
-                                                            "block px-4 py-2 text-sm font-medium text-gray-900"
+                                                            "block px-4 py-2 text-sm"
                                                         )}
                                                     >
                                                         {option.name}
@@ -373,24 +286,37 @@ const Search = (props) => {
                         <Popover.Group className="hidden sm:flex sm:items-baseline sm:space-x-8">
                             {/* Clear filters */}
                             <Popover as="div" id="desktop-menu" className="relative z-10 inline-block text-left">
-                                <Popover.Button className="group inline-flex items-center justify-center text-sm font-medium text-gray-400 hover:text-gray-700">
+                                <Popover.Button
+                                    className="group inline-flex items-center justify-center text-sm font-medium text-gray-400 hover:text-gray-700"
+                                >
                                     <span className="text-transparent" aria-hidden="true">Clear</span>
                                     <TrashIcon
-                                        className="flex-shrink-0 -mr-1 ml-1 h-5 w-5" 
+                                        className="flex-shrink-0 -mr-1 ml-1 h-5 w-5"
+                                        onClick={()=> {
+                                            setNeedUpdate(true);
+                                            setRole(null);
+                                            setGraduateClass(null);
+                                        }}
+
                                     />
                                 </Popover.Button>
                             </Popover>
 
-                            {filters.map((section, sectionIdx) => (
-                                <Popover as="div" key={section.name} id="desktop-menu" className="relative z-10 inline-block text-left">
+                            {filtersOptions.map((section, sectionIdx) => (
+                                <Popover as="div" key={section.name} id="desktop-menu"
+                                    className="relative z-10 inline-block text-left">
                                     <div>
-                                        <Popover.Button className="group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                                        <Popover.Button
+                                            className="group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
                                             <span>{section.name}</span>
-                                            {sectionIdx === 0 ? (
-                                                <span className="ml-1.5 rounded py-0.5 px-1.5 bg-gray-200 text-xs font-semibold text-gray-700 tabular-nums">
+
+                                            {/* todo showing how many filters are selected? */}
+                                            {/* {sectionIdx === 0 ? (
+                                                <span
+                                                    className="ml-1.5 rounded py-0.5 px-1.5 bg-gray-200 text-xs font-semibold text-gray-700 tabular-nums">
                                                     1
                                                 </span>
-                                            ) : null}
+                                            ) : null} */}
                                             <ChevronDownIcon
                                                 className="flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500"
                                                 aria-hidden="true"
@@ -407,7 +333,8 @@ const Search = (props) => {
                                         leaveFrom="transform opacity-100 scale-100"
                                         leaveTo="transform opacity-0 scale-95"
                                     >
-                                        <Popover.Panel className="origin-top-right absolute right-0 mt-2 bg-white rounded-md shadow-lg p-4 ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                        <Popover.Panel
+                                            className="origin-top-right absolute right-0 mt-2 bg-white rounded-md shadow-lg p-4 ring-1 ring-black ring-opacity-5 focus:outline-none">
                                             <form className="space-y-4">
                                                 {section.options.map((option, optionIdx) => (
                                                     <div key={option.value} className="flex items-center">
@@ -417,6 +344,23 @@ const Search = (props) => {
                                                             defaultValue={option.value}
                                                             type="checkbox"
                                                             className="h-4 w-4 border-gray-300 rounded text-emerald-600 focus:ring-emerald-500"
+                                                            defaultChecked={option.checked}
+                                                            onClick={()=>{
+
+                                                                setNeedUpdate(true);
+                                                                if (section.id === "role"){
+                                                                    console.log("clicking role");
+                                                                    setRole(handleCheckFilter(option.label,role));
+                                                                    console.log("role now is ",role);
+
+                                                                }else{
+                                                                    console.log("clicking class");
+                                                                    setGraduateClass(handleCheckFilter(option.label,graduate_class));
+                                                                }
+
+                                                                setTest(test+1);
+                                                                
+                                                            }}
                                                         />
                                                         <label
                                                             htmlFor={`filter-${section.id}-${optionIdx}`}
@@ -437,31 +381,32 @@ const Search = (props) => {
                     {/* People list */}
                     <div className="bg-white overflow-hidden sm:rounded-md">
                         <ul className="divide-y divide-gray-100">
-                            {applications.map((application) => (
-                                <li key={application.applicant.email}>
-                                    <a href={application.href} className="block hover:bg-gray-50">
+                            {profiles.map((profile) => (
+                                <li key={profile.user_id} >
+                                    {/*TODO add href for account detail page*/}
+                                    <a className="block hover:bg-gray-50" href={"/profile/"+profile.user_id} target="_blank" rel="noreferrer">
                                         <div className="flex items-center px-4 py-4 sm:px-6">
                                             <div className="min-w-0 flex-1 flex items-center">
                                                 <div className="flex-shrink-0">
-                                                    <img className="h-12 w-12 rounded-full" src={application.applicant.imageUrl} alt="" />
+                                                    <img className="h-12 w-12 rounded-full" src={avatar_url} alt="" />
                                                 </div>
                                                 <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
                                                     <div>
-                                                        <p className="text-sm font-medium text-emerald-600 truncate">{application.applicant.name}</p>
+                                                        <p className="text-sm font-medium text-emerald-600 truncate">{profile.first_name} {profile.last_name}</p>
                                                         <p className="mt-2 flex items-center text-sm text-gray-500">
                                                             <MailIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />
-                                                            <span className="truncate">{application.applicant.email}</span>
+                                                            <span className="truncate">{profile.headline}</span>
                                                         </p>
                                                     </div>
                                                     <div className="hidden md:block">
                                                         <div>
                                                             <p className="text-sm text-gray-900">
-                                                                Applied on <time dateTime={application.date}>{application.dateFull}</time>
+                                                                {profile.city} {profile.state}
                                                             </p>
-                                                            <p className="mt-2 flex items-center text-sm text-gray-500">
-                                                                <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-400" aria-hidden="true" />
-                                                                {application.stage}
-                                                            </p>
+                                                            {/*<p className="mt-2 flex items-center text-sm text-gray-500">*/}
+                                                            {/*    <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-400" aria-hidden="true" />*/}
+                                                            {/*    {application.stage}*/}
+                                                            {/*</p>*/}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -474,89 +419,7 @@ const Search = (props) => {
                                 </li>
                             ))}
                         </ul>
-                        <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
-                            <div className="flex-1 flex justify-between sm:hidden">
-                                <a
-                                    href="#"
-                                    className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-                                >
-                                    Previous
-                                </a>
-                                <a
-                                    href="#"
-                                    className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-                                >
-                                    Next
-                                </a>
-                            </div>
-                            <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                                <div>
-                                    <p className="text-sm text-gray-700">
-                                        Showing <span className="font-medium">1</span> to <span className="font-medium">10</span> of{" "}
-                                        <span className="font-medium">97</span> results
-                                    </p>
-                                </div>
-                                <div>
-                                    <nav className="relative z-0 inline-flex rounded-md -space-x-px" aria-label="Pagination">
-                                        <a
-                                            href="#"
-                                            className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-                                        >
-                                            <span className="sr-only">Previous</span>
-                                            <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
-                                        </a>
-                                        {/* Current: "z-10 bg-emerald-50 border-emerald-500 text-emerald-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" */}
-                                        <a
-                                            href="#"
-                                            aria-current="page"
-                                            className="z-10 bg-emerald-50 border-emerald-500 text-emerald-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium"
-                                        >
-                                            1
-                                        </a>
-                                        <a
-                                            href="#"
-                                            className="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium"
-                                        >
-                                            2
-                                        </a>
-                                        <a
-                                            href="#"
-                                            className="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 hidden md:inline-flex relative items-center px-4 py-2 border text-sm font-medium"
-                                        >
-                                            3
-                                        </a>
-                                        <span className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">
-                                            ...
-                                        </span>
-                                        <a
-                                            href="#"
-                                            className="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 hidden md:inline-flex relative items-center px-4 py-2 border text-sm font-medium"
-                                        >
-                                            8
-                                        </a>
-                                        <a
-                                            href="#"
-                                            className="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium"
-                                        >
-                                            9
-                                        </a>
-                                        <a
-                                            href="#"
-                                            className="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium"
-                                        >
-                                            10
-                                        </a>
-                                        <a
-                                            href="#"
-                                            className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-                                        >
-                                            <span className="sr-only">Next</span>
-                                            <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
-                                        </a>
-                                    </nav>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>
