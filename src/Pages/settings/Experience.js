@@ -1,6 +1,5 @@
 import React from "react";
 import SettingsNavbar from "../../components/SettingsNavbar";
-import { QuestionMarkCircleIcon} from "@heroicons/react/solid";
 const Experience=()=>{
     return(
         <>
@@ -34,35 +33,11 @@ const Experience=()=>{
                                                                 </div>
 
                                                                 <div className="mt-6 grid grid-cols-4 gap-6">
-                                                                    <div className="col-span-4 sm:col-span-2">
-                                                                        <label htmlFor="first-name" className="block text-sm font-medium text-gray-700">
-                            First name
-                                                                        </label>
-                                                                        <input
-                                                                            type="text"
-                                                                            name="first-name"
-                                                                            id="first-name"
-                                                                            autoComplete="cc-given-name"
-                                                                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
-                                                                        />
-                                                                    </div>
-
-                                                                    <div className="col-span-4 sm:col-span-2">
-                                                                        <label htmlFor="last-name" className="block text-sm font-medium text-gray-700">
-                            Last name
-                                                                        </label>
-                                                                        <input
-                                                                            type="text"
-                                                                            name="last-name"
-                                                                            id="last-name"
-                                                                            autoComplete="cc-family-name"
-                                                                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
-                                                                        />
-                                                                    </div>
+                                                                   
 
                                                                     <div className="col-span-4 sm:col-span-2">
                                                                         <label htmlFor="email-address" className="block text-sm font-medium text-gray-700">
-                            Email address
+                                                                            Title
                                                                         </label>
                                                                         <input
                                                                             type="text"
@@ -74,8 +49,21 @@ const Experience=()=>{
                                                                     </div>
 
                                                                     <div className="col-span-4 sm:col-span-1">
+                                                                        <label htmlFor="start-date" className="block text-sm font-medium text-gray-700">
+                            Start Date
+                                                                        </label>
+                                                                        <input
+                                                                            type="text"
+                                                                            name="expiration-date"
+                                                                            id="expiration-date"
+                                                                            autoComplete="cc-exp"
+                                                                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+                                                                            placeholder="MM / YY"
+                                                                        />
+                                                                    </div>
+                                                                    <div className="col-span-4 sm:col-span-1">
                                                                         <label htmlFor="expiration-date" className="block text-sm font-medium text-gray-700">
-                            Expration date
+                            End date
                                                                         </label>
                                                                         <input
                                                                             type="text"
@@ -87,54 +75,21 @@ const Experience=()=>{
                                                                         />
                                                                     </div>
 
-                                                                    <div className="col-span-4 sm:col-span-1">
-                                                                        <label
-                                                                            htmlFor="security-code"
-                                                                            className="flex items-center text-sm font-medium text-gray-700"
-                                                                        >
-                                                                            <span>Security code</span>
-                                                                            <QuestionMarkCircleIcon
-                                                                                className="ml-1 flex-shrink-0 h-5 w-5 text-gray-300"
-                                                                                aria-hidden="true"
-                                                                            />
-                                                                        </label>
-                                                                        <input
-                                                                            type="text"
-                                                                            name="security-code"
-                                                                            id="security-code"
-                                                                            autoComplete="cc-csc"
-                                                                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
-                                                                        />
-                                                                    </div>
 
-                                                                    <div className="col-span-4 sm:col-span-2">
-                                                                        <label htmlFor="country" className="block text-sm font-medium text-gray-700">
-                            Country
-                                                                        </label>
-                                                                        <select
-                                                                            id="country"
-                                                                            name="country"
-                                                                            autoComplete="country-name"
-                                                                            className="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
-                                                                        >
-                                                                            <option>United States</option>
-                                                                            <option>Canada</option>
-                                                                            <option>Mexico</option>
-                                                                        </select>
-                                                                    </div>
-
-                                                                    <div className="col-span-4 sm:col-span-2">
-                                                                        <label htmlFor="postal-code" className="block text-sm font-medium text-gray-700">
-                                                                            ZIP / Postal code
-                                                                        </label>
-                                                                        <input
-                                                                            type="text"
-                                                                            name="postal-code"
-                                                                            id="postal-code"
-                                                                            autoComplete="postal-code"
-                                                                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
-                                                                        />
-                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="bg-white py-6 px-4 sm:p-6">
+                                                                <label htmlFor="comment" className="block text-sm font-medium text-gray-700">
+                                                                Add your comment
+                                                                </label>
+                                                                <div className="mt-1">
+                                                                    <textarea
+                                                                        rows={4}
+                                                                        name="comment"
+                                                                        id="comment"
+                                                                        className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                                                        defaultValue={""}
+                                                                    />
                                                                 </div>
                                                             </div>
                                                             <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
