@@ -193,7 +193,7 @@ class SignUp extends React.Component {
                         <a className="text-center" href="/">
                             <img
                                 className="mx-auto h-20 w-auto"
-                                src="Baylor-University-Athletics-01.svg"
+                                src="/Baylor-University-Athletics-01.svg"
                                 alt="Workflow"
                             />
                             <h2 className="mt-6 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Sign up</h2>

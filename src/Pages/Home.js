@@ -123,13 +123,13 @@ const Home = () => {
                             <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
                                 <img
                                     className="h-9 md:h-14 w-auto"
-                                    src="Baylor-Prehealth.png"
+                                    src="/Baylor-Prehealth.png"
                                     alt="Mirage" />
                             </div>
                             <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
                                 <img 
                                     className="h-9 md:h-14 w-auto" 
-                                    src="Baylor-CS.png" 
+                                    src="/Baylor-CS.png" 
                                     alt="Tuple" />
                             </div>
                         </div>
