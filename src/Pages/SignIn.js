@@ -5,18 +5,25 @@ import {AccountContext} from "../components/Account";
 
 const SignIn = () => {
 
+    const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error_message, setErrorMessage] = useState(null);
     const { signIn } = useContext(AccountContext);
 
     const onSubmit = (event) => {
-        signIn(email, password).then(response => {
-            console.log(response);
-            window.location.href = "/";
-        }).catch(error => {
-            setErrorMessage(error.message);
-        });
+        setLoading(true);
+        signIn(email, password)
+            .then(response => {
+                console.log(response);
+                window.location.href = "/";
+            })
+            .catch(error => {
+                setErrorMessage(error.message);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     };
 
     return (
@@ -25,7 +32,7 @@ const SignIn = () => {
                 <a className="sm:mx-auto sm:w-full sm:max-w-md" href="/">
                     <img
                         className="mx-auto h-20 w-auto"
-                        src="Baylor-University-Athletics-01.svg"
+                        src="/Baylor-University-Athletics-01.svg"
                         alt="Workflow"
                     />
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
@@ -113,10 +120,21 @@ const SignIn = () => {
                             <div>
                                 <button
                                     type="submit"
-                                    className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                                    className={`${loading ? "cursor-not-allowed" : ""} w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500`}
                                     onClick={onSubmit}
+                                    {...(loading ? { disabled: true } : {})}
                                 >
-                                    Sign in
+                                    {
+                                        loading &&
+                                        <svg className="cursor-not-allowed animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fillOpacity="0"></circle>
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                    }
+                                    {
+                                        !loading &&
+                                        "Sign in"
+                                    }
                                 </button>
                             </div>
                         </div>
@@ -128,108 +146,3 @@ const SignIn = () => {
 };
 
 export default SignIn;
-
-// class SignIn extends React.Component {
-
-//     static contextType = useContext(AccountContext)
-
-//     constructor(props) {
-//         super();
-//         this.state={
-//             email:"",
-//             password:"",
-//         }
-
-//         this.handleSubmit=this.handleSubmit.bind(this)
-//     }
-
-//     handleSubmit(event){
-//         event.preventDefault();
-//         console.log(this.state)
-
-//         Account.authenicate(this.email, this.password)
-//             .then(data => {
-//                 console.log("Logged In!", data)
-//             })
-//             .catch(err => {
-//                 console.error("Error In Log In!", err)
-//             })
-
-//         // const user = new CognitoUser({
-//         //     Username: this.state.email,
-//         //     Pool: UserPool
-//         // })
-
-//         // const authDetails = new AuthenticationDetails({
-//         //     Username: this.state.email,
-//         //     Password: this.state.password
-//         // });
-
-//         // user.authenticateUser(authDetails,{
-//         //     onSuccess: (data) => {
-//         //         console.log("Log In Success!", data)
-//         //     },
-//         //     onFailure: (err) => {
-//         //         console.error("Log In Error!", err)
-//         //         // TODO: add failure message to UI for user
-//         //     },
-//         //     newPasswordRequired: (data) => {
-//         //         console.log("New Password Required!", data)
-//         //     }
-//         // })
-//     }
-
-//     render() {
-//         return (
-//             <>
-//                 <div className="columns is-centered">
-//                     <div className="column is-4-widescreen is-5-desktop is-7-tablet">
-//                         <div className="card">
-//                             <div className="card-content">
-
-//                                 <div className="field">
-//                                     <label className="label">Email</label>
-//                                     <div className="control has-icons-left">
-//                                         <input className="input" name="email" type="email" placeholder="Email Address"
-//                                                autoFocus=""
-//                                                onChange={(event)=>this.setState({email:event.target.value})}
-//                                         />
-//                                         <span className="icon is-small is-left">
-//                                             <i className="fas fa-envelope"></i>
-//                                             <FontAwesomeIcon icon={faEnvelope}></FontAwesomeIcon>
-//                                         </span>
-//                                     </div>
-//                                 </div>
-
-//                                 <div className="field" id="password">
-//                                     <label className="label">Password</label>
-//                                     <div className="control has-icons-left">
-//                                         <input className="input" name="password" type="password"
-//                                                placeholder="Password"
-//                                                onChange={(event)=>this.setState({password:event.target.value})}
-
-//                                         />
-//                                         <span className="icon is-small is-left">
-//                                             <FontAwesomeIcon icon={faLock}></FontAwesomeIcon>
-//                                         </span>
-//                                     </div>
-//                                 </div>
-
-//                                 <div className="field">
-//                                     <label className="checkbox">
-//                                         <input type="checkbox" />
-//                                         <>  Remember me</>
-//                                     </label>
-//                                 </div>
-
-//                                 <button className="button is-block is-primary is-fullwidth" onClick={this.handleSubmit}>Login</button>
-//                             </div>
-//                         </div>
-//                     </div>
-//                 </div>
-//             </>
-//         )
-//     }
-// }
-
-// export default SignIn;
