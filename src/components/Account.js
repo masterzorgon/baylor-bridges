@@ -6,7 +6,7 @@ const AccountContext = createContext();
 const Account = (props) => {
     const signIn = async (email, password) => {
         return await new Promise((resolve, reject) => {
-            axios.post("/signIn", {
+            axios.post("/auth", {
                 email: email,
                 password: password
             }).then(response => {
@@ -49,7 +49,7 @@ const Account = (props) => {
 
     const signOut = async () => {
         return await new Promise((resolve, reject) => {
-            axios.post("/signOut").then(response => {
+            axios.post("/signout").then(response => {
                 if (response.status === 200) {
                     window.localStorage.removeItem("account");
                     resolve(response.data);
