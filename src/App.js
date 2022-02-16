@@ -63,7 +63,7 @@ function App() {
 
                     <Route path="/404" element={components(<Navbar />, <NotFound />, <Footer />)} />
                     <Route path="*" element={<Navigate to="/404" />} />
-                    <Route path="/contactUs" element={components(<Navbar/>, <ContactUs/> ,<Footer/>)}/>
+                    <Route path="/contact-us" element={components(<Navbar/>, <ContactUs/> ,<Footer/>)}/>
 
                     <Route path="/terms/privacy-policy" element={components(<Navbar/>,<PrivacyPolicy/>,<Footer/>)}/>
                     <Route path="/terms/terms-conditions" element={components(<Navbar/>,<TermsConditions/>,<Footer/>)}/>
