@@ -1,5 +1,5 @@
 import React, { useState, useContext} from "react";
-import {XCircleIcon} from "@heroicons/react/solid";
+import {XCircleIcon, ArrowSmLeftIcon} from "@heroicons/react/solid";
 
 import {AccountContext} from "../../components/Account";
 
@@ -148,6 +148,13 @@ const SignIn = () => {
                                         "Sign in"
                                     }
                                 </button>
+                            </div>
+
+                            <div className="mt-3 text-sm text-center w-full grid place-items-center">
+                                <a href="/" className="font-medium text-emerald-600 hover:text-emerald-500 flex items-center space-x-0.5">
+                                    <ArrowSmLeftIcon className="h-4 w-4" />
+                                    <span>Go back home</span>
+                                </a>
                             </div>
                         </div>
                     </div>
