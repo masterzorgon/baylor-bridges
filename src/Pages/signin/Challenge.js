@@ -10,6 +10,13 @@ const SignInChallenge = () => {
     const [error_message, setErrorMessage] = useState(null);
     const { signIn } = useContext(AccountContext);
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const session = urlParams.get("session");
+    const name = urlParams.get("name");
+    const sub = urlParams.get("sub");
+
+    console.log(session, name, sub);
+
     const onSubmit = (event) => {
         setLoading(true);
         signIn()
