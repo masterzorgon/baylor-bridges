@@ -65,9 +65,9 @@ function App() {
                     <Route path="*" element={<Navigate to="/404" />} />
                     <Route path="/contactUs" element={components(<Navbar/>, <ContactUs/> ,<Footer/>)}/>
 
-                    <Route path="/terms/privacy-policies" element={components(<Navbar/>,<PrivacyPolicy/>,<Footer/>)}/>
+                    <Route path="/terms/privacy-policy" element={components(<Navbar/>,<PrivacyPolicy/>,<Footer/>)}/>
                     <Route path="/terms/terms-conditions" element={components(<Navbar/>,<TermsConditions/>,<Footer/>)}/>
-                    <Route path="/terms/cookie-policies" element={components(<Navbar/>,<CookiePolicies/>,<Footer/>)}/>
+                    <Route path="/terms/cookies-policy" element={components(<Navbar/>,<CookiePolicies/>,<Footer/>)}/>
 
                 </Routes>
             </Router>

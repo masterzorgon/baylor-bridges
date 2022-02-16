@@ -478,11 +478,11 @@ class SignUp extends React.Component {
                                         <div className="ml-3">
                                             <p className="text-base text-gray-500">
                                                 By selecting this, you agree to the{" "}
-                                                <a href="/terms/privacyPolicies" className="font-medium text-gray-700 underline">
+                                                <a href="/terms/privacy-policy" className="font-medium text-gray-700 underline">
                                                     Privacy Policy
                                                 </a>{" "}
                                                 and{" "}
-                                                <a href="/terms/cookiePolicies" className="font-medium text-gray-700 underline">
+                                                <a href="/terms/cookies-policy" className="font-medium text-gray-700 underline">
                                                     Cookie Policy
                                                 </a>
                                                 .
