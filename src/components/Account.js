@@ -6,7 +6,7 @@ const AccountContext = createContext();
 const Account = (props) => {
     const signIn = async (email, password) => {
         return await new Promise((resolve, reject) => {
-            axios.post("/signIn", {
+            axios.post("/auth", {
                 email: email,
                 password: password
             }).then(response => {
