@@ -1,7 +1,7 @@
 import React, { useState, useContext} from "react";
 import {XCircleIcon} from "@heroicons/react/solid";
 
-import {AccountContext} from "../components/Account";
+import {AccountContext} from "../../components/Account";
 
 const SignIn = () => {
 
@@ -19,7 +19,19 @@ const SignIn = () => {
                 window.location.href = "/";
             })
             .catch(error => {
-                setErrorMessage(error.message);
+                let response = error.response.data;
+
+                // Needs authentication challenge
+                if (response.code === "ChallengeRequiredException") {
+                    let payload = response.payload;
+                    let name = payload["challenge_name"];
+                    let session = payload["session"];
+                    let sub = payload["sub"];
+
+                    window.location.href = `/sign-in/challenge?session=${session}&name=${name}&sub=${sub}`;
+                } else {
+                    setErrorMessage(response.message);
+                }
             })
             .finally(() => {
                 setLoading(false);

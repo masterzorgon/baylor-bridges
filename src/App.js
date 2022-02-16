@@ -6,7 +6,8 @@ import axios from "axios";
 import Navbar from "./components/Navbar";
 import Home from "./Pages/Home";
 import About from "./Pages/About";
-import SignIn from "./Pages/SignIn";
+import SignIn from "./Pages/signin/SignIn";
+import SignInChallenge from "./Pages/signin/Challenge";
 import SignUp from "./Pages/SignUp";
 import Footer from "./components/Footer";
 import Search from "./Pages/Search";
@@ -57,6 +58,7 @@ function App() {
                     <Route path="/profile/:user_id" element={components(<Navbar />, <Profile />, <Footer />)} />
 
                     <Route path="/sign-in" element={<SignIn />} />
+                    <Route path="/sign-in/challenge" element={<SignInChallenge />} />
                     <Route path="/sign-up" element={<SignUp />} />
 
                     <Route path="/404" element={components(<Navbar />, <NotFound />, <Footer />)} />
