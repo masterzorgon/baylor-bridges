@@ -92,9 +92,7 @@ export default function TermsConditions() {
                             Terms and Conditions
                             </span>
                         </h2>
-                        <p className="mt-8 text-sm text-gray-500 leading-8">
-                        Please read these terms and conditions carefully before using Our Service.</p>
-                        
+                        <p className="mt-8 text-sm text-gray-500 leading-8">Please read these terms and conditions carefully before using Our Service.</p>
                     </div>
                     <div className="mt-6 prose prose-emerald prose-lg text-gray-500 mx-auto">
                         <h2>Interpretation and Definitions</h2>

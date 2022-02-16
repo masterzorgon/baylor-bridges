@@ -94,13 +94,12 @@ export default function CookiePolicies() {
                         <p className="mt-8 text-sm text-gray-500 leading-8">
                         This Cookies Policy explains what Cookies are and how We use them. You should read this policy so You can understand what type of cookies We use, or the information We collect using Cookies and how that information is used.
                         </p>
-                        <p className="mt-8 text-sm text-gray-500 leading-8">
+                        <p className="mt-4 text-sm text-gray-500 leading-8">
                         Cookies do not typically contain any information that personally identifies a user, but personal information that we store about You may be linked to the information stored in and obtained from Cookies. For further information on how We use, store and keep your personal data secure, see our Privacy Policy.
                         </p>
-                        <p className="mt-8 text-sm text-gray-500 leading-8">
+                        <p className="mt-4 text-sm text-gray-500 leading-8">
                         We do not store sensitive personal information, such as mailing addresses, account passwords, etc. in the Cookies We use.
                         </p>
-                        
                     </div>
                     <div className="mt-6 prose prose-emerald prose-lg text-gray-500 mx-auto">
                         <h2>Interpretation and Definitions</h2>
