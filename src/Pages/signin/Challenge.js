@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { XCircleIcon } from "@heroicons/react/solid";
 
 import { AccountContext } from "../../components/Account";
+import Password from "../../components/Password";
 
 const SignInChallenge = () => {
 
@@ -68,12 +69,15 @@ const SignInChallenge = () => {
                                         Please enter a new password.
                                     </p>
                                 </div>
-                                <form className="mt-5 sm:flex sm:items-center">
-                                    <div className="w-full">
-                                        <label htmlFor="password" className="sr-only">Password</label>
-                                        <input type="password" name="password" id="password" className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Your new password" />
-                                    </div>
-                                </form>
+                                <div className="mt-5 sm:flex sm:items-center">
+                                    <Password
+                                        value={
+                                            (password, check) => {
+                                                console.log(password);
+                                            }
+                                        }
+                                    />
+                                </div>
                             </div>
 
                             <div>
