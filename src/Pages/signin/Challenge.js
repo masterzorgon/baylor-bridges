@@ -17,6 +17,34 @@ const SignInChallenge = () => {
 
     console.log(session, name, sub);
 
+    
+    const challenges = {
+        "NEW_PASSWORD_REQUIRED": {
+            form: (
+                <div>
+                    <h3 className="text-lg leading-6 font-medium text-gray-900">
+                        Set your new password
+                    </h3>
+                    <div className="mt-2 max-w-xl text-sm text-gray-500">
+                        <p>
+                            You are required to set a new password for your account.
+                            Please enter a new password.
+                        </p>
+                    </div>
+                    <div className="mt-5 sm:flex sm:items-center">
+                        <Password
+                            value={
+                                (password, check) => {
+                                    console.log(password);
+                                }
+                            }
+                        />
+                    </div>
+                </div>
+            ),
+        }
+    };
+
     const onSubmit = (event) => {
         setLoading(true);
         signIn()
@@ -66,26 +94,8 @@ const SignInChallenge = () => {
                                 </div>
                             }
 
-                            <div>
-                                <h3 className="text-lg leading-6 font-medium text-gray-900">
-                                    Set your new password
-                                </h3>
-                                <div className="mt-2 max-w-xl text-sm text-gray-500">
-                                    <p>
-                                        You are required to set a new password for your account.
-                                        Please enter a new password.
-                                    </p>
-                                </div>
-                                <div className="mt-5 sm:flex sm:items-center">
-                                    <Password
-                                        value={
-                                            (password, check) => {
-                                                console.log(password);
-                                            }
-                                        }
-                                    />
-                                </div>
-                            </div>
+                            {/* Challenge Form */}
+                            {challenges[name].form}
 
                             <div>
                                 <button
