@@ -26,7 +26,7 @@ const Home = () => {
     const [statesCustomConfig, setStateCustomConfig] = useState({});
 
     useEffect(() => {
-        axios.get("/landingPage/map")
+        axios.get("/landing/map_stats")
             .then(res => {
                 var config = {};
                 var max = 0;
