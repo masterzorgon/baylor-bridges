@@ -2,7 +2,6 @@ import React, { Fragment } from "react";
 import { Switch, Listbox, Transition } from "@headlessui/react";
 import { MailIcon, ExclamationCircleIcon, CheckIcon, SelectorIcon, XCircleIcon, CheckCircleIcon } from "@heroicons/react/solid";
 
-// import UserPool from "../UserPool";
 import axios from "axios";
 
 
