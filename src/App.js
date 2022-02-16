@@ -13,7 +13,7 @@ import Footer from "./components/Footer";
 import Search from "./Pages/Search";
 import Profile from "./Pages/Profile";
 import NotFound from "./Pages/404";
-import ContactUs from "./Pages/contactUs";
+import ContactUs from "./Pages/ContactUs";
 import { default as SettingsProfile } from "./Pages/settings/Profile";
 import { Account } from "./components/Account";
 import PrivacyPolicy from "./Pages/policies&terms/PrivacyPolicy";
@@ -65,9 +65,9 @@ function App() {
                     <Route path="*" element={<Navigate to="/404" />} />
                     <Route path="/contactUs" element={components(<Navbar/>, <ContactUs/> ,<Footer/>)}/>
 
-                    <Route path="/terms/privacyPolicies" element={components(<Navbar/>,<PrivacyPolicy/>,<Footer/>)}/>
-                    <Route path="/terms/termsConditions" element={components(<Navbar/>,<TermsConditions/>,<Footer/>)}/>
-                    <Route path="/terms/cookiePolicies" element={components(<Navbar/>,<CookiePolicies/>,<Footer/>)}/>
+                    <Route path="/terms/privacy-policies" element={components(<Navbar/>,<PrivacyPolicy/>,<Footer/>)}/>
+                    <Route path="/terms/terms-conditions" element={components(<Navbar/>,<TermsConditions/>,<Footer/>)}/>
+                    <Route path="/terms/cookie-policies" element={components(<Navbar/>,<CookiePolicies/>,<Footer/>)}/>
 
                 </Routes>
             </Router>
