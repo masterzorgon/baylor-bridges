@@ -5,9 +5,12 @@ import DatePicker from "tailwind-react-datepicker";
 import axios from "axios";
 const Experience=()=>{
     const [experiences,setExperiences]=useState([]);
+    const [update,setUpdate]=useState(false);
     useEffect(()=>{
+        
+        console.log("calling use effect");
 
-        if (experiences.length==0){
+        if (experiences.length===0){
             axios.get("/account/profile/experience")
                 .then(res=>{
                     console.log(res.data);
@@ -18,7 +21,8 @@ const Experience=()=>{
             console.log("not calling axios");
 
         }
-    },[experiences]);
+        setUpdate(false);
+    },[update]);
 
     // eslint-disable-next-line no-unused-vars
     const handleChange =(index,field,value)=>{
@@ -26,6 +30,7 @@ const Experience=()=>{
         new_exper[index][field]=value;
         console.log("updating experience is ",new_exper[index]);
         setExperiences(new_exper);
+        setUpdate(true);
 
     };
 
@@ -123,6 +128,8 @@ const Experience=()=>{
                                                                             id="comment"
                                                                             className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                                                             defaultValue={""}
+                                                                            value={exper.description}
+                                                                            onChange={(e)=> handleChange(idx,"description",e.target.value)}
                                                                         />
                                                                     </div>
                                                                 </div>
