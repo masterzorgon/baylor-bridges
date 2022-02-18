@@ -6,13 +6,14 @@ import axios from "axios";
 import Navbar from "./components/Navbar";
 import Home from "./Pages/Home";
 import About from "./Pages/About";
-import SignIn from "./Pages/SignIn";
+import SignIn from "./Pages/signin/SignIn";
+import SignInChallenge from "./Pages/signin/Challenge";
 import SignUp from "./Pages/SignUp";
 import Footer from "./components/Footer";
 import Search from "./Pages/Search";
 import Profile from "./Pages/Profile";
 import NotFound from "./Pages/404";
-import ContactUs from "./Pages/contactUs";
+import ContactUs from "./Pages/ContactUs";
 import { default as SettingsProfile } from "./Pages/settings/Profile";
 import {default as SettingsExperience} from "./Pages/settings/Experience";
 import { Account } from "./components/Account";
@@ -59,15 +60,16 @@ function App() {
                     <Route path="/profile/:user_id" element={components(<Navbar />, <Profile />, <Footer />)} />
 
                     <Route path="/sign-in" element={<SignIn />} />
+                    <Route path="/sign-in/challenge" element={<SignInChallenge />} />
                     <Route path="/sign-up" element={<SignUp />} />
 
                     <Route path="/404" element={components(<Navbar />, <NotFound />, <Footer />)} />
                     <Route path="*" element={<Navigate to="/404" />} />
-                    <Route path="/contactUs" element={components(<Navbar/>, <ContactUs/> ,<Footer/>)}/>
+                    <Route path="/contact-us" element={components(<Navbar/>, <ContactUs/> ,<Footer/>)}/>
 
-                    <Route path="/terms/privacyPolicies" element={components(<Navbar/>,<PrivacyPolicy/>,<Footer/>)}/>
-                    <Route path="/terms/termsConditions" element={components(<Navbar/>,<TermsConditions/>,<Footer/>)}/>
-                    <Route path="/terms/cookiePolicies" element={components(<Navbar/>,<CookiePolicies/>,<Footer/>)}/>
+                    <Route path="/terms/privacy-policy" element={components(<Navbar/>,<PrivacyPolicy/>,<Footer/>)}/>
+                    <Route path="/terms/terms-conditions" element={components(<Navbar/>,<TermsConditions/>,<Footer/>)}/>
+                    <Route path="/terms/cookies-policy" element={components(<Navbar/>,<CookiePolicies/>,<Footer/>)}/>
 
                 </Routes>
             </Router>

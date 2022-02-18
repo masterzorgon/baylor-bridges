@@ -2,7 +2,6 @@ import React, { Fragment } from "react";
 import { Switch, Listbox, Transition } from "@headlessui/react";
 import { MailIcon, ExclamationCircleIcon, CheckIcon, SelectorIcon, XCircleIcon, CheckCircleIcon } from "@heroicons/react/solid";
 
-// import UserPool from "../UserPool";
 import axios from "axios";
 
 
@@ -67,16 +66,18 @@ class SignUp extends React.Component {
     }
 
     handlePasswordChange(event) {
+        // All requirements must match Cognito password policy
         var password = event.target.value;
+        var is_low = /[a-z]/.test(password);
         var is_cap = /[A-Z]/.test(password);
         var is_special = /[!|?|@|#|$|%|^|&|*|{|}|(|)|~]/.test(password);
-        var is_length = event.target.value.length >= 6; // Cloudy: Said at least 6
+        var is_length = event.target.value.length >= 10;
 
         var state = {
             ...this.state,
             password: password,
             valid_password: {
-                all_check: (is_length && is_special && is_cap),
+                all_check: (is_length && is_special && is_cap && is_low),
                 cap: is_cap,
                 special_char: is_special,
                 length: is_length,
@@ -193,7 +194,7 @@ class SignUp extends React.Component {
                         <a className="text-center" href="/">
                             <img
                                 className="mx-auto h-20 w-auto"
-                                src="Baylor-University-Athletics-01.svg"
+                                src="/Baylor-University-Athletics-01.svg"
                                 alt="Workflow"
                             />
                             <h2 className="mt-6 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Sign up</h2>
@@ -320,7 +321,7 @@ class SignUp extends React.Component {
                                             <div className="ml-2">
                                                 <div className={classNames(this.state.valid_password.length === true ? "text-green-700" : "text-red-700", "text-sm")}>
                                                     <ul className="">
-                                                        <li>Must be at least 6 characters</li>
+                                                        <li>Must be at least 10 characters</li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -477,11 +478,11 @@ class SignUp extends React.Component {
                                         <div className="ml-3">
                                             <p className="text-base text-gray-500">
                                                 By selecting this, you agree to the{" "}
-                                                <a href="/terms/privacyPolicies" className="font-medium text-gray-700 underline">
+                                                <a href="/terms/privacy-policy" className="font-medium text-gray-700 underline">
                                                     Privacy Policy
                                                 </a>{" "}
                                                 and{" "}
-                                                <a href="/terms/cookiePolicies" className="font-medium text-gray-700 underline">
+                                                <a href="/terms/cookies-policy" className="font-medium text-gray-700 underline">
                                                     Cookie Policy
                                                 </a>
                                                 .

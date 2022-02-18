@@ -1,66 +1,9 @@
 
 import React, { Fragment, useEffect, useState } from "react";
-import {
-    CheckIcon,
-    ThumbUpIcon,
-    UserIcon,
-} from "@heroicons/react/solid";
 import { LinkIcon } from "@heroicons/react/outline";
-
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-const eventTypes = {
-    applied: { icon: UserIcon, bgColorClass: "bg-gray-400" },
-    advanced: { icon: ThumbUpIcon, bgColorClass: "bg-emerald-500" },
-    completed: { icon: CheckIcon, bgColorClass: "bg-green-500" },
-};
-const timeline = [
-    {
-        id: 1,
-        type: eventTypes.applied,
-        content: "Applied to",
-        target: "Front End Developer",
-        date: "Sep 20",
-        datetime: "2020-09-20",
-    },
-    {
-        id: 2,
-        type: eventTypes.advanced,
-        content: "Advanced to phone screening by",
-        target: "Bethany Blake",
-        date: "Sep 22",
-        datetime: "2020-09-22",
-    },
-    {
-        id: 3,
-        type: eventTypes.completed,
-        content: "Completed phone screening with",
-        target: "Martha Gardner",
-        date: "Sep 28",
-        datetime: "2020-09-28",
-    },
-    {
-        id: 4,
-        type: eventTypes.advanced,
-        content: "Advanced to interview by",
-        target: "Bethany Blake",
-        date: "Sep 30",
-        datetime: "2020-09-30",
-    },
-    {
-        id: 5,
-        type: eventTypes.completed,
-        content: "Completed interview with",
-        target: "Katherine Snyder",
-        date: "Oct 4",
-        datetime: "2020-10-04",
-    },
-];
-
-function classNames(...classes) {
-    return classes.filter(Boolean).join(" ");
-}
 
 const Profile = () => {
     const { user_id } = useParams();
@@ -127,8 +70,9 @@ const Profile = () => {
                             </button>
                         </div>
                     </div>
-
-                    <div className="mt-8 max-w-3xl mx-auto grid grid-cols-1 gap-6 sm:px-6 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-3">
+                    
+                    {/* FIXME: Experience style */}
+                    <div className="mt-8 max-w-3xl mx-auto grid grid-cols-1 gap-6 sm:px-6 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-2">
                         <div className="space-y-6 lg:col-start-1 lg:col-span-2">
                             {/* Description list*/}
                             <section aria-labelledby="applicant-information-title">
@@ -191,31 +135,33 @@ const Profile = () => {
                                                     <dd className="mt-1 text-sm text-gray-900 capitalize">{profileAccount.role}</dd>
                                                 </div>
                                                 {
-                                                    profileAccount.contact_info &&
-                                                    <>
-                                                        {
-                                                            profileAccount.contact_info.email_address &&
+                                                    profileAccount.contact_info?
+                                                        <>
+                                                            {
+                                                                profileAccount.contact_info.email &&
                                                             <div className="sm:col-span-1">
                                                                 <dt className="text-sm font-medium text-gray-500">Email</dt>
-                                                                <dd className="mt-1 text-sm text-gray-900 lowercase">{profileAccount.contact_info.email_address}</dd>
+                                                                <dd className="mt-1 text-sm text-gray-900 lowercase">{profileAccount.contact_info.email}</dd>
                                                             </div>
-                                                        }
-                                                        {profileAccount.contact_info.phone_number &&
+                                                            }
+                                                            {profileAccount.contact_info.phone &&
                                                             <div className="sm:col-span-1">
                                                                 <dt className="text-sm font-medium text-gray-500">Phone</dt>
-                                                                <dd className="mt-1 text-sm text-gray-900">{profileAccount.contact_info.phone_number}</dd>
+                                                                <dd className="mt-1 text-sm text-gray-900">{profileAccount.contact_info.phone}</dd>
                                                             </div>
-                                                        }
-                                                    </>
+                                                            }
+                                                        </>
+                                                        :<></>
                                                 }
                                                 {
-                                                    profileAccount.contact_info &&
-                                                    <div className="sm:col-span-2">
-                                                        <dt className="text-sm font-medium text-gray-500">Biography</dt>
-                                                        <dd className="mt-1 text-sm text-gray-900">
-                                                            {profileAccount.biography}
-                                                        </dd>
-                                                    </div>
+                                                    profileAccount.contact_info ?
+                                                        <div className="sm:col-span-2">
+                                                            <dt className="text-sm font-medium text-gray-500">Biography</dt>
+                                                            <dd className="mt-1 text-sm text-gray-900">
+                                                                {profileAccount.biography}
+                                                            </dd>
+                                                        </div>
+                                                        :<></>
                                                 }
                                             </dl>
                                         }
@@ -235,7 +181,7 @@ const Profile = () => {
                                         <div className="px-4 py-6 sm:px-6">
                                             <ul className="space-y-8">
                                                 {
-                                                    profileAccount !== null && profileAccount.experiences.map((experience, index) => (
+                                                    profileAccount && profileAccount.experiences && profileAccount.experiences.map((experience, index) => (
                                                         <li className="" key={experience.exper_id}>
                                                             <p className="font-medium">{experience.title}</p>
                                                             <p className="font-medium text-sm text-gray-500 mt-0.5"><time dateTime={experience.start_time}>{experience.start_time}</time> - <time dateTime={experience.start_time}>{experience.start_time}</time></p>
@@ -270,57 +216,6 @@ const Profile = () => {
                                 </div>
                             </section>
                         </div>
-
-                        <section aria-labelledby="timeline-title" className="lg:col-start-3 lg:col-span-1">
-                            <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6">
-                                <h2 id="timeline-title" className="text-lg font-medium text-gray-900">
-                                    People Also Viewed
-                                </h2>
-
-                                {/* Activity Feed */}
-                                <div className="mt-6 flow-root">
-                                    <ul className="-mb-8">
-                                        {timeline.map((item, itemIdx) => (
-                                            <li key={item.id}>
-                                                <div className="relative pb-8">
-                                                    {itemIdx !== timeline.length - 1 ? (
-                                                        <span
-                                                            className="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200"
-                                                            aria-hidden="true"
-                                                        />
-                                                    ) : null}
-                                                    <div className="relative flex space-x-3">
-                                                        <div>
-                                                            <span
-                                                                className={classNames(
-                                                                    item.type.bgColorClass,
-                                                                    "h-8 w-8 rounded-full flex items-center justify-center ring-8 ring-white"
-                                                                )}
-                                                            >
-                                                                <item.type.icon className="w-5 h-5 text-white" aria-hidden="true" />
-                                                            </span>
-                                                        </div>
-                                                        <div className="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
-                                                            <div>
-                                                                <p className="text-sm text-gray-500">
-                                                                    {item.content}{" "}
-                                                                    <a href="#" className="font-medium text-gray-900">
-                                                                        {item.target}
-                                                                    </a>
-                                                                </p>
-                                                            </div>
-                                                            <div className="text-right text-sm whitespace-nowrap text-gray-500">
-                                                                <time dateTime={item.datetime}>{item.date}</time>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            </div>
-                        </section>
                     </div>
                 </main>
             </div>
