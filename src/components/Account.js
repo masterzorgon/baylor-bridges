@@ -4,9 +4,9 @@ import axios from "axios";
 const AccountContext = createContext();
 
 const Account = (props) => {
-    const auth = async (email, password) => {
+    const signIn = async (email, password) => {
         return await new Promise((resolve, reject) => {
-            axios.post("/auth", {
+            axios.post("/signin", {
                 email: email,
                 password: password
             }).then(response => {
@@ -24,7 +24,7 @@ const Account = (props) => {
         });
     };
 
-    const authChallenge = async (name, session, response) => {
+    const signInChallenge = async (name, session, response) => {
         return await new Promise((resolve, reject) => {
             axios.post("/auth/challenge", {
                 session: session,
@@ -81,7 +81,7 @@ const Account = (props) => {
     };
 
     return (
-        <AccountContext.Provider value={{ signIn: auth, getAccount, getAccountLocal, signOut, authChallenge }}>
+        <AccountContext.Provider value={{ signIn: signIn, getAccount, getAccountLocal, signOut, authChallenge: signInChallenge }}>
             {props.children}
         </AccountContext.Provider>
     );
