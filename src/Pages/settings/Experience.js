@@ -5,17 +5,29 @@ import DatePicker from "tailwind-react-datepicker";
 import axios from "axios";
 const Experience=()=>{
     const [experiences,setExperiences]=useState([]);
-    // eslint-disable-next-line no-unused-vars
-    const [test,setTest]=useState(null);
-
     useEffect(()=>{
-        axios.get("/account/profile/experience")
-            .then(res=>{
-                console.log(res.data);
-                setExperiences(res.data);
+
+        if (experiences.length==0){
+            axios.get("/account/profile/experience")
+                .then(res=>{
+                    console.log(res.data);
+                    setExperiences(res.data);
                 
-            });
-    },[]);
+                });
+        }else{
+            console.log("not calling axios");
+
+        }
+    },[experiences]);
+
+    // eslint-disable-next-line no-unused-vars
+    const handleChange =(index,field,value)=>{
+        let new_exper=experiences;
+        new_exper[index][field]=value;
+        console.log("updating experience is ",new_exper[index]);
+        setExperiences(new_exper);
+
+    };
 
 
     return(
@@ -47,7 +59,7 @@ const Experience=()=>{
                           Experience
                                                                         </h2>
                                                                         <p className="mt-1 text-sm text-gray-500">
-                          Update your current experience/ Notice that it may take up to 5 mins to update on search functionality
+                          Update your current experience. Notice that it may take up to 5 mins to update on search functionality
                                                                         </p>
                                                                     </div>
 
@@ -65,6 +77,7 @@ const Experience=()=>{
                                                                                 autoComplete="email"
                                                                                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
                                                                                 value={exper.title}
+                                                                                onChange={(e)=> handleChange(idx,"title",e.target.value)}
                                                                             />
                                                                         </div>
 
