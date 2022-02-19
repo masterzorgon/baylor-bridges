@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import SettingsNavbar from "../../components/SettingsNavbar";
 // eslint-disable-next-line no-unused-vars
 import DatePicker from "tailwind-react-datepicker";
+
 import axios from "axios";
 const Experience=()=>{
     const [experiences,setExperiences]=useState([]);
     const [update,setUpdate]=useState(false);
+
     useEffect(()=>{
         
         console.log("calling use effect");
@@ -86,23 +88,25 @@ const Experience=()=>{
                                                                             />
                                                                         </div>
 
+
+                                                                        
+
                                                                         <div className="col-span-4 sm:col-span-1">
-                                                                            <label htmlFor="start-date" className="block text-sm font-medium text-gray-700">
-                            Start Date
+                                                                            <label htmlFor="expiration-date" className="block text-sm font-medium text-gray-700">
+                                                                                Start date
                                                                             </label>
                                                                             <input
-                                                                                type="text"
+                                                                                type="date"
                                                                                 name="expiration-date"
                                                                                 id="expiration-date"
                                                                                 autoComplete="cc-exp"
                                                                                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
                                                                                 placeholder="MM / YY"
                                                                             />
-                                                                            {/* <DatePicker/> */}
                                                                         </div>
                                                                         <div className="col-span-4 sm:col-span-1">
                                                                             <label htmlFor="expiration-date" className="block text-sm font-medium text-gray-700">
-                            End date
+                                                                                End date
                                                                             </label>
                                                                             <input
                                                                                 type="text"
