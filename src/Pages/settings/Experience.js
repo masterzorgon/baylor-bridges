@@ -12,6 +12,8 @@ const Experience=()=>{
     const [update,setUpdate]=useState(false);
     const [open,setOpen]=useState(false);
     const [field,setField]=useState(null);
+    // eslint-disable-next-line no-unused-vars
+    const [refresh,setRefresh]=useState(false);
 
     useEffect(()=>{
         
@@ -26,23 +28,33 @@ const Experience=()=>{
                 });
         }else{
             console.log("not calling axios");
+            setRefresh(false);
 
         }
         setUpdate(false);
-    },[update]);
+    },[update,refresh]);
 
     // eslint-disable-next-line no-unused-vars
-    const handleChange =(index,field,value)=>{
-        let new_exper=experiences;
-        new_exper[index][field]=value;
-        console.log("updating experience is ",new_exper[index]);
-        setExperiences(new_exper);
-        setUpdate(true);
+    // const handleChange =(index,field,value)=>{
+    //     let new_exper=experiences;
+    //     new_exper[index][field]=value;
+    //     console.log("updating experience is ",new_exper[index]);
+    //     setExperiences(new_exper);
+    //     setUpdate(true);
 
-    };
+    // };
 
     // eslint-disable-next-line no-unused-vars
     const getModal =(request,field) =>{
+        const handleChange = (e,value)=>{
+            let new_field=field;
+            new_field[value]=e.target.value;
+            console.log(new_field);
+            setField(new_field);
+            setRefresh(true);
+
+            
+        };
         console.log("in get modal the field is ",field);
 
         if(!field){
@@ -75,6 +87,9 @@ const Experience=()=>{
                                                 autoComplete="email"
                                                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
                                                 value={field.title}
+                                                onChange={(e)=>{
+                                                    handleChange(e,"title");
+                                                }}
 
                                             />
                                         </div>
@@ -119,6 +134,9 @@ const Experience=()=>{
                                                 className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 py-2 px-3 block w-full sm:text-sm border-gray-300 rounded-md"
                                                 defaultValue={""}
                                                 value={field.description}
+                                                onChange={(e)=>{
+                                                    handleChange(e,"description");
+                                                }}
                                             />
                                                         
                                         </div>
