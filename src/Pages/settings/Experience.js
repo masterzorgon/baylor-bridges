@@ -49,7 +49,7 @@ const Experience=()=>{
     // };
 
     // eslint-disable-next-line no-unused-vars
-    const getModal =(request,field) =>{
+    const getModal =(request,field,idx) =>{
         const handleChange = (e,value)=>{
             let new_field=field;
             new_field[value]=e.target.value;
@@ -61,7 +61,17 @@ const Experience=()=>{
         };
 
         // eslint-disable-next-line no-unused-vars
-        const handleExperRemove =(exper_id)=>{
+        const handleExperRemove =()=>{
+            let url="/account/profile/experience/"+field["exper_id"];
+            axios.delete(url).then(res=>{
+                console.log("delete the experience successfully");
+                let new_exper=experiences;
+                new_exper.splice(idx,1);
+                console.log(new_exper);
+                setOpen(false);                
+            }).catch(err=>{
+                console.log(err);
+            });
             
 
         };
@@ -210,7 +220,7 @@ const Experience=()=>{
                         <button
                             type="button"
                             className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
-                            onClick={() => setOpen(false)}
+                            onClick={() => handleExperRemove(field.exper_id)}
                         >
                             Remove
                         </button>
@@ -315,7 +325,7 @@ const Experience=()=>{
                                                                                                     <Menu.Item>
                                                                                                         {({ active }) => (
                                                                                                             <a
-                                                                                                                href="#"
+                                                                                                        
                                                                                                                 className={classNames(
                                                                                                                     active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                                                                                                                     "flex px-4 py-2 text-sm"
