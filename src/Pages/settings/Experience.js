@@ -9,6 +9,8 @@ import { ExclamationIcon } from "@heroicons/react/outline";
 
 import axios from "axios";
 const Experience=()=>{
+    const [loading, setLoading] = useState(false);
+
     const [experiences,setExperiences]=useState([]);
     const [update,setUpdate]=useState(false);
     const [open,setOpen]=useState(false);
@@ -64,6 +66,7 @@ const Experience=()=>{
 
         // eslint-disable-next-line no-unused-vars
         const handleExperRemove =()=>{
+            setLoading(true);
             console.log("exper id is "+field["exper_id"]+", the idx is "+modalSettings["idx"]);
             // eslint-disable-next-line no-unused-vars
             let url="/account/profile/experience/"+field["exper_id"];
@@ -76,17 +79,22 @@ const Experience=()=>{
                 setOpen(false);                
             }).catch(err=>{
                 console.log(err);
+            }).finally(()=>{
+                setLoading(false);
             });
             
 
         };
 
         const handleExperSubmit=(field)=>{
+            setLoading(true);
             let url="/account/profile/experience/"+field["exper_id"];
             console.log(url);
             axios.put(url,field).then(res=>{
                 console.log("update the experience successfully");
                 setOpen(false);                
+            }).finally(()=>{
+                setLoading(false);
             });
             
 
@@ -188,10 +196,21 @@ const Experience=()=>{
                             <div className="mt-5 sm:mt-6">
                                 <button
                                     type="submit"
-                                    className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
+                                    className={`${loading ? "cursor-not-allowed" : ""} inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm`}
                                     onClick={() => handleExperSubmit(field)}
+                                    {...(loading ? { disabled: true } : {})}
                                 >
-                                        update this experience
+                                    {
+                                        loading &&
+                                        <svg className="cursor-not-allowed animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fillOpacity="0"></circle>
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                    }
+                                    {
+                                        !loading &&
+                                        "Update this Experience"
+                                    }
                                 </button>
                             </div>
                         </div>
@@ -224,10 +243,21 @@ const Experience=()=>{
                     <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                         <button
                             type="button"
-                            className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+                            className={`${loading ? "cursor-not-allowed" : ""} w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm`}
                             onClick={() => handleExperRemove(field.exper_id)}
+                            {...(loading ? { disabled: true } : {})}
                         >
-                            Remove
+                            {
+                                loading &&
+                                        <svg className="cursor-not-allowed animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fillOpacity="0"></circle>
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                            }
+                            {
+                                !loading &&
+                                        "Remove"
+                            }
                         </button>
                         <button
                             type="button"
