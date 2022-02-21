@@ -42,18 +42,12 @@ const Experience=()=>{
         setUpdate(false);
     },[update,refresh]);
 
-    // eslint-disable-next-line no-unused-vars
-    // const handleChange =(index,field,value)=>{
-    //     let new_exper=experiences;
-    //     new_exper[index][field]=value;
-    //     console.log("updating experience is ",new_exper[index]);
-    //     setExperiences(new_exper);
-    //     setUpdate(true);
 
-    // };
 
-    // eslint-disable-next-line no-unused-vars
-    const getModal =(modalSettings,field,idx) =>{
+    // this method will rendering the modal HTML code from modalSettings(request,exper_idx) and field
+    const getModal =(modalSettings,field) =>{
+
+        // handle changes when changing values in field
         const handleChange = (e,value)=>{
             let new_field=field;
             new_field[value]=e.target.value;
@@ -64,11 +58,10 @@ const Experience=()=>{
             
         };
 
-        // eslint-disable-next-line no-unused-vars
+        // handle removing experience actions
         const handleExperRemove =()=>{
             setLoading(true);
             console.log("exper id is "+field["exper_id"]+", the idx is "+modalSettings["idx"]);
-            // eslint-disable-next-line no-unused-vars
             let url="/account/profile/experience/"+field["exper_id"];
             axios.delete(url).then(res=>{
                 console.log("delete the experience successfully");
@@ -86,6 +79,7 @@ const Experience=()=>{
 
         };
 
+        // handle submit experience actions
         const handleExperSubmit=(field)=>{
             setLoading(true);
             let url="/account/profile/experience/"+field["exper_id"];
@@ -274,6 +268,8 @@ const Experience=()=>{
 
     };
 
+
+    // this method will set up the field and modal settings for rendering modals
     const handleOpenModal =(modalType,exper,exper_idx)=>{
         console.log("the idx pass into handleOpenModal is "+exper_idx);
         setField(exper);
@@ -308,6 +304,7 @@ const Experience=()=>{
                                                 { experiences.map((exper,idx)=> (
 
                                                     <>
+                                                        {/* experience card */}
                                                         <section aria-labelledby="payment-details-heading" key={exper.exper_id}>
                                                             <form>
                                                                 <div className="shadow sm:rounded-md ">
@@ -404,6 +401,8 @@ const Experience=()=>{
                     </div>
                 </div>
             </div>
+
+            {/* modal frame */}
             <Transition.Root show={open} as={Fragment}>
                 <Dialog as="div" className="fixed z-50 inset-0 overflow-y-auto" onClose={setOpen}>
                     <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
