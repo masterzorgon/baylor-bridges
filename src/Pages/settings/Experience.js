@@ -1,9 +1,10 @@
-import React, { useEffect, useState,Fragment } from "react";
+import React, { useEffect, useState,Fragment,useRef } from "react";
 import SettingsNavbar from "../../components/SettingsNavbar";
 // eslint-disable-next-line no-unused-vars
 import DatePicker from "tailwind-react-datepicker";
 import { Menu, Transition,Dialog } from "@headlessui/react";
 import { PencilIcon, DotsVerticalIcon, DocumentRemoveIcon } from "@heroicons/react/solid";
+import { ExclamationIcon } from "@heroicons/react/outline";
 
 
 import axios from "axios";
@@ -12,6 +13,9 @@ const Experience=()=>{
     const [update,setUpdate]=useState(false);
     const [open,setOpen]=useState(false);
     const [field,setField]=useState(null);
+    const [modalType,setModalType]=useState("");
+    const cancelButtonRef = useRef(null);
+
     // eslint-disable-next-line no-unused-vars
     const [refresh,setRefresh]=useState(false);
 
@@ -56,7 +60,13 @@ const Experience=()=>{
             
         };
 
-        const handleSubmit=(field)=>{
+        // eslint-disable-next-line no-unused-vars
+        const handleExperRemove =(exper_id)=>{
+            
+
+        };
+
+        const handleExperSubmit=(field)=>{
             let url="/account/profile/experience/"+field["exper_id"];
             console.log(url);
             axios.put(url,field).then(res=>{
@@ -164,7 +174,7 @@ const Experience=()=>{
                                 <button
                                     type="submit"
                                     className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
-                                    onClick={() => handleSubmit(field)}
+                                    onClick={() => handleExperSubmit(field)}
                                 >
                                         update this experience
                                 </button>
@@ -176,12 +186,52 @@ const Experience=()=>{
             );
         }else if(request==="remove"){
             console.log("you click remove");
+            return(
+                <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                    <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <div className="sm:flex sm:items-start">
+                            <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                                <ExclamationIcon className="h-6 w-6 text-red-600" aria-hidden="true" />
+                            </div>
+                            <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                                <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
+                                    Remove Experience
+                                </Dialog.Title>
+                                <div className="mt-2">
+                                    <p className="text-sm text-gray-500">
+                                        Are you sure you want to remove the experience  &quot {field.title} &quot ? All of your data will be permanently removed.
+                                        This action cannot be undone.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                        <button
+                            type="button"
+                            className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+                            onClick={() => setOpen(false)}
+                        >
+                            Remove
+                        </button>
+                        <button
+                            type="button"
+                            className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                            onClick={() => setOpen(false)}
+                            ref={cancelButtonRef}
+                        >
+                  Cancel
+                        </button>
+                    </div>
+                </div>
+            );
         }
 
     };
 
-    const handleOpenModal =(exper)=>{
+    const handleOpenModal =(modalType,exper)=>{
         setField(exper);
+        setModalType(modalType);
         console.log(exper);
         setOpen(true);
     };
@@ -255,7 +305,7 @@ const Experience=()=>{
                                                                                                                     active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                                                                                                                     "flex px-4 py-2 text-sm"
                                                                                                                 )}
-                                                                                                                onClick={()=> handleOpenModal(exper)}
+                                                                                                                onClick={()=> handleOpenModal("edit",exper)}
                                                                                                             >
                                                                                                                 <PencilIcon className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
                                                                                                                 <span>Edit</span>
@@ -270,6 +320,8 @@ const Experience=()=>{
                                                                                                                     active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                                                                                                                     "flex px-4 py-2 text-sm"
                                                                                                                 )}
+
+                                                                                                                onClick={()=> handleOpenModal("remove",exper)}
                                                                                                             >
                                                                                                                 <DocumentRemoveIcon className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
                                                                                                                 <span>Remove</span>
@@ -335,7 +387,7 @@ const Experience=()=>{
                         >
 
                             {/* {console.log("the field in modal is",field)} */}
-                            {getModal("edit",field)}
+                            {getModal(modalType,field)}
 
                         </Transition.Child>
                         
