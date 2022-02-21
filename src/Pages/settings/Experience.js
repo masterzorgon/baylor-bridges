@@ -13,7 +13,9 @@ const Experience=()=>{
     const [update,setUpdate]=useState(false);
     const [open,setOpen]=useState(false);
     const [field,setField]=useState(null);
-    const [modalType,setModalType]=useState("");
+
+    // modalSetttings will start the modal type(edit/remove) and exper_idx
+    const [modalSettings,setModalSettings]=useState({});
     const cancelButtonRef = useRef(null);
 
     // eslint-disable-next-line no-unused-vars
@@ -49,7 +51,7 @@ const Experience=()=>{
     // };
 
     // eslint-disable-next-line no-unused-vars
-    const getModal =(request,field,idx) =>{
+    const getModal =(modalSettings,field,idx) =>{
         const handleChange = (e,value)=>{
             let new_field=field;
             new_field[value]=e.target.value;
@@ -62,12 +64,15 @@ const Experience=()=>{
 
         // eslint-disable-next-line no-unused-vars
         const handleExperRemove =()=>{
+            console.log("exper id is "+field["exper_id"]+", the idx is "+modalSettings["idx"]);
+            // eslint-disable-next-line no-unused-vars
             let url="/account/profile/experience/"+field["exper_id"];
             axios.delete(url).then(res=>{
                 console.log("delete the experience successfully");
                 let new_exper=experiences;
-                new_exper.splice(idx,1);
+                new_exper.splice(modalSettings["idx"],1);
                 console.log(new_exper);
+                setRefresh(true);
                 setOpen(false);                
             }).catch(err=>{
                 console.log(err);
@@ -95,7 +100,7 @@ const Experience=()=>{
             return;
         }
 
-        if (request==="edit"){
+        if (modalSettings["modalType"]==="edit"){
             return(
                 <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full sm:p-6">
                     <section aria-labelledby="payment-details-heading">
@@ -194,7 +199,7 @@ const Experience=()=>{
                     
                 </div>
             );
-        }else if(request==="remove"){
+        }else if(modalSettings["modalType"]==="remove"){
             console.log("you click remove");
             return(
                 <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
@@ -239,9 +244,11 @@ const Experience=()=>{
 
     };
 
-    const handleOpenModal =(modalType,exper)=>{
+    const handleOpenModal =(modalType,exper,exper_idx)=>{
+        console.log("the idx pass into handleOpenModal is "+exper_idx);
         setField(exper);
-        setModalType(modalType);
+        setModalSettings({"modalType":modalType,"idx":exper_idx});
+        console.log(modalSettings);
         console.log(exper);
         setOpen(true);
     };
@@ -315,7 +322,7 @@ const Experience=()=>{
                                                                                                                     active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                                                                                                                     "flex px-4 py-2 text-sm"
                                                                                                                 )}
-                                                                                                                onClick={()=> handleOpenModal("edit",exper)}
+                                                                                                                onClick={()=> handleOpenModal("edit",exper,idx)}
                                                                                                             >
                                                                                                                 <PencilIcon className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
                                                                                                                 <span>Edit</span>
@@ -331,7 +338,7 @@ const Experience=()=>{
                                                                                                                     "flex px-4 py-2 text-sm"
                                                                                                                 )}
 
-                                                                                                                onClick={()=> handleOpenModal("remove",exper)}
+                                                                                                                onClick={()=> handleOpenModal("remove",exper,idx)}
                                                                                                             >
                                                                                                                 <DocumentRemoveIcon className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
                                                                                                                 <span>Remove</span>
@@ -397,7 +404,7 @@ const Experience=()=>{
                         >
 
                             {/* {console.log("the field in modal is",field)} */}
-                            {getModal(modalType,field)}
+                            {getModal(modalSettings,field)}
 
                         </Transition.Child>
                         
