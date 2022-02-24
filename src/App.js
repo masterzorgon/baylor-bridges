@@ -4,21 +4,28 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import axios from "axios";
 
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+
 import Home from "./Pages/Home";
 import About from "./Pages/About";
-import SignIn from "./Pages/signin/SignIn";
-import SignInChallenge from "./Pages/signin/Challenge";
-import SignUp from "./Pages/SignUp";
-import Footer from "./components/Footer";
-import Search from "./Pages/Search";
-import Profile from "./Pages/Profile";
-import NotFound from "./Pages/404";
 import ContactUs from "./Pages/ContactUs";
-import { default as SettingsProfile } from "./Pages/settings/Profile";
-import { Account } from "./components/Account";
+import NotFound from "./Pages/404";
+
 import PrivacyPolicy from "./Pages/policies&terms/PrivacyPolicy";
 import TermsConditions from "./Pages/policies&terms/Terms&Conditions";
 import CookiePolicies from "./Pages/policies&terms/CookiePolicy";
+
+import SignIn from "./Pages/signin/SignIn";
+import SignInChallenge from "./Pages/signin/Challenge";
+import SignUpEntrace from "./Pages/signup/SignUpEntrance";
+
+
+import Search from "./Pages/Search";
+import Profile from "./Pages/Profile";
+
+import { default as SettingsProfile } from "./Pages/settings/Profile";
+
+import { Account } from "./components/Account";
 
 import "./App.css";
 
@@ -59,7 +66,7 @@ function App() {
 
                     <Route path="/sign-in" element={<SignIn />} />
                     <Route path="/sign-in/challenge" element={<SignInChallenge />} />
-                    <Route path="/sign-up" element={<SignUp />} />
+                    <Route path="/sign-up" element={<SignUpEntrace />} />
 
                     <Route path="/404" element={components(<NotFound />)} />
                     <Route path="*" element={<Navigate to="/404" />} />
