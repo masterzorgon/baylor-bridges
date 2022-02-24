@@ -61,7 +61,7 @@ function App() {
                     <Route path="/sign-in/challenge" element={<SignInChallenge />} />
                     <Route path="/sign-up" element={<SignUp />} />
 
-                    <Route path="/404" element={components(<Navbar />, <NotFound />, <Footer />)} />
+                    <Route path="/404" element={components(<NotFound />)} />
                     <Route path="*" element={<Navigate to="/404" />} />
                     <Route path="/contact-us" element={components(<Navbar/>, <ContactUs/> ,<Footer/>)}/>
 
