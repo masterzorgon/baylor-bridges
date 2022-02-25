@@ -7,6 +7,8 @@ import ExperienceModal from "../components/ExperienceModal";
 import { Menu, Transition } from "@headlessui/react";
 import { DotsVerticalIcon } from "@heroicons/react/solid";
 
+import Photo from "../components/Photo";
+
 const Profile = () => {
     const { user_id } = useParams();
     const [profileAccount, setProfileAccount] = useState(null);
@@ -37,12 +39,10 @@ const Profile = () => {
                         <div className="flex items-center space-x-5">
                             <div className="flex-shrink-0">
                                 <div className="relative">
-                                    <img
-                                        className="h-16 w-16 rounded-full"
-                                        src="https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80"
-                                        alt=""
-                                    />
-                                    <span className="absolute inset-0 shadow-inner rounded-full" aria-hidden="true" />
+                                    <div className="relative">
+                                        <Photo size="16" />
+                                        <span className="absolute inset-0 shadow-inner rounded-full w-16 h-16" aria-hidden="true" />
+                                    </div>
                                 </div>
                             </div>
                             {
