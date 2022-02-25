@@ -112,7 +112,7 @@ const SignUpEntrace = () => {
                 <div className="mt-14 sm:mt-18 text-center">
                     <button
                         type="button"
-                        className="w-1/3 sm:w-1/4 text-center px-6 py-3 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="transition-all duration-75 ease-in w-1/3 sm:w-1/4 text-center px-6 py-3 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed"
                         disabled={currentRole === null}
                         onClick={onNext}
                     >
