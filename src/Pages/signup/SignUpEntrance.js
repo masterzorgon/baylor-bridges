@@ -90,7 +90,7 @@ const SignUpEntrace = () => {
                                             </div>
                                         </div>
                                         <CheckCircleIcon
-                                            className={classNames(checked ? "" : "invisible", "h-5 w-5 text-emerald-600")}
+                                            className={classNames(checked ? "" : "opacity-0", "h-5 w-5 text-emerald-600 transition-all duration-75 ease-in")}
                                             aria-hidden="true"
                                         />
                                         <div
