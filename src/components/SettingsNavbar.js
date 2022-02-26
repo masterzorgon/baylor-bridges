@@ -9,7 +9,7 @@ const SettingsNavbar = (props) => {
     const tabs = [
         { id: "profile", name: "Profile", href: "profile" },
         { id: "experience", name: "Experience", href: "experience" },
-        { id: "workload", name: "Workload", href: "workload" },
+        // { id: "workload", name: "Workload", href: "workload" },
     ];
 
     return (

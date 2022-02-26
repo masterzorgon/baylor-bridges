@@ -19,18 +19,23 @@ const SignIn = () => {
                 window.location.href = "/";
             })
             .catch(error => {
-                let response = error.response.data;
+                if(error.message==="time out"){
+                    setErrorMessage("server time out");
 
-                // Needs authentication challenge
-                if (response.code === "ChallengeRequiredException") {
-                    let payload = response.payload;
-                    let name = payload["challenge_name"];
-                    let session = payload["session"];
-                    let sub = payload["sub"];
+                }else{
+                    let response = error.response.data;
 
-                    window.location.href = `/sign-in/challenge?session=${session}&name=${name}&sub=${sub}`;
-                } else {
-                    setErrorMessage(response.message);
+                    // Needs authentication challenge
+                    if (response.code === "ChallengeRequiredException") {
+                        let payload = response.payload;
+                        let name = payload["challenge_name"];
+                        let session = payload["session"];
+                        let sub = payload["sub"];
+
+                        window.location.href = `/sign-in/challenge?session=${session}&name=${name}&sub=${sub}`;
+                    } else {
+                        setErrorMessage(response.message);
+                    }
                 }
             })
             .finally(() => {
