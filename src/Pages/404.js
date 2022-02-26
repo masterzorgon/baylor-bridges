@@ -4,7 +4,7 @@ import {ArrowSmRightIcon} from "@heroicons/react/solid";
 const NotFound = () => {
     return (
         <>
-            <div className="min-h-full pt-16 pb-12 flex flex-col bg-white">
+            <div className="min-h-screen pt-16 pb-12 flex flex-col bg-white">
                 <main className="flex-grow flex flex-col justify-center max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="py-20">
                         <div className="text-center">

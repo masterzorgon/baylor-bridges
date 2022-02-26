@@ -1,7 +1,7 @@
 /* This example requires Tailwind CSS v2.0+ */
 import React, { Fragment, useState, useContext, useEffect } from "react";
 import { Popover, Transition, Menu } from "@headlessui/react";
-import { MenuIcon, XIcon, SearchIcon, BellIcon } from "@heroicons/react/outline";
+import { MenuIcon, XIcon, SearchIcon } from "@heroicons/react/outline";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import axios from "axios";
 import { AccountContext } from "./Account";
@@ -245,18 +245,17 @@ const Navbar = (props) => {
                         {
                             account !== null &&
                             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 mr-4 gap-3">
-                                <button
+                                {/* <button
                                     type="button"
                                     className="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
                                 >
                                     <span className="sr-only">View notifications</span>
                                     <BellIcon className="h-6 w-6" aria-hidden="true" />
-                                </button>
-
+                                </button> */}
                                 {/* Profile dropdown */}
                                 <Menu as="div" className="ml-3 relative">
                                     <div>
-                                        <Menu.Button className="bg-white rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
+                                        <Menu.Button className="w-8 h-8 bg-white rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
                                             <span className="sr-only">Open user menu</span>
                                             <Photo />
                                         </Menu.Button>
@@ -375,13 +374,13 @@ const Navbar = (props) => {
                                                 <div className="text-base font-medium text-gray-800">{account.first_name} { account.last_name }</div>
                                                 <div className="text-sm font-medium text-gray-500">{ account.email }</div>
                                             </div>
-                                            <button
+                                            {/* <button
                                                 type="button"
                                                 className="ml-auto flex-shrink-0 bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
                                             >
                                                 <span className="sr-only">View notifications</span>
                                                 <BellIcon className="h-6 w-6" aria-hidden="true" />
-                                            </button>
+                                            </button> */}
                                         </div>
                                     </div>
                                 }

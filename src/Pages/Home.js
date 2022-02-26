@@ -72,8 +72,8 @@ const Home = () => {
                                     <span className="block text-emerald-200">A New Experience</span>
                                 </h1>
                                 <p className="mt-6 max-w-lg mx-auto text-center text-xl text-emerald-200 sm:max-w-3xl">
-                                        Introducing a brand new Web Interface for Baylor Alumni and students to explore the vast and endless possibilities
-                                        of Baylor Alumni in the Health Industry.
+                                        Introducing a brand new platform for Baylor alumni and students to connect and explore the vast and endless possibilities
+                                        of Baylor alumni in the health industry.
                                 </p>
                                 <div className="mt-10 max-w-sm mx-auto sm:max-w-none sm:flex sm:justify-center">
                                     <div className="space-y-4 sm:space-y-0 sm:mx-auto sm:inline-grid sm:grid-cols-1 sm:gap-5">
@@ -81,7 +81,7 @@ const Home = () => {
                                             href="/sign-up"
                                             className="flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-emerald-700 bg-white hover:bg-emerald-50 sm:px-9"
                                         >
-                                                Sign Up
+                                                Get Started
                                         </a>
                                     </div>
                                 </div>
@@ -103,7 +103,7 @@ const Home = () => {
                             <h2 className="text-base font-semibold text-emerald-600 uppercase tracking-wide">Alumni Heat Map</h2>
                             <p className="mt-2 text-3xl font-extrabold text-gray-900">Alumni Connection Platform</p>
                             <p className="mt-4 text-lg text-gray-500">
-                                    Providing Environment for Students and Alumni to discover New Connections and foster deeper relationship with one another.
+                                    Dynamic US map displaying the density of Baylor Alumni and updates according to searches by the user.
                             </p>
                         </div>
                     </div>
