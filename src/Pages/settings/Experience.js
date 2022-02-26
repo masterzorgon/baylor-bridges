@@ -406,7 +406,7 @@ const Experience = () => {
                                                     <>
                                                         <section aria-labelledby="payment-details-heading" key={exper.exper_id}>
                                                             <form>
-                                                                <div className="shadow sm:rounded-md ">
+                                                                <div className="shadow-md sm:rounded-md ">
                                                                     <div className="bg-white py-2 px-2 sm:p-2">
 
                                                                         <div className="bg-white px-4 py-5 sm:px-6">
@@ -525,7 +525,7 @@ const Experience = () => {
                                                                                     [*][*][*] ENTER ADD NEW PUBLICATION ITEM HERE [*][*][*]
                                                                                     [*][*][*]                                     [*][*][*]
                                                                                 */}
-                                                                                <div className="border-dashed border-2 border-gray rounded-md py-1 mx-auto relative bg-white-600 w-full">
+                                                                                <div className="border-dashed border-2 border-gray rounded-sm py-1 mx-auto relative bg-white-600 w-full">
                                                                                     <div className=""> {/* max-w-7xl mx-auto px-1 sm:px-6 lg:px-8 */}
                                                                                         <div className="sm:text-center sm:px-16 flex">
                                                                                             {/* TODO: CREATE ADD PUBLICATION FUNCTIONALITY */}
