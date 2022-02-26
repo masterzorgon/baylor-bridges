@@ -2,9 +2,12 @@ import React from "react";
 
 const navigation = {
     main: [
-        {name: "Home", href: "/"},
         { name: "About", href: "/about" },
-        { name: "Contact Us", href: "/contactUs" }
+        { name: "Contact Us", href: "/contact-us" },
+        { name: "Terms", href: "/terms/terms-conditions" },
+        // { name: "Privacy", href: "/terms/privacy-policy" },
+        // { name: "Cookies", href: "/terms/cookies-policy" },
+        { name: "Baylor University", href: "//www.baylor.edu/prehealth/index.php?id=981654" },
     ],
     social: [
         /*{

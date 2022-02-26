@@ -6,7 +6,7 @@ const AccountContext = createContext();
 const Account = (props) => {
     const signIn = async (email, password) => {
         return await new Promise((resolve, reject) => {
-            axios.post("/signIn", {
+            axios.post("/signin", {
                 email: email,
                 password: password
             }).then(response => {
@@ -16,6 +16,24 @@ const Account = (props) => {
                     resolve(response.data);
                 } else {
                     window.localStorage.removeItem("account");
+                    reject(response.data);
+                }
+            }).catch(error => {
+                reject(error);
+            });
+        });
+    };
+
+    const signInChallenge = async (name, session, response) => {
+        return await new Promise((resolve, reject) => {
+            axios.post("/signin/challenge", {
+                session: session,
+                challenge_name: name,
+                challenge_response: response
+            }).then(response => {
+                if (response.status === 200) {
+                    resolve(response.data);
+                } else {
                     reject(response.data);
                 }
             }).catch(error => {
@@ -49,7 +67,7 @@ const Account = (props) => {
 
     const signOut = async () => {
         return await new Promise((resolve, reject) => {
-            axios.post("/signOut").then(response => {
+            axios.post("/signout").then(response => {
                 if (response.status === 200) {
                     window.localStorage.removeItem("account");
                     resolve(response.data);
@@ -63,7 +81,7 @@ const Account = (props) => {
     };
 
     return (
-        <AccountContext.Provider value={{ signIn, getAccount, getAccountLocal, signOut }}>
+        <AccountContext.Provider value={{ signIn: signIn, getAccount, getAccountLocal, signOut, authChallenge: signInChallenge }}>
             {props.children}
         </AccountContext.Provider>
     );

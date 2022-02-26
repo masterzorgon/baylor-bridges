@@ -1,9 +1,9 @@
 /* This example requires Tailwind CSS v2.0+ */
 import React, { Fragment, useState, useContext, useEffect } from "react";
 import { Popover, Transition, Menu } from "@headlessui/react";
-import { MenuIcon, XIcon, SearchIcon, BellIcon } from "@heroicons/react/outline";
+import { MenuIcon, XIcon, SearchIcon } from "@heroicons/react/outline";
 import { ChevronDownIcon } from "@heroicons/react/solid";
-
+import axios from "axios";
 import { AccountContext } from "./Account";
 import Photo from "./Photo";
 
@@ -11,26 +11,8 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
-const people = [
-    {
-        name: "Calvin Hawkins",
-        email: "calvin.hawkins@example.com",
-        image:
-            "https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    },
-    {
-        name: "Kristen Ramos",
-        email: "kristen.ramos@example.com",
-        image:
-            "https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    },
-    {
-        name: "Ted Fox",
-        email: "ted.fox@example.com",
-        image:
-            "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    },
-];
+const avatar="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80";
+
 
 const Navbar = (props) => {
     const [isFocus, setFocus] = useState(false);
@@ -39,7 +21,7 @@ const Navbar = (props) => {
     // For current signed in account display
     const { signOut, getAccount, getAccountLocal } = useContext(AccountContext);
     const [account, setAccount] = useState(null);
-
+    const [profile, setProfile] = useState([]);
     useEffect(() => {
         setAccount(getAccountLocal());
         getAccount()
@@ -57,6 +39,19 @@ const Navbar = (props) => {
                 setAccount(null);
                 window.location.href = "/";
             });
+    };
+
+    const handleSearchLoading =(keywords)=>{
+        console.log("handle search loading for keywords: ",keywords);
+        axios.get("/searchBarResult",{
+            params:{
+                keywords:keywords
+            }
+        }).then((res)=>{
+            // console.log(res.data);
+            setProfile(res.data);
+            console.log(profile);
+        });
     };
 
     return (
@@ -125,7 +120,7 @@ const Navbar = (props) => {
                                                 aria-hidden="true"
                                             />
                                         </Popover.Button>
-                                        
+
                                         {/* Sub-menu for "More" */}
                                         <Transition
                                             as={Fragment}
@@ -143,7 +138,7 @@ const Navbar = (props) => {
                                                             <div className="ml-4 text-base font-medium text-gray-900">About</div>
                                                         </a>
                                                         {/*TODO to create this page and connect the url*/}
-                                                        <a href="/contactUs" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
+                                                        <a href="/contact-us" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
                                                             <div className="ml-4 text-base font-medium text-gray-900">Contact Us</div>
                                                         </a>
 
@@ -155,7 +150,7 @@ const Navbar = (props) => {
                                 )}
                             </Popover>
                         </Popover.Group>
-                        
+
                         {/* Search people */}
                         <div className="hidden md:flex-1 md:flex md:items-center md:justify-between ml-6 mr-12 max-w-md relative">
                             <label htmlFor="email" className="sr-only">
@@ -176,6 +171,8 @@ const Navbar = (props) => {
                                     onFocus={() => setFocus(true)}
                                     onChange={(event) => {
                                         setSearchText(event.target.value);
+                                        handleSearchLoading(event.target.value);
+
                                     }}
                                 />
                             </div>
@@ -194,23 +191,26 @@ const Navbar = (props) => {
                             >
                                 <div className="z-50 absolute bg-white shadow-md py-2 rounded-md w-full max-w-md mt-4 top-16">
                                     <ul className="">
-                                        {people.map((person) => (
-                                            <li key={person.email} className="py-4 px-5 flex hover:bg-gray-50">
-                                                <img className="h-10 w-10 rounded-full" src={person.image} alt="" />
-                                                <div className="ml-3">
-                                                    <p className="text-sm font-medium text-gray-900">{person.name}</p>
-                                                    <p className="text-sm text-gray-500">{person.email}</p>
-                                                </div>
+                                        {profile.map((person) => (
+                                            <li key={person.email}>
+                                                <a  className="py-4 px-5 flex hover:bg-gray-50" href={"/profile/"+person.user_id} target="_blank" rel="noreferrer">
+                                                    {/* TODO adding account avatar later*/}
+                                                    <img className="h-10 w-10 rounded-full" src={avatar} alt="" />
+                                                    <div className="ml-3">
+                                                        <p className="text-sm font-medium text-gray-900">{person.first_name} {person.last_name}</p>
+                                                        <p className="text-sm text-gray-500">{person.occupation}</p>
+                                                    </div>
+                                                </a>
                                             </li>
                                         ))}
                                     </ul>
-                                    <a key="more" className="py-3 px-5 pb-2 flex text-sm text-emerald-800 font-medium" href="/search">
+                                    <a key="more" className="py-3 px-5 pb-2 flex text-sm text-emerald-800 font-medium" href={"search?keywords="+searchText+"&sort=&role=&class=&state="}>
                                         More results
                                     </a>
                                 </div>
                             </Transition>
                         </div>
-                        
+
                         {/* Account sign in / up / out */}
                         {
                             account === null &&
@@ -226,18 +226,17 @@ const Navbar = (props) => {
                         {
                             account !== null &&
                             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 mr-4 gap-3">
-                                <button
+                                {/* <button
                                     type="button"
                                     className="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
                                 >
                                     <span className="sr-only">View notifications</span>
                                     <BellIcon className="h-6 w-6" aria-hidden="true" />
-                                </button>
-
+                                </button> */}
                                 {/* Profile dropdown */}
                                 <Menu as="div" className="ml-3 relative">
                                     <div>
-                                        <Menu.Button className="bg-white rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
+                                        <Menu.Button className="w-8 h-8 bg-white rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
                                             <span className="sr-only">Open user menu</span>
                                             <Photo />
                                         </Menu.Button>
@@ -356,13 +355,13 @@ const Navbar = (props) => {
                                                 <div className="text-base font-medium text-gray-800">{account.first_name} { account.last_name }</div>
                                                 <div className="text-sm font-medium text-gray-500">{ account.email }</div>
                                             </div>
-                                            <button
+                                            {/* <button
                                                 type="button"
                                                 className="ml-auto flex-shrink-0 bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
                                             >
                                                 <span className="sr-only">View notifications</span>
                                                 <BellIcon className="h-6 w-6" aria-hidden="true" />
-                                            </button>
+                                            </button> */}
                                         </div>
                                     </div>
                                 }
