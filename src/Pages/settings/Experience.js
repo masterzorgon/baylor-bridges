@@ -357,7 +357,7 @@ const Experience = () => {
                                             </div>
 
                                             {/* SHOW NEW EXPERIENCE MODAL */}
-                                            {modal && <ExperienceModal modal={modal} setModal={setModal} experience={experience} setExperience={setExperience} setUploadSuccess={setUploadSuccess} setUploadFailure={setUploadFailure} />}
+                                            {modal && <ExperienceModal modal={modal} setModal={setModal} experience={experience} setExperience={setExperience} setUploadSuccess={setUploadSuccess} setUploadFailure={setUploadFailure} loading={loading} setLoading={setLoading} refresh={refresh} setRefresh={setRefresh} />}
 
                                             {/* 
                                                 [*][*][*]                     [*][*][*]
