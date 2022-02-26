@@ -223,16 +223,19 @@ const ExperienceModal = ({ modal, setModal, experience, setExperience, setUpload
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
                             {/* MODAL CONTENT */}
-                            <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
+                            <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full sm:p-6">
                                 <form id='newExperienceModal'>
-                                    <div className="mt-3 text-center sm:mt-5">
+                                    <div className="bg-white py-6 px-4 sm:p-6">
                                         <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
                                             New Experience
                                         </Dialog.Title>
 
                                         {/* ADD INPUT FOR EXPERIENCE CRITERIA BELOW */}
-                                        <div className="sm:col-span-6">
-                                            <div className="sm:mt-0 sm:col-span-2">
+                                        <div className="mt-6 grid grid-cols-4 gap-4">
+                                            <div className="col-span-4 sm:col-span-2">
+                                                <label htmlFor="email-address" className="block text-sm font-medium text-gray-700">
+                                                Title
+                                                </label>
                                                 <input
                                                     type="text"
                                                     name="title"
@@ -244,37 +247,48 @@ const ExperienceModal = ({ modal, setModal, experience, setExperience, setUpload
                                             </div>
                                             {/* DATE INPUT */}
                                             <div className="col-span-4 sm:col-span-1">
+                                                <label htmlFor="start-date" className="block text-sm font-medium text-gray-700">
+                                                Start Date
+                                                </label>
                                                 <input
                                                     type="text"
                                                     name="start_time"
                                                     id="start_time"
                                                     autoComplete="cc-exp"
                                                     className="my-3 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
-                                                    placeholder="Start Date: MM / YY"
+                                                    placeholder="MM / YY"
                                                     onChange={handleInputChange}
                                                 />
                                                 {/* <DatePicker/> */}
                                             </div>
                                             <div className="col-span-4 sm:col-span-1">
+                                                <label htmlFor="expiration-date" className="block text-sm font-medium text-gray-700">
+                                                End date
+                                                </label>
                                                 <input
                                                     type="text"
                                                     name="stop_time"
                                                     id="stop_time"
                                                     autoComplete="cc-exp"
                                                     className="my-3 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
-                                                    placeholder="End Date: MM / YY"
+                                                    placeholder="MM / YY"
                                                     onChange={handleInputChange}
                                                 />
                                             </div>
-                                            <textarea
-                                                id="description"
-                                                name="description"
-                                                rows={3}
-                                                className="my-3 shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border border-gray-300 rounded-md max-h-20"
-                                                defaultValue={""}
-                                                placeholder="Experience Description"
-                                                onChange={handleInputChange}
-                                            />
+                                            <div className="col-span-4 sm:col-span-4">
+                                                <label htmlFor="comment" className="block text-sm font-medium text-gray-700">
+                                                   description
+                                                </label>
+                                                <textarea
+                                                    id="description"
+                                                    name="description"
+                                                    rows={3}
+                                                    className="my-3 shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border border-gray-300 rounded-md max-h-20"
+                                                    defaultValue={""}
+                                                    placeholder="Experience Description"
+                                                    onChange={handleInputChange}
+                                                />
+                                            </div>
                                         </div>
                                     </div>
                                 </form>
