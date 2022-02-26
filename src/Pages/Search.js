@@ -127,7 +127,7 @@ const Search = (props) => {
 
     async function getProfiles(keywords,roleValue,classValue,states){
 
-        axios.get("/searchBarResult", {
+        axios.get("/search", {
             params: {
                 keywords: keywords,
                 detailed: true,

@@ -62,7 +62,7 @@ const Navbar = (props) => {
 
     const handleSearchLoading =(keywords)=>{
         console.log("handle search loading for keywords: ",keywords);
-        axios.get("/searchBarResult",{
+        axios.get("/search",{
             params:{
                 keywords:keywords
             }
@@ -192,6 +192,15 @@ const Navbar = (props) => {
                                         setSearchText(event.target.value);
                                         handleSearchLoading(event.target.value);
 
+                                    }}
+                                    onKeyPress={(event) => {
+                                        if(event.key === "Enter") {
+                                            console.log("enter key pressed");
+                                            window.location.href = "search?keywords="+searchText+"&sort=&role=&class=&state=";
+                                        } else {
+                                            setSearchText(event.target.value);
+                                            handleSearchLoading(event.target.value);
+                                        }
                                     }}
                                 />
                             </div>
