@@ -210,7 +210,7 @@ const Profile = () => {
                                 type={value.type}
                                 name={value.key}
                                 id={value.key}
-                                className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                className="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                 placeholder={value.placeholder}
                                 value={update[value.key]}
                                 onChange={(e) => {
@@ -231,7 +231,7 @@ const Profile = () => {
                                 rows={4}
                                 name="comment"
                                 id="comment"
-                                className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                className="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                 defaultValue={update[value.key]}
                                 onChange={(e) => {
                                     handleChange(e, value);
@@ -248,7 +248,7 @@ const Profile = () => {
                                 <>
                                     <label className="block text-sm font-medium text-gray-700 sr-only">{value.title}</label>
                                     <div className="mt-1 relative">
-                                        <Listbox.Button className="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                        <Listbox.Button className="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
                                             <span className="block truncate">{selected.name}</span>
                                             <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                                                 <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
@@ -268,7 +268,7 @@ const Profile = () => {
                                                         key={option + "_" + value.key}
                                                         className={({ active }) =>
                                                             classNames(
-                                                                active ? "text-white bg-indigo-600" : "text-gray-900",
+                                                                active ? "text-white bg-emerald-600" : "text-gray-900",
                                                                 "cursor-default select-none relative py-2 pl-8 pr-4"
                                                             )
                                                         }
@@ -283,7 +283,7 @@ const Profile = () => {
                                                                 {selected ? (
                                                                     <span
                                                                         className={classNames(
-                                                                            active ? "text-white" : "text-indigo-600",
+                                                                            active ? "text-white" : "text-emerald-600",
                                                                             "absolute inset-y-0 left-0 flex items-center pl-1.5"
                                                                         )}
                                                                     >
@@ -320,7 +320,7 @@ const Profile = () => {
                     }
                     <button
                         type="submit"
-                        className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
                         onClick={() => handleSubmit()}
                     >
                         Save
@@ -335,7 +335,7 @@ const Profile = () => {
                     {getTypeDom(field.value)}
                     <button
                         type="submit"
-                        className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
                         onClick={() => handleSubmit()}
                     >
                         Save
