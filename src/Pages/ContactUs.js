@@ -12,7 +12,7 @@ export default function ContactUs() {
                             <h2 className="text-2xl font-extrabold text-gray-900 sm:text-3xl">Baylor Bridges Team</h2>
                             <div className="mt-3">
                                 <p className="text-lg text-gray-500">
-                                    Have a question about Baylor Bridges? Contact Us by sending a message!
+                                    Have a question about Baylor Bridges? Contact us by sending a message!
                                 </p>
                             </div>
                             <div className="mt-9">
@@ -39,7 +39,7 @@ export default function ContactUs() {
                             <h2 className="text-2xl font-extrabold text-gray-900 sm:text-3xl">Baylor Bridges Technical Support</h2>
                             <div className="mt-3">
                                 <p className="text-lg text-gray-500">
-                                    Problem with the Website? Send us a help request and We will get back to you as soon as possible!
+                                    Problem with the website? Send us a help request and we will get back to you as soon as possible!
                                 </p>
                             </div>
                             <div className="mt-9">
