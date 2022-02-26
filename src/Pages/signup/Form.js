@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { MailIcon, ArrowSmRightIcon } from "@heroicons/react/outline";
+import { MailIcon, ArrowSmRightIcon, CalculatorIcon } from "@heroicons/react/outline";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
@@ -19,6 +19,7 @@ const Form = () => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [verification_code, setVerificationCode] = useState("");
 
     const { role } = useParams();
     if (role !== "student" && role !== "alumni") {
@@ -37,8 +38,9 @@ const Form = () => {
             }
 
             setComplete(email && email !== "" && is_valid);
-            setErrorMessage(null);
         }
+
+        setErrorMessage(null);
     }, [step, email, role]);
 
     const onSubmit = () => {
@@ -58,6 +60,36 @@ const Form = () => {
                     }
 
                     console.log(err);
+                }).finally(() => {
+                    setLoading(false);
+                });
+        }
+
+        // Password
+        else if (step === 2) {
+            setLoading(true);
+            axios.post("/signup", {
+                email: email,
+                password: password,
+                role: role
+            })
+                .then(res => {
+                    // Sign up successfully, no addditional verification needed, jump to finish step
+                    setStep(9);
+                }).catch(err => {
+                    console.log(err);
+                    let response = err.response.data;
+
+                    if (response.code === "ConfirmationRequiredException") {
+                        // If it needs further email, confirmation jump to step 3.
+                        setStep(3);
+                    } else if (response.code === "UsernameExistsException") {
+                        // If already exists, jump back to step 1.
+                        setStep(1);
+                    } else {
+                        setErrorMessage(response.message);
+                    }
+
                 }).finally(() => {
                     setLoading(false);
                 });
@@ -94,21 +126,34 @@ const Form = () => {
                 <h3 className="text-lg leading-6 font-medium text-gray-900">Your password</h3>
                 <p className="mt-1 text-sm font-medium mb-4 text-gray-500">Set a password for your account.</p>
                 <Password
-                    value={(password, check) => setPassword(password)}
+                    onChange={(password, checked) => {
+                        setPassword(password);
+                        setComplete(checked);
+                    }}
                 />
+            </>
+        );
+    };
 
-                {/* <div className="mt-4 relative rounded-md shadow-sm">
-                    <label htmlFor="confirm-password" className="block text-sm font-medium text-gray-700">
-                        Confirm password
-                    </label>
+    const step3 = () => {
+        return (
+            <>
+                <h3 className="text-lg leading-6 font-medium text-gray-900">Verification Code</h3>
+                <p className="mt-1 text-sm font-medium mb-4 text-gray-500">Please check your mail inbox for { email }.</p>
+                <div className="mt-4 relative rounded-md shadow-sm">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <CalculatorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                    </div>
                     <input
-                        id="confirm-password"
-                        name="confirm-password"
-                        type="password"
-                        autoComplete="password"
-                        className="mt-1 py-2 px-3 block w-full shadow-sm focus:ring-emerald-500 focus:border-emerald-500 border-gray-300 rounded-md"
+                        type="email"
+                        name="email"
+                        id="email"
+                        className={classNames("block w-full pl-10 sm:text-sm rounded-md", error_message === null ? "border-gray-300 focus:ring-emerald-500 focus:border-emerald-500" : "border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500")}
+                        placeholder="000000"
+                        value={verification_code}
+                        onChange={(e) => setVerificationCode(e.target.value)}
                     />
-                </div> */}
+                </div>
             </>
         );
     };
@@ -151,6 +196,7 @@ const Form = () => {
                     
                     {step === 1 && step1()}
                     {step === 2 && step2()}
+                    {step === 3 && step3()}
 
                     {/* Error message */}
                     {
