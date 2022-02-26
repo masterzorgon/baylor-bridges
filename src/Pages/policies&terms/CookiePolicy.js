@@ -3,7 +3,7 @@ import { useState } from "react/cjs/react.development";
 
 
 
-export default function CookiePolicies() {
+export default function CookiePolicy() {
     // eslint-disable-next-line no-unused-vars
     const [email, setEmail] = useState("");
     

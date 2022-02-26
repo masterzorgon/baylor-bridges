@@ -1,13 +1,13 @@
 /* eslint-disable no-useless-escape */
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { XCircleIcon, CheckCircleIcon } from "@heroicons/react/solid";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
-const Password = (props) => {
+const Password = ({value, onChange}) => {
     const [password, setPassword] = useState("");
     const [check, setCheck] = useState({
         is_low: false,
@@ -15,6 +15,10 @@ const Password = (props) => {
         is_special: false,
         is_length: false,
     });
+
+    useEffect(() => {
+        setPassword(value);
+    }, [value]);
 
     const setPasswordTrigger = (e) => {
         let password = e.target.value;
@@ -36,12 +40,8 @@ const Password = (props) => {
             all_check: all_check,
         });
 
-        if (props.onChange) {
-            props.onChange(e, check);
-        }
-
-        if (props.value) {
-            props.value(password, check);
+        if (onChange) {
+            onChange(password, all_check);
         }
     };
 

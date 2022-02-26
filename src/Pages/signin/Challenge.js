@@ -4,7 +4,7 @@ import { XCircleIcon } from "@heroicons/react/solid";
 import { AccountContext } from "../../components/Account";
 import Password from "../../components/Password";
 
-const SignInChallenge = () => {
+const Challenge = () => {
 
     const { authChallenge } = useContext(AccountContext);
 
@@ -12,6 +12,7 @@ const SignInChallenge = () => {
     const [error_message, setErrorMessage] = useState(null);
     const [response, setResponse] = useState(null);
     const [success, setSuccess] = useState(false);
+    const [complete, setComplete] = useState(false);
 
     const urlParams = new URLSearchParams(window.location.search);
     const session = urlParams.get("session");
@@ -35,9 +36,10 @@ const SignInChallenge = () => {
                     </div>
                     <div className="mt-5 sm:flex sm:items-center">
                         <Password
-                            value={
-                                (password, check) => {
+                            onChange={
+                                (password, checked) => {
                                     setResponse({ ...response, new_password: password, username: sub });
+                                    setComplete(checked);
                                 }
                             }
                         />
@@ -131,9 +133,9 @@ const SignInChallenge = () => {
                                 <div>
                                     <button
                                         type="submit"
-                                        className={`${loading ? "cursor-not-allowed" : ""} w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500`}
+                                        className={`${loading ? "cursor-not-allowed" : ""} w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed`}
                                         onClick={onSubmit}
-                                        {...(loading ? { disabled: true } : {})}
+                                        disabled={loading || !complete}
                                     >
                                         {
                                             loading &&
@@ -169,4 +171,4 @@ const SignInChallenge = () => {
     );
 };
 
-export default SignInChallenge;
+export default Challenge;
