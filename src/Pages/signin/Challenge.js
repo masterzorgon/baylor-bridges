@@ -63,7 +63,11 @@ const SignInChallenge = () => {
                     // window.location.href = "/";
                     setSuccess(true);
                 }).catch(error => {
-                    setErrorMessage(error.response.data.message);
+                    if(error.message==="time out"){
+                        setErrorMessage("server time out");
+                    }else{
+                        setErrorMessage(error.response.data.message);
+                    }
                 }).finally(() => {
                     setLoading(false); 
                 });
