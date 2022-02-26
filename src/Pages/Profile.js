@@ -10,7 +10,7 @@ import Photo from "../components/Photo";
 const Profile = () => {
     const { user_id } = useParams();
     const [profileAccount, setProfileAccount] = useState(null);
-    //console.log(user_id);
+    console.log(user_id);
 
     useEffect(() => {
         let url = "";
@@ -60,12 +60,12 @@ const Profile = () => {
                             }
                         </div>
                         <div className="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3">
-                            {/* <button
+                            <button
                                 type="button"
                                 className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-emerald-500"
                             >
                                 Connect
-                            </button> */}
+                            </button>
                         </div>
                     </div>
                     

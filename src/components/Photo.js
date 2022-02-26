@@ -2,12 +2,12 @@ import React, { useContext } from "react";
 
 import { AccountContext } from "./Account";
 
-const Photo = ({size, account}) => {
-    size = size ? size : 8;
+const Photo = (props) => {
+    const size = props.size ? props.size : 8;
     var font_size = "xs";
 
     const { getAccountLocal } = useContext(AccountContext);
-    account = account ? account : getAccountLocal();
+    const account = getAccountLocal();
 
     if (size >= 14) {
         font_size = "xl";
@@ -32,8 +32,8 @@ const Photo = ({size, account}) => {
         }
 
         // If has no name for this account, take the first letter of the email
-        if (initials === "" && account.email) {
-            initials += account.email.charAt(0);
+        if (initials === "") {
+            initials += account.email[0];
         }
 
         return <div className={`inline-flex items-center justify-center h-${size} w-${size} rounded-full bg-gray-500`}>

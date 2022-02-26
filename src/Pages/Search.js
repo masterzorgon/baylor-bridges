@@ -6,8 +6,6 @@ import {TrashIcon} from "@heroicons/react/outline";
 import USAMap from "react-usa-map";
 import {useSearchParams} from "react-router-dom";
 import axios from "axios";
-import Photo from "../components/Photo";
-
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
@@ -65,7 +63,7 @@ function generateFilterSort(role, graduate_class, sort) {
 
 
 
-// const avatar_url = "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80";
+const avatar_url = "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80";
 
 
 
@@ -129,7 +127,7 @@ const Search = (props) => {
 
     async function getProfiles(keywords,roleValue,classValue,states){
 
-        axios.get("/search", {
+        axios.get("/searchBarResult", {
             params: {
                 keywords: keywords,
                 detailed: true,
@@ -390,8 +388,7 @@ const Search = (props) => {
                                         <div className="flex items-center px-4 py-4 sm:px-6">
                                             <div className="min-w-0 flex-1 flex items-center">
                                                 <div className="flex-shrink-0">
-                                                    {/* <img className="h-12 w-12 rounded-full" src={avatar_url} alt="" /> */}
-                                                    <Photo size="12" account={profile}/>
+                                                    <img className="h-12 w-12 rounded-full" src={avatar_url} alt="" />
                                                 </div>
                                                 <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
                                                     <div>
