@@ -26,6 +26,7 @@ import Search from "./Pages/Search";
 import Profile from "./Pages/Profile";
 
 import { default as SettingsProfile } from "./Pages/settings/Profile";
+import {default as SettingsExperience} from "./Pages/settings/Experience";
 
 import { Account } from "./components/Account";
 
@@ -48,7 +49,7 @@ axios.defaults.headers = {
 
 axios.defaults.baseURL = "http://localhost:5000";
 axios.defaults.withCredentials = true;
-axios.defaults.timeout = 5000;
+axios.defaults.timeout = 10000;
 axios.defaults.timeoutErrorMessage="time out";
 axios.defaults.cancelToken = null;
 
@@ -63,6 +64,7 @@ function App() {
 
                     <Route path="/settings" element={<Navigate to="/settings/profile" />} />
                     <Route path="/settings/profile" element={components(<Navbar />, <SettingsProfile />, <Footer />)} />
+                    <Route path="/settings/experience" element={components(<Navbar />, <SettingsExperience />, <Footer />)} />
 
                     <Route path="/profile" element={components(<Navbar />, <Profile />, <Footer />)} />
                     <Route path="/profile/:user_id" element={components(<Navbar />, <Profile />, <Footer />)} />
