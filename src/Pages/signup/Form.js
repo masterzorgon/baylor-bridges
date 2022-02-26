@@ -71,7 +71,7 @@ const Form = () => {
             axios.post("/signup", {
                 email: email,
                 password: password,
-                role: role
+                role: role,
             })
                 .then(res => {
                     // Sign up successfully, no addditional Confirmation needed, jump to finish step
@@ -101,7 +101,7 @@ const Form = () => {
 
             axios.post("/signup/confirm", {
                 username: email,
-                confirmation_code: Confirmation_code
+                confirmation_code: Confirmation_code,
             })
                 .then(res => {
                     // Confirmation successfully, jump to finish step
@@ -178,6 +178,9 @@ const Form = () => {
         );
     };
 
+    const step9 = () => {
+        window.location.href = "/sign-in";
+    };
 
     return (
         <div className="bg-white py-12 px-4 overflow-hidden sm:px-6 lg:px-8">
@@ -217,6 +220,7 @@ const Form = () => {
                     {step === 1 && step1()}
                     {step === 2 && step2()}
                     {step === 3 && step3()}
+                    {step === 9 && step9()}
 
                     {/* Error message */}
                     {
