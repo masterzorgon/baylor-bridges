@@ -224,7 +224,7 @@ const Navbar = (props) => {
                                                 <a  className="py-4 px-5 flex hover:bg-gray-50" href={"/profile/"+person.user_id} target="_blank" rel="noreferrer">
                                                     {/* TODO adding account avatar later*/}
                                                     {/*<img className="h-10 w-10 rounded-full" src={avatar} alt="" />*/}
-                                                    <Photo size="10" />
+                                                    {/* <Photo size="10" /> */}
                                                     <div className="ml-3">
                                                         <p className="text-sm font-medium text-gray-900">{person.first_name} {person.last_name}</p>
                                                         <p className="text-sm text-gray-500">{person.occupation}</p>
