@@ -66,6 +66,19 @@ const Container = () => {
                     <p className="mt-1 text-sm font-medium mb-4 text-gray-500">Set a password for your account.</p>
                     <Password />
 
+                    {/* <div className="mt-4 relative rounded-md shadow-sm">
+                        <label htmlFor="confirm-password" className="block text-sm font-medium text-gray-700">
+                            Confirm password
+                        </label>
+                        <input
+                            id="confirm-password"
+                            name="confirm-password"
+                            type="password"
+                            autoComplete="password"
+                            className="mt-1 py-2 px-3 block w-full shadow-sm focus:ring-emerald-500 focus:border-emerald-500 border-gray-300 rounded-md"
+                        />
+                    </div> */}
+
                     <div className="mt-6 text-sm text-right w-full grid place-items-end">
                         <button
                             type="button"
