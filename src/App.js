@@ -40,6 +40,7 @@ axios.defaults.headers = {
 axios.defaults.baseURL = "http://localhost:5000";
 axios.defaults.withCredentials = true;
 axios.defaults.timeout = 5000;
+axios.defaults.timeoutErrorMessage="time out";
 axios.defaults.cancelToken = null;
 
 function App() {
