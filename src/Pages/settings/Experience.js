@@ -7,6 +7,7 @@ import DatePicker from "tailwind-react-datepicker";
 import { Menu, Transition,Dialog } from "@headlessui/react";
 import { PencilIcon, DotsVerticalIcon, DocumentRemoveIcon } from "@heroicons/react/solid";
 import { ExclamationIcon, LinkIcon } from "@heroicons/react/outline";
+import { PlusSmIcon as PlusSmIconSolid } from "@heroicons/react/solid";
 
 // TAILWIND CSS ALERTS
 import UploadSuccess from "../../components/UploadSuccess";
@@ -482,32 +483,21 @@ const Experience = () => {
                                                                                                                        
                                                                                 ))
                                                                             }
-                                                                            <li className="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                                                                            <li className="flex items-center">
                                                                                 {/* 
                                                                                     [*][*][*]                                     [*][*][*]
                                                                                     [*][*][*] ENTER ADD NEW PUBLICATION ITEM HERE [*][*][*]
                                                                                     [*][*][*]                                     [*][*][*]
                                                                                 */}
-                                                                                <div className="rounded-lg relative bg-emerald-600">
-                                                                                    <div className="max-w-7xl mx-auto py-3 px-3 sm:px-6 lg:px-8">
-                                                                                        <div className="pr-16 sm:text-center sm:px-16">
-                                                                                            <p className="font-medium text-white">
-                                                                                                <span className="md:hidden">We announced a new product!</span>
-                                                                                                <span className="hidden md:inline">Big news! We&apos;re excited to announce a brand new product.</span>
-                                                                                                <span className="block sm:ml-2 sm:inline-block">
-                                                                                                    <a href="#" className="text-white font-bold underline">
-                                                                                                        {" "}
-                                                                                                        Learn more <span aria-hidden="true">&rarr;</span>
-                                                                                                    </a>
-                                                                                                </span>
-                                                                                            </p>
-                                                                                        </div>
-                                                                                        <div className="absolute inset-y-0 right-0 pt-1 pr-1 flex items-start sm:pt-1 sm:pr-2 sm:items-start">
+                                                                                <div className="border-dashed border-2 border-emerald-600 rounded-md py-1 mx-auto relative bg-white-600 w-full">
+                                                                                    <div className=""> {/* max-w-7xl mx-auto px-1 sm:px-6 lg:px-8 */}
+                                                                                        <div className="sm:text-center sm:px-16 flex">
+                                                                                            {/* TODO: CREATE ADD PUBLICATION FUNCTIONALITY */}
                                                                                             <button
                                                                                                 type="button"
-                                                                                                className="flex p-2 rounded-md hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-white"
+                                                                                                className="flex m-auto items-center p-1 border border-transparent rounded-full shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
                                                                                             >
-                                                                                                <span className="sr-only">Dismiss</span>
+                                                                                                <PlusSmIconSolid className="h-5 w-5" aria-hidden="true" />
                                                                                             </button>
                                                                                         </div>
                                                                                     </div>
@@ -515,7 +505,6 @@ const Experience = () => {
                                                                             </li>
                                                                         </ul>
                                                                     </div>
-                                                                    
                                                                 </div>
                                                             </form>
                                                         </section>
