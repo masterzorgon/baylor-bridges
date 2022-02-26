@@ -5,7 +5,7 @@ import ExperienceModal from "../../components/ExperienceModal";
 // eslint-disable-next-line no-unused-vars
 import DatePicker from "tailwind-react-datepicker";
 import { Menu, Transition,Dialog } from "@headlessui/react";
-import { PencilIcon, DotsVerticalIcon, DocumentRemoveIcon, PlusSmIconSolid } from "@heroicons/react/solid";
+import { PencilIcon, DotsVerticalIcon, DocumentRemoveIcon, PlusSmIcon as PlusSmIconSolid } from "@heroicons/react/solid";
 // eslint-disable-next-line no-unused-vars
 import { ExclamationIcon,LinkIcon, TrashIcon } from "@heroicons/react/outline";
 
@@ -502,7 +502,7 @@ const Experience = () => {
                                                                                             </span>
                                                                                         </div>
                                                                                         <div className="ml-4 flex-shrink-0 flex justify-between">
-                                                                                            {/* ENTER EDIT AND DELTE BTTONS */}
+                                                                                            {/* ENTER EDIT AND DELTE ICONS */}
                                                                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mx-4" viewBox="0 0 20 20" fill="currentColor"
                                                                                                 onClick={() => console.log("CLICKED EDIT")}
                                                                                             >
