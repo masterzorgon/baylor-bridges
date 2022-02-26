@@ -29,10 +29,12 @@ const profile = {
         title: "Basic",
         description: "The following information will be displayed publically to everyone.",
         fields: {
-            photo: {
-                title: "Photo",
-                value: { type: "photo", key: "photo" },
-            },
+            // photo: {
+            //     title: "Photo",
+            //     value: "photo",
+            //     type: "file",
+            //     button: ["update", "remove"]
+            // },
             name: {
                 title: "Name",
                 value: [
@@ -114,12 +116,19 @@ const Profile = () => {
         if (Array.isArray(field.value)) {
             var string = "";
             field.value.map((value, index) => (
-                string += account_from[value.key] + " "
+                account_from[value] === null ? string += " " : string += account_from[value] + " "
             ));
+            /** 
+             * @TODO temporary fix for null values in location
+             **/  
+            if (account_from[field.value[0]] === null && field.value[0] === "city") {
+                return <div className="text-gray-400">Not Set</div>;
+            }
             return string;
+            
         } else {
-            return account_from[field.value.key] ? account_from[field.value.key] : null;
-        }
+            return account_from[field.value] ? account_from[field.value] : <div className="text-gray-400">Not Set</div>;
+        } 
     };
 
     const getValue = (section_key, field) => {

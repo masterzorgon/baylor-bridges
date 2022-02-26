@@ -11,8 +11,6 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
-const avatar="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80";
-
 
 const Navbar = (props) => {
     const [isFocus, setFocus] = useState(false);
@@ -43,7 +41,7 @@ const Navbar = (props) => {
 
     const handleSearchLoading =(keywords)=>{
         console.log("handle search loading for keywords: ",keywords);
-        axios.get("/searchBarResult",{
+        axios.get("/search",{
             params:{
                 keywords:keywords
             }
@@ -174,6 +172,15 @@ const Navbar = (props) => {
                                         handleSearchLoading(event.target.value);
 
                                     }}
+                                    onKeyPress={(event) => {
+                                        if(event.key === "Enter") {
+                                            console.log("enter key pressed");
+                                            window.location.href = "search?keywords="+searchText+"&sort=&role=&class=&state=";
+                                        } else {
+                                            setSearchText(event.target.value);
+                                            handleSearchLoading(event.target.value);
+                                        }
+                                    }}
                                 />
                             </div>
 
@@ -195,7 +202,8 @@ const Navbar = (props) => {
                                             <li key={person.email}>
                                                 <a  className="py-4 px-5 flex hover:bg-gray-50" href={"/profile/"+person.user_id} target="_blank" rel="noreferrer">
                                                     {/* TODO adding account avatar later*/}
-                                                    <img className="h-10 w-10 rounded-full" src={avatar} alt="" />
+                                                    {/*<img className="h-10 w-10 rounded-full" src={avatar} alt="" />*/}
+                                                    <Photo size="10" account={person}/>
                                                     <div className="ml-3">
                                                         <p className="text-sm font-medium text-gray-900">{person.first_name} {person.last_name}</p>
                                                         <p className="text-sm text-gray-500">{person.occupation}</p>
