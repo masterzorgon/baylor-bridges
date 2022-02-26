@@ -13,6 +13,7 @@ import { ExclamationIcon,LinkIcon, TrashIcon } from "@heroicons/react/outline";
 // TAILWIND CSS ALERTS
 import UploadSuccess from "../../components/UploadSuccess";
 import UploadFailure from "../../components/UploadFailure";
+import DeletePublicationAlert from "../../components/DeletePublicationAlert";
 
 import axios from "axios";
 
@@ -31,7 +32,7 @@ const Experience = () => {
     // eslint-disable-next-line no-unused-vars
     const [refresh, setRefresh] = useState(false);
     
-    // STATE FOR ADDING A NEW EXPERIENCE
+    // STATE FOR ADDING A NEW EXPERIENCE [*][*][*][*]
     const [modal, setModal]                 = useState(false);
     const [uploadSuccess, setUploadSuccess] = useState(false);
     const [uploadFailure, setUploadFailure] = useState(false);
@@ -42,6 +43,9 @@ const Experience = () => {
         stop_time: "",
         publications: []
     });
+
+    // STATE FOR PUBLICATION [*][*][*][*]
+    const [publicationDelete, setPublicationDelete] = useState(false);
 
     useEffect(() => {
         console.log("calling use effect");
@@ -345,6 +349,12 @@ const Experience = () => {
             title: ""
         });
     };
+
+    const handleDeletePublication = (event) => {
+        event.preventDefault();
+        console.log("DELETE EDAWD");
+        setPublicationDelete(true);
+    };
       
     /*
         [*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*]
@@ -484,16 +494,19 @@ const Experience = () => {
                                                                     </div>
 
                                                                     {/* 
-                                                                        [*][*][*]                          [*][*][*]
-                                                                        [*][*][*] ENTER PUBLICATIONS BELOW [*][*][*] 
-                                                                        [*][*][*]                          [*][*][*]
+                                                                        [*][*][*]                         [*][*][*]
+                                                                        [*][*][*] PUBLICATIONS LIST BELOW [*][*][*] 
+                                                                        [*][*][*]                         [*][*][*]
                                                                     */}
+
+                                                                    {publicationDelete ? <DeletePublicationAlert publicationDelete={publicationDelete} setPublicationDelete={setPublicationDelete} /> : null}
+
                                                                     <div className="mt-4">
                                                                         <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
                                                                             {
                                                                                 exper.publications.map((publication, index) => (
 
-                                                                                    <li className="pl-3 pr-4 py-3 flex items-center justify-between text-sm" key={publication.pub_id}>
+                                                                                    <li className="px-5 py-3 flex items-center justify-between text-sm" key={publication.pub_id}>
                                                                                         <div className="w-0 flex-1 flex items-center">
                                                                                             <LinkIcon className="flex-shrink-0 h-5 w-5 text-gray-400" />
                                                                                             <span className="ml-2 flex-1 w-0 truncate text-gray-700">
@@ -503,14 +516,18 @@ const Experience = () => {
                                                                                             </span>
                                                                                         </div>
                                                                                         <div className="ml-4 flex-shrink-0 flex justify-between">
-                                                                                            {/* ENTER EDIT AND DELTE ICONS */}
+                                                                                            {/* 
+                                                                                                [*][*][*][*]                             [*][*][*][*]
+                                                                                                [*][*][*][*] ENTER EDIT AND DELETE ICONS [*][*][*][*]
+                                                                                                [*][*][*][*]                             [*][*][*][*]
+                                                                                            */}
                                                                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mx-4" viewBox="0 0 20 20" fill="currentColor"
                                                                                                 onClick={() => console.log("CLICKED EDIT")}
                                                                                             >
                                                                                                 <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                                                                                             </svg>
                                                                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                                                                                onClick={() => console.log("CLICKED DELETE")}
+                                                                                                onClick={handleDeletePublication}
                                                                                             >
                                                                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                                                             </svg>
@@ -531,7 +548,7 @@ const Experience = () => {
                                                                                             {/* TODO: CREATE ADD PUBLICATION FUNCTIONALITY */}
                                                                                             <button
                                                                                                 type="button"
-                                                                                                className="flex m-auto items-center p-1 border border-transparent rounded-full shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                                                                                                className="flex m-auto items-center p-1 border border-transparent rounded-full shadow-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
                                                                                             >
                                                                                                 <PlusSmIconSolid className="h-5 w-5" aria-hidden="true" />
                                                                                             </button>
