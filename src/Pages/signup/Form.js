@@ -19,7 +19,7 @@ const Form = () => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [verification_code, setVerificationCode] = useState("");
+    const [Confirmation_code, setConfirmationCode] = useState("");
 
     const { role } = useParams();
     if (role !== "student" && role !== "alumni") {
@@ -49,7 +49,7 @@ const Form = () => {
             setLoading(true);
             axios.get("/signup/email/" + email)
                 .then(res => {
-                    setStep(2);                    
+                    setStep(2);
                 }).catch(err => {
                     let response = err.response.data;
 
@@ -74,7 +74,7 @@ const Form = () => {
                 role: role
             })
                 .then(res => {
-                    // Sign up successfully, no addditional verification needed, jump to finish step
+                    // Sign up successfully, no addditional Confirmation needed, jump to finish step
                     setStep(9);
                 }).catch(err => {
                     console.log(err);
@@ -90,6 +90,26 @@ const Form = () => {
                         setErrorMessage(response.message);
                     }
 
+                }).finally(() => {
+                    setLoading(false);
+                });
+        }
+
+        // Confirmation code
+        else if (step === 3) {
+            setLoading(true);
+
+            axios.post("/signup/confirm", {
+                username: email,
+                confirmation_code: Confirmation_code
+            })
+                .then(res => {
+                    // Confirmation successfully, jump to finish step
+                    setStep(9);
+                }).catch(err => {
+                    console.log(err);
+                    let response = err.response.data;
+                    setErrorMessage(response.message);
                 }).finally(() => {
                     setLoading(false);
                 });
@@ -138,7 +158,7 @@ const Form = () => {
     const step3 = () => {
         return (
             <>
-                <h3 className="text-lg leading-6 font-medium text-gray-900">Verification Code</h3>
+                <h3 className="text-lg leading-6 font-medium text-gray-900">Confirmation Code</h3>
                 <p className="mt-1 text-sm font-medium mb-4 text-gray-500">Please check your mail inbox for { email }.</p>
                 <div className="mt-4 relative rounded-md shadow-sm">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -150,8 +170,8 @@ const Form = () => {
                         id="email"
                         className={classNames("block w-full pl-10 sm:text-sm rounded-md", error_message === null ? "border-gray-300 focus:ring-emerald-500 focus:border-emerald-500" : "border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500")}
                         placeholder="000000"
-                        value={verification_code}
-                        onChange={(e) => setVerificationCode(e.target.value)}
+                        value={Confirmation_code}
+                        onChange={(e) => setConfirmationCode(e.target.value)}
                     />
                 </div>
             </>
