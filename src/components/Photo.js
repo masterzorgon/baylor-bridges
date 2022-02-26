@@ -22,9 +22,22 @@ const Photo = (props) => {
     }
 
     if (!account.photo) {
-        const initials = account.first_name.charAt(0) + account.last_name.charAt(0);
+        let initials = "";
+        if (account.first_name) {
+            initials += account.first_name.charAt(0);
+        }
+
+        if (account.last_name) {
+            initials += account.last_name.charAt(0);   
+        }
+
+        // If has no name for this account, take the first letter of the email
+        if (initials === "") {
+            initials += account.email[0];
+        }
+
         return <div className={`inline-flex items-center justify-center h-${size} w-${size} rounded-full bg-gray-500`}>
-            <span className={`text-${font_size} font-medium leading-none text-white`}>{initials}</span>
+            <span className={`text-${font_size} font-medium leading-none text-white capitalize`}>{initials}</span>
         </div>;
     } else {
         return <img
