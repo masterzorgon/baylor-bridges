@@ -8,7 +8,7 @@ const steps = [
 
 const Progress = ({ currentStep }) => {
     return (
-        <nav aria-label="Progress" className="mt-4 sm:mt-10">
+        <nav aria-label="Progress" className="my-4 sm:my-10">
             <ol className="space-y-4 md:flex md:space-y-0 md:space-x-8">
                 {steps.map((step) => (
                     <li key={step.name} className="md:flex-1">
