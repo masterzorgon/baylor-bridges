@@ -111,14 +111,15 @@ const Experience = () => {
             axios.put(url, field)
                 .then(res => {
                     console.log("update the experience successfully");
-                    setOpen(false);                
+                    setOpen(false);
+                    setExperiences(res.data);          
                 })
                 .finally(() => setLoading(false));
         
             // TODO: also submit publications changes
         };
 
-        console.log("in get modal the field is ",field);
+        console.log("in get modal the field is ", field);
 
         if (!field) return;
          
