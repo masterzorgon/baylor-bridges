@@ -149,6 +149,7 @@ class SignUp extends React.Component {
 
     handleSubmit(event) {
         console.log("handle submit sign up");
+
         axios.post("/signUp", {
             first_name: this.state.first_name,
             last_name: this.state.last_name,
@@ -158,10 +159,9 @@ class SignUp extends React.Component {
         }).then((response) => {
             const res = response.data;
             console.log(res);
-            if (res.status === "success") {
-                // TODO redirect after success
-                window.location.href = "/";
-            } else {
+            if (res.status === "success") window.location.href = "/";
+            else
+            {
                 console.error("error message: ",res);
                 //    TODO dealing with sign up error
             }

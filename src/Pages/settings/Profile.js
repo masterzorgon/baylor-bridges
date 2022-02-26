@@ -424,6 +424,7 @@ const Profile = () => {
                     window.location.href = "/signin";
                 }
             });
+        
     }, [getAccountLocal, Refresh]);
 
     return (

@@ -1,46 +1,65 @@
 import React, { useEffect, useState,Fragment,useRef } from "react";
 import SettingsNavbar from "../../components/SettingsNavbar";
+import ExperienceModal from "../../components/ExperienceModal";
+
 // eslint-disable-next-line no-unused-vars
 import DatePicker from "tailwind-react-datepicker";
 import { Menu, Transition,Dialog } from "@headlessui/react";
 import { PencilIcon, DotsVerticalIcon, DocumentRemoveIcon } from "@heroicons/react/solid";
 import { ExclamationIcon } from "@heroicons/react/outline";
 
+// TAILWIND CSS ALERTS
+import UploadSuccess from "../../components/UploadSuccess";
+import UploadFailure from "../../components/UploadFailure";
 
 import axios from "axios";
-const Experience=()=>{
+
+const Experience = () => {
     const [loading, setLoading] = useState(false);
 
-    const [experiences,setExperiences]=useState([]);
-    const [update,setUpdate]=useState(false);
-    const [open,setOpen]=useState(false);
-    const [field,setField]=useState(null);
+    const [experiences, setExperiences] = useState([]);
+    const [update, setUpdate]           = useState(false);
+    const [open, setOpen]               = useState(false);
+    const [field, setField]             = useState(null);
 
     // modalSetttings will start the modal type(edit/remove) and exper_idx
-    const [modalSettings,setModalSettings]=useState({});
-    const cancelButtonRef = useRef(null);
+    const [modalSettings,setModalSettings]  = useState({});
+    const cancelButtonRef                   = useRef(null); 
 
     // eslint-disable-next-line no-unused-vars
-    const [refresh,setRefresh]=useState(false);
+    const [refresh, setRefresh] = useState(false);
+    
+    // STATE FOR ADDING A NEW EXPERIENCE
+    const [modal, setModal]                 = useState(false);
+    const [uploadSuccess, setUploadSuccess] = useState(false);
+    const [uploadFailure, setUploadFailure] = useState(false);
+    const [experience, setExperience]       = useState({
+        title: "",
+        description: "",
+        start_time: "",
+        stop_time: "",
+        publications: []
+    });
 
-    useEffect(()=>{
-        
+    useEffect(() => {
         console.log("calling use effect");
 
-        if (experiences.length===0){
+        if (experiences.length === 0)
+        {
             axios.get("/account/profile/experience")
-                .then(res=>{
+                .then(res => {
                     console.log(res.data);
                     setExperiences(res.data);
-                
                 });
-        }else{
+        }
+        else
+        {
             console.log("not calling axios");
             setRefresh(false);
-
         }
         setUpdate(false);
-    },[update,refresh]);
+
+    }, [update, refresh]); 
 
     // eslint-disable-next-line no-unused-vars
     // const handleChange =(index,field,value)=>{
@@ -53,150 +72,135 @@ const Experience=()=>{
     // };
 
     // eslint-disable-next-line no-unused-vars
-    const getModal =(modalSettings,field,idx) =>{
-        const handleChange = (e,value)=>{
-            let new_field=field;
-            new_field[value]=e.target.value;
+    const getModal = (modalSettings, field, idx) => {
+
+        const handleChange = (e, value) => {
+            let new_field = field;
+            new_field[value] = e.target.value;
             console.log(new_field);
             setField(new_field);
             setRefresh(true);
-
-            
         };
 
         // eslint-disable-next-line no-unused-vars
-        const handleExperRemove =()=>{
+        const handleExperRemove = () => {
             setLoading(true);
-            console.log("exper id is "+field["exper_id"]+", the idx is "+modalSettings["idx"]);
-            // eslint-disable-next-line no-unused-vars
-            let url="/account/profile/experience/"+field["exper_id"];
-            axios.delete(url).then(res=>{
-                console.log("delete the experience successfully");
-                let new_exper=experiences;
-                new_exper.splice(modalSettings["idx"],1);
-                console.log(new_exper);
-                setRefresh(true);
-                setOpen(false);                
-            }).catch(err=>{
-                console.log(err);
-            }).finally(()=>{
-                setLoading(false);
-            });
+            console.log("exper id is " + field["exper_id"] + ", the idx is " + modalSettings["idx"]);
             
-
+            // eslint-disable-next-line no-unused-vars
+            let url = "/account/profile/experience/" + field["exper_id"];
+            
+            axios.delete(url)
+                .then(res => {
+                    console.log("delete the experience successfully");
+                    let new_exper=experiences;
+                    new_exper.splice(modalSettings["idx"], 1);
+                    console.log(new_exper);
+                    setRefresh(true);
+                    setOpen(false);                
+                })
+                .catch(err => console.log(err))
+                .finally(() => setLoading(false));
         };
 
-        const handleExperSubmit=(field)=>{
+        const handleExperSubmit = (field) => {
             setLoading(true);
-            let url="/account/profile/experience/"+field["exper_id"];
+            let url="/account/profile/experience/" + field["exper_id"];
             console.log(url);
-            axios.put(url,field).then(res=>{
-                console.log("update the experience successfully");
-                setOpen(false);                
-            }).finally(()=>{
-                setLoading(false);
-            });
-            
-
-
+            axios.put(url, field)
+                .then(res => {
+                    console.log("update the experience successfully");
+                    setOpen(false);                
+                })
+                .finally(() => setLoading(false));
+        
             // TODO: also submit publications changes
         };
 
         console.log("in get modal the field is ",field);
 
-        if(!field){
-            return;
-        }
-
-        if (modalSettings["modalType"]==="edit"){
-            return(
+        if (!field) return;
+         
+        if (modalSettings["modalType"] === "edit") {
+            return (
                 <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full sm:p-6">
                     <section aria-labelledby="payment-details-heading">
                         <div>
-                            <div className="shadow sm:rounded-md sm:overflow-hidden">
+                            <div className="sm:rounded-md sm:overflow-hidden">
                                 <div className="bg-white py-6 px-4 sm:p-6">
                                     <div>
                                         <h2 id="payment-details-heading" className="text-lg leading-6 font-medium text-gray-900">
-                                                        Edit Experience
-                                        </h2>
-                                                    
+                                            Edit Experience
+                                        </h2>          
                                     </div>
 
                                     <div className="mt-6 grid grid-cols-4 gap-6">
                                         <div className="col-span-4 sm:col-span-2">
                                             <label htmlFor="email-address" className="block text-sm font-medium text-gray-700">
-                                                                            Title
+                                                Title
                                             </label>
                                             <input
                                                 type="text"
-                                                name="email-address"
-                                                id="email-address"
-                                                autoComplete="email"
-                                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
-                                                value={field.title}
-                                                onChange={(e)=>{
-                                                    handleChange(e,"title");
-                                                }}
-
+                                                name="title"
+                                                id="title"
+                                                autoComplete=""
+                                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+                                                value={field.title} 
+                                                onChange={(e) => handleChange(e,"title")}
                                             />
                                         </div>
 
                                         <div className="col-span-4 sm:col-span-1">
                                             <label htmlFor="start-date" className="block text-sm font-medium text-gray-700">
-                                                            Start Date
+                                                Start Date
                                             </label>
                                             <input
                                                 type="text"
                                                 name="expiration-date"
                                                 id="expiration-date"
                                                 autoComplete="cc-exp"
-                                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+                                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
                                                 placeholder="MM / YY"
                                             />
                                             {/* <DatePicker/> */}
                                         </div>
                                         <div className="col-span-4 sm:col-span-1">
                                             <label htmlFor="expiration-date" className="block text-sm font-medium text-gray-700">
-                                                            End date
+                                                End date
                                             </label>
                                             <input
                                                 type="text"
                                                 name="expiration-date"
                                                 id="expiration-date"
                                                 autoComplete="cc-exp"
-                                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-900 focus:border-gray-900 sm:text-sm"
+                                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
                                                 placeholder="MM / YY"
                                             />
                                         </div>
 
                                         <div className="col-span-4 sm:col-span-4">
                                             <label htmlFor="comment" className="block text-sm font-medium text-gray-700">
-                                                                description
+                                                description
                                             </label>
                                                         
                                             <textarea
                                                 rows={4}
                                                 name="comment"
                                                 id="comment"
-                                                className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 py-2 px-3 block w-full sm:text-sm border-gray-300 rounded-md"
+                                                className="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 py-2 px-3 block w-full sm:text-sm border-gray-300 rounded-md"
                                                 defaultValue={""}
                                                 value={field.description}
-                                                onChange={(e)=>{
-                                                    handleChange(e,"description");
-                                                }}
-                                            />
-                                                        
-                                        </div>
-                                                    
+                                                onChange={(e) => handleChange(e, "description")}
+                                            />          
+                                        </div>       
                                     </div>
-                                </div>
-                                            
+                                </div>          
                             </div>
 
                             <div className="mt-5 sm:mt-6">
                                 <button
                                     type="submit"
-                                    className={`${loading ? "cursor-not-allowed" : ""} inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm`}
+                                    className={`${loading ? "cursor-not-allowed" : ""} inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-emerald-600 text-base font-medium text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 sm:text-sm`}
                                     onClick={() => handleExperSubmit(field)}
                                     {...(loading ? { disabled: true } : {})}
                                 >
@@ -218,7 +222,8 @@ const Experience=()=>{
                     
                 </div>
             );
-        }else if(modalSettings["modalType"]==="remove"){
+        }
+        else if (modalSettings["modalType"] === "remove") {
             console.log("you click remove");
             return(
                 <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
@@ -261,7 +266,7 @@ const Experience=()=>{
                         </button>
                         <button
                             type="button"
-                            className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                            className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                             onClick={() => setOpen(false)}
                             ref={cancelButtonRef}
                         >
@@ -274,8 +279,8 @@ const Experience=()=>{
 
     };
 
-    const handleOpenModal =(modalType,exper,exper_idx)=>{
-        console.log("the idx pass into handleOpenModal is "+exper_idx);
+    const handleOpenModal = (modalType, exper, exper_idx) => {
+        console.log("the idx pass into handleOpenModal is " + exper_idx);
         setField(exper);
         setModalSettings({"modalType":modalType,"idx":exper_idx});
         console.log(modalSettings);
@@ -287,11 +292,28 @@ const Experience=()=>{
     function classNames(...classes) {
         return classes.filter(Boolean).join(" ");
     }
+
+    const handleNewExperience = () => {
+        setModal(true);
+        setExperience({
+            description: "",
+            exper_id: Math.floor(Math.random()),
+            publications: [],
+            start_time: "",
+            stop_time: "",
+            title: ""
+        });
+    };
       
+    /*
+        [*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*]
+        [*][*][*][*] CONTENT AREA! [*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*]
+        [*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*]
+    */
+    
     return(
         <>
             <div>
-                {/* Content area */}
                 <div className="">
                     <div className="max-w-4xl mx-auto flex flex-col md:px-8 xl:px-0">
                         <main className="flex-1">
@@ -302,11 +324,38 @@ const Experience=()=>{
                                     </div>
                                     <div className="px-4 sm:px-6 md:px-0">
                                         <div className="py-6">
-                                            
                                             <SettingsNavbar current="experience" />
-                                            <div className="space-y-10 sm:px-6 lg:px-0 lg:col-span-9">
-                                                { experiences.map((exper,idx)=> (
 
+                                            {/* ALERTS THAT DISPLAY UPON CREATING A NEW EXPERIENCE */}
+                                            {uploadSuccess ? <UploadSuccess uploadSuccess={uploadSuccess} setUploadSuccess={setUploadSuccess} /> : null}
+                                            {uploadFailure ? <UploadFailure uploadFailure={uploadFailure} setUploadFailure={setUploadFailure} /> : null}
+                                            
+                                            {/* NEW EXPERIENCE BANNER */}
+                                            <div className="bg-emerald-600 rounded-md my-4">
+                                                <div className="max-w-7xl mx-auto py-3 px-3 sm:px-6 lg:px-8">
+                                                    <div className="flex items-center justify-between flex-wrap">
+                                                        <div className="w-0 flex-1 flex items-center">
+                                                            <p className="ml-3 font-medium text-white truncate">
+                                                                <span className="hidden md:inline">Add a new Experience!</span>
+                                                            </p>
+                                                        </div>
+                                                        <div className="order-3 mt-2 flex-shrink-0 w-full sm:order-2 sm:mt-0 sm:w-auto">
+                                                            <button
+                                                                onClick={handleNewExperience}
+                                                                className="flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-emerald-600 bg-white hover:bg-emerald-50"
+                                                            >
+                                                                New Experience
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/* SHOW NEW EXPERIENCE MODAL */}
+                                            {modal && <ExperienceModal modal={modal} setModal={setModal} experience={experience} setExperience={setExperience} setUploadSuccess={setUploadSuccess} setUploadFailure={setUploadFailure} />}
+
+                                            <div className="space-y-10 sm:px-6 lg:px-0 lg:col-span-9">
+                                                { experiences.map((exper, idx) => (
                                                     <>
                                                         <section aria-labelledby="payment-details-heading" key={exper.exper_id}>
                                                             <form>
@@ -317,7 +366,6 @@ const Experience=()=>{
                                                                             <div className="flex space-x-3">
                                                                                 <div className="min-w-0 flex-1">
                                                                                     <h1 className="text-md font-medium text-gray-900">
-                                                                                        
                                                                                         {exper.title}
                                                                                     </h1>
                                                                                     <h2 className="text-sm text-gray-500">
@@ -349,10 +397,10 @@ const Experience=()=>{
                                                                                                             <a
                                                                                                                 
                                                                                                                 className={classNames(
-                                                                                                                    active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                                                                                                                    "flex px-4 py-2 text-sm"
+                                                                                                                    active ? "bg-gray-100 text-gray-900 cursor-pointer" : "text-gray-700 cursor-pointer",
+                                                                                                                    "flex px-4 py-2 text-sm cursor-pointer"
                                                                                                                 )}
-                                                                                                                onClick={()=> handleOpenModal("edit",exper,idx)}
+                                                                                                                onClick={()=> handleOpenModal("edit", exper, idx)}
                                                                                                             >
                                                                                                                 <PencilIcon className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
                                                                                                                 <span>Edit</span>
@@ -362,13 +410,12 @@ const Experience=()=>{
                                                                                                     <Menu.Item>
                                                                                                         {({ active }) => (
                                                                                                             <a
-                                                                                                        
                                                                                                                 className={classNames(
-                                                                                                                    active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                                                                                                                    "flex px-4 py-2 text-sm"
+                                                                                                                    active ? "bg-gray-100 text-gray-900 cursor-pointer" : "text-gray-700 cursor-pointer",
+                                                                                                                    "flex px-4 py-2 text-sm cursor-pointer"
                                                                                                                 )}
 
-                                                                                                                onClick={()=> handleOpenModal("remove",exper,idx)}
+                                                                                                                onClick={() => handleOpenModal("remove", exper, idx)}
                                                                                                             >
                                                                                                                 <DocumentRemoveIcon className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
                                                                                                                 <span>Remove</span>
@@ -404,6 +451,7 @@ const Experience=()=>{
                     </div>
                 </div>
             </div>
+
             <Transition.Root show={open} as={Fragment}>
                 <Dialog as="div" className="fixed z-50 inset-0 overflow-y-auto" onClose={setOpen}>
                     <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -423,6 +471,7 @@ const Experience=()=>{
                         <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
                             &#8203;
                         </span>
+
                         <Transition.Child
                             as={Fragment}
                             enter="ease-out duration-300"
