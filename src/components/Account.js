@@ -26,7 +26,7 @@ const Account = (props) => {
 
     const signInChallenge = async (name, session, response) => {
         return await new Promise((resolve, reject) => {
-            axios.post("/auth/challenge", {
+            axios.post("/signin/challenge", {
                 session: session,
                 challenge_name: name,
                 challenge_response: response
