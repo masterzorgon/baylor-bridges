@@ -2,12 +2,12 @@ import React, { useContext } from "react";
 
 import { AccountContext } from "./Account";
 
-const Photo = (props) => {
-    const size = props.size ? props.size : 8;
+const Photo = ({size, account}) => {
+    size = size ? size : 8;
     var font_size = "xs";
 
     const { getAccountLocal } = useContext(AccountContext);
-    const account = getAccountLocal();
+    account = account ? account : getAccountLocal();
 
     if (size >= 14) {
         font_size = "xl";
