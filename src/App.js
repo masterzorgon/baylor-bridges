@@ -18,7 +18,7 @@ import CookiePolicies from "./Pages/policies&terms/CookiePolicy";
 import SignIn from "./Pages/signin/SignIn";
 import SignInChallenge from "./Pages/signin/Challenge";
 import { default as SignUpEntrace } from "./Pages/signup/Entrace";
-import { default as SignUpContainer } from "./Pages/signup/Container";
+import { default as SignUpForm } from "./Pages/signup/Form";
 
 
 import Search from "./Pages/Search";
@@ -69,7 +69,7 @@ function App() {
                     <Route path="/sign-in/challenge" element={<SignInChallenge />} />
 
                     <Route path="/sign-up" element={<SignUpEntrace />} />
-                    <Route path="/sign-up/:role/form/:step" element={<SignUpContainer />} />
+                    <Route path="/sign-up/:role" element={<SignUpForm />} />
 
                     <Route path="/contact-us" element={components(<Navbar />, <ContactUs />, <Footer />)} />
 

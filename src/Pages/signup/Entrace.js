@@ -24,7 +24,7 @@ const Entrace = () => {
     const [currentRole, setCurrentRole] = useState(null);
 
     const onNext = () => {
-        window.location.href = "/sign-up/" + currentRole + "/form/1";
+        window.location.href = "/sign-up/" + currentRole + "";
     };
 
 
