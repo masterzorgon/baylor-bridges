@@ -32,8 +32,8 @@ const Photo = ({size, account}) => {
         }
 
         // If has no name for this account, take the first letter of the email
-        if (initials === "") {
-            initials += account.email[0];
+        if (initials === "" && account.email) {
+            initials += account.email.charAt(0);
         }
 
         return <div className={`inline-flex items-center justify-center h-${size} w-${size} rounded-full bg-gray-500`}>

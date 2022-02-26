@@ -391,7 +391,7 @@ const Search = (props) => {
                                             <div className="min-w-0 flex-1 flex items-center">
                                                 <div className="flex-shrink-0">
                                                     {/* <img className="h-12 w-12 rounded-full" src={avatar_url} alt="" /> */}
-                                                    {/* <Photo size="10" /> */}
+                                                    <Photo size="12" account={profile}/>
                                                 </div>
                                                 <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
                                                     <div>
