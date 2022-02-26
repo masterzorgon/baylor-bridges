@@ -18,7 +18,7 @@ const Form = () => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [Confirmation_code, setConfirmationCode] = useState("");
+    const [confirmation_code, setConfirmationCode] = useState("");
     
 
     const { role } = useParams();
@@ -39,8 +39,15 @@ const Form = () => {
             setComplete(email && email !== "" && is_valid);
         }
 
+        else if (step === 3) {
+            let reg = /^\d{6}$/;
+            let is_valid = reg.test(confirmation_code || "");
+
+            setComplete(confirmation_code && confirmation_code !== "" && is_valid);
+        }
+
         setErrorMessage(null);
-    }, [step, email, role]);
+    }, [step, email, role, confirmation_code]);
 
 
     // FIXME: Self-sign up for alumni is disabled
@@ -110,7 +117,7 @@ const Form = () => {
 
             axios.post("/signup/confirm", {
                 username: email,
-                confirmation_code: Confirmation_code,
+                confirmation_code: confirmation_code,
             })
                 .then(res => {
                     // Confirmation successfully, jump to finish step
@@ -179,7 +186,7 @@ const Form = () => {
                         id="email"
                         className={classNames("block w-full pl-10 sm:text-sm rounded-md", error_message === null ? "border-gray-300 focus:ring-emerald-500 focus:border-emerald-500" : "border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500")}
                         placeholder="000000"
-                        value={Confirmation_code}
+                        value={confirmation_code}
                         onChange={(e) => setConfirmationCode(e.target.value)}
                     />
                 </div>
