@@ -3,7 +3,6 @@ import React, { Fragment, useEffect, useState } from "react";
 import { LinkIcon } from "@heroicons/react/outline";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import ExperienceModal from "../components/ExperienceModal";
 import { Menu, Transition } from "@headlessui/react";
 import { DotsVerticalIcon } from "@heroicons/react/solid";
 
@@ -12,7 +11,6 @@ import Photo from "../components/Photo";
 const Profile = () => {
     const { user_id } = useParams();
     const [profileAccount, setProfileAccount] = useState(null);
-    const [modal, setModal] = useState(false);
     console.log(user_id);
 
     useEffect(() => {
@@ -176,6 +174,7 @@ const Profile = () => {
                                             <h2 id="notes-title" className="align-middle text-lg font-medium text-gray-900 border-2 border-transparent">
                                                 Experiences
                                             </h2>
+
                                             {/* INSERT MODAL DISPLAY BUTTON */}
                                             <Menu as="div" className="relative inline-block text-left">
                                                 <div>
@@ -214,10 +213,12 @@ const Profile = () => {
                                                 </Transition>
                                             </Menu>
                                         </div>
-
-                                        {/* INSERT MODAL */}
-                                        {modal && <ExperienceModal modal={modal} setModal={setModal} experiences={profileAccount.experiences} />}
-
+                                        
+                                        {/* 
+                                            [*][*][*][*]             [*][*][*][*]
+                                            [*][*][*][*] EXPERIENCES [*][*][*][*]
+                                            [*][*][*][*]             [*][*][*][*]
+                                        */}
                                         <div className="px-4 py-6 sm:px-6">
                                             <ul className="space-y-8">
                                                 {
@@ -226,6 +227,11 @@ const Profile = () => {
                                                             <p className="font-medium">{experience.title}</p>
                                                             <p className="font-medium text-sm text-gray-500 mt-0.5"><time dateTime={experience.start_time}>{experience.start_time}</time> - <time dateTime={experience.start_time}>{experience.start_time}</time></p>
                                                             <p className="mt-2 text-sm text-gray-700">{experience.description}</p>
+                                                            {/* 
+                                                                [*][*][*][*]              [*][*][*][*]
+                                                                [*][*][*][*] PUBLICATIONS [*][*][*][*]
+                                                                [*][*][*][*]              [*][*][*][*]
+                                                            */}
                                                             <div className="mt-4">
                                                                 <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
                                                                     {

@@ -8,6 +8,7 @@ import { Menu, Transition,Dialog } from "@headlessui/react";
 import { PencilIcon, DotsVerticalIcon, DocumentRemoveIcon } from "@heroicons/react/solid";
 import { ExclamationIcon,LinkIcon,TrashIcon } from "@heroicons/react/outline";
 
+
 // TAILWIND CSS ALERTS
 import UploadSuccess from "../../components/UploadSuccess";
 import UploadFailure from "../../components/UploadFailure";
@@ -123,6 +124,11 @@ const Experience = () => {
          
         if (modalSettings["modalType"] === "edit") {
             return (
+                /* 
+                    [*][*][*][*]                       [*][*][*][*]
+                    [*][*][*][*] EDIT EXPERIENCE MODAL [*][*][*][*]
+                    [*][*][*][*]                       [*][*][*][*]
+                */
                 <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full sm:p-6">
                     <section aria-labelledby="payment-details-heading">
                         <div>
@@ -386,6 +392,12 @@ const Experience = () => {
                                             {/* SHOW NEW EXPERIENCE MODAL */}
                                             {modal && <ExperienceModal modal={modal} setModal={setModal} experience={experience} setExperience={setExperience} setUploadSuccess={setUploadSuccess} setUploadFailure={setUploadFailure} loading={loading} setLoading={setLoading} refresh={refresh} setRefresh={setRefresh} />}
 
+                                            {/* 
+                                                [*][*][*]                     [*][*][*]
+                                                [*][*][*] EXPERIENCES SECTION [*][*][*]
+                                                [*][*][*]                     [*][*][*]
+                                            */}
+                                            
                                             <div className="space-y-10 sm:px-6 lg:px-0 lg:col-span-9">
                                                 { experiences.map((exper, idx) => (
                                                     <>
@@ -461,8 +473,6 @@ const Experience = () => {
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-
-
                                                                     </div>
                                                                     <div className="bg-white py-6 px-4 sm:p-6">
                                                                         <p className="block text-sm font-medium text-gray-600">
@@ -470,9 +480,79 @@ const Experience = () => {
                                                                         </p>
                                                                     </div>
 
+                                                                    {/* 
+                                                                        [*][*][*]                          [*][*][*]
+                                                                        [*][*][*] ENTER PUBLICATIONS BELOW [*][*][*] 
+                                                                        [*][*][*]                          [*][*][*]
+                                                                    */}
+                                                                    <div className="mt-4">
+                                                                        <ul className="px-2 border-gray-200 rounded-md divide-y divide-gray-200">
+                                                                            {
+                                                                                exper.publications.map((publication, index) => (
+                                                                                    <li className="pl-3 pr-4 py-3 flex items-center justify-between text-sm" key={publication.pub_id}>
+                                                                                        <div className="w-0 flex-1 flex items-center">
+                                                                                            <LinkIcon className="flex-shrink-0 h-5 w-5 text-gray-400" />
+                                                                                            <span className="ml-2 flex-1 w-0 truncate text-gray-700">
+                                                                                                <a href={publication.duo_link} className="font-medium text-emerald-600 hover:text-emerald-500">
+                                                                                                    {publication.title}
+                                                                                                </a>
+                                                                                            </span>
+                                                                                        </div>
+                                                                                        <div className="ml-4 flex-shrink-0 flex justify-between">
+                                                                                            {/* ENTER EDIT AND DELTE BTTONS */}
+                                                                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mx-4" viewBox="0 0 20 20" fill="currentColor"
+                                                                                                onClick={() => console.log("CLICKED EDIT")}
+                                                                                            >
+                                                                                                <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                                                                                            </svg>
+                                                                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                                                                onClick={() => console.log("CLICKED DELETE")}
+                                                                                            >
+                                                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                                                            </svg>
+                                                                                        </div>
+                                                                                    </li>
+                                                                                                                       
+                                                                                ))
+                                                                            }
+                                                                            <li className="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                                                                                {/* 
+                                                                                    [*][*][*]                                     [*][*][*]
+                                                                                    [*][*][*] ENTER ADD NEW PUBLICATION ITEM HERE [*][*][*]
+                                                                                    [*][*][*]                                     [*][*][*]
+                                                                                */}
+                                                                                <div className="rounded-lg relative bg-emerald-600">
+                                                                                    <div className="max-w-7xl mx-auto py-3 px-3 sm:px-6 lg:px-8">
+                                                                                        <div className="pr-16 sm:text-center sm:px-16">
+                                                                                            <p className="font-medium text-white">
+                                                                                                <span className="md:hidden">We announced a new product!</span>
+                                                                                                <span className="hidden md:inline">Big news! We&apos;re excited to announce a brand new product.</span>
+                                                                                                <span className="block sm:ml-2 sm:inline-block">
+                                                                                                    <a href="#" className="text-white font-bold underline">
+                                                                                                        {" "}
+                                                                                                        Learn more <span aria-hidden="true">&rarr;</span>
+                                                                                                    </a>
+                                                                                                </span>
+                                                                                            </p>
+                                                                                        </div>
+                                                                                        <div className="absolute inset-y-0 right-0 pt-1 pr-1 flex items-start sm:pt-1 sm:pr-2 sm:items-start">
+                                                                                            <button
+                                                                                                type="button"
+                                                                                                className="flex p-2 rounded-md hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-white"
+                                                                                            >
+                                                                                                <span className="sr-only">Dismiss</span>
+                                                                                            </button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                    
                                                                 </div>
                                                             </form>
-                                                        </section></>
+                                                        </section>
+                                                    </>
                                                 ))}
                                             </div>
                                         </div>
