@@ -3,7 +3,7 @@ import React from "react";
 const steps = [
     { id: 1, name: "Email Address", href: "1" },
     { id: 2, name: "Password", href: "2" },
-    { id: 3, name: "Verification", href: "3" },
+    { id: 3, name: "Confirmation", href: "3" },
 ];
 
 const Progress = ({ currentStep }) => {
