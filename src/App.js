@@ -16,7 +16,7 @@ import TermsConditions from "./Pages/policies&terms/Terms&Conditions";
 import CookiePolicies from "./Pages/policies&terms/CookiePolicy";
 
 import SignIn from "./Pages/signin/SignIn";
-import SignInChallenge from "./Pages/signin/Challenge";
+import { default as SignInChallenge } from "./Pages/signin/Challenge";
 import { default as SignUpEntrace } from "./Pages/signup/Entrace";
 import { default as SignUpForm } from "./Pages/signup/Form";
 import { default as SignUpClosed } from "./Pages/signup/Closed";

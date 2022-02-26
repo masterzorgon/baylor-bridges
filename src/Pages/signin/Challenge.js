@@ -4,7 +4,7 @@ import { XCircleIcon } from "@heroicons/react/solid";
 import { AccountContext } from "../../components/Account";
 import Password from "../../components/Password";
 
-const SignInChallenge = () => {
+const Challenge = () => {
 
     const { authChallenge } = useContext(AccountContext);
 
@@ -167,4 +167,4 @@ const SignInChallenge = () => {
     );
 };
 
-export default SignInChallenge;
+export default Challenge;
