@@ -2,13 +2,12 @@ import React, { useState } from "react";
 import { RadioGroup } from "@headlessui/react";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 
-
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
 
-const SignUpEntrace = () => {
+const Entrace = () => {
     const roles = [
         {
             key: "student",
@@ -25,7 +24,7 @@ const SignUpEntrace = () => {
     const [currentRole, setCurrentRole] = useState(null);
 
     const onNext = () => {
-        window.location.href = "/sign-up/" + currentRole;
+        window.location.href = "/sign-up/" + currentRole + "/form/1";
     };
 
 
@@ -124,4 +123,4 @@ const SignUpEntrace = () => {
     );
 };
 
-export default SignUpEntrace;
+export default Entrace;

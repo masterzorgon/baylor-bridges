@@ -17,7 +17,8 @@ import CookiePolicies from "./Pages/policies&terms/CookiePolicy";
 
 import SignIn from "./Pages/signin/SignIn";
 import SignInChallenge from "./Pages/signin/Challenge";
-import SignUpEntrace from "./Pages/signup/SignUpEntrance";
+import { default as SignUpEntrace } from "./Pages/signup/Entrace";
+import { default as SignUpContainer } from "./Pages/signup/Container";
 
 
 import Search from "./Pages/Search";
@@ -66,15 +67,18 @@ function App() {
 
                     <Route path="/sign-in" element={<SignIn />} />
                     <Route path="/sign-in/challenge" element={<SignInChallenge />} />
+
                     <Route path="/sign-up" element={<SignUpEntrace />} />
+                    <Route path="/sign-up/:role/form/:step" element={<SignUpContainer />} />
+
+                    <Route path="/contact-us" element={components(<Navbar />, <ContactUs />, <Footer />)} />
+
+                    <Route path="/terms/privacy-policy" element={components(<Navbar />, <PrivacyPolicy />, <Footer />)} />
+                    <Route path="/terms/terms-conditions" element={components(<Navbar />, <TermsConditions />, <Footer />)} />
+                    <Route path="/terms/cookies-policy" element={components(<Navbar />, <CookiePolicies />, <Footer />)} />
 
                     <Route path="/404" element={components(<NotFound />)} />
                     <Route path="*" element={<Navigate to="/404" />} />
-                    <Route path="/contact-us" element={components(<Navbar/>, <ContactUs/> ,<Footer/>)}/>
-
-                    <Route path="/terms/privacy-policy" element={components(<Navbar/>,<PrivacyPolicy/>,<Footer/>)}/>
-                    <Route path="/terms/terms-conditions" element={components(<Navbar/>,<TermsConditions/>,<Footer/>)}/>
-                    <Route path="/terms/cookies-policy" element={components(<Navbar/>,<CookiePolicies/>,<Footer/>)}/>
 
                 </Routes>
             </Router>
