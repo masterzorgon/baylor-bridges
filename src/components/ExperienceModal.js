@@ -65,6 +65,7 @@ const ExperienceModal = ({ modal, setModal, experience, setExperience, setUpload
         else if (name === "description")    setExperience({ ...experience, description: value });
     };
 
+    // eslint-disable-next-line no-unused-vars
     const handlePublication = (event) => {
         event.preventDefault();
 
@@ -163,6 +164,8 @@ const ExperienceModal = ({ modal, setModal, experience, setExperience, setUpload
                                 </form>
 
                                 <div className="mt-5 sm:mt-6">
+
+                                    {/* move add publication to edit experience */}
                                     <button
                                         type="button"
                                         className=" mb-4 inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-emerald-600 text-base font-medium text-white hover:bg-emerald-700 hover:outline-none hover:ring-2 hover:ring-offset-2 hover:ring-emerald-500 sm:text-sm"
@@ -277,13 +280,13 @@ const ExperienceModal = ({ modal, setModal, experience, setExperience, setUpload
                                 </form>
 
                                 <div className="mt-5 sm:mt-6">
-                                    <button
+                                    {/* <button
                                         type="button"
                                         className=" mb-4 inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-emerald-600 text-base font-medium text-white hover:bg-emerald-700 hover:outline-none hover:ring-2 hover:ring-offset-2 hover:ring-emerald-500 sm:text-sm"
                                         onClick={() => setPublication(true)}
                                     >
                                         Add Publications
-                                    </button>
+                                    </button> */}
                                     <button
                                         type="button"
                                         className=" mb-4 inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-emerald-600 text-base font-medium text-white hover:bg-emerald-700 hover:outline-none hover:ring-2 hover:ring-offset-2 hover:ring-emerald-500 sm:text-sm"
@@ -293,7 +296,7 @@ const ExperienceModal = ({ modal, setModal, experience, setExperience, setUpload
                                     </button>
                                     <button
                                         type="button"
-                                        className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-emerald-600 text-base font-medium text-white hover:bg-emerald-700 hover:outline-none hover:ring-2 hover:ring-offset-2 hover:ring-emerald-500 sm:text-sm"
+                                        className="inline-flex justify-center w-full rounded-md border border-slate-200 shadow-sm px-4 py-2 bg-white text-base font-medium text-emerald-600 hover:bg-slate-200 hover:outline-none hover:ring-2 hover:ring-offset-2 hover:ring-emerald-500 sm:text-sm"
                                         onClick={handleCancelExperience}
                                     >
                                         Cancel
