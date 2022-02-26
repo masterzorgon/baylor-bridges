@@ -321,14 +321,99 @@ const Experience = () => {
                 </div>
             );
         }
+        else if(modalSettings["modalType"]==="new pub"){
+            console.log("geting modal new pub");
+            return(
+                <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full sm:p-6">
+                    <section aria-labelledby="payment-details-heading">
+                        <div>
+                            <div className="sm:rounded-md sm:overflow-hidden">
+                                <div className="bg-white py-6 px-4 sm:p-6">
+                                    <div>
+                                        <h2 id="payment-details-heading" className="text-lg leading-6 font-medium text-gray-900">
+                                            New publication
+                                        </h2>          
+                                    </div>
+
+                                    <div className="mt-6 grid grid-cols-8 gap-6">
+
+                                        <div className="col-span-8 sm:col-span-3">
+                                            <label htmlFor="start-date" className="block text-sm font-medium text-gray-700">
+                                                pub title
+                                            </label>
+                                            <input
+                                                type="text"
+                                                name="expiration-date"
+                                                id="expiration-date"
+                                                autoComplete="cc-exp"
+                                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+                                                placeholder="title.."
+                                                onChange={(e)=>handleChange(e,"title")}
+                                            />
+                                            {/* <DatePicker/> */}
+                                        </div>
+                                        <div className="col-span-8 sm:col-span-5">
+                                            <label htmlFor="expiration-date" className="block text-sm font-medium text-gray-700">
+                                                duo link
+                                            </label>
+                                            <input
+                                                type="text"
+                                                name="expiration-date"
+                                                id="expiration-date"
+                                                autoComplete="cc-exp"
+                                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+                                                onChange={(e)=>handleChange(e,"duo_link")}
+                                                placeholder="link"
+                                            />
+                                        </div>
+
+
+ 
+                                    </div>
+                                </div>          
+                            </div>
+
+                            <div className="mt-5 sm:mt-6">
+                                <button
+                                    type="submit"
+                                    className={`${loading ? "cursor-not-allowed" : ""} inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-emerald-600 text-base font-medium text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 sm:text-sm`}
+                                    onClick={() => handleExperSubmit(field)}
+                                    {...(loading ? { disabled: true } : {})}
+                                >
+                                    {
+                                        loading &&
+                                        <svg className="cursor-not-allowed animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fillOpacity="0"></circle>
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                    }
+                                    {
+                                        !loading &&
+                                        "submit"
+                                    }
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+                    
+                </div>
+            );
+        }
 
     };
 
     const handleOpenModal = (modalType, exper, exper_idx) => {
-        console.log("the idx pass into handleOpenModal is " + exper_idx);
-        setField(exper);
         setModalSettings({"modalType":modalType,"idx":exper_idx});
         console.log(modalSettings);
+        if (modalType==="new pub"){
+            setField({"title":"","duo_link":""});
+
+
+        }else{
+            console.log("the idx pass into handleOpenModal is " + exper_idx);
+            setField(exper);
+
+        }
         console.log(exper);
         setOpen(true);
     };
@@ -549,6 +634,7 @@ const Experience = () => {
                                                                                             <button
                                                                                                 type="button"
                                                                                                 className="flex m-auto items-center p-1 border border-transparent rounded-full shadow-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                                                                                                onClick={()=>handleOpenModal("new pub",null,null)}
                                                                                             >
                                                                                                 <PlusSmIconSolid className="h-5 w-5" aria-hidden="true" />
                                                                                             </button>
