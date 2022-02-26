@@ -23,9 +23,9 @@ const Photo = (props) => {
 
     if (!account.photo) {
         const initials = account.first_name.charAt(0) + account.last_name.charAt(0);
-        return <span className={`inline-flex items-center justify-center h-${size} w-${size} rounded-full bg-gray-500`}>
+        return <div className={`inline-flex items-center justify-center h-${size} w-${size} rounded-full bg-gray-500`}>
             <span className={`text-${font_size} font-medium leading-none text-white`}>{initials}</span>
-        </span>;
+        </div>;
     } else {
         return <img
             className={`h-${size} w-${size} rounded-full`}
