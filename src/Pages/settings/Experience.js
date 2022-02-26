@@ -352,7 +352,7 @@ const Experience = () => {
                                             </div>
 
                                             {/* SHOW NEW EXPERIENCE MODAL */}
-                                            {modal && <ExperienceModal modal={modal} setModal={setModal} experience={experience} setExperience={setExperience} setUploadSuccess={setUploadSuccess} setUploadFailure={setUploadFailure} />}
+                                            {modal && <ExperienceModal modal={modal} setModal={setModal} experience={experience} setExperience={setExperience} setUploadSuccess={setUploadSuccess} setUploadFailure={setUploadFailure} loading={loading} setLoading={setLoading} refresh={refresh} setRefresh={setRefresh} />}
 
                                             <div className="space-y-10 sm:px-6 lg:px-0 lg:col-span-9">
                                                 { experiences.map((exper, idx) => (
