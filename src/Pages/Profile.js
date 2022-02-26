@@ -41,7 +41,7 @@ const Profile = () => {
                             <div className="flex-shrink-0">
                                 <div className="relative">
                                     <Photo size="16" />
-                                    <span className="absolute inset-0 shadow-inner rounded-full" aria-hidden="true" />
+                                    <span className="absolute inset-0 shadow-inner rounded-full h-16 w-16" aria-hidden="true" />
                                 </div>
                             </div>
                             {
