@@ -6,40 +6,62 @@ import axios from "axios";
 import Progress from "./Progress";
 import Password from "../../components/Password";
 
+function classNames(...classes) {
+    return classes.filter(Boolean).join(" ");
+}
+
 const Form = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [loading, setLoading] = useState(false);
     const [complete, setComplete] = useState(false);
     const [step, setStep] = useState(1);
+    const [error_message, setErrorMessage] = useState(null);
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    let { role } = useParams();
-    console.log(setLoading, setEmail, email, currentStep, setCurrentStep, loading, role, step, setStep, password);
-
+    const { role } = useParams();
     if (role !== "student" && role !== "alumni") {
-        window.location.href = "student";
+        window.location.href = "/404";
     }
+    
+    console.log(setLoading, setEmail, email, currentStep, setCurrentStep, loading, role, step, setStep, password);
 
     useEffect(() => {
         if (step === 1) {
             let reg = /^\w+([-+.'][^\s]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
             let is_valid = reg.test(email || "");
 
+            if (role === "student") {
+                is_valid = is_valid && email.endsWith("@baylor.edu");
+            }
+
             setComplete(email && email !== "" && is_valid);
+            setErrorMessage(null);
         }
-    }, [step, email]);
+    }, [step, email, role]);
 
-    const checkEmail = () => {
-        setLoading(true);
-        axios.get("/signup/email/" + email).then(res => {
-            console.log(res);
-        }).catch(err => {
+    const onSubmit = () => {
+        // Email address
+        if (step === 1) {
+            setLoading(true);
+            axios.get("/signup/email/" + email)
+                .then(res => {
+                    setStep(2);                    
+                }).catch(err => {
+                    let response = err.response.data;
 
-        }).finally(() => {
-            setLoading(false);
-        });
+                    if (response.code === "EmailExistsException") {
+                        setErrorMessage("This email address is already associated with another account.");
+                    } else {
+                        setErrorMessage("We are unable to continue for you at this moment.");
+                    }
+
+                    console.log(err);
+                }).finally(() => {
+                    setLoading(false);
+                });
+        }
     };
 
     const step1 = () => {
@@ -55,7 +77,7 @@ const Form = () => {
                         type="email"
                         name="email"
                         id="email"
-                        className="focus:ring-emerald-500 focus:border-emerald-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
+                        className={classNames("block w-full pl-10 sm:text-sm rounded-md", error_message === null ? "border-gray-300 focus:ring-emerald-500 focus:border-emerald-500" : "border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500")}
                         placeholder={role === "student" ? "you@baylor.edu" : "you@alumni.baylor.edu"}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
@@ -126,14 +148,24 @@ const Form = () => {
 
 
                 <div className="px-5 md:mt-2 md:bg-white md:shadow md:rounded-lg md:px-8 md:py-8 md:-mx-8">
+                    
                     {step === 1 && step1()}
                     {step === 2 && step2()}
+
+                    {/* Error message */}
+                    {
+                        error_message !== null &&
+                        <p className="mt-2 text-sm text-red-600">
+                            {error_message}
+                        </p>
+                    }
+
 
                     <div className="mt-6 text-sm text-right w-full grid place-items-end">
                         <button
                             type="button"
                             className="relative text-center text-sm px-4 py-2 border border-transparent font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed"
-                            onClick={checkEmail}
+                            onClick={onSubmit}
                             disabled={loading || !complete}
                         >
                             {
