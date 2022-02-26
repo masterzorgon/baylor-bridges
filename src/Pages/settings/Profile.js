@@ -11,12 +11,12 @@ const profile = {
         title: "Basic",
         description: "This information will be displayed publicly so be careful what you share.",
         fields: {
-            photo: {
-                title: "Photo",
-                value: "photo",
-                type: "file",
-                button: ["update", "remove"]
-            },
+            // photo: {
+            //     title: "Photo",
+            //     value: "photo",
+            //     type: "file",
+            //     button: ["update", "remove"]
+            // },
             name: {
                 title: "Name",
                 value: ["prefix", "first_name", "last_name"],
