@@ -11,7 +11,6 @@ function classNames(...classes) {
 }
 
 const Form = () => {
-    const [currentStep, setCurrentStep] = useState(1);
     const [loading, setLoading] = useState(false);
     const [complete, setComplete] = useState(false);
     const [step, setStep] = useState(1);
@@ -20,13 +19,13 @@ const Form = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [Confirmation_code, setConfirmationCode] = useState("");
+    
 
     const { role } = useParams();
     if (role !== "student" && role !== "alumni") {
         window.location.href = "/404";
     }
-    
-    console.log(setLoading, setEmail, email, currentStep, setCurrentStep, loading, role, step, setStep, password);
+
 
     useEffect(() => {
         if (step === 1) {
@@ -42,6 +41,13 @@ const Form = () => {
 
         setErrorMessage(null);
     }, [step, email, role]);
+
+
+    // FIXME: Self-sign up for alumni is disabled
+    if (role === "alumni") {
+        window.location.href = "closed";
+        return;
+    }
 
     const onSubmit = () => {
         // Email address
