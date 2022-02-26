@@ -4,6 +4,8 @@ import { LinkIcon } from "@heroicons/react/outline";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
+import Photo from "../components/Photo";
+
 
 const Profile = () => {
     const { user_id } = useParams();
@@ -38,11 +40,7 @@ const Profile = () => {
                         <div className="flex items-center space-x-5">
                             <div className="flex-shrink-0">
                                 <div className="relative">
-                                    <img
-                                        className="h-16 w-16 rounded-full"
-                                        src="https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80"
-                                        alt=""
-                                    />
+                                    <Photo size="16" />
                                     <span className="absolute inset-0 shadow-inner rounded-full" aria-hidden="true" />
                                 </div>
                             </div>
