@@ -6,7 +6,7 @@ import ExperienceModal from "../../components/ExperienceModal";
 import DatePicker from "tailwind-react-datepicker";
 import { Menu, Transition,Dialog } from "@headlessui/react";
 import { PencilIcon, DotsVerticalIcon, DocumentRemoveIcon } from "@heroicons/react/solid";
-import { ExclamationIcon } from "@heroicons/react/outline";
+import { ExclamationIcon,LinkIcon,TrashIcon } from "@heroicons/react/outline";
 
 // TAILWIND CSS ALERTS
 import UploadSuccess from "../../components/UploadSuccess";
@@ -192,7 +192,39 @@ const Experience = () => {
                                                 value={field.description}
                                                 onChange={(e) => handleChange(e, "description")}
                                             />          
-                                        </div>       
+                                        </div>
+
+
+                                        <div className="col-span-4 sm:col-span-4">
+                                            {/* to render publications */}
+                                            <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
+                                                {
+                                        
+                                                    field.publications.map((publication,index)=>(
+                                                        <li className="pl-3 pr-4 py-3 flex items-center justify-between text-sm" key={publication.pub_id}>
+                                                            <div className="w-0 flex-1 flex items-center">
+                                                                <LinkIcon className="flex-shrink-0 h-5 w-5 text-gray-400" />
+                                                                <span className="ml-2 flex-1 w-0 truncate text-gray-700">
+                                                            pub test
+                                                                </span>
+                                                            </div>
+                                                            <div className="ml-4 flex-shrink-0">
+                                                                <a className="font-medium ">
+                                                                    <PencilIcon className="flex-shrink-0 h-5 w-5 text-emerald-400 hover:text-emerald-600" />
+                                                                </a>
+                                                            </div><div className="ml-4 flex-shrink-0">
+                                                                <a className="font-medium">
+                                                                    <TrashIcon className="flex-shrink-0 h-5 w-5 text-red-400 hover:text-red-600" />
+                                                                </a>
+                                                            </div>
+                                                        </li>
+                                                    ))
+                                                }
+                                            </ul>
+                                            <button className="relative block w-full border-2 border-gray-300 border-dashed rounded-lg py-2 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                <span className="mt-2 block text-sm font-medium text-gray-500">new publication</span>
+                                            </button>
+                                        </div>  
                                     </div>
                                 </div>          
                             </div>
