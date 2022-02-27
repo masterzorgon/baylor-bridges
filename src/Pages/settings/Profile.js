@@ -109,7 +109,6 @@ const Profile = () => {
     const [loading, setLoading] = useState(false); // Whether the axios is requesting
     const [complete, setComplete] = useState(true); // Whether the fields in the modal are completed (prevent REQUIRED fields left empty)
 
-
     useEffect(() => {
         axios.get("/account/profile")
             .then(res => {
@@ -132,6 +131,9 @@ const Profile = () => {
             return;
         }
 
+        console.log(update);
+        setComplete(true);
+
         // For all atomic values in this field, check if required ones are not empty
         if (Array.isArray(field.value)) {
             let complete = true;
@@ -146,10 +148,14 @@ const Profile = () => {
             console.log(required, complete);
             setComplete(complete);
         } else {
-            let _value = update[field.key];
-            let complete = _value && _value !== "";
-            setComplete(complete);
+            // If it's the single atomic value is required, check if it's empty
+            if (field.value.required || field.required) {
+                let _value = update[field.value.key];
+                let complete = _value && _value !== "";
+                setComplete(complete);
+            }
         }
+
     }, [update, field]);
 
     // Get the value of a field, return either the compounded value, or null
@@ -233,7 +239,7 @@ const Profile = () => {
 
             // Update values to be updated through axios
             const updateValue = (v) => {
-                if (!v) {
+                if (v === undefined) {
                     return;
                 }
 
@@ -243,7 +249,6 @@ const Profile = () => {
                 } else {
                     setUpdate({ ...update, [section_key]: { ...update[section_key], [value.key]: v } });
                 }
-                console.log(update);
             };
 
             if (value.type === "file") {
