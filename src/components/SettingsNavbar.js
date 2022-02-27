@@ -12,10 +12,27 @@ const SettingsNavbar = (props) => {
         // { id: "workload", name: "Workload", href: "workload" },
     ];
 
+    const redirect = () => {
+        
+        const selectedTab = document.getElementById("selected-tab");
+        const selectedValue = selectedTab.options[selectedTab.selectedIndex].value;
+
+        selectedTab.defaultValue = selectedValue;
+        window.location.href = selectedValue;
+
+        console.log("CHANGE", tabs.find((tab) => tab.id === props.current).name);
+    };
+
     return (
         <>
-            {/* Tabs */}
-            <div className="lg:hidden">
+            {/* 
+                FIX:
+                    - when you select an option from the select menu, nothing happens — you are not redirected
+                    - allow mobile user to navigate to Settings from home menu
+            */}
+
+            {/* MOBILE VIEW: SELECT MENU */}
+            <nav className="lg:hidden">
                 <label htmlFor="selected-tab" className="sr-only">
                     Select a tab
                 </label>
@@ -24,12 +41,15 @@ const SettingsNavbar = (props) => {
                     name="selected-tab"
                     className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm rounded-md"
                     defaultValue={tabs.find((tab) => tab.id === props.current).name}
+                    onChange={redirect}
                 >
                     {tabs.map((tab) => (
-                        <option key={tab.name}>{tab.name}</option>
+                        <option value={tab.href} key={tab.name}>{tab.name}</option>
                     ))}
                 </select>
-            </div>
+            </nav>
+
+            {/* DESKTOP VIEW: */}
             <div className="hidden lg:block">
                 <div className="border-b border-gray-200">
                     <nav className="-mb-px flex space-x-8">

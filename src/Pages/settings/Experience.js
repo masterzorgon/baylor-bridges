@@ -142,42 +142,22 @@ const Experience = () => {
 
         const handlePubRemove = () =>
         {
-            /* 
-                [*][*][*][*][*][*][*][*][*][*][*]
-                [*][*][*][*][*][*][*][*][*][*][*]
-
-                FIX:
-                    - add functionality to delete publication from database
-                    - add functionality so that the request timesout or cancels upon clicking "Cancel"
-                    
-                [*][*][*][*][*][*][*][*][*][*][*]
-                [*][*][*][*][*][*][*][*][*][*][*]
-            */
             setLoading(true);
 
             console.log("PUB ID", field[0].pub_id);
             console.log("EXP ID", field[1].exper_id);
 
-            // const config = {
-            //     method: "delete",
-            //     url: `/account/profile/experience/${field[1].exper_id}/publication/${field[0].pub_id}}`, 
-            //     headers: { "Content-Type": "application/json" },
-            //     // data : JSON.stringify(experience)
-            // };
-            let url=`/account/profile/experience/${field[1].exper_id}/publication/${field[0].pub_id}`;
-            console.log(url);
-            axios.delete(url)
-                .then(res =>{
+            let url = `/account/profile/experience/${field[1].exper_id}/publication/${field[0].pub_id}`;
 
-                    let new_exper=experiences;
-                    new_exper[modalSettings["idx"]]["publications"]=res.data;
+            axios.delete(url)
+                .then(res => {
+                    let new_exper = experiences;
+                    new_exper[modalSettings["idx"]]["publications"] = res.data;
                     console.log(new_exper);
                     setOpen(false);
-                    
-                } )
+                })
                 .catch(error => console.log(error))
-                .finally(()=>setLoading(false));
-                
+                .finally(() => setLoading(false));   
         };
 
 
@@ -735,7 +715,7 @@ const Experience = () => {
                                                                                         <div className="w-0 flex-1 flex items-center">
                                                                                             <LinkIcon className="flex-shrink-0 h-5 w-5 text-gray-400" />
                                                                                             <span className="ml-2 flex-1 w-0 truncate text-gray-700">
-                                                                                                <a href={publication.duo_link} className="font-medium text-emerald-600 hover:text-emerald-500">
+                                                                                                <a href={publication.duo_link} target="_blank" rel="noreferrer" className="font-medium text-emerald-600 hover:text-emerald-500">
                                                                                                     {publication.title}
                                                                                                 </a>
                                                                                             </span>
