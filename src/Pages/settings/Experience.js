@@ -279,7 +279,7 @@ const Experience = () => {
                                                     ))
                                                 }
                                             </ul>
-                                            <button className="relative block w-full border-2 border-gray-300 border-dashed rounded-lg py-2 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                            <button className="relative block w-full border-2 border-gray-300 border-dashed rounded-lg py-2 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
                                                 <span className="mt-2 block text-sm font-medium text-gray-500">new publication</span>
                                             </button>
                                         </div>   */}
