@@ -78,10 +78,45 @@ const Experience = () => {
 
         const handleChange = (e, value) => {
             let new_field = field;
-            new_field[value] = e.target.value;
-            console.log(new_field);
-            setField(new_field);
+            if (value==="start_time" || value==="stop_time"){
+                
+
+                let input=e.target.value;
+                console.log("input is",input);
+                if(input.length<=2 && /^\d*$/.test(input)){
+
+                    let oldVal=new_field[value];
+                    new_field[value]=e.target.value;
+                    
+                    if(input.length===2){
+                        if(oldVal.charAt(oldVal.length - 1)!=="/"){
+                            new_field[value]+="/";
+                        }                                              
+                    }                    
+                }
+                else if(/^\d{2}\/\d{0,4}$/.test(input)){
+                    new_field[value]=e.target.value;
+
+                }
+
+                if (new_field[value]===null){
+                    new_field[value]="";
+                    console.log("new field is null");
+                }
+                setField(new_field);
+                console.log(field);
+                    
+                
+
+            }else{
+                
+                new_field[value] = e.target.value;
+                console.log(new_field);
+                setField(new_field);
+            
+            }
             setRefresh(true);
+
         };
 
         // eslint-disable-next-line no-unused-vars
@@ -160,7 +195,6 @@ const Experience = () => {
             // TODO: also submit publications changes
         };
 
-        console.log("in get modal the field is ",field);
         const handlePubSubmit = (field) =>
         {
             console.log("calling handel pub submit");
@@ -250,7 +284,9 @@ const Experience = () => {
                                                 id="expiration-date"
                                                 autoComplete="cc-exp"
                                                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
-                                                placeholder="MM / YY"
+                                                placeholder="MM / YYYY"
+                                                value={field.start_time}
+                                                onChange={(e)=>handleChange(e,"start_time")}
                                             />
                                             {/* <DatePicker/> */}
                                         </div>
@@ -264,7 +300,9 @@ const Experience = () => {
                                                 id="expiration-date"
                                                 autoComplete="cc-exp"
                                                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
-                                                placeholder="MM / YY"
+                                                placeholder="MM / YYYY"
+                                                value={field.stop_time}
+                                                onChange={(e)=>handleChange(e,"stop_time")}
                                             />
                                         </div>
 
