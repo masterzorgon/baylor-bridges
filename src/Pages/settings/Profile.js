@@ -1,12 +1,13 @@
 /* eslint-disable no-unused-vars */
 import React, { Fragment, useState, useEffect, useContext } from "react";
 import { Dialog, Transition, Menu } from "@headlessui/react";
+import { SelectorIcon } from "@heroicons/react/solid";
 import axios from "axios";
 
 import SettingsNavbar from "../../components/SettingsNavbar";
 import { AccountContext } from "../../components/Account";
 import Photo from "../../components/Photo";
-import { ChevronDownIcon } from "@heroicons/react/solid";
+import Button from "../../components/Button";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -92,7 +93,8 @@ const Profile = () => {
     const [open, setOpen] = useState(false);
     const [field, setField] = useState(null);
     const [update, setUpdate] = useState(null);
-    const [Refresh, setRefresh] = useState(false);
+    const [refresh, setRefresh] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const getValueRaw = (section_key, field) => {
         // Photo
@@ -115,12 +117,10 @@ const Profile = () => {
             ));
 
             string = string.trim();
-
             if (string === "") {
                 return null;
             }
             return string;
-
         } else {
             return account_from[field.value.key] ? account_from[field.value.key] : null;
         }
@@ -166,43 +166,38 @@ const Profile = () => {
     };
 
     const handleSubmit = () => {
-        console.log("the submitted update is ", update);
-        axios.put("/account/profile", update).then(res => {
+        setLoading(true);
 
-            console.log(res);
+        axios.put("/account/profile", update)
+            .then(res => {
+                console.log(res);
+                //update ccount without read from backend
+                // do we want to keep this inside of axios to be update async?
+                console.log("new account is ", res.data);
+                setAccount(res.data);
 
-            //update ccount without read from backend
-            // do we want to keep this inside of axios to be update async?
-            let newAccount = account;
-            if ("email" in update || "phone" in update) {
-                for (const [key, value] of Object.entries(update)) {
-                    newAccount["contact_info"][key] = value;
-                }
-            } else {
-                for (const [key, value] of Object.entries(update)) {
-                    newAccount[key] = value;
-                }
-            }
-            console.log("new account is ", newAccount);
-            setAccount(newAccount);
-            setOpen(false);
-        });
-
-
+                setOpen(false);
+            })
+            .catch(err => {
+                
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     };
 
     const getModal = (field) => {
+        // Field has to be valid
+        if (!field) {
+            return;
+        }
+
         const handleChange = (e, value) => {
             let newUpdate = update;
             newUpdate[value.key] = e.target.value;
             setUpdate(newUpdate);
-            console.log(update);
             setRefresh(true);
         };
-
-        // const getSubmitButton = () =>{
-
-        // }
 
         const generate_dropdown_list = (type, key) => {
             // console.log("the key is ",key);
@@ -269,9 +264,8 @@ const Profile = () => {
             if (value.type === "file") {
                 return <></>;
             } else if (value.type === "text") {
-
                 return (
-                    <div>
+                    <>
                         <label htmlFor={value.key} className="block text-sm font-medium text-gray-700 sr-only">
                             {value.title}
                         </label>
@@ -288,11 +282,11 @@ const Profile = () => {
                                 }}
                             />
                         </div>
-                    </div>
+                    </>
                 );
             } else if (value.type === "textarea") {
                 return (
-                    <div>
+                    <>
                         <label htmlFor="comment" className="block text-sm font-medium text-gray-700 sr-only">
                             {value.title}
                         </label>
@@ -308,49 +302,45 @@ const Profile = () => {
                                 }}
                             />
                         </div>
-                    </div>
+                    </>
                 );
             } else if (value.type === "dropdown") {
                 return (
-                    <div>
-                        <label htmlFor="dropdown" className="block text-sm font-medium text-gray-700">
+                    <>
+                        <label htmlFor="dropdown" className="block text-sm font-medium text-gray-700 sr-only">
                             {value.title}
                         </label>
 
-                        <Menu as="div" className="relative inline-block text-left">
+                        <Menu as="div" className="relative">
                             <div>
-                                <Menu.Button className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-emerald-500">
-                                    {update[value.key]}
-
-                                    <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
+                                <Menu.Button className="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
+                                    <span className="block truncate">{update[value.key] || "-"}</span>
+                                    <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                                        <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                                    </span>
                                 </Menu.Button>
                             </div>
 
                             <Transition
                                 as={Fragment}
-                                enter="transition ease-out duration-100"
+                                enter="transition ease-out duration-200"
                                 enterFrom="transform opacity-0 scale-95"
                                 enterTo="transform opacity-100 scale-100"
-                                leave="transition ease-in duration-75"
+                                leave="transition ease-in duration-150"
                                 leaveFrom="transform opacity-100 scale-100"
                                 leaveTo="transform opacity-0 scale-95"
                             >
-                                <Menu.Items className="origin-top-right absolute right-0 mt-2 w-30 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none overflow-auto max-h-60">
+                                <Menu.Items className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
                                     <div className="py-1">
                                         {generate_dropdown_list(value.title, value.key)}
-
                                     </div>
                                 </Menu.Items>
                             </Transition>
                         </Menu>
-                    </div>
+                    </>
                 );
             }
         };
-
-        if (!field) {
-            return;
-        }
 
         if (Array.isArray(field.value)) {
             return (
@@ -361,28 +351,27 @@ const Profile = () => {
                             getTypeDom(value)
                         ))
                     }
-                    <button
-                        type="submit"
-                        className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                    <Button
+                        loading={loading}
+                        disabled={loading}
                         onClick={() => handleSubmit()}
                     >
                         Save
-                    </button>
+                    </Button>
                 </>
             );
         } else {
-
             return (
                 <>
                     <legend className="block text-sm font-medium text-gray-700">{field.title}</legend>
                     {getTypeDom(field.value)}
-                    <button
-                        type="submit"
-                        className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                    <Button
+                        loading={loading}
+                        disabled={loading}
                         onClick={() => handleSubmit()}
                     >
                         Save
-                    </button>
+                    </Button>
                 </>
             );
         }
@@ -430,10 +419,12 @@ const Profile = () => {
             .catch(err => {
                 if (err.response.status && err.response.status === 401) {
                     window.location.href = "/sign-in";
+                } else {
+                    window.location.href = "/404";
                 }
             });
         
-    }, [getAccountLocal, Refresh]);
+    }, [getAccountLocal, refresh]);
 
     return (
 
@@ -518,10 +509,8 @@ const Profile = () => {
                             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
-                            <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6 -space-y-px">
-
+                            <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6 space-y-4">
                                 {getModal(field)}
-
                             </div>
                         </Transition.Child>
                     </div>
