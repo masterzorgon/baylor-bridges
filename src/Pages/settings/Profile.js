@@ -244,7 +244,7 @@ const Profile = () => {
                     return;
                 }
 
-                v = v.trim();
+                // v = v.trim();
                 if (section_key === "basic") {
                     setUpdate({ ...update, [value.key]: v });
                 } else {
