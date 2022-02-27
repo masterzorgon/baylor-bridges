@@ -71,7 +71,7 @@ const profile = {
             },
             biography: {
                 title: "Biography",
-                value: { type: "textarea", title: "Biography", placeholder: "Biography", key: "bio" },
+                value: { type: "textarea", title: "Biography", placeholder: "Biography", key: "biography" },
             },
         }
     },
