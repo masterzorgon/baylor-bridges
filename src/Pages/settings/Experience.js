@@ -3,7 +3,6 @@ import SettingsNavbar from "../../components/SettingsNavbar";
 import ExperienceModal from "../../components/ExperienceModal";
 
 // eslint-disable-next-line no-unused-vars
-import DatePicker from "tailwind-react-datepicker";
 import { Menu, Transition,Dialog } from "@headlessui/react";
 import { PencilIcon, DotsVerticalIcon, DocumentRemoveIcon, PlusSmIcon as PlusSmIconSolid } from "@heroicons/react/solid";
 
@@ -14,7 +13,6 @@ import { MinusCircleIcon, ExclamationIcon, LinkIcon, TrashIcon } from "@heroicon
 // TAILWIND CSS ALERTS
 import UploadSuccess from "../../components/UploadSuccess";
 import UploadFailure from "../../components/UploadFailure";
-import DeletePublicationAlert from "../../components/DeletePublicationAlert";
 
 import axios from "axios";
 
@@ -44,9 +42,6 @@ const Experience = () => {
         stop_time: "",
         publications: []
     });
-
-    // STATE FOR PUBLICATION [*][*][*][*]
-    const [publicationDelete, setPublicationDelete] = useState(false);
 
     useEffect(() => {
         console.log("calling use effect");
@@ -110,6 +105,19 @@ const Experience = () => {
                 .finally(() => setLoading(false));
         };
 
+        const handlePubRemove = () => {
+            // "/account/profile/experience/<exper_id>/publication/<pub_id>""
+
+            console.log("PUB ID", field[0].pub_id);
+            console.log("EXP ID", field[1].exper_id);
+
+            let url = `/account/profile/experience/${field[1].exper_id}/publication/${field[0].pb_id}}`;
+            axios.get(url)
+                .then(response => response.json())
+                .then(data => console.log(data));
+        };
+
+
         const handleExperSubmit = (field) => {
             setLoading(true);
             let url="/account/profile/experience/" + field["exper_id"];
@@ -125,13 +133,14 @@ const Experience = () => {
         };
 
         console.log("in get modal the field is ",field);
-        const handlePubSubmit =(field)=>{
+        const handlePubSubmit = (field) =>
+        {
             console.log("calling handel pub submit");
             console.log(modalSettings);
 
             setLoading(true);
-            if(modalSettings["modalType"]==="new pub"){
-                
+            if (modalSettings["modalType"] === "new pub")
+            {
                 let url="/account/profile/experience/"+modalSettings["idx"]["db_id"]+"/publication";
                 console.log(url);
                 // console.log(experiences[modalSettings["idx"]["list_id"]]);
@@ -147,7 +156,8 @@ const Experience = () => {
                     }).finally(()=>setLoading(false));
 
             }
-            else if(modalSettings["modalType"]==="edit pub"){
+            else if (modalSettings["modalType"] === "edit pub")
+            {
                 console.log("put to publication");
                 let url="/account/profile/experience/"+modalSettings["idx"]["exper_db_id"]+"/publication/"+field.pub_id;
                 console.log("the url is "+url);
@@ -163,8 +173,6 @@ const Experience = () => {
 
                     }).finally(()=>setLoading(false));
             }
-            
-
         };
 
 
@@ -234,7 +242,7 @@ const Experience = () => {
 
                                         <div className="col-span-4 sm:col-span-4">
                                             <label htmlFor="comment" className="block text-sm font-medium text-gray-700">
-                                                description
+                                                Description
                                             </label>
                                                         
                                             <textarea
@@ -301,7 +309,7 @@ const Experience = () => {
                                     }
                                     {
                                         !loading &&
-                                        "Update this Experience"
+                                        "Update Experience"
                                     }
                                 </button>
                             </div>
@@ -326,7 +334,7 @@ const Experience = () => {
                                 </Dialog.Title>
                                 <div className="mt-2">
                                     <p className="text-sm text-gray-500">
-                                        Are you sure you want to remove the experience  &quot;{field.title}&quot; ? All of your data will be permanently removed.
+                                        Are you sure you want to remove the experience  &quot;{field.title}&quot;? All of your data will be permanently removed.
                                         This action cannot be undone.
                                     </p>
                                 </div>
@@ -364,7 +372,8 @@ const Experience = () => {
                 </div>
             );
         }
-        else if (modalSettings["modalType"] === "remove pub") {
+        else if (modalSettings["modalType"] === "remove pub")
+        {
             console.log("you click remove");
             return(
                 <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
@@ -379,7 +388,7 @@ const Experience = () => {
                                 </Dialog.Title>
                                 <div className="mt-2">
                                     <p className="text-sm text-gray-500">
-                                        Are you sure you want to remove &quot;{field.title}&quot; ? The publication will be permanently removed.
+                                        Are you sure you want to remove &quot;{field[0].title}&quot;? The publication will be permanently removed.
                                         This action cannot be undone.
                                     </p>
                                 </div>
@@ -390,7 +399,7 @@ const Experience = () => {
                         <button
                             type="button"
                             className={`${loading ? "cursor-not-allowed" : ""} w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm`}
-                            onClick={() => handleExperRemove(field.exper_id)}
+                            onClick={() => handlePubRemove(field[0].pub_id, field[1].exper_id)} // IMPLEMENT REMOVE PUBLICATION FUNCTION
                             {...(loading ? { disabled: true } : {})}
                         >
                             {
@@ -407,17 +416,18 @@ const Experience = () => {
                         </button>
                         <button
                             type="button"
-                            className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                            className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                             onClick={() => setOpen(false)}
                             ref={cancelButtonRef}
                         >
-                  Cancel
+                            Cancel
                         </button>
                     </div>
                 </div>
             );
         }   
-        else if(modalSettings["modalType"]==="new pub" || modalSettings["modalType"]==="edit pub"){
+        else if (modalSettings["modalType"] === "new pub" || modalSettings["modalType"] === "edit pub")
+        {
             console.log("geting modal new pub");
             return(
                 <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full sm:p-6">
@@ -428,9 +438,9 @@ const Experience = () => {
                                     <div>
                                         <h2 id="payment-details-heading" className="text-lg leading-6 font-medium text-gray-900">
                                             {
-                                                modalSettings["modalType"]==="new pub"
-                                                    ? "add publication"
-                                                    : "edit publication"
+                                                modalSettings["modalType"] === "new pub"
+                                                    ? "Add Publication"
+                                                    : "Edit Publication"
                                             }
                                         </h2>          
                                     </div>
@@ -439,7 +449,7 @@ const Experience = () => {
 
                                         <div className="col-span-8 sm:col-span-3">
                                             <label htmlFor="start-date" className="block text-sm font-medium text-gray-700">
-                                                pub title
+                                                Publication Title
                                             </label>
                                             <input
                                                 type="text"
@@ -455,7 +465,7 @@ const Experience = () => {
                                         </div>
                                         <div className="col-span-8 sm:col-span-5">
                                             <label htmlFor="expiration-date" className="block text-sm font-medium text-gray-700">
-                                                duo link
+                                                Publication Link
                                             </label>
                                             <input
                                                 type="text"
@@ -491,7 +501,7 @@ const Experience = () => {
                                     }
                                     {
                                         !loading &&
-                                        "submit"
+                                        "Submit"
                                     }
                                 </button>
                             </div>
@@ -610,7 +620,7 @@ const Experience = () => {
                                                                                         {exper.title}
                                                                                     </h1>
                                                                                     <h2 className="text-sm text-gray-500">
-                                                                                        from {exper.start_time} to {exper.stop_time}
+                                                                                        From {exper.start_time} to {exper.stop_time}
                                                                                     </h2>
                                                                                 </div>
                                                                                 <div className="flex-shrink-0 self-center flex">
@@ -683,8 +693,6 @@ const Experience = () => {
                                                                         [*][*][*]                         [*][*][*]
                                                                     */}
 
-                                                                    {publicationDelete ? <DeletePublicationAlert publicationDelete={publicationDelete} setPublicationDelete={setPublicationDelete} /> : null}
-
                                                                     <div className="mt-4">
                                                                         <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
                                                                             {
@@ -707,18 +715,17 @@ const Experience = () => {
                                                                                             */}
                                                                                             
                                                                                             <PencilIcon className="h-5 w-5 mx-4" viewBox="0 0 20 20" fill="currentColor"
-                                                                                                onClick={() => handleOpenModal("edit pub",publication,{"pub_list_id":index,"exper_list_id":idx,"exper_db_id":exper.exper_id})}
+                                                                                                onClick={() => handleOpenModal("edit pub", publication, {"pub_list_id":index, "exper_list_id":idx, "exper_db_id":exper.exper_id})}
                                                                                             >
                                                                                                 <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                                                                                             </PencilIcon>
                                                                                             <MinusCircleIcon className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                                                                                onClick={() => handleOpenModal("remove pub", publication, index)}
+                                                                                                onClick={() => handleOpenModal("remove pub", [publication, exper], index)}
                                                                                             >
                                                                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                                                             </MinusCircleIcon>
                                                                                         </div>
-                                                                                    </li>
-                                                                                                                       
+                                                                                    </li>                             
                                                                                 ))
                                                                             }
                                                                             <li className="flex items-center">
@@ -727,14 +734,14 @@ const Experience = () => {
                                                                                     [*][*][*] ENTER ADD NEW PUBLICATION ITEM HERE [*][*][*]
                                                                                     [*][*][*]                                     [*][*][*]
                                                                                 */}
-                                                                                <div className="border-dashed border-2 border-gray rounded-md py-1 mx-auto relative bg-white-600 w-full">
+                                                                                <div className="border-dashed border-2 border-gray rounded-b-md py-1 mx-auto relative bg-white-600 w-full">
                                                                                     <div className=""> {/* max-w-7xl mx-auto px-1 sm:px-6 lg:px-8 */}
                                                                                         <div className="sm:text-center sm:px-16 flex">
                                                                                             {/* TODO: CREATE ADD PUBLICATION FUNCTIONALITY */}
                                                                                             <button
                                                                                                 type="button"
                                                                                                 className="flex m-auto items-center p-1 border border-transparent rounded-full shadow-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
-                                                                                                onClick={()=>handleOpenModal("new pub",null,{"db_id":exper.exper_id,"list_id":idx})}
+                                                                                                onClick={()=>handleOpenModal("new pub",null,{"db_id": exper.exper_id, "list_id": idx})}
                                                                                             >
                                                                                                 <PlusSmIconSolid className="h-5 w-5" aria-hidden="true" />
                                                                                             </button>
