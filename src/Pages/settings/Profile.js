@@ -117,12 +117,12 @@ const Profile = () => {
              * @TODO temporary fix for null values in location
              **/
             if (account_from[field.value[0]] === null && field.value[0] === "city") {
-                return <div className="text-gray-400">Not Set</div>;
+                return null;
             }
             return string;
 
         } else {
-            return account_from[field.value] ? account_from[field.value] : <div className="text-gray-400">Not Set</div>;
+            return account_from[field.value] ? account_from[field.value] : null;
         }
     };
 
