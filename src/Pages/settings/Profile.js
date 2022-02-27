@@ -111,11 +111,18 @@ const Profile = () => {
         if (Array.isArray(field.value)) {
             var string = "";
             field.value.map((value, index) => (
-                string += account_from[value.key] + " "
+                account_from[value] === null ? string += " " : string += account_from[value] + " "
             ));
+            /** 
+             * @TODO temporary fix for null values in location
+             **/
+            if (account_from[field.value[0]] === null && field.value[0] === "city") {
+                return <div className="text-gray-400">Not Set</div>;
+            }
             return string;
+
         } else {
-            return account_from[field.value.key] ? account_from[field.value.key] : null;
+            return account_from[field.value] ? account_from[field.value] : <div className="text-gray-400">Not Set</div>;
         }
     };
 
@@ -421,7 +428,7 @@ const Profile = () => {
             })
             .catch(err => {
                 if (err.response.status && err.response.status === 401) {
-                    window.location.href = "/signin";
+                    window.location.href = "/sign-in";
                 }
             });
         
