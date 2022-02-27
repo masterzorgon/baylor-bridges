@@ -122,7 +122,7 @@ const Profile = () => {
             return string;
 
         } else {
-            return account_from[field.value] ? account_from[field.value] : null;
+            return account_from[field.value.key] ? account_from[field.value.key] : null;
         }
     };
 
