@@ -1,56 +1,56 @@
 import React from "react";
 
-
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
 const SettingsNavbar = (props) => {
+
+    // const [selection, setSelection] = React.useState("");
+
     const tabs = [
         { id: "profile", name: "Profile", href: "profile" },
         { id: "experience", name: "Experience", href: "experience" },
         // { id: "workload", name: "Workload", href: "workload" },
     ];
 
-    const redirect = () => {
-        
+    /*
+    const handleRedirect = (event) => {
         const selectedTab = document.getElementById("selected-tab");
         const selectedValue = selectedTab.options[selectedTab.selectedIndex].value;
-
-        selectedTab.defaultValue = selectedValue;
+        
         window.location.href = selectedValue;
 
-        console.log("CHANGE", tabs.find((tab) => tab.id === props.current).name);
+        // setSelection(event.value);
     };
+    */
 
     return (
         <>
             {/* 
                 FIX:
-                    - when you select an option from the select menu, nothing happens — you are not redirected
-                    - allow mobile user to navigate to Settings from home menu
+                    - the default value in selection menu does not change upon selection
             */}
 
             {/* MOBILE VIEW: SELECT MENU */}
+            {/* 
             <nav className="lg:hidden">
-                <label htmlFor="selected-tab" className="sr-only">
-                    Select a tab
-                </label>
                 <select
                     id="selected-tab"
                     name="selected-tab"
                     className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm rounded-md"
-                    defaultValue={tabs.find((tab) => tab.id === props.current).name}
-                    onChange={redirect}
+                    // defaultValue={selection} // tabs.find((tab) => tab.id === props.current).name
+                    onChange={handleRedirect}
                 >
                     {tabs.map((tab) => (
                         <option value={tab.href} key={tab.name}>{tab.name}</option>
                     ))}
                 </select>
             </nav>
+            */}
 
             {/* DESKTOP VIEW: */}
-            <div className="hidden lg:block">
+            <div className="sm:block lg:block">
                 <div className="border-b border-gray-200">
                     <nav className="-mb-px flex space-x-8">
                         {tabs.map((tab) => (
