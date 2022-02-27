@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { Fragment, useState, useEffect, useContext } from "react";
 import { Dialog, Transition, Menu } from "@headlessui/react";
-import { ChevronDownIcon } from "@heroicons/react/solid";
+import { SelectorIcon } from "@heroicons/react/solid";
 import axios from "axios";
 
 import SettingsNavbar from "../../components/SettingsNavbar";
@@ -264,9 +264,8 @@ const Profile = () => {
             if (value.type === "file") {
                 return <></>;
             } else if (value.type === "text") {
-
                 return (
-                    <div>
+                    <>
                         <label htmlFor={value.key} className="block text-sm font-medium text-gray-700 sr-only">
                             {value.title}
                         </label>
@@ -283,11 +282,11 @@ const Profile = () => {
                                 }}
                             />
                         </div>
-                    </div>
+                    </>
                 );
             } else if (value.type === "textarea") {
                 return (
-                    <div>
+                    <>
                         <label htmlFor="comment" className="block text-sm font-medium text-gray-700 sr-only">
                             {value.title}
                         </label>
@@ -303,21 +302,22 @@ const Profile = () => {
                                 }}
                             />
                         </div>
-                    </div>
+                    </>
                 );
             } else if (value.type === "dropdown") {
                 return (
-                    <div>
-                        <label htmlFor="dropdown" className="block text-sm font-medium text-gray-700">
+                    <>
+                        <label htmlFor="dropdown" className="block text-sm font-medium text-gray-700 sr-only">
                             {value.title}
                         </label>
 
-                        <Menu as="div" className="relative inline-block text-left">
+                        <Menu as="div" className="relative">
                             <div>
-                                <Menu.Button className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-emerald-500">
-                                    {update[value.key]}
-
-                                    <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
+                                <Menu.Button className="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
+                                    <span className="block truncate">{update[value.key]}</span>
+                                    <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                                        <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                                    </span>
                                 </Menu.Button>
                             </div>
 
@@ -330,7 +330,7 @@ const Profile = () => {
                                 leaveFrom="transform opacity-100 scale-100"
                                 leaveTo="transform opacity-0 scale-95"
                             >
-                                <Menu.Items className="origin-top-right absolute right-0 mt-2 w-30 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none overflow-auto max-h-60">
+                                <Menu.Items className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
                                     <div className="py-1">
                                         {generate_dropdown_list(value.title, value.key)}
 
@@ -338,7 +338,7 @@ const Profile = () => {
                                 </Menu.Items>
                             </Transition>
                         </Menu>
-                    </div>
+                    </>
                 );
             }
         };
@@ -420,6 +420,8 @@ const Profile = () => {
             .catch(err => {
                 if (err.response.status && err.response.status === 401) {
                     window.location.href = "/sign-in";
+                } else {
+                    window.location.href = "/404";
                 }
             });
         
@@ -508,10 +510,8 @@ const Profile = () => {
                             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
-                            <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6 -space-y-px">
-
+                            <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6 space-y-4">
                                 {getModal(field)}
-
                             </div>
                         </Transition.Child>
                     </div>
