@@ -233,6 +233,11 @@ const Profile = () => {
 
             // Update values to be updated through axios
             const updateValue = (v) => {
+                if (!v) {
+                    return;
+                }
+
+                v = v.trim();
                 if (section_key === "basic") {
                     setUpdate({ ...update, [value.key]: v });
                 } else {
