@@ -132,8 +132,17 @@ const Experience = () => {
             let url=`/account/profile/experience/${field[1].exper_id}/publication/${field[0].pub_id}`;
             console.log(url);
             axios.delete(url)
-                .then(response => console.log("RESPONSE", JSON.stringify(response.data)))
-                .catch(error => console.log(error));
+                .then(res =>{
+
+                    let new_exper=experiences;
+                    new_exper[modalSettings["idx"]]["publications"]=res.data;
+                    console.log(new_exper);
+                    setOpen(false);
+                    
+                } )
+                .catch(error => console.log(error))
+                .finally(()=>setLoading(false));
+                
         };
 
 
@@ -739,7 +748,7 @@ const Experience = () => {
                                                                                                 <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                                                                                             </PencilIcon>
                                                                                             <MinusCircleIcon className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                                                                                onClick={() => handleOpenModal("remove pub", [publication, exper], index)}
+                                                                                                onClick={() => handleOpenModal("remove pub", [publication, exper], idx)}
                                                                                             >
                                                                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                                                             </MinusCircleIcon>
