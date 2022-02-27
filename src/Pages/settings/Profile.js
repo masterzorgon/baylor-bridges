@@ -21,9 +21,17 @@ const states = [
 ];
 
 // eslint-disable-next-line no-unused-vars
-const contact_status = [
-    "self", "alumni", "public"
+const visibility_options = [
+    {title: "Self", value:"self"},
+    {title: "Alumni", value:"alumni"},
+    {title: "Public", value:"public"},
 ];
+
+const visibility_option_value_to_title = (value) => {
+    // Find the option with the matching value
+    const option = visibility_options.find(option => option.value === value);
+    return option ? option.title : "";
+};
 
 const profile = {
     basic: {
@@ -37,7 +45,7 @@ const profile = {
             name: {
                 title: "Name",
                 value: [
-                    { type: "text", title: "Prefix", placeholder: "Prefix", key: "prefix" },
+                    { type: "text", title: "Prefix", placeholder: "Prefix", key: "prefix", role: "alumni" },
                     { type: "text", title: "First name", placeholder: "First name", key: "first_name" },
                     { type: "text", title: "Last name", placeholder: "Last name", key: "last_name" },
                 ],
@@ -54,7 +62,7 @@ const profile = {
                 title: "Location",
                 value: [
                     { type: "text", title: "City", placeholder: "City", key: "city" },
-                    { type: "dropdown", title: "State", placeholder: "State", key: "state" },
+                    { type: "dropdown", title: "State", placeholder: "State", key: "state", options: states },
                 ],
             },
             biography: {
@@ -71,14 +79,14 @@ const profile = {
                 title: "Email address",
                 value: [
                     { type: "text", title: "Email address", placeholder: "Email address", key: "email" },
-                    { type: "dropdown", title: "Visibility", placeholder: "self", key: "email_visibility" },
+                    { type: "visibility", title: "Visibility", placeholder: "self", key: "email_visibility" },
                 ]
             },
             phone: {
                 title: "Phone number",
                 value: [
                     { type: "text", title: "Phone number", placeholder: "Phone number", key: "phone" },
-                    { type: "dropdown", title: "Visibility", placeholder: "self", key: "phone_visibility" },
+                    { type: "visibility", title: "Visibility", placeholder: "self", key: "phone_visibility" },
                 ]
             },
         }
@@ -90,12 +98,35 @@ const Profile = () => {
     const { getAccountLocal } = useContext(AccountContext);
     const [account, setAccount] = useState(null);
 
-    const [open, setOpen] = useState(false);
-    const [field, setField] = useState(null);
-    const [update, setUpdate] = useState(null);
-    const [refresh, setRefresh] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [open, setOpen] = useState(false); // Whether modal is opened
 
+    const [section_key, setSectionKey] = useState(null); // Current section key of the current fiels to change
+    const [field, setField] = useState(null); // Current field to change in the modal
+    const [update, setUpdate] = useState(null); // A dictionary to record everything need to be updated to axios
+
+    const [refresh, setRefresh] = useState(false);
+    const [loading, setLoading] = useState(false); // Whether the axios is requesting
+
+
+    useEffect(() => {
+        setRefresh(false);
+
+        axios.get("/account/profile")
+            .then(res => {
+                setAccount(res.data);
+                console.log(res.data);
+            })
+            .catch(err => {
+                if (err.response.status && err.response.status === 401) {
+                    window.location.href = "/sign-in";
+                } else {
+                    window.location.href = "/404";
+                }
+            });
+
+    }, []);
+
+    // Get the value of a field, return either the compounded value, or null
     const getValueRaw = (section_key, field) => {
         // Photo
         if (field.value.type === "photo") {
@@ -113,7 +144,7 @@ const Profile = () => {
         if (Array.isArray(field.value)) {
             var string = "";
             field.value.map((value, index) => (
-                account_from[value.key] && !value.key.includes("_visibility") ? string += account_from[value.key] + " " : string += " "
+                account_from[value.key] && !value.key.includes("_visibility") && (value.role ? value.role === account.role : true) ? string += account_from[value.key] + " " : string += ""
             ));
 
             string = string.trim();
@@ -142,7 +173,7 @@ const Profile = () => {
                 <button
                     type="button"
                     className="bg-white rounded-md font-medium text-emerald-600 hover:text-emerald-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
-                    onClick={() => handleOpenUpdate(section_key, field)}
+                    onClick={() => onOpenModal(section_key, field)}
                 >{text}</button>
             );
         };
@@ -165,26 +196,6 @@ const Profile = () => {
         return makeButton("Update");
     };
 
-    const handleSubmit = () => {
-        setLoading(true);
-
-        axios.put("/account/profile", update)
-            .then(res => {
-                console.log(res);
-                //update ccount without read from backend
-                // do we want to keep this inside of axios to be update async?
-                console.log("new account is ", res.data);
-                setAccount(res.data);
-
-                setOpen(false);
-            })
-            .catch(err => {
-                
-            })
-            .finally(() => {
-                setLoading(false);
-            });
-    };
 
     const getModal = (field) => {
         // Field has to be valid
@@ -192,74 +203,15 @@ const Profile = () => {
             return;
         }
 
-        const handleChange = (e, value) => {
-            let newUpdate = update;
-            newUpdate[value.key] = e.target.value;
-            setUpdate(newUpdate);
-            setRefresh(true);
-        };
-
-        const generate_dropdown_list = (type, key) => {
-            // console.log("the key is ",key);
-            if (type === "Visibility") {
-                return (
-                    <>
-                        {contact_status.map((status, stateIdx) => (
-                            <Menu.Item key={status + "_option"}>
-                                {({ active }) => (
-                                    <div
-                                        className={classNames(
-                                            active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                                            "block px-4 py-2 text-sm"
-                                        )}
-                                        onClick={() => {
-                                            console.log("you click ", status);
-                                            let newUpdate = update;
-                                            newUpdate[key] = status;
-                                            setUpdate(newUpdate);
-                                            console.log(newUpdate);
-                                            setRefresh(true);
-                                        }}
-                                    >
-                                        {status}
-                                    </div>
-                                )}
-                            </Menu.Item>
-
-                        ))};
-                    </>);
-            } else {
-                return (
-                    <>
-                        {states.map((state, stateIdx) => (
-                            <Menu.Item key={state + "_option"}>
-                                {({ active }) => (
-                                    <div
-                                        className={classNames(
-                                            active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                                            "block px-4 py-2 text-sm"
-                                        )}
-                                        onClick={() => {
-                                            console.log("you click ", state);
-                                            let newUpdate = update;
-                                            newUpdate[key] = state;
-                                            setUpdate(newUpdate);
-                                            console.log(newUpdate);
-                                            setRefresh(true);
-                                        }}
-                                    >
-                                        {state}
-                                    </div>
-                                )}
-                            </Menu.Item>
-
-                        ))};
-                    </>);
-
-            }
-        };
-
         const getTypeDom = (value) => {
+            const updateValue = (v) => {
+                if (section_key === "basic") {
+                    setUpdate({ ...update, [value.key]: v });
+                } else {
+                    setUpdate({ ...update, [section_key]: { ...update[section_key], [value.key]: v } });
+                }
+                console.log(update);
+            };
 
             if (value.type === "file") {
                 return <></>;
@@ -276,10 +228,8 @@ const Profile = () => {
                                 id={value.key}
                                 className="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                 placeholder={value.placeholder}
-                                value={update[value.key]}
-                                onChange={(e) => {
-                                    handleChange(e, value);
-                                }}
+                                value={section_key === "basic" ? update[value.key] : update[section_key][value.key]}
+                                onChange={(e) => updateValue(e.target.value)}
                             />
                         </div>
                     </>
@@ -296,10 +246,8 @@ const Profile = () => {
                                 name="comment"
                                 id="comment"
                                 className="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                defaultValue={update[value.key]}
-                                onChange={(e) => {
-                                    handleChange(e, value);
-                                }}
+                                value={section_key === "basic" ? update[value.key] : update[section_key][value.key]}
+                                onChange={(e) => updateValue(e.target.value)}
                             />
                         </div>
                     </>
@@ -314,7 +262,7 @@ const Profile = () => {
                         <Menu as="div" className="relative">
                             <div>
                                 <Menu.Button className="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
-                                    <span className="block truncate">{update[value.key]}</span>
+                                    <span className="block truncate">{(section_key === "basic" ? update[value.key] : update[section_key][value.key]) || "-"}</span>
                                     <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                                         <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                                     </span>
@@ -323,17 +271,85 @@ const Profile = () => {
 
                             <Transition
                                 as={Fragment}
-                                enter="transition ease-out duration-100"
+                                enter="transition ease-out duration-200"
                                 enterFrom="transform opacity-0 scale-95"
                                 enterTo="transform opacity-100 scale-100"
-                                leave="transition ease-in duration-75"
+                                leave="transition ease-in duration-150"
                                 leaveFrom="transform opacity-100 scale-100"
                                 leaveTo="transform opacity-0 scale-95"
                             >
                                 <Menu.Items className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
                                     <div className="py-1">
-                                        {generate_dropdown_list(value.title, value.key)}
+                                        {value.options.map((option, index) => (
+                                            <Menu.Item key={option + "_option"}>
+                                                {({ active }) => (
+                                                    <div
+                                                        className={classNames(
+                                                            active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                                                            "block px-4 py-2 text-sm"
+                                                        )}
+                                                        onClick={() => {
+                                                            updateValue(option);
+                                                            setRefresh(true);
+                                                        }}
+                                                    >
+                                                        {option}
+                                                    </div>
+                                                )}
+                                            </Menu.Item>
+                                        ))}
+                                    </div>
+                                </Menu.Items>
+                            </Transition>
+                        </Menu>
+                    </>
+                );
+            } else if (value.type === "visibility") {
+                return (
+                    <>
+                        <label htmlFor="dropdown" className="block text-sm font-medium text-gray-700 sr-only">
+                            {value.title}
+                        </label>
 
+                        <Menu as="div" className="relative">
+                            <div>
+                                <Menu.Button className="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
+                                    <span className="block truncate">{visibility_option_value_to_title(section_key === "basic" ? update[value.key] : update[section_key][value.key]) || visibility_option_value_to_title(value.placeholder)}</span>
+                                    <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                                        <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                                    </span>
+                                </Menu.Button>
+                            </div>
+
+                            <Transition
+                                as={Fragment}
+                                enter="transition ease-out duration-200"
+                                enterFrom="transform opacity-0 scale-95"
+                                enterTo="transform opacity-100 scale-100"
+                                leave="transition ease-in duration-150"
+                                leaveFrom="transform opacity-100 scale-100"
+                                leaveTo="transform opacity-0 scale-95"
+                            >
+                                <Menu.Items className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                                    <div className="py-1">
+                                        {visibility_options.map((option, index) => (
+                                            <Menu.Item key={option.value + "_option"}>
+                                                {({ active }) => (
+                                                    <div
+                                                        className={classNames(
+                                                            active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                                                            "block px-4 py-2 text-sm"
+                                                        )}
+                                                        onClick={() => {
+                                                            updateValue(option.value);
+                                                            setRefresh(true);
+                                                        }}
+                                                    >
+                                                        {option.title}
+                                                    </div>
+                                                )}
+                                            </Menu.Item>
+                                        ))}
                                     </div>
                                 </Menu.Items>
                             </Transition>
@@ -343,25 +359,37 @@ const Profile = () => {
             }
         };
 
+        // If this whole field requires certain role to update and the account role does not match, return nothing for DOM
+        if(field.role && field.role !== account.role){
+            return;
+        }
+
+        // If it's compound field, traverse each atomic value
+        // Else, return field itself
         if (Array.isArray(field.value)) {
             return (
                 <>
                     <legend className="block text-sm font-medium text-gray-700">{field.title}</legend>
                     {
                         field.value.map((value, index) => (
-                            getTypeDom(value)
+                            (value.role ? value.role === account.role : true) ? getTypeDom(value) : null
                         ))
                     }
                     <Button
                         loading={loading}
                         disabled={loading}
-                        onClick={() => handleSubmit()}
+                        onClick={() => onSubmit()}
                     >
                         Save
                     </Button>
                 </>
             );
         } else {
+            // If this single field requires certain role to update and the account role does not match, return nothing for DOM
+            if(field.value.role && field.value.role !== account.role){
+                return;
+            }
+
             return (
                 <>
                     <legend className="block text-sm font-medium text-gray-700">{field.title}</legend>
@@ -369,7 +397,7 @@ const Profile = () => {
                     <Button
                         loading={loading}
                         disabled={loading}
-                        onClick={() => handleSubmit()}
+                        onClick={() => onSubmit()}
                     >
                         Save
                     </Button>
@@ -378,54 +406,55 @@ const Profile = () => {
         }
     };
 
-    const handleOpenUpdate = (section_key, field) => {
-        let newUpdate = {};
-        console.log(field);
+    // For button "Set" or "Update", press and trigger this function
+    const onOpenModal = (section_key, field) => {
+        let update = {};
 
+        // According to difference section_key, copy with different level
+        const copyField = (section_key, field) => {
+            if (section_key === "basic") {
+                update[field.key] = account[field.key];
+            } else {
+                if (!update[section_key]) {
+                    update[section_key] = {};
+                }
+                update[section_key][field.key] = account[section_key][field.key];
+            }
+        };
+
+        // If compound value, copy each atomic value, else copy the value directly
         if (Array.isArray(field.value)) {
             for (const f of field.value) {
-                if (field.title === "Email address" || field.title === "Phone number") {
-                    newUpdate[f.key] = account["contact_info"][f.key];
-
-                } else {
-                    newUpdate[f.key] = account[f.key];
-                }
-
+                copyField(section_key, f);
             }
         } else {
-            newUpdate[field.value.key] = account[field.value.key];
+            copyField(section_key, field.value);
         }
-        setUpdate(newUpdate);
-        console.log(newUpdate);
-        // todo fix the null field
-        setField(field);
-        setOpen(true);
+
+        console.log(update);
+
+        setUpdate(update); // Set update dictionary
+        setSectionKey(section_key); // Set current section key for current field
+        setField(field); // Set current field for modal to update
+        setOpen(true); // Open the modal
     };
 
-    useEffect(() => {
-        console.log("calling use effect");
+    const onSubmit = () => {
+        setLoading(true);
 
-        setRefresh(false);
-        // // TODO reduce the backend request
-        // var account = getAccountLocal();
-        // if (account === null) {
-        //     window.location.href = "/signin";
-        // }
-
-        axios.get("/account/profile")
+        axios.put("/account/profile", update)
             .then(res => {
+                console.log(res);
                 setAccount(res.data);
-                console.log(res.data);
+                setOpen(false);
             })
             .catch(err => {
-                if (err.response.status && err.response.status === 401) {
-                    window.location.href = "/sign-in";
-                } else {
-                    window.location.href = "/404";
-                }
+                console.log(err);
+            })
+            .finally(() => {
+                setLoading(false);
             });
-        
-    }, [getAccountLocal, refresh]);
+    };
 
     return (
 
