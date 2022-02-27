@@ -59,7 +59,7 @@ const profile = {
             },
             occupation: {
                 title: "Occupation",
-                value: { type: "text", title: "Occupation", placeholder: "Occupation", key: "occupation" },
+                value: { type: "text", title: "Occupation", placeholder: "Occupation", key: "occupation", role: "alumni" },
             },
             location: {
                 title: "Location",
