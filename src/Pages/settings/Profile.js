@@ -29,10 +29,10 @@ const profile = {
         title: "Basic",
         description: "The following information will be displayed publically to everyone.",
         fields: {
-            photo: {
-                title: "Photo",
-                value: { type: "photo", key: "photo" },
-            },
+            // photo: {
+            //     title: "Photo",
+            //     value: { type: "photo", key: "photo" },
+            // },
             name: {
                 title: "Name",
                 value: [
@@ -424,7 +424,7 @@ const Profile = () => {
         axios.get("/account/profile")
             .then(res => {
                 setAccount(res.data);
-
+                console.log(res.data);
             })
             .catch(err => {
                 if (err.response.status && err.response.status === 401) {
