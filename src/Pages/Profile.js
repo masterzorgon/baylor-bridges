@@ -44,8 +44,8 @@ const Profile = () => {
                         <div className="flex items-center space-x-5">
                             <div className="flex-shrink-0">
                                 <div className="relative">
-                                    <Photo size="16" />
-                                    <span className="absolute inset-0 shadow-inner rounded-full" aria-hidden="true" />
+                                    <Photo size="16" account={profileAccount} />
+                                    <span className="absolute inset-0 shadow-inner rounded-full w-16 h-16" aria-hidden="true" />
                                 </div>
                             </div>
                             {
