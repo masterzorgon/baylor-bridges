@@ -111,12 +111,12 @@ const Profile = () => {
         if (Array.isArray(field.value)) {
             var string = "";
             field.value.map((value, index) => (
-                account_from[value] === null ? string += " " : string += account_from[value] + " "
+                account_from[value.key] ? string += account_from[value.key] + " " : string += " "
             ));
-            /** 
-             * @TODO temporary fix for null values in location
-             **/
-            if (account_from[field.value[0]] === null && field.value[0] === "city") {
+
+            string = string.trim();
+
+            if (string === "") {
                 return null;
             }
             return string;
@@ -127,63 +127,14 @@ const Profile = () => {
     };
 
     const getValue = (section_key, field) => {
-
-        if (field.value === "photo") {
-
-            return <Photo size="10" />;
-
-        }
-
- 
-
-        var account_from = account;
-        console.log("account is ");
-        console.log(account);
-
-        if (section_key !== "basic") {
-
-            account_from = account[section_key];
-
-            console.log(account_from);
-
-        }
-
- 
-
-        if (Array.isArray(field.value)) {
-            console.log("in get value field: ",field.value," account from: ",account_from);
-
-            var string = "";
-
-            field.value.map((value, index) => (
-
-                account_from[value] === null ? string += " " : string += account_from[value.key] + " "
-
-            ));
-
-            /**
-
-             * @TODO temporary fix for null values in location
-
-             **/  
-
-            if (account_from[field.value[0]] === null && field.value[0] === "city") {
-
-                return <div className="text-gray-400">Not Set</div>;
-
-            }
-
-            return string;
-
-           
-
+        const value = getValueRaw(section_key, field);
+        if (value === null) {
+            return <div className="text-gray-400">Not set</div>;
         } else {
-
-            return account_from[field.value] ? account_from[field.value] : <div className="text-gray-400">Not Set</div>;
-
+            return value;
         }
-
     };
+
 
     const getButtons = (section_key, field) => {
         const makeButton = (text) => {
