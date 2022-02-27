@@ -715,7 +715,7 @@ const Experience = () => {
 
                                                                     {publicationDelete ? <DeletePublicationAlert publicationDelete={publicationDelete} setPublicationDelete={setPublicationDelete} /> : null}
 
-                                                                    <div className="mt-4">
+                                                                    <div className="mx-4">
                                                                         <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
                                                                             {
                                                                                 exper.publications.map((publication, index) => (
