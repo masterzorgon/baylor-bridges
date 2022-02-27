@@ -104,7 +104,8 @@ const Experience = () => {
                     new_exper.splice(modalSettings["idx"], 1);
                     console.log(new_exper);
                     setRefresh(true);
-                    setOpen(false);                
+                    setOpen(false);
+                    setExperiences(res.data);
                 })
                 .catch(err => console.log(err))
                 .finally(() => setLoading(false));
@@ -117,7 +118,8 @@ const Experience = () => {
             axios.put(url, field)
                 .then(res => {
                     console.log("update the experience successfully");
-                    setOpen(false);                
+                    setOpen(false);
+                    setExperiences(res.data);
                 })
                 .finally(() => setLoading(false));
         
