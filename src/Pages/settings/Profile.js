@@ -111,7 +111,7 @@ const Profile = () => {
         if (Array.isArray(field.value)) {
             var string = "";
             field.value.map((value, index) => (
-                account_from[value.key] ? string += account_from[value.key] + " " : string += " "
+                account_from[value.key] && !value.key.includes("_visibility") ? string += account_from[value.key] + " " : string += " "
             ));
 
             string = string.trim();
