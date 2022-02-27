@@ -183,7 +183,7 @@ const Navbar = (props) => {
                                     type="search"
                                     name="search"
                                     id="search"
-                                    className="pl-10 shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md bg-gray-100 p-3 border-transparent"
+                                    className="pl-10 shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md bg-gray-100 p-3 border-transparent border-0"
                                     placeholder="Search people"
                                     autoComplete="off"
                                     value={searchText}
