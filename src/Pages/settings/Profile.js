@@ -1,11 +1,9 @@
-/* eslint-disable no-unused-vars */
-import React, { Fragment, useState, useEffect, useContext } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Dialog, Transition, Listbox } from "@headlessui/react";
 import { SelectorIcon, CheckIcon } from "@heroicons/react/solid";
 import axios from "axios";
 
 import SettingsNavbar from "../../components/SettingsNavbar";
-import { AccountContext } from "../../components/Account";
 import Photo from "../../components/Photo";
 import Button from "../../components/Button";
 
@@ -20,7 +18,6 @@ const states = [
     { title: "IO", value: "IO", description: "" }, { title: "MO", value: "MO", description: "" }, { title: "AR", value: "AR", description: "" }, { title: "AL", value: "AL", description: "" }, { title: "MS", value: "MS", description: "" }, { title: "LA", value: "LA", description: "" }, { title: "MI", value: "MI", description: "" }, { title: "FL", value: "FL", description: "" }, { title: "SC", value: "SC", description: "" }, { title: "OH", value: "OH", description: "" }, { title: "IA", value: "IA", description: "" },
 ];
 
-// eslint-disable-next-line no-unused-vars
 const visibility_options = [
     { title: "Self", value: "self", description: "Only you can see this field in your profile" },
     { title: "Alumni", value: "alumni", description: "Other alumni can see this field in your profile" },
@@ -52,8 +49,8 @@ const profile = {
                 title: "Name",
                 value: [
                     { type: "text", title: "Prefix", placeholder: "Prefix", key: "prefix", role: "alumni" },
-                    { type: "text", title: "First name", placeholder: "First name", key: "first_name" },
-                    { type: "text", title: "Last name", placeholder: "Last name", key: "last_name" },
+                    { type: "text", title: "First name", placeholder: "First name", key: "first_name", required: true },
+                    { type: "text", title: "Last name", placeholder: "Last name", key: "last_name", required: true },
                 ],
             },
             headline: {
@@ -101,7 +98,6 @@ const profile = {
 
 
 const Profile = () => {
-    const { getAccountLocal } = useContext(AccountContext);
     const [account, setAccount] = useState(null);
 
     const [open, setOpen] = useState(false); // Whether modal is opened
@@ -110,13 +106,11 @@ const Profile = () => {
     const [field, setField] = useState(null); // Current field to change in the modal
     const [update, setUpdate] = useState(null); // A dictionary to record everything need to be updated to axios
 
-    const [refresh, setRefresh] = useState(false);
     const [loading, setLoading] = useState(false); // Whether the axios is requesting
+    const [complete, setComplete] = useState(true); // Whether the fields in the modal are completed (prevent REQUIRED fields left empty)
 
 
     useEffect(() => {
-        setRefresh(false);
-
         axios.get("/account/profile")
             .then(res => {
                 setAccount(res.data);
@@ -132,8 +126,34 @@ const Profile = () => {
 
     }, []);
 
+    useEffect(() => {
+        // If no current field for modal, return
+        if (!field) {
+            return;
+        }
+
+        // For all atomic values in this field, check if required ones are not empty
+        if (Array.isArray(field.value)) {
+            let complete = true;
+            let required = field.value.filter(value => value.required); // Fetch all required atomic values
+            required.map(value => {
+                let _value = update[value.key];
+
+                if (!_value || _value === "") {
+                    complete = false;
+                }
+            });
+            console.log(required, complete);
+            setComplete(complete);
+        } else {
+            let _value = update[field.key];
+            let complete = _value && _value !== "";
+            setComplete(complete);
+        }
+    }, [update, field]);
+
     // Get the value of a field, return either the compounded value, or null
-    const getValueRaw = (section_key, field) => {
+    const getDisplayValueRaw = (section_key, field) => {
         // Photo
         if (field.value.type === "photo") {
             return <Photo size="10" />;
@@ -163,8 +183,8 @@ const Profile = () => {
         }
     };
 
-    const getValue = (section_key, field) => {
-        const value = getValueRaw(section_key, field);
+    const getDisplayValue = (section_key, field) => {
+        const value = getDisplayValueRaw(section_key, field);
         if (value === null) {
             return <div className="text-gray-400">Not set</div>;
         } else {
@@ -173,7 +193,7 @@ const Profile = () => {
     };
 
 
-    const getButtons = (section_key, field) => {
+    const getOpenModalButton = (section_key, field) => {
         const makeButton = (text) => {
             return (
                 <button
@@ -194,7 +214,7 @@ const Profile = () => {
             );
         }
 
-        const value = getValueRaw(section_key, field);
+        const value = getDisplayValueRaw(section_key, field);
         if (value === null) {
             return makeButton("Set");
         }
@@ -210,6 +230,8 @@ const Profile = () => {
         }
 
         const getTypeDom = (value) => {
+
+            // Update values to be updated through axios
             const updateValue = (v) => {
                 if (section_key === "basic") {
                     setUpdate({ ...update, [value.key]: v });
@@ -270,7 +292,6 @@ const Profile = () => {
                             value={(section_key === "basic" ? update[value.key] : update[section_key][value.key]) || (value.placeholder)}
                             onChange={(value) => {
                                 updateValue(value);
-                                setRefresh(true);
                             }}
                         >
                             {({ open }) => (
@@ -350,6 +371,18 @@ const Profile = () => {
             }
         };
 
+        // Save button
+        const saveButton = (
+            <Button
+                loading={loading}
+                disabled={loading || !complete}
+                onClick={() => onSubmit()}
+            >
+                    Save
+            </Button>
+        );
+    
+
         // If this whole field requires certain role to update and the account role does not match, return nothing for DOM
         if(field.role && field.role !== account.role){
             return;
@@ -366,13 +399,7 @@ const Profile = () => {
                             (value.role ? value.role === account.role : true) ? getTypeDom(value) : null
                         ))
                     }
-                    <Button
-                        loading={loading}
-                        disabled={loading}
-                        onClick={() => onSubmit()}
-                    >
-                        Save
-                    </Button>
+                    {saveButton}
                 </>
             );
         } else {
@@ -385,13 +412,7 @@ const Profile = () => {
                 <>
                     <legend className="block text-sm font-medium text-gray-700">{field.title}</legend>
                     {getTypeDom(field.value)}
-                    <Button
-                        loading={loading}
-                        disabled={loading}
-                        onClick={() => onSubmit()}
-                    >
-                        Save
-                    </Button>
+                    {saveButton}
                 </>
             );
         }
@@ -479,10 +500,10 @@ const Profile = () => {
                                                                             <dt className="text-sm font-medium text-gray-500">{field.title}</dt>
                                                                             <dd className="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                                                                 <span className="flex-grow">
-                                                                                    {getValue(section_key, field)}
+                                                                                    {getDisplayValue(section_key, field)}
                                                                                 </span>
                                                                                 <span className="ml-4 flex-shrink-0 flex item-start space-x-4">
-                                                                                    {getButtons(section_key, field)}
+                                                                                    {getOpenModalButton(section_key, field)}
                                                                                 </span>
                                                                             </dd>
                                                                         </div>
