@@ -314,7 +314,7 @@ const Profile = () => {
                         <Menu as="div" className="relative">
                             <div>
                                 <Menu.Button className="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
-                                    <span className="block truncate">{update[value.key]}</span>
+                                    <span className="block truncate">{update[value.key] || "-"}</span>
                                     <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                                         <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                                     </span>
@@ -323,17 +323,16 @@ const Profile = () => {
 
                             <Transition
                                 as={Fragment}
-                                enter="transition ease-out duration-100"
+                                enter="transition ease-out duration-200"
                                 enterFrom="transform opacity-0 scale-95"
                                 enterTo="transform opacity-100 scale-100"
-                                leave="transition ease-in duration-75"
+                                leave="transition ease-in duration-150"
                                 leaveFrom="transform opacity-100 scale-100"
                                 leaveTo="transform opacity-0 scale-95"
                             >
                                 <Menu.Items className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
                                     <div className="py-1">
                                         {generate_dropdown_list(value.title, value.key)}
-
                                     </div>
                                 </Menu.Items>
                             </Transition>
