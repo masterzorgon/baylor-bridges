@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { Fragment, useState, useEffect, useContext } from "react";
-import { Dialog, Transition, Menu } from "@headlessui/react";
-import { SelectorIcon } from "@heroicons/react/solid";
+import { Dialog, Transition, Listbox } from "@headlessui/react";
+import { SelectorIcon, CheckIcon } from "@heroicons/react/solid";
 import axios from "axios";
 
 import SettingsNavbar from "../../components/SettingsNavbar";
@@ -14,23 +14,29 @@ function classNames(...classes) {
 }
 
 const states = [
-    "AZ", "NY", "CT", "MD", "WA", "OR", "NV", "NM", "DC", "DE", "MA", "MN", "WI", "IL",
-    "VT", "RI", "NJ", "CO", "CA", "PA", "VA", "GA", "ME", "NH", "HI", "ID", "MT", "IN",
-    "TE", "AK", "KY", "NC", "WV", "WY", "ND", "SD", "NE", "UT", "TN", "KS", "OK", "TX",
-    "IO", "MO", "AR", "AL", "MS", "LA", "MI", "FL", "SC", "OH", "IA",
+    { title: "AZ", value: "AZ", description: "" }, { title: "NY", value: "NY", description: "" }, { title: "CT", value: "CT", description: "" }, { title: "MD", value: "MD", description: "" }, { title: "WA", value: "WA", description: "" }, { title: "OR", value: "OR", description: "" }, { title: "NV", value: "NV", description: "" }, { title: "NM", value: "NM", description: "" }, { title: "DC", value: "DC", description: "" }, { title: "DE", value: "DE", description: "" }, { title: "MA", value: "MA", description: "" }, { title: "MN", value: "MN", description: "" }, { title: "WI", value: "WI", description: "" }, { title: "IL", value: "IL", description: "" },
+    { title: "VT", value: "VT", description: "" }, { title: "RI", value: "RI", description: "" }, { title: "NJ", value: "NJ", description: "" }, { title: "CO", value: "CO", description: "" }, { title: "CA", value: "CA", description: "" }, { title: "PA", value: "PA", description: "" }, { title: "VA", value: "VA", description: "" }, { title: "GA", value: "GA", description: "" }, { title: "ME", value: "ME", description: "" }, { title: "NH", value: "NH", description: "" }, { title: "HI", value: "HI", description: "" }, { title: "ID", value: "ID", description: "" }, { title: "MT", value: "MT", description: "" }, { title: "IN", value: "IN", description: "" },
+    { title: "TE", value: "TE", description: "" }, { title: "AK", value: "AK", description: "" }, { title: "KY", value: "KY", description: "" }, { title: "NC", value: "NC", description: "" }, { title: "WV", value: "WV", description: "" }, { title: "WY", value: "WY", description: "" }, { title: "ND", value: "ND", description: "" }, { title: "SD", value: "SD", description: "" }, { title: "NE", value: "NE", description: "" }, { title: "UT", value: "UT", description: "" }, { title: "TN", value: "TN", description: "" }, { title: "KS", value: "KS", description: "" }, { title: "OK", value: "OK", description: "" }, { title: "TX", value: "TX", description: "Texas" },
+    { title: "IO", value: "IO", description: "" }, { title: "MO", value: "MO", description: "" }, { title: "AR", value: "AR", description: "" }, { title: "AL", value: "AL", description: "" }, { title: "MS", value: "MS", description: "" }, { title: "LA", value: "LA", description: "" }, { title: "MI", value: "MI", description: "" }, { title: "FL", value: "FL", description: "" }, { title: "SC", value: "SC", description: "" }, { title: "OH", value: "OH", description: "" }, { title: "IA", value: "IA", description: "" },
 ];
 
 // eslint-disable-next-line no-unused-vars
 const visibility_options = [
-    {title: "Self", value:"self"},
-    {title: "Alumni", value:"alumni"},
-    {title: "Public", value:"public"},
+    { title: "Self", value: "self", description: "Only you can see this field in your profile" },
+    { title: "Alumni", value: "alumni", description: "Other alumni can see this field in your profile" },
+    { title: "Public", value: "public", description: "Everyone can see this field in your profile"},
 ];
 
-const visibility_option_value_to_title = (value) => {
+const option_value_to_title = (options, value) => {
     // Find the option with the matching value
-    const option = visibility_options.find(option => option.value === value);
+    const option = options.find(option => option.value === value);
     return option ? option.title : "";
+};
+
+const option_value_to_description = (options, value) => {
+    // Find the option with the matching value
+    const option = options.find(option => option.value === value);
+    return option ? option.description : "";
 };
 
 const profile = {
@@ -79,14 +85,14 @@ const profile = {
                 title: "Email address",
                 value: [
                     { type: "text", title: "Email address", placeholder: "Email address", key: "email" },
-                    { type: "visibility", title: "Visibility", placeholder: "self", key: "email_visibility" },
+                    { type: "visibility", key: "email_visibility" },
                 ]
             },
             phone: {
                 title: "Phone number",
                 value: [
                     { type: "text", title: "Phone number", placeholder: "Phone number", key: "phone" },
-                    { type: "visibility", title: "Visibility", placeholder: "self", key: "phone_visibility" },
+                    { type: "visibility", key: "phone_visibility" },
                 ]
             },
         }
@@ -259,103 +265,88 @@ const Profile = () => {
                             {value.title}
                         </label>
 
-                        <Menu as="div" className="relative">
-                            <div>
-                                <Menu.Button className="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
-                                    <span className="block truncate">{(section_key === "basic" ? update[value.key] : update[section_key][value.key]) || "-"}</span>
-                                    <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                                        <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-                                    </span>
-                                </Menu.Button>
-                            </div>
+                        <Listbox
+                            as="div"
+                            value={(section_key === "basic" ? update[value.key] : update[section_key][value.key]) || (value.placeholder)}
+                            onChange={(value) => {
+                                updateValue(value);
+                                setRefresh(true);
+                            }}
+                        >
+                            {({ open }) => (
+                                <>
+                                    <div className="relative">
+                                        <Listbox.Button className="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
+                                            <span className="w-full inline-flex truncate">
+                                                <span className="truncate">{option_value_to_title(value.options, section_key === "basic" ? update[value.key] : update[section_key][value.key]) || option_value_to_title(value.options, value.placeholder)}</span>
+                                                <span className="ml-2 truncate text-gray-500">{option_value_to_description(value.options, section_key === "basic" ? update[value.key] : update[section_key][value.key]) || option_value_to_description(value.options, value.placeholder)}</span>
+                                            </span>
+                                            <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                                                <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                                            </span>
+                                        </Listbox.Button>
 
-                            <Transition
-                                as={Fragment}
-                                enter="transition ease-out duration-200"
-                                enterFrom="transform opacity-0 scale-95"
-                                enterTo="transform opacity-100 scale-100"
-                                leave="transition ease-in duration-150"
-                                leaveFrom="transform opacity-100 scale-100"
-                                leaveTo="transform opacity-0 scale-95"
-                            >
-                                <Menu.Items className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
-                                    <div className="py-1">
-                                        {value.options.map((option, index) => (
-                                            <Menu.Item key={option + "_option"}>
-                                                {({ active }) => (
-                                                    <div
-                                                        className={classNames(
-                                                            active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                                                            "block px-4 py-2 text-sm"
-                                                        )}
-                                                        onClick={() => {
-                                                            updateValue(option);
-                                                            setRefresh(true);
-                                                        }}
+                                        <Transition
+                                            show={open}
+                                            as={Fragment}
+                                            leave="transition ease-in duration-100"
+                                            leaveFrom="opacity-100"
+                                            leaveTo="opacity-0"
+                                        >
+                                            <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                                                {value.options.map((option, index) => (
+                                                    <Listbox.Option
+                                                        key={option.value + "_option"}
+                                                        className={({ active }) =>
+                                                            classNames(
+                                                                active ? "text-white bg-emerald-600" : "text-gray-900",
+                                                                "cursor-default select-none relative py-2 pl-8 pr-4"
+                                                            )
+                                                        }
+                                                        value={option.value}
                                                     >
-                                                        {option}
-                                                    </div>
-                                                )}
-                                            </Menu.Item>
-                                        ))}
+                                                        {({ selected, active }) => (
+                                                            <>
+                                                                <div className="flex">
+                                                                    <span className={classNames(selected ? "font-semibold" : "font-normal", "truncate")}>
+                                                                        {option.title}
+                                                                    </span>
+                                                                    <span className={classNames(active ? "text-indigo-200" : "text-gray-500", "ml-2 truncate")}>
+                                                                        {option.description}
+                                                                    </span>
+                                                                </div>
+
+                                                                {selected ? (
+                                                                    <span
+                                                                        className={classNames(
+                                                                            active ? "text-white" : "text-emerald-600",
+                                                                            "absolute inset-y-0 left-0 flex items-center pl-1.5"
+                                                                        )}
+                                                                    >
+                                                                        <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                                                                    </span>
+                                                                ) : null}
+                                                            </>
+                                                        )}
+                                                    </Listbox.Option>
+                                                ))}
+                                            </Listbox.Options>
+                                        </Transition>
                                     </div>
-                                </Menu.Items>
-                            </Transition>
-                        </Menu>
+                                </>
+                            )}
+                        </Listbox>
                     </>
                 );
             } else if (value.type === "visibility") {
-                return (
-                    <>
-                        <label htmlFor="dropdown" className="block text-sm font-medium text-gray-700 sr-only">
-                            {value.title}
-                        </label>
-
-                        <Menu as="div" className="relative">
-                            <div>
-                                <Menu.Button className="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
-                                    <span className="block truncate">{visibility_option_value_to_title(section_key === "basic" ? update[value.key] : update[section_key][value.key]) || visibility_option_value_to_title(value.placeholder)}</span>
-                                    <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                                        <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-                                    </span>
-                                </Menu.Button>
-                            </div>
-
-                            <Transition
-                                as={Fragment}
-                                enter="transition ease-out duration-200"
-                                enterFrom="transform opacity-0 scale-95"
-                                enterTo="transform opacity-100 scale-100"
-                                leave="transition ease-in duration-150"
-                                leaveFrom="transform opacity-100 scale-100"
-                                leaveTo="transform opacity-0 scale-95"
-                            >
-                                <Menu.Items className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
-                                    <div className="py-1">
-                                        {visibility_options.map((option, index) => (
-                                            <Menu.Item key={option.value + "_option"}>
-                                                {({ active }) => (
-                                                    <div
-                                                        className={classNames(
-                                                            active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                                                            "block px-4 py-2 text-sm"
-                                                        )}
-                                                        onClick={() => {
-                                                            updateValue(option.value);
-                                                            setRefresh(true);
-                                                        }}
-                                                    >
-                                                        {option.title}
-                                                    </div>
-                                                )}
-                                            </Menu.Item>
-                                        ))}
-                                    </div>
-                                </Menu.Items>
-                            </Transition>
-                        </Menu>
-                    </>
-                );
+                // Visibility is a special type of dropdown
+                // Define it's behavior and render it using dropdown
+                value.type = "dropdown";
+                value.options = visibility_options;
+                value.placeholder = value.placeholder ? value.placeholder : "self";
+                value.title = value.title ? value.title : "Visibility";
+                value.description = value.description ? value.description : "Who can see this?";
+                return getTypeDom(value);
             }
         };
 
