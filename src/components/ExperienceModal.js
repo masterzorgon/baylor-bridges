@@ -1,6 +1,7 @@
 import React from "react";
 import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import Button from "./Button";
 // import { PlusSmIcon as PlusSmIconSolid } from "@heroicons/react/solid";
 
 import axios from "axios";
@@ -176,7 +177,7 @@ const ExperienceModal = ({ modal, setModal, experience, setExperience, setUpload
                                 <div className="mt-5 sm:mt-6">
 
                                     {/* move add publication to edit experience */}
-                                    <button
+                                    {/* <button
                                         type="button"
                                         className=" mb-4 inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-emerald-600 text-base font-medium text-white hover:bg-emerald-700 hover:outline-none hover:ring-2 hover:ring-offset-2 hover:ring-emerald-500 sm:text-sm"
                                         onClick={handlePublication}
@@ -191,9 +192,16 @@ const ExperienceModal = ({ modal, setModal, experience, setExperience, setUpload
                                         }
                                         {
                                             !loading &&
-                                        "Add This Experience"
+                                            "Add This Experience"
                                         }
-                                    </button>
+                                    </button> */}
+                                    <Button
+                                        onClick={handlePublication}
+                                        loading={loading}
+                                        disabled={loading}
+                                    >
+                                        Add This Experience
+                                    </Button>
                                     <button
                                         type="button"
                                         className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-emerald-600 text-base font-medium text-white hover:bg-emerald-700 hover:outline-none hover:ring-2 hover:ring-offset-2 hover:ring-emerald-500 sm:text-sm"
@@ -322,13 +330,28 @@ const ExperienceModal = ({ modal, setModal, experience, setExperience, setUpload
                                     >
                                         Add Publications
                                     </button> */}
-                                    <button
+                                    {/* <button
                                         type="button"
                                         className=" mb-4 inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-emerald-600 text-base font-medium text-white hover:bg-emerald-700 hover:outline-none hover:ring-2 hover:ring-offset-2 hover:ring-emerald-500 sm:text-sm"
                                         onClick={handleAddNewExperience}
                                     >
                                         Submit New Experience
-                                    </button>
+                                    </button> */}
+                                    <Button
+                                        onClick={handleAddNewExperience}
+                                        loading = {loading}
+                                        disabled = {loading}
+                                        className="mb-4"
+                                    >
+                                        Submit new Experience
+                                    </Button>
+                                    {/* <button
+                                        type="button"
+                                        className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-emerald-600 text-base font-medium text-white hover:bg-emerald-700 hover:outline-none hover:ring-2 hover:ring-offset-2 hover:ring-emerald-500 sm:text-sm"
+                                        onClick={handleReturn}
+                                    >
+                                        Return
+                                    </button> */}
                                     <button
                                         type="button"
                                         className="inline-flex justify-center w-full rounded-md border border-slate-200 shadow-sm px-4 py-2 bg-white text-base font-medium text-emerald-600 hover:bg-slate-200 hover:outline-none hover:ring-2 hover:ring-offset-2 hover:ring-emerald-500 sm:text-sm"

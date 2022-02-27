@@ -13,6 +13,7 @@ import { MinusCircleIcon, ExclamationIcon, LinkIcon, TrashIcon } from "@heroicon
 // TAILWIND CSS ALERTS
 import UploadSuccess from "../../components/UploadSuccess";
 import UploadFailure from "../../components/UploadFailure";
+import DeletePublicationAlert from "../../components/DeletePublicationAlert";
 
 import axios from "axios";
 
@@ -42,6 +43,10 @@ const Experience = () => {
         stop_time: "",
         publications: []
     });
+
+    // STATE FOR PUBLICATION [*][*][*][*]
+    const [publicationDelete, setPublicationDelete] = useState(false);
+
 
     useEffect(() => {
         console.log("calling use effect");
@@ -134,7 +139,8 @@ const Experience = () => {
                     new_exper.splice(modalSettings["idx"], 1);
                     console.log(new_exper);
                     setRefresh(true);
-                    setOpen(false);                
+                    setOpen(false);     
+                    setExperiences(res.data);           
                 })
                 .catch(err => console.log(err))
                 .finally(() => setLoading(false));
@@ -168,6 +174,7 @@ const Experience = () => {
             axios.put(url, field)
                 .then(res => {
                     console.log("update the experience successfully");
+                    setExperiences(res.data);
                     setOpen(false);                
                 })
                 .finally(() => setLoading(false));
@@ -322,7 +329,7 @@ const Experience = () => {
                                     }
                                     {
                                         !loading &&
-                                        "Update Experience"
+                                        "Update this Experience"
                                     }
                                 </button>
                             </div>
@@ -347,7 +354,7 @@ const Experience = () => {
                                 </Dialog.Title>
                                 <div className="mt-2">
                                     <p className="text-sm text-gray-500">
-                                        Are you sure you want to remove the experience  &quot;{field.title}&quot;? All of your data will be permanently removed.
+                                        Are you sure you want to remove the experience  &quot;{field.title}&quot; ? All of your data will be permanently removed.
                                         This action cannot be undone.
                                     </p>
                                 </div>
@@ -401,7 +408,7 @@ const Experience = () => {
                                 </Dialog.Title>
                                 <div className="mt-2">
                                     <p className="text-sm text-gray-500">
-                                        Are you sure you want to remove &quot;{field[0].title}&quot;? The publication will be permanently removed.
+                                        Are you sure you want to remove &quot;{field[0].title}&quot; ? The publication will be permanently removed.
                                         This action cannot be undone.
                                     </p>
                                 </div>
@@ -429,7 +436,7 @@ const Experience = () => {
                         </button>
                         <button
                             type="button"
-                            className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                            className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                             onClick={() => setOpen(false)}
                             ref={cancelButtonRef}
                         >
@@ -452,8 +459,8 @@ const Experience = () => {
                                         <h2 id="payment-details-heading" className="text-lg leading-6 font-medium text-gray-900">
                                             {
                                                 modalSettings["modalType"] === "new pub"
-                                                    ? "Add Publication"
-                                                    : "Edit Publication"
+                                                    ? "add publication"
+                                                    : "edit publication"
                                             }
                                         </h2>          
                                     </div>
@@ -462,7 +469,7 @@ const Experience = () => {
 
                                         <div className="col-span-8 sm:col-span-3">
                                             <label htmlFor="start-date" className="block text-sm font-medium text-gray-700">
-                                                Publication Title
+                                            pub title
                                             </label>
                                             <input
                                                 type="text"
@@ -478,7 +485,7 @@ const Experience = () => {
                                         </div>
                                         <div className="col-span-8 sm:col-span-5">
                                             <label htmlFor="expiration-date" className="block text-sm font-medium text-gray-700">
-                                                Publication Link
+                                            duo link
                                             </label>
                                             <input
                                                 type="text"
@@ -514,7 +521,7 @@ const Experience = () => {
                                     }
                                     {
                                         !loading &&
-                                        "Submit"
+                                        "submit"
                                     }
                                 </button>
                             </div>
@@ -633,7 +640,7 @@ const Experience = () => {
                                                                                         {exper.title}
                                                                                     </h1>
                                                                                     <h2 className="text-sm text-gray-500">
-                                                                                        From {exper.start_time} to {exper.stop_time}
+                                                                                        from {exper.start_time} to {exper.stop_time}
                                                                                     </h2>
                                                                                 </div>
                                                                                 <div className="flex-shrink-0 self-center flex">
@@ -706,8 +713,10 @@ const Experience = () => {
                                                                         [*][*][*]                         [*][*][*]
                                                                     */}
 
-                                                                    <div className="m-4 my-6">
-                                                                        <ul className="border border-gray-200 rounded-md divide-y divide-gray-200 my-6 ">
+                                                                    {publicationDelete ? <DeletePublicationAlert publicationDelete={publicationDelete} setPublicationDelete={setPublicationDelete} /> : null}
+
+                                                                    <div className="mt-4">
+                                                                        <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
                                                                             {
                                                                                 exper.publications.map((publication, index) => (
 
@@ -715,7 +724,7 @@ const Experience = () => {
                                                                                         <div className="w-0 flex-1 flex items-center">
                                                                                             <LinkIcon className="flex-shrink-0 h-5 w-5 text-gray-400" />
                                                                                             <span className="ml-2 flex-1 w-0 truncate text-gray-700">
-                                                                                                <a href={publication.duo_link} target="_blank" rel="noreferrer" className="font-medium text-emerald-600 hover:text-emerald-500">
+                                                                                                <a href={publication.duo_link} className="font-medium text-emerald-600 hover:text-emerald-500">    
                                                                                                     {publication.title}
                                                                                                 </a>
                                                                                             </span>
@@ -747,7 +756,7 @@ const Experience = () => {
                                                                                     [*][*][*] ENTER ADD NEW PUBLICATION ITEM HERE [*][*][*]
                                                                                     [*][*][*]                                     [*][*][*]
                                                                                 */}
-                                                                                <div className="border-dashed border-2 border-gray rounded-b-md py-1 mx-auto relative bg-white-600 w-full">
+                                                                                <div className="border-dashed border-2 border-gray rounded-md py-1 mx-auto relative bg-white-600 w-full">
                                                                                     <div className=""> {/* max-w-7xl mx-auto px-1 sm:px-6 lg:px-8 */}
                                                                                         <div className="sm:text-center sm:px-16 flex">
                                                                                             {/* TODO: CREATE ADD PUBLICATION FUNCTIONALITY */}

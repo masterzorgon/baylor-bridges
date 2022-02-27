@@ -1,4 +1,3 @@
-
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import axios from "axios";
@@ -21,13 +20,11 @@ import { default as SignUpEntrace } from "./Pages/signup/Entrace";
 import { default as SignUpForm } from "./Pages/signup/Form";
 import { default as SignUpClosed } from "./Pages/signup/Closed";
 
-
 import Search from "./Pages/Search";
 import Profile from "./Pages/Profile";
 
 import { default as SettingsProfile } from "./Pages/settings/Profile";
-import {default as SettingsExperience} from "./Pages/settings/Experience";
-
+import { default as SettingsExperience } from "./Pages/settings/Experience";
 import { Account } from "./components/Account";
 
 import "./App.css";
@@ -47,9 +44,9 @@ axios.defaults.headers = {
     "Access-Control-Allow-Origin": "*",
 };
 
-axios.defaults.baseURL = "http://localhost:5000";
+axios.defaults.baseURL = "//localhost:5000";
 axios.defaults.withCredentials = true;
-axios.defaults.timeout = 20000;
+axios.defaults.timeout = 5000;
 axios.defaults.timeoutErrorMessage="time out";
 axios.defaults.cancelToken = null;
 

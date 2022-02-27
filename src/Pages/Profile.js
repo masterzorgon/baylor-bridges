@@ -8,25 +8,32 @@ import { DotsVerticalIcon } from "@heroicons/react/solid";
 
 import Photo from "../components/Photo";
 
+const classNames = (...classes) => classes.filter(Boolean).join(" ");
+
+
 const Profile = () => {
     const { user_id } = useParams();
     const [profileAccount, setProfileAccount] = useState(null);
-    console.log(user_id);
+    //console.log(user_id);
 
     useEffect(() => {
         let url = "";
 
-        user_id === undefined
-            ? url = "/account/profile"
-            : url = `/account/${user_id}/profile`;
+        if (user_id === undefined) {
+            url = "/account/profile";
+        } else {
+            url = `/account/${user_id}/profile`;
+        }
 
         axios.get(url)
-            .then(({ data }) => setProfileAccount(data))
-            .catch(err => window.location.href = "/404");
-    
+            .then(({ data }) => {
+                setProfileAccount(data);
+            })
+            .catch(err => {
+                window.location.href = "/404";
+            });
     }, [user_id, setProfileAccount]);
 
-    const classNames = (...classes) => classes.filter(Boolean).join(" ");
 
     return (
         <>
@@ -37,10 +44,8 @@ const Profile = () => {
                         <div className="flex items-center space-x-5">
                             <div className="flex-shrink-0">
                                 <div className="relative">
-                                    <div className="relative">
-                                        <Photo size="16" />
-                                        <span className="absolute inset-0 shadow-inner rounded-full w-16 h-16" aria-hidden="true" />
-                                    </div>
+                                    <Photo size="16" account={profileAccount} />
+                                    <span className="absolute inset-0 shadow-inner rounded-full w-16 h-16" aria-hidden="true" />
                                 </div>
                             </div>
                             {
@@ -59,12 +64,12 @@ const Profile = () => {
                             }
                         </div>
                         <div className="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3">
-                            <button
+                            {/* <button
                                 type="button"
                                 className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-emerald-500"
                             >
                                 Connect
-                            </button>
+                            </button> */}
                         </div>
                     </div>
                     

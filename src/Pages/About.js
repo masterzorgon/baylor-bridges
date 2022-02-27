@@ -350,7 +350,7 @@ const About = () => {
                                         </div>
                                         <div className="text-lg leading-6 font-medium space-y-1">
                                             <h3>{person.name}</h3>
-                                            <p className="text-indigo-600">{person.role}</p>
+                                            <p className="text-emerald-600">{person.role}</p>
                                         </div>
                                         <div className="text-lg">
                                             <p className="text-gray-500">{person.bio}</p>
@@ -398,7 +398,7 @@ const About = () => {
                                         </div>
                                         <div className="text-lg leading-6 font-medium space-y-1">
                                             <h3>{person.name}</h3>
-                                            <p className="text-indigo-600">{person.role}</p>
+                                            <p className="text-emerald-600">{person.role}</p>
                                         </div>
                                         <div className="text-lg">
                                             <p className="text-gray-500">{person.bio}</p>
@@ -446,7 +446,7 @@ const About = () => {
                                         </div>
                                         <div className="text-lg leading-6 font-medium space-y-1">
                                             <h3>{person.name}</h3>
-                                            <p className="text-indigo-600">{person.role}</p>
+                                            <p className="text-emerald-600">{person.role}</p>
                                         </div>
                                         <div className="text-lg">
                                             <p className="text-gray-500">{person.bio}</p>
@@ -494,7 +494,7 @@ const About = () => {
                                         </div>
                                         <div className="text-lg leading-6 font-medium space-y-1">
                                             <h3>{person.name}</h3>
-                                            <p className="text-indigo-600">{person.role}</p>
+                                            <p className="text-emerald-600">{person.role}</p>
                                         </div>
                                         <div className="text-lg">
                                             <p className="text-gray-500">{person.bio}</p>
@@ -542,7 +542,7 @@ const About = () => {
                                         </div>
                                         <div className="text-lg leading-6 font-medium space-y-1">
                                             <h3>{person.name}</h3>
-                                            <p className="text-indigo-600">{person.role}</p>
+                                            <p className="text-emerald-600">{person.role}</p>
                                         </div>
                                         <div className="text-lg">
                                             <p className="text-gray-500">{person.bio}</p>

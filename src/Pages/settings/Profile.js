@@ -21,7 +21,7 @@ const states = [
 
 // eslint-disable-next-line no-unused-vars
 const contact_status = [
-    "self", "Alumni", "public"
+    "self", "alumni", "public"
 ];
 
 const profile = {
@@ -29,10 +29,10 @@ const profile = {
         title: "Basic",
         description: "The following information will be displayed publically to everyone.",
         fields: {
-            photo: {
-                title: "Photo",
-                value: { type: "photo", key: "photo" },
-            },
+            // photo: {
+            //     title: "Photo",
+            //     value: { type: "photo", key: "photo" },
+            // },
             name: {
                 title: "Name",
                 value: [
@@ -111,9 +111,16 @@ const Profile = () => {
         if (Array.isArray(field.value)) {
             var string = "";
             field.value.map((value, index) => (
-                string += account_from[value.key] + " "
+                account_from[value.key] && !value.key.includes("_visibility") ? string += account_from[value.key] + " " : string += " "
             ));
+
+            string = string.trim();
+
+            if (string === "") {
+                return null;
+            }
             return string;
+
         } else {
             return account_from[field.value.key] ? account_from[field.value.key] : null;
         }
@@ -127,6 +134,7 @@ const Profile = () => {
             return value;
         }
     };
+
 
     const getButtons = (section_key, field) => {
         const makeButton = (text) => {
@@ -272,7 +280,7 @@ const Profile = () => {
                                 type={value.type}
                                 name={value.key}
                                 id={value.key}
-                                className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                className="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                 placeholder={value.placeholder}
                                 value={update[value.key]}
                                 onChange={(e) => {
@@ -293,7 +301,7 @@ const Profile = () => {
                                 rows={4}
                                 name="comment"
                                 id="comment"
-                                className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                className="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                 defaultValue={update[value.key]}
                                 onChange={(e) => {
                                     handleChange(e, value);
@@ -311,7 +319,7 @@ const Profile = () => {
 
                         <Menu as="div" className="relative inline-block text-left">
                             <div>
-                                <Menu.Button className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
+                                <Menu.Button className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-emerald-500">
                                     {update[value.key]}
 
                                     <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
@@ -355,7 +363,7 @@ const Profile = () => {
                     }
                     <button
                         type="submit"
-                        className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
                         onClick={() => handleSubmit()}
                     >
                         Save
@@ -370,7 +378,7 @@ const Profile = () => {
                     {getTypeDom(field.value)}
                     <button
                         type="submit"
-                        className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
                         onClick={() => handleSubmit()}
                     >
                         Save
@@ -417,11 +425,11 @@ const Profile = () => {
         axios.get("/account/profile")
             .then(res => {
                 setAccount(res.data);
-
+                console.log(res.data);
             })
             .catch(err => {
                 if (err.response.status && err.response.status === 401) {
-                    window.location.href = "/signin";
+                    window.location.href = "/sign-in";
                 }
             });
         
