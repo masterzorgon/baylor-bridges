@@ -310,7 +310,7 @@ const Profile = () => {
                                     <div className="relative">
                                         <Listbox.Button className="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
                                             <span className="w-full inline-flex truncate">
-                                                <span className="truncate">{option_value_to_title(value.options, section_key === "basic" ? update[value.key] : update[section_key][value.key]) || option_value_to_title(value.options, value.placeholder)}</span>
+                                                <span className="truncate">{option_value_to_title(value.options, section_key === "basic" ? update[value.key] : update[section_key][value.key]) || option_value_to_title(value.options, value.placeholder) || <div className="text-gray-500">{value.title}</div>}</span>
                                                 <span className="ml-2 truncate text-gray-500">{option_value_to_description(value.options, section_key === "basic" ? update[value.key] : update[section_key][value.key]) || option_value_to_description(value.options, value.placeholder)}</span>
                                             </span>
                                             <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
