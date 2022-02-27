@@ -346,7 +346,7 @@ const Experience = () => {
                 </div>
             );
         }
-        else if(modalSettings["modalType"]==="new pub"){
+        else if(modalSettings["modalType"]==="new pub" || modalSettings["modalType"]==="edit pub"){
             console.log("geting modal new pub");
             return(
                 <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full sm:p-6">
@@ -356,7 +356,11 @@ const Experience = () => {
                                 <div className="bg-white py-6 px-4 sm:p-6">
                                     <div>
                                         <h2 id="payment-details-heading" className="text-lg leading-6 font-medium text-gray-900">
-                                            New publication
+                                            {
+                                                modalSettings["modalType"]==="new pub"
+                                                    ? "add publication"
+                                                    : "edit publication"
+                                            }
                                         </h2>          
                                     </div>
 
@@ -374,6 +378,7 @@ const Experience = () => {
                                                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
                                                 placeholder="title.."
                                                 onChange={(e)=>handleChange(e,"title")}
+                                                value={field.title}
                                             />
                                             {/* <DatePicker/> */}
                                         </div>
@@ -389,6 +394,7 @@ const Experience = () => {
                                                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
                                                 onChange={(e)=>handleChange(e,"duo_link")}
                                                 placeholder="link"
+                                                value={field.duo_link}
                                             />
                                         </div>
 
@@ -424,6 +430,7 @@ const Experience = () => {
                 </div>
             );
         }
+        
 
     };
 
@@ -434,7 +441,9 @@ const Experience = () => {
             setField({"title":"","duo_link":""});
 
 
-        }else{
+        }
+        
+        else{
             console.log("the idx pass into handleOpenModal is " + exper_idx);
             setField(exper);
 
@@ -632,7 +641,7 @@ const Experience = () => {
                                                                                                 [*][*][*][*]                             [*][*][*][*]
                                                                                             */}
                                                                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mx-4" viewBox="0 0 20 20" fill="currentColor"
-                                                                                                onClick={() => console.log("CLICKED EDIT")}
+                                                                                                onClick={() => handleOpenModal("edit pub",publication,index)}
                                                                                             >
                                                                                                 <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                                                                                             </svg>
