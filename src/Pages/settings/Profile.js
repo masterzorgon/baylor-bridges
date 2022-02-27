@@ -137,6 +137,8 @@ const Profile = () => {
  
 
         var account_from = account;
+        console.log("account is ");
+        console.log(account);
 
         if (section_key !== "basic") {
 
@@ -149,12 +151,13 @@ const Profile = () => {
  
 
         if (Array.isArray(field.value)) {
+            console.log("in get value field: ",field.value," account from: ",account_from);
 
             var string = "";
 
             field.value.map((value, index) => (
 
-                account_from[value] === null ? string += " " : string += account_from[value] + " "
+                account_from[value] === null ? string += " " : string += account_from[value.key] + " "
 
             ));
 
