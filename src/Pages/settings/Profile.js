@@ -1,12 +1,13 @@
 /* eslint-disable no-unused-vars */
 import React, { Fragment, useState, useEffect, useContext } from "react";
 import { Dialog, Transition, Menu } from "@headlessui/react";
+import { ChevronDownIcon } from "@heroicons/react/solid";
 import axios from "axios";
 
 import SettingsNavbar from "../../components/SettingsNavbar";
 import { AccountContext } from "../../components/Account";
 import Photo from "../../components/Photo";
-import { ChevronDownIcon } from "@heroicons/react/solid";
+import Button from "../../components/Button";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -92,7 +93,8 @@ const Profile = () => {
     const [open, setOpen] = useState(false);
     const [field, setField] = useState(null);
     const [update, setUpdate] = useState(null);
-    const [Refresh, setRefresh] = useState(false);
+    const [refresh, setRefresh] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const getValueRaw = (section_key, field) => {
         // Photo
@@ -115,12 +117,10 @@ const Profile = () => {
             ));
 
             string = string.trim();
-
             if (string === "") {
                 return null;
             }
             return string;
-
         } else {
             return account_from[field.value.key] ? account_from[field.value.key] : null;
         }
@@ -166,43 +166,38 @@ const Profile = () => {
     };
 
     const handleSubmit = () => {
-        console.log("the submitted update is ", update);
-        axios.put("/account/profile", update).then(res => {
+        setLoading(true);
 
-            console.log(res);
+        axios.put("/account/profile", update)
+            .then(res => {
+                console.log(res);
+                //update ccount without read from backend
+                // do we want to keep this inside of axios to be update async?
+                console.log("new account is ", res.data);
+                setAccount(res.data);
 
-            //update ccount without read from backend
-            // do we want to keep this inside of axios to be update async?
-            let newAccount = account;
-            if ("email" in update || "phone" in update) {
-                for (const [key, value] of Object.entries(update)) {
-                    newAccount["contact_info"][key] = value;
-                }
-            } else {
-                for (const [key, value] of Object.entries(update)) {
-                    newAccount[key] = value;
-                }
-            }
-            console.log("new account is ", newAccount);
-            setAccount(newAccount);
-            setOpen(false);
-        });
-
-
+                setOpen(false);
+            })
+            .catch(err => {
+                
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     };
 
     const getModal = (field) => {
+        // Field has to be valid
+        if (!field) {
+            return;
+        }
+
         const handleChange = (e, value) => {
             let newUpdate = update;
             newUpdate[value.key] = e.target.value;
             setUpdate(newUpdate);
-            console.log(update);
             setRefresh(true);
         };
-
-        // const getSubmitButton = () =>{
-
-        // }
 
         const generate_dropdown_list = (type, key) => {
             // console.log("the key is ",key);
@@ -348,10 +343,6 @@ const Profile = () => {
             }
         };
 
-        if (!field) {
-            return;
-        }
-
         if (Array.isArray(field.value)) {
             return (
                 <>
@@ -361,28 +352,27 @@ const Profile = () => {
                             getTypeDom(value)
                         ))
                     }
-                    <button
-                        type="submit"
-                        className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                    <Button
+                        loading={loading}
+                        disabled={loading}
                         onClick={() => handleSubmit()}
                     >
                         Save
-                    </button>
+                    </Button>
                 </>
             );
         } else {
-
             return (
                 <>
                     <legend className="block text-sm font-medium text-gray-700">{field.title}</legend>
                     {getTypeDom(field.value)}
-                    <button
-                        type="submit"
-                        className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                    <Button
+                        loading={loading}
+                        disabled={loading}
                         onClick={() => handleSubmit()}
                     >
                         Save
-                    </button>
+                    </Button>
                 </>
             );
         }
@@ -433,7 +423,7 @@ const Profile = () => {
                 }
             });
         
-    }, [getAccountLocal, Refresh]);
+    }, [getAccountLocal, refresh]);
 
     return (
 
