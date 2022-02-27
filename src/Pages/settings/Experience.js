@@ -95,7 +95,7 @@ const Experience = () => {
             axios.delete(url)
                 .then(res => {
                     console.log("delete the experience successfully");
-                    let new_exper=experiences;
+                    let new_exper = experiences;
                     new_exper.splice(modalSettings["idx"], 1);
                     console.log(new_exper);
                     setRefresh(true);
@@ -105,16 +105,34 @@ const Experience = () => {
                 .finally(() => setLoading(false));
         };
 
-        const handlePubRemove = () => {
-            // "/account/profile/experience/<exper_id>/publication/<pub_id>""
+        const handlePubRemove = () =>
+        {
+            /* 
+                [*][*][*][*][*][*][*][*][*][*][*]
+                [*][*][*][*][*][*][*][*][*][*][*]
+
+                FIX:
+                    - add functionality to delete publication from database
+                    - add functionality so that the request timesout or cancels upon clicking "Cancel"
+                    
+                [*][*][*][*][*][*][*][*][*][*][*]
+                [*][*][*][*][*][*][*][*][*][*][*]
+            */
+            setLoading(true);
 
             console.log("PUB ID", field[0].pub_id);
             console.log("EXP ID", field[1].exper_id);
 
-            let url = `/account/profile/experience/${field[1].exper_id}/publication/${field[0].pb_id}}`;
-            axios.get(url)
-                .then(response => response.json())
-                .then(data => console.log(data));
+            const config = {
+                method: "get",
+                url: `/account/profile/experience/${field[1].exper_id}/publication/${field[0].pub_id}}`, 
+                headers: { "Content-Type": "application/json" },
+                // data : JSON.stringify(experience)
+            };
+            
+            axios.get(config)
+                .then(response => console.log("RESPONSE", JSON.stringify(response.data)))
+                .catch(error => console.log(error));
         };
 
 

@@ -44,7 +44,6 @@ const ExperienceModal = ({ modal, setModal, experience, setExperience, setUpload
                 setUploadSuccess(true);
                 setTimeout(() => setUploadSuccess(false), 6000);
 
-
                 clearModal();
                 // FIXME: add to experiences list
                 let new_expers=experiences;
@@ -61,8 +60,7 @@ const ExperienceModal = ({ modal, setModal, experience, setExperience, setUpload
                 setTimeout(() => setUploadFailure(false), 6000);
                 clearModal();
             })
-            .finally(()=>(setLoading(false)))
-        ;
+            .finally(() => setLoading(false));
     };
 
 
