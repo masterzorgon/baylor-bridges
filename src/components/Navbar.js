@@ -196,7 +196,7 @@ const Navbar = (props) => {
                                     onKeyPress={(event) => {
                                         if(event.key === "Enter") {
                                             console.log("enter key pressed");
-                                            window.location.href = "search?keywords="+searchText+"&sort=&role=&class=&state=";
+                                            window.location.href = "/search?keywords="+searchText+"&sort=&role=&class=&state=";
                                         } else {
                                             setSearchText(event.target.value);
                                             handleSearchLoading(event.target.value);
@@ -233,7 +233,7 @@ const Navbar = (props) => {
                                             </li>
                                         ))}
                                     </ul>
-                                    <a key="more" className="py-3 px-5 pb-2 flex text-sm text-emerald-800 font-medium" href={"search?keywords="+searchText+"&sort=&role=&class=&state="}>
+                                    <a key="more" className="py-3 px-5 pb-2 flex text-sm text-emerald-800 font-medium" href={"/search?keywords=" + searchText + "&sort=&role=&class=&state="}>
                                         More results
                                     </a>
                                 </div>
