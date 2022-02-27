@@ -41,15 +41,15 @@ const ExperienceModal = ({ modal, setModal, experience, setExperience, setUpload
         
         axios(config)
             .then(response => {
-                console.log(JSON.stringify(response.data));
+                // console.log(JSON.stringify(response.data));
                 setUploadSuccess(true);
                 setTimeout(() => setUploadSuccess(false), 6000);
 
 
                 clearModal();
                 // FIXME: add to experiences list
-                let new_expers=experiences;
-                new_expers.push(experience);
+                let new_expers=response.data;
+                console.log(new_expers);
                 setExperiences(new_expers);
 
                 console.log("the new experiences is ",experiences);
