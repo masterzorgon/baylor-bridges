@@ -124,6 +124,25 @@ const Experience = () => {
         };
 
         console.log("in get modal the field is ",field);
+        const handlePubSubmit =(field)=>{
+            console.log("calling handel pub submit");
+            console.log(modalSettings);
+
+            if(modalSettings["modalType"]==="new pub"){
+                setLoading(true);
+                let url="/account/profile/experience/"+modalSettings["idx"]+"/publication";
+                console.log(url);
+                axios.post(url,field)
+                    .then(res=>{
+                        console.log("adding pub successfully");
+                        setOpen(false);
+
+                    }).finally(()=>setLoading(false));
+
+            }
+
+        };
+
 
         if (!field) return;
          
@@ -377,7 +396,7 @@ const Experience = () => {
                                 <button
                                     type="submit"
                                     className={`${loading ? "cursor-not-allowed" : ""} inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-emerald-600 text-base font-medium text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 sm:text-sm`}
-                                    onClick={() => handleExperSubmit(field)}
+                                    onClick={() => handlePubSubmit(field)}
                                     {...(loading ? { disabled: true } : {})}
                                 >
                                     {
@@ -634,7 +653,7 @@ const Experience = () => {
                                                                                             <button
                                                                                                 type="button"
                                                                                                 className="flex m-auto items-center p-1 border border-transparent rounded-full shadow-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
-                                                                                                onClick={()=>handleOpenModal("new pub",null,null)}
+                                                                                                onClick={()=>handleOpenModal("new pub",null,exper.exper_id)}
                                                                                             >
                                                                                                 <PlusSmIconSolid className="h-5 w-5" aria-hidden="true" />
                                                                                             </button>
