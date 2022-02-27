@@ -59,6 +59,7 @@ const profile = {
             },
             occupation: {
                 title: "Occupation",
+                role: "alumni",
                 value: { type: "text", title: "Occupation", placeholder: "Occupation", key: "occupation", role: "alumni" },
             },
             location: {
@@ -506,6 +507,7 @@ const Profile = () => {
                                                             <dl className="divide-y divide-gray-200">
                                                                 {
                                                                     Object.entries(section.fields).map(([field_key, field]) => (
+                                                                        (field.role === undefined || field.role === account.role) &&
                                                                         <div key={field_key} className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4" >
                                                                             <dt className="text-sm font-medium text-gray-500">{field.title}</dt>
                                                                             <dd className="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
