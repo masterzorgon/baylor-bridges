@@ -128,8 +128,9 @@ const Experience = () => {
             console.log("calling handel pub submit");
             console.log(modalSettings);
 
+            setLoading(true);
             if(modalSettings["modalType"]==="new pub"){
-                setLoading(true);
+                
                 let url="/account/profile/experience/"+modalSettings["idx"]["db_id"]+"/publication";
                 console.log(url);
                 // console.log(experiences[modalSettings["idx"]["list_id"]]);
@@ -140,12 +141,28 @@ const Experience = () => {
                         let new_exper=experiences;
                         new_exper[modalSettings["idx"]["list_id"]]["publications"]=res.data;
                         console.log(new_exper);
-                        
                         setOpen(false);
 
                     }).finally(()=>setLoading(false));
 
             }
+            else if(modalSettings["modalType"]==="edit pub"){
+                console.log("put to publication");
+                let url="/account/profile/experience/"+modalSettings["idx"]["exper_db_id"]+"/publication/"+field.pub_id;
+                console.log("the url is "+url);
+                axios.put(url,field)
+                    .then(res=>{
+                        console.log("post successfully");
+                        console.log(res.data);
+                        let new_exper=experiences;
+                        new_exper[modalSettings["idx"]["exper_list_id"]]["publications"]=res.data;
+                        console.log(new_exper);
+                        
+                        setOpen(false);
+
+                    }).finally(()=>setLoading(false));
+            }
+            
 
         };
 
@@ -641,7 +658,7 @@ const Experience = () => {
                                                                                                 [*][*][*][*]                             [*][*][*][*]
                                                                                             */}
                                                                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mx-4" viewBox="0 0 20 20" fill="currentColor"
-                                                                                                onClick={() => handleOpenModal("edit pub",publication,index)}
+                                                                                                onClick={() => handleOpenModal("edit pub",publication,{"pub_list_id":index,"exper_list_id":idx,"exper_db_id":exper.exper_id})}
                                                                                             >
                                                                                                 <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                                                                                             </svg>
