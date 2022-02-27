@@ -6,8 +6,9 @@ import ExperienceModal from "../../components/ExperienceModal";
 import DatePicker from "tailwind-react-datepicker";
 import { Menu, Transition,Dialog } from "@headlessui/react";
 import { PencilIcon, DotsVerticalIcon, DocumentRemoveIcon, PlusSmIcon as PlusSmIconSolid } from "@heroicons/react/solid";
+
 // eslint-disable-next-line no-unused-vars
-import { ExclamationIcon,LinkIcon, TrashIcon } from "@heroicons/react/outline";
+import { MinusCircleIcon, ExclamationIcon, LinkIcon, TrashIcon } from "@heroicons/react/outline";
 
 
 // TAILWIND CSS ALERTS
@@ -325,7 +326,7 @@ const Experience = () => {
                                 </Dialog.Title>
                                 <div className="mt-2">
                                     <p className="text-sm text-gray-500">
-                                        Are you sure you want to remove the experience  &quot; {field.title} &quot; ? All of your data will be permanently removed.
+                                        Are you sure you want to remove the experience  &quot;{field.title}&quot; ? All of your data will be permanently removed.
                                         This action cannot be undone.
                                     </p>
                                 </div>
@@ -363,6 +364,59 @@ const Experience = () => {
                 </div>
             );
         }
+        else if (modalSettings["modalType"] === "remove pub") {
+            console.log("you click remove");
+            return(
+                <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                    <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <div className="sm:flex sm:items-start">
+                            <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                                <ExclamationIcon className="h-6 w-6 text-red-600" aria-hidden="true" />
+                            </div>
+                            <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                                <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
+                                    Remove Publication
+                                </Dialog.Title>
+                                <div className="mt-2">
+                                    <p className="text-sm text-gray-500">
+                                        Are you sure you want to remove &quot;{field.title}&quot; ? The publication will be permanently removed.
+                                        This action cannot be undone.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                        <button
+                            type="button"
+                            className={`${loading ? "cursor-not-allowed" : ""} w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm`}
+                            onClick={() => handleExperRemove(field.exper_id)}
+                            {...(loading ? { disabled: true } : {})}
+                        >
+                            {
+                                loading &&
+                                        <svg className="cursor-not-allowed animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fillOpacity="0"></circle>
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                            }
+                            {
+                                !loading &&
+                                        "Remove"
+                            }
+                        </button>
+                        <button
+                            type="button"
+                            className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                            onClick={() => setOpen(false)}
+                            ref={cancelButtonRef}
+                        >
+                  Cancel
+                        </button>
+                    </div>
+                </div>
+            );
+        }   
         else if(modalSettings["modalType"]==="new pub" || modalSettings["modalType"]==="edit pub"){
             console.log("geting modal new pub");
             return(
@@ -485,12 +539,6 @@ const Experience = () => {
             title: ""
         });
     };
-
-    const handleDeletePublication = (event) => {
-        event.preventDefault();
-        console.log("DELETE EDAWD");
-        setPublicationDelete(true);
-    };
       
     /*
         [*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*]
@@ -526,7 +574,7 @@ const Experience = () => {
                                                                 <span className="hidden md:inline">Add a new Experience!</span>
                                                             </p>
                                                         </div>
-                                                        <div className="order-3 mt-2 flex-shrink-0 w-full sm:order-2 sm:mt-0 sm:w-auto">
+                                                        <div className="flex justify-center order-3 flex-shrink-0 w-full sm:order-2 sm:mt-0 sm:w-auto">
                                                             <button
                                                                 onClick={handleNewExperience}
                                                                 className="flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-emerald-600 bg-white hover:bg-emerald-50"
@@ -657,16 +705,17 @@ const Experience = () => {
                                                                                                 [*][*][*][*] ENTER EDIT AND DELETE ICONS [*][*][*][*]
                                                                                                 [*][*][*][*]                             [*][*][*][*]
                                                                                             */}
-                                                                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mx-4" viewBox="0 0 20 20" fill="currentColor"
+                                                                                            
+                                                                                            <PencilIcon className="h-5 w-5 mx-4" viewBox="0 0 20 20" fill="currentColor"
                                                                                                 onClick={() => handleOpenModal("edit pub",publication,{"pub_list_id":index,"exper_list_id":idx,"exper_db_id":exper.exper_id})}
                                                                                             >
                                                                                                 <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-                                                                                            </svg>
-                                                                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                                                                                onClick={handleDeletePublication}
+                                                                                            </PencilIcon>
+                                                                                            <MinusCircleIcon className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                                                                onClick={() => handleOpenModal("remove pub", publication, index)}
                                                                                             >
                                                                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                                                            </svg>
+                                                                                            </MinusCircleIcon>
                                                                                         </div>
                                                                                     </li>
                                                                                                                        
