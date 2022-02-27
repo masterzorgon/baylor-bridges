@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Switch } from "@headlessui/react";
 import { MailIcon, ArrowSmRightIcon, CalculatorIcon } from "@heroicons/react/outline";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -18,6 +19,8 @@ const Form = () => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [password_checked, setPasswordChecked] = useState("");
+    const [agreed, setAgreed] = useState(false);
     const [confirmation_code, setConfirmationCode] = useState("");
     
 
@@ -39,6 +42,10 @@ const Form = () => {
             setComplete(email && email !== "" && is_valid);
         }
 
+        else if (step === 2) {
+            setComplete(password_checked && agreed);
+        }
+
         else if (step === 3) {
             let reg = /^\d{6}$/;
             let is_valid = reg.test(confirmation_code || "");
@@ -47,7 +54,7 @@ const Form = () => {
         }
 
         setErrorMessage(null);
-    }, [step, email, role, confirmation_code]);
+    }, [step, role, email, password_checked, agreed, confirmation_code]);
 
 
     // FIXME: Self-sign up for alumni is disabled
@@ -164,9 +171,44 @@ const Form = () => {
                 <Password
                     onChange={(password, checked) => {
                         setPassword(password);
-                        setComplete(checked);
+                        setPasswordChecked(checked);
                     }}
                 />
+
+                <div className="flex items-start mt-6">
+                    <div className="flex-shrink-0">
+                        <Switch
+                            checked={agreed}
+                            onChange={setAgreed}
+                            className={classNames(
+                                agreed ? "bg-emerald-600" : "bg-gray-200",
+                                "relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                            )}
+                        >
+                            <span className="sr-only">Agree to policies</span>
+                            <span
+                                aria-hidden="true"
+                                className={classNames(
+                                    agreed ? "translate-x-5" : "translate-x-0",
+                                    "inline-block h-5 w-5 rounded-full bg-white shadow transdiv ring-0 transition ease-in-out duration-200"
+                                )}
+                            />
+                        </Switch>
+                    </div>
+                    <div className="ml-3">
+                        <p className="text-sm text-gray-500">
+                            By selecting this, you agree to the{" "}
+                            <a href="/terms/terms-conditions" className="font-medium text-gray-700 underline">
+                                Terms and Conditions
+                            </a>
+                            {" "}and{" "}
+                            <a href="/terms/privacy-policy" className="font-medium text-gray-700 underline">
+                                Privacy Policy
+                            </a>
+                            .
+                        </p>
+                    </div>
+                </div>
             </>
         );
     };
