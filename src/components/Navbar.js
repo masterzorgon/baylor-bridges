@@ -327,6 +327,9 @@ const Navbar = (props) => {
                                     <a href="/about" className="text-base font-medium text-gray-900 hover:text-gray-700">
                                         About
                                     </a>
+                                    <a href="/settings" className="text-base font-medium text-gray-900 hover:text-gray-700">
+                                        Settings
+                                    </a>
                                 </div>
 
                                 {/* Account sign in / up / out */}
