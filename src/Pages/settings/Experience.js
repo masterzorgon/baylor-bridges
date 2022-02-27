@@ -123,14 +123,15 @@ const Experience = () => {
             console.log("PUB ID", field[0].pub_id);
             console.log("EXP ID", field[1].exper_id);
 
-            const config = {
-                method: "get",
-                url: `/account/profile/experience/${field[1].exper_id}/publication/${field[0].pub_id}}`, 
-                headers: { "Content-Type": "application/json" },
-                // data : JSON.stringify(experience)
-            };
-            
-            axios.get(config)
+            // const config = {
+            //     method: "delete",
+            //     url: `/account/profile/experience/${field[1].exper_id}/publication/${field[0].pub_id}}`, 
+            //     headers: { "Content-Type": "application/json" },
+            //     // data : JSON.stringify(experience)
+            // };
+            let url=`/account/profile/experience/${field[1].exper_id}/publication/${field[0].pub_id}`;
+            console.log(url);
+            axios.delete(url)
                 .then(response => console.log("RESPONSE", JSON.stringify(response.data)))
                 .catch(error => console.log(error));
         };
