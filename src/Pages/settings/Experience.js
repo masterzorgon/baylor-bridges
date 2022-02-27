@@ -130,11 +130,17 @@ const Experience = () => {
 
             if(modalSettings["modalType"]==="new pub"){
                 setLoading(true);
-                let url="/account/profile/experience/"+modalSettings["idx"]+"/publication";
+                let url="/account/profile/experience/"+modalSettings["idx"]["db_id"]+"/publication";
                 console.log(url);
+                // console.log(experiences[modalSettings["idx"]["list_id"]]);
                 axios.post(url,field)
                     .then(res=>{
-                        console.log("adding pub successfully");
+                        console.log("post successfully");
+                        console.log(res.data);
+                        let new_exper=experiences;
+                        new_exper[modalSettings["idx"]["list_id"]]["publications"]=res.data;
+                        console.log(new_exper);
+                        
                         setOpen(false);
 
                     }).finally(()=>setLoading(false));
@@ -653,7 +659,7 @@ const Experience = () => {
                                                                                             <button
                                                                                                 type="button"
                                                                                                 className="flex m-auto items-center p-1 border border-transparent rounded-full shadow-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
-                                                                                                onClick={()=>handleOpenModal("new pub",null,exper.exper_id)}
+                                                                                                onClick={()=>handleOpenModal("new pub",null,{"db_id":exper.exper_id,"list_id":idx})}
                                                                                             >
                                                                                                 <PlusSmIconSolid className="h-5 w-5" aria-hidden="true" />
                                                                                             </button>
