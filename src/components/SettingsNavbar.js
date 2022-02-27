@@ -1,36 +1,56 @@
 import React from "react";
 
-
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
 const SettingsNavbar = (props) => {
+
+    // const [selection, setSelection] = React.useState("");
+
     const tabs = [
         { id: "profile", name: "Profile", href: "profile" },
         { id: "experience", name: "Experience", href: "experience" },
         // { id: "workload", name: "Workload", href: "workload" },
     ];
 
+    /*
+    const handleRedirect = (event) => {
+        const selectedTab = document.getElementById("selected-tab");
+        const selectedValue = selectedTab.options[selectedTab.selectedIndex].value;
+        
+        window.location.href = selectedValue;
+
+        // setSelection(event.value);
+    };
+    */
+
     return (
         <>
-            {/* Tabs */}
-            <div className="lg:hidden">
-                <label htmlFor="selected-tab" className="sr-only">
-                    Select a tab
-                </label>
+            {/* 
+                FIX:
+                    - the default value in selection menu does not change upon selection
+            */}
+
+            {/* MOBILE VIEW: SELECT MENU */}
+            {/* 
+            <nav className="lg:hidden">
                 <select
                     id="selected-tab"
                     name="selected-tab"
                     className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm rounded-md"
-                    defaultValue={tabs.find((tab) => tab.id === props.current).name}
+                    // defaultValue={selection} // tabs.find((tab) => tab.id === props.current).name
+                    onChange={handleRedirect}
                 >
                     {tabs.map((tab) => (
-                        <option key={tab.name}>{tab.name}</option>
+                        <option value={tab.href} key={tab.name}>{tab.name}</option>
                     ))}
                 </select>
-            </div>
-            <div className="hidden lg:block">
+            </nav>
+            */}
+
+            {/* DESKTOP VIEW: */}
+            <div className="sm:block lg:block">
                 <div className="border-b border-gray-200">
                     <nav className="-mb-px flex space-x-8">
                         {tabs.map((tab) => (

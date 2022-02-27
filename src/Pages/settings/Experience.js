@@ -3,7 +3,6 @@ import SettingsNavbar from "../../components/SettingsNavbar";
 import ExperienceModal from "../../components/ExperienceModal";
 
 // eslint-disable-next-line no-unused-vars
-import DatePicker from "tailwind-react-datepicker";
 import { Menu, Transition,Dialog } from "@headlessui/react";
 import { PencilIcon, DotsVerticalIcon, DocumentRemoveIcon, PlusSmIcon as PlusSmIconSolid } from "@heroicons/react/solid";
 
@@ -48,6 +47,7 @@ const Experience = () => {
     // STATE FOR PUBLICATION [*][*][*][*]
     const [publicationDelete, setPublicationDelete] = useState(false);
 
+
     useEffect(() => {
         console.log("calling use effect");
 
@@ -83,10 +83,45 @@ const Experience = () => {
 
         const handleChange = (e, value) => {
             let new_field = field;
-            new_field[value] = e.target.value;
-            console.log(new_field);
-            setField(new_field);
+            if (value==="start_time" || value==="stop_time"){
+                
+
+                let input=e.target.value;
+                console.log("input is",input);
+                if(input.length<=2 && /^\d*$/.test(input)){
+
+                    let oldVal=new_field[value];
+                    new_field[value]=e.target.value;
+                    
+                    if(input.length===2){
+                        if(oldVal.charAt(oldVal.length - 1)!=="/"){
+                            new_field[value]+="/";
+                        }                                              
+                    }                    
+                }
+                else if(/^\d{2}\/\d{0,4}$/.test(input)){
+                    new_field[value]=e.target.value;
+
+                }
+
+                if (new_field[value]===null){
+                    new_field[value]="";
+                    console.log("new field is null");
+                }
+                setField(new_field);
+                console.log(field);
+                    
+                
+
+            }else{
+                
+                new_field[value] = e.target.value;
+                console.log(new_field);
+                setField(new_field);
+            
+            }
             setRefresh(true);
+
         };
 
         // eslint-disable-next-line no-unused-vars
@@ -100,16 +135,37 @@ const Experience = () => {
             axios.delete(url)
                 .then(res => {
                     console.log("delete the experience successfully");
-                    let new_exper=experiences;
+                    let new_exper = experiences;
                     new_exper.splice(modalSettings["idx"], 1);
                     console.log(new_exper);
                     setRefresh(true);
-                    setOpen(false);
-                    setExperiences(res.data);
+                    setOpen(false);     
+                    setExperiences(res.data);           
                 })
                 .catch(err => console.log(err))
                 .finally(() => setLoading(false));
         };
+
+        const handlePubRemove = () =>
+        {
+            setLoading(true);
+
+            console.log("PUB ID", field[0].pub_id);
+            console.log("EXP ID", field[1].exper_id);
+
+            let url = `/account/profile/experience/${field[1].exper_id}/publication/${field[0].pub_id}`;
+
+            axios.delete(url)
+                .then(res => {
+                    let new_exper = experiences;
+                    new_exper[modalSettings["idx"]]["publications"] = res.data;
+                    console.log(new_exper);
+                    setOpen(false);
+                })
+                .catch(error => console.log(error))
+                .finally(() => setLoading(false));   
+        };
+
 
         const handleExperSubmit = (field) => {
             setLoading(true);
@@ -118,22 +174,22 @@ const Experience = () => {
             axios.put(url, field)
                 .then(res => {
                     console.log("update the experience successfully");
-                    setOpen(false);
                     setExperiences(res.data);
+                    setOpen(false);                
                 })
                 .finally(() => setLoading(false));
         
             // TODO: also submit publications changes
         };
 
-        console.log("in get modal the field is ",field);
-        const handlePubSubmit =(field)=>{
+        const handlePubSubmit = (field) =>
+        {
             console.log("calling handel pub submit");
             console.log(modalSettings);
 
             setLoading(true);
-            if(modalSettings["modalType"]==="new pub"){
-                
+            if (modalSettings["modalType"] === "new pub")
+            {
                 let url="/account/profile/experience/"+modalSettings["idx"]["db_id"]+"/publication";
                 console.log(url);
                 // console.log(experiences[modalSettings["idx"]["list_id"]]);
@@ -149,7 +205,8 @@ const Experience = () => {
                     }).finally(()=>setLoading(false));
 
             }
-            else if(modalSettings["modalType"]==="edit pub"){
+            else if (modalSettings["modalType"] === "edit pub")
+            {
                 console.log("put to publication");
                 let url="/account/profile/experience/"+modalSettings["idx"]["exper_db_id"]+"/publication/"+field.pub_id;
                 console.log("the url is "+url);
@@ -165,8 +222,6 @@ const Experience = () => {
 
                     }).finally(()=>setLoading(false));
             }
-            
-
         };
 
 
@@ -216,7 +271,9 @@ const Experience = () => {
                                                 id="expiration-date"
                                                 autoComplete="cc-exp"
                                                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
-                                                placeholder="MM / YY"
+                                                placeholder="MM / YYYY"
+                                                value={field.start_time}
+                                                onChange={(e)=>handleChange(e,"start_time")}
                                             />
                                             {/* <DatePicker/> */}
                                         </div>
@@ -230,13 +287,15 @@ const Experience = () => {
                                                 id="expiration-date"
                                                 autoComplete="cc-exp"
                                                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
-                                                placeholder="MM / YY"
+                                                placeholder="MM / YYYY"
+                                                value={field.stop_time}
+                                                onChange={(e)=>handleChange(e,"stop_time")}
                                             />
                                         </div>
 
                                         <div className="col-span-4 sm:col-span-4">
                                             <label htmlFor="comment" className="block text-sm font-medium text-gray-700">
-                                                description
+                                                Description
                                             </label>
                                                         
                                             <textarea
@@ -250,39 +309,6 @@ const Experience = () => {
                                             />          
                                         </div>
 
-
-                                        {/* to render publications */}
-
-                                        {/* <div className="col-span-4 sm:col-span-4">
-                                            
-                                            <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
-                                                {
-                                        
-                                                    field.publications.map((publication,index)=>(
-                                                        <li className="pl-3 pr-4 py-3 flex items-center justify-between text-sm" key={publication.pub_id}>
-                                                            <div className="w-0 flex-1 flex items-center">
-                                                                <LinkIcon className="flex-shrink-0 h-5 w-5 text-gray-400" />
-                                                                <span className="ml-2 flex-1 w-0 truncate text-gray-700">
-                                                            pub test
-                                                                </span>
-                                                            </div>
-                                                            <div className="ml-4 flex-shrink-0">
-                                                                <a className="font-medium ">
-                                                                    <PencilIcon className="flex-shrink-0 h-5 w-5 text-emerald-400 hover:text-emerald-600" />
-                                                                </a>
-                                                            </div><div className="ml-4 flex-shrink-0">
-                                                                <a className="font-medium">
-                                                                    <TrashIcon className="flex-shrink-0 h-5 w-5 text-red-400 hover:text-red-600" />
-                                                                </a>
-                                                            </div>
-                                                        </li>
-                                                    ))
-                                                }
-                                            </ul>
-                                            <button className="relative block w-full border-2 border-gray-300 border-dashed rounded-lg py-2 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
-                                                <span className="mt-2 block text-sm font-medium text-gray-500">new publication</span>
-                                            </button>
-                                        </div>   */}
                                     </div>
                                 </div>          
                             </div>
@@ -366,7 +392,8 @@ const Experience = () => {
                 </div>
             );
         }
-        else if (modalSettings["modalType"] === "remove pub") {
+        else if (modalSettings["modalType"] === "remove pub")
+        {
             console.log("you click remove");
             return(
                 <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
@@ -381,7 +408,7 @@ const Experience = () => {
                                 </Dialog.Title>
                                 <div className="mt-2">
                                     <p className="text-sm text-gray-500">
-                                        Are you sure you want to remove &quot;{field.title}&quot; ? The publication will be permanently removed.
+                                        Are you sure you want to remove &quot;{field[0].title}&quot; ? The publication will be permanently removed.
                                         This action cannot be undone.
                                     </p>
                                 </div>
@@ -392,7 +419,7 @@ const Experience = () => {
                         <button
                             type="button"
                             className={`${loading ? "cursor-not-allowed" : ""} w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm`}
-                            onClick={() => handleExperRemove(field.exper_id)}
+                            onClick={() => handlePubRemove(field[0].pub_id, field[1].exper_id)} // IMPLEMENT REMOVE PUBLICATION FUNCTION
                             {...(loading ? { disabled: true } : {})}
                         >
                             {
@@ -413,13 +440,14 @@ const Experience = () => {
                             onClick={() => setOpen(false)}
                             ref={cancelButtonRef}
                         >
-                  Cancel
+                            Cancel
                         </button>
                     </div>
                 </div>
             );
         }   
-        else if(modalSettings["modalType"]==="new pub" || modalSettings["modalType"]==="edit pub"){
+        else if (modalSettings["modalType"] === "new pub" || modalSettings["modalType"] === "edit pub")
+        {
             console.log("geting modal new pub");
             return(
                 <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full sm:p-6">
@@ -430,7 +458,7 @@ const Experience = () => {
                                     <div>
                                         <h2 id="payment-details-heading" className="text-lg leading-6 font-medium text-gray-900">
                                             {
-                                                modalSettings["modalType"]==="new pub"
+                                                modalSettings["modalType"] === "new pub"
                                                     ? "add publication"
                                                     : "edit publication"
                                             }
@@ -441,7 +469,7 @@ const Experience = () => {
 
                                         <div className="col-span-8 sm:col-span-3">
                                             <label htmlFor="start-date" className="block text-sm font-medium text-gray-700">
-                                                pub title
+                                            pub title
                                             </label>
                                             <input
                                                 type="text"
@@ -457,7 +485,7 @@ const Experience = () => {
                                         </div>
                                         <div className="col-span-8 sm:col-span-5">
                                             <label htmlFor="expiration-date" className="block text-sm font-medium text-gray-700">
-                                                duo link
+                                            duo link
                                             </label>
                                             <input
                                                 type="text"
@@ -687,7 +715,7 @@ const Experience = () => {
 
                                                                     {publicationDelete ? <DeletePublicationAlert publicationDelete={publicationDelete} setPublicationDelete={setPublicationDelete} /> : null}
 
-                                                                    <div className="mt-4">
+                                                                    <div className="mx-4">
                                                                         <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
                                                                             {
                                                                                 exper.publications.map((publication, index) => (
@@ -696,7 +724,7 @@ const Experience = () => {
                                                                                         <div className="w-0 flex-1 flex items-center">
                                                                                             <LinkIcon className="flex-shrink-0 h-5 w-5 text-gray-400" />
                                                                                             <span className="ml-2 flex-1 w-0 truncate text-gray-700">
-                                                                                                <a href={publication.duo_link} className="font-medium text-emerald-600 hover:text-emerald-500">
+                                                                                                <a href={publication.duo_link} className="font-medium text-emerald-600 hover:text-emerald-500">    
                                                                                                     {publication.title}
                                                                                                 </a>
                                                                                             </span>
@@ -709,18 +737,17 @@ const Experience = () => {
                                                                                             */}
                                                                                             
                                                                                             <PencilIcon className="h-5 w-5 mx-4" viewBox="0 0 20 20" fill="currentColor"
-                                                                                                onClick={() => handleOpenModal("edit pub",publication,{"pub_list_id":index,"exper_list_id":idx,"exper_db_id":exper.exper_id})}
+                                                                                                onClick={() => handleOpenModal("edit pub", publication, {"pub_list_id":index, "exper_list_id":idx, "exper_db_id":exper.exper_id})}
                                                                                             >
                                                                                                 <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                                                                                             </PencilIcon>
                                                                                             <MinusCircleIcon className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                                                                                onClick={() => handleOpenModal("remove pub", publication, index)}
+                                                                                                onClick={() => handleOpenModal("remove pub", [publication, exper], idx)}
                                                                                             >
                                                                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                                                             </MinusCircleIcon>
                                                                                         </div>
-                                                                                    </li>
-                                                                                                                       
+                                                                                    </li>                             
                                                                                 ))
                                                                             }
                                                                             <li className="flex items-center">
@@ -736,7 +763,7 @@ const Experience = () => {
                                                                                             <button
                                                                                                 type="button"
                                                                                                 className="flex m-auto items-center p-1 border border-transparent rounded-full shadow-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
-                                                                                                onClick={()=>handleOpenModal("new pub",null,{"db_id":exper.exper_id,"list_id":idx})}
+                                                                                                onClick={()=>handleOpenModal("new pub",null,{"db_id": exper.exper_id, "list_id": idx})}
                                                                                             >
                                                                                                 <PlusSmIconSolid className="h-5 w-5" aria-hidden="true" />
                                                                                             </button>
