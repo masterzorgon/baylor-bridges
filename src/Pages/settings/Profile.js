@@ -127,12 +127,59 @@ const Profile = () => {
     };
 
     const getValue = (section_key, field) => {
-        const value = getValueRaw(section_key, field);
-        if (value === null) {
-            return <div className="text-gray-400">Not set</div>;
-        } else {
-            return value;
+
+        if (field.value === "photo") {
+
+            return <Photo size="10" />;
+
         }
+
+ 
+
+        var account_from = account;
+
+        if (section_key !== "basic") {
+
+            account_from = account[section_key];
+
+            console.log(account_from);
+
+        }
+
+ 
+
+        if (Array.isArray(field.value)) {
+
+            var string = "";
+
+            field.value.map((value, index) => (
+
+                account_from[value] === null ? string += " " : string += account_from[value] + " "
+
+            ));
+
+            /**
+
+             * @TODO temporary fix for null values in location
+
+             **/  
+
+            if (account_from[field.value[0]] === null && field.value[0] === "city") {
+
+                return <div className="text-gray-400">Not Set</div>;
+
+            }
+
+            return string;
+
+           
+
+        } else {
+
+            return account_from[field.value] ? account_from[field.value] : <div className="text-gray-400">Not Set</div>;
+
+        }
+
     };
 
     const getButtons = (section_key, field) => {
