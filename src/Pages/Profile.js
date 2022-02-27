@@ -3,9 +3,10 @@ import React, { Fragment, useEffect, useState } from "react";
 import { LinkIcon } from "@heroicons/react/outline";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { Menu, Transition } from "@headlessui/react";
+import { DotsVerticalIcon } from "@heroicons/react/solid";
 
 import Photo from "../components/Photo";
-
 
 const Profile = () => {
     const { user_id } = useParams();
@@ -15,21 +16,17 @@ const Profile = () => {
     useEffect(() => {
         let url = "";
 
-        if (user_id === undefined) {
-            url = "/account/profile";
-        } else {
-            url = `/account/${user_id}/profile`;
-        }
+        user_id === undefined
+            ? url = "/account/profile"
+            : url = `/account/${user_id}/profile`;
 
         axios.get(url)
-            .then(({ data }) => {
-                setProfileAccount(data);
-            })
-            .catch(err => {
-                window.location.href = "/404";
-            });
+            .then(({ data }) => setProfileAccount(data))
+            .catch(err => window.location.href = "/404");
+    
     }, [user_id, setProfileAccount]);
 
+    const classNames = (...classes) => classes.filter(Boolean).join(" ");
 
     return (
         <>
@@ -40,8 +37,10 @@ const Profile = () => {
                         <div className="flex items-center space-x-5">
                             <div className="flex-shrink-0">
                                 <div className="relative">
-                                    <Photo size="16" />
-                                    <span className="absolute inset-0 shadow-inner rounded-full h-16 w-16" aria-hidden="true" />
+                                    <div className="relative">
+                                        <Photo size="16" />
+                                        <span className="absolute inset-0 shadow-inner rounded-full w-16 h-16" aria-hidden="true" />
+                                    </div>
                                 </div>
                             </div>
                             {
@@ -171,11 +170,55 @@ const Profile = () => {
                             <section aria-labelledby="notes-title">
                                 <div className="bg-white shadow sm:rounded-lg sm:overflow-hidden">
                                     <div className="divide-y divide-gray-200">
-                                        <div className="px-4 py-5 sm:px-6">
-                                            <h2 id="notes-title" className="text-lg font-medium text-gray-900">
+                                        <div className="px-4 py-5 sm:px-6 flex justify-between">
+                                            <h2 id="notes-title" className="align-middle text-lg font-medium text-gray-900 border-2 border-transparent">
                                                 Experiences
                                             </h2>
+
+                                            {/* INSERT MODAL DISPLAY BUTTON */}
+                                            <Menu as="div" className="relative inline-block text-left">
+                                                <div>
+                                                    <Menu.Button className="mt-1 rounded-full flex items-center text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-emerald-500">
+                                                        <span className="sr-only">Open options</span>
+                                                        <DotsVerticalIcon className="h-5 w-5" aria-hidden="true" />
+                                                    </Menu.Button>
+                                                </div>
+
+                                                <Transition
+                                                    as={Fragment}
+                                                    enter="transition ease-out duration-100"
+                                                    enterFrom="transform opacity-0 scale-95"
+                                                    enterTo="transform opacity-100 scale-100"
+                                                    leave="transition ease-in duration-75"
+                                                    leaveFrom="transform opacity-100 scale-100"
+                                                    leaveTo="transform opacity-0 scale-95"
+                                                >
+                                                    <Menu.Items className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                        <div className="">
+                                                            <Menu.Item>
+                                                                {({ active }) => (
+                                                                    <a
+                                                                        href="/settings/experience"
+                                                                        className={classNames(
+                                                                            active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                                                                            "block px-4 py-2 text-sm"
+                                                                        )}
+                                                                    >
+                                                                        Edit Experiences
+                                                                    </a>
+                                                                )}
+                                                            </Menu.Item>
+                                                        </div>
+                                                    </Menu.Items>
+                                                </Transition>
+                                            </Menu>
                                         </div>
+                                        
+                                        {/* 
+                                            [*][*][*][*]             [*][*][*][*]
+                                            [*][*][*][*] EXPERIENCES [*][*][*][*]
+                                            [*][*][*][*]             [*][*][*][*]
+                                        */}
                                         <div className="px-4 py-6 sm:px-6">
                                             <ul className="space-y-8">
                                                 {
@@ -184,6 +227,11 @@ const Profile = () => {
                                                             <p className="font-medium">{experience.title}</p>
                                                             <p className="font-medium text-sm text-gray-500 mt-0.5"><time dateTime={experience.start_time}>{experience.start_time}</time> - <time dateTime={experience.start_time}>{experience.start_time}</time></p>
                                                             <p className="mt-2 text-sm text-gray-700">{experience.description}</p>
+                                                            {/* 
+                                                                [*][*][*][*]              [*][*][*][*]
+                                                                [*][*][*][*] PUBLICATIONS [*][*][*][*]
+                                                                [*][*][*][*]              [*][*][*][*]
+                                                            */}
                                                             <div className="mt-4">
                                                                 <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
                                                                     {
