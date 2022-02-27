@@ -21,7 +21,7 @@ const states = [
 
 // eslint-disable-next-line no-unused-vars
 const contact_status = [
-    "self", "Alumni", "public"
+    "self", "alumni", "public"
 ];
 
 const profile = {
