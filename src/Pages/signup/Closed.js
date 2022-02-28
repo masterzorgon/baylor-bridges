@@ -36,19 +36,19 @@ const Closed = () => {
                     <div className="text-lg max-w-prose mx-auto">
                         <h1>
                             <span className="block text-base text-center text-emerald-600 font-semibold tracking-wide uppercase">
-                                We are really sorry
+                                Welcome Baylor Alumni!
                             </span>
                             <span className="mt-2 block text-2xl text-center leading-7 font-extrabold tracking-tight text-gray-900 sm:text-3xl">
-                                Sign up is currently closed
+                                We are glad to have you join us!
                             </span>
                         </h1>
                         <p className="mt-8 text-sm text-gray-500 leading-7">
-                            <strong> At the moment, sign up for alumni is closed. </strong>
-                            We are unable to provide self-sign up service for you.
+                            <strong> At the moment, self-sign up for alumni is closed. </strong>
+                            We want to make sure only Baylor Alumni are admitted. 
                         </p>
                         <p className="mt-4 text-sm text-gray-500 leading-7">
                             All alumni are invited through email by our technical team.
-                            If you are an aluminus from the Baylor University and wish to sign up for an account, please <a className="text-emerald-600 underline underline-offset-2" href="/contact-us">contact us</a>.
+                            If you are an alumni from Baylor University and wish to sign up for an account, please sign up <a className="text-emerald-600 underline underline-offset-2" href="https://baylor.qualtrics.com/jfe/form/SV_8v5U3apajzQVm86">here</a>.
                         </p>
                         <p className="mt-4 text-sm text-gray-500 leading-7">
                             If you are a current student at the Baylor University, please <a className="text-emerald-600 underline underline-offset-2" href="/sign-up"> sign up here</a>.

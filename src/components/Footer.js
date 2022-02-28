@@ -2,7 +2,7 @@ import React from "react";
 
 const navigation = {
     main: [
-        { name: "About", href: "/about" },
+        // { name: "About", href: "/about" },
         { name: "Contact Us", href: "/contact-us" },
         { name: "Terms", href: "/terms/terms-conditions" },
         // { name: "Privacy", href: "/terms/privacy-policy" },

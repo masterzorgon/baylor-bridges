@@ -153,9 +153,9 @@ const Navbar = (props) => {
                                             <Popover.Panel className="absolute z-10 left-1/2 transform -translate-x-1/2 mt-3 px-2 w-screen max-w-xs sm:px-0">
                                                 <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
                                                     <div className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
-                                                        <a href="/about" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
+                                                        {/* <a href="/about" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
                                                             <div className="ml-4 text-base font-medium text-gray-900">About</div>
-                                                        </a>
+                                                        </a> */}
                                                         {/*TODO to create this page and connect the url*/}
                                                         <a href="/contact-us" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
                                                             <div className="ml-4 text-base font-medium text-gray-900">Contact Us</div>
