@@ -45,7 +45,7 @@ const Closed = () => {
                         <p className="mt-8 text-sm text-gray-500 leading-7">
                             At the moment, self-sign up for alumni is closed.
                             If you are an alumni from Baylor University and wish to sign up for an account,
-                            please fill in your form <a className="text-emerald-600 underline underline-offset-2" href="https://baylor.qualtrics.com/jfe/form/SV_8v5U3apajzQVm86">here</a>,
+                            please <a className="text-emerald-600 underline underline-offset-2" href="https://baylor.qualtrics.com/jfe/form/SV_8v5U3apajzQVm86">fill in your form here</a>,
                             and we will get back to you!
                         </p>
                         <p className="mt-4 text-sm text-gray-500 leading-7">
