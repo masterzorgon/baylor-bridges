@@ -72,10 +72,36 @@ const ExperienceModal = ({ modal, setModal, experience, setExperience, setUpload
         let name    = event.target.name;
         let value   = event.target.value;
 
-        if      (name === "title")          setExperience({ ...experience, title: value });
-        else if (name === "start_time")     setExperience({ ...experience, start_time: value });
-        else if (name === "stop_time")      setExperience({ ...experience, stop_time: value });
-        else if (name === "description")    setExperience({ ...experience, description: value });
+        if      (name === "title"){          setExperience({ ...experience, title: value });}
+        else if (name === "description"){   setExperience({ ...experience, description: value });}
+        else if (name === "start_time" || name === "stop_time"){    
+            let new_field=experience; 
+
+            let input=value;
+            console.log("input is",input);
+            if(input.length<=2 && /^\d*$/.test(input)){
+                let oldVal=new_field[name];
+                new_field[name]=value;
+                if(input.length===2){
+                    if(oldVal.charAt(oldVal.length - 1)!=="/"){
+                        new_field[name]+="/";
+                    }                                              
+                }                    
+            }
+            else if(/^\d{2}\/\d{0,4}$/.test(input)){
+                new_field[name]=value;
+
+            }
+
+            if (new_field[name]===null){
+                new_field[name]="";
+                console.log("new field is null");
+            }
+            setExperience(new_field);
+            console.log(experience);
+        }
+        setRefresh(true);
+        
     };
 
     // eslint-disable-next-line no-unused-vars
@@ -287,7 +313,8 @@ const ExperienceModal = ({ modal, setModal, experience, setExperience, setUpload
                                                     id="start_time"
                                                     autoComplete="cc-exp"
                                                     className="my-3 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
-                                                    placeholder="MM / YY"
+                                                    placeholder="MM / YYYY"
+                                                    value={experience.start_time}
                                                     onChange={handleInputChange}
                                                 />
                                                 {/* <DatePicker/> */}
@@ -302,7 +329,8 @@ const ExperienceModal = ({ modal, setModal, experience, setExperience, setUpload
                                                     id="stop_time"
                                                     autoComplete="cc-exp"
                                                     className="my-3 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
-                                                    placeholder="MM / YY"
+                                                    placeholder="MM / YYYY"
+                                                    value={experience.stop_time}
                                                     onChange={handleInputChange}
                                                 />
                                             </div>
