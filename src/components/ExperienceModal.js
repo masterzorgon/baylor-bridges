@@ -187,7 +187,7 @@ const ExperienceModal = ({ modal, setModal, experience, setExperience, setUpload
                                                         name="publications-title"
                                                         id="publications-title"
                                                         className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
-                                                        placeholder="Publication title"
+                                                        placeholder="Title"
                                                         
                                                     />
                                                 </div>
@@ -197,7 +197,7 @@ const ExperienceModal = ({ modal, setModal, experience, setExperience, setUpload
                                                         name="publications-url"
                                                         id="publications-url"
                                                         className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
-                                                        placeholder="Publication URL"
+                                                        placeholder="Link"
                                                         
                                                     />
                                                 </div>
@@ -302,7 +302,7 @@ const ExperienceModal = ({ modal, setModal, experience, setExperience, setUpload
                                                     name="title"
                                                     id="title"
                                                     className=" my-3 flex-1 block w-full focus:ring-emerald-500 focus:border-emerald-500 min-w-0 rounded-md sm:text-sm border-gray-300"
-                                                    placeholder="Experience Title"
+                                                    placeholder="Title"
                                                     onChange={handleInputChange}
                                                 />
                                             </div>
@@ -348,7 +348,7 @@ const ExperienceModal = ({ modal, setModal, experience, setExperience, setUpload
                                                     rows={3}
                                                     className="my-3 shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border border-gray-300 rounded-md max-h-20"
                                                     defaultValue={""}
-                                                    placeholder="Experience Description"
+                                                    placeholder="Description"
                                                     onChange={handleInputChange}
                                                 />
                                             </div>
