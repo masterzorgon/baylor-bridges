@@ -6,9 +6,8 @@ import ExperienceModal from "../../components/ExperienceModal";
 import { Menu, Transition,Dialog } from "@headlessui/react";
 import { PencilIcon, DotsVerticalIcon, DocumentRemoveIcon, PlusSmIcon as PlusSmIconSolid } from "@heroicons/react/solid";
 
-// eslint-disable-next-line no-unused-vars
-import { MinusCircleIcon, ExclamationIcon, LinkIcon, TrashIcon } from "@heroicons/react/outline";
-
+import { MinusCircleIcon, ExclamationIcon, LinkIcon } from "@heroicons/react/outline";
+import ErrorMessage from "../../components/ErrorMessage";
 
 // TAILWIND CSS ALERTS
 import UploadSuccess from "../../components/UploadSuccess";
@@ -19,6 +18,7 @@ import axios from "axios";
 
 const Experience = () => {
     const [loading, setLoading] = useState(false);
+    const [error_message,setErrorMessage]=useState(null);
 
     const [experiences, setExperiences] = useState([]);
     const [update, setUpdate]           = useState(false);
@@ -140,9 +140,10 @@ const Experience = () => {
                     console.log(new_exper);
                     setRefresh(true);
                     setOpen(false);     
-                    setExperiences(res.data);           
+                    setExperiences(res.data);  
+                    setErrorMessage(null);         
                 })
-                .catch(err => console.log(err))
+                .catch(err => err.message!=="time out"? setErrorMessage(err.response.data.message):setErrorMessage("server time out"))
                 .finally(() => setLoading(false));
         };
 
@@ -161,8 +162,9 @@ const Experience = () => {
                     new_exper[modalSettings["idx"]]["publications"] = res.data;
                     console.log(new_exper);
                     setOpen(false);
+                    setErrorMessage(null);
                 })
-                .catch(error => console.log(error))
+                .catch(err => err.message!=="time out"? setErrorMessage(err.response.data.message):setErrorMessage("server time out"))
                 .finally(() => setLoading(false));   
         };
 
@@ -175,8 +177,11 @@ const Experience = () => {
                 .then(res => {
                     console.log("update the experience successfully");
                     setExperiences(res.data);
+                    setErrorMessage(false);
                     setOpen(false);                
                 })
+                .catch(err => err.message!=="time out"? setErrorMessage(err.response.data.message):setErrorMessage("server time out"))
+               
                 .finally(() => setLoading(false));
         
             // TODO: also submit publications changes
@@ -200,9 +205,12 @@ const Experience = () => {
                         let new_exper=experiences;
                         new_exper[modalSettings["idx"]["list_id"]]["publications"]=res.data;
                         console.log(new_exper);
+                        setErrorMessage(null);
                         setOpen(false);
 
-                    }).finally(()=>setLoading(false));
+                    })
+                    .catch(err => err.message!=="time out"? setErrorMessage(err.response.data.message):setErrorMessage("server time out"))
+                    .finally(()=>setLoading(false));
 
             }
             else if (modalSettings["modalType"] === "edit pub")
@@ -235,6 +243,7 @@ const Experience = () => {
                     [*][*][*][*]                       [*][*][*][*]
                 */
                 <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full sm:p-6">
+                    <ErrorMessage error_message={error_message}></ErrorMessage>
                     <section aria-labelledby="payment-details-heading">
                         <div>
                             <div className="sm:rounded-md sm:overflow-hidden">
@@ -617,7 +626,10 @@ const Experience = () => {
                                             </div>
 
                                             {/* SHOW NEW EXPERIENCE MODAL */}
-                                            {modal && <ExperienceModal modal={modal} setModal={setModal} experience={experience} setExperience={setExperience} setUploadSuccess={setUploadSuccess} setUploadFailure={setUploadFailure} loading={loading} setLoading={setLoading} refresh={refresh} setRefresh={setRefresh} experiences={experiences} setExperiences={setExperiences} />}
+                                            {modal && <ExperienceModal modal={modal} setModal={setModal} experience={experience} setExperience={setExperience}
+                                                setUploadSuccess={setUploadSuccess} setUploadFailure={setUploadFailure} loading={loading} setLoading={setLoading} 
+                                                refresh={refresh} setRefresh={setRefresh} experiences={experiences} setExperiences={setExperiences} 
+                                                error_message={error_message} setErrorMessage={setErrorMessage}/>}
 
                                             {/* 
                                                 [*][*][*]                     [*][*][*]

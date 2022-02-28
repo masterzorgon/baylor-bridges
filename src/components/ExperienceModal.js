@@ -2,11 +2,12 @@ import React from "react";
 import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import Button from "./Button";
+import ErrorMessage from "./ErrorMessage";
 // import { PlusSmIcon as PlusSmIconSolid } from "@heroicons/react/solid";
 
 import axios from "axios";
 
-const ExperienceModal = ({ modal, setModal, experience, setExperience, setUploadSuccess, setUploadFailure,loading,setLoading,experiences,setExperiences,setRefresh }) => {
+const ExperienceModal = ({ modal, setModal, experience, setExperience, setUploadSuccess, setUploadFailure,loading,setLoading,experiences,setExperiences,setRefresh,error_message,setErrorMessage }) => {
     /* 
         TODO:
             - add publication submission functionality to the modal
@@ -47,7 +48,7 @@ const ExperienceModal = ({ modal, setModal, experience, setExperience, setUpload
 
 
                 clearModal();
-                // FIXME: add to experiences list
+
                 let new_expers=response.data;
                 console.log(new_expers);
                 setExperiences(new_expers);
@@ -55,12 +56,14 @@ const ExperienceModal = ({ modal, setModal, experience, setExperience, setUpload
                 console.log("the new experiences is ",experiences);
                 
                 setRefresh(true);
+                setErrorMessage("null");
             })
             .catch(error => {
                 console.log(error);
                 setUploadFailure(true);
                 setTimeout(() => setUploadFailure(false), 6000);
                 clearModal();
+                setErrorMessage(error.response.data.message);
             })
             .finally(()=>(setLoading(false)))
         ;
@@ -169,6 +172,7 @@ const ExperienceModal = ({ modal, setModal, experience, setExperience, setUpload
                         >
                             {/* MODAL CONTENT */}
                             <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
+                                <ErrorMessage error_message={error_message}></ErrorMessage>
                                 <form id='newPublicationModal'>
                                     <div className="mt-3 text-center sm:mt-5">
                                         <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
