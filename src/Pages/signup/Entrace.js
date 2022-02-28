@@ -16,7 +16,7 @@ const Entrace = () => {
         },
         {
             key: "alumni",
-            title: "Alumnus",
+            title: "Baylor Alumni",
             description: "Sign up as an aluminus of the Baylor University, and present yourself in the networks.",
         },
     ];
