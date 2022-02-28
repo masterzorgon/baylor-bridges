@@ -18,6 +18,11 @@ const states = [
     { title: "Missouri", value: "MO", description: "MO" }, { title: "Arkansas", value: "AR", description: "AR" }, { title: "Alabama", value: "AL", description: "AL" }, { title: "Mississippi", value: "MS", description: "MS" }, { title: "Louisiana", value: "LA", description: "LA" }, { title: "Michigan", value: "MI", description: "MI" }, { title: "Florida", value: "FL", description: "FL" }, { title: "South Carolina", value: "SC", description: "SC" }, { title: "Ohio", value: "OH", description: "OH" }, { title: "Iowa", value: "IA", description: "IA" },
 ];
 
+const semester=[
+    {title:"spring",value:"spring"},
+    {title:"fall",value:"fall"}
+];
+
 const visibility_options = [
     { title: "Self", value: "self", description: "Only you can see this field in your profile" },
     { title: "Alumni", value: "alumni", description: "Other alumni can see this field in your profile" },
@@ -52,6 +57,13 @@ const profile = {
                     { type: "text", title: "First name", placeholder: "First name", key: "first_name", required: true },
                     { type: "text", title: "Last name", placeholder: "Last name", key: "last_name", required: true },
                 ],
+            },
+            graduate_class:{
+                title: "Graduate Class",
+                value: [
+                    {type: "dropdown",title:"Graduate Semester",placeholder:"Semester",key:"graduate_semester",options:semester},
+                    {type:"text",title:"Graduate Year",placeholder:"Year",key:"graduate_year"}
+                ]
             },
             headline: {
                 title: "Headline",
@@ -246,7 +258,21 @@ const Profile = () => {
 
                 // v = v.trim();
                 if (section_key === "basic") {
-                    setUpdate({ ...update, [value.key]: v });
+
+                    // for graduate year field user can only input 4 digit
+                    console.log("the value key is ",value.key);
+                    if(value.key==="graduate_year" ){
+
+                        if(/^\d{0,4}$/.test(v)){
+                            setUpdate({ ...update, [value.key]: v });
+                        }
+                        console.log("changing graduate_year");
+                        
+
+                    }else{
+
+                        setUpdate({ ...update, [value.key]: v });
+                    }
                 } else {
                     setUpdate({ ...update, [section_key]: { ...update[section_key], [value.key]: v } });
                 }
