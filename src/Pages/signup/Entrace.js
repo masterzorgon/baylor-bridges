@@ -11,7 +11,7 @@ const Entrace = () => {
     const roles = [
         {
             key: "student",
-            title: "Current Student",
+            title: "Current Students",
             description: "Sign up as a current student of the Baylor University, and make your connections in the networks.",
         },
         {

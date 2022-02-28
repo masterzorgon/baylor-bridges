@@ -36,19 +36,17 @@ const Closed = () => {
                     <div className="text-lg max-w-prose mx-auto">
                         <h1>
                             <span className="block text-base text-center text-emerald-600 font-semibold tracking-wide uppercase">
-                                Welcome Baylor Alumni!
+                                Welcome
                             </span>
                             <span className="mt-2 block text-2xl text-center leading-7 font-extrabold tracking-tight text-gray-900 sm:text-3xl">
-                                We are glad to have you join us! Use this <a className="text-emerald-600 underline underline-offset-2" href="https://baylor.qualtrics.com/jfe/form/SV_8v5U3apajzQVm86">link</a> to sign up!
+                                We are glad to have you join us
                             </span>
                         </h1>
-                        {/* <p className="mt-8 text-sm text-gray-500 leading-7">
-                            <strong> At the moment, self-sign up for alumni is closed. </strong>
-                            We want to make sure only Baylor Alumni are admitted. 
-                        </p> */}
-                        <p className="mt-4 text-sm text-gray-500 leading-7">
-                            We will get back to you in 24 Hours!
-                            {/* If you are an alumni from Baylor University and wish to sign up for an account, please sign up <a className="text-emerald-600 underline underline-offset-2" href="https://baylor.qualtrics.com/jfe/form/SV_8v5U3apajzQVm86">here</a>. */}
+                        <p className="mt-8 text-sm text-gray-500 leading-7">
+                            At the moment, self-sign up for alumni is closed.
+                            If you are an alumni from Baylor University and wish to sign up for an account,
+                            please fill in your form <a className="text-emerald-600 underline underline-offset-2" href="https://baylor.qualtrics.com/jfe/form/SV_8v5U3apajzQVm86">here</a>,
+                            and we will get back to you!
                         </p>
                         <p className="mt-4 text-sm text-gray-500 leading-7">
                             If you are a current student at the Baylor University, please <a className="text-emerald-600 underline underline-offset-2" href="/sign-up"> sign up here</a>.
