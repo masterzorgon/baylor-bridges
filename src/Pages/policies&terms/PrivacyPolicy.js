@@ -1,6 +1,4 @@
-import React, { useEffect } from "react";
-import { useState } from "react/cjs/react.development";
-
+import React, { useEffect, useState } from "react";
 
 
 export default function PrivacyPolicy() {
