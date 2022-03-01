@@ -1,9 +1,9 @@
-import React, { useEffect, useState,Fragment,useRef } from "react";
+import React, { useEffect, useState, Fragment, useRef } from "react";
 import SettingsNavbar from "../../components/SettingsNavbar";
 import ExperienceModal from "../../components/ExperienceModal";
 
 // eslint-disable-next-line no-unused-vars
-import { Menu, Transition,Dialog } from "@headlessui/react";
+import { Menu, Transition, Dialog } from "@headlessui/react";
 import { PencilIcon, DotsVerticalIcon, DocumentRemoveIcon, PlusSmIcon as PlusSmIconSolid } from "@heroicons/react/solid";
 
 import { MinusCircleIcon, ExclamationIcon, LinkIcon } from "@heroicons/react/outline";
@@ -18,25 +18,25 @@ import axios from "axios";
 
 const Experience = () => {
     const [loading, setLoading] = useState(false);
-    const [error_message,setErrorMessage]=useState(null);
+    const [error_message, setErrorMessage] = useState(null);
 
     const [experiences, setExperiences] = useState([]);
-    const [update, setUpdate]           = useState(false);
-    const [open, setOpen]               = useState(false);
-    const [field, setField]             = useState(null);
+    const [update, setUpdate] = useState(false);
+    const [open, setOpen] = useState(false);
+    const [field, setField] = useState(null);
 
     // modalSetttings will start the modal type(edit/remove) and exper_idx
-    const [modalSettings,setModalSettings]  = useState({});
-    const cancelButtonRef                   = useRef(null); 
+    const [modalSettings, setModalSettings] = useState({});
+    const cancelButtonRef = useRef(null);
 
     // eslint-disable-next-line no-unused-vars
     const [refresh, setRefresh] = useState(false);
-    
+
     // STATE FOR ADDING A NEW EXPERIENCE [*][*][*][*]
-    const [modal, setModal]                 = useState(false);
+    const [modal, setModal] = useState(false);
     const [uploadSuccess, setUploadSuccess] = useState(false);
     const [uploadFailure, setUploadFailure] = useState(false);
-    const [experience, setExperience]       = useState({
+    const [experience, setExperience] = useState({
         title: "",
         description: "",
         start_time: "",
@@ -51,22 +51,20 @@ const Experience = () => {
     useEffect(() => {
         console.log("calling use effect");
 
-        if (experiences.length === 0)
-        {
+        if (experiences.length === 0) {
             axios.get("/account/profile/experience")
                 .then(res => {
                     console.log(res.data);
                     setExperiences(res.data);
                 });
         }
-        else
-        {
+        else {
             console.log("not calling axios");
             setRefresh(false);
         }
         setUpdate(false);
 
-    }, [update, refresh]); 
+    }, [update, refresh]);
 
     // eslint-disable-next-line no-unused-vars
     // const handleChange =(index,field,value)=>{
@@ -83,42 +81,42 @@ const Experience = () => {
 
         const handleChange = (e, value) => {
             let new_field = field;
-            if (value==="start_time" || value==="stop_time"){
-                
+            if (value === "start_time" || value === "stop_time") {
 
-                let input=e.target.value;
-                console.log("input is",input);
-                if(input.length<=2 && /^\d*$/.test(input)){
 
-                    let oldVal=new_field[value];
-                    new_field[value]=e.target.value;
-                    
-                    if(input.length===2){
-                        if(oldVal.charAt(oldVal.length - 1)!=="/"){
-                            new_field[value]+="/";
-                        }                                              
-                    }                    
+                let input = e.target.value;
+                console.log("input is", input);
+                if (input.length <= 2 && /^\d*$/.test(input)) {
+
+                    let oldVal = new_field[value];
+                    new_field[value] = e.target.value;
+
+                    if (input.length === 2) {
+                        if (oldVal.charAt(oldVal.length - 1) !== "/") {
+                            new_field[value] += "/";
+                        }
+                    }
                 }
-                else if(/^\d{2}\/\d{0,4}$/.test(input)){
-                    new_field[value]=e.target.value;
+                else if (/^\d{2}\/\d{0,4}$/.test(input)) {
+                    new_field[value] = e.target.value;
 
                 }
 
-                if (new_field[value]===null){
-                    new_field[value]="";
+                if (new_field[value] === null) {
+                    new_field[value] = "";
                     console.log("new field is null");
                 }
                 setField(new_field);
                 console.log(field);
-                    
-                
 
-            }else{
-                
+
+
+            } else {
+
                 new_field[value] = e.target.value;
                 console.log(new_field);
                 setField(new_field);
-            
+
             }
             setRefresh(true);
 
@@ -128,10 +126,10 @@ const Experience = () => {
         const handleExperRemove = () => {
             setLoading(true);
             console.log("exper id is " + field["exper_id"] + ", the idx is " + modalSettings["idx"]);
-            
+
             // eslint-disable-next-line no-unused-vars
             let url = "/account/profile/experience/" + field["exper_id"];
-            
+
             axios.delete(url)
                 .then(res => {
                     console.log("delete the experience successfully");
@@ -139,16 +137,15 @@ const Experience = () => {
                     new_exper.splice(modalSettings["idx"], 1);
                     console.log(new_exper);
                     setRefresh(true);
-                    setOpen(false);     
-                    setExperiences(res.data);  
-                    setErrorMessage(null);         
+                    setOpen(false);
+                    setExperiences(res.data);
+                    setErrorMessage(null);
                 })
-                .catch(err => err.message!=="time out"? setErrorMessage(err.response.data.message):setErrorMessage("server time out"))
+                .catch(err => err.message !== "time out" ? setErrorMessage(err.response.data.message) : setErrorMessage("server time out"))
                 .finally(() => setLoading(false));
         };
 
-        const handlePubRemove = () =>
-        {
+        const handlePubRemove = () => {
             setLoading(true);
 
             console.log("PUB ID", field[0].pub_id);
@@ -164,77 +161,74 @@ const Experience = () => {
                     setOpen(false);
                     setErrorMessage(null);
                 })
-                .catch(err => err.message!=="time out"? setErrorMessage(err.response.data.message):setErrorMessage("server time out"))
-                .finally(() => setLoading(false));   
+                .catch(err => err.message !== "time out" ? setErrorMessage(err.response.data.message) : setErrorMessage("server time out"))
+                .finally(() => setLoading(false));
         };
 
 
         const handleExperSubmit = (field) => {
             setLoading(true);
-            let url="/account/profile/experience/" + field["exper_id"];
+            let url = "/account/profile/experience/" + field["exper_id"];
             console.log(url);
             axios.put(url, field)
                 .then(res => {
                     console.log("update the experience successfully");
                     setExperiences(res.data);
                     setErrorMessage(false);
-                    setOpen(false);                
+                    setOpen(false);
                 })
-                .catch(err => err.message!=="time out"? setErrorMessage(err.response.data.message):setErrorMessage("server time out"))
-               
+                .catch(err => err.message !== "time out" ? setErrorMessage(err.response.data.message) : setErrorMessage("server time out"))
+
                 .finally(() => setLoading(false));
-        
+
             // TODO: also submit publications changes
         };
 
-        const handlePubSubmit = (field) =>
-        {
+        const handlePubSubmit = (field) => {
             console.log("calling handel pub submit");
             console.log(modalSettings);
 
             setLoading(true);
-            if (modalSettings["modalType"] === "new pub")
-            {
-                let url="/account/profile/experience/"+modalSettings["idx"]["db_id"]+"/publication";
+            if (modalSettings["modalType"] === "new pub") {
+                let url = "/account/profile/experience/" + modalSettings["idx"]["db_id"] + "/publication";
                 console.log(url);
                 // console.log(experiences[modalSettings["idx"]["list_id"]]);
-                axios.post(url,field)
-                    .then(res=>{
+                axios.post(url, field)
+                    .then(res => {
                         console.log("post successfully");
                         console.log(res.data);
-                        let new_exper=experiences;
-                        new_exper[modalSettings["idx"]["list_id"]]["publications"]=res.data;
+                        let new_exper = experiences;
+                        new_exper[modalSettings["idx"]["list_id"]]["publications"] = res.data;
                         console.log(new_exper);
                         setErrorMessage(null);
                         setOpen(false);
 
                     })
-                    .catch(err => err.message!=="time out"? setErrorMessage(err.response.data.message):setErrorMessage("server time out"))
-                    .finally(()=>setLoading(false));
+                    .catch(err => err.message !== "time out" ? setErrorMessage(err.response.data.message) : setErrorMessage("server time out"))
+                    .finally(() => setLoading(false));
 
             }
-            else if (modalSettings["modalType"] === "edit pub")
-            {
+            else if (modalSettings["modalType"] === "edit pub") {
                 console.log("put to publication");
-                let url="/account/profile/experience/"+modalSettings["idx"]["exper_db_id"]+"/publication/"+field.pub_id;
-                console.log("the url is "+url);
-                axios.put(url,field)
-                    .then(res=>{
+                let url = "/account/profile/experience/" + modalSettings["idx"]["exper_db_id"] + "/publication/" + field.pub_id;
+                console.log("the url is " + url);
+                axios.put(url, field)
+                    .then(res => {
                         console.log("post successfully");
                         console.log(res.data);
-                        let new_exper=experiences;
-                        new_exper[modalSettings["idx"]["exper_list_id"]]["publications"]=res.data;
+                        let new_exper = experiences;
+                        new_exper[modalSettings["idx"]["exper_list_id"]]["publications"] = res.data;
                         console.log(new_exper);
-                        
+
                         setOpen(false);
 
-                    }).finally(()=>setLoading(false));
+                    }).finally(() => setLoading(false));
             }
         };
 
 
         if (!field) return;
-         
+
         if (modalSettings["modalType"] === "edit") {
             return (
                 /* 
@@ -251,7 +245,7 @@ const Experience = () => {
                                     <div>
                                         <h2 id="payment-details-heading" className="text-lg leading-6 font-medium text-gray-900">
                                             Edit Experience
-                                        </h2>          
+                                        </h2>
                                     </div>
 
                                     <div className="mt-6 grid grid-cols-4 gap-6">
@@ -265,8 +259,8 @@ const Experience = () => {
                                                 id="title"
                                                 autoComplete=""
                                                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
-                                                value={field.title} 
-                                                onChange={(e) => handleChange(e,"title")}
+                                                value={field.title}
+                                                onChange={(e) => handleChange(e, "title")}
                                             />
                                         </div>
 
@@ -282,7 +276,7 @@ const Experience = () => {
                                                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
                                                 placeholder="MM / YYYY"
                                                 value={field.start_time}
-                                                onChange={(e)=>handleChange(e,"start_time")}
+                                                onChange={(e) => handleChange(e, "start_time")}
                                             />
                                             {/* <DatePicker/> */}
                                         </div>
@@ -298,7 +292,7 @@ const Experience = () => {
                                                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
                                                 placeholder="MM / YYYY"
                                                 value={field.stop_time}
-                                                onChange={(e)=>handleChange(e,"stop_time")}
+                                                onChange={(e) => handleChange(e, "stop_time")}
                                             />
                                         </div>
 
@@ -306,7 +300,7 @@ const Experience = () => {
                                             <label htmlFor="comment" className="block text-sm font-medium text-gray-700">
                                                 Description
                                             </label>
-                                                        
+
                                             <textarea
                                                 rows={4}
                                                 name="comment"
@@ -315,11 +309,11 @@ const Experience = () => {
                                                 defaultValue={""}
                                                 value={field.description}
                                                 onChange={(e) => handleChange(e, "description")}
-                                            />          
+                                            />
                                         </div>
 
                                     </div>
-                                </div>          
+                                </div>
                             </div>
 
                             <div className="mt-5 sm:mt-6">
@@ -344,13 +338,13 @@ const Experience = () => {
                             </div>
                         </div>
                     </section>
-                    
+
                 </div>
             );
         }
         else if (modalSettings["modalType"] === "remove") {
             console.log("you click remove");
-            return(
+            return (
                 <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
                     <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                         <div className="sm:flex sm:items-start">
@@ -379,14 +373,14 @@ const Experience = () => {
                         >
                             {
                                 loading &&
-                                        <svg className="cursor-not-allowed animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
-                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fillOpacity="0"></circle>
-                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                        </svg>
+                                <svg className="cursor-not-allowed animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fillOpacity="0"></circle>
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
                             }
                             {
                                 !loading &&
-                                        "Remove"
+                                "Remove"
                             }
                         </button>
                         <button
@@ -395,16 +389,15 @@ const Experience = () => {
                             onClick={() => setOpen(false)}
                             ref={cancelButtonRef}
                         >
-                  Cancel
+                            Cancel
                         </button>
                     </div>
                 </div>
             );
         }
-        else if (modalSettings["modalType"] === "remove pub")
-        {
+        else if (modalSettings["modalType"] === "remove pub") {
             console.log("you click remove");
-            return(
+            return (
                 <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
                     <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                         <div className="sm:flex sm:items-start">
@@ -433,14 +426,14 @@ const Experience = () => {
                         >
                             {
                                 loading &&
-                                        <svg className="cursor-not-allowed animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
-                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fillOpacity="0"></circle>
-                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                        </svg>
+                                <svg className="cursor-not-allowed animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fillOpacity="0"></circle>
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
                             }
                             {
                                 !loading &&
-                                        "Remove"
+                                "Remove"
                             }
                         </button>
                         <button
@@ -454,11 +447,10 @@ const Experience = () => {
                     </div>
                 </div>
             );
-        }   
-        else if (modalSettings["modalType"] === "new pub" || modalSettings["modalType"] === "edit pub")
-        {
+        }
+        else if (modalSettings["modalType"] === "new pub" || modalSettings["modalType"] === "edit pub") {
             console.log("geting modal new pub");
-            return(
+            return (
                 <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full sm:p-6">
                     <section aria-labelledby="payment-details-heading">
                         <div>
@@ -471,14 +463,14 @@ const Experience = () => {
                                                     ? "add publication"
                                                     : "edit publication"
                                             }
-                                        </h2>          
+                                        </h2>
                                     </div>
 
                                     <div className="mt-6 grid grid-cols-8 gap-6">
 
                                         <div className="col-span-8 sm:col-span-3">
                                             <label htmlFor="start-date" className="block text-sm font-medium text-gray-700">
-                                            pub title
+                                                pub title
                                             </label>
                                             <input
                                                 type="text"
@@ -487,14 +479,14 @@ const Experience = () => {
                                                 autoComplete="cc-exp"
                                                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
                                                 placeholder="Title"
-                                                onChange={(e)=>handleChange(e,"title")}
+                                                onChange={(e) => handleChange(e, "title")}
                                                 value={field.title}
                                             />
                                             {/* <DatePicker/> */}
                                         </div>
                                         <div className="col-span-8 sm:col-span-5">
                                             <label htmlFor="expiration-date" className="block text-sm font-medium text-gray-700">
-                                            duo link
+                                                duo link
                                             </label>
                                             <input
                                                 type="text"
@@ -502,16 +494,16 @@ const Experience = () => {
                                                 id="expiration-date"
                                                 autoComplete="cc-exp"
                                                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
-                                                onChange={(e)=>handleChange(e,"duo_link")}
+                                                onChange={(e) => handleChange(e, "duo_link")}
                                                 placeholder="Link"
                                                 value={field.duo_link}
                                             />
                                         </div>
 
 
- 
+
                                     </div>
-                                </div>          
+                                </div>
                             </div>
 
                             <div className="mt-5 sm:mt-6">
@@ -536,24 +528,24 @@ const Experience = () => {
                             </div>
                         </div>
                     </section>
-                    
+
                 </div>
             );
         }
-        
+
 
     };
 
     const handleOpenModal = (modalType, exper, exper_idx) => {
-        setModalSettings({"modalType":modalType,"idx":exper_idx});
+        setModalSettings({ "modalType": modalType, "idx": exper_idx });
         console.log(modalSettings);
-        if (modalType==="new pub"){
-            setField({"title":"","duo_link":""});
+        if (modalType === "new pub") {
+            setField({ "title": "", "duo_link": "" });
 
 
         }
-        
-        else{
+
+        else {
             console.log("the idx pass into handleOpenModal is " + exper_idx);
             setField(exper);
 
@@ -578,14 +570,14 @@ const Experience = () => {
             title: ""
         });
     };
-      
+
     /*
         [*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*]
         [*][*][*][*] CONTENT AREA! [*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*]
         [*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*]
     */
-    
-    return(
+
+    return (
         <>
             <div>
                 <div className="">
@@ -603,7 +595,7 @@ const Experience = () => {
                                             {/* ALERTS THAT DISPLAY UPON CREATING A NEW EXPERIENCE */}
                                             {uploadSuccess ? <UploadSuccess uploadSuccess={uploadSuccess} setUploadSuccess={setUploadSuccess} /> : null}
                                             {uploadFailure ? <UploadFailure uploadFailure={uploadFailure} setUploadFailure={setUploadFailure} /> : null}
-                                            
+
                                             {/* NEW EXPERIENCE BANNER */}
                                             <div className="bg-emerald-600 rounded-md my-4">
                                                 <div className="max-w-7xl mx-auto py-3 px-3 sm:px-6 lg:px-8">
@@ -627,18 +619,18 @@ const Experience = () => {
 
                                             {/* SHOW NEW EXPERIENCE MODAL */}
                                             {modal && <ExperienceModal modal={modal} setModal={setModal} experience={experience} setExperience={setExperience}
-                                                setUploadSuccess={setUploadSuccess} setUploadFailure={setUploadFailure} loading={loading} setLoading={setLoading} 
-                                                refresh={refresh} setRefresh={setRefresh} experiences={experiences} setExperiences={setExperiences} 
-                                                error_message={error_message} setErrorMessage={setErrorMessage}/>}
+                                                setUploadSuccess={setUploadSuccess} setUploadFailure={setUploadFailure} loading={loading} setLoading={setLoading}
+                                                refresh={refresh} setRefresh={setRefresh} experiences={experiences} setExperiences={setExperiences}
+                                                error_message={error_message} setErrorMessage={setErrorMessage} />}
 
                                             {/* 
                                                 [*][*][*]                     [*][*][*]
                                                 [*][*][*] EXPERIENCES SECTION [*][*][*]
                                                 [*][*][*]                     [*][*][*]
                                             */}
-                                            
+
                                             <div className="space-y-10 sm:px-6 lg:px-0 lg:col-span-9">
-                                                { experiences.map((exper, idx) => (
+                                                {experiences.map((exper, idx) => (
                                                     <>
                                                         <section aria-labelledby="payment-details-heading" key={exper.exper_id}>
                                                             <form>
@@ -678,12 +670,12 @@ const Experience = () => {
                                                                                                     <Menu.Item>
                                                                                                         {({ active }) => (
                                                                                                             <a
-                                                                                                                
+
                                                                                                                 className={classNames(
                                                                                                                     active ? "bg-gray-100 text-gray-900 cursor-pointer" : "text-gray-700 cursor-pointer",
                                                                                                                     "flex px-4 py-2 text-sm cursor-pointer"
                                                                                                                 )}
-                                                                                                                onClick={()=> handleOpenModal("edit", exper, idx)}
+                                                                                                                onClick={() => handleOpenModal("edit", exper, idx)}
                                                                                                             >
                                                                                                                 <PencilIcon className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
                                                                                                                 <span>Edit</span>
@@ -736,7 +728,8 @@ const Experience = () => {
                                                                                         <div className="w-0 flex-1 flex items-center">
                                                                                             <LinkIcon className="flex-shrink-0 h-5 w-5 text-gray-400" />
                                                                                             <span className="ml-2 flex-1 w-0 truncate text-gray-700">
-                                                                                                <a href={publication.duo_link} className="font-medium text-emerald-600 hover:text-emerald-500">    
+                                                                                                <a href={/^http:\/\//.test(publication.duo_link) || /^https:\/\//.test(publication.duo_link) ? publication.duo_link : "//" + publication.duo_link}
+                                                                                                    className="font-medium text-emerald-600 hover:text-emerald-500" target="_blank" rel="noreferrer"> 
                                                                                                     {publication.title}
                                                                                                 </a>
                                                                                             </span>
@@ -747,9 +740,9 @@ const Experience = () => {
                                                                                                 [*][*][*][*] ENTER EDIT AND DELETE ICONS [*][*][*][*]
                                                                                                 [*][*][*][*]                             [*][*][*][*]
                                                                                             */}
-                                                                                            
+
                                                                                             <PencilIcon className="h-5 w-5 mx-4" viewBox="0 0 20 20" fill="currentColor"
-                                                                                                onClick={() => handleOpenModal("edit pub", publication, {"pub_list_id":index, "exper_list_id":idx, "exper_db_id":exper.exper_id})}
+                                                                                                onClick={() => handleOpenModal("edit pub", publication, { "pub_list_id": index, "exper_list_id": idx, "exper_db_id": exper.exper_id })}
                                                                                             >
                                                                                                 <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                                                                                             </PencilIcon>
@@ -759,7 +752,7 @@ const Experience = () => {
                                                                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                                                             </MinusCircleIcon>
                                                                                         </div>
-                                                                                    </li>                             
+                                                                                    </li>
                                                                                 ))
                                                                             }
                                                                             <li className="flex items-center">
@@ -775,7 +768,7 @@ const Experience = () => {
                                                                                             <button
                                                                                                 type="button"
                                                                                                 className="flex m-auto items-center p-1 border border-transparent rounded-full shadow-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
-                                                                                                onClick={()=>handleOpenModal("new pub",null,{"db_id": exper.exper_id, "list_id": idx})}
+                                                                                                onClick={() => handleOpenModal("new pub", null, { "db_id": exper.exper_id, "list_id": idx })}
                                                                                             >
                                                                                                 <PlusSmIconSolid className="h-5 w-5" aria-hidden="true" />
                                                                                             </button>
@@ -831,15 +824,15 @@ const Experience = () => {
                         >
 
                             {/* {console.log("the field in modal is",field)} */}
-                            {getModal(modalSettings,field)}
+                            {getModal(modalSettings, field)}
 
                         </Transition.Child>
-                        
+
                     </div>
                 </Dialog>
             </Transition.Root>
 
-        </>    
+        </>
     );
 
 

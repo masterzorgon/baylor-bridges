@@ -246,11 +246,12 @@ const Profile = () => {
                                                                                 <div className="w-0 flex-1 flex items-center">
                                                                                     <LinkIcon className="flex-shrink-0 h-5 w-5 text-gray-400" />
                                                                                     <span className="ml-2 flex-1 w-0 truncate text-gray-700">
-                                                                                        pub test
+                                                                                        {publication.title}
                                                                                     </span>
                                                                                 </div>
                                                                                 <div className="ml-4 flex-shrink-0">
-                                                                                    <a href={publication.duo_link} className="font-medium text-emerald-600 hover:text-emerald-500">
+                                                                                    <a href= {/^http:\/\//.test(publication.duo_link) || /^https:\/\//.test(publication.duo_link) ? publication.duo_link:"//"+publication.duo_link} 
+                                                                                        className="font-medium text-emerald-600 hover:text-emerald-500" target="_blank" rel="noreferrer">
                                                                                         Open
                                                                                     </a>
                                                                                 </div>
