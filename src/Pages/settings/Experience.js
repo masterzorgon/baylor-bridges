@@ -326,7 +326,7 @@ const Experience = () => {
                                     <div className="mt-6 grid grid-cols-4 gap-6">
                                         <div className="col-span-4 sm:col-span-2">
                                             <label htmlFor="email-address" className="block text-sm font-medium text-gray-700">
-                                                Title
+                                                Title*
                                             </label>
                                             <input
                                                 type="text"
@@ -341,7 +341,7 @@ const Experience = () => {
 
                                         <div className="col-span-4 sm:col-span-1">
                                             <label htmlFor="start-date" className="block text-sm font-medium text-gray-700">
-                                                Start Date
+                                                Start Date*
                                             </label>
                                             <input
                                                 type="text"
@@ -407,7 +407,7 @@ const Experience = () => {
                                     }
                                     {
                                         !loading &&
-                                        "Submit this Experience"
+                                        "Submit This Experience"
                                     }
                                 </button>
                             </div>
@@ -545,7 +545,7 @@ const Experience = () => {
 
                                         <div className="col-span-8 sm:col-span-3">
                                             <label htmlFor="start-date" className="block text-sm font-medium text-gray-700">
-                                                Title
+                                                Title*
                                             </label>
                                             <input
                                                 type="text"
@@ -561,7 +561,7 @@ const Experience = () => {
                                         </div>
                                         <div className="col-span-8 sm:col-span-5">
                                             <label htmlFor="expiration-date" className="block text-sm font-medium text-gray-700">
-                                                DUO Link
+                                                DUO Link*
                                             </label>
                                             <input
                                                 type="text"
@@ -597,7 +597,7 @@ const Experience = () => {
                                     }
                                     {
                                         !loading &&
-                                        "submit"
+                                        "Submit"
                                     }
                                 </button>
                             </div>

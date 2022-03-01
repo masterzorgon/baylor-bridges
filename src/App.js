@@ -44,10 +44,10 @@ axios.defaults.headers = {
     "Access-Control-Allow-Origin": "*",
 };
 
-axios.defaults.baseURL = "//localhost:5000";
-// axios.defaults.baseURL = "//api.baylorbridges.org";
+// axios.defaults.baseURL = "//localhost:5000";
+axios.defaults.baseURL = "//api.baylorbridges.org";
 axios.defaults.withCredentials = true;
-axios.defaults.timeout = 5000;
+axios.defaults.timeout = 8000;
 axios.defaults.timeoutErrorMessage="time out";
 axios.defaults.cancelToken = null;
 
