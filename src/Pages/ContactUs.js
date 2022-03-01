@@ -7,9 +7,9 @@ export default function ContactUs()
         <>
             <div className="relative bg-white">
                 <div className="lg:absolute lg:inset-0">
-                    <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+                    <div className="m-5 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
                         <img
-                            className="h-56 w-full object-cover lg:absolute lg:h-full"
+                            className="h-56 w-full shadow-sm rounded-xl object-cover lg:absolute lg:h-full"
                             src="https://pbs.twimg.com/media/D9D59L-XUAUStai?format=jpg&name=large"
                             alt="Pat Neff Hall"
                         />
@@ -36,7 +36,7 @@ export default function ContactUs()
                                         <div className="flex-shrink-0">
                                             <MailIcon className="h-6 w-6 text-white" aria-hidden="true" />
                                         </div>
-                                        <a href="mailto: baylorbriges@baylor.edu" target="_blank" rel="noreferrer" className="mr-auto ml-2 max-w-3xl text-lg leading-6 text-white">
+                                        <a href="mailto: baylorbriges@baylor.edu" target="_blank" rel="noreferrer" className="hover:text-emerald-200 mr-auto ml-2 max-w-3xl text-lg leading-6 text-white">
                                             baylorbriges@baylor.edu
                                         </a>
                                     </div>
@@ -55,7 +55,7 @@ export default function ContactUs()
                                         <div className="flex-shrink-0">
                                             <MailIcon className="h-6 w-6 text-white" aria-hidden="true" />
                                         </div>
-                                        <a href="mailto: baylorbridges@outlook.com" target="_blank" rel="noreferrer" className="mr-auto ml-2 max-w-3xl text-lg leading-6 text-white">
+                                        <a href="mailto: baylorbridges@outlook.com" target="_blank" rel="noreferrer" className="hover:text-emerald-200 mr-auto ml-2 max-w-3xl text-lg leading-6 text-white">
                                             baylorbridges@outlook.com
                                         </a>
                                     </div>
