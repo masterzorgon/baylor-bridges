@@ -201,10 +201,8 @@ const Profile = () => {
                     }
                 }
             }
-            // account_from[value.key] && !value.key.includes("_visibility") && (value.role ? value.role === account.role : true) ? string += account_from[value.key] + " " : string += "";
         });
         
-        console.log(field, string);
         string = string.trim();
         if (string === "") {
             return null;
