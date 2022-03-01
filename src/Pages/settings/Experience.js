@@ -319,7 +319,7 @@ const Experience = () => {
                                 <div className="bg-white py-4 px-4 sm:p-4">
                                     <div>
                                         <h2 id="payment-details-heading" className="text-lg leading-6 font-medium text-gray-900">
-                                            {modalSettings["modalType"] === "edit" ? "Edit Experience" : "Add This Experience"}
+                                            {modalSettings["modalType"] === "edit" ? "Edit Experience" : "Add Experience"}
                                         </h2>
                                     </div>
 
@@ -357,7 +357,7 @@ const Experience = () => {
                                         </div>
                                         <div className="col-span-4 sm:col-span-1">
                                             <label htmlFor="expiration-date" className="block text-sm font-medium text-gray-700">
-                                                End date
+                                                End Date
                                             </label>
                                             <input
                                                 type="text"
@@ -406,8 +406,12 @@ const Experience = () => {
                                         </svg>
                                     }
                                     {
-                                        !loading &&
-                                        "Submit This Experience"
+                                        (!loading && modalSettings["modalType"]==="edit") &&
+                                        "Update"
+                                    }
+                                    {
+                                        !loading && modalSettings["modalType"]==="create" &&
+                                        "Create"
                                     }
                                 </button>
                             </div>
@@ -596,8 +600,12 @@ const Experience = () => {
                                         </svg>
                                     }
                                     {
-                                        !loading &&
-                                        "Submit"
+                                        (!loading && modalSettings["modalType"]==="edit pub")&&
+                                        "Update"
+                                    }
+                                    {
+                                        (!loading && modalSettings["modalType"]==="new pub")&&
+                                        "Create"
                                     }
                                 </button>
                             </div>
@@ -745,7 +753,7 @@ const Experience = () => {
                                                                                             {exper.title}
                                                                                         </h1>
                                                                                         <h2 className="text-sm text-gray-500">
-                                                                                            from {exper.start_time} to {exper.stop_time}
+                                                                                            From {exper.start_time} To {exper.stop_time}
                                                                                         </h2>
                                                                                     </div>
                                                                                     <div className="flex-shrink-0 self-center flex">
@@ -843,7 +851,7 @@ const Experience = () => {
                                                                                                 */}
 
                                                                                                 <button type="button" className="roundedd-full p-1">
-                                                                                                    <PencilIcon className="h-5 w-5" viewBox="0 0 20 20"
+                                                                                                    <PencilIcon className="h-5 w-5 text-gray-400" viewBox="0 0 20 20"
                                                                                                         onClick={() => handleOpenModal("edit pub", publication, { "pub_list_id": index, "exper_list_id": idx, "exper_db_id": exper.exper_id })}
                                                                                                     >
                                                                                                         <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
@@ -851,7 +859,7 @@ const Experience = () => {
                                                                                                 </button>
 
                                                                                                 <button type="button" className="roundedd-full p-1">
-                                                                                                    <TrashIcon className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"
+                                                                                                    <TrashIcon className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"
                                                                                                         onClick={() => handleOpenModal("remove pub", [publication, exper], idx)}
                                                                                                     >
                                                                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
