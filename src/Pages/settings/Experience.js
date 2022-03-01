@@ -149,6 +149,29 @@ const Experience = () => {
                     }
                 }else{
                     // if the form is for submitting experience
+                    if(field["start_time"].includes("/")){
+                        let startTime=field["start_time"].split("/");
+                        let endTime=field["stop_time"].split("/");
+                        let startDate=Date.parse(startTime[1]+"-"+startTime[0]);
+                        let endDate=Date.parse(endTime[1]+"-"+endTime[0]);
+                        let currentDate=new Date().getTime();
+
+                        if(startTime[1].length>=3 && startDate&&startDate<currentDate){
+                            // the experience must start in the past
+
+                            if(field["stop_time"]!==""){
+                                // if user input the end date
+                                if(field["stop_time"].includes("/")&&endTime[1].length>=3&&endDate&&endDate>=startDate){
+                                    setValidSubmit(true);
+                                }else{setValidSubmit(false);}
+
+                            }
+                            else{setValidSubmit(true);}
+                        }else{setValidSubmit(false);}
+
+
+
+                    }else{ setValidSubmit(false);}
 
 
                 }
@@ -283,6 +306,7 @@ const Experience = () => {
 
         if (!field) return;
 
+
         if (modalSettings["modalType"] === "edit" || modalSettings["modalType"]==="create") {
             return (
                 /* 
@@ -373,9 +397,9 @@ const Experience = () => {
                             <div className="mt-5 sm:mt-6">
                                 <button
                                     type="submit"
-                                    className={`${loading ? "cursor-not-allowed" : ""} inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-emerald-600 text-base font-medium text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 sm:text-sm`}
+                                    className={`${loading || !validSubmit ? "cursor-not-allowed" : ""} inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 ${validSubmit? "bg-emerald-600 hover:bg-emerald-700": "bg-emerald-400"} text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 sm:text-sm`}
                                     onClick={() => handleExperSubmit(field)}
-                                    {...(loading ? { disabled: true } : {})}
+                                    {...(loading || !validSubmit ? { disabled: true } : {})}
                                 >
                                     {
                                         loading &&
@@ -595,6 +619,7 @@ const Experience = () => {
         console.log(modalSettings);
         if (modalType === "new pub") {
             setField({ "title": "", "duo_link": "" });
+            setValidSubmit(false);
 
 
         }
@@ -605,12 +630,14 @@ const Experience = () => {
                 stop_time: "",
                 title: ""
             });
+            setValidSubmit(false);
 
         }
 
         else {
             console.log("the idx pass into handleOpenModal is " + exper_idx);
             setField(exper);
+            setValidSubmit(true);
 
         }
         console.log(exper);
