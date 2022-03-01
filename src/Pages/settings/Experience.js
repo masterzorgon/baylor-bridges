@@ -67,15 +67,18 @@ const Experience = () => {
         // console.log("calling use effect");
         // console.log("error message: ",error_message);
 
-        if (!experiences || experiences.length === 0) {
+        if (!experiences || experiences.length === 0)
+        {
             console.log("getting experiences");
             axios.get("/account/profile/experience")
-                .then(res => {
+                .then(res =>
+                {
                     console.log(res.data);
                     setExperiences(res.data);
                 });
         }
-        else {
+        else
+        {
             console.log("not calling axios");
             setRefresh(false);
         }
@@ -93,95 +96,94 @@ const Experience = () => {
     // };
 
     // eslint-disable-next-line no-unused-vars
-    const getModal = (modalSettings, field, idx) => {
-
-        const handleChange = (e, value) => {
+    const getModal = (modalSettings, field, idx) =>
+    {
+        const handleChange = (e, value) =>
+        {
             let new_field = field;
-            if (value === "start_time" || value === "stop_time") {
-
-
+            if (value === "start_time" || value === "stop_time")
+            {
                 let input = e.target.value;
                 console.log("input is", input);
-                if (input.length <= 2 && /^\d*$/.test(input)) {
 
+                if (input.length <= 2 && /^\d*$/.test(input))
+                {
                     let oldVal = new_field[value];
                     new_field[value] = e.target.value;
 
-                    if (input.length === 2) {
-                        if (oldVal.charAt(oldVal.length - 1) !== "/") {
+                    if (input.length === 2)
+                    {
+                        if (oldVal.charAt(oldVal.length - 1) !== "/")
+                        {
                             new_field[value] += "/";
                         }
                     }
                 }
-                else if (/^\d{2}\/\d{0,4}$/.test(input)) {
+                else if (/^\d{2}\/\d{0,4}$/.test(input))
+                {
                     new_field[value] = e.target.value;
-
                 }
 
-                if (new_field[value] === null) {
+                if (new_field[value] === null)
+                {
                     new_field[value] = "";
                     console.log("new field is null");
                 }
                 setField(new_field);
                 console.log(field);
-
-
-
             }
-            else {
+            else
+            {
                 new_field[value] = e.target.value;
                 console.log(new_field);
                 setField(new_field);
             }
 
             // to verify whether the current submission form is valid to submit
-            if (field["title"] !== "") {
-
+            if (field["title"] !== "")
+            {
                 // if the form is for submiting publication
-                if (modalSettings["modalType"] == "new pub" || modalSettings["modalType"] == "edit pub") {
-                    if (field["duo_link"] === "") {
-                        setValidSubmit(false);
-                    } else {
-                        setValidSubmit(true);
-                    }
-                } else {
+                if (modalSettings["modalType"] === "new pub" || modalSettings["modalType"] === "edit pub")
+                {
+                    field["duo_link"] === ""
+                        ? setValidSubmit(false)
+                        : setValidSubmit(true);
+                    
+                }
+                else
+                {
                     // if the form is for submitting experience
-                    if (field["start_time"].includes("/")) {
+                    if (field["start_time"].includes("/"))
+                    {
                         let startTime = field["start_time"].split("/");
                         let endTime = field["stop_time"].split("/");
                         let startDate = Date.parse(startTime[1] + "-" + startTime[0]);
                         let endDate = Date.parse(endTime[1] + "-" + endTime[0]);
                         let currentDate = new Date().getTime();
 
-                        if (startTime[1].length >= 3 && startDate && startDate < currentDate) {
+                        if (startTime[1].length >= 3 && startDate && startDate < currentDate)
+                        {
                             // the experience must start in the past
-
-                            if (field["stop_time"] !== "") {
+                            if (field["stop_time"] !== "")
+                            {
                                 // if user input the end date
-                                if (field["stop_time"].includes("/") && endTime[1].length >= 3 && endDate && endDate >= startDate) {
-                                    setValidSubmit(true);
-                                } else { setValidSubmit(false); }
-
+                                field["stop_time"].includes("/") && endTime[1].length >= 3 && endDate && endDate >= startDate
+                                    ? setValidSubmit(true)
+                                    : setValidSubmit(false);
                             }
-                            else { setValidSubmit(true); }
-                        } else { setValidSubmit(false); }
-
-
-
-                    } else { setValidSubmit(false); }
-
-
+                            else setValidSubmit(true); 
+                        } else setValidSubmit(false); 
+                    } else setValidSubmit(false); 
                 }
-            } else {
-                setValidSubmit(false);
-            }
+            } else setValidSubmit(false);
+            
             console.log("the valid submit is ", validSubmit);
             setRefresh(true);
-
         };
 
         // eslint-disable-next-line no-unused-vars
-        const handleExperRemove = () => {
+        const handleExperRemove = () =>
+        {
             setLoading(true);
             console.log("exper id is " + field["exper_id"] + ", the idx is " + modalSettings["idx"]);
 
@@ -189,7 +191,8 @@ const Experience = () => {
             let url = "/account/profile/experience/" + field["exper_id"];
 
             axios.delete(url)
-                .then(res => {
+                .then(res =>
+                {
                     console.log("delete the experience successfully");
                     let new_exper = experiences;
                     new_exper.splice(modalSettings["idx"], 1);
@@ -199,11 +202,14 @@ const Experience = () => {
                     setExperiences(res.data);
                     setErrorMessage(null);
                 })
-                .catch(err => err.message !== "time out" ? setErrorMessage(err.response.data.message) : setErrorMessage("server time out"))
+                .catch(err => err.message !== "time out"
+                    ? setErrorMessage(err.response.data.message)
+                    : setErrorMessage("server time out"))
                 .finally(() => setLoading(false));
         };
 
-        const handlePubRemove = () => {
+        const handlePubRemove = () =>
+        {
             setLoading(true);
 
             console.log("PUB ID", field[0].pub_id);
@@ -212,63 +218,77 @@ const Experience = () => {
             let url = `/account/profile/experience/${field[1].exper_id}/publication/${field[0].pub_id}`;
 
             axios.delete(url)
-                .then(res => {
+                .then(res =>
+                {
                     let new_exper = experiences;
                     new_exper[modalSettings["idx"]]["publications"] = res.data;
                     console.log(new_exper);
                     setOpen(false);
                     setErrorMessage(null);
                 })
-                .catch(err => err.message !== "time out" ? setErrorMessage(err.response.data.message) : setErrorMessage("server time out"))
+                .catch(err => err.message !== "time out"
+                    ? setErrorMessage(err.response.data.message)
+                    : setErrorMessage("server time out"))
+                
                 .finally(() => setLoading(false));
         };
 
 
-        const handleExperSubmit = (field) => {
+        const handleExperSubmit = (field) =>
+        {
             setLoading(true);
 
-            if (modalSettings["modalType"] == "edit") {
+            if (modalSettings["modalType"] === "edit") {
                 let url = "/account/profile/experience/" + field["exper_id"];
                 console.log(url);
                 axios.put(url, field)
-                    .then(res => {
+                    .then(res =>
+                    {
                         console.log("update the experience successfully");
                         setExperiences(res.data);
                         setErrorMessage(null);
                         setOpen(false);
                     })
-                    .catch(err => err.message !== "time out" ? setErrorMessage(err.response.data.message) : setErrorMessage("server time out"))
-
-                    .finally(() => setLoading(false));
-
-            } else if (modalSettings["modalType"] === "create") {
-                let url = "/account/profile/experience";
-                axios.post(url, field)
-                    .then(res => {
-                        console.log("update the experience successfully");
-                        setExperiences(res.data);
-                        setErrorMessage(null);
-                        setOpen(false);
-                    })
-                    .catch(err => err.message !== "time out" ? setErrorMessage(err.response.data.message) : setErrorMessage("server time out"))
+                    .catch(err => err.message !== "time out"
+                        ? setErrorMessage(err.response.data.message)
+                        : setErrorMessage("server time out"))
 
                     .finally(() => setLoading(false));
 
             }
+            else if (modalSettings["modalType"] === "create")
+            {
+                let url = "/account/profile/experience";
 
+                axios.post(url, field)
+                    .then(res =>
+                    {
+                        console.log("update the experience successfully");
+                        setExperiences(res.data);
+                        setErrorMessage(null);
+                        setOpen(false);
+                    })
+                    .catch(err => err.message !== "time out"
+                        ? setErrorMessage(err.response.data.message)
+                        : setErrorMessage("server time out"))
+
+                    .finally(() => setLoading(false));
+            }
         };
 
-        const handlePubSubmit = (field) => {
+        const handlePubSubmit = (field) =>
+        {
             console.log("calling handel pub submit");
             console.log(modalSettings);
 
             setLoading(true);
-            if (modalSettings["modalType"] === "new pub") {
+            if (modalSettings["modalType"] === "new pub")
+            {
                 let url = "/account/profile/experience/" + modalSettings["idx"]["db_id"] + "/publication";
-                console.log(url);
-                // console.log(experiences[modalSettings["idx"]["list_id"]]);
+
                 axios.post(url, field)
-                    .then(res => {
+                    .then(res =>
+                    {
                         console.log("post successfully");
                         console.log(res.data);
                         let new_exper = experiences;
@@ -278,14 +298,16 @@ const Experience = () => {
                         setOpen(false);
 
                     })
-                    .catch(err => err.message !== "time out" ? setErrorMessage(err.response.data.message) : setErrorMessage("server time out"))
+                    .catch(err => err.message !== "time out"
+                        ? setErrorMessage(err.response.data.message)
+                        : setErrorMessage("server time out"))
+                    
                     .finally(() => setLoading(false));
-
             }
-            else if (modalSettings["modalType"] === "edit pub") {
-                console.log("put to publication");
+            else if (modalSettings["modalType"] === "edit pub")
+            {
                 let url = "/account/profile/experience/" + modalSettings["idx"]["exper_db_id"] + "/publication/" + field.pub_id;
-                console.log("the url is " + url);
+
                 axios.put(url, field)
                     .then(res => {
                         console.log("post successfully");
@@ -293,18 +315,16 @@ const Experience = () => {
                         let new_exper = experiences;
                         new_exper[modalSettings["idx"]["exper_list_id"]]["publications"] = res.data;
                         console.log(new_exper);
-
                         setOpen(false);
-
-                    }).finally(() => setLoading(false));
+                    })
+                    .finally(() => setLoading(false));
             }
         };
 
-
         if (!field) return;
 
-
-        if (modalSettings["modalType"] === "edit" || modalSettings["modalType"] === "create") {
+        if (modalSettings["modalType"] === "edit" || modalSettings["modalType"] === "create")
+        {
             return (
                 /* 
                     [*][*][*][*]                       [*][*][*][*]
@@ -421,7 +441,8 @@ const Experience = () => {
                 </div>
             );
         }
-        else if (modalSettings["modalType"] === "remove") {
+        else if (modalSettings["modalType"] === "remove")
+        {
             console.log("you click remove");
             return (
                 <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
@@ -474,7 +495,8 @@ const Experience = () => {
                 </div>
             );
         }
-        else if (modalSettings["modalType"] === "remove pub") {
+        else if (modalSettings["modalType"] === "remove pub")
+        {
             console.log("you click remove");
             return (
                 <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
@@ -527,7 +549,8 @@ const Experience = () => {
                 </div>
             );
         }
-        else if (modalSettings["modalType"] === "new pub" || modalSettings["modalType"] === "edit pub") {
+        else if (modalSettings["modalType"] === "new pub" || modalSettings["modalType"] === "edit pub")
+        {
             console.log("geting modal new pub");
             return (
                 <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full sm:p-6">
@@ -578,9 +601,6 @@ const Experience = () => {
                                                 value={field.duo_link}
                                             />
                                         </div>
-
-
-
                                     </div>
                                 </div>
                             </div>
@@ -611,24 +631,22 @@ const Experience = () => {
                             </div>
                         </div>
                     </section>
-
                 </div>
             );
         }
-
-
     };
 
-    const handleOpenModal = (modalType, exper, exper_idx) => {
+    const handleOpenModal = (modalType, exper, exper_idx) =>
+    {
         setModalSettings({ "modalType": modalType, "idx": exper_idx });
         console.log(modalSettings);
-        if (modalType === "new pub") {
+        if (modalType === "new pub")
+        {
             setField({ "title": "", "duo_link": "" });
             setValidSubmit(false);
-
-
         }
-        else if (modalType === "create") {
+        else if (modalType === "create")
+        {
             setField({
                 description: "",
                 start_time: "",
@@ -636,26 +654,27 @@ const Experience = () => {
                 title: ""
             });
             setValidSubmit(false);
-
         }
 
-        else {
+        else
+        {
             console.log("the idx pass into handleOpenModal is " + exper_idx);
             setField(exper);
             setValidSubmit(true);
-
         }
         console.log(exper);
         setOpen(true);
     };
 
 
-    function classNames(...classes) {
+    function classNames(...classes)
+    {
         return classes.filter(Boolean).join(" ");
     }
 
     // eslint-disable-next-line no-unused-vars
-    const handleNewExperience = () => {
+    const handleNewExperience = () =>
+    {
         setModal(true);
         setExperience({
             description: "",
@@ -939,16 +958,12 @@ const Experience = () => {
 
                             {/* {console.log("the field in modal is",field)} */}
                             {getModal(modalSettings, field)}
-
+                            
                         </Transition.Child>
-
                     </div>
                 </Dialog>
             </Transition.Root>
-
         </>
     );
-
-
 };
 export default Experience;
