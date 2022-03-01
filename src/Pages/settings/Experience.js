@@ -66,8 +66,9 @@ const Experience = () => {
     {
         console.log("calling use effect");
 
-        if (experiences && experiences.length === 0) 
+        if (!experiences || experiences.length === 0) 
         {
+            console.log("getting experiences");
             axios.get("/account/profile/experience")
                 .then(res => {
                     console.log(res.data);
@@ -625,8 +626,9 @@ const Experience = () => {
                                                         </div>
                                                         <div className="flex justify-center order-3 flex-shrink-0 w-full sm:order-2 sm:mt-0 sm:w-auto">
                                                             <button
-                                                                onClick={!experiences && handleNewExperience}
-                                                                className="flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-emerald-600 bg-white hover:bg-emerald-50"
+                                                                onClick={handleNewExperience}
+                                                                className={`${ !experiences ? "cursor-not-allowed" : ""} flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-emerald-600 bg-white hover:bg-emerald-50`}
+                                                                {...(!experiences ? { disabled: true } : {})}
                                                             >
                                                                 New Experience
                                                             </button>
@@ -647,10 +649,7 @@ const Experience = () => {
                                                 [*][*][*]                     [*][*][*]
                                             */}
 
-                                            {!experiences
-                                                ?  
-                                                console.log("EXPERIENCES NULL")
-                                                :    
+                                            {experiences &&    
                                                 <div className="space-y-10 sm:px-6 lg:px-0 lg:col-span-9">
                                                     {experiences.map((exper, idx) => (
                                                         <>
