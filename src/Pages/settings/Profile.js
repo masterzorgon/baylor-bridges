@@ -61,8 +61,8 @@ const profile = {
             graduate_class: {
                 title: "Graduate Class",
                 value: [
-                    { type: "dropdown", title: "Graduate Semester", placeholder: "Semester", key: "graduate_semester", options: semester },
-                    { type: "text", title: "Graduate Year", placeholder: "Year", key: "graduate_year" }
+                    { type: "dropdown", title: "Semester", placeholder: "Semester", key: "graduate_semester", options: semester },
+                    { type: "text", title: "Year", placeholder: "Year", key: "graduate_year" }
                 ]
             },
             headline: {
@@ -184,22 +184,30 @@ const Profile = () => {
             account_from = account[section_key];
         }
 
-        // If field value is an array, then traverse the array to concatenate the values from `account`
-        // Otherwise, return the value from `account`
-        if (Array.isArray(field.value)) {
-            var string = "";
-            field.value.map((value, index) => (
-                account_from[value.key] && !value.key.includes("_visibility") && (value.role ? value.role === account.role : true) ? string += account_from[value.key] + " " : string += ""
-            ));
 
-            string = string.trim();
-            if (string === "") {
-                return null;
-            }
-            return string;
-        } else {
-            return account_from[field.value.key] ? account_from[field.value.key] : null;
+        // If field value is not an array, make it an array, with only itself
+        if (!Array.isArray(field.value)) {
+            field.value = [field.value];
         }
+
+        var string = "";
+        field.value.map((value, index) => {
+            if (account_from[value.key]) {
+                if (!value.type !== "visibility") {
+                    if (value.type === "dropdown") {
+                        string += option_value_to_title(value.options, account_from[value.key]) + " ";
+                    } else {
+                        string += account_from[value.key] + " ";
+                    }
+                }
+            }
+        });
+        
+        string = string.trim();
+        if (string === "") {
+            return null;
+        }
+        return string;
     };
 
     const getDisplayValue = (section_key, field) => {
