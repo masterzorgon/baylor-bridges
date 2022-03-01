@@ -94,17 +94,19 @@ const Experience = () => {
                 }
             } else {
                 // if the form is for submitting experience
-                if (field["start_time"].includes("/")) {
+                if ("start_time"in field && field["start_time"].includes("/")) {
                     let startTime = field["start_time"].split("/");
-                    let endTime = field["stop_time"].split("/");
+                    
                     let startDate = Date.parse(startTime[1] + "-" + startTime[0]);
-                    let endDate = Date.parse(endTime[1] + "-" + endTime[0]);
+                    
                     let currentDate = new Date().getTime();
 
                     if (startTime[1].length >= 3 && startDate && startDate < currentDate) {
                         // the experience must start in the past
 
-                        if (field["stop_time"] !== "") {
+                        if ("stop_time" in field && field["stop_time"] !== "") {
+                            let endTime = field["stop_time"].split("/");
+                            let endDate = Date.parse(endTime[1] + "-" + endTime[0]);
                             // if user input the end date
                             if (field["stop_time"].includes("/") && endTime[1].length >= 3 && endDate && endDate >= startDate) {
                                 setValidSubmit(true);
