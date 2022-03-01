@@ -4,9 +4,9 @@ import SettingsNavbar from "../../components/SettingsNavbar";
 
 // eslint-disable-next-line no-unused-vars
 import { Menu, Transition, Dialog } from "@headlessui/react";
-import { PencilIcon, DotsVerticalIcon, DocumentRemoveIcon, PlusSmIcon as PlusSmIconSolid } from "@heroicons/react/solid";
+import { PencilIcon, DotsVerticalIcon, PlusSmIcon as PlusSmIconSolid, TrashIcon } from "@heroicons/react/solid";
 
-import { MinusCircleIcon, ExclamationIcon, LinkIcon } from "@heroicons/react/outline";
+import { ExclamationIcon, LinkIcon } from "@heroicons/react/outline";
 import ErrorMessage from "../../components/ErrorMessage";
 
 // TAILWIND CSS ALERTS
@@ -47,9 +47,9 @@ const Experience = () => {
         [*][*][*][*][*][*][*][*][*][*][*]
     */
 
-    const [uploadSuccess, setUploadSuccess] = useState(false); 
+    const [uploadSuccess, setUploadSuccess] = useState(false);
     const [uploadFailure, setUploadFailure] = useState(false);
-    
+
     const [experience, setExperience] = useState({
         title: "",
         description: "",
@@ -61,15 +61,13 @@ const Experience = () => {
     // STATE FOR PUBLICATION [*][*][*][*]
     const [publicationDelete, setPublicationDelete] = useState(false);
 
-    const [validSubmit, setValidSubmit]=useState(false);
+    const [validSubmit, setValidSubmit] = useState(false);
 
-    useEffect(() =>
-    {
+    useEffect(() => {
         // console.log("calling use effect");
         // console.log("error message: ",error_message);
 
-        if (!experiences || experiences.length === 0) 
-        {
+        if (!experiences || experiences.length === 0) {
             console.log("getting experiences");
             axios.get("/account/profile/experience")
                 .then(res => {
@@ -130,55 +128,54 @@ const Experience = () => {
 
 
             }
-            else
-            {
+            else {
                 new_field[value] = e.target.value;
                 console.log(new_field);
                 setField(new_field);
             }
 
             // to verify whether the current submission form is valid to submit
-            if (field["title"]!==""){
+            if (field["title"] !== "") {
 
                 // if the form is for submiting publication
-                if(modalSettings["modalType"]=="new pub" || modalSettings["modalType"]=="edit pub"){
-                    if(field["duo_link"]===""){
+                if (modalSettings["modalType"] == "new pub" || modalSettings["modalType"] == "edit pub") {
+                    if (field["duo_link"] === "") {
                         setValidSubmit(false);
-                    }else{
+                    } else {
                         setValidSubmit(true);
                     }
-                }else{
+                } else {
                     // if the form is for submitting experience
-                    if(field["start_time"].includes("/")){
-                        let startTime=field["start_time"].split("/");
-                        let endTime=field["stop_time"].split("/");
-                        let startDate=Date.parse(startTime[1]+"-"+startTime[0]);
-                        let endDate=Date.parse(endTime[1]+"-"+endTime[0]);
-                        let currentDate=new Date().getTime();
+                    if (field["start_time"].includes("/")) {
+                        let startTime = field["start_time"].split("/");
+                        let endTime = field["stop_time"].split("/");
+                        let startDate = Date.parse(startTime[1] + "-" + startTime[0]);
+                        let endDate = Date.parse(endTime[1] + "-" + endTime[0]);
+                        let currentDate = new Date().getTime();
 
-                        if(startTime[1].length>=3 && startDate&&startDate<currentDate){
+                        if (startTime[1].length >= 3 && startDate && startDate < currentDate) {
                             // the experience must start in the past
 
-                            if(field["stop_time"]!==""){
+                            if (field["stop_time"] !== "") {
                                 // if user input the end date
-                                if(field["stop_time"].includes("/")&&endTime[1].length>=3&&endDate&&endDate>=startDate){
+                                if (field["stop_time"].includes("/") && endTime[1].length >= 3 && endDate && endDate >= startDate) {
                                     setValidSubmit(true);
-                                }else{setValidSubmit(false);}
+                                } else { setValidSubmit(false); }
 
                             }
-                            else{setValidSubmit(true);}
-                        }else{setValidSubmit(false);}
+                            else { setValidSubmit(true); }
+                        } else { setValidSubmit(false); }
 
 
 
-                    }else{ setValidSubmit(false);}
+                    } else { setValidSubmit(false); }
 
 
                 }
-            }else{
+            } else {
                 setValidSubmit(false);
             }
-            console.log("the valid submit is ",validSubmit);
+            console.log("the valid submit is ", validSubmit);
             setRefresh(true);
 
         };
@@ -230,7 +227,7 @@ const Experience = () => {
         const handleExperSubmit = (field) => {
             setLoading(true);
 
-            if(modalSettings["modalType"]=="edit"){
+            if (modalSettings["modalType"] == "edit") {
                 let url = "/account/profile/experience/" + field["exper_id"];
                 console.log(url);
                 axios.put(url, field)
@@ -244,9 +241,9 @@ const Experience = () => {
 
                     .finally(() => setLoading(false));
 
-            }else if(modalSettings["modalType"]==="create"){
+            } else if (modalSettings["modalType"] === "create") {
                 let url = "/account/profile/experience";
-                axios.post(url,field)
+                axios.post(url, field)
                     .then(res => {
                         console.log("update the experience successfully");
                         setExperiences(res.data);
@@ -258,7 +255,7 @@ const Experience = () => {
                     .finally(() => setLoading(false));
 
             }
-            
+
         };
 
         const handlePubSubmit = (field) => {
@@ -307,7 +304,7 @@ const Experience = () => {
         if (!field) return;
 
 
-        if (modalSettings["modalType"] === "edit" || modalSettings["modalType"]==="create") {
+        if (modalSettings["modalType"] === "edit" || modalSettings["modalType"] === "create") {
             return (
                 /* 
                     [*][*][*][*]                       [*][*][*][*]
@@ -322,7 +319,7 @@ const Experience = () => {
                                 <div className="bg-white py-6 px-4 sm:p-6">
                                     <div>
                                         <h2 id="payment-details-heading" className="text-lg leading-6 font-medium text-gray-900">
-                                            {modalSettings["modalType"]==="edit"?"Edit Experience":"Add This E"}
+                                            {modalSettings["modalType"] === "edit" ? "Edit Experience" : "Add This E"}
                                         </h2>
                                     </div>
 
@@ -397,7 +394,7 @@ const Experience = () => {
                             <div className="mt-5 sm:mt-6">
                                 <button
                                     type="submit"
-                                    className={`${loading || !validSubmit ? "cursor-not-allowed" : ""} inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 ${validSubmit? "bg-emerald-600 hover:bg-emerald-700": "bg-emerald-400"} text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 sm:text-sm`}
+                                    className={`${loading || !validSubmit ? "cursor-not-allowed" : ""} inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 ${validSubmit ? "bg-emerald-600 hover:bg-emerald-700" : "bg-emerald-400"} text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 sm:text-sm`}
                                     onClick={() => handleExperSubmit(field)}
                                     {...(loading || !validSubmit ? { disabled: true } : {})}
                                 >
@@ -538,8 +535,8 @@ const Experience = () => {
                                         <h2 id="payment-details-heading" className="text-lg leading-6 font-medium text-gray-900">
                                             {
                                                 modalSettings["modalType"] === "new pub"
-                                                    ? "add publication"
-                                                    : "edit publication"
+                                                    ? "Add Publication"
+                                                    : "Edit Publication"
                                             }
                                         </h2>
                                     </div>
@@ -548,7 +545,7 @@ const Experience = () => {
 
                                         <div className="col-span-8 sm:col-span-3">
                                             <label htmlFor="start-date" className="block text-sm font-medium text-gray-700">
-                                                pub title
+                                                Title
                                             </label>
                                             <input
                                                 type="text"
@@ -564,7 +561,7 @@ const Experience = () => {
                                         </div>
                                         <div className="col-span-8 sm:col-span-5">
                                             <label htmlFor="expiration-date" className="block text-sm font-medium text-gray-700">
-                                                duo link
+                                                DUO Link
                                             </label>
                                             <input
                                                 type="text"
@@ -587,9 +584,9 @@ const Experience = () => {
                             <div className="mt-5 sm:mt-6">
                                 <button
                                     type="submit"
-                                    className={`${loading ||!validSubmit ? "cursor-not-allowed" : ""} inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 ${validSubmit? "bg-emerald-600 hover:bg-emerald-700": "bg-emerald-400"} text-base font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 sm:text-sm`}
+                                    className={`${loading || !validSubmit ? "cursor-not-allowed" : ""} inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 ${validSubmit ? "bg-emerald-600 hover:bg-emerald-700" : "bg-emerald-400"} text-base font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 sm:text-sm`}
                                     onClick={() => handlePubSubmit(field)}
-                                    {...(loading || !validSubmit? { disabled: true } : {})}
+                                    {...(loading || !validSubmit ? { disabled: true } : {})}
                                 >
                                     {
                                         loading &&
@@ -623,7 +620,7 @@ const Experience = () => {
 
 
         }
-        else if(modalType==="create"){
+        else if (modalType === "create") {
             setField({
                 description: "",
                 start_time: "",
@@ -684,10 +681,10 @@ const Experience = () => {
                                             <SettingsNavbar current="experience" />
 
                                             {/* ALERTS THAT DISPLAY UPON CREATING A NEW EXPERIENCE */}
-                                    
+
                                             {uploadSuccess ? <UploadSuccess uploadSuccess={uploadSuccess} setUploadSuccess={setUploadSuccess} /> : null}
-                                            {uploadFailure ? <UploadFailure uploadFailure={uploadFailure} setUploadFailure={setUploadFailure} /> : null} 
-                              
+                                            {uploadFailure ? <UploadFailure uploadFailure={uploadFailure} setUploadFailure={setUploadFailure} /> : null}
+
 
                                             {/* NEW EXPERIENCE BANNER */}
                                             <div className="bg-emerald-600 rounded-md my-4">
@@ -700,8 +697,8 @@ const Experience = () => {
                                                         </div>
                                                         <div className="flex justify-center order-3 flex-shrink-0 w-full sm:order-2 sm:mt-0 sm:w-auto">
                                                             <button
-                                                                onClick={()=>handleOpenModal("create",null,null)}
-                                                                className={`${ !experiences ? "cursor-not-allowed" : ""} flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-emerald-600 bg-white hover:bg-emerald-50`}
+                                                                onClick={() => handleOpenModal("create", null, null)}
+                                                                className={`${!experiences ? "cursor-not-allowed" : ""} flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-emerald-600 bg-white hover:bg-emerald-50`}
                                                                 {...(!experiences ? { disabled: true } : {})}
                                                             >
                                                                 New Experience
@@ -723,13 +720,13 @@ const Experience = () => {
                                                 [*][*][*]                     [*][*][*]
                                             */}
 
-                                            {experiences &&    
+                                            {experiences &&
                                                 <div className="space-y-10 sm:px-6 lg:px-0 lg:col-span-9">
                                                     {experiences.map((exper, idx) => (
                                                         <>
                                                             <section aria-labelledby="payment-details-heading" key={exper.exper_id}>
                                                                 <form>
-                                                                    <div className="shadow sm:rounded-md ">
+                                                                    <div className="shadow sm:rounded-md py-8">
                                                                         <div className="bg-white py-2 px-2 sm:p-2">
 
                                                                             <div className="bg-white px-4 py-5 sm:px-6">
@@ -787,7 +784,7 @@ const Experience = () => {
 
                                                                                                                     onClick={() => handleOpenModal("remove", exper, idx)}
                                                                                                                 >
-                                                                                                                    <DocumentRemoveIcon className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
+                                                                                                                    <TrashIcon className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
                                                                                                                     <span>Remove</span>
                                                                                                                 </a>
                                                                                                             )}
@@ -824,28 +821,33 @@ const Experience = () => {
                                                                                                 <LinkIcon className="flex-shrink-0 h-5 w-5 text-gray-400" />
                                                                                                 <span className="ml-2 flex-1 w-0 truncate text-gray-700">
                                                                                                     <a href={/^http:\/\//.test(publication.duo_link) || /^https:\/\//.test(publication.duo_link) ? publication.duo_link : "//" + publication.duo_link}
-                                                                                                        className="font-medium text-emerald-600 hover:text-emerald-500" target="_blank" rel="noreferrer"> 
+                                                                                                        className="font-medium text-emerald-600 hover:text-emerald-500" target="_blank" rel="noreferrer">
                                                                                                         {publication.title}
                                                                                                     </a>
                                                                                                 </span>
                                                                                             </div>
-                                                                                            <div className="ml-4 flex-shrink-0 flex justify-between">
+                                                                                            <div className="ml-4 flex-shrink-0 flex justify-between gap-4">
                                                                                                 {/* 
                                                                                                     [*][*][*][*]                             [*][*][*][*]
                                                                                                     [*][*][*][*] ENTER EDIT AND DELETE ICONS [*][*][*][*]
                                                                                                     [*][*][*][*]                             [*][*][*][*]
                                                                                                 */}
 
-                                                                                                <PencilIcon className="h-5 w-5 mx-4" viewBox="0 0 20 20" fill="currentColor"
-                                                                                                    onClick={() => handleOpenModal("edit pub", publication, { "pub_list_id": index, "exper_list_id": idx, "exper_db_id": exper.exper_id })}
-                                                                                                >
-                                                                                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-                                                                                                </PencilIcon>
-                                                                                                <MinusCircleIcon className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                                                                                    onClick={() => handleOpenModal("remove pub", [publication, exper], idx)}
-                                                                                                >
-                                                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                                                                </MinusCircleIcon>
+                                                                                                <button type="button" className="roundedd-full p-1">
+                                                                                                    <PencilIcon className="h-5 w-5" viewBox="0 0 20 20"
+                                                                                                        onClick={() => handleOpenModal("edit pub", publication, { "pub_list_id": index, "exper_list_id": idx, "exper_db_id": exper.exper_id })}
+                                                                                                    >
+                                                                                                        <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                                                                                                    </PencilIcon>
+                                                                                                </button>
+
+                                                                                                <button type="button" className="roundedd-full p-1">
+                                                                                                    <TrashIcon className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"
+                                                                                                        onClick={() => handleOpenModal("remove pub", [publication, exper], idx)}
+                                                                                                    >
+                                                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                                                                    </TrashIcon>
+                                                                                                </button>
                                                                                             </div>
                                                                                         </li>
                                                                                     ))
