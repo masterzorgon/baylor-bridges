@@ -20,7 +20,7 @@ export default function ContactUs()
                     <div className="lg:pr-8">
                         <div className="max-w-md mx-auto sm:max-w-lg lg:mx-0">
                             
-                            <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
+                            <h2 className="flex justify-center text-3xl font-extrabold tracking-tight sm:text-4xl">
                                 Contact Us
                             </h2>
 
@@ -53,7 +53,7 @@ export default function ContactUs()
                                     </p>
                                     <div className="mt-5 flex justify-between align-middle">
                                         <div className="flex-shrink-0">
-                                            <MailIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                                            <MailIcon className="cursor-default h-6 w-6 text-white" aria-hidden="true" />
                                         </div>
                                         <a href="mailto: baylorbridges@outlook.com" target="_blank" rel="noreferrer" className="hover:text-emerald-200 mr-auto ml-2 max-w-3xl text-lg leading-6 text-white">
                                             baylorbridges@outlook.com
