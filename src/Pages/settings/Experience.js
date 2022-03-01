@@ -20,7 +20,7 @@ const Experience = () => {
     const [loading, setLoading] = useState(false);
     const [error_message, setErrorMessage] = useState(null);
 
-    const [experiences, setExperiences] = useState([]);
+    const [experiences, setExperiences] = useState(null);
     const [update, setUpdate] = useState(false);
     const [open, setOpen] = useState(false);
     const [field, setField] = useState(null);
@@ -34,8 +34,23 @@ const Experience = () => {
 
     // STATE FOR ADDING A NEW EXPERIENCE [*][*][*][*]
     const [modal, setModal] = useState(false);
-    const [uploadSuccess, setUploadSuccess] = useState(false);
+
+    /*
+        [*][*][*][*][*][*][*][*][*][*][*]
+        [*][*][*][*][*][*][*][*][*][*][*]
+
+        BUG MUST FIX:
+            - suspected that alerts break code
+                - unable to scroll after submit experience
+                - possibly affects date input functionality
+
+        [*][*][*][*][*][*][*][*][*][*][*]
+        [*][*][*][*][*][*][*][*][*][*][*]
+    */
+
+    const [uploadSuccess, setUploadSuccess] = useState(false); 
     const [uploadFailure, setUploadFailure] = useState(false);
+    
     const [experience, setExperience] = useState({
         title: "",
         description: "",
@@ -47,11 +62,12 @@ const Experience = () => {
     // STATE FOR PUBLICATION [*][*][*][*]
     const [publicationDelete, setPublicationDelete] = useState(false);
 
-
-    useEffect(() => {
+    useEffect(() =>
+    {
         console.log("calling use effect");
 
-        if (experiences.length === 0) {
+        if (experiences && experiences.length === 0) 
+        {
             axios.get("/account/profile/experience")
                 .then(res => {
                     console.log(res.data);
@@ -64,7 +80,7 @@ const Experience = () => {
         }
         setUpdate(false);
 
-    }, [update, refresh]);
+    }, [experience.start_time, experience.stop_time, update, refresh]);
 
     // eslint-disable-next-line no-unused-vars
     // const handleChange =(index,field,value)=>{
@@ -111,12 +127,12 @@ const Experience = () => {
 
 
 
-            } else {
-
+            }
+            else
+            {
                 new_field[value] = e.target.value;
                 console.log(new_field);
                 setField(new_field);
-
             }
             setRefresh(true);
 
@@ -593,8 +609,10 @@ const Experience = () => {
                                             <SettingsNavbar current="experience" />
 
                                             {/* ALERTS THAT DISPLAY UPON CREATING A NEW EXPERIENCE */}
+                                    
                                             {uploadSuccess ? <UploadSuccess uploadSuccess={uploadSuccess} setUploadSuccess={setUploadSuccess} /> : null}
-                                            {uploadFailure ? <UploadFailure uploadFailure={uploadFailure} setUploadFailure={setUploadFailure} /> : null}
+                                            {uploadFailure ? <UploadFailure uploadFailure={uploadFailure} setUploadFailure={setUploadFailure} /> : null} 
+                              
 
                                             {/* NEW EXPERIENCE BANNER */}
                                             <div className="bg-emerald-600 rounded-md my-4">
@@ -607,7 +625,7 @@ const Experience = () => {
                                                         </div>
                                                         <div className="flex justify-center order-3 flex-shrink-0 w-full sm:order-2 sm:mt-0 sm:w-auto">
                                                             <button
-                                                                onClick={handleNewExperience}
+                                                                onClick={!experiences && handleNewExperience}
                                                                 className="flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-emerald-600 bg-white hover:bg-emerald-50"
                                                             >
                                                                 New Experience
@@ -619,7 +637,7 @@ const Experience = () => {
 
                                             {/* SHOW NEW EXPERIENCE MODAL */}
                                             {modal && <ExperienceModal modal={modal} setModal={setModal} experience={experience} setExperience={setExperience}
-                                                setUploadSuccess={setUploadSuccess} setUploadFailure={setUploadFailure} loading={loading} setLoading={setLoading}
+                                                setUploadSuccess={setUploadSuccess}  setUploadFailure={setUploadFailure} loading={loading} setLoading={setLoading}
                                                 refresh={refresh} setRefresh={setRefresh} experiences={experiences} setExperiences={setExperiences}
                                                 error_message={error_message} setErrorMessage={setErrorMessage} />}
 
@@ -629,161 +647,166 @@ const Experience = () => {
                                                 [*][*][*]                     [*][*][*]
                                             */}
 
-                                            <div className="space-y-10 sm:px-6 lg:px-0 lg:col-span-9">
-                                                {experiences.map((exper, idx) => (
-                                                    <>
-                                                        <section aria-labelledby="payment-details-heading" key={exper.exper_id}>
-                                                            <form>
-                                                                <div className="shadow sm:rounded-md ">
-                                                                    <div className="bg-white py-2 px-2 sm:p-2">
+                                            {!experiences
+                                                ?  
+                                                console.log("EXPERIENCES NULL")
+                                                :    
+                                                <div className="space-y-10 sm:px-6 lg:px-0 lg:col-span-9">
+                                                    {experiences.map((exper, idx) => (
+                                                        <>
+                                                            <section aria-labelledby="payment-details-heading" key={exper.exper_id}>
+                                                                <form>
+                                                                    <div className="shadow sm:rounded-md ">
+                                                                        <div className="bg-white py-2 px-2 sm:p-2">
 
-                                                                        <div className="bg-white px-4 py-5 sm:px-6">
-                                                                            <div className="flex space-x-3">
-                                                                                <div className="min-w-0 flex-1">
-                                                                                    <h1 className="text-md font-medium text-gray-900">
-                                                                                        {exper.title}
-                                                                                    </h1>
-                                                                                    <h2 className="text-sm text-gray-500">
-                                                                                        from {exper.start_time} to {exper.stop_time}
-                                                                                    </h2>
-                                                                                </div>
-                                                                                <div className="flex-shrink-0 self-center flex">
-                                                                                    <Menu as="div" className="relative z-30 inline-block text-left">
-                                                                                        <div>
-                                                                                            <Menu.Button className="-m-2 p-2 rounded-full flex items-center text-gray-400 hover:text-gray-600">
-                                                                                                <span className="sr-only">Open options</span>
-                                                                                                <DotsVerticalIcon className="h-5 w-5" aria-hidden="true" />
-                                                                                            </Menu.Button>
-                                                                                        </div>
+                                                                            <div className="bg-white px-4 py-5 sm:px-6">
+                                                                                <div className="flex space-x-3">
+                                                                                    <div className="min-w-0 flex-1">
+                                                                                        <h1 className="text-md font-medium text-gray-900">
+                                                                                            {exper.title}
+                                                                                        </h1>
+                                                                                        <h2 className="text-sm text-gray-500">
+                                                                                            from {exper.start_time} to {exper.stop_time}
+                                                                                        </h2>
+                                                                                    </div>
+                                                                                    <div className="flex-shrink-0 self-center flex">
+                                                                                        <Menu as="div" className="relative z-30 inline-block text-left">
+                                                                                            <div>
+                                                                                                <Menu.Button className="-m-2 p-2 rounded-full flex items-center text-gray-400 hover:text-gray-600">
+                                                                                                    <span className="sr-only">Open options</span>
+                                                                                                    <DotsVerticalIcon className="h-5 w-5" aria-hidden="true" />
+                                                                                                </Menu.Button>
+                                                                                            </div>
 
-                                                                                        <Transition
-                                                                                            as={Fragment}
-                                                                                            enter="transition ease-out duration-100"
-                                                                                            enterFrom="transform opacity-0 scale-95"
-                                                                                            enterTo="transform opacity-100 scale-100"
-                                                                                            leave="transition ease-in duration-75"
-                                                                                            leaveFrom="transform opacity-100 scale-100"
-                                                                                            leaveTo="transform opacity-0 scale-95"
-                                                                                        >
-                                                                                            <Menu.Items className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                                                                                <div className="py-1">
-                                                                                                    <Menu.Item>
-                                                                                                        {({ active }) => (
-                                                                                                            <a
+                                                                                            <Transition
+                                                                                                as={Fragment}
+                                                                                                enter="transition ease-out duration-100"
+                                                                                                enterFrom="transform opacity-0 scale-95"
+                                                                                                enterTo="transform opacity-100 scale-100"
+                                                                                                leave="transition ease-in duration-75"
+                                                                                                leaveFrom="transform opacity-100 scale-100"
+                                                                                                leaveTo="transform opacity-0 scale-95"
+                                                                                            >
+                                                                                                <Menu.Items className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                                                                    <div className="py-1">
+                                                                                                        <Menu.Item>
+                                                                                                            {({ active }) => (
+                                                                                                                <a
 
-                                                                                                                className={classNames(
-                                                                                                                    active ? "bg-gray-100 text-gray-900 cursor-pointer" : "text-gray-700 cursor-pointer",
-                                                                                                                    "flex px-4 py-2 text-sm cursor-pointer"
-                                                                                                                )}
-                                                                                                                onClick={() => handleOpenModal("edit", exper, idx)}
-                                                                                                            >
-                                                                                                                <PencilIcon className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
-                                                                                                                <span>Edit</span>
-                                                                                                            </a>
-                                                                                                        )}
-                                                                                                    </Menu.Item>
-                                                                                                    <Menu.Item>
-                                                                                                        {({ active }) => (
-                                                                                                            <a
-                                                                                                                className={classNames(
-                                                                                                                    active ? "bg-gray-100 text-gray-900 cursor-pointer" : "text-gray-700 cursor-pointer",
-                                                                                                                    "flex px-4 py-2 text-sm cursor-pointer"
-                                                                                                                )}
+                                                                                                                    className={classNames(
+                                                                                                                        active ? "bg-gray-100 text-gray-900 cursor-pointer" : "text-gray-700 cursor-pointer",
+                                                                                                                        "flex px-4 py-2 text-sm cursor-pointer"
+                                                                                                                    )}
+                                                                                                                    onClick={() => handleOpenModal("edit", exper, idx)}
+                                                                                                                >
+                                                                                                                    <PencilIcon className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
+                                                                                                                    <span>Edit</span>
+                                                                                                                </a>
+                                                                                                            )}
+                                                                                                        </Menu.Item>
+                                                                                                        <Menu.Item>
+                                                                                                            {({ active }) => (
+                                                                                                                <a
+                                                                                                                    className={classNames(
+                                                                                                                        active ? "bg-gray-100 text-gray-900 cursor-pointer" : "text-gray-700 cursor-pointer",
+                                                                                                                        "flex px-4 py-2 text-sm cursor-pointer"
+                                                                                                                    )}
 
-                                                                                                                onClick={() => handleOpenModal("remove", exper, idx)}
-                                                                                                            >
-                                                                                                                <DocumentRemoveIcon className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
-                                                                                                                <span>Remove</span>
-                                                                                                            </a>
-                                                                                                        )}
-                                                                                                    </Menu.Item>
-                                                                                                </div>
-                                                                                            </Menu.Items>
-                                                                                        </Transition>
-                                                                                    </Menu>
+                                                                                                                    onClick={() => handleOpenModal("remove", exper, idx)}
+                                                                                                                >
+                                                                                                                    <DocumentRemoveIcon className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
+                                                                                                                    <span>Remove</span>
+                                                                                                                </a>
+                                                                                                            )}
+                                                                                                        </Menu.Item>
+                                                                                                    </div>
+                                                                                                </Menu.Items>
+                                                                                            </Transition>
+                                                                                        </Menu>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div className="bg-white py-6 px-4 sm:p-6">
-                                                                        <p className="block text-sm font-medium text-gray-600">
-                                                                            {exper.description}
-                                                                        </p>
-                                                                    </div>
+                                                                        <div className="bg-white py-6 px-4 sm:p-6">
+                                                                            <p className="block text-sm font-medium text-gray-600">
+                                                                                {exper.description}
+                                                                            </p>
+                                                                        </div>
 
-                                                                    {/* 
-                                                                        [*][*][*]                         [*][*][*]
-                                                                        [*][*][*] PUBLICATIONS LIST BELOW [*][*][*] 
-                                                                        [*][*][*]                         [*][*][*]
-                                                                    */}
+                                                                        {/* 
+                                                                            [*][*][*]                         [*][*][*]
+                                                                            [*][*][*] PUBLICATIONS LIST BELOW [*][*][*] 
+                                                                            [*][*][*]                         [*][*][*]
+                                                                        */}
 
-                                                                    {publicationDelete ? <DeletePublicationAlert publicationDelete={publicationDelete} setPublicationDelete={setPublicationDelete} /> : null}
+                                                                        {publicationDelete ? <DeletePublicationAlert publicationDelete={publicationDelete} setPublicationDelete={setPublicationDelete} /> : null}
 
-                                                                    <div className="mx-4">
-                                                                        <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
-                                                                            {
-                                                                                exper.publications.map((publication, index) => (
+                                                                        <div className="mx-4">
+                                                                            <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
+                                                                                {
+                                                                                    exper.publications.map((publication, index) => (
 
-                                                                                    <li className="px-5 py-3 flex items-center justify-between text-sm" key={publication.pub_id}>
-                                                                                        <div className="w-0 flex-1 flex items-center">
-                                                                                            <LinkIcon className="flex-shrink-0 h-5 w-5 text-gray-400" />
-                                                                                            <span className="ml-2 flex-1 w-0 truncate text-gray-700">
-                                                                                                <a href={/^http:\/\//.test(publication.duo_link) || /^https:\/\//.test(publication.duo_link) ? publication.duo_link : "//" + publication.duo_link}
-                                                                                                    className="font-medium text-emerald-600 hover:text-emerald-500" target="_blank" rel="noreferrer"> 
-                                                                                                    {publication.title}
-                                                                                                </a>
-                                                                                            </span>
-                                                                                        </div>
-                                                                                        <div className="ml-4 flex-shrink-0 flex justify-between">
-                                                                                            {/* 
-                                                                                                [*][*][*][*]                             [*][*][*][*]
-                                                                                                [*][*][*][*] ENTER EDIT AND DELETE ICONS [*][*][*][*]
-                                                                                                [*][*][*][*]                             [*][*][*][*]
-                                                                                            */}
+                                                                                        <li className="px-5 py-3 flex items-center justify-between text-sm" key={publication.pub_id}>
+                                                                                            <div className="w-0 flex-1 flex items-center">
+                                                                                                <LinkIcon className="flex-shrink-0 h-5 w-5 text-gray-400" />
+                                                                                                <span className="ml-2 flex-1 w-0 truncate text-gray-700">
+                                                                                                    <a href={/^http:\/\//.test(publication.duo_link) || /^https:\/\//.test(publication.duo_link) ? publication.duo_link : "//" + publication.duo_link}
+                                                                                                        className="font-medium text-emerald-600 hover:text-emerald-500" target="_blank" rel="noreferrer"> 
+                                                                                                        {publication.title}
+                                                                                                    </a>
+                                                                                                </span>
+                                                                                            </div>
+                                                                                            <div className="ml-4 flex-shrink-0 flex justify-between">
+                                                                                                {/* 
+                                                                                                    [*][*][*][*]                             [*][*][*][*]
+                                                                                                    [*][*][*][*] ENTER EDIT AND DELETE ICONS [*][*][*][*]
+                                                                                                    [*][*][*][*]                             [*][*][*][*]
+                                                                                                */}
 
-                                                                                            <PencilIcon className="h-5 w-5 mx-4" viewBox="0 0 20 20" fill="currentColor"
-                                                                                                onClick={() => handleOpenModal("edit pub", publication, { "pub_list_id": index, "exper_list_id": idx, "exper_db_id": exper.exper_id })}
-                                                                                            >
-                                                                                                <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-                                                                                            </PencilIcon>
-                                                                                            <MinusCircleIcon className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                                                                                onClick={() => handleOpenModal("remove pub", [publication, exper], idx)}
-                                                                                            >
-                                                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                                                            </MinusCircleIcon>
-                                                                                        </div>
-                                                                                    </li>
-                                                                                ))
-                                                                            }
-                                                                            <li className="flex items-center">
-                                                                                {/* 
-                                                                                    [*][*][*]                                     [*][*][*]
-                                                                                    [*][*][*] ENTER ADD NEW PUBLICATION ITEM HERE [*][*][*]
-                                                                                    [*][*][*]                                     [*][*][*]
-                                                                                */}
-                                                                                <div className="border-dashed border-2 border-gray rounded-md py-1 mx-auto relative bg-white-600 w-full">
-                                                                                    <div className=""> {/* max-w-7xl mx-auto px-1 sm:px-6 lg:px-8 */}
-                                                                                        <div className="sm:text-center sm:px-16 flex">
-                                                                                            {/* TODO: CREATE ADD PUBLICATION FUNCTIONALITY */}
-                                                                                            <button
-                                                                                                type="button"
-                                                                                                className="flex m-auto items-center p-1 border border-transparent rounded-full shadow-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
-                                                                                                onClick={() => handleOpenModal("new pub", null, { "db_id": exper.exper_id, "list_id": idx })}
-                                                                                            >
-                                                                                                <PlusSmIconSolid className="h-5 w-5" aria-hidden="true" />
-                                                                                            </button>
+                                                                                                <PencilIcon className="h-5 w-5 mx-4" viewBox="0 0 20 20" fill="currentColor"
+                                                                                                    onClick={() => handleOpenModal("edit pub", publication, { "pub_list_id": index, "exper_list_id": idx, "exper_db_id": exper.exper_id })}
+                                                                                                >
+                                                                                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                                                                                                </PencilIcon>
+                                                                                                <MinusCircleIcon className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                                                                    onClick={() => handleOpenModal("remove pub", [publication, exper], idx)}
+                                                                                                >
+                                                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                                                                </MinusCircleIcon>
+                                                                                            </div>
+                                                                                        </li>
+                                                                                    ))
+                                                                                }
+                                                                                <li className="flex items-center">
+                                                                                    {/* 
+                                                                                        [*][*][*]                                     [*][*][*]
+                                                                                        [*][*][*] ENTER ADD NEW PUBLICATION ITEM HERE [*][*][*]
+                                                                                        [*][*][*]                                     [*][*][*]
+                                                                                    */}
+                                                                                    <div className="border-dashed border-2 border-gray rounded-md py-1 mx-auto relative bg-white-600 w-full">
+                                                                                        <div className=""> {/* max-w-7xl mx-auto px-1 sm:px-6 lg:px-8 */}
+                                                                                            <div className="sm:text-center sm:px-16 flex">
+                                                                                                {/* TODO: CREATE ADD PUBLICATION FUNCTIONALITY */}
+                                                                                                <button
+                                                                                                    type="button"
+                                                                                                    className="flex m-auto items-center p-1 border border-transparent rounded-full shadow-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                                                                                                    onClick={() => handleOpenModal("new pub", null, { "db_id": exper.exper_id, "list_id": idx })}
+                                                                                                >
+                                                                                                    <PlusSmIconSolid className="h-5 w-5" aria-hidden="true" />
+                                                                                                </button>
+                                                                                            </div>
                                                                                         </div>
                                                                                     </div>
-                                                                                </div>
-                                                                            </li>
-                                                                        </ul>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                            </form>
-                                                        </section>
-                                                    </>
-                                                ))}
-                                            </div>
+                                                                </form>
+                                                            </section>
+                                                        </>
+                                                    ))}
+                                                </div>
+                                            }
                                         </div>
                                     </div>
                                 </div>

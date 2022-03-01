@@ -12,7 +12,9 @@ const ExperienceModal = ({ modal, setModal, experience, setExperience, setUpload
         TODO:
             - add publication submission functionality to the modal
     */
+    
     const [publication, setPublication] = React.useState(false);
+
     const clearModal = () => {
         // document.getElementById("newExperienceModal").reset();
         setExperience({
@@ -42,7 +44,7 @@ const ExperienceModal = ({ modal, setModal, experience, setExperience, setUpload
         
         axios(config)
             .then(response => {
-                // console.log(JSON.stringify(response.data));
+                console.log(JSON.stringify(response.data));
                 setUploadSuccess(true);
                 setTimeout(() => setUploadSuccess(false), 6000);
 
@@ -56,55 +58,64 @@ const ExperienceModal = ({ modal, setModal, experience, setExperience, setUpload
                 console.log("the new experiences is ",experiences);
                 
                 setRefresh(true);
-                setErrorMessage("null");
+                // setErrorMessage("null");
             })
             .catch(error => {
-                console.log(error);
+                // etErrorMessage(true);
+                console.log(error.response);
                 setUploadFailure(true);
-                setTimeout(() => setUploadFailure(false), 6000);
+                // setTimeout(() => setUploadFailure(false), 6000);
+
                 clearModal();
                 setErrorMessage(error.response.data.message);
+                // setRefresh(true);
+
+
             })
-            .finally(()=>(setLoading(false)))
+            .finally(() => (setLoading(false)))
         ;
     };
 
 
     const handleInputChange = event => {
+
         event.preventDefault();
         let name    = event.target.name;
         let value   = event.target.value;
 
-        if      (name === "title"){          setExperience({ ...experience, title: value });}
-        else if (name === "description"){   setExperience({ ...experience, description: value });}
-        else if (name === "start_time" || name === "stop_time"){    
-            let new_field=experience; 
+        if      (name === "title") setExperience({ ...experience, title: value });
+        else if (name === "description") setExperience({ ...experience, description: value }); 
+            
+        else if (name === "start_time" || name === "stop_time")
+        {    
+            console.log("INPUT IS", value);
 
-            let input=value;
-            console.log("input is",input);
-            if(input.length<=2 && /^\d*$/.test(input)){
-                let oldVal=new_field[name];
-                new_field[name]=value;
-                if(input.length===2){
-                    if(oldVal.charAt(oldVal.length - 1)!=="/"){
-                        new_field[name]+="/";
+            if (value.length <= 2 && /^\d*$/.test(value))
+            {
+                let oldVal = experience[name];
+                experience[name] = value;
+
+                if (value.length === 2)
+                {
+                    if (oldVal.charAt(oldVal.length - 1) !== "/")
+                    {
+                        experience[name]+="/";
                     }                                              
                 }                    
             }
-            else if(/^\d{2}\/\d{0,4}$/.test(input)){
-                new_field[name]=value;
-
+            else if (/^\d{2}\/\d{0,4}$/.test(value))
+            {
+                experience[name] = value;
             }
 
-            if (new_field[name]===null){
-                new_field[name]="";
+            if (experience[name] === null)
+            {
+                experience[name] = "";
                 console.log("new field is null");
             }
-            setExperience(new_field);
             console.log(experience);
         }
         setRefresh(true);
-        
     };
 
     // eslint-disable-next-line no-unused-vars
@@ -316,7 +327,7 @@ const ExperienceModal = ({ modal, setModal, experience, setExperience, setUpload
                                                     name="start_time"
                                                     id="start_time"
                                                     autoComplete="cc-exp"
-                                                    className="my-3 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+                                                    className="blcok my-3 w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
                                                     placeholder="MM / YYYY"
                                                     value={experience.start_time}
                                                     onChange={handleInputChange}
