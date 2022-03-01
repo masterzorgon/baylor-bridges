@@ -94,7 +94,7 @@ const Home = () => {
 
                 {/* USA population map */}
                 {/* TODO: Center map and show population, and text below */}
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-6 my-6 grid grid-cols-3 gap-2 hidden lg:grid">
+                <div className="max-w-7xl mx-auto sm:px-6 lg:px-6 my-6 grid-cols-3 gap-2 hidden lg:grid">
                     <div className="relative flex col-span-2">
                         <USAMap customize={statesCustomConfig} />
                     </div>
@@ -103,7 +103,7 @@ const Home = () => {
                             <h2 className="text-base font-semibold text-emerald-600 uppercase tracking-wide">Alumni Heat Map</h2>
                             <p className="mt-2 text-3xl font-extrabold text-gray-900">Alumni Connection Platform</p>
                             <p className="mt-4 text-lg text-gray-500">
-                                    Dynamic US map displaying the density of Baylor Alumni and updates according to searches by the user.
+                                Join the network, explore and connect with all the other Baylor people from different locations around the states.
                             </p>
                         </div>
                     </div>
@@ -144,7 +144,7 @@ const Home = () => {
                         <h2 className="text-base font-semibold text-emerald-600 uppercase tracking-wide">Everything you need</h2>
                         <p className="mt-2 text-3xl font-extrabold text-gray-900">Alumni Connection Platform</p>
                         <p className="mt-4 text-lg text-gray-500">
-                                Providing Environment for Students and Alumni to discover New Connections and foster deeper relationship with one another.
+                                Providing a platform for current students and alumni to discover new connections and foster deeper relationship with one another.
                         </p>
                     </div>
                     <div className="mt-12 lg:mt-0 lg:col-span-2">
