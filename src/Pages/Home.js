@@ -68,11 +68,11 @@ const Home = () => {
                             </div>
                             <div className="relative px-4 py-16 sm:px-6 sm:py-24 lg:py-32 lg:px-8">
                                 <h1 className="text-center text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
-                                    <span className="block text-white">Baylor Alumni Connection Platform</span>
-                                    <span className="block text-emerald-200">A New Experience</span>
+                                    <span className="block text-white">Connect with Baylor People</span>
+                                    <span className="block text-emerald-200">and build your network</span>
                                 </h1>
                                 <p className="mt-6 max-w-lg mx-auto text-center text-xl text-emerald-200 sm:max-w-3xl">
-                                        Introducing a brand new platform for Baylor alumni and students to connect and explore the vast and endless possibilities
+                                        A brand new platform for Baylor alumni and students to connect and explore the vast and endless possibilities
                                         of Baylor alumni in the health industry.
                                 </p>
                                 <div className="mt-10 max-w-sm mx-auto sm:max-w-none sm:flex sm:justify-center">
@@ -94,7 +94,7 @@ const Home = () => {
 
                 {/* USA population map */}
                 {/* TODO: Center map and show population, and text below */}
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-6 my-6 grid grid-cols-3 gap-2 hidden lg:grid">
+                <div className="max-w-7xl mx-auto sm:px-6 lg:px-6 my-6 grid-cols-3 gap-2 hidden lg:grid">
                     <div className="relative flex col-span-2">
                         <USAMap customize={statesCustomConfig} />
                     </div>
@@ -103,7 +103,7 @@ const Home = () => {
                             <h2 className="text-base font-semibold text-emerald-600 uppercase tracking-wide">Alumni Heat Map</h2>
                             <p className="mt-2 text-3xl font-extrabold text-gray-900">Alumni Connection Platform</p>
                             <p className="mt-4 text-lg text-gray-500">
-                                    Dynamic US map displaying the density of Baylor Alumni and updates according to searches by the user.
+                                Join the network, explore and connect with all the other Baylor people from different locations around the states.
                             </p>
                         </div>
                     </div>
@@ -144,7 +144,7 @@ const Home = () => {
                         <h2 className="text-base font-semibold text-emerald-600 uppercase tracking-wide">Everything you need</h2>
                         <p className="mt-2 text-3xl font-extrabold text-gray-900">Alumni Connection Platform</p>
                         <p className="mt-4 text-lg text-gray-500">
-                                Providing Environment for Students and Alumni to discover New Connections and foster deeper relationship with one another.
+                                Providing a platform for current students and alumni to discover new connections and foster deeper relationship with one another.
                         </p>
                     </div>
                     <div className="mt-12 lg:mt-0 lg:col-span-2">

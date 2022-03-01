@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, {Fragment,useEffect,useState} from "react";
 import {Menu, Popover, Transition} from "@headlessui/react";
-import {ChevronRightIcon, MailIcon,  ChevronDownIcon} from "@heroicons/react/solid";
+import {ChevronRightIcon,  ChevronDownIcon} from "@heroicons/react/solid";
 import {TrashIcon} from "@heroicons/react/outline";
 import USAMap from "react-usa-map";
 import {useSearchParams} from "react-router-dom";
@@ -397,7 +397,6 @@ const Search = (props) => {
                                                     <div>
                                                         <p className="text-sm font-medium text-emerald-600 truncate">{profile.first_name} {profile.last_name}</p>
                                                         <p className="mt-2 flex items-center text-sm text-gray-500">
-                                                            <MailIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />
                                                             <span className="truncate">{profile.headline}</span>
                                                         </p>
                                                     </div>

@@ -6,7 +6,7 @@ export default function CookiePolicy() {
     const [email, setEmail] = useState("");
     
     useEffect(() => {
-        setEmail("BaylorBridges@baylor.edu");
+        setEmail("baylorbridges@baylor.edu");
     }, [setEmail]);
 
     return (

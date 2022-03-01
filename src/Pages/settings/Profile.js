@@ -18,15 +18,15 @@ const states = [
     { title: "Missouri", value: "MO", description: "MO" }, { title: "Arkansas", value: "AR", description: "AR" }, { title: "Alabama", value: "AL", description: "AL" }, { title: "Mississippi", value: "MS", description: "MS" }, { title: "Louisiana", value: "LA", description: "LA" }, { title: "Michigan", value: "MI", description: "MI" }, { title: "Florida", value: "FL", description: "FL" }, { title: "South Carolina", value: "SC", description: "SC" }, { title: "Ohio", value: "OH", description: "OH" }, { title: "Iowa", value: "IA", description: "IA" },
 ];
 
-const semester=[
-    {title:"spring",value:"spring"},
-    {title:"fall",value:"fall"}
+const semester = [
+    { title: "Spring", value: "spring" },
+    { title: "Fall", value: "fall" }
 ];
 
 const visibility_options = [
     { title: "Self", value: "self", description: "Only you can see this field in your profile" },
     { title: "Alumni", value: "alumni", description: "Other alumni can see this field in your profile" },
-    { title: "Public", value: "public", description: "Everyone can see this field in your profile"},
+    { title: "Public", value: "public", description: "Everyone can see this field in your profile" },
 ];
 
 const option_value_to_title = (options, value) => {
@@ -58,11 +58,11 @@ const profile = {
                     { type: "text", title: "Last name", placeholder: "Last name", key: "last_name", required: true },
                 ],
             },
-            graduate_class:{
+            graduate_class: {
                 title: "Graduate Class",
                 value: [
-                    {type: "dropdown",title:"Graduate Semester",placeholder:"Semester",key:"graduate_semester",options:semester},
-                    {type:"text",title:"Graduate Year",placeholder:"Year",key:"graduate_year"}
+                    { type: "dropdown", title: "Graduate Semester", placeholder: "Semester", key: "graduate_semester", options: semester },
+                    { type: "text", title: "Graduate Year", placeholder: "Year", key: "graduate_year" }
                 ]
             },
             headline: {
@@ -260,16 +260,16 @@ const Profile = () => {
                 if (section_key === "basic") {
 
                     // for graduate year field user can only input 4 digit
-                    console.log("the value key is ",value.key);
-                    if(value.key==="graduate_year" ){
+                    console.log("the value key is ", value.key);
+                    if (value.key === "graduate_year") {
 
-                        if(/^\d{0,4}$/.test(v)){
+                        if (/^\d{0,4}$/.test(v)) {
                             setUpdate({ ...update, [value.key]: v });
                         }
                         console.log("changing graduate_year");
-                        
 
-                    }else{
+
+                    } else {
 
                         setUpdate({ ...update, [value.key]: v });
                     }
@@ -415,13 +415,13 @@ const Profile = () => {
                 disabled={loading || !complete}
                 onClick={() => onSubmit()}
             >
-                    Save
+                Save
             </Button>
         );
-    
+
 
         // If this whole field requires certain role to update and the account role does not match, return nothing for DOM
-        if(field.role && field.role !== account.role){
+        if (field.role && field.role !== account.role) {
             return;
         }
 
@@ -441,7 +441,7 @@ const Profile = () => {
             );
         } else {
             // If this single field requires certain role to update and the account role does not match, return nothing for DOM
-            if(field.value.role && field.value.role !== account.role){
+            if (field.value.role && field.value.role !== account.role) {
                 return;
             }
 
@@ -506,7 +506,6 @@ const Profile = () => {
     };
 
     return (
-
         <>
             <div>
                 {/* Content area */}
@@ -579,7 +578,7 @@ const Profile = () => {
                         <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
                             &#8203;
                         </span>
-                        
+
                         <Transition.Child
                             as={Fragment}
                             enter="ease-out duration-300"
