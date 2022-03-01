@@ -59,7 +59,7 @@ const Form = () => {
 
     // FIXME: Self-sign up for alumni is disabled
     if (role === "alumni") {
-        window.location.href = "closed";
+        window.location.href = "https://baylor.qualtrics.com/jfe/form/SV_8v5U3apajzQVm86";
         return;
     }
 
