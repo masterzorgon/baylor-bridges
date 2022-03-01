@@ -21,7 +21,6 @@ const Experience = () => {
     const [error_message, setErrorMessage] = useState(null);
 
     const [experiences, setExperiences] = useState(null);
-    const [update, setUpdate] = useState(false);
     const [open, setOpen] = useState(false);
     const [field, setField] = useState(null);
 
@@ -29,7 +28,6 @@ const Experience = () => {
     const [modalSettings, setModalSettings] = useState({});
     const cancelButtonRef = useRef(null);
 
-    // eslint-disable-next-line no-unused-vars
     const [refresh, setRefresh] = useState(false);
 
     // STATE FOR ADDING A NEW EXPERIENCE [*][*][*][*]
@@ -63,10 +61,12 @@ const Experience = () => {
     // STATE FOR PUBLICATION [*][*][*][*]
     const [publicationDelete, setPublicationDelete] = useState(false);
 
+    const [validSubmit, setValidSubmit]=useState(false);
+
     useEffect(() =>
     {
-        console.log("calling use effect");
-        console.log("error message: ",error_message);
+        // console.log("calling use effect");
+        // console.log("error message: ",error_message);
 
         if (!experiences || experiences.length === 0) 
         {
@@ -81,9 +81,8 @@ const Experience = () => {
             console.log("not calling axios");
             setRefresh(false);
         }
-        setUpdate(false);
 
-    }, [experience.start_time, experience.stop_time, update, refresh]);
+    }, [experience.start_time, experience.stop_time, refresh]);
 
     // eslint-disable-next-line no-unused-vars
     // const handleChange =(index,field,value)=>{
@@ -137,6 +136,26 @@ const Experience = () => {
                 console.log(new_field);
                 setField(new_field);
             }
+
+            // to verify whether the current submission form is valid to submit
+            if (field["title"]!==""){
+
+                // if the form is for submiting publication
+                if(modalSettings["modalType"]=="new pub" || modalSettings["modalType"]=="edit pub"){
+                    if(field["duo_link"]===""){
+                        setValidSubmit(false);
+                    }else{
+                        setValidSubmit(true);
+                    }
+                }else{
+                    // if the form is for submitting experience
+
+
+                }
+            }else{
+                setValidSubmit(false);
+            }
+            console.log("the valid submit is ",validSubmit);
             setRefresh(true);
 
         };
@@ -544,9 +563,9 @@ const Experience = () => {
                             <div className="mt-5 sm:mt-6">
                                 <button
                                     type="submit"
-                                    className={`${loading ? "cursor-not-allowed" : ""} inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-emerald-600 text-base font-medium text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 sm:text-sm`}
+                                    className={`${loading ||!validSubmit ? "cursor-not-allowed" : ""} inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 ${validSubmit? "bg-emerald-600 hover:bg-emerald-700": "bg-emerald-400"} text-base font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 sm:text-sm`}
                                     onClick={() => handlePubSubmit(field)}
-                                    {...(loading ? { disabled: true } : {})}
+                                    {...(loading || !validSubmit? { disabled: true } : {})}
                                 >
                                     {
                                         loading &&
