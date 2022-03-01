@@ -31,6 +31,7 @@ const Profile = () => {
             })
             .catch(err => {
                 window.location.href = "/404";
+                // console.log(err.response.message);
             });
     }, [user_id, setProfileAccount]);
 
