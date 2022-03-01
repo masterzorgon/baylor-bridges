@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import Button from "./Button";
-import ErrorMessage from "./ErrorMessage";
+import {XCircleIcon} from "@heroicons/react/solid";
+
+// import ErrorMessage from "./ErrorMessage";
 // import { PlusSmIcon as PlusSmIconSolid } from "@heroicons/react/solid";
 
 import axios from "axios";
@@ -26,7 +28,7 @@ const ExperienceModal = ({ modal, setModal, experience, setExperience, setUpload
             title: ""
         });
         // close modal
-        setModal(false);
+        // setModal(false);
     };
     
     const handleAddNewExperience = (event) => {
@@ -58,17 +60,16 @@ const ExperienceModal = ({ modal, setModal, experience, setExperience, setUpload
                 console.log("the new experiences is ",experiences);
                 
                 setRefresh(true);
-                // setErrorMessage("null");
+                setErrorMessage();
             })
             .catch(error => {
-                // etErrorMessage(true);
                 console.log(error.response);
-                setUploadFailure(true);
+                // setUploadFailure(true);
                 // setTimeout(() => setUploadFailure(false), 6000);
 
                 clearModal();
                 setErrorMessage(error.response.data.message);
-                // setRefresh(true);
+                setRefresh(true);
 
 
             })
@@ -147,7 +148,14 @@ const ExperienceModal = ({ modal, setModal, experience, setExperience, setUpload
         setPublication(false);
     };
 
+    useEffect(()=>{
+        console.log("calling useeffect in experience modal, error message is",error_message);
+        
+
+    },[error_message]);
+
     return (
+        
         <Transition.Root show={modal} as={Fragment}>
             {publication
                 // [*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*]
@@ -183,7 +191,25 @@ const ExperienceModal = ({ modal, setModal, experience, setExperience, setUpload
                         >
                             {/* MODAL CONTENT */}
                             <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
-                                <ErrorMessage error_message={error_message}></ErrorMessage>
+                                {console.log("in return error message is ",error_message)}
+                                {/* this is for showing error message */}
+                                {
+                                    error_message !== null &&
+                                <div className="bg-red-50 rounded-md p-4 mt-3">
+                                    <div className="flex">
+                                        <div className="flex-shrink-0">
+                                            <XCircleIcon className="h-5 w-5 text-red-400" aria-hidden="true"/>
+                                        </div>
+                                        <div className="ml-2">
+                                            <div className="text-red-700 text-sm">
+                                                <ul className="">
+                                                    <li>{error_message}</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                }
                                 <form id='newPublicationModal'>
                                     <div className="mt-3 text-center sm:mt-5">
                                         <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">

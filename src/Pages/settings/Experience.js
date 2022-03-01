@@ -1,6 +1,6 @@
 import React, { useEffect, useState, Fragment, useRef } from "react";
 import SettingsNavbar from "../../components/SettingsNavbar";
-import ExperienceModal from "../../components/ExperienceModal";
+// import ExperienceModal from "../../components/ExperienceModal";
 
 // eslint-disable-next-line no-unused-vars
 import { Menu, Transition, Dialog } from "@headlessui/react";
@@ -33,6 +33,7 @@ const Experience = () => {
     const [refresh, setRefresh] = useState(false);
 
     // STATE FOR ADDING A NEW EXPERIENCE [*][*][*][*]
+    // eslint-disable-next-line no-unused-vars
     const [modal, setModal] = useState(false);
 
     /*
@@ -65,6 +66,7 @@ const Experience = () => {
     useEffect(() =>
     {
         console.log("calling use effect");
+        console.log("error message: ",error_message);
 
         if (!experiences || experiences.length === 0) 
         {
@@ -185,20 +187,36 @@ const Experience = () => {
 
         const handleExperSubmit = (field) => {
             setLoading(true);
-            let url = "/account/profile/experience/" + field["exper_id"];
-            console.log(url);
-            axios.put(url, field)
-                .then(res => {
-                    console.log("update the experience successfully");
-                    setExperiences(res.data);
-                    setErrorMessage(false);
-                    setOpen(false);
-                })
-                .catch(err => err.message !== "time out" ? setErrorMessage(err.response.data.message) : setErrorMessage("server time out"))
 
-                .finally(() => setLoading(false));
+            if(modalSettings["modalType"]=="edit"){
+                let url = "/account/profile/experience/" + field["exper_id"];
+                console.log(url);
+                axios.put(url, field)
+                    .then(res => {
+                        console.log("update the experience successfully");
+                        setExperiences(res.data);
+                        setErrorMessage(null);
+                        setOpen(false);
+                    })
+                    .catch(err => err.message !== "time out" ? setErrorMessage(err.response.data.message) : setErrorMessage("server time out"))
 
-            // TODO: also submit publications changes
+                    .finally(() => setLoading(false));
+
+            }else if(modalSettings["modalType"]==="create"){
+                let url = "/account/profile/experience";
+                axios.post(url,field)
+                    .then(res => {
+                        console.log("update the experience successfully");
+                        setExperiences(res.data);
+                        setErrorMessage(null);
+                        setOpen(false);
+                    })
+                    .catch(err => err.message !== "time out" ? setErrorMessage(err.response.data.message) : setErrorMessage("server time out"))
+
+                    .finally(() => setLoading(false));
+
+            }
+            
         };
 
         const handlePubSubmit = (field) => {
@@ -246,7 +264,7 @@ const Experience = () => {
 
         if (!field) return;
 
-        if (modalSettings["modalType"] === "edit") {
+        if (modalSettings["modalType"] === "edit" || modalSettings["modalType"]==="create") {
             return (
                 /* 
                     [*][*][*][*]                       [*][*][*][*]
@@ -261,7 +279,7 @@ const Experience = () => {
                                 <div className="bg-white py-6 px-4 sm:p-6">
                                     <div>
                                         <h2 id="payment-details-heading" className="text-lg leading-6 font-medium text-gray-900">
-                                            Edit Experience
+                                            {modalSettings["modalType"]==="edit"?"Edit Experience":"Add This E"}
                                         </h2>
                                     </div>
 
@@ -561,6 +579,15 @@ const Experience = () => {
 
 
         }
+        else if(modalType==="create"){
+            setField({
+                description: "",
+                start_time: "",
+                stop_time: "",
+                title: ""
+            });
+
+        }
 
         else {
             console.log("the idx pass into handleOpenModal is " + exper_idx);
@@ -576,6 +603,7 @@ const Experience = () => {
         return classes.filter(Boolean).join(" ");
     }
 
+    // eslint-disable-next-line no-unused-vars
     const handleNewExperience = () => {
         setModal(true);
         setExperience({
@@ -626,7 +654,7 @@ const Experience = () => {
                                                         </div>
                                                         <div className="flex justify-center order-3 flex-shrink-0 w-full sm:order-2 sm:mt-0 sm:w-auto">
                                                             <button
-                                                                onClick={handleNewExperience}
+                                                                onClick={()=>handleOpenModal("create",null,null)}
                                                                 className={`${ !experiences ? "cursor-not-allowed" : ""} flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-emerald-600 bg-white hover:bg-emerald-50`}
                                                                 {...(!experiences ? { disabled: true } : {})}
                                                             >
@@ -638,10 +666,10 @@ const Experience = () => {
                                             </div>
 
                                             {/* SHOW NEW EXPERIENCE MODAL */}
-                                            {modal && <ExperienceModal modal={modal} setModal={setModal} experience={experience} setExperience={setExperience}
+                                            {/* {modal && <ExperienceModal modal={modal} setModal={setModal} experience={experience} setExperience={setExperience}
                                                 setUploadSuccess={setUploadSuccess}  setUploadFailure={setUploadFailure} loading={loading} setLoading={setLoading}
                                                 refresh={refresh} setRefresh={setRefresh} experiences={experiences} setExperiences={setExperiences}
-                                                error_message={error_message} setErrorMessage={setErrorMessage} />}
+                                                error_message={error_message} setErrorMessage={setErrorMessage} />} */}
 
                                             {/* 
                                                 [*][*][*]                     [*][*][*]
