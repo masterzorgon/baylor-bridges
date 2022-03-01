@@ -30,16 +30,16 @@ export default function ContactUs() {
                                         <MailIcon className="h-6 w-6 text-gray-400" aria-hidden="true" />
                                     </div>
                                     <div className="ml-3 text-base text-gray-500">
-                                        <p>BaylorBridges@baylor.edu</p>
+                                        <p>baylorbriges@baylor.edu</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div className="mt-12 sm:mt-16 md:mt-0">
-                            <h2 className="text-2xl font-extrabold text-gray-900 sm:text-3xl">Baylor Bridges Technical Support</h2>
+                            <h2 className="text-2xl font-extrabold text-gray-900 sm:text-3xl">Technical Support</h2>
                             <div className="mt-3">
                                 <p className="text-lg text-gray-500">
-                                    Problem with the website? Send us a help request and we will get back to you as soon as possible!
+                                    Problem with the platform? Send us a help request and we will get back to you as soon as possible!
                                 </p>
                             </div>
                             <div className="mt-9">
@@ -57,7 +57,7 @@ export default function ContactUs() {
                                         <MailIcon className="h-6 w-6 text-gray-400" aria-hidden="true" />
                                     </div>
                                     <div className="ml-3 text-base text-gray-500">
-                                        <p>bayloralumnibridges@gmail.com</p>
+                                        <p>baylorbridges@outlook.com</p>
                                     </div>
                                 </div>
                             </div>

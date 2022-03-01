@@ -6,7 +6,7 @@ export default function TermsConditions() {
     const [email, setEmail] = useState("");
     
     useEffect(() => {
-        setEmail("BaylorBridges@baylor.edu");
+        setEmail("baylorbridges@baylor.edu");
 
     }, [setEmail]);
 
