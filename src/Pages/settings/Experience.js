@@ -28,6 +28,7 @@ const Experience = () => {
     const [modalSettings, setModalSettings] = useState({});
     const cancelButtonRef = useRef(null);
 
+    // eslint-disable-next-line no-unused-vars
     const [refresh, setRefresh] = useState(false);
 
     // STATE FOR ADDING A NEW EXPERIENCE [*][*][*][*]
@@ -50,13 +51,14 @@ const Experience = () => {
     const [uploadSuccess, setUploadSuccess] = useState(false);
     const [uploadFailure, setUploadFailure] = useState(false);
 
-    const [experience, setExperience] = useState({
-        title: "",
-        description: "",
-        start_time: "",
-        stop_time: "",
-        publications: []
-    });
+    // eslint-disable-next-line no-unused-vars
+    // const [experience, setExperience] = useState({
+    //     title: "",
+    //     description: "",
+    //     start_time: "",
+    //     stop_time: "",
+    //     publications: []
+    // });
 
     // STATE FOR PUBLICATION [*][*][*][*]
     const [publicationDelete, setPublicationDelete] = useState(false);
@@ -64,26 +66,67 @@ const Experience = () => {
     const [validSubmit, setValidSubmit] = useState(false);
 
     useEffect(() => {
-        // console.log("calling use effect");
-        // console.log("error message: ",error_message);
+        console.log("calling use effect");
+        console.log("getting experiences");
 
-        if (!experiences || experiences.length === 0)
-        {
-            console.log("getting experiences");
-            axios.get("/account/profile/experience")
-                .then(res =>
-                {
-                    console.log(res.data);
-                    setExperiences(res.data);
-                });
-        }
-        else
-        {
-            console.log("not calling axios");
-            setRefresh(false);
+        axios.get("/account/profile/experience")
+            .then(res => {
+                console.log(res.data);
+                setExperiences(res.data);
+            });
+
+    }, []);
+
+    useEffect(() => {
+
+        if (!field) return;
+        console.log("calling second useEffect");
+
+
+        if (field["title"] !== "") {
+
+            // if the form is for submiting publication
+            if (modalSettings["modalType"] == "new pub" || modalSettings["modalType"] == "edit pub") {
+                if (field["duo_link"] === "") {
+                    setValidSubmit(false);
+                } else {
+                    setValidSubmit(true);
+                }
+            } else {
+                // if the form is for submitting experience
+                if (field.start_time && field["start_time"].includes("/")) {
+                    let startTime = field["start_time"].split("/");
+                    
+                    let startDate = Date.parse(startTime[1] + "-" + startTime[0]);
+                    
+                    let currentDate = new Date().getTime();
+
+                    if (startTime[1].length >= 3 && startDate && startDate < currentDate) {
+                        // the experience must start in the past
+
+                        if (field.stop_time && field["stop_time"] !== "") {
+                            let endTime = field["stop_time"].split("/");
+                            let endDate = Date.parse(endTime[1] + "-" + endTime[0]);
+                            // if user input the end date
+                            if (field["stop_time"].includes("/") && endTime[1].length >= 3 && endDate && endDate >= startDate) {
+                                setValidSubmit(true);
+                            } else { setValidSubmit(false); }
+
+                        }
+                        else { setValidSubmit(true); }
+                    } else { setValidSubmit(false); }
+
+
+
+                } else { setValidSubmit(false); }
+
+
+            }
+        } else {
+            setValidSubmit(false);
         }
 
-    }, [experience.start_time, experience.stop_time, refresh]);
+    }, [field]);
 
     // eslint-disable-next-line no-unused-vars
     // const handleChange =(index,field,value)=>{
@@ -96,89 +139,21 @@ const Experience = () => {
     // };
 
     // eslint-disable-next-line no-unused-vars
-    const getModal = (modalSettings, field, idx) =>
-    {
-        const handleChange = (e, value) =>
-        {
-            let new_field = field;
-            if (value === "start_time" || value === "stop_time")
-            {
-                let input = e.target.value;
-                console.log("input is", input);
+    const getModal = (modalSettings, field, idx) => {
 
-                if (input.length <= 2 && /^\d*$/.test(input))
-                {
-                    let oldVal = new_field[value];
-                    new_field[value] = e.target.value;
+        const handleChange = (e, value) => {
 
-                    if (input.length === 2)
-                    {
-                        if (oldVal.charAt(oldVal.length - 1) !== "/")
-                        {
-                            new_field[value] += "/";
-                        }
-                    }
-                }
-                else if (/^\d{2}\/\d{0,4}$/.test(input))
-                {
-                    new_field[value] = e.target.value;
-                }
 
-                if (new_field[value] === null)
-                {
-                    new_field[value] = "";
-                    console.log("new field is null");
-                }
-                setField(new_field);
-                console.log(field);
+            if ( value==="start_time" && (/^\d{0,2}$/.test(e.target.value) || /^\d{2}\/\d{0,4}$/.test(e.target.value))) {
+                setField({ ...field, [value]: e.target.value });
             }
-            else
-            {
-                new_field[value] = e.target.value;
-                console.log(new_field);
-                setField(new_field);
+            else if (value==="stop_time" && (/^\d{0,2}$/.test(e.target.value) || /^\d{2}\/\d{0,4}$/.test(e.target.value))) {
+                setField({ ...field, [value]: e.target.value });
+            } else if (value!=="start_time" && value!=="stop_time"){
+                setField({ ...field, [value]: e.target.value });
+
             }
 
-            // to verify whether the current submission form is valid to submit
-            if (field["title"] !== "")
-            {
-                // if the form is for submiting publication
-                if (modalSettings["modalType"] === "new pub" || modalSettings["modalType"] === "edit pub")
-                {
-                    field["duo_link"] === ""
-                        ? setValidSubmit(false)
-                        : setValidSubmit(true);
-                    
-                }
-                else
-                {
-                    // if the form is for submitting experience
-                    if (field["start_time"].includes("/"))
-                    {
-                        let startTime = field["start_time"].split("/");
-                        let endTime = field["stop_time"].split("/");
-                        let startDate = Date.parse(startTime[1] + "-" + startTime[0]);
-                        let endDate = Date.parse(endTime[1] + "-" + endTime[0]);
-                        let currentDate = new Date().getTime();
-
-                        if (startTime[1].length >= 3 && startDate && startDate < currentDate)
-                        {
-                            // the experience must start in the past
-                            if (field["stop_time"] !== "")
-                            {
-                                // if user input the end date
-                                field["stop_time"].includes("/") && endTime[1].length >= 3 && endDate && endDate >= startDate
-                                    ? setValidSubmit(true)
-                                    : setValidSubmit(false);
-                            }
-                            else setValidSubmit(true); 
-                        } else setValidSubmit(false); 
-                    } else setValidSubmit(false); 
-                }
-            } else setValidSubmit(false);
-            
-            console.log("the valid submit is ", validSubmit);
-            setRefresh(true);
         };
 
         // eslint-disable-next-line no-unused-vars
@@ -426,11 +401,11 @@ const Experience = () => {
                                         </svg>
                                     }
                                     {
-                                        (!loading && modalSettings["modalType"]==="edit") &&
+                                        (!loading && modalSettings["modalType"] === "edit") &&
                                         "Update"
                                     }
                                     {
-                                        !loading && modalSettings["modalType"]==="create" &&
+                                        !loading && modalSettings["modalType"] === "create" &&
                                         "Create"
                                     }
                                 </button>
@@ -620,11 +595,11 @@ const Experience = () => {
                                         </svg>
                                     }
                                     {
-                                        (!loading && modalSettings["modalType"]==="edit pub")&&
+                                        (!loading && modalSettings["modalType"] === "edit pub") &&
                                         "Update"
                                     }
                                     {
-                                        (!loading && modalSettings["modalType"]==="new pub")&&
+                                        (!loading && modalSettings["modalType"] === "new pub") &&
                                         "Create"
                                     }
                                 </button>
@@ -673,18 +648,17 @@ const Experience = () => {
     }
 
     // eslint-disable-next-line no-unused-vars
-    const handleNewExperience = () =>
-    {
-        setModal(true);
-        setExperience({
-            description: "",
-            exper_id: Math.floor(Math.random()),
-            publications: [],
-            start_time: "",
-            stop_time: "",
-            title: ""
-        });
-    };
+    // const handleNewExperience = () => {
+    //     setModal(true);
+    //     setExperience({
+    //         description: "",
+    //         exper_id: Math.floor(Math.random()),
+    //         publications: [],
+    //         start_time: "",
+    //         stop_time: "",
+    //         title: ""
+    //     });
+    // };
 
     /*
         [*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*]
