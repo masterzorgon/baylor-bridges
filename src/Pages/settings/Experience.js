@@ -692,16 +692,25 @@ const Experience = () => {
                                                     <div className="flex items-center justify-between flex-wrap">
                                                         <div className="w-0 flex-1 flex items-center">
                                                             <p className="ml-3 font-medium text-white truncate">
-                                                                <span className="hidden md:inline">Add a new Experience!</span>
+                                                                <span className="hidden md:inline">Create the experience</span>
                                                             </p>
                                                         </div>
                                                         <div className="flex justify-center order-3 flex-shrink-0 w-full sm:order-2 sm:mt-0 sm:w-auto">
                                                             <button
                                                                 onClick={() => handleOpenModal("create", null, null)}
-                                                                className={`${!experiences ? "cursor-not-allowed" : ""} flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-emerald-600 bg-white hover:bg-emerald-50`}
+                                                                className={`${!experiences ? "cursor-not-allowed bg-emerald-600 text-white" : "bg-white text-emerald-600 hover:bg-gray-100 focus:ring-gray-200"} flex justify-center p-1 border border-transparent rounded-full shadow-sm text-sm font-medium text-whitefocus:outline-none focus:ring-2 focus:ring-offset-2 items-center `}
                                                                 {...(!experiences ? { disabled: true } : {})}
                                                             >
-                                                                New Experience
+                                                                {!experiences &&
+                                                                    <svg className="cursor-not-allowed animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
+                                                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fillOpacity="0"></circle>
+                                                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                                    </svg>
+                                                                }
+                                                                {experiences &&
+                                                                    <PlusSmIconSolid className="h-5 w-5" aria-hidden="true" />
+                                                                }
+
                                                             </button>
                                                         </div>
                                                     </div>
@@ -721,15 +730,15 @@ const Experience = () => {
                                             */}
 
                                             {experiences &&
-                                                <div className="space-y-10 sm:px-6 lg:px-0 lg:col-span-9">
+                                                <div className="space-y-10 lg:px-0 lg:col-span-9">
                                                     {experiences.map((exper, idx) => (
                                                         <>
                                                             <section aria-labelledby="payment-details-heading" key={exper.exper_id}>
                                                                 <form>
-                                                                    <div className="shadow sm:rounded-md py-8">
-                                                                        <div className="bg-white py-2 px-2 sm:p-2">
+                                                                    <div className="shadow sm:rounded-md py-5">
+                                                                        <div className="bg-white">
 
-                                                                            <div className="bg-white px-4 py-5 sm:px-6">
+                                                                            <div className="bg-white px-4 py-1 sm:px-6">
                                                                                 <div className="flex space-x-3">
                                                                                     <div className="min-w-0 flex-1">
                                                                                         <h1 className="text-md font-medium text-gray-900">
@@ -797,7 +806,7 @@ const Experience = () => {
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                        <div className="bg-white py-4 px-3 sm:p-4">
+                                                                        <div className="bg-white pb-4 px-4 sm:px-6 sm:pt-2">
                                                                             <p className="block text-sm font-medium text-gray-600">
                                                                                 {exper.description}
                                                                             </p>
@@ -811,7 +820,7 @@ const Experience = () => {
 
                                                                         {publicationDelete ? <DeletePublicationAlert publicationDelete={publicationDelete} setPublicationDelete={setPublicationDelete} /> : null}
 
-                                                                        <div className="mx-4">
+                                                                        <div className="px-4 sm:px-6">
                                                                             <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
                                                                                 {
                                                                                     exper.publications.map((publication, index) => (
@@ -858,20 +867,19 @@ const Experience = () => {
                                                                                         [*][*][*] ENTER ADD NEW PUBLICATION ITEM HERE [*][*][*]
                                                                                         [*][*][*]                                     [*][*][*]
                                                                                     */}
-                                                                                    <div className="border-dashed border-2 border-gray rounded-md py-1 mx-auto relative bg-white-600 w-full">
-                                                                                        <div className=""> {/* max-w-7xl mx-auto px-1 sm:px-6 lg:px-8 */}
-                                                                                            <div className="sm:text-center sm:px-16 flex">
-                                                                                                {/* TODO: CREATE ADD PUBLICATION FUNCTIONALITY */}
-                                                                                                <button
-                                                                                                    type="button"
-                                                                                                    className="flex m-auto items-center p-1 border border-transparent rounded-full shadow-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
-                                                                                                    onClick={() => handleOpenModal("new pub", null, { "db_id": exper.exper_id, "list_id": idx })}
-                                                                                                >
-                                                                                                    <PlusSmIconSolid className="h-5 w-5" aria-hidden="true" />
-                                                                                                </button>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
+                                                                                    <button
+                                                                                        type="button"
+                                                                                        className="relative block w-full border-2 border-gray-300 border-dashed rounded-lg p-2 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                                                                        onClick={() => handleOpenModal("new pub", null, { "db_id": exper.exper_id, "list_id": idx })}>
+                                                                                        {/* <div className=""> max-w-7xl mx-auto px-1 sm:px-6 lg:px-8 */}
+                                                                                        {/* <div className="sm:text-center sm:px-16 flex"> */}
+                                                                                        {/* TODO: CREATE ADD PUBLICATION FUNCTIONALITY */}
+
+                                                                                        <PlusSmIconSolid className="mx-auto h-9 w-9 text-gray-400" />
+
+                                                                                        {/* </div> */}
+                                                                                        {/* </div> */}
+                                                                                    </button>
                                                                                 </li>
                                                                             </ul>
                                                                         </div>
