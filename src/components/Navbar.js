@@ -227,7 +227,7 @@ const Navbar = (props) => {
                                                     <Photo size="10" account={person}/>
                                                     <div className="ml-3">
                                                         <p className="text-sm font-medium text-gray-900">{person.first_name} {person.last_name}</p>
-                                                        <p className="text-sm text-gray-500">{person.occupation}</p>
+                                                        <p className="text-sm text-gray-500">{person.headline}</p>
                                                     </div>
                                                 </a>
                                             </li>
