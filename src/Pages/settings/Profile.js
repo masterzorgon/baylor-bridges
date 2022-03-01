@@ -506,7 +506,6 @@ const Profile = () => {
     };
 
     return (
-
         <>
             <div>
                 {/* Content area */}
