@@ -319,7 +319,7 @@ const Experience = () => {
                                 <div className="bg-white py-6 px-4 sm:p-6">
                                     <div>
                                         <h2 id="payment-details-heading" className="text-lg leading-6 font-medium text-gray-900">
-                                            {modalSettings["modalType"] === "edit" ? "Edit Experience" : "Add This E"}
+                                            {modalSettings["modalType"] === "edit" ? "Edit Experience" : "Add This Experience"}
                                         </h2>
                                     </div>
 
@@ -391,7 +391,7 @@ const Experience = () => {
                                 </div>
                             </div>
 
-                            <div className="mt-5 sm:mt-6">
+                            <div className="mt-5 sm:mt-6 px-4 py-6 px-4 sm:p-6">
                                 <button
                                     type="submit"
                                     className={`${loading || !validSubmit ? "cursor-not-allowed" : ""} inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 ${validSubmit ? "bg-emerald-600 hover:bg-emerald-700" : "bg-emerald-400"} text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 sm:text-sm`}
@@ -407,7 +407,7 @@ const Experience = () => {
                                     }
                                     {
                                         !loading &&
-                                        "Update this Experience"
+                                        "Submit this Experience"
                                     }
                                 </button>
                             </div>
@@ -581,7 +581,7 @@ const Experience = () => {
                                 </div>
                             </div>
 
-                            <div className="mt-5 sm:mt-6">
+                            <div className="mt-1 sm:mt-2 py-6 px-4 sm:p-6">
                                 <button
                                     type="submit"
                                     className={`${loading || !validSubmit ? "cursor-not-allowed" : ""} inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 ${validSubmit ? "bg-emerald-600 hover:bg-emerald-700" : "bg-emerald-400"} text-base font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 sm:text-sm`}
