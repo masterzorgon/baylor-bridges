@@ -17,16 +17,16 @@ export default function ContactUs()
                             <div className="lg:absolute lg:inset-y-0 lg:inset-x-10">
                                 <div className="my-3 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 xl:items-center">
                                     <img
-                                        className="h-56 w-full shadow-sm rounded-xl object-cover lg:absolute lg:h-full"
+                                        className="shadow-sm h-56 w-full rounded-xl object-cover lg:absolute lg:h-full"
                                         src="https://pbs.twimg.com/media/D9D59L-XUAUStai?format=jpg&name=large"
                                         alt="Pat Neff Hall"
                                     />
                                 </div>
                             </div>
 
-                            <div className="outline outline-offset-2 outline-2 border-4 border-emerald-700 px-6 py-6 mt-5 bg-white rounded-lg md:py-6 md:px-6 lg:py-6 lg:px-6 xl:flex xl:items-center">
+                            <div className="shadow-sm outline outline-offset-2 outline-2 outline-emerald-700 border-4 border-black px-6 py-6 mt-5 bg-white rounded-lg md:py-6 md:px-6 lg:py-6 lg:px-6 xl:flex xl:items-center">
                                 <div className="">
-                                    <h2 className="text-2xl font-extrabold tracking-tight text-emerald-700 sm:text-3xl">
+                                    <h2 className="text-2xl font-extrabold tracking-tight text-black sm:text-3xl">
                                         Baylor Bridges Team
                                     </h2>
                                     <p className="mt-5 max-w-3xl text-md leading-6 text-black">
@@ -36,7 +36,7 @@ export default function ContactUs()
                                     <div className="mt-5 flex justify-between align-middle">
                                         <MailIcon className="h-6 w-6 text-emerald-700" aria-hidden="true" />
                                         <a href="mailto: baylorbriges@baylor.edu" target="_blank" rel="noreferrer"
-                                            className="hover:text-emerald-500 mr-auto ml-2 max-w-3xl text-lg leading-6 text-emerald-700"
+                                            className="hover:text-emerald-500 mr-auto ml-2 max-w-3xl tmdt-lg leading-6 text-emerald-700"
                                         >
                                             baylorbriges@baylor.edu
                                         </a>
@@ -44,9 +44,9 @@ export default function ContactUs()
                                 </div>
                             </div>
 
-                            <div className="outline outline-offset-2 outline-2 border-4 border-emerald-700 px-6 py-6 mt-5 bg-white rounded-lg md:py-6 md:px-6 lg:py-6 lg:px-6 xl:flex xl:items-center">
+                            <div className="shadow-sm outline outline-offset-2 outline-2 outline-emerald-700 border-4 border-black px-6 py-6 mt-5 bg-white rounded-lg md:py-6 md:px-6 lg:py-6 lg:px-6 xl:flex xl:items-center">
                                 <div className="xl:w-0 xl:flex-1">
-                                    <h2 className="text-2xl font-extrabold tracking-tight text-emerald-700 sm:text-3xl">
+                                    <h2 className="text-2xl font-extrabold tracking-tight text-black sm:text-3xl">
                                         Technical Support
                                     </h2>
                                     <p className="mt-5 max-w-3xl text-md leading-6 text-black">
