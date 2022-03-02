@@ -44,7 +44,7 @@ export default function ContactUs()
                                 </div>
                             </div>
 
-                            <div className="shadow-sm px-6 py-6 mt-5 bg-white rounded-lg md:py-6 md:px-6 lg:py-6 lg:px-6 xl:flex xl:items-center">
+                            <div className="shadow-md px-6 py-6 mt-5 bg-white rounded-lg md:py-6 md:px-6 lg:py-6 lg:px-6 xl:flex xl:items-center">
                                 <div className="xl:w-0 xl:flex-1">
                                     <h2 className="text-xl font-semibold tracking-tight text-grey-600 sm:text-xl">
                                         Technical Support
