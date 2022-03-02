@@ -24,19 +24,19 @@ export default function ContactUs()
                                 </div>
                             </div>
 
-                            <div className="shadow-sm border-4 border-black px-6 py-6 mt-5 bg-white rounded-lg md:py-6 md:px-6 lg:py-6 lg:px-6 xl:flex xl:items-center">
+                            <div className="shadow-sm px-6 py-6 mt-5 bg-white rounded-lg md:py-6 md:px-6 lg:py-6 lg:px-6 xl:flex xl:items-center">
                                 <div className="">
-                                    <h2 className="text-2xl font-extrabold tracking-tight text-black sm:text-3xl">
+                                    <h2 className="text-xl font-semibold tracking-tight text-grey-600 sm:text-xl">
                                         Baylor Bridges Team
                                     </h2>
-                                    <p className="mt-5 max-w-3xl text-md leading-6 text-black">
+                                    <p className="mt-5 max-w-3xl text-md leading-6 text-grey-600">
                                         Have a question about Baylor Bridges? Contact us by sending a message!
                                     </p>
 
                                     <div className="mt-5 flex justify-between align-middle">
                                         <MailIcon className="h-6 w-6 text-emerald-700" aria-hidden="true" />
                                         <a href="mailto: baylorbriges@baylor.edu" target="_blank" rel="noreferrer"
-                                            className="hover:text-emerald-500 mr-auto ml-2 max-w-3xl tmdt-lg leading-6 text-emerald-700"
+                                            className="hover:text-emerald-500 mr-auto ml-2 max-w-3xl text-md leading-6 text-emerald-700"
                                         >
                                             baylorbriges@baylor.edu
                                         </a>
@@ -44,18 +44,18 @@ export default function ContactUs()
                                 </div>
                             </div>
 
-                            <div className="shadow-sm border-4 border-black px-6 py-6 mt-5 bg-white rounded-lg md:py-6 md:px-6 lg:py-6 lg:px-6 xl:flex xl:items-center">
+                            <div className="shadow-sm px-6 py-6 mt-5 bg-white rounded-lg md:py-6 md:px-6 lg:py-6 lg:px-6 xl:flex xl:items-center">
                                 <div className="xl:w-0 xl:flex-1">
-                                    <h2 className="text-2xl font-extrabold tracking-tight text-black sm:text-3xl">
+                                    <h2 className="text-xl font-semibold tracking-tight text-grey-600 sm:text-xl">
                                         Technical Support
                                     </h2>
-                                    <p className="mt-5 max-w-3xl text-md leading-6 text-black">
+                                    <p className="mt-5 max-w-3xl text-md leading-6 text-grey-600">
                                         Problem with the platform? Send us a help request and we will get back to you as soon as possible!
                                     </p>
                                     <div className="mt-5 flex justify-between align-middle">
                                         <MailIcon className="cursor-default h-6 w-6 text-emerald-700" aria-hidden="true" />
                                         <a href="mailto: baylorbridges@outlook.com" target="_blank" rel="noreferrer"
-                                            className="hover:text-emerald-500 mr-auto ml-2 max-w-3xl text-lg leading-6 text-emerald-700"
+                                            className="hover:text-emerald-500 mr-auto ml-2 max-w-3xl text-md leading-6 text-emerald-700"
                                         >
                                             baylorbridges@outlook.com
                                         </a>
