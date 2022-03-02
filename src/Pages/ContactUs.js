@@ -24,7 +24,7 @@ export default function ContactUs()
                                 </div>
                             </div>
 
-                            <div className="shadow-sm outline outline-offset-2 outline-2 outline-emerald-700 border-4 border-black px-6 py-6 mt-5 bg-white rounded-lg md:py-6 md:px-6 lg:py-6 lg:px-6 xl:flex xl:items-center">
+                            <div className="shadow-sm border-4 border-black px-6 py-6 mt-5 bg-white rounded-lg md:py-6 md:px-6 lg:py-6 lg:px-6 xl:flex xl:items-center">
                                 <div className="">
                                     <h2 className="text-2xl font-extrabold tracking-tight text-black sm:text-3xl">
                                         Baylor Bridges Team
@@ -44,7 +44,7 @@ export default function ContactUs()
                                 </div>
                             </div>
 
-                            <div className="shadow-sm outline outline-offset-2 outline-2 outline-emerald-700 border-4 border-black px-6 py-6 mt-5 bg-white rounded-lg md:py-6 md:px-6 lg:py-6 lg:px-6 xl:flex xl:items-center">
+                            <div className="shadow-sm border-4 border-black px-6 py-6 mt-5 bg-white rounded-lg md:py-6 md:px-6 lg:py-6 lg:px-6 xl:flex xl:items-center">
                                 <div className="xl:w-0 xl:flex-1">
                                     <h2 className="text-2xl font-extrabold tracking-tight text-black sm:text-3xl">
                                         Technical Support
