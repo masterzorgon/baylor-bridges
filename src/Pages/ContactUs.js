@@ -6,7 +6,7 @@ export default function ContactUs()
     return (
         <>
             <div className="relative bg-white">
-                <div className="relative py-5 px-4 sm:py-5 sm:px-6 lg:px-8 lg:max-w-7xl lg:mx-auto lg:py-5 lg:grid lg:grid-cols-2">
+                <div className="mt-4 relative py-5 px-4 sm:py-5 sm:px-6 lg:px-8 lg:max-w-7xl lg:mx-auto lg:py-5 lg:grid lg:grid-cols-2">
                     <div className="lg:pr-8">
                         <div className="flex flex-col justify-around max-w-md mx-auto sm:max-w-lg lg:mx-0">
                             
@@ -14,7 +14,7 @@ export default function ContactUs()
                                 Contact Us
                             </h2>
 
-                            <div className="lg:absolute lg:inset-y-0 lg:inset-x-10">
+                            <div className="lg:absolute lg:inset-y-0 lg:inset-x-10 mt-4">
                                 <div className="my-3 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 xl:items-center">
                                     <img
                                         className="shadow-sm h-56 w-full rounded-xl object-cover lg:absolute lg:h-full"
