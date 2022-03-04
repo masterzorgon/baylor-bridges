@@ -1,0 +1,25 @@
+.search-box {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.search-box input {
+    border: 0;    
+    padding: 0;
+    width: 0;
+    height: 15px;
+    transition: padding 0.6s ease-in-out,
+    width 0.6s ease-in-out;
+}
+
+.search-box:hover > input{
+    font-size: 0.875rem;
+    display: block;
+    width: 100%;
+    outline: none;
+    color: whitesmoke;
+    padding-left: 2.5rem;
+    padding: 1rem;
+    border-width: 0px;
+    border-color: transparent;
+}
