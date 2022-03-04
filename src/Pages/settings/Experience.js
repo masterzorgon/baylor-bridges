@@ -647,19 +647,6 @@ const Experience = () => {
         return classes.filter(Boolean).join(" ");
     }
 
-    // eslint-disable-next-line no-unused-vars
-    // const handleNewExperience = () => {
-    //     setModal(true);
-    //     setExperience({
-    //         description: "",
-    //         exper_id: Math.floor(Math.random()),
-    //         publications: [],
-    //         start_time: "",
-    //         stop_time: "",
-    //         title: ""
-    //     });
-    // };
-
     /*
         [*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*]
         [*][*][*][*] CONTENT AREA! [*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*]
