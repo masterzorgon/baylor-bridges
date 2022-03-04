@@ -106,15 +106,95 @@ const Navbar = (props) => {
                         </a>
                     </div>
 
-                    {/* Mobile burger open button */}
-                    <div className="-mr-2 -my-2 md:hidden">
+                    {/* MOBILE SEARCH BAR BELOW */}
+                    {/* 
+                        FIX:
+                            - should go away when screen size grows
+                    */}
+                    {/* hidden md:flex-1 md:flex md:items-center md:justify-between */}
+                    <div className="xs:block sm:flex-1 sm:flex sm:items-center sm:justify-between sm:max-w-sm mx-auto md:hidden relative">
+                        <label htmlFor="email" className="sr-only">
+                            Search people
+                        </label>
+                        <div className="w-full relative">
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <SearchIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                            </div>
+                            <input
+                                type="search"
+                                name="search"
+                                id="search"
+                                className="pl-10 shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md bg-gray-100 p-3 border-transparent border-0"
+                                placeholder="Search people"
+                                autoComplete="off"
+                                value={searchText}
+                                onFocus={() => setFocus(true)}
+                                onChange={(event) =>
+                                {
+                                    setSearchText(event.target.value);
+                                    handleSearchLoading(event.target.value);
+                                }}
+                                onKeyPress={(event) =>
+                                {
+                                    if (event.key === "Enter")
+                                    {
+                                        console.log("enter key pressed");
+                                        window.location.href = "/search?keywords="+searchText+"&sort=&role=&class=&state=";
+                                    }
+                                    else
+                                    {
+                                        setSearchText(event.target.value);
+                                        handleSearchLoading(event.target.value);
+                                    }
+                                }}
+                            />
+                        </div>
+
+                        {/* Search results */}
+                        {/* TODO: Add transition */}
+                        <Transition
+                            as={Fragment}
+                            enter="transition ease-out duration-200"
+                            enterFrom="transform opacity-0 scale-95"
+                            enterTo="transform opacity-100 scale-100"
+                            leave="transition ease-in duration-75"
+                            leaveFrom="transform opacity-100 scale-100"
+                            leaveTo="transform opacity-0 scale-95"
+                            show={isFocus}
+                        >
+                            <div className="z-50 absolute bg-white shadow-md py-2 rounded-md w-full max-w-md mt-4 top-16">
+                                <ul className="">
+                                    {profile.map((person) => (
+                                        <li key={person.email}>
+                                            <a  className="py-4 px-5 flex hover:bg-gray-50" href={"/profile/"+person.user_id} target="_blank" rel="noreferrer">
+                                                {/* TODO adding account avatar later*/}
+                                                {/*<img className="h-10 w-10 rounded-full" src={avatar} alt="" />*/}
+                                                <Photo size="10" account={person}/>
+                                                <div className="ml-3">
+                                                    <p className="text-sm font-medium text-gray-900">{person.first_name} {person.last_name}</p>
+                                                    <p className="text-sm text-gray-500">{person.headline}</p>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                                <a key="more" className="py-3 px-5 pb-2 flex text-sm text-emerald-800 font-medium" href={"/search?keywords=" + searchText + "&sort=&role=&class=&state="}>
+                                    More results
+                                </a>
+                            </div>
+                        </Transition>
+                    </div>
+                    {/* MOBILE SEARCH BAR ABOVE */}
+
+                    {/* MOBILE MENU ICON */}
+                    <div className="-mr-2 -my-2 md:hidden flex">
                         <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100">
                             <span className="sr-only">Open menu</span>
                             <MenuIcon className="h-6 w-6" aria-hidden="true" />
-                        </Popover.Button>
+                        </Popover.Button> 
                     </div>
 
-                    {/* Desktop navbar items */}
+                    {/* DESKTOP NAVBAR */}
                     <div className="hidden md:flex-1 md:flex md:items-center md:justify-between">
                         <Popover.Group as="nav" className="flex space-x-10">
                             <a href="/" className="text-base font-medium text-gray-500 hover:text-gray-900">
@@ -170,7 +250,7 @@ const Navbar = (props) => {
                             </Popover>
                         </Popover.Group>
 
-                        {/* Search people */}
+                        {/* SEARCH BAR */}
                         <div className="hidden md:flex-1 md:flex md:items-center md:justify-between ml-6 mr-12 max-w-md relative">
                             <label htmlFor="email" className="sr-only">
                                 Search people
@@ -239,6 +319,7 @@ const Navbar = (props) => {
                                 </div>
                             </Transition>
                         </div>
+                        {/* END OF SEARCH BAR */}
 
                         {/* Account sign in / up / out */}
                         {
