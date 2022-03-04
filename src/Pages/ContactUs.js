@@ -17,14 +17,14 @@ export default function ContactUs()
                             <div className="lg:absolute lg:inset-y-0 lg:inset-x-10 mt-4">
                                 <div className="my-3 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 xl:items-center">
                                     <img
-                                        className="shadow-sm h-56 w-full rounded-xl object-cover lg:absolute lg:h-full"
+                                        className="shadow-md h-56 w-full rounded-xl object-cover lg:absolute lg:h-full"
                                         src="https://pbs.twimg.com/media/D9D59L-XUAUStai?format=jpg&name=large"
                                         alt="Pat Neff Hall"
                                     />
                                 </div>
                             </div>
 
-                            <div className="shadow-sm px-6 py-6 mt-5 bg-white rounded-lg md:py-6 md:px-6 lg:py-6 lg:px-6 xl:flex xl:items-center">
+                            <div className="shadow-md px-6 py-6 mt-5 bg-white rounded-lg md:py-6 md:px-6 lg:py-6 lg:px-6 xl:flex xl:items-center">
                                 <div className="">
                                     <h2 className="text-xl font-semibold tracking-tight text-grey-600 sm:text-xl">
                                         Baylor Bridges Team
@@ -44,7 +44,7 @@ export default function ContactUs()
                                 </div>
                             </div>
 
-                            <div className="shadow-sm px-6 py-6 mt-5 bg-white rounded-lg md:py-6 md:px-6 lg:py-6 lg:px-6 xl:flex xl:items-center">
+                            <div className="shadow-md px-6 py-6 mt-5 bg-white rounded-lg md:py-6 md:px-6 lg:py-6 lg:px-6 xl:flex xl:items-center">
                                 <div className="xl:w-0 xl:flex-1">
                                     <h2 className="text-xl font-semibold tracking-tight text-grey-600 sm:text-xl">
                                         Technical Support
