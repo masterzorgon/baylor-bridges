@@ -6,7 +6,6 @@ import { ChevronDownIcon } from "@heroicons/react/solid";
 import axios from "axios";
 import { AccountContext } from "./Account";
 import Photo from "./Photo";
-// import "./Navbar.css";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
