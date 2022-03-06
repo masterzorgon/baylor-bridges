@@ -1,5 +1,5 @@
 import React, { useEffect, useState, Fragment, useRef } from "react";
-import SettingsNavbar from "../../components/SettingsNavbar";
+import Navbar from "./Navbar";
 // import ExperienceModal from "../../components/ExperienceModal";
 
 // eslint-disable-next-line no-unused-vars
@@ -679,7 +679,7 @@ const Experience = () => {
                                     </div>
                                     <div className="px-4 sm:px-6 md:px-0">
                                         <div className="py-6">
-                                            <SettingsNavbar current="experience" />
+                                            <Navbar current="experience" />
 
                                             {/* ALERTS THAT DISPLAY UPON CREATING A NEW EXPERIENCE */}
 

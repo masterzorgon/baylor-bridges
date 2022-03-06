@@ -1,7 +1,7 @@
 import React from "react";
 import { CubeTransparentIcon } from "@heroicons/react/outline";
 
-import SettingsNavbar from "../../components/SettingsNavbar";
+import Navbar from "./Navbar";
 
 const Closed = () => {
     return (
@@ -15,7 +15,7 @@ const Closed = () => {
                             </div>
                             <div className="px-4 sm:px-6 md:px-0">
                                 <div className="py-6">
-                                    <SettingsNavbar current="experience" />
+                                    <Navbar current="experience" />
                                     
                                     <div className="text-center mt-10">
                                         <CubeTransparentIcon className="mx-auto h-12 w-12 text-gray-400" />

@@ -1,5 +1,5 @@
 import React from "react";
-import SettingsNavbar from "../../components/SettingsNavbar";
+import Navbar from "./Navbar";
 
 const Account = () => {
     return (
@@ -17,7 +17,7 @@ const Account = () => {
                                 </div>
                                 <div className="px-4 sm:px-6 md:px-0">
                                     <div className="py-6">
-                                        <SettingsNavbar current="account" />
+                                        <Navbar current="account" />
                                     </div>
                                     {/* 
 

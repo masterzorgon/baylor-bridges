@@ -3,7 +3,7 @@ import { Dialog, Transition, Listbox } from "@headlessui/react";
 import { SelectorIcon, CheckIcon, EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
 import axios from "axios";
 
-import SettingsNavbar from "../../components/SettingsNavbar";
+import Navbar from "./Navbar";
 import Photo from "../../components/Photo";
 import Button from "../../components/Button";
 
@@ -521,7 +521,7 @@ const Profile = () => {
                                     </div>
                                     <div className="px-4 sm:px-6 md:px-0">
                                         <div className="py-6">
-                                            <SettingsNavbar current="profile" />
+                                            <Navbar current="profile" />
                                             {
                                                 account !== null && Object.entries(profile).map(([section_key, section]) => (
                                                     <div key={section_key} className="mt-10 divide-y divide-gray-200">
