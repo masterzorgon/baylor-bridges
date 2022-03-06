@@ -48,11 +48,11 @@ const profile = {
         fields: {
             // photo: {
             //     title: "Photo",
-            //     value: { type: "photo", key: "photo" },
+            //     attribute: { type: "photo", key: "photo" },
             // },
             name: {
                 title: "Name",
-                value: [
+                attribute: [
                     { type: "text", title: "Prefix", placeholder: "Prefix", key: "prefix", role: "alumni" },
                     { type: "text", title: "First name", placeholder: "First name", key: "first_name", required: true },
                     { type: "text", title: "Last name", placeholder: "Last name", key: "last_name", required: true },
@@ -60,30 +60,30 @@ const profile = {
             },
             graduate_class: {
                 title: "Graduate Class",
-                value: [
+                attribute: [
                     { type: "dropdown", title: "Semester", placeholder: "Semester", key: "graduate_semester", options: semester },
                     { type: "text", title: "Year", placeholder: "Year", key: "graduate_year" }
                 ]
             },
             headline: {
                 title: "Headline",
-                value: { type: "text", title: "Headline", placeholder: "Headline", key: "headline" },
+                attribute: { type: "text", title: "Headline", placeholder: "Headline", key: "headline" },
             },
             occupation: {
                 title: "Occupation",
                 role: "alumni",
-                value: { type: "text", title: "Occupation", placeholder: "Occupation", key: "occupation", role: "alumni" },
+                attribute: { type: "text", title: "Occupation", placeholder: "Occupation", key: "occupation", role: "alumni" },
             },
             location: {
                 title: "Location",
-                value: [
+                attribute: [
                     { type: "text", title: "City", placeholder: "City", key: "city" },
                     { type: "dropdown", title: "State", placeholder: "State", key: "state", options: states },
                 ],
             },
             biography: {
                 title: "Biography",
-                value: { type: "textarea", title: "Biography", placeholder: "Biography", key: "biography" },
+                attribute: { type: "textarea", title: "Biography", placeholder: "Biography", key: "biography" },
             },
         }
     },
@@ -93,14 +93,14 @@ const profile = {
         fields: {
             email: {
                 title: "Email address",
-                value: [
+                attribute: [
                     { type: "text", title: "Email address", placeholder: "Email address", key: "email" },
                     { type: "visibility", key: "email_visibility" },
                 ]
             },
             phone: {
                 title: "Phone number",
-                value: [
+                attribute: [
                     { type: "text", title: "Phone number", placeholder: "Phone number", key: "phone" },
                     { type: "visibility", key: "phone_visibility" },
                 ]
@@ -144,37 +144,32 @@ const Profile = () => {
             return;
         }
 
-        console.log(update);
+        // Set complete to default true
         setComplete(true);
 
-        // For all atomic values in this field, check if required ones are not empty
-        if (Array.isArray(field.value)) {
-            let complete = true;
-            let required = field.value.filter(value => value.required); // Fetch all required atomic values
-            required.map(value => {
-                let _value = update[value.key];
-
-                if (!_value || _value === "") {
-                    complete = false;
-                }
-            });
-            console.log(required, complete);
-            setComplete(complete);
-        } else {
-            // If it's the single atomic value is required, check if it's empty
-            if (field.value.required || field.required) {
-                let _value = update[field.value.key];
-                let complete = _value && _value !== "";
-                setComplete(complete);
-            }
+        if (!Array.isArray(field.attribute)) {
+            field.attribute = [field.attribute];
         }
+        
+        // For all atomic attribute in this field, check if required ones are not empty
+        let complete = true;
+        let required = field.attribute.filter(value => value.required); // Fetch all required atomic values
+        required.map(value => {
+            let _value = update[value.key];
+
+            if (!_value || _value === "") {
+                complete = false;
+            }
+        });
+        console.log(required, complete);
+        setComplete(complete);
 
     }, [update, field]);
 
     // Get the value of a field, return either the compounded value, or null
     const getDisplayValueRaw = (section_key, field) => {
         // Photo
-        if (field.value.type === "photo") {
+        if (field.attribute && field.attribute.type === "photo") {
             return <Photo size="10" />;
         }
 
@@ -185,23 +180,23 @@ const Profile = () => {
         }
 
 
-        // If field value is not an array, make it an array, with only itself
-        if (!Array.isArray(field.value)) {
-            field.value = [field.value];
+        // If field attribute is not an array, make it an array, with only itself
+        if (!Array.isArray(field.attribute)) {
+            field.attribute = [field.attribute];
         }
 
         let string = "";
         let visibility = null;
-        field.value.map((value, index) => {
-            if (account_from[value.key]) {
-                if (value.type !== "visibility") {
-                    if (value.type === "dropdown") {
-                        string += option_value_to_title(value.options, account_from[value.key]) + " ";
+        field.attribute.map((attribute, index) => {
+            if (account_from[attribute.key]) {
+                if (attribute.type !== "visibility") {
+                    if (attribute.type === "dropdown") {
+                        string += option_value_to_title(attribute.options, account_from[attribute.key]) + " ";
                     } else {
-                        string += account_from[value.key] + " ";
+                        string += account_from[attribute.key] + " ";
                     }
                 } else {
-                    visibility = account_from[value.key];
+                    visibility = account_from[attribute.key];
                 }
             }
         });
@@ -243,7 +238,7 @@ const Profile = () => {
             );
         };
 
-        if (field.value === "photo") {
+        if (field.attribute === "photo") {
             return (
                 <>
                     {makeButton("Update")}
@@ -268,10 +263,10 @@ const Profile = () => {
             return;
         }
 
-        const getTypeDom = (value) => {
+        const getTypeDom = (attribute) => {
 
             // Update values to be updated through axios
-            const updateValue = (v) => {
+            const updateAttributeValue = (v) => {
                 if (v === undefined) {
                     return;
                 }
@@ -279,44 +274,44 @@ const Profile = () => {
                 // v = v.trim();
                 if (section_key === "basic") {
                     // Graduate year: can only input 4 digits
-                    if (value.key === "graduate_year") {
+                    if (attribute.key === "graduate_year") {
                         if (/^\d{0,4}$/.test(v)) {
-                            setUpdate({ ...update, [value.key]: v });
+                            setUpdate({ ...update, [attribute.key]: v });
                         }
                     } else {
-                        setUpdate({ ...update, [value.key]: v });
+                        setUpdate({ ...update, [attribute.key]: v });
                     }
                 } else {
-                    setUpdate({ ...update, [section_key]: { ...update[section_key], [value.key]: v } });
+                    setUpdate({ ...update, [section_key]: { ...update[section_key], [attribute.key]: v } });
                 }
             };
 
-            if (value.type === "file") {
+            if (attribute.type === "file") {
                 return <></>;
-            } else if (value.type === "text") {
+            } else if (attribute.type === "text") {
                 return (
                     <>
-                        <label htmlFor={value.key} className="block text-sm font-medium text-gray-700 sr-only">
-                            {value.title}
+                        <label htmlFor={attribute.key} className="block text-sm font-medium text-gray-700 sr-only">
+                            {attribute.title}
                         </label>
                         <div className="mt-1">
                             <input
-                                type={value.type}
-                                name={value.key}
-                                id={value.key}
+                                type={attribute.type}
+                                name={attribute.key}
+                                id={attribute.key}
                                 className="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                placeholder={value.placeholder}
-                                value={section_key === "basic" ? update[value.key] : update[section_key][value.key]}
-                                onChange={(e) => updateValue(e.target.value)}
+                                placeholder={attribute.placeholder}
+                                value={section_key === "basic" ? update[attribute.key] : update[section_key][attribute.key]}
+                                onChange={(e) => updateAttributeValue(e.target.value)}
                             />
                         </div>
                     </>
                 );
-            } else if (value.type === "textarea") {
+            } else if (attribute.type === "textarea") {
                 return (
                     <>
                         <label htmlFor="comment" className="block text-sm font-medium text-gray-700 sr-only">
-                            {value.title}
+                            {attribute.title}
                         </label>
                         <div className="mt-1">
                             <textarea
@@ -324,24 +319,24 @@ const Profile = () => {
                                 name="comment"
                                 id="comment"
                                 className="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                value={section_key === "basic" ? update[value.key] : update[section_key][value.key]}
-                                onChange={(e) => updateValue(e.target.value)}
+                                value={section_key === "basic" ? update[attribute.key] : update[section_key][attribute.key]}
+                                onChange={(e) => updateAttributeValue(e.target.value)}
                             />
                         </div>
                     </>
                 );
-            } else if (value.type === "dropdown") {
+            } else if (attribute.type === "dropdown") {
                 return (
                     <>
                         <label htmlFor="dropdown" className="block text-sm font-medium text-gray-700 sr-only">
-                            {value.title}
+                            {attribute.title}
                         </label>
 
                         <Listbox
                             as="div"
-                            value={(section_key === "basic" ? update[value.key] : update[section_key][value.key]) || (value.placeholder)}
+                            value={(section_key === "basic" ? update[attribute.key] : update[section_key][attribute.key]) || (attribute.placeholder)}
                             onChange={(value) => {
-                                updateValue(value);
+                                updateAttributeValue(value);
                             }}
                         >
                             {({ open }) => (
@@ -349,8 +344,8 @@ const Profile = () => {
                                     <div className="relative">
                                         <Listbox.Button className="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
                                             <span className="w-full inline-flex truncate">
-                                                <span className="">{option_value_to_title(value.options, section_key === "basic" ? update[value.key] : update[section_key][value.key]) || option_value_to_title(value.options, value.placeholder) || <div className="text-gray-500">{value.title}</div>}</span>
-                                                <span className="ml-2 truncate text-gray-500">{option_value_to_description(value.options, section_key === "basic" ? update[value.key] : update[section_key][value.key]) || option_value_to_description(value.options, value.placeholder)}</span>
+                                                <span className="">{option_value_to_title(attribute.options, section_key === "basic" ? update[attribute.key] : update[section_key][attribute.key]) || option_value_to_title(attribute.options, attribute.placeholder) || <div className="text-gray-500">{attribute.title}</div>}</span>
+                                                <span className="ml-2 truncate text-gray-500">{option_value_to_description(attribute.options, section_key === "basic" ? update[attribute.key] : update[section_key][attribute.key]) || option_value_to_description(attribute.options, attribute.placeholder)}</span>
                                             </span>
                                             <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                                                 <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
@@ -365,7 +360,7 @@ const Profile = () => {
                                             leaveTo="opacity-0"
                                         >
                                             <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
-                                                {value.options.map((option, index) => (
+                                                {attribute.options.map((option, index) => (
                                                     <Listbox.Option
                                                         key={option.value + "_option"}
                                                         className={({ active }) =>
@@ -409,11 +404,11 @@ const Profile = () => {
                         </Listbox>
                     </>
                 );
-            } else if (value.type === "visibility") {
+            } else if (attribute.type === "visibility") {
                 // Visibility is a special type of dropdown
                 // Define it's behavior and render it using dropdown
                 let value_copy = {};
-                Object.assign(value_copy, value);
+                Object.assign(value_copy, attribute);
                 value_copy.type = "dropdown";
                 value_copy.options = visibility_options;
                 value_copy.placeholder = value_copy.placeholder ? value_copy.placeholder : "self";
@@ -442,13 +437,13 @@ const Profile = () => {
 
         // If it's compound field, traverse each atomic value
         // Else, return field itself
-        if (Array.isArray(field.value)) {
+        if (Array.isArray(field.attribute)) {
             return (
                 <>
                     <legend className="block text-sm font-medium text-gray-700">{field.title}</legend>
                     {
-                        field.value.map((value, index) => (
-                            (value.role ? value.role === account.role : true) ? getTypeDom(value) : null
+                        field.attribute.map((attribute, index) => (
+                            (attribute.role ? attribute.role === account.role : true) ? getTypeDom(attribute) : null
                         ))
                     }
                     {saveButton}
@@ -457,14 +452,14 @@ const Profile = () => {
         }
         else {
             // If this single field requires certain role to update and the account role does not match, return nothing for DOM
-            if (field.value.role && field.value.role !== account.role) {
+            if (field.attribute.role && field.attribute.role !== account.role) {
                 return;
             }
 
             return (
                 <>
                     <legend className="block text-sm font-medium text-gray-700">{field.title}</legend>
-                    {getTypeDom(field.value)}
+                    {getTypeDom(field.attribute)}
                     {saveButton}
                 </>
             );
@@ -486,12 +481,12 @@ const Profile = () => {
         };
 
         // If compound value, copy each atomic value, else copy the value directly
-        if (Array.isArray(field.value)) {
-            for (const f of field.value) {
+        if (Array.isArray(field.attribute)) {
+            for (const f of field.attribute) {
                 copyField(section_key, f);
             }
         }
-        else copyField(section_key, field.value);
+        else copyField(section_key, field.attribute);
 
         console.log(update);
 
