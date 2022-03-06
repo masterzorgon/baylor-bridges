@@ -122,6 +122,7 @@ const Profile = () => {
     const [loading, setLoading] = useState(false); // Whether the axios is requesting
     const [complete, setComplete] = useState(true); // Whether the fields in the modal are completed (prevent REQUIRED fields left empty)
 
+    // First enter this page, fetch account profile data
     useEffect(() => {
         axios.get("/account/profile")
             .then(res => {
@@ -138,6 +139,7 @@ const Profile = () => {
 
     }, []);
 
+    // When update field changed, check completeness
     useEffect(() => {
         // If no current field for modal, return
         if (!field) {
@@ -150,94 +152,108 @@ const Profile = () => {
         if (!Array.isArray(field.attribute)) {
             field.attribute = [field.attribute];
         }
-        
+
         // For all atomic attribute in this field, check if required ones are not empty
         let complete = true;
-        let required = field.attribute.filter(value => value.required); // Fetch all required atomic values
-        required.map(value => {
+        let required = field.attribute.filter(value => value.required); // Fetch all REQUIRED atomic attribute
+        required.forEach(value => {
             let _value = update[value.key];
 
             if (!_value || _value === "") {
                 complete = false;
             }
         });
-        console.log(required, complete);
-        setComplete(complete);
 
+        setComplete(complete);
     }, [update, field]);
 
-    // Get the value of a field, return either the compounded value, or null
-    const getDisplayValueRaw = (section_key, field) => {
-        // Photo
-        if (field.attribute && field.attribute.type === "photo") {
-            return <Photo size="10" />;
-        }
-
+    // Get the raw value of a field, return either the field attribute value, or null, with the visibility value
+    const getFieldDisplayValueRaw = (section_key, field) => {
         // Basic section would be from root, other sections from their sub-dictionary
-        var account_from = account;
+        let account_from = account;
+
+        // If not basic section, then get the sub-dictionary
         if (section_key !== "basic") {
             account_from = account[section_key];
         }
-
 
         // If field attribute is not an array, make it an array, with only itself
         if (!Array.isArray(field.attribute)) {
             field.attribute = [field.attribute];
         }
 
+        // Initialize values
         let string = "";
         let visibility = null;
-        field.attribute.map((attribute, index) => {
+
+        // Traverse each atomic attribute
+        field.attribute.forEach((attribute, index) => {
             if (account_from[attribute.key]) {
-                if (attribute.type !== "visibility") {
+                // If visibility attribute, then get the visibility value
+                // If other attribute, then get the value
+                if (attribute.type === "visibility") {
+                    visibility = account_from[attribute.key];
+                } else {
                     if (attribute.type === "dropdown") {
                         string += option_value_to_title(attribute.options, account_from[attribute.key]) + " ";
                     } else {
                         string += account_from[attribute.key] + " ";
                     }
-                } else {
-                    visibility = account_from[attribute.key];
                 }
             }
         });
 
-        string = string.trim();
+        // Return values
+        string = string.trim(); // Remove spaces
         if (string === "") {
             return [null, visibility];
         }
         return [string, visibility];
     };
 
-    const getDisplayValue = (section_key, field) => {
-        const [value, visibility] = getDisplayValueRaw(section_key, field);
+    const getFieldDisplayValue = (section_key, field) => {
+        // Photo - Return Photo component
+        if (field.attribute && field.attribute.type === "photo") {
+            return <Photo size="10" />;
+        }
+
+        // Other fields
+        const [value, visibility] = getFieldDisplayValueRaw(section_key, field);
         if (value === null) {
             return <div className="text-gray-400">Not set</div>;
         } else {
+            // If has visibility attribute, display eye/eyeoff icon
+            // else, return just the value
             if (visibility !== null) {
                 return (
                     <div className="flex items-center space-x-1">
                         <p>{value}</p>
-                        {visibility !== "self" && <EyeIcon className="h-4 w-4 text-gray-400" />}
-                        {visibility === "self" && <EyeOffIcon className="h-4 w-4 text-gray-400" />}
+                        {visibility !== "self" && <EyeIcon className="h-4 w-4 text-gray-400 pointer-events-none" />}
+                        {visibility === "self" && <EyeOffIcon className="h-4 w-4 text-gray-400 pointer-events-none" />}
                     </div>
                 );
+            } else {
+                return value;
             }
-            return value;
         }
     };
 
-
-    const getOpenModalButton = (section_key, field) => {
+    // Get modal button for given field
+    const getFieldModalButton = (section_key, field) => {
+        // Make a button with given text
         const makeButton = (text) => {
             return (
                 <button
                     type="button"
                     className="bg-white rounded-md font-medium text-emerald-600 hover:text-emerald-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
-                    onClick={() => onOpenModal(section_key, field)}
-                >{text}</button>
+                    onClick={() => onOpenFieldModal(section_key, field)}
+                >
+                    {text}
+                </button>
             );
         };
 
+        // Photo - Return special operations button for photo field - Update | Delete
         if (field.attribute === "photo") {
             return (
                 <>
@@ -248,22 +264,25 @@ const Profile = () => {
             );
         }
 
-        const value = getDisplayValueRaw(section_key, field);
+        // Return different button according to raw value
+        // eslint-disable-next-line no-unused-vars
+        const [value, visibility] = getFieldDisplayValueRaw(section_key, field);
+
         if (value === null) {
             return makeButton("Set");
+        } else {
+            return makeButton("Update");
         }
-
-        return makeButton("Update");
     };
 
 
-    const getModal = (field) => {
+    const getFieldModal = (field) => {
         // Field has to be valid
         if (!field) {
             return;
         }
 
-        const getTypeDom = (attribute) => {
+        const getAttributeDom = (attribute) => {
             // Put value validation condition when inputing here
             const isValidAttributeValue = (attribute, value) => {
                 // Graduate year: can only input 4 digits
@@ -417,81 +436,55 @@ const Profile = () => {
                 value_copy.placeholder = value_copy.placeholder ? value_copy.placeholder : "self";
                 value_copy.title = value_copy.title ? value_copy.title : "Visibility";
                 value_copy.description = value_copy.description ? value_copy.description : "Who can see this?";
-                return getTypeDom(value_copy);
+                return getAttributeDom(value_copy);
             }
         };
-
-        // Save button
-        const saveButton = (
-            <Button
-                loading={loading}
-                disabled={loading || !complete}
-                onClick={() => onSubmit()}
-            >
-                Save
-            </Button>
-        );
-
 
         // If this whole field requires certain role to update and the account role does not match, return nothing for DOM
         if (field.role && field.role !== account.role) {
             return;
         }
 
-        // If it's compound field, traverse each atomic value
-        // Else, return field itself
-        if (Array.isArray(field.attribute)) {
-            return (
-                <>
-                    <legend className="block text-sm font-medium text-gray-700">{field.title}</legend>
-                    {
-                        field.attribute.map((attribute, index) => (
-                            (attribute.role ? attribute.role === account.role : true) ? getTypeDom(attribute) : null
-                        ))
-                    }
-                    {saveButton}
-                </>
-            );
+        // If this field has only one attribute, make it an array of one
+        if (!Array.isArray(field.attributes)) {
+            field.attributes = [field.attributes];
         }
-        else {
-            // If this single field requires certain role to update and the account role does not match, return nothing for DOM
-            if (field.attribute.role && field.attribute.role !== account.role) {
-                return;
-            }
 
-            return (
-                <>
-                    <legend className="block text-sm font-medium text-gray-700">{field.title}</legend>
-                    {getTypeDom(field.attribute)}
-                    {saveButton}
-                </>
-            );
-        }
+        return (
+            <>
+                <legend className="block text-sm font-medium text-gray-700">{field.title}</legend>
+                {
+                    field.attribute.map((attribute, index) => (
+                        (attribute.role ? attribute.role === account.role : true) ? getAttributeDom(attribute) : null
+                    ))
+                }
+                <Button
+                    loading={loading}
+                    disabled={loading || !complete}
+                    onClick={() => onSubmit()}
+                >
+                    Save
+                </Button>
+            </>
+        );
     };
 
     // For button "Set" or "Update", press and trigger this function
-    const onOpenModal = (section_key, field) => {
+    const onOpenFieldModal = (section_key, field) => {
         let update = {};
+        
+        if (!Array.isArray(field.attribute)) {
+            field.attribute = [field.attribute];
+        }
 
-        // According to difference section_key, copy with different level
-        const copyField = (section_key, field) => {
-            if (section_key === "basic") update[field.key] = account[field.key];
+        // Copy all related field attribute value to update dictionary
+        for (const a of field.attribute) {
+            if (section_key === "basic") update[a.key] = account[a.key];
             else {
                 if (!update[section_key]) update[section_key] = {};
-
-                update[section_key][field.key] = account[section_key][field.key];
-            }
-        };
-
-        // If compound value, copy each atomic value, else copy the value directly
-        if (Array.isArray(field.attribute)) {
-            for (const f of field.attribute) {
-                copyField(section_key, f);
+                update[section_key][a.key] = account[section_key][a.key];
             }
         }
-        else copyField(section_key, field.attribute);
-
-        console.log(update);
 
         setUpdate(update); // Set update dictionary
         setSectionKey(section_key); // Set current section key for current field
@@ -548,10 +541,10 @@ const Profile = () => {
                                                                             </dt>
                                                                             <dd className="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                                                                 <span className="flex-grow">
-                                                                                    {getDisplayValue(section_key, field)}
+                                                                                    {getFieldDisplayValue(section_key, field)}
                                                                                 </span>
                                                                                 <span className="ml-4 flex-shrink-0 flex item-start space-x-4">
-                                                                                    {getOpenModalButton(section_key, field)}
+                                                                                    {getFieldModalButton(section_key, field)}
                                                                                 </span>
                                                                             </dd>
                                                                         </div>
@@ -600,7 +593,7 @@ const Profile = () => {
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
                             <div className="w-full inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6 space-y-4">
-                                {getModal(field)}
+                                {getFieldModal(field)}
                             </div>
                         </Transition.Child>
                     </div>
