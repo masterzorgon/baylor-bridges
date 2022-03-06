@@ -106,11 +106,12 @@ const profile = {
                 ]
             },
         }
-    }
+    },
 };
 
 
-const Profile = () => {
+const Profile = () =>
+{
     const [account, setAccount] = useState(null);
 
     const [open, setOpen] = useState(false); // Whether modal is opened
@@ -130,11 +131,9 @@ const Profile = () => {
                 console.log(res.data);
             })
             .catch(err => {
-                if (err.response.status && err.response.status === 401) {
-                    window.location.href = "/sign-in";
-                } else {
-                    window.location.href = "/404";
-                }
+                err.response.status && err.response.status === 401
+                    ? window.location.href = "/sign-in"
+                    : window.location.href = "/404";
             });
 
     }, []);
@@ -276,9 +275,11 @@ const Profile = () => {
     };
 
 
-    const getFieldModal = (field) => {
+    const getFieldModal = (field) =>
+    {
         // Field has to be valid
-        if (!field) {
+        if (!field)
+        {
             return;
         }
 
@@ -299,18 +300,25 @@ const Profile = () => {
                     return;
                 }
 
-                if (isValidAttributeValue(attribute, v)) {
-                    if (section_key === "basic") {
+                if (isValidAttributeValue(attribute, v)) 
+                {
+                    if (section_key === "basic") 
+                    {
                         setUpdate({ ...update, [attribute.key]: v });
-                    } else {
+                    } 
+                    else 
+                    {
                         setUpdate({ ...update, [section_key]: { ...update[section_key], [attribute.key]: v } });
                     }
                 }
             };
 
-            if (attribute.type === "file") {
+            if (attribute.type === "file")
+            {
                 return <></>;
-            } else if (attribute.type === "text") {
+            } 
+            else if (attribute.type === "text") 
+            {
                 return (
                     <>
                         <label htmlFor={attribute.key} className="block text-sm font-medium text-gray-700 sr-only">
@@ -329,7 +337,10 @@ const Profile = () => {
                         </div>
                     </>
                 );
-            } else if (attribute.type === "textarea") {
+            } 
+            
+            else if (attribute.type === "textarea") 
+            {
                 return (
                     <>
                         <label htmlFor="comment" className="block text-sm font-medium text-gray-700 sr-only">
@@ -347,7 +358,9 @@ const Profile = () => {
                         </div>
                     </>
                 );
-            } else if (attribute.type === "dropdown") {
+            } 
+            else if (attribute.type === "dropdown") 
+            {
                 return (
                     <>
                         <label htmlFor="dropdown" className="block text-sm font-medium text-gray-700 sr-only">
@@ -426,7 +439,9 @@ const Profile = () => {
                         </Listbox>
                     </>
                 );
-            } else if (attribute.type === "visibility") {
+            }
+            else if (attribute.type === "visibility")
+            {
                 // Visibility is a special type of dropdown
                 // Define it's behavior and render it using dropdown
                 let value_copy = {};
