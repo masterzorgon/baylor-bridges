@@ -27,7 +27,7 @@ const Account = (props) =>
         });
     };
 
-    const signInChallenge = async (name, session, response) =>
+    const signInChallenge = async (name, session, response) => 
     {
         return await new Promise((resolve, reject) =>
         {

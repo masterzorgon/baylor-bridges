@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import USAMap from "react-usa-map";
 import { CheckIcon } from "@heroicons/react/outline";
+
+import { AccountContext } from "../components/Account";
+
 import axios from "axios";
 
 // This is where the features in the landing page is configured
@@ -24,6 +27,18 @@ const Home = () => {
     // };
 
     const [statesCustomConfig, setStateCustomConfig] = useState({});
+    const { getAccount, getAccountLocal } = useContext(AccountContext);
+    const [account, setAccount] = useState(null);
+
+    useEffect(() =>
+    {
+        setAccount(getAccountLocal());
+
+        getAccount()
+            .then(account => setAccount(account))
+            .catch(error => setAccount(null));
+        
+    }, [getAccount, getAccountLocal]);
 
     useEffect(() => {
         axios.get("/landing/map_stats")
@@ -53,8 +68,7 @@ const Home = () => {
     return (
         <main>
             <div>
-                {/* Hero card */}
-                {/* FIXME: Hero card seems not fitting */}
+                {/* HERO CARD */}
                 <div className="relative sm:my-6">
                     <div className="max-w-7xl mx-auto sm:px-6 lg:px-6">
                         <div className="relative shadow-xl sm:rounded-2xl sm:overflow-hidden">
@@ -68,8 +82,20 @@ const Home = () => {
                             </div>
                             <div className="relative px-4 py-16 sm:px-6 sm:py-24 lg:py-32 lg:px-8">
                                 <h1 className="text-center text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
-                                    <span className="block text-white">Connect with Baylor People</span>
-                                    <span className="block text-emerald-200">and build your network</span>
+                                    {
+                                        account === null 
+                                            ?
+                                            <>
+                                                <span className="block text-white">Connect with Baylor Bears</span>
+                                                <span className="block text-emerald-200">and build your network</span>
+                                            </>
+                                            :
+                                            <>
+                                                <span className="block text-white">Welcome Back!</span>
+                                                <span className="block text-emerald-200"></span>
+                                            </>
+
+                                    }
                                 </h1>
                                 <p className="mt-6 max-w-lg mx-auto text-center text-xl text-emerald-200 sm:max-w-3xl">
                                     A brand new platform for Baylor alumni and students to connect and explore the vast and endless possibilities
@@ -171,24 +197,41 @@ const Home = () => {
                         <span className="block">Create you personal account today.</span>
                     </h2>
                     <div className="mt-8 flex justify-center">
-                        <div className="inline-flex rounded-md shadow">
-                            <a
-                                href="/sign-up"
-                                className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700"
-                            >
-                                    Sign Up
-                            </a>
-                        </div>
-                        <div className="ml-3 inline-flex">
-                            <a
-                                href="https://www.baylor.edu/prehealth/index.php?id=981654"
-                                target="_blank"
-                                rel="noreferrer"
-                                className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-emerald-700 bg-emerald-100 hover:bg-emerald-200"
-                            >
-                                    Learn more
-                            </a>
-                        </div>
+                        {
+                            account === null
+                                ?
+                                <>
+                                    <div className="inline-flex rounded-md shadow">
+                                        <a
+                                            href="/sign-up"
+                                            className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700"
+                                        >
+                                            Sign Up
+                                        </a>
+                                    </div>
+                                    <div className="ml-3 inline-flex">
+                                        <a
+                                            href="https://www.baylor.edu/prehealth/index.php?id=981654"
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-emerald-700 bg-emerald-100 hover:bg-emerald-200"
+                                        >
+                                                Learn more
+                                        </a>
+                                    </div>
+                                </>
+                                :
+                                <div className="ml-3 inline-flex">
+                                    <a
+                                        href="https://www.baylor.edu/prehealth/index.php?id=981654"
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-emerald-700 bg-emerald-100 hover:bg-emerald-200"
+                                    >
+                                            Learn more
+                                    </a>
+                                </div>
+                        }
                     </div>
                 </div>
             </div>

@@ -475,6 +475,12 @@ const Navbar = (props) => {
                                             <a href="/settings" className="text-base font-medium text-gray-900 hover:text-gray-700">
                                                 Settings
                                             </a>
+                                            <button
+                                                className="mr-auto text-base font-medium text-gray-900 hover:text-gray-700"
+                                                onClick={handleSignOut}
+                                            >
+                                                Sign out
+                                            </button>
                                         </div>
                                 }
 
