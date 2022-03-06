@@ -12,9 +12,9 @@ const SignIn = () => {
     const { signIn } = useContext(AccountContext);
 
     const onSubmit = (event) =>
-    
     {
         setLoading(true);
+        
         signIn(email, password)
             .then(response =>
             {

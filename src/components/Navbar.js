@@ -42,20 +42,22 @@ const Navbar = (props) => {
     const { signOut, getAccount, getAccountLocal } = useContext(AccountContext);
     const [account, setAccount] = useState(null);
     const [profile, setProfile] = useState([]);
-    useEffect(() => {
+
+    useEffect(() =>
+    {
         setAccount(getAccountLocal());
+
         getAccount()
-            .then(account => {
-                setAccount(account);
-            })
-            .catch(error => {
-                setAccount(null);
-            });
+            .then(account => setAccount(account))
+            .catch(error => setAccount(null));
+        
     }, [getAccount, getAccountLocal]);
 
-    const handleSignOut = () => {
+    const handleSignOut = () =>
+    {
         signOut()
-            .then(() => {
+            .then(() =>
+            {
                 setAccount(null);
                 window.location.href = "/";
             });
@@ -157,12 +159,22 @@ const Navbar = (props) => {
                                                             <div className="ml-4 text-base font-medium text-gray-900">About</div>
                                                         </a> */}
                                                         {/*TODO to create this page and connect the url*/}
-                                                        <a href="/about" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
-                                                            <div className="ml-4 text-base font-medium text-gray-900">About Us</div>
-                                                        </a>
-                                                        <a href="/contact-us" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
-                                                            <div className="ml-4 text-base font-medium text-gray-900">Contact Us</div>
-                                                        </a>
+                                                        {
+                                                            account === null 
+                                                                ?
+                                                                <a href="/contact-us" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
+                                                                    <div className="ml-4 text-base font-medium text-gray-900">Contact Us</div>
+                                                                </a>
+                                                                :
+                                                                <>
+                                                                    <a href="/about" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
+                                                                        <div className="ml-4 text-base font-medium text-gray-900">About Us</div>
+                                                                    </a>
+                                                                    <a href="/contact-us" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
+                                                                        <div className="ml-4 text-base font-medium text-gray-900">Contact Us</div>
+                                                                    </a>
+                                                                </>
+                                                        }
                                                     </div>
                                                 </div>
                                             </Popover.Panel>
@@ -437,20 +449,34 @@ const Navbar = (props) => {
                             </div>
                             <div className="pt-3 pb-6 px-6 space-y-1">
                                 {/* Navbar links */}
-                                <div className="grid grid-cols-1 gap-6">
-                                    <a href="/" className="text-base font-medium text-gray-900 hover:text-gray-700">
-                                        Home
-                                    </a>
-                                    <a href="/about" className="text-base font-medium text-gray-900 hover:text-gray-700">
-                                        About
-                                    </a>
-                                    <a href="/contact-us" className="text-base font-medium text-gray-900 hover:text-gray-700">
-                                        Contact
-                                    </a>
-                                    <a href="/settings" className="text-base font-medium text-gray-900 hover:text-gray-700">
-                                        Settings
-                                    </a>
-                                </div>
+                                {
+                                    account === null 
+                                        ?
+                                        <div className="grid grid-cols-1 gap-6">
+                                            <a href="/" className="text-base font-medium text-gray-900 hover:text-gray-700"> 
+                                                Home
+                                            </a>
+                                            <a href="/contact-us" className="text-base font-medium text-gray-900 hover:text-gray-700">
+                                                Contact
+                                            </a>
+                                          
+                                        </div>
+                                        :
+                                        <div className="grid grid-cols-1 gap-6">
+                                            <a href="/" className="text-base font-medium text-gray-900 hover:text-gray-700"> 
+                                                Home
+                                            </a>
+                                            <a href="/about" className="text-base font-medium text-gray-900 hover:text-gray-700">
+                                                About
+                                            </a>
+                                            <a href="/contact-us" className="text-base font-medium text-gray-900 hover:text-gray-700">
+                                                Contact
+                                            </a>
+                                            <a href="/settings" className="text-base font-medium text-gray-900 hover:text-gray-700">
+                                                Settings
+                                            </a>
+                                        </div>
+                                }
 
                                 {/* Account sign in / up / out */}
                                 {
