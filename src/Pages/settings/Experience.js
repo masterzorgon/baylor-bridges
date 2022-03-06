@@ -1,11 +1,7 @@
 import React, { useEffect, useState, Fragment, useRef } from "react";
-import SettingsNavbar from "../../components/SettingsNavbar";
-// import ExperienceModal from "../../components/ExperienceModal";
-
-// eslint-disable-next-line no-unused-vars
+import axios from "axios";
 import { Menu, Transition, Dialog } from "@headlessui/react";
 import { PencilIcon, DotsVerticalIcon, PlusSmIcon as PlusSmIconSolid, TrashIcon } from "@heroicons/react/solid";
-
 import { ExclamationIcon, LinkIcon } from "@heroicons/react/outline";
 import ErrorMessage from "../../components/ErrorMessage";
 
@@ -13,12 +9,11 @@ import ErrorMessage from "../../components/ErrorMessage";
 import UploadSuccess from "../../components/UploadSuccess";
 import UploadFailure from "../../components/UploadFailure";
 import DeletePublicationAlert from "../../components/DeletePublicationAlert";
-
-import axios from "axios";
+import SettingsNavbar from "../../components/SettingsNavbar";
 
 const Experience = () => {
     const [loading, setLoading] = useState(false);
-    const [error_message, setErrorMessage] = useState(null);
+    const [errorMessage, setErrorMessage] = useState(null);
 
     const [experiences, setExperiences] = useState(null);
     const [open, setOpen] = useState(false);
@@ -27,14 +22,6 @@ const Experience = () => {
     // modalSetttings will start the modal type(edit/remove) and exper_idx
     const [modalSettings, setModalSettings] = useState({});
     const cancelButtonRef = useRef(null);
-
-    // eslint-disable-next-line no-unused-vars
-    const [refresh, setRefresh] = useState(false);
-
-    // STATE FOR ADDING A NEW EXPERIENCE [*][*][*][*]
-    // eslint-disable-next-line no-unused-vars
-    const [modal, setModal] = useState(false);
-
     /*
         [*][*][*][*][*][*][*][*][*][*][*]
         [*][*][*][*][*][*][*][*][*][*][*]
@@ -50,15 +37,6 @@ const Experience = () => {
 
     const [uploadSuccess, setUploadSuccess] = useState(false);
     const [uploadFailure, setUploadFailure] = useState(false);
-
-    // eslint-disable-next-line no-unused-vars
-    // const [experience, setExperience] = useState({
-    //     title: "",
-    //     description: "",
-    //     start_time: "",
-    //     stop_time: "",
-    //     publications: []
-    // });
 
     // STATE FOR PUBLICATION [*][*][*][*]
     const [publicationDelete, setPublicationDelete] = useState(false);
@@ -172,7 +150,6 @@ const Experience = () => {
                     let new_exper = experiences;
                     new_exper.splice(modalSettings["idx"], 1);
                     console.log(new_exper);
-                    setRefresh(true);
                     setOpen(false);
                     setExperiences(res.data);
                     setErrorMessage(null);
@@ -307,7 +284,7 @@ const Experience = () => {
                     [*][*][*][*]                       [*][*][*][*]
                 */
                 <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full sm:p-6">
-                    <ErrorMessage error_message={error_message}></ErrorMessage>
+                    {errorMessage && <ErrorMessage errorMessage={errorMessage}></ErrorMessage>}
                     <section aria-labelledby="payment-details-heading">
                         <div>
                             <div className="sm:rounded-md sm:overflow-hidden">
@@ -709,7 +686,7 @@ const Experience = () => {
                                             {/* {modal && <ExperienceModal modal={modal} setModal={setModal} experience={experience} setExperience={setExperience}
                                                 setUploadSuccess={setUploadSuccess}  setUploadFailure={setUploadFailure} loading={loading} setLoading={setLoading}
                                                 refresh={refresh} setRefresh={setRefresh} experiences={experiences} setExperiences={setExperiences}
-                                                error_message={error_message} setErrorMessage={setErrorMessage} />} */}
+                                                errorMessage={errorMessage} setErrorMessage={setErrorMessage} />} */}
 
                                             {/* 
                                                 [*][*][*]                     [*][*][*]
