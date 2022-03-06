@@ -264,6 +264,15 @@ const Profile = () => {
         }
 
         const getTypeDom = (attribute) => {
+            // Put value validation condition when inputing here
+            const isValidAttributeValue = (attribute, value) => {
+                // Graduate year: can only input 4 digits
+                if (attribute.key === "graduate_year") {
+                    return /^\d{0,4}$/.test(value);
+                }
+
+                return true;
+            };
 
             // Update values to be updated through axios
             const updateAttributeValue = (v) => {
@@ -271,18 +280,12 @@ const Profile = () => {
                     return;
                 }
 
-                // v = v.trim();
-                if (section_key === "basic") {
-                    // Graduate year: can only input 4 digits
-                    if (attribute.key === "graduate_year") {
-                        if (/^\d{0,4}$/.test(v)) {
-                            setUpdate({ ...update, [attribute.key]: v });
-                        }
-                    } else {
+                if (isValidAttributeValue(attribute, v)) {
+                    if (section_key === "basic") {
                         setUpdate({ ...update, [attribute.key]: v });
+                    } else {
+                        setUpdate({ ...update, [section_key]: { ...update[section_key], [attribute.key]: v } });
                     }
-                } else {
-                    setUpdate({ ...update, [section_key]: { ...update[section_key], [attribute.key]: v } });
                 }
             };
 
