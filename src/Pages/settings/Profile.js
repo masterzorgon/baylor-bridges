@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { Dialog, Transition, Listbox } from "@headlessui/react";
-import { SelectorIcon, CheckIcon } from "@heroicons/react/solid";
+import { SelectorIcon, CheckIcon, EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
 import axios from "axios";
 
 import SettingsNavbar from "../../components/SettingsNavbar";
@@ -190,7 +190,8 @@ const Profile = () => {
             field.value = [field.value];
         }
 
-        var string = "";
+        let string = "";
+        let visibility = null;
         field.value.map((value, index) => {
             if (account_from[value.key]) {
                 if (value.type !== "visibility") {
@@ -199,22 +200,33 @@ const Profile = () => {
                     } else {
                         string += account_from[value.key] + " ";
                     }
+                } else {
+                    visibility = account_from[value.key];
                 }
             }
         });
         
         string = string.trim();
         if (string === "") {
-            return null;
+            return [null, visibility];
         }
-        return string;
+        return [string, visibility];
     };
 
     const getDisplayValue = (section_key, field) => {
-        const value = getDisplayValueRaw(section_key, field);
+        const [value, visibility] = getDisplayValueRaw(section_key, field);
         if (value === null) {
             return <div className="text-gray-400">Not set</div>;
         } else {
+            if (visibility !== null) {
+                return (
+                    <div className="flex items-center space-x-1">
+                        <p>{value}</p>
+                        {visibility !== "self" && <EyeIcon className="h-4 w-4 text-gray-400" />}
+                        {visibility === "self" && <EyeOffIcon className="h-4 w-4 text-gray-400" />}
+                    </div>
+                );
+            }
             return value;
         }
     };
@@ -268,6 +280,7 @@ const Profile = () => {
                 if (section_key === "basic") {
 
                     // for graduate year field user can only input 4 digit
+                    // FIXME: Move this condition to useEffect
                     console.log("the value key is ", value.key);
                     if (value.key === "graduate_year") {
 
@@ -544,7 +557,9 @@ const Profile = () => {
                                                                     Object.entries(section.fields).map(([field_key, field]) => (
                                                                         (field.role === undefined || field.role === account.role) &&
                                                                         <div key={field_key} className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4" >
-                                                                            <dt className="text-sm font-medium text-gray-500">{field.title}</dt>
+                                                                            <dt className="text-sm font-medium text-gray-500">
+                                                                                {field.title}
+                                                                            </dt>
                                                                             <dd className="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                                                                 <span className="flex-grow">
                                                                                     {getDisplayValue(section_key, field)}
