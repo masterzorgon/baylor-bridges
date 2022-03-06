@@ -25,6 +25,7 @@ import Profile from "./Pages/Profile";
 
 import { default as SettingsProfile } from "./Pages/settings/Profile";
 import { default as SettingsExperience } from "./Pages/settings/Experience";
+import { default as SettingsAccount } from "./Pages/settings/Account";
 import { Account } from "./components/Account";
 
 import "./App.css";
@@ -60,9 +61,10 @@ function App() {
                     <Route path="/about" element={components(<Navbar />, <About />, <Footer />)} />
                     <Route path="/search" element={components(<Navbar />, <Search />, <Footer />)} />
 
-                    <Route path="/settings" element={<Navigate to="/settings/profile" />} />
+                    <Route path="/settings" element={<Navigate to="/settings/account" />} />
                     <Route path="/settings/profile" element={components(<Navbar />, <SettingsProfile />, <Footer />)} />
                     <Route path="/settings/experience" element={components(<Navbar />, <SettingsExperience />, <Footer />)} />
+                    <Route path="/settings/account" element={components(<Navbar />, <SettingsAccount />, <Footer />)} />
 
                     <Route path="/profile" element={components(<Navbar />, <Profile />, <Footer />)} />
                     <Route path="/profile/:user_id" element={components(<Navbar />, <Profile />, <Footer />)} />

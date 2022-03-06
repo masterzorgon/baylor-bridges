@@ -447,7 +447,8 @@ const Profile = () => {
                     {saveButton}
                 </>
             );
-        } else {
+        }
+        else {
             // If this single field requires certain role to update and the account role does not match, return nothing for DOM
             if (field.value.role && field.value.role !== account.role) {
                 return;
@@ -469,24 +470,24 @@ const Profile = () => {
 
         // According to difference section_key, copy with different level
         const copyField = (section_key, field) => {
-            if (section_key === "basic") {
-                update[field.key] = account[field.key];
-            } else {
-                if (!update[section_key]) {
-                    update[section_key] = {};
-                }
+            if (section_key === "basic") update[field.key] = account[field.key];
+            else
+            {
+                if (!update[section_key]) update[section_key] = {};
+
                 update[section_key][field.key] = account[section_key][field.key];
             }
         };
 
         // If compound value, copy each atomic value, else copy the value directly
-        if (Array.isArray(field.value)) {
-            for (const f of field.value) {
+        if (Array.isArray(field.value))
+        {
+            for (const f of field.value)
+            {
                 copyField(section_key, f);
             }
-        } else {
-            copyField(section_key, field.value);
         }
+        else copyField(section_key, field.value);
 
         console.log(update);
 
@@ -500,17 +501,14 @@ const Profile = () => {
         setLoading(true);
 
         axios.put("/account/profile", update)
-            .then(res => {
+            .then(res =>
+            {
                 console.log(res);
                 setAccount(res.data);
                 setOpen(false);
             })
-            .catch(err => {
-                console.log(err);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
+            .catch(err => console.log(err))
+            .finally(() => setLoading(false));
     };
 
     return (
@@ -523,7 +521,9 @@ const Profile = () => {
                             <div className="relative max-w-4xl mx-auto md:px-8 xl:px-0">
                                 <div className="pt-10 pb-16">
                                     <div className="px-4 sm:px-6 md:px-0">
-                                        <h1 className="text-3xl font-extrabold text-gray-900">Settings</h1>
+                                        <h1 className="text-3xl font-extrabold text-gray-900">
+                                            Settings
+                                        </h1>
                                     </div>
                                     <div className="px-4 sm:px-6 md:px-0">
                                         <div className="py-6">

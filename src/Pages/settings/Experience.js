@@ -680,7 +680,7 @@ const Experience = () => {
                                                     <div className="flex items-center justify-between flex-wrap">
                                                         <div className="w-0 flex-1 flex items-center">
                                                             <p className="ml-3 font-medium text-white truncate">
-                                                                <span className="hidden md:inline">Create the experience</span>
+                                                                <span className="hidden md:inline">Create New Experience</span>
                                                             </p>
                                                         </div>
                                                         <div className="flex justify-center order-3 flex-shrink-0 w-full sm:order-2 sm:mt-0 sm:w-auto">

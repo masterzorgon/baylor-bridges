@@ -1,14 +1,13 @@
 import React from "react";
 
-function classNames(...classes) {
-    return classes.filter(Boolean).join(" ");
-}
+const classNames = (...classes) => classes.filter(Boolean).join(" ");
 
 const SettingsNavbar = (props) => {
 
     // const [selection, setSelection] = React.useState("");
 
     const tabs = [
+        { id: "account", name: "Account", href: "account" },
         { id: "profile", name: "Profile", href: "profile" },
         { id: "experience", name: "Experience", href: "experience" },
         // { id: "workload", name: "Workload", href: "workload" },
