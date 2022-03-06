@@ -61,17 +61,16 @@ const Navbar = (props) => {
             });
     };
 
-    const handleSearchLoading =(keywords)=>{
+    const handleSearchLoading = (keywords) =>
+    {
         console.log("handle search loading for keywords: ",keywords);
-        axios.get("/search",{
-            params:{
-                keywords:keywords
-            }
-        }).then((res)=>{
-            // console.log(res.data);
-            setProfile(res.data);
-            console.log(profile);
-        });
+        axios
+            .get("/search", { params: { keywords: keywords } })
+            .then((res) => {
+                // console.log(res.data);
+                setProfile(res.data);
+                console.log(profile);
+            });
     };
 
     return (
@@ -444,6 +443,9 @@ const Navbar = (props) => {
                                     </a>
                                     <a href="/about" className="text-base font-medium text-gray-900 hover:text-gray-700">
                                         About
+                                    </a>
+                                    <a href="/contact-us" className="text-base font-medium text-gray-900 hover:text-gray-700">
+                                        Contact
                                     </a>
                                     <a href="/settings" className="text-base font-medium text-gray-900 hover:text-gray-700">
                                         Settings
