@@ -102,7 +102,7 @@ const Navbar = (props) => {
                             <img
                                 className="h-8 w-auto sm:h-10"
                                 src="/Baylor-University-Athletics-01.svg"
-                                alt=""
+                                alt="Baylor University logo"
                             />
                         </a>
                     </div>

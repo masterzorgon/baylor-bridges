@@ -387,6 +387,7 @@ const About = () => {
                             Development and Maintenance Team for the Baylor Bridges Web Application and Database.
                         </p>
                     </div>
+                    {/* PROFILE CARDS BELOW */}
                     <div className="lg:col-span-2">
                         <ul role="list" className="space-y-12 sm:grid sm:grid-cols-2 sm:gap-12 sm:space-y-0 lg:gap-x-8">
                             {TechTeam.map((person) => (
@@ -395,7 +396,7 @@ const About = () => {
                                         {
                                             person.imageUrl = noImg
                                                 ? <img className="object-cover w-16 h-16 rounded-full lg:w-20 lg:h-20" src={defaultBg} alt="No image" />
-                                                : <img className="object-cover w-16 h-16 rounded-full lg:w-20 lg:h-20" src={person.imageUrl} alt="" />
+                                                : <img className="object-cover w-16 h-16 rounded-full lg:w-20 lg:h-20" src={person.imageUrl} alt={`${person.name} profile image`} />
                                         }
                                         <div className="font-medium text-lg leading-6 space-y-1">
                                             {
@@ -416,6 +417,7 @@ const About = () => {
                             ))}
                         </ul>
                     </div>
+                    {/* PROFILE CARDS ABOVE */}
                 </div>
             </div>
             {/* CHAIR SECTION */}
@@ -428,17 +430,29 @@ const About = () => {
                             To ensure the success of Baylor Bridges, an Alumni Board will be established to direct and govern its program goals, engagement, and outreach.
                         </p>
                     </div>
-                    {/* these are the right side profile cards */}
+                    {/* PROFILE CARDS BELOW */}
                     <div className="lg:col-span-2">
                         <ul role="list" className="space-y-12 sm:grid sm:grid-cols-2 sm:gap-12 sm:space-y-0 lg:gap-x-8">
                             {chair.map((person) => (
                                 <li key={person.name}>
                                     <div className="flex items-center space-x-4 lg:space-x-6">
-                                        <img className="w-16 h-16 rounded-full lg:w-20 lg:h-20" src={person.imageUrl} alt="" />
+                                        {
+                                            person.imageUrl = noImg
+                                                ? <img className="object-cover w-16 h-16 rounded-full lg:w-20 lg:h-20" src={defaultBg} alt="No image" />
+                                                : <img className="object-cover w-16 h-16 rounded-full lg:w-20 lg:h-20" src={person.imageUrl} alt={`${person.name} profile image`} />
+                                        }
                                         <div className="font-medium text-lg leading-6 space-y-1">
-                                            <h3><a className="text-black hover:text-slate-500" href={person.linkedinUrl} target="_blank" rel="noreferrer">
-                                                {person.name}
-                                            </a></h3>
+                                            {
+                                                person.linkedinUrl === "#"
+                                                    ?
+                                                    <h3>
+                                                        {person.name}
+                                                    </h3>
+                                                    :
+                                                    <h3><a className="text-black hover:text-slate-500" href={person.linkedinUrl} target="_blank" rel="noreferrer">
+                                                        {person.name}
+                                                    </a></h3>
+                                            }
                                             <p className="text-emerald-700">{person.role}</p>
                                         </div>
                                     </div>
@@ -446,6 +460,7 @@ const About = () => {
                             ))}
                         </ul>
                     </div>
+                    {/* PROFILE CARDS ABOVE */}
                 </div>
             </div>
             {/* MENTORSHIP */}
@@ -457,16 +472,29 @@ const About = () => {
                             Baylor Bridges will allow meaningful engagement between healthcare alumni and prehealth undergraduates through intentional programs that facilitate professional, personal and spiritual mentorship.
                         </p>
                     </div>
+                    {/* PROFILE CARDS BELOW */}
                     <div className="lg:col-span-2">
                         <ul role="list" className="space-y-12 sm:grid sm:grid-cols-2 sm:gap-12 sm:space-y-0 lg:gap-x-8">
                             {mentorship.map((person) => (
                                 <li key={person.name}>
                                     <div className="flex items-center space-x-4 lg:space-x-6">
-                                        <img className="w-16 h-16 rounded-full lg:w-20 lg:h-20" src={person.imageUrl} alt="" />
+                                        {
+                                            person.imageUrl = noImg
+                                                ? <img className="object-cover w-16 h-16 rounded-full lg:w-20 lg:h-20" src={defaultBg} alt="No image" />
+                                                : <img className="object-cover w-16 h-16 rounded-full lg:w-20 lg:h-20" src={person.imageUrl} alt={`${person.name} profile image`} />
+                                        }
                                         <div className="font-medium text-lg leading-6 space-y-1">
-                                            <h3><a className="text-black hover:text-slate-500" href={person.linkedinUrl} target="_blank" rel="noreferrer">
-                                                {person.name}
-                                            </a></h3>
+                                            {
+                                                person.linkedinUrl === "#"
+                                                    ?
+                                                    <h3>
+                                                        {person.name}
+                                                    </h3>
+                                                    :
+                                                    <h3><a className="text-black hover:text-slate-500" href={person.linkedinUrl} target="_blank" rel="noreferrer">
+                                                        {person.name}
+                                                    </a></h3>
+                                            }
                                             <p className="text-emerald-700">{person.role}</p>
                                         </div>
                                     </div>
@@ -474,6 +502,7 @@ const About = () => {
                             ))}
                         </ul>
                     </div>
+                    {/* PROFILE CARDS ABOVE */}
                 </div>
             </div>
             {/* LEADERSHIP */}
@@ -485,16 +514,29 @@ const About = () => {
                             Baylor Bridges will address many issues of the global healthcare system by preparing talented and conscientious students for a career in medical leadership and service.
                         </p>
                     </div>
+                    {/* PROFILE CARDS BELOW */}
                     <div className="lg:col-span-2">
                         <ul role="list" className="space-y-12 sm:grid sm:grid-cols-2 sm:gap-12 sm:space-y-0 lg:gap-x-8">
                             {leadership.map((person) => (
                                 <li key={person.name}>
                                     <div className="flex items-center space-x-4 lg:space-x-6">
-                                        <img className="w-16 h-16 rounded-full lg:w-20 lg:h-20" src={person.imageUrl} alt="" />
+                                        {
+                                            person.imageUrl = noImg
+                                                ? <img className="object-cover w-16 h-16 rounded-full lg:w-20 lg:h-20" src={defaultBg} alt="No image" />
+                                                : <img className="object-cover w-16 h-16 rounded-full lg:w-20 lg:h-20" src={person.imageUrl} alt={`${person.name} profile image`} />
+                                        }
                                         <div className="font-medium text-lg leading-6 space-y-1">
-                                            <h3><a className="text-black hover:text-slate-500" href={person.linkedinUrl} target="_blank" rel="noreferrer">
-                                                {person.name}
-                                            </a></h3>
+                                            {
+                                                person.linkedinUrl === "#"
+                                                    ?
+                                                    <h3>
+                                                        {person.name}
+                                                    </h3>
+                                                    :
+                                                    <h3><a className="text-black hover:text-slate-500" href={person.linkedinUrl} target="_blank" rel="noreferrer">
+                                                        {person.name}
+                                                    </a></h3>
+                                            }
                                             <p className="text-emerald-700">{person.role}</p>
                                         </div>
                                     </div>
@@ -502,6 +544,7 @@ const About = () => {
                             ))}
                         </ul>
                     </div>
+                    {/* PROFILE CARDS ABOVE */}
                 </div>
             </div>
             {/* RESEARCH */}
@@ -513,16 +556,29 @@ const About = () => {
                             Baylor Bridges will allow meaningful engagement between healthcare alumni and prehealth undergraduates through intentional programs that facilitate professional, personal and spiritual mentorship.
                         </p>
                     </div>
+                    {/* PROFILE CARDS BELOW */}
                     <div className="lg:col-span-2">
                         <ul role="list" className="space-y-12 sm:grid sm:grid-cols-2 sm:gap-12 sm:space-y-0 lg:gap-x-8">
                             {research.map((person) => (
                                 <li key={person.name}>
                                     <div className="flex items-center space-x-4 lg:space-x-6">
-                                        <img className="w-16 h-16 rounded-full lg:w-20 lg:h-20" src={person.imageUrl} alt="" />
+                                        {
+                                            person.imageUrl = noImg
+                                                ? <img className="object-cover w-16 h-16 rounded-full lg:w-20 lg:h-20" src={defaultBg} alt="No image" />
+                                                : <img className="object-cover w-16 h-16 rounded-full lg:w-20 lg:h-20" src={person.imageUrl} alt={`${person.name} profile image`} />
+                                        }
                                         <div className="font-medium text-lg leading-6 space-y-1">
-                                            <h3><a className="text-black hover:text-slate-500" href={person.linkedinUrl} target="_blank" rel="noreferrer">
-                                                {person.name}
-                                            </a></h3>
+                                            {
+                                                person.linkedinUrl === "#"
+                                                    ?
+                                                    <h3>
+                                                        {person.name}
+                                                    </h3>
+                                                    :
+                                                    <h3><a className="text-black hover:text-slate-500" href={person.linkedinUrl} target="_blank" rel="noreferrer">
+                                                        {person.name}
+                                                    </a></h3>
+                                            }
                                             <p className="text-emerald-700">{person.role}</p>
                                         </div>
                                     </div>
@@ -530,6 +586,7 @@ const About = () => {
                             ))}
                         </ul>
                     </div>
+                    {/* PROFILE CARDS ABOVE */}
                 </div>
             </div>
         </div>
