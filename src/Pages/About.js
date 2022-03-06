@@ -301,7 +301,7 @@ const TechTeam = [
             "https://images.unsplash.com/photo-1505840717430-882ce147ef2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
         bio:
             "Bio goes here...",
-        linkedinUrl: "#",
+        linkedinUrl: "https://www.linkedin.com/in/nathanzebedee/",
     },
     {
         name: "Cloudy (Yunfan) Yang",
@@ -392,10 +392,18 @@ const About = () => {
                                     <div className="flex items-center space-x-4 lg:space-x-6">
                                         <img className="w-16 h-16 rounded-full lg:w-20 lg:h-20" src={person.imageUrl} alt="" />
                                         <div className="font-medium text-lg leading-6 space-y-1">
-                                            <h3><a className="text-black hover:text-slate-500" href={person.linkedinUrl} target="_blank" rel="noreferrer">
-                                                {person.name}
-                                            </a></h3>
-                                            <p className="text-emerald-600">{person.role}</p>
+                                            {
+                                                person.linkedinUrl === "#"
+                                                    ?
+                                                    <h3>
+                                                        {person.name}
+                                                    </h3>
+                                                    :
+                                                    <h3><a className="text-black hover:text-slate-500" href={person.linkedinUrl} target="_blank" rel="noreferrer">
+                                                        {person.name}
+                                                    </a></h3>
+                                            }
+                                            <p className="text-emerald-700">{person.role}</p>
                                         </div>
                                     </div>
                                 </li>
@@ -425,7 +433,7 @@ const About = () => {
                                             <h3><a className="text-black hover:text-slate-500" href={person.linkedinUrl} target="_blank" rel="noreferrer">
                                                 {person.name}
                                             </a></h3>
-                                            <p className="text-emerald-600">{person.role}</p>
+                                            <p className="text-emerald-700">{person.role}</p>
                                         </div>
                                     </div>
                                 </li>
@@ -453,7 +461,7 @@ const About = () => {
                                             <h3><a className="text-black hover:text-slate-500" href={person.linkedinUrl} target="_blank" rel="noreferrer">
                                                 {person.name}
                                             </a></h3>
-                                            <p className="text-emerald-600">{person.role}</p>
+                                            <p className="text-emerald-700">{person.role}</p>
                                         </div>
                                     </div>
                                 </li>
@@ -481,7 +489,7 @@ const About = () => {
                                             <h3><a className="text-black hover:text-slate-500" href={person.linkedinUrl} target="_blank" rel="noreferrer">
                                                 {person.name}
                                             </a></h3>
-                                            <p className="text-emerald-600">{person.role}</p>
+                                            <p className="text-emerald-700">{person.role}</p>
                                         </div>
                                     </div>
                                 </li>
@@ -509,7 +517,7 @@ const About = () => {
                                             <h3><a className="text-black hover:text-slate-500" href={person.linkedinUrl} target="_blank" rel="noreferrer">
                                                 {person.name}
                                             </a></h3>
-                                            <p className="text-emerald-600">{person.role}</p>
+                                            <p className="text-emerald-700">{person.role}</p>
                                         </div>
                                     </div>
                                 </li>
