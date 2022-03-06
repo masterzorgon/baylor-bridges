@@ -554,7 +554,7 @@ const About = () => {
                     <div className="space-y-5 sm:space-y-4">
                         <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Research  Pillar</h2>
                         <p className="text-xl text-gray-500">
-                            Baylor Bridges will allow meaningful engagement between healthcare alumni and prehealth undergraduates through intentional programs that facilitate professional, personal and spiritual mentorship.
+                            Baylor Bridges will encourage cutting edge research between alumni and pre-health undergraduates through selective programs that focus on academic rigor.
                         </p>
                     </div>
                     {/* PROFILE CARDS BELOW */}
