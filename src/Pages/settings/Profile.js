@@ -193,7 +193,7 @@ const Profile = () => {
         var string = "";
         field.value.map((value, index) => {
             if (account_from[value.key]) {
-                if (!value.type !== "visibility") {
+                if (value.type !== "visibility") {
                     if (value.type === "dropdown") {
                         string += option_value_to_title(value.options, account_from[value.key]) + " ";
                     } else {
