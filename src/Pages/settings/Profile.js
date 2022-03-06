@@ -205,7 +205,7 @@ const Profile = () => {
                 }
             }
         });
-        
+
         string = string.trim();
         if (string === "") {
             return [null, visibility];
@@ -278,20 +278,12 @@ const Profile = () => {
 
                 // v = v.trim();
                 if (section_key === "basic") {
-
-                    // for graduate year field user can only input 4 digit
-                    // FIXME: Move this condition to useEffect
-                    console.log("the value key is ", value.key);
+                    // Graduate year: can only input 4 digits
                     if (value.key === "graduate_year") {
-
                         if (/^\d{0,4}$/.test(v)) {
                             setUpdate({ ...update, [value.key]: v });
                         }
-                        console.log("changing graduate_year");
-
-
                     } else {
-
                         setUpdate({ ...update, [value.key]: v });
                     }
                 } else {
@@ -486,8 +478,7 @@ const Profile = () => {
         // According to difference section_key, copy with different level
         const copyField = (section_key, field) => {
             if (section_key === "basic") update[field.key] = account[field.key];
-            else
-            {
+            else {
                 if (!update[section_key]) update[section_key] = {};
 
                 update[section_key][field.key] = account[section_key][field.key];
@@ -495,10 +486,8 @@ const Profile = () => {
         };
 
         // If compound value, copy each atomic value, else copy the value directly
-        if (Array.isArray(field.value))
-        {
-            for (const f of field.value)
-            {
+        if (Array.isArray(field.value)) {
+            for (const f of field.value) {
                 copyField(section_key, f);
             }
         }
@@ -516,8 +505,7 @@ const Profile = () => {
         setLoading(true);
 
         axios.put("/account/profile", update)
-            .then(res =>
-            {
+            .then(res => {
                 console.log(res);
                 setAccount(res.data);
                 setOpen(false);
