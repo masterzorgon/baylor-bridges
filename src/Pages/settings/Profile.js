@@ -3,7 +3,7 @@ import { Dialog, Transition, Listbox } from "@headlessui/react";
 import { SelectorIcon, CheckIcon, EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
 import axios from "axios";
 
-import Navbar from "./Navbar";
+import Container from "./Container";
 import Photo from "../../components/Photo";
 import Button from "../../components/Button";
 
@@ -507,62 +507,42 @@ const Profile = () => {
 
     return (
         <>
-            <div>
-                {/* Content area */}
-                <div className="">
-                    <div className="max-w-4xl mx-auto flex flex-col md:px-8 xl:px-0">
-                        <main className="flex-1">
-                            <div className="relative max-w-4xl mx-auto md:px-8 xl:px-0">
-                                <div className="pt-10 pb-16">
-                                    <div className="px-4 sm:px-6 md:px-0">
-                                        <h1 className="text-3xl font-extrabold text-gray-900">
-                                            Settings
-                                        </h1>
-                                    </div>
-                                    <div className="px-4 sm:px-6 md:px-0">
-                                        <div className="py-6">
-                                            <Navbar current="profile" />
-                                            {
-                                                account !== null && Object.entries(profile).map(([section_key, section]) => (
-                                                    <div key={section_key} className="mt-10 divide-y divide-gray-200">
-                                                        {/* Title and description */}
-                                                        <div className="space-y-1">
-                                                            <h3 className="text-lg leading-6 font-medium text-gray-900">{section.title}</h3>
-                                                            <p className="max-w-2xl text-sm text-gray-500">{section.description}</p>
-                                                        </div>
-                                                        <div className="mt-6">
-                                                            <dl className="divide-y divide-gray-200">
-                                                                {
-                                                                    Object.entries(section.fields).map(([field_key, field]) => (
-                                                                        (field.role === undefined || field.role === account.role) &&
-                                                                        <div key={field_key} className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4" >
-                                                                            <dt className="text-sm font-medium text-gray-500">
-                                                                                {field.title}
-                                                                            </dt>
-                                                                            <dd className="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                                                                <span className="flex-grow">
-                                                                                    {getFieldDisplayValue(section_key, field)}
-                                                                                </span>
-                                                                                <span className="ml-4 flex-shrink-0 flex item-start space-x-4">
-                                                                                    {getFieldModalButton(section_key, field)}
-                                                                                </span>
-                                                                            </dd>
-                                                                        </div>
-                                                                    ))
-                                                                }
-                                                            </dl>
-                                                        </div>
-                                                    </div>
-                                                ))
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
+            <Container current="profile">
+                {
+                    account !== null && Object.entries(profile).map(([section_key, section]) => (
+                        <div key={section_key} className="mt-10 divide-y divide-gray-200">
+                            {/* Title and description */}
+                            <div className="space-y-1">
+                                <h3 className="text-lg leading-6 font-medium text-gray-900">{section.title}</h3>
+                                <p className="max-w-2xl text-sm text-gray-500">{section.description}</p>
                             </div>
-                        </main>
-                    </div>
-                </div>
-            </div>
+                            <div className="mt-6">
+                                <dl className="divide-y divide-gray-200">
+                                    {
+                                        Object.entries(section.fields).map(([field_key, field]) => (
+                                            (field.role === undefined || field.role === account.role) &&
+                                            <div key={field_key} className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4" >
+                                                <dt className="text-sm font-medium text-gray-500">
+                                                    {field.title}
+                                                </dt>
+                                                <dd className="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                                    <span className="flex-grow">
+                                                        {getFieldDisplayValue(section_key, field)}
+                                                    </span>
+                                                    <span className="ml-4 flex-shrink-0 flex item-start space-x-4">
+                                                        {getFieldModalButton(section_key, field)}
+                                                    </span>
+                                                </dd>
+                                            </div>
+                                        ))
+                                    }
+                                </dl>
+                            </div>
+                        </div>
+                    ))
+                }
+            </Container>
+
             <Transition.Root show={open} as={Fragment}>
                 <Dialog as="div" className="fixed z-50 inset-0 overflow-y-auto" onClose={setOpen}>
                     <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
