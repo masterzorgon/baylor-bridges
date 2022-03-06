@@ -407,12 +407,14 @@ const Profile = () => {
             } else if (value.type === "visibility") {
                 // Visibility is a special type of dropdown
                 // Define it's behavior and render it using dropdown
-                value.type = "dropdown";
-                value.options = visibility_options;
-                value.placeholder = value.placeholder ? value.placeholder : "self";
-                value.title = value.title ? value.title : "Visibility";
-                value.description = value.description ? value.description : "Who can see this?";
-                return getTypeDom(value);
+                let value_copy = {};
+                Object.assign(value_copy, value);
+                value_copy.type = "dropdown";
+                value_copy.options = visibility_options;
+                value_copy.placeholder = value_copy.placeholder ? value_copy.placeholder : "self";
+                value_copy.title = value_copy.title ? value_copy.title : "Visibility";
+                value_copy.description = value_copy.description ? value_copy.description : "Who can see this?";
+                return getTypeDom(value_copy);
             }
         };
 
