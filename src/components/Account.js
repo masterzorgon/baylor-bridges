@@ -61,7 +61,7 @@ const Account = (props) => {
     };
 
     const getAccountLocal = () => {
-        var account = window.localStorage.getItem("account");
+        let account = window.localStorage.getItem("account");
         return account !== null ? JSON.parse(account) : null;
     };
 

@@ -144,8 +144,8 @@ const Search = (props) => {
             console.log("profile is", profile_data);
             // console.log("sort is ", sort);
 
-            var config = {};
-            var max = 0;
+            let config = {};
+            let max = 0;
 
             // Find the state with the highest number of people
             for (const value of Object.values(res.data.map_stats)) {
@@ -156,7 +156,7 @@ const Search = (props) => {
 
             // Make config dictionary
             for (const [key, value] of Object.entries(res.data.map_stats)) {
-                var opacity = value / max * 0.95;
+                let opacity = value / max * 0.95;
 
                 config[key] = {};
                 config[key].fill = `rgba(21, 71, 52, ${opacity})`;

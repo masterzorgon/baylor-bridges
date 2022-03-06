@@ -4,7 +4,7 @@ import { AccountContext } from "./Account";
 
 const Photo = ({ size, account }) => {
     size = size ? size : 8;
-    var font_size = "xs";
+    let font_size = "xs";
 
     const { getAccountLocal } = useContext(AccountContext);
     account = account ? account : getAccountLocal();
