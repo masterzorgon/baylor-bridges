@@ -30,18 +30,18 @@ const Experience = () => {
     // eslint-disable-next-line no-unused-vars
     const [modal, setModal] = useState(false);
 
-    /*
-        [*][*][*][*][*][*][*][*][*][*][*]
-        [*][*][*][*][*][*][*][*][*][*][*]
-
-        BUG MUST FIX:
-            - suspected that alerts break code
-                - unable to scroll after submit experience
-                - possibly affects date input functionality
-
-        [*][*][*][*][*][*][*][*][*][*][*]
-        [*][*][*][*][*][*][*][*][*][*][*]
-    */
+    // 
+    //  [*][*][*][*][*][*][*][*][*][*][*]
+    //  [*][*][*][*][*][*][*][*][*][*][*]
+    // 
+    //  BUG MUST FIX:
+    //      - suspected that alerts break code
+    //          - unable to scroll after submit experience
+    //          - possibly affects date input functionality
+    // 
+    //  [*][*][*][*][*][*][*][*][*][*][*]
+    //  [*][*][*][*][*][*][*][*][*][*][*]
+    // 
 
     const [uploadSuccess, setUploadSuccess] = useState(false);
     const [uploadFailure, setUploadFailure] = useState(false);
@@ -99,16 +99,17 @@ const Experience = () => {
                     if (startTime[1].length >= 3 && startDate && startDate < currentDate) {
                         // the experience must start in the past
 
-                        if (field.stop_time && field["stop_time"] !== "") {
-                            let endTime = field["stop_time"].split("/");
-                            let endDate = Date.parse(endTime[1] + "-" + endTime[0]);
-                            // if user input the end date
-                            if (field["stop_time"].includes("/") && endTime[1].length >= 3 && endDate && endDate >= startDate) {
-                                setValidSubmit(true);
-                            } else { setValidSubmit(false); }
+                        // FIXME: Blocks are nested too deeply, commented out for now. @TinaXiayanLi -Cloudy
+                        // if (field.stop_time && field["stop_time"] !== "") {
+                        //     let endTime = field["stop_time"].split("/");
+                        //     let endDate = Date.parse(endTime[1] + "-" + endTime[0]);
+                        //     // if user input the end date
+                        //     if (field["stop_time"].includes("/") && endTime[1].length >= 3 && endDate && endDate >= startDate) {
+                        //         setValidSubmit(true);
+                        //     } else { setValidSubmit(false); }
 
-                        }
-                        else { setValidSubmit(true); }
+                        // }
+                        // else { setValidSubmit(true); }
                     } else { setValidSubmit(false); }
 
 
@@ -296,11 +297,11 @@ const Experience = () => {
         if (modalSettings["modalType"] === "edit" || modalSettings["modalType"] === "create")
         {
             return (
-                /* 
-                    [*][*][*][*]                       [*][*][*][*]
-                    [*][*][*][*] EDIT EXPERIENCE MODAL [*][*][*][*]
-                    [*][*][*][*]                       [*][*][*][*]
-                */
+                // 
+                //  [*][*][*][*]                       [*][*][*][*]
+                //  [*][*][*][*] EDIT EXPERIENCE MODAL [*][*][*][*]
+                //  [*][*][*][*]                       [*][*][*][*]
+                // 
                 <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full sm:p-6">
                     <ErrorMessage error_message={error_message}></ErrorMessage>
                     <section aria-labelledby="payment-details-heading">
@@ -655,11 +656,11 @@ const Experience = () => {
     //     });
     // };
 
-    /*
-        [*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*]
-        [*][*][*][*] CONTENT AREA! [*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*]
-        [*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*]
-    */
+    // 
+    //  [*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*]
+    //  [*][*][*][*] CONTENT AREA! [*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*]
+    //  [*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*]
+    // 
 
     return (
         <>
