@@ -119,8 +119,7 @@ const profile = {
 };
 
 
-const Profile = () =>
-{
+const Profile = () => {
     const [account, setAccount] = useState(null);
 
     const [open, setOpen] = useState(false); // Whether modal is opened
@@ -177,6 +176,10 @@ const Profile = () =>
 
     // Get the raw value of a field, return either the field attribute value, or null, with the visibility value
     const getFieldDisplayValueRaw = (section_key, field) => {
+        if(account === null){
+            return [null, null];
+        }
+
         // Basic section would be from root, other sections from their sub-dictionary
         let account_from = account;
 
@@ -284,11 +287,9 @@ const Profile = () =>
     };
 
 
-    const getFieldModal = (field) =>
-    {
+    const getFieldModal = (field) => {
         // Field has to be valid
-        if (!field)
-        {
+        if (!field) {
             return;
         }
 
@@ -309,25 +310,21 @@ const Profile = () =>
                     return;
                 }
 
-                if (isValidAttributeValue(attribute, v)) 
-                {
-                    if (section_key === "basic") 
-                    {
+                if (isValidAttributeValue(attribute, v)) {
+                    if (section_key === "basic") {
                         setUpdate({ ...update, [attribute.key]: v });
-                    } 
-                    else 
-                    {
+                    }
+                    else {
                         setUpdate({ ...update, [section_key]: { ...update[section_key], [attribute.key]: v } });
                     }
                 }
             };
 
-            if (attribute.type === "file")
-            {
+            if (attribute.type === "file") {
                 return <></>;
-            } 
-            else if (attribute.type === "text") 
-            {
+            }
+
+            else if (attribute.type === "text") {
                 return (
                     <>
                         <label htmlFor={attribute.key} className="block text-sm font-medium text-gray-700 sr-only">
@@ -346,10 +343,9 @@ const Profile = () =>
                         </div>
                     </>
                 );
-            } 
-            
-            else if (attribute.type === "textarea") 
-            {
+            }
+
+            else if (attribute.type === "textarea") {
                 return (
                     <>
                         <label htmlFor="comment" className="block text-sm font-medium text-gray-700 sr-only">
@@ -367,9 +363,9 @@ const Profile = () =>
                         </div>
                     </>
                 );
-            } 
-            else if (attribute.type === "dropdown") 
-            {
+            }
+
+            else if (attribute.type === "dropdown") {
                 return (
                     <>
                         <label htmlFor="dropdown" className="block text-sm font-medium text-gray-700 sr-only">
@@ -449,8 +445,8 @@ const Profile = () =>
                     </>
                 );
             }
-            else if (attribute.type === "visibility")
-            {
+
+            else if (attribute.type === "visibility") {
                 // Visibility is a special type of dropdown
                 // Define it's behavior and render it using dropdown
                 let value_copy = {};
@@ -496,7 +492,7 @@ const Profile = () =>
     // For button "Set" or "Update", press and trigger this function
     const onOpenFieldModal = (section_key, field) => {
         let update = {};
-        
+
         if (!Array.isArray(field.attribute)) {
             field.attribute = [field.attribute];
         }
@@ -533,7 +529,7 @@ const Profile = () =>
         <>
             <Container current="profile">
                 {
-                    account !== null && Object.entries(profile).map(([section_key, section]) => (
+                    Object.entries(profile).map(([section_key, section]) => (
                         <div key={section_key} className="mt-10 divide-y divide-gray-200">
                             {/* Title and description */}
                             <div className="space-y-1">
@@ -544,7 +540,7 @@ const Profile = () =>
                                 <dl className="divide-y divide-gray-200">
                                     {
                                         Object.entries(section.fields).map(([field_key, field]) => (
-                                            (field.role === undefined || field.role === account.role) &&
+                                            (field.role === undefined || (account != null && "role" in account && field.role === account.role)) &&
                                             <div key={field_key} className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4" >
                                                 <dt className="text-sm font-medium text-gray-500">
                                                     {field.title}
@@ -568,7 +564,7 @@ const Profile = () =>
             </Container>
 
             <Transition.Root show={open} as={Fragment}>
-                <Dialog as="div" className="fixed z-50 inset-0 overflow-y-auto" onClose={() => { if (!loading) setOpen(false); } }>
+                <Dialog as="div" className="fixed z-50 inset-0 overflow-y-auto" onClose={() => { if (!loading) setOpen(false); }}>
                     <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                         <Transition.Child
                             as={Fragment}
