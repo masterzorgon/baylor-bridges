@@ -123,8 +123,12 @@ const Profile = () => {
         let value = getFieldDisplayValueRaw(field);
 
         if (value === null) {
-            if (field.has_visibility) {
-                value = <div className="text-gray-400">Connect with {profileAccount.first_name} to view</div>;
+            if (field.has_visibility && !isSelf) {
+                if (profileAccount.first_name) {
+                    value = <div className="text-gray-400">Connect with {profileAccount.first_name} to view</div>;
+                } else {
+                    value = <div className="text-gray-400">Connect to view</div>;
+                }
             } else {
                 value = <div className="text-gray-400">Not set</div>;
             }
