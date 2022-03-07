@@ -525,6 +525,39 @@ const Profile = () => {
             .finally(() => setLoading(false));
     };
 
+    const makeField = (section_key, field_key, field) => {
+        if (field.role === undefined || (account != null && "role" in account && field.role === account.role)) {
+            // If account is not ready because axios is requesting, show animated data-placeholder
+            if (account === null) {
+                return (
+                    <div key={field_key} className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4" >
+                        <dt data-placeholder className="w-1/2 h-5 rounded-md" ></dt>
+                        <dd className="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            <span data-placeholder className="flex-grow h-5 rounded-md"></span>
+                            <span data-placeholder className="ml-4 -shrink-0 flex item-start space-x-4 w-1/3 h-5 rounded-md"></span>
+                        </dd>
+                    </div>
+                );
+            }
+
+            return (
+                <div key={field_key} className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4" >
+                    <dt className="text-sm font-medium text-gray-500">
+                        {field.title}
+                    </dt>
+                    <dd className="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        <span className="flex-grow">
+                            {getFieldDisplayValue(section_key, field)}
+                        </span>
+                        <span className="ml-4 flex-shrink-0 flex item-start space-x-4">
+                            {getFieldModalButton(section_key, field)}
+                        </span>
+                    </dd>
+                </div>
+            );
+        }
+    };
+
     return (
         <>
             <Container current="profile">
@@ -540,20 +573,7 @@ const Profile = () => {
                                 <dl className="divide-y divide-gray-200">
                                     {
                                         Object.entries(section.fields).map(([field_key, field]) => (
-                                            (field.role === undefined || (account != null && "role" in account && field.role === account.role)) &&
-                                            <div key={field_key} className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4" >
-                                                <dt className="text-sm font-medium text-gray-500">
-                                                    {field.title}
-                                                </dt>
-                                                <dd className="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                                    <span className="flex-grow">
-                                                        {getFieldDisplayValue(section_key, field)}
-                                                    </span>
-                                                    <span className="ml-4 flex-shrink-0 flex item-start space-x-4">
-                                                        {getFieldModalButton(section_key, field)}
-                                                    </span>
-                                                </dd>
-                                            </div>
+                                            makeField(section_key, field_key, field)
                                         ))
                                     }
                                 </dl>
