@@ -356,7 +356,7 @@ const About = () => {
                     <p className="mt-6 text-xl text-indigo-100 max-w-3xl">
                         <a target="_blank" rel="noreferrer" href="https://www.baylor.edu/prehealth/index.php?id=982101" className="font-medium text-white hover:text-emerald-500 flex items-center space-x-0.5">
                             <span>View Governing Board List on Baylor University</span>
-                            <ArrowSmRightIcon className="h-4 w-4" />
+                            <ArrowSmRightIcon className="h-5 w-5" />
                         </a>
                     </p>
                 </div>
