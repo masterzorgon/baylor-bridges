@@ -9,11 +9,6 @@ import UploadSuccess from "../../components/UploadSuccess";
 import UploadFailure from "../../components/UploadFailure";
 import DeletePublicationAlert from "../../components/DeletePublicationAlert";
 
-
-function classNames(...classes) {
-    return classes.filter(Boolean).join(" ");
-}
-
 const Experience = () => {
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
@@ -707,34 +702,22 @@ const Experience = () => {
                                                                 <Menu.Items className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                                     <div className="py-2">
                                                                         <Menu.Item>
-                                                                            {({ active }) => (
-                                                                                <a
-
-                                                                                    className={classNames(
-                                                                                        active ? "bg-gray-100 text-gray-900 cursor-pointer" : "text-gray-700 cursor-pointer",
-                                                                                        "flex px-4 py-2 text-sm cursor-pointer"
-                                                                                    )}
-                                                                                    onClick={() => handleOpenModal("edit", exper, idx)}
-                                                                                >
-                                                                                    <PencilIcon className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
-                                                                                    <span>Edit</span>
-                                                                                </a>
-                                                                            )}
+                                                                            <button
+                                                                                className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 cursor-pointer flex px-4 py-2 text-sm w-full"
+                                                                                onClick={() => handleOpenModal("edit", exper, idx)}
+                                                                            >
+                                                                                <PencilIcon className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
+                                                                                <span>Edit</span>
+                                                                            </button>
                                                                         </Menu.Item>
                                                                         <Menu.Item>
-                                                                            {({ active }) => (
-                                                                                <a
-                                                                                    className={classNames(
-                                                                                        active ? "bg-gray-100 text-gray-900 cursor-pointer" : "text-gray-700 cursor-pointer",
-                                                                                        "flex px-4 py-2 text-sm cursor-pointer"
-                                                                                    )}
-
-                                                                                    onClick={() => handleOpenModal("remove", exper, idx)}
-                                                                                >
-                                                                                    <TrashIcon className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
-                                                                                    <span>Remove</span>
-                                                                                </a>
-                                                                            )}
+                                                                            <button
+                                                                                className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 cursor-pointer flex px-4 py-2 text-sm w-full"
+                                                                                onClick={() => handleOpenModal("remove", exper, idx)}
+                                                                            >
+                                                                                <TrashIcon className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
+                                                                                <span>Remove</span>
+                                                                            </button>
                                                                         </Menu.Item>
                                                                     </div>
                                                                 </Menu.Items>
@@ -785,14 +768,14 @@ const Experience = () => {
                                                                     className="rounded-full p-2 hover:bg-gray-100"
                                                                     onClick={() => handleOpenModal("edit pub", publication, { "pub_list_id": index, "exper_list_id": idx, "exper_db_id": exper.exper_id })}
                                                                 >
-                                                                    <PencilIcon className="h-5 w-5 text-gray-400 pointer-events-none" />
+                                                                    <PencilIcon className="h-5 w-5 text-gray-400" />
                                                                 </button>
 
                                                                 <button
                                                                     className="rounded-full p-2 hover:bg-gray-100"
                                                                     onClick={() => handleOpenModal("remove pub", [publication, exper], idx)}
                                                                 >
-                                                                    <TrashIcon className="h-5 w-5 text-gray-400 pointer-events-none" />
+                                                                    <TrashIcon className="h-5 w-5 text-gray-400" />
                                                                 </button>
                                                             </div>
                                                         </li>
@@ -806,7 +789,7 @@ const Experience = () => {
                                                         */}
                                                     <button
                                                         type="button"
-                                                        className="relative block w-full border-gray-300 border-dashed rounded-lg py-2 text-center hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-0 focus:ring-emerald-600"
+                                                        className="relative block w-full border-gray-300 border-dashed rounded-lg py-2 text-center hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-0 focus:ring-emerald-600"
                                                         onClick={() => handleOpenModal("new pub", null, { "db_id": exper.exper_id, "list_id": idx })}>
                                                         <PlusSmIconSolid className="mx-auto h-5 w-5 text-gray-400" />
                                                     </button>
