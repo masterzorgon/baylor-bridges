@@ -9,6 +9,11 @@ import UploadSuccess from "../../components/UploadSuccess";
 import UploadFailure from "../../components/UploadFailure";
 import DeletePublicationAlert from "../../components/DeletePublicationAlert";
 
+
+function classNames(...classes) {
+    return classes.filter(Boolean).join(" ");
+}
+
 const Experience = () => {
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
@@ -627,24 +632,6 @@ const Experience = () => {
     };
 
 
-    function classNames(...classes)
-    {
-        return classes.filter(Boolean).join(" ");
-    }
-
-    // eslint-disable-next-line no-unused-vars
-    // const handleNewExperience = () => {
-    //     setModal(true);
-    //     setExperience({
-    //         description: "",
-    //         exper_id: Math.floor(Math.random()),
-    //         publications: [],
-    //         start_time: "",
-    //         stop_time: "",
-    //         title: ""
-    //     });
-    // };
-
     // 
     //  [*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*]
     //  [*][*][*][*] CONTENT AREA! [*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*]
@@ -668,7 +655,7 @@ const Experience = () => {
                     <div className="flex justify-center order-3 flex-shrink-0 w-full sm:order-2 sm:mt-0 sm:w-auto">
                         <button
                             onClick={() => handleOpenModal("create", null, null)}
-                            className="h-10 w-10 text-white bg-emerald-600 hover:bg-emerald-700 focus:ring-emerald-200 focus:ring-2 focus:ring-offset-2 flex justify-center rounded-full items-center"
+                            className="h-10 w-10 text-white bg-emerald-600 hover:bg-emerald-700 focus:ring-emerald-500 focus:ring-2 focus:ring-offset-2 flex justify-center rounded-full items-center"
                         >
                             <PlusSmIconSolid className="h-6 w-6" aria-hidden="true" />
                         </button>
@@ -685,158 +672,148 @@ const Experience = () => {
                     <div className="mt-6 space-y-10 lg:px-0 lg:col-span-9">
                         {experiences.map((exper, idx) => (
                             <>
-                                <section aria-labelledby="payment-details-heading" key={exper.exper_id}>
-                                    <form>
-                                        <div className="shadow sm:rounded-md py-5">
-                                            <div className="bg-white">
+                                <section key={exper.exper_id}>
+                                    <div className="shadow sm:rounded-md py-5">
+                                        <div className="bg-white">
 
-                                                <div className="bg-white px-4 py-1 sm:px-6">
-                                                    <div className="flex space-x-3">
-                                                        <div className="min-w-0 flex-1">
-                                                            <h1 className="text-md font-medium text-gray-900">
-                                                                {exper.title}
-                                                            </h1>
-                                                            <h2 className="text-sm text-gray-500">
+                                            <div className="bg-white px-4 py-1 sm:px-6">
+                                                <div className="flex space-x-3">
+                                                    <div className="min-w-0 flex-1">
+                                                        <h1 className="text-md font-medium text-gray-900">
+                                                            {exper.title}
+                                                        </h1>
+                                                        <h2 className="text-sm text-gray-500">
                                                                 From {exper.start_time} To {exper.stop_time}
-                                                            </h2>
-                                                        </div>
-                                                        <div className="flex-shrink-0 self-center flex">
-                                                            <Menu as="div" className="relative z-30 inline-block text-left">
-                                                                <div>
-                                                                    <Menu.Button className="-m-2 p-2 rounded-full flex items-center text-gray-400 hover:text-gray-600">
-                                                                        <span className="sr-only">Open options</span>
-                                                                        <DotsVerticalIcon className="h-5 w-5" aria-hidden="true" />
-                                                                    </Menu.Button>
-                                                                </div>
+                                                        </h2>
+                                                    </div>
+                                                    <div className="flex-shrink-0 self-center flex">
+                                                        <Menu as="div" className="relative z-30 inline-block text-left">
+                                                            <div>
+                                                                <Menu.Button className="-m-2 p-2 rounded-full flex items-center text-gray-400 hover:text-gray-600">
+                                                                    <span className="sr-only">Open options</span>
+                                                                    <DotsVerticalIcon className="h-5 w-5" aria-hidden="true" />
+                                                                </Menu.Button>
+                                                            </div>
 
-                                                                <Transition
-                                                                    as={Fragment}
-                                                                    enter="transition ease-out duration-100"
-                                                                    enterFrom="transform opacity-0 scale-95"
-                                                                    enterTo="transform opacity-100 scale-100"
-                                                                    leave="transition ease-in duration-75"
-                                                                    leaveFrom="transform opacity-100 scale-100"
-                                                                    leaveTo="transform opacity-0 scale-95"
-                                                                >
-                                                                    <Menu.Items className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                                                        <div className="py-1">
-                                                                            <Menu.Item>
-                                                                                {({ active }) => (
-                                                                                    <a
+                                                            <Transition
+                                                                as={Fragment}
+                                                                enter="transition ease-out duration-100"
+                                                                enterFrom="transform opacity-0 scale-95"
+                                                                enterTo="transform opacity-100 scale-100"
+                                                                leave="transition ease-in duration-75"
+                                                                leaveFrom="transform opacity-100 scale-100"
+                                                                leaveTo="transform opacity-0 scale-95"
+                                                            >
+                                                                <Menu.Items className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                                    <div className="py-2">
+                                                                        <Menu.Item>
+                                                                            {({ active }) => (
+                                                                                <a
 
-                                                                                        className={classNames(
-                                                                                            active ? "bg-gray-100 text-gray-900 cursor-pointer" : "text-gray-700 cursor-pointer",
-                                                                                            "flex px-4 py-2 text-sm cursor-pointer"
-                                                                                        )}
-                                                                                        onClick={() => handleOpenModal("edit", exper, idx)}
-                                                                                    >
-                                                                                        <PencilIcon className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
-                                                                                        <span>Edit</span>
-                                                                                    </a>
-                                                                                )}
-                                                                            </Menu.Item>
-                                                                            <Menu.Item>
-                                                                                {({ active }) => (
-                                                                                    <a
-                                                                                        className={classNames(
-                                                                                            active ? "bg-gray-100 text-gray-900 cursor-pointer" : "text-gray-700 cursor-pointer",
-                                                                                            "flex px-4 py-2 text-sm cursor-pointer"
-                                                                                        )}
+                                                                                    className={classNames(
+                                                                                        active ? "bg-gray-100 text-gray-900 cursor-pointer" : "text-gray-700 cursor-pointer",
+                                                                                        "flex px-4 py-2 text-sm cursor-pointer"
+                                                                                    )}
+                                                                                    onClick={() => handleOpenModal("edit", exper, idx)}
+                                                                                >
+                                                                                    <PencilIcon className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
+                                                                                    <span>Edit</span>
+                                                                                </a>
+                                                                            )}
+                                                                        </Menu.Item>
+                                                                        <Menu.Item>
+                                                                            {({ active }) => (
+                                                                                <a
+                                                                                    className={classNames(
+                                                                                        active ? "bg-gray-100 text-gray-900 cursor-pointer" : "text-gray-700 cursor-pointer",
+                                                                                        "flex px-4 py-2 text-sm cursor-pointer"
+                                                                                    )}
 
-                                                                                        onClick={() => handleOpenModal("remove", exper, idx)}
-                                                                                    >
-                                                                                        <TrashIcon className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
-                                                                                        <span>Remove</span>
-                                                                                    </a>
-                                                                                )}
-                                                                            </Menu.Item>
-                                                                        </div>
-                                                                    </Menu.Items>
-                                                                </Transition>
-                                                            </Menu>
-                                                        </div>
+                                                                                    onClick={() => handleOpenModal("remove", exper, idx)}
+                                                                                >
+                                                                                    <TrashIcon className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
+                                                                                    <span>Remove</span>
+                                                                                </a>
+                                                                            )}
+                                                                        </Menu.Item>
+                                                                    </div>
+                                                                </Menu.Items>
+                                                            </Transition>
+                                                        </Menu>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="bg-white pb-4 px-4 sm:px-6 sm:pt-2">
-                                                <p className="block text-sm font-medium text-gray-600">
-                                                    {exper.description}
-                                                </p>
-                                            </div>
+                                        </div>
+                                        <div className="bg-white pb-4 px-4 sm:px-6 sm:pt-2">
+                                            <p className="block text-sm font-medium text-gray-600">
+                                                {exper.description}
+                                            </p>
+                                        </div>
 
-                                            {/* 
+                                        {/* 
                                                 [*][*][*]                         [*][*][*]
                                                 [*][*][*] PUBLICATIONS LIST BELOW [*][*][*] 
                                                 [*][*][*]                         [*][*][*]
                                             */}
 
-                                            {publicationDelete ? <DeletePublicationAlert publicationDelete={publicationDelete} setPublicationDelete={setPublicationDelete} /> : null}
+                                        {publicationDelete ? <DeletePublicationAlert publicationDelete={publicationDelete} setPublicationDelete={setPublicationDelete} /> : null}
 
-                                            <div className="px-4 sm:px-6">
-                                                <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
-                                                    {
-                                                        exper.publications.map((publication, index) => (
+                                        <div className="px-4 sm:px-6">
+                                            <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
+                                                {
+                                                    exper.publications.map((publication, index) => (
 
-                                                            <li className="px-5 py-3 flex items-center justify-between text-sm" key={publication.pub_id}>
-                                                                <div className="w-0 flex-1 flex items-center">
-                                                                    <LinkIcon className="flex-shrink-0 h-5 w-5 text-gray-400" />
-                                                                    <span className="ml-2 flex-1 w-0 truncate text-gray-700">
-                                                                        <a href={/^http:\/\//.test(publication.duo_link) || /^https:\/\//.test(publication.duo_link) ? publication.duo_link : "//" + publication.duo_link}
-                                                                            className="font-medium text-emerald-600 hover:text-emerald-500" target="_blank" rel="noreferrer">
-                                                                            {publication.title}
-                                                                        </a>
-                                                                    </span>
-                                                                </div>
-                                                                <div className="ml-4 flex-shrink-0 flex justify-between gap-4">
-                                                                    {/* 
+                                                        <li className="px-3 py-1 flex items-center justify-between text-sm" key={publication.pub_id}>
+                                                            <div className="w-0 flex-1 flex items-center">
+                                                                <LinkIcon className="flex-shrink-0 h-5 w-5 text-gray-400" />
+                                                                <span className="ml-2 flex-1 w-0 truncate text-gray-700">
+                                                                    <a href={/^http:\/\//.test(publication.duo_link) || /^https:\/\//.test(publication.duo_link) ? publication.duo_link : "//" + publication.duo_link}
+                                                                        className="font-medium text-emerald-600 hover:text-emerald-500" target="_blank" rel="noreferrer">
+                                                                        {publication.title}
+                                                                    </a>
+                                                                </span>
+                                                            </div>
+                                                            <div className="ml-4 flex-shrink-0 flex justify-between gap-0 -mr-1">
+                                                                {/* 
                                                                         [*][*][*][*]                             [*][*][*][*]
                                                                         [*][*][*][*] ENTER EDIT AND DELETE ICONS [*][*][*][*]
                                                                         [*][*][*][*]                             [*][*][*][*]
                                                                     */}
 
-                                                                    <button type="button" className="roundedd-full p-1">
-                                                                        <PencilIcon className="h-5 w-5 text-gray-400" viewBox="0 0 20 20"
-                                                                            onClick={() => handleOpenModal("edit pub", publication, { "pub_list_id": index, "exper_list_id": idx, "exper_db_id": exper.exper_id })}
-                                                                        >
-                                                                            <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-                                                                        </PencilIcon>
-                                                                    </button>
+                                                                <button
+                                                                    type="button"
+                                                                    className="rounded-full p-2 hover:bg-gray-100"
+                                                                    onClick={() => handleOpenModal("edit pub", publication, { "pub_list_id": index, "exper_list_id": idx, "exper_db_id": exper.exper_id })}
+                                                                >
+                                                                    <PencilIcon className="h-5 w-5 text-gray-400 pointer-events-none" />
+                                                                </button>
 
-                                                                    <button type="button" className="roundedd-full p-1">
-                                                                        <TrashIcon className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"
-                                                                            onClick={() => handleOpenModal("remove pub", [publication, exper], idx)}
-                                                                        >
-                                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                                        </TrashIcon>
-                                                                    </button>
-                                                                </div>
-                                                            </li>
-                                                        ))
-                                                    }
-                                                    <li className="flex items-center">
-                                                        {/* 
+                                                                <button
+                                                                    className="rounded-full p-2 hover:bg-gray-100"
+                                                                    onClick={() => handleOpenModal("remove pub", [publication, exper], idx)}
+                                                                >
+                                                                    <TrashIcon className="h-5 w-5 text-gray-400 pointer-events-none" />
+                                                                </button>
+                                                            </div>
+                                                        </li>
+                                                    ))
+                                                }
+                                                <li className="flex items-center">
+                                                    {/* 
                                                             [*][*][*]                                     [*][*][*]
                                                             [*][*][*] ENTER ADD NEW PUBLICATION ITEM HERE [*][*][*]
                                                             [*][*][*]                                     [*][*][*]
                                                         */}
-                                                        <button
-                                                            type="button"
-                                                            className="relative block w-full border-2 border-gray-300 border-dashed rounded-lg p-2 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
-                                                            onClick={() => handleOpenModal("new pub", null, { "db_id": exper.exper_id, "list_id": idx })}>
-                                                            {/* <div className=""> max-w-7xl mx-auto px-1 sm:px-6 lg:px-8 */}
-                                                            {/* <div className="sm:text-center sm:px-16 flex"> */}
-                                                            {/* TODO: CREATE ADD PUBLICATION FUNCTIONALITY */}
-
-                                                            <PlusSmIconSolid className="mx-auto h-9 w-9 text-gray-400" />
-
-                                                            {/* </div> */}
-                                                            {/* </div> */}
-                                                        </button>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                                    <button
+                                                        type="button"
+                                                        className="relative block w-full border-gray-300 border-dashed rounded-lg py-2 text-center hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-0 focus:ring-emerald-600"
+                                                        onClick={() => handleOpenModal("new pub", null, { "db_id": exper.exper_id, "list_id": idx })}>
+                                                        <PlusSmIconSolid className="mx-auto h-5 w-5 text-gray-400" />
+                                                    </button>
+                                                </li>
+                                            </ul>
                                         </div>
-                                    </form>
+                                    </div>
                                 </section>
                             </>
                         ))}
