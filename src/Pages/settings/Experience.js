@@ -5,9 +5,6 @@ import { PencilIcon, DotsVerticalIcon, PlusSmIcon as PlusSmIconSolid, TrashIcon,
 
 import Container from "./Container";
 import ErrorMessage from "../../components/ErrorMessage";
-
-import Container from "./Container";
-import ErrorMessage from "../../components/ErrorMessage";
 import UploadSuccess from "../../components/UploadSuccess";
 import UploadFailure from "../../components/UploadFailure";
 import DeletePublicationAlert from "../../components/DeletePublicationAlert";
@@ -677,13 +674,7 @@ const Experience = () => {
                         </button>
                     </div>
                 </div>
-
-                {/* SHOW NEW EXPERIENCE MODAL */}
-                {/* {modal && <ExperienceModal modal={modal} setModal={setModal} experience={experience} setExperience={setExperience}
-                    setUploadSuccess={setUploadSuccess}  setUploadFailure={setUploadFailure} loading={loading} setLoading={setLoading}
-                    refresh={refresh} setRefresh={setRefresh} experiences={experiences} setExperiences={setExperiences}
-                    error_message={error_message} setErrorMessage={setErrorMessage} />} */}
-
+                
                 {/* 
                     [*][*][*]                     [*][*][*]
                     [*][*][*] EXPERIENCES SECTION [*][*][*]
@@ -691,7 +682,7 @@ const Experience = () => {
                 */}
 
                 {experiences &&
-                    <div className="space-y-10 lg:px-0 lg:col-span-9">
+                    <div className="mt-6 space-y-10 lg:px-0 lg:col-span-9">
                         {experiences.map((exper, idx) => (
                             <>
                                 <section aria-labelledby="payment-details-heading" key={exper.exper_id}>
