@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
-import React, {Fragment,useEffect,useState} from "react";
-import {Menu, Popover, Transition} from "@headlessui/react";
-import {ChevronRightIcon,  ChevronDownIcon} from "@heroicons/react/solid";
-import {TrashIcon} from "@heroicons/react/outline";
+import React, { Fragment, useEffect, useState } from "react";
+import { Menu, Popover, Transition } from "@headlessui/react";
+import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/solid";
+import { TrashIcon } from "@heroicons/react/outline";
 import USAMap from "react-usa-map";
-import {useSearchParams} from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import Photo from "../components/Photo";
 
@@ -18,43 +18,44 @@ function generateFilterSort(role, graduate_class, sort) {
     let roleValue = ["Alumni", "Current student"];
 
     // to generate class ranges options based on the current year
-    let current_year=new Date().getFullYear();
+    let current_year = new Date().getFullYear();
     let graduate_class_value = [];
-    graduate_class_value.push(current_year.toString()+"-"+(current_year+4).toString());
+    graduate_class_value.push(current_year.toString() + "-" + (current_year + 4).toString());
     let year = current_year;
-    for(let i =0;i<6;i+=1){
-        graduate_class_value.push((year-10).toString()+"-"+year.toString());
-        year=year-10;
+    for (let i = 0; i < 6; i += 1) {
+        graduate_class_value.push((year - 10).toString() + "-" + year.toString());
+        year = year - 10;
     }
-    
+
     let sortOptions = [];
     // sort should return a single value, role and grad_class should return an array of values
     for (const s of sortValue) {
         if (s === sort) {
-            sortOptions.push({name: s, href: "#" + s, current: true});
+            sortOptions.push({ name: s, href: "#" + s, current: true });
         } else {
-            sortOptions.push({name: s, href: "#" + s, current: false});
+            sortOptions.push({ name: s, href: "#" + s, current: false });
         }
     }
 
 
-    let filters = [{id:"role",name:"Role",options:[]},
-        {id:"class",name:"Class",options:[]}
+    let filters = [
+        { id: "role", name: "Role", options: [] },
+        { id: "class", name: "Class", options: [] }
     ];
 
     for (const r of roleValue) {
         if (role !== null && role.includes(r)) {
-            filters[0].options.push({value: "#" + r, label: r, checked: true});
+            filters[0].options.push({ value: "#" + r, label: r, checked: true });
         } else {
-            filters[0].options.push({value: "#" + r, label: r, checked: false});
+            filters[0].options.push({ value: "#" + r, label: r, checked: false });
         }
     }
 
     for (const c of graduate_class_value) {
         if (graduate_class !== null && graduate_class.includes(c)) {
-            filters[1].options.push({value: "#" + c, label: c, checked: true});
+            filters[1].options.push({ value: "#" + c, label: c, checked: true });
         } else {
-            filters[1].options.push({value: "#" + c, label: c, checked: false});
+            filters[1].options.push({ value: "#" + c, label: c, checked: false });
         }
     }
 
@@ -83,9 +84,9 @@ const Search = (props) => {
     const [role, setRole] = useState(searchParams.get("role").split(","));
     const [graduate_class, setGraduateClass] = useState(searchParams.get("class").split(","));
     const [states, setStates] = useState(searchParams.get("state"));
-    const [test,setTest]=useState(0);
-    
-    const [needUpdate,setNeedUpdate] = useState(false);
+    const [test, setTest] = useState(0);
+
+    const [needUpdate, setNeedUpdate] = useState(false);
 
     const [statesCustomConfig, setStateCustomConfig] = useState({});
 
@@ -93,7 +94,7 @@ const Search = (props) => {
     const [profiles, setProfiles] = useState([]);
     // eslint-disable-next-line no-unused-vars
     const [sortOptions, setSortOptions] = useState([]);
-    const [filtersOptions, setFiltersOptions]=useState([]);
+    const [filtersOptions, setFiltersOptions] = useState([]);
 
     function mapHandler(event) {
 
@@ -110,7 +111,7 @@ const Search = (props) => {
 
     // eslint-disable-next-line no-unused-vars
     function handleCheckFilter(option, options) {
-        console.log("options is ",options, "option is ",option);
+        console.log("options is ", options, "option is ", option);
         if (options !== null && options.includes(option)) {
             const index = options.indexOf(option);
             if (index > -1) {
@@ -118,17 +119,16 @@ const Search = (props) => {
             }
 
         } else {
-            if (options === null || options[0]==="") options = [];
+            if (options === null || options[0] === "") options = [];
             options.push(option);
         }
-        console.log("options now is ",options);
+        console.log("options now is ", options);
 
         return options;
     }
 
 
-    async function getProfiles(keywords,roleValue,classValue,states){
-
+    async function getProfiles(keywords, roleValue, classValue, states) {
         axios.get("/search", {
             params: {
                 keywords: keywords,
@@ -140,12 +140,12 @@ const Search = (props) => {
         }).then((res) => {
 
             // setProfiles(res.data.profiles);
-            let profile_data=res.data.profiles;
+            let profile_data = res.data.profiles;
             console.log("profile is", profile_data);
             // console.log("sort is ", sort);
 
-            var config = {};
-            var max = 0;
+            let config = {};
+            let max = 0;
 
             // Find the state with the highest number of people
             for (const value of Object.values(res.data.map_stats)) {
@@ -156,7 +156,7 @@ const Search = (props) => {
 
             // Make config dictionary
             for (const [key, value] of Object.entries(res.data.map_stats)) {
-                var opacity = value / max * 0.95;
+                let opacity = value / max * 0.95;
 
                 config[key] = {};
                 config[key].fill = `rgba(21, 71, 52, ${opacity})`;
@@ -173,58 +173,58 @@ const Search = (props) => {
         console.log("calling use Effect");
         console.log(keywords, sort, role, graduate_class);
         let roleValue = null;
-        let classValue=null;
-        if (role !==null || role==="") roleValue=role.toString();
-        if(graduate_class!==null || role==="") classValue=graduate_class.toString();
-        console.log("profile in useEffect is ",profiles);
+        let classValue = null;
+        if (role !== null || role === "") roleValue = role.toString();
+        if (graduate_class !== null || role === "") classValue = graduate_class.toString();
+        console.log("profile in useEffect is ", profiles);
 
-        if (profiles.length ===0 || needUpdate){
+        if (profiles.length === 0 || needUpdate) {
             console.log("need get profiles");
-            getProfiles(keywords,roleValue,classValue,states);
+            getProfiles(keywords, roleValue, classValue, states);
         }
 
         setNeedUpdate(false);
 
 
-        const [get_sort,get_filter] = generateFilterSort(role, graduate_class, sort);
+        const [get_sort, get_filter] = generateFilterSort(role, graduate_class, sort);
         setSortOptions(get_sort);
         setFiltersOptions(get_filter);
 
         // sort the profiles
-        if (sort==="Name"){
-            profiles.sort(function(a,b){
-                return (a.first_name+a.last_name).localeCompare(b.first_name+b.last_name);
-            });                 
-        }else if(sort==="Class"){
-            profiles.sort(function(a,b){
-                return a.graduate_year-b.graduate_year;
+        if (sort === "Name") {
+            profiles.sort(function (a, b) {
+                return (a.first_name + a.last_name).localeCompare(b.first_name + b.last_name);
             });
-        }else if(sort==="Location"){
-            profiles.sort(function(a,b){
-                return (a.state+a.city).localeCompare(b.state+b.state);
+        } else if (sort === "Class") {
+            profiles.sort(function (a, b) {
+                return a.graduate_year - b.graduate_year;
             });
-                
-        }else if(sort==="Occupation"){
-            profiles.sort(function(a,b){
+        } else if (sort === "Location") {
+            profiles.sort(function (a, b) {
+                return (a.state + a.city).localeCompare(b.state + b.state);
+            });
+
+        } else if (sort === "Occupation") {
+            profiles.sort(function (a, b) {
                 return a.occupation.localeCompare(b.occupation);
             });
-                
+
         }
 
         //form new url
-        let new_url="/search?keywords="+(keywords||"")+"&sort="+(sort||"")+"&role="+(roleValue||"")+"&class="+(classValue||"")+"&state="+(states||"");
+        let new_url = "/search?keywords=" + (keywords || "") + "&sort=" + (sort || "") + "&role=" + (roleValue || "") + "&class=" + (classValue || "") + "&state=" + (states || "");
         console.log(new_url);
-        window.history.replaceState(null,"Baylor Bridges",new_url);
+        window.history.replaceState(null, "Baylor Bridges", new_url);
 
-    }, [keywords,sort,role,graduate_class, states,test]);
+    }, [keywords, sort, role, graduate_class, states, test]);
 
     return (
         <>
             <div className="grid grid-cols-1 lg:grid-cols-2">
                 <div className="hidden lg:block col-span-1">
-                    <div className="bg-gray-100 sticky p-2 h-screen" style={{"top": "5.4rem"}}>
+                    <div className="bg-gray-100 sticky p-2 h-screen" style={{ "top": "5.4rem" }}>
                         <div className="align-middle relative flex">
-                            <USAMap customize={statesCustomConfig} onClick={mapHandler}/>
+                            <USAMap customize={statesCustomConfig} onClick={mapHandler} />
                         </div>
                     </div>
                 </div>
@@ -232,10 +232,10 @@ const Search = (props) => {
                     {/* Filters */}
                     <div
                         className="bg-white sticky flex items-center justify-between px-6 py-5 sm:pt-6 md:pt-6 lg:pt-6 pt-2 z-30"
-                        style={{"top": "5.4rem"}}>
+                        style={{ "top": "5.4rem" }}>
                         {/* White cover for sticky filter div, for visuals only */}
                         <div className="absolute bg-inherit w-full"
-                            style={{"top": "-2rem", "height": "4rem", "left": "0rem"}}></div>
+                            style={{ "top": "-2rem", "height": "4rem", "left": "0rem" }}></div>
 
                         {/* Sort */}
                         <Menu as="div" className="relative z-10 inline-block text-left">
@@ -263,7 +263,7 @@ const Search = (props) => {
                                     <div className="py-1">
 
                                         {sortOptions.map((option) => (
-                                            <Menu.Item key={option.name} onClick={()=>setSort(option.name)}>
+                                            <Menu.Item key={option.name} onClick={() => setSort(option.name)}>
                                                 {({ active }) => (
                                                     <a
                                                         href={option.href}
@@ -294,7 +294,7 @@ const Search = (props) => {
                                     <span className="text-transparent" aria-hidden="true">Clear</span>
                                     <TrashIcon
                                         className="flex-shrink-0 -mr-1 ml-1 h-5 w-5"
-                                        onClick={()=> {
+                                        onClick={() => {
                                             setNeedUpdate(true);
                                             setRole(null);
                                             setGraduateClass(null);
@@ -347,21 +347,21 @@ const Search = (props) => {
                                                             type="checkbox"
                                                             className="h-4 w-4 border-gray-300 rounded text-emerald-600 focus:ring-emerald-500"
                                                             defaultChecked={option.checked}
-                                                            onClick={()=>{
+                                                            onClick={() => {
 
                                                                 setNeedUpdate(true);
-                                                                if (section.id === "role"){
+                                                                if (section.id === "role") {
                                                                     console.log("clicking role");
-                                                                    setRole(handleCheckFilter(option.label,role));
-                                                                    console.log("role now is ",role);
+                                                                    setRole(handleCheckFilter(option.label, role));
+                                                                    console.log("role now is ", role);
 
-                                                                }else{
+                                                                } else {
                                                                     console.log("clicking class");
-                                                                    setGraduateClass(handleCheckFilter(option.label,graduate_class));
+                                                                    setGraduateClass(handleCheckFilter(option.label, graduate_class));
                                                                 }
 
-                                                                setTest(test+1);
-                                                                
+                                                                setTest(test + 1);
+
                                                             }}
                                                         />
                                                         <label
@@ -386,12 +386,12 @@ const Search = (props) => {
                             {profiles.map((profile) => (
                                 <li key={profile.user_id} >
                                     {/*TODO add href for account detail page*/}
-                                    <a className="block hover:bg-gray-50" href={"/profile/"+profile.user_id} target="_blank" rel="noreferrer">
+                                    <a className="block hover:bg-gray-50" href={"/profile/" + profile.user_id} target="_blank" rel="noreferrer">
                                         <div className="flex items-center px-4 py-4 sm:px-6">
                                             <div className="min-w-0 flex-1 flex items-center">
                                                 <div className="flex-shrink-0">
                                                     {/* <img className="h-12 w-12 rounded-full" src={avatar_url} alt="" /> */}
-                                                    <Photo size="12" account={profile}/>
+                                                    <Photo size="12" account={profile} />
                                                 </div>
                                                 <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
                                                     <div>

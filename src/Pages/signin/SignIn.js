@@ -1,7 +1,7 @@
 import React, { useState, useContext} from "react";
-import {XCircleIcon, ArrowSmLeftIcon} from "@heroicons/react/solid";
+import { XCircleIcon, ArrowSmLeftIcon } from "@heroicons/react/solid";
 
-import {AccountContext} from "../../components/Account";
+import { AccountContext } from "../../components/Account";
 
 const SignIn = () => {
 
@@ -11,36 +11,37 @@ const SignIn = () => {
     const [error_message, setErrorMessage] = useState(null);
     const { signIn } = useContext(AccountContext);
 
-    const onSubmit = (event) => {
+    const onSubmit = (event) =>
+    {
         setLoading(true);
+        
         signIn(email, password)
-            .then(response => {
+            .then(response =>
+            {
                 console.log(response);
                 window.location.href = "/";
             })
-            .catch(error => {
-                if(error.message==="time out"){
-                    setErrorMessage("server time out");
-
-                }else{
+            .catch(error =>
+            {
+                if (error.message === "time out") setErrorMessage("server time out");
+                else
+                {
                     let response = error.response.data;
 
                     // Needs authentication challenge
-                    if (response.code === "ChallengeRequiredException") {
+                    if (response.code === "ChallengeRequiredException") 
+                    {
                         let payload = response.payload;
                         let name = payload["challenge_name"];
                         let session = payload["session"];
                         let sub = payload["sub"];
 
                         window.location.href = `/sign-in/challenge?session=${session}&name=${name}&sub=${sub}`;
-                    } else {
-                        setErrorMessage(response.message);
-                    }
+                    } 
+                    else setErrorMessage(response.message);
                 }
             })
-            .finally(() => {
-                setLoading(false);
-            });
+            .finally(() => setLoading(false));
     };
 
     return (

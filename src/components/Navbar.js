@@ -42,15 +42,14 @@ const Navbar = (props) => {
     const { signOut, getAccount, getAccountLocal } = useContext(AccountContext);
     const [account, setAccount] = useState(null);
     const [profile, setProfile] = useState([]);
+
     useEffect(() => {
         setAccount(getAccountLocal());
+
         getAccount()
-            .then(account => {
-                setAccount(account);
-            })
-            .catch(error => {
-                setAccount(null);
-            });
+            .then(account => setAccount(account))
+            .catch(error => setAccount(null));
+
     }, [getAccount, getAccountLocal]);
 
     const handleSignOut = () => {
@@ -61,17 +60,15 @@ const Navbar = (props) => {
             });
     };
 
-    const handleSearchLoading =(keywords)=>{
-        console.log("handle search loading for keywords: ",keywords);
-        axios.get("/search",{
-            params:{
-                keywords:keywords
-            }
-        }).then((res)=>{
-            // console.log(res.data);
-            setProfile(res.data);
-            console.log(profile);
-        });
+    const handleSearchLoading = (keywords) => {
+        console.log("handle search loading for keywords: ", keywords);
+        axios
+            .get("/search", { params: { keywords: keywords } })
+            .then((res) => {
+                // console.log(res.data);
+                setProfile(res.data);
+                console.log(profile);
+            });
     };
 
     return (
@@ -102,7 +99,7 @@ const Navbar = (props) => {
                             <img
                                 className="h-8 w-auto sm:h-10"
                                 src="/Baylor-University-Athletics-01.svg"
-                                alt=""
+                                alt="Baylor University logo"
                             />
                         </a>
                     </div>
@@ -112,7 +109,7 @@ const Navbar = (props) => {
                         <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100">
                             <span className="sr-only">Open menu</span>
                             <MenuIcon className="h-6 w-6" aria-hidden="true" />
-                        </Popover.Button> 
+                        </Popover.Button>
                     </div>
 
                     {/* DESKTOP NAVBAR */}
@@ -158,10 +155,12 @@ const Navbar = (props) => {
                                                             <div className="ml-4 text-base font-medium text-gray-900">About</div>
                                                         </a> */}
                                                         {/*TODO to create this page and connect the url*/}
+                                                        <a href="/about" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
+                                                            <div className="ml-4 text-base font-medium text-gray-900">About</div>
+                                                        </a>
                                                         <a href="/contact-us" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
                                                             <div className="ml-4 text-base font-medium text-gray-900">Contact Us</div>
                                                         </a>
-
                                                     </div>
                                                 </div>
                                             </Popover.Panel>
@@ -195,9 +194,9 @@ const Navbar = (props) => {
 
                                     }}
                                     onKeyPress={(event) => {
-                                        if(event.key === "Enter") {
+                                        if (event.key === "Enter") {
                                             console.log("enter key pressed");
-                                            window.location.href = "/search?keywords="+searchText+"&sort=&role=&class=&state=";
+                                            window.location.href = "/search?keywords=" + searchText + "&sort=&role=&class=&state=";
                                         } else {
                                             setSearchText(event.target.value);
                                             handleSearchLoading(event.target.value);
@@ -222,10 +221,10 @@ const Navbar = (props) => {
                                     <ul className="">
                                         {profile.map((person) => (
                                             <li key={person.email}>
-                                                <a  className="py-4 px-5 flex hover:bg-gray-50" href={"/profile/"+person.user_id} target="_blank" rel="noreferrer">
+                                                <a className="py-4 px-5 flex hover:bg-gray-50" href={"/profile/" + person.user_id} target="_blank" rel="noreferrer">
                                                     {/* TODO adding account avatar later*/}
                                                     {/*<img className="h-10 w-10 rounded-full" src={avatar} alt="" />*/}
-                                                    <Photo size="10" account={person}/>
+                                                    <Photo size="10" account={person} />
                                                     <div className="ml-3">
                                                         <p className="text-sm font-medium text-gray-900">{person.first_name} {person.last_name}</p>
                                                         <p className="text-sm text-gray-500">{person.headline}</p>
@@ -267,9 +266,9 @@ const Navbar = (props) => {
                                 {/* Profile dropdown */}
                                 <Menu as="div" className="ml-3 relative">
                                     <div>
-                                        <Menu.Button className="w-8 h-8 bg-white rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
+                                        <Menu.Button className="bg-white rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
                                             <span className="sr-only">Open user menu</span>
-                                            <Photo />
+                                            <Photo size="10" />
                                         </Menu.Button>
                                     </div>
                                     <Transition
@@ -288,7 +287,7 @@ const Navbar = (props) => {
                                                         href="/profile"
                                                         className={classNames(active ? "bg-gray-100" : "", "block px-6 py-3 text-sm text-gray-700")}
                                                     >
-                                                        Your Profile
+                                                        My Profile
                                                     </a>
                                                 )}
                                             </Menu.Item>
@@ -345,7 +344,7 @@ const Navbar = (props) => {
                                     {/* [*][*][*]            [*][*][*]
                                         [*][*][*] SEARCH BAR [*][*][*] 
                                         [*][*][*]            [*][*][*]
-                                    */} 
+                                    */}
 
                                     {/* MOBILE SEARCH BAR BELOW */}
                                     {/* 
@@ -369,20 +368,16 @@ const Navbar = (props) => {
                                                 autoComplete="off"
                                                 value={searchText}
                                                 onClick={() => setShowDropdown(!showDropdown)} /* [*][*][*]  CHANGE STATE [*][*][*] */
-                                                onChange={(event) =>
-                                                {
+                                                onChange={(event) => {
                                                     setSearchText(event.target.value);
                                                     handleSearchLoading(event.target.value);
                                                 }}
-                                                onKeyPress={(event) =>
-                                                {
-                                                    if (event.key === "Enter")
-                                                    {
+                                                onKeyPress={(event) => {
+                                                    if (event.key === "Enter") {
                                                         console.log("enter key pressed");
                                                         window.location.href = "/search?keywords=" + searchText + "&sort=&role=&class=&state=";
                                                     }
-                                                    else
-                                                    {
+                                                    else {
                                                         setSearchText(event.target.value);
                                                         handleSearchLoading(event.target.value);
                                                     }
@@ -406,10 +401,10 @@ const Navbar = (props) => {
                                                 <ul className="">
                                                     {profile.map((person) => (
                                                         <li key={person.email}>
-                                                            <a  className="py-4 px-5 flex hover:bg-gray-50" href={"/profile/"+person.user_id} target="_blank" rel="noreferrer">
+                                                            <a className="py-4 px-5 flex hover:bg-gray-50" href={"/profile/" + person.user_id} target="_blank" rel="noreferrer">
                                                                 {/* TODO adding account avatar later*/}
                                                                 {/* <img className="h-10 w-10 rounded-full" src={avatar} alt="" /> */}
-                                                                <Photo size="10" account={person}/>
+                                                                <Photo size="10" account={person} />
                                                                 <div className="ml-3">
                                                                     <p className="text-sm font-medium text-gray-900">{person.first_name} {person.last_name}</p>
                                                                     <p className="text-sm text-gray-500">{person.headline}</p>
@@ -443,9 +438,23 @@ const Navbar = (props) => {
                                     <a href="/about" className="text-base font-medium text-gray-900 hover:text-gray-700">
                                         About
                                     </a>
-                                    <a href="/settings" className="text-base font-medium text-gray-900 hover:text-gray-700">
-                                        Settings
+                                    <a href="/contact-us" className="text-base font-medium text-gray-900 hover:text-gray-700">
+                                        Contact Us
                                     </a>
+                                    {
+                                        account !== null &&
+                                        <>
+                                            <a href="/settings" className="text-base font-medium text-gray-900 hover:text-gray-700">
+                                                Settings
+                                            </a>
+                                            <button
+                                                className="mr-auto text-base font-medium text-gray-900 hover:text-gray-700 w-full text-left"
+                                                onClick={handleSignOut}
+                                            >
+                                                Sign out
+                                            </button>
+                                        </>
+                                    }
                                 </div>
 
                                 {/* Account sign in / up / out */}
@@ -455,7 +464,7 @@ const Navbar = (props) => {
                                         <a href="/sign-up" className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-600 hover:bg-emerald-700">
                                             Sign up
                                         </a>
-                                        <p className="mt-6 text-center text-base font-medium text-gray-500">
+                                        <p className="mt-4 text-center text-base font-medium text-gray-500">
                                             Existing student or alumini?{" "}
                                             <a href="/sign-in" className="text-emerald-600 hover:text-emerald-500">
                                                 Sign in
@@ -465,24 +474,27 @@ const Navbar = (props) => {
                                 }
                                 {
                                     account !== null &&
-                                    <div className="pt-7 pb-2">
-                                        <div className="flex items-center">
-                                            <div className="flex-shrink-0">
-                                                <Photo size="10" />
+                                    <>
+                                        <div className="pt-8 pb-2">
+                                            <div className="flex items-center">
+                                                <div className="flex-shrink-0">
+                                                    <Photo size="10" />
+                                                </div>
+                                                <div className="ml-3">
+                                                    <div className="text-base font-medium text-gray-800">{account.first_name} {account.last_name}</div>
+                                                    <div className="text-sm font-medium text-gray-500">{account.email}</div>
+                                                </div>
+                                                {/* <button
+                                                    type="button"
+                                                    className="ml-auto flex-shrink-0 bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                                                >
+                                                    <span className="sr-only">View notifications</span>
+                                                    <BellIcon className="h-6 w-6" aria-hidden="true" />
+                                                </button> */}
                                             </div>
-                                            <div className="ml-3">
-                                                <div className="text-base font-medium text-gray-800">{account.first_name} { account.last_name }</div>
-                                                <div className="text-sm font-medium text-gray-500">{ account.email }</div>
-                                            </div>
-                                            {/* <button
-                                                type="button"
-                                                className="ml-auto flex-shrink-0 bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
-                                            >
-                                                <span className="sr-only">View notifications</span>
-                                                <BellIcon className="h-6 w-6" aria-hidden="true" />
-                                            </button> */}
                                         </div>
-                                    </div>
+                                    </>
+                                    
                                 }
                             </div>
                         </div>

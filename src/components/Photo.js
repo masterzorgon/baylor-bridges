@@ -4,10 +4,10 @@ import { AccountContext } from "./Account";
 
 const Photo = ({ size, account }) => {
     size = size ? size : 8;
-    var font_size = "xs";
+    let font_size = "xs";
 
     const { getAccountLocal } = useContext(AccountContext);
-    account = account ? account : getAccountLocal();
+    account = account !== undefined ? account : getAccountLocal();
 
     if (size >= 14) {
         font_size = "xl";
@@ -20,6 +20,7 @@ const Photo = ({ size, account }) => {
     } else if (size >= 6) {
         font_size = "xs";
     }
+
 
     if (account === null) {
         return <div className={`inline-flex items-center justify-center h-${size} w-${size} rounded-full bg-gray-500`}>

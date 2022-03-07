@@ -4,7 +4,7 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
-const Button = ({onClick, loading, disabled, children, className}) =>{
+const Button = ({onClick, loading, disabled, children, className}) => {
 
     return (
         <button

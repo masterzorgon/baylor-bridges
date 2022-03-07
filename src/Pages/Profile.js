@@ -1,5 +1,5 @@
 
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState, useContext } from "react";
 import { LinkIcon } from "@heroicons/react/outline";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -7,14 +7,60 @@ import { Menu, Transition } from "@headlessui/react";
 import { DotsVerticalIcon } from "@heroicons/react/solid";
 
 import Photo from "../components/Photo";
+import { AccountContext } from "../components/Account";
 
 const classNames = (...classes) => classes.filter(Boolean).join(" ");
 
 
+const profile = {
+    graduate: {
+        title: "Graduate in",
+        value_class: "capitalize",
+        attribute: [
+            { key: "graduate_semester" },
+            { key: "graduate_year" }
+        ]
+    },
+    occupation: {
+        title: "Occupation",
+        attribute: { key: "occupation" },
+    },
+    location: {
+        title: "Location",
+        attribute: [
+            { key: "city" },
+            { key: "state" },
+        ],
+    },
+    role: {
+        title: "Role",
+        value_class: "capitalize",
+        attribute: { key: "role" },
+    },
+    email: {
+        title: "Email",
+        has_visibility: true,
+        attribute: { section: "contact_info", key: "email" },
+    },
+    phone: {
+        title: "Phone",
+        has_visibility: true,
+        attribute: { section: "contact_info", key: "phone" },
+    },
+    biography: {
+        title: "Biography",
+        field_class: "sm:col-span-2",
+        attribute: { key: "biography" },
+    }
+};
+
 const Profile = () => {
     const { user_id } = useParams();
+
+    const { getAccountLocal } = useContext(AccountContext);
+
+    const [isSelf, setIsSelf] = useState(false);
     const [profileAccount, setProfileAccount] = useState(null);
-    //console.log(user_id);
 
     useEffect(() => {
         let url = "";
@@ -28,13 +74,71 @@ const Profile = () => {
         axios.get(url)
             .then(({ data }) => {
                 setProfileAccount(data);
+
+                if (getAccountLocal().user_id === data.user_id) {
+                    setIsSelf(true);
+                }
             })
             .catch(err => {
+                console.log(err);
                 window.location.href = "/404";
-                // console.log(err.response.message);
             });
-    }, [user_id, setProfileAccount]);
+    }, [user_id]);
 
+    const getFieldDisplayValueRaw = (field) => {
+        console.log(field);
+
+        if (!Array.isArray(field.attribute)) {
+            field.attribute = [field.attribute];
+        }
+
+        let string = "";
+        field.attribute.forEach((attribute, index) => {
+            if (attribute.key && attribute.key in profileAccount && profileAccount[attribute.key]){
+                string += profileAccount[attribute.key] + " ";
+            } else if (attribute.section && attribute.section in profileAccount && attribute.key in profileAccount[attribute.section] && profileAccount[attribute.section][attribute.key]) {
+                string += profileAccount[attribute.section][attribute.key] + " ";
+            }
+        });
+
+        // Return values
+        string = string.trim(); // Remove spaces
+        if (string === "") {
+            return null;
+        }
+        return string;
+    };
+
+    const getFieldDisplayValue = (field) => {
+        // If profileAccount is not intialized at all, display animated data-placeholder 
+        if (profileAccount === null) {
+            return (
+                <div className="sm:col-span-1">
+                    <dt data-placeholder className="w-1/3 h-4 rounded-md mb-1 mt-1"></dt>
+                    <dd data-placeholder className="w-1/2 h-5 rounded-md"></dd>
+                </div>
+            );
+        }
+
+        let value = getFieldDisplayValueRaw(field);
+
+        if (value === null) {
+            if (field.has_visibility) {
+                value = <div className="text-gray-400">Connect with {profileAccount.first_name} to view</div>;
+            } else {
+                value = <div className="text-gray-400">Not set</div>;
+            }
+        }
+
+        return (
+            <div className={field.field_class ? field.field_class : "sm:col-span-1"}>
+                <dt className="text-sm font-medium text-gray-500">{field.title}</dt>
+                <dd className={classNames("mt-1 text-sm text-gray-900", field.value_class ? field.value_class : "")}>
+                    {value}
+                </dd>
+            </div>
+        );
+    };
 
     return (
         <>
@@ -73,101 +177,72 @@ const Profile = () => {
                             </button> */}
                         </div>
                     </div>
-                    
+
                     {/* FIXME: Experience style */}
                     <div className="mt-8 max-w-3xl mx-auto grid grid-cols-1 gap-6 sm:px-6 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-2">
                         <div className="space-y-6 lg:col-start-1 lg:col-span-2">
                             {/* Description list*/}
                             <section aria-labelledby="applicant-information-title">
                                 <div className="bg-white shadow sm:rounded-lg">
-                                    <div className="px-4 py-5 sm:px-6">
-                                        <h2 id="applicant-information-title" className="text-lg leading-6 font-medium text-gray-900">
-                                            Personal Information
-                                        </h2>
-                                        <p className="mt-1 max-w-2xl text-sm text-gray-500">Personal details and contact information.</p>
+                                    <div className="px-4 py-5 sm:px-6 flex justify-between">
+                                        <div>
+                                            <h2 id="applicant-information-title" className="text-lg leading-6 font-medium text-gray-900">
+                                                Personal Information
+                                            </h2>
+                                            <p className="mt-1 max-w-2xl text-sm text-gray-500">Personal details and contact information.</p>
+                                        </div>
+                                        {/* INSERT MODAL DISPLAY BUTTON */}
+                                        <Menu as="div" className="relative inline-block text-left">
+                                            {
+                                                // Onle show editing button when this is user's own profile
+                                                isSelf &&
+                                                <div>
+                                                    <Menu.Button className="p-1 -mr-2 rounded-full flex items-center text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-emerald-500">
+                                                        <span className="sr-only">Open options</span>
+                                                        <DotsVerticalIcon className="h-5 w-5" aria-hidden="true" />
+                                                    </Menu.Button>
+                                                </div>
+                                            }
+
+                                            <Transition
+                                                as={Fragment}
+                                                enter="transition ease-out duration-100"
+                                                enterFrom="transform opacity-0 scale-95"
+                                                enterTo="transform opacity-100 scale-100"
+                                                leave="transition ease-in duration-75"
+                                                leaveFrom="transform opacity-100 scale-100"
+                                                leaveTo="transform opacity-0 scale-95"
+                                            >
+                                                <Menu.Items className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                    <div className="my-2">
+                                                        <Menu.Item>
+                                                            {({ active }) => (
+                                                                <a
+                                                                    href="/settings/profile"
+                                                                    className={classNames(
+                                                                        active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                                                                        "block px-4 py-2 text-sm"
+                                                                    )}
+                                                                >
+                                                                    Edit Personal Information
+                                                                </a>
+                                                            )}
+                                                        </Menu.Item>
+                                                    </div>
+                                                </Menu.Items>
+                                            </Transition>
+                                        </Menu>
                                     </div>
+
+
                                     <div className="border-t border-gray-200 px-4 py-5 sm:px-6">
-                                        {
-                                            profileAccount === null &&
-                                            <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
-                                                <div className="sm:col-span-1">
-                                                    <dt data-placeholder className="w-1/3 h-4 rounded-md mb-1 mt-1"></dt>
-                                                    <dd data-placeholder className="w-1/2 h-5 rounded-md"></dd>
-                                                </div>
-                                                <div className="sm:col-span-1">
-                                                    <dt data-placeholder className="w-1/3 h-4 rounded-md mb-1 mt-1"></dt>
-                                                    <dd data-placeholder className="w-1/2 h-5 rounded-md"></dd>
-                                                </div>
-                                                <div className="sm:col-span-1">
-                                                    <dt data-placeholder className="w-1/3 h-4 rounded-md mb-1 mt-1"></dt>
-                                                    <dd data-placeholder className="w-1/2 h-5 rounded-md"></dd>
-                                                </div><div className="sm:col-span-1">
-                                                    <dt data-placeholder className="w-1/3 h-4 rounded-md mb-1 mt-1"></dt>
-                                                    <dd data-placeholder className="w-1/2 h-5 rounded-md"></dd>
-                                                </div>
-                                                <div className="sm:col-span-1">
-                                                    <dt data-placeholder className="w-1/3 h-4 rounded-md mb-1 mt-1"></dt>
-                                                    <dd data-placeholder className="w-1/2 h-5 rounded-md"></dd>
-                                                </div><div className="sm:col-span-1">
-                                                    <dt data-placeholder className="w-1/3 h-4 rounded-md mb-1 mt-1"></dt>
-                                                    <dd data-placeholder className="w-1/2 h-5 rounded-md"></dd>
-                                                </div>
-                                                <div className="sm:col-span-2">
-                                                    <dt data-placeholder className="w-1/3 h-4 rounded-md mb-1 mt-1"></dt>
-                                                    <dd data-placeholder className="w-full h-5 rounded-md"></dd>
-                                                </div>
-                                            </dl>
-                                        }
-                                        {
-                                            profileAccount !== null &&
-                                            <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
-                                                <div className="sm:col-span-1">
-                                                    <dt className="text-sm font-medium text-gray-500">Occupation</dt>
-                                                    <dd className="mt-1 text-sm text-gray-900 capitalize">{profileAccount.occupation}</dd>
-                                                </div>
-                                                <div className="sm:col-span-1">
-                                                    <dt className="text-sm font-medium text-gray-500">Graduated in</dt>
-                                                    <dd className="mt-1 text-sm text-gray-900 capitalize">{profileAccount.graduate_semester} {profileAccount.graduate_year}</dd>
-                                                </div>
-                                                <div className="sm:col-span-1">
-                                                    <dt className="text-sm font-medium text-gray-500">City</dt>
-                                                    <dd className="mt-1 text-sm text-gray-900 capitalize">{profileAccount.city}</dd>
-                                                </div>
-                                                <div className="sm:col-span-1">
-                                                    <dt className="text-sm font-medium text-gray-500">Role</dt>
-                                                    <dd className="mt-1 text-sm text-gray-900 capitalize">{profileAccount.role}</dd>
-                                                </div>
-                                                {
-                                                    profileAccount.contact_info?
-                                                        <>
-                                                            {
-                                                                profileAccount.contact_info.email &&
-                                                            <div className="sm:col-span-1">
-                                                                <dt className="text-sm font-medium text-gray-500">Email</dt>
-                                                                <dd className="mt-1 text-sm text-gray-900 lowercase">{profileAccount.contact_info.email}</dd>
-                                                            </div>
-                                                            }
-                                                            {profileAccount.contact_info.phone &&
-                                                            <div className="sm:col-span-1">
-                                                                <dt className="text-sm font-medium text-gray-500">Phone</dt>
-                                                                <dd className="mt-1 text-sm text-gray-900">{profileAccount.contact_info.phone}</dd>
-                                                            </div>
-                                                            }
-                                                        </>
-                                                        :<></>
-                                                }
-                                                {
-                                                    profileAccount.contact_info ?
-                                                        <div className="sm:col-span-2">
-                                                            <dt className="text-sm font-medium text-gray-500">Biography</dt>
-                                                            <dd className="mt-1 text-sm text-gray-900">
-                                                                {profileAccount.biography}
-                                                            </dd>
-                                                        </div>
-                                                        :<></>
-                                                }
-                                            </dl>
-                                        }
+                                        <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+                                            {
+                                                Object.entries(profile).map(([field_key, field]) => (
+                                                    getFieldDisplayValue(field)
+                                                ))
+                                            }
+                                        </dl>
                                     </div>
                                 </div>
                             </section>
@@ -177,18 +252,26 @@ const Profile = () => {
                                 <div className="bg-white shadow sm:rounded-lg sm:overflow-hidden">
                                     <div className="divide-y divide-gray-200">
                                         <div className="px-4 py-5 sm:px-6 flex justify-between">
-                                            <h2 id="notes-title" className="align-middle text-lg font-medium text-gray-900 border-2 border-transparent">
-                                                Experiences
-                                            </h2>
+                                            <div>
+                                                <h2 id="applicant-information-title" className="text-lg leading-6 font-medium text-gray-900">
+                                                    Experiences
+                                                </h2>
+                                                <p className="mt-1 max-w-2xl text-sm text-gray-500">Past experiences for this profile.</p>
+                                            </div>
+
 
                                             {/* INSERT MODAL DISPLAY BUTTON */}
                                             <Menu as="div" className="relative inline-block text-left">
-                                                <div>
-                                                    <Menu.Button className="mt-1 rounded-full flex items-center text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-emerald-500">
-                                                        <span className="sr-only">Open options</span>
-                                                        <DotsVerticalIcon className="h-5 w-5" aria-hidden="true" />
-                                                    </Menu.Button>
-                                                </div>
+                                                {
+                                                    // Onle show editing button when this is user's own profile
+                                                    isSelf &&
+                                                    <div>
+                                                        <Menu.Button className="p-1 -mr-2 rounded-full flex items-center text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-emerald-500">
+                                                            <span className="sr-only">Open options</span>
+                                                            <DotsVerticalIcon className="h-5 w-5" aria-hidden="true" />
+                                                        </Menu.Button>
+                                                    </div>
+                                                }
 
                                                 <Transition
                                                     as={Fragment}
@@ -200,7 +283,7 @@ const Profile = () => {
                                                     leaveTo="transform opacity-0 scale-95"
                                                 >
                                                     <Menu.Items className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                                        <div className="">
+                                                        <div className="my-2">
                                                             <Menu.Item>
                                                                 {({ active }) => (
                                                                     <a
@@ -219,7 +302,7 @@ const Profile = () => {
                                                 </Transition>
                                             </Menu>
                                         </div>
-                                        
+
                                         {/* 
                                             [*][*][*][*]             [*][*][*][*]
                                             [*][*][*][*] EXPERIENCES [*][*][*][*]
@@ -250,7 +333,7 @@ const Profile = () => {
                                                                                     </span>
                                                                                 </div>
                                                                                 <div className="ml-4 flex-shrink-0">
-                                                                                    <a href= {/^http:\/\//.test(publication.duo_link) || /^https:\/\//.test(publication.duo_link) ? publication.duo_link:"//"+publication.duo_link} 
+                                                                                    <a href={/^http:\/\//.test(publication.duo_link) || /^https:\/\//.test(publication.duo_link) ? publication.duo_link : "//" + publication.duo_link}
                                                                                         className="font-medium text-emerald-600 hover:text-emerald-500" target="_blank" rel="noreferrer">
                                                                                         Open
                                                                                     </a>

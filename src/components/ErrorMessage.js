@@ -1,7 +1,7 @@
 import React from "react";
 import {XCircleIcon} from "@heroicons/react/solid";
 
-const ErrorMessage =({error_message})=>{
+const ErrorMessage =({error_message}) => {
     return(
         <>
             {
