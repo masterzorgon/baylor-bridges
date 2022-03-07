@@ -340,16 +340,28 @@ const About = () => {
     
     return (
         <div className="bg-white">
-            <div className="mx-auto pt-8 px-4 max-w-7xl sm:px-6 lg:px-8 lg:pt-20 text-center">
-                <h1 className="text-4xl font-extrabold">Baylor Bridges Governing Board</h1>
-                
-                <div className="mt-3 text-sm lg:text-lg text-center w-full grid place-items-center">
-                    <a target="_blank" rel="noreferrer" href="https://www.baylor.edu/prehealth/index.php?id=982101" className="font-medium text-emerald-600 hover:text-emerald-500 flex items-center space-x-0.5">
-                        <span>View Governing Board List on Baylor University</span>
-                        <ArrowSmRightIcon className="h-4 w-4" />
-                    </a>
+            <div className="relative bg-indigo-800">
+                <div className="absolute inset-0">
+                    <img
+                        className="w-full h-full object-cover"
+                        src="https://www2.baylor.edu/wp-content/uploads/2017/05/patneff-may17.jpg"
+                        alt=""
+                    />
+                    <div className="absolute inset-0 bg-emerald-800 mix-blend-multiply" aria-hidden="true" />
+                </div>
+                <div className="relative max-w-7xl mx-auto py-24 px-4 sm:py-32 sm:px-6 lg:px-8">
+                    <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">
+                        Baylor Bridges Governing Board
+                    </h1>
+                    <p className="mt-6 text-xl text-indigo-100 max-w-3xl">
+                        <a target="_blank" rel="noreferrer" href="https://www.baylor.edu/prehealth/index.php?id=982101" className="font-medium text-white hover:text-emerald-500 flex items-center space-x-0.5">
+                            <span>View Governing Board List on Baylor University</span>
+                            <ArrowSmRightIcon className="h-4 w-4" />
+                        </a>
+                    </p>
                 </div>
             </div>
+
             {/* CHAIR SECTION */}
             <div className="mx-auto py-12 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-24">
                 <div className="space-y-12 lg:grid lg:grid-cols-3 lg:gap-8 lg:space-y-0">
