@@ -266,9 +266,9 @@ const Navbar = (props) => {
                                 {/* Profile dropdown */}
                                 <Menu as="div" className="ml-3 relative">
                                     <div>
-                                        <Menu.Button className="w-8 h-8 bg-white rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
+                                        <Menu.Button className="bg-white rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
                                             <span className="sr-only">Open user menu</span>
-                                            <Photo />
+                                            <Photo size="10" />
                                         </Menu.Button>
                                     </div>
                                     <Transition
