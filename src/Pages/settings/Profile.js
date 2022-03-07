@@ -417,7 +417,7 @@ const Profile = () => {
                                                                     <span className={classNames(selected ? "font-semibold" : "font-normal", "truncate")}>
                                                                         {option.title}
                                                                     </span>
-                                                                    <span className={classNames(active ? "text-indigo-200" : "text-gray-500", "ml-2 truncate")}>
+                                                                    <span className={classNames(active ? "text-emerald-200" : "text-gray-500", "ml-2 truncate")}>
                                                                         {option.description}
                                                                     </span>
                                                                 </div>

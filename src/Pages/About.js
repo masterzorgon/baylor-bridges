@@ -340,7 +340,7 @@ const About = () => {
     
     return (
         <div className="bg-white">
-            <div className="relative bg-indigo-800">
+            <div className="relative bg-emerald-800">
                 <div className="absolute inset-0">
                     <img
                         className="w-full h-full object-cover"
@@ -353,7 +353,7 @@ const About = () => {
                     <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">
                         Baylor Bridges Governing Board
                     </h1>
-                    <p className="mt-6 text-xl text-indigo-100 max-w-3xl">
+                    <p className="mt-6 text-xl text-emerald-100 max-w-3xl">
                         <a target="_blank" rel="noreferrer" href="https://www.baylor.edu/prehealth/index.php?id=982101" className="font-medium text-white hover:text-emerald-500 flex items-center space-x-0.5 underline underline-offset-4">
                             <span className="text-sm sm:text-lg">View Governing Board List on Baylor University</span>
                             <ArrowSmRightIcon className="h-5 w-5" />
