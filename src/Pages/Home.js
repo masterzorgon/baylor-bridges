@@ -82,42 +82,38 @@ const Home = () => {
                             </div>
                             <div className="relative px-4 py-16 sm:px-6 sm:py-24 lg:py-32 lg:px-8">
                                 <h1 className="text-center text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
-                                    {
-                                        account === null 
-                                            ?
-                                            <>
-                                                <span className="block text-white">Connect with Baylor Bears</span>
-                                                <span className="block text-emerald-200">and build your network</span>
-                                            </>
-                                            :
-                                            <>
-                                                <span className="block text-white">Welcome Back!</span>
-                                                <span className="block text-emerald-200"></span>
-                                            </>
-
-                                    }
+                                    <span className="block text-white">
+                                        {account ? "Welcome Back" : "Connect with Baylor Bears"}
+                                    </span>
+                                    <span className="block text-emerald-200">
+                                        {account ? "Connect with your fellow Bears" : "and build your network"}
+                                    </span>
                                 </h1>
                                 <p className="mt-6 max-w-lg mx-auto text-center text-xl text-emerald-200 sm:max-w-3xl">
                                     A brand new platform for Baylor alumni and students to connect and explore the vast and endless possibilities
                                     of Baylor alumni in the health industry.
                                 </p>
                                 <div className="mt-10 max-w-sm mx-auto sm:max-w-none sm:flex sm:justify-center">
-                                    <div className="space-y-4 sm:space-y-0 sm:mx-auto sm:inline-grid sm:grid-cols-1 sm:gap-5">
-                                        <a
-                                            href="/sign-up"
-                                            className="flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-emerald-700 bg-white hover:bg-emerald-50 sm:px-9"
-                                        >
-                                            Get Started
-                                        </a>
-                                    </div>
+                                    {
+                                        account
+                                            ?
+                                            null
+                                            :
+                                            <div className="space-y-4 sm:space-y-0 sm:mx-auto sm:inline-grid sm:grid-cols-1 sm:gap-5">
+                                                <a
+                                                    href="/sign-up"
+                                                    className="flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-emerald-700 bg-white hover:bg-emerald-50 sm:px-9"
+                                                >
+                                                    Get Started
+                                                </a>
+                                            </div>
+                                    }
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gray-100 -z-10 lg:hidden"></div>
                 </div>
-
-
                 {/* USA population map */}
                 {/* TODO: Center map and show population, and text below */}
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-6 my-6 grid-cols-3 gap-2 hidden lg:grid">
@@ -194,7 +190,7 @@ const Home = () => {
                 <div className="max-w-7xl mx-auto text-center py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
                     <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
                         <span className="block">Ready to dive in?</span>
-                        <span className="block">Create you personal account today.</span>
+                        {account ? null : <span className="block">Create you personal account today.</span>}
                     </h2>
                     <div className="mt-8 flex justify-center">
                         {
