@@ -187,7 +187,7 @@ const Profile = () =>
 
         // Traverse each atomic attribute
         field.attribute.forEach((attribute, index) => {
-            if (account_from[attribute.key]) {
+            if (attribute.key in account_from && account_from[attribute.key]) {
                 // If visibility attribute, then get the visibility value
                 // If other attribute, then get the value
                 if (attribute.type === "visibility") {
