@@ -58,16 +58,25 @@ const profile = {
                     { type: "text", title: "Last name", placeholder: "Last name", key: "last_name", required: true },
                 ],
             },
-            graduate_class: {
+            headline: {
+                title: "Headline",
+                attribute: { type: "text", title: "Headline", placeholder: "Headline", key: "headline" },
+            },
+            graduate_class_alumni: {
                 title: "Graduate Class",
+                role: "alumni",
                 attribute: [
                     { type: "dropdown", title: "Semester", placeholder: "Semester", key: "graduate_semester", options: semester },
                     { type: "text", title: "Year", placeholder: "Year", key: "graduate_year" }
                 ]
             },
-            headline: {
-                title: "Headline",
-                attribute: { type: "text", title: "Headline", placeholder: "Headline", key: "headline" },
+            graduate_class_student: {
+                title: "Expecting Graduate Class",
+                role: "student",
+                attribute: [
+                    { type: "dropdown", title: "Semester", placeholder: "Semester", key: "graduate_semester", options: semester },
+                    { type: "text", title: "Year", placeholder: "Year", key: "graduate_year" }
+                ]
             },
             occupation: {
                 title: "Occupation",
@@ -559,7 +568,7 @@ const Profile = () =>
             </Container>
 
             <Transition.Root show={open} as={Fragment}>
-                <Dialog as="div" className="fixed z-50 inset-0 overflow-y-auto" onClose={setOpen}>
+                <Dialog as="div" className="fixed z-50 inset-0 overflow-y-auto" onClose={() => { if (!loading) setOpen(false); } }>
                     <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                         <Transition.Child
                             as={Fragment}
