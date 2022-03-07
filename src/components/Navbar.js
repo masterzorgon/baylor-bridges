@@ -159,22 +159,12 @@ const Navbar = (props) => {
                                                             <div className="ml-4 text-base font-medium text-gray-900">About</div>
                                                         </a> */}
                                                         {/*TODO to create this page and connect the url*/}
-                                                        {
-                                                            account === null 
-                                                                ?
-                                                                <a href="/contact-us" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
-                                                                    <div className="ml-4 text-base font-medium text-gray-900">Contact Us</div>
-                                                                </a>
-                                                                :
-                                                                <>
-                                                                    <a href="/about" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
-                                                                        <div className="ml-4 text-base font-medium text-gray-900">About Us</div>
-                                                                    </a>
-                                                                    <a href="/contact-us" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
-                                                                        <div className="ml-4 text-base font-medium text-gray-900">Contact Us</div>
-                                                                    </a>
-                                                                </>
-                                                        }
+                                                        <a href="/about" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
+                                                            <div className="ml-4 text-base font-medium text-gray-900">About</div>
+                                                        </a>
+                                                        <a href="/contact-us" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
+                                                            <div className="ml-4 text-base font-medium text-gray-900">Contact Us</div>
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </Popover.Panel>
