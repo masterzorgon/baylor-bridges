@@ -74,13 +74,6 @@
       "no-eval": "error",
       "no-lone-blocks": "error",
       "no-var": "error",
-      "array-bracket-newline": [
-        "error",
-        "consistent",
-        {
-          "multiline": true
-        }
-      ],
       "arrow-spacing": "error",
       "block-spacing": "error",
       "func-call-spacing": [
