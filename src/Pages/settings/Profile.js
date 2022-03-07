@@ -239,8 +239,8 @@ const Profile = () => {
                 return (
                     <div className="flex items-center space-x-1">
                         <p>{value}</p>
-                        {visibility !== "self" && <EyeIcon className="h-4 w-4 text-gray-400 pointer-events-none" />}
-                        {visibility === "self" && <EyeOffIcon className="h-4 w-4 text-gray-400 pointer-events-none" />}
+                        {visibility !== "self" && <EyeIcon className="h-4 w-4 text-gray-400" />}
+                        {visibility === "self" && <EyeOffIcon className="h-4 w-4 text-gray-400" />}
                     </div>
                 );
             } else {
@@ -387,7 +387,7 @@ const Profile = () => {
                                                 <span className="">{option_value_to_title(attribute.options, section_key === "basic" ? update[attribute.key] : update[section_key][attribute.key]) || option_value_to_title(attribute.options, attribute.placeholder) || <div className="text-gray-500">{attribute.title}</div>}</span>
                                                 <span className="ml-2 truncate text-gray-500">{option_value_to_description(attribute.options, section_key === "basic" ? update[attribute.key] : update[section_key][attribute.key]) || option_value_to_description(attribute.options, attribute.placeholder)}</span>
                                             </span>
-                                            <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                                            <span className="absolute inset-y-0 right-0 flex items-center pr-2">
                                                 <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                                             </span>
                                         </Listbox.Button>
