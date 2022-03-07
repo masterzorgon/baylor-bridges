@@ -80,12 +80,53 @@ const Profile = () => {
                             {/* Description list*/}
                             <section aria-labelledby="applicant-information-title">
                                 <div className="bg-white shadow sm:rounded-lg">
-                                    <div className="px-4 py-5 sm:px-6">
-                                        <h2 id="applicant-information-title" className="text-lg leading-6 font-medium text-gray-900">
-                                            Personal Information
-                                        </h2>
-                                        <p className="mt-1 max-w-2xl text-sm text-gray-500">Personal details and contact information.</p>
+                                    <div className="px-4 py-5 sm:px-6 flex justify-between">
+                                        <div>
+                                            <h2 id="applicant-information-title" className="text-lg leading-6 font-medium text-gray-900">
+                                                Personal Information
+                                            </h2>
+                                            <p className="mt-1 max-w-2xl text-sm text-gray-500">Personal details and contact information.</p>
+                                        </div>
+                                        {/* INSERT MODAL DISPLAY BUTTON */}
+                                        <Menu as="div" className="relative inline-block text-left">
+                                            <div>
+                                                <Menu.Button className="mt-1 rounded-full flex items-center text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-emerald-500">
+                                                    <span className="sr-only">Open options</span>
+                                                    <DotsVerticalIcon className="h-5 w-5" aria-hidden="true" />
+                                                </Menu.Button>
+                                            </div>
+
+                                            <Transition
+                                                as={Fragment}
+                                                enter="transition ease-out duration-100"
+                                                enterFrom="transform opacity-0 scale-95"
+                                                enterTo="transform opacity-100 scale-100"
+                                                leave="transition ease-in duration-75"
+                                                leaveFrom="transform opacity-100 scale-100"
+                                                leaveTo="transform opacity-0 scale-95"
+                                            >
+                                                <Menu.Items className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                    <div className="">
+                                                        <Menu.Item>
+                                                            {({ active }) => (
+                                                                <a
+                                                                    href="/settings/profile"
+                                                                    className={classNames(
+                                                                        active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                                                                        "block px-4 py-2 text-sm"
+                                                                    )}
+                                                                >
+                                                                    Edit Personal Information
+                                                                </a>
+                                                            )}
+                                                        </Menu.Item>
+                                                    </div>
+                                                </Menu.Items>
+                                            </Transition>
+                                        </Menu>
                                     </div>
+
+                                    
                                     <div className="border-t border-gray-200 px-4 py-5 sm:px-6">
                                         {
                                             profileAccount === null &&
@@ -177,9 +218,13 @@ const Profile = () => {
                                 <div className="bg-white shadow sm:rounded-lg sm:overflow-hidden">
                                     <div className="divide-y divide-gray-200">
                                         <div className="px-4 py-5 sm:px-6 flex justify-between">
-                                            <h2 id="notes-title" className="align-middle text-lg font-medium text-gray-900 border-2 border-transparent">
-                                                Experiences
-                                            </h2>
+                                            <div>
+                                                <h2 id="applicant-information-title" className="text-lg leading-6 font-medium text-gray-900">
+                                                    Experiences
+                                                </h2>
+                                                <p className="mt-1 max-w-2xl text-sm text-gray-500">Your Experiences displayed as others would view them.</p>
+                                            </div>
+
 
                                             {/* INSERT MODAL DISPLAY BUTTON */}
                                             <Menu as="div" className="relative inline-block text-left">
