@@ -96,7 +96,7 @@ const Entrace = () => {
                                             className={classNames(
                                                 active ? "border" : "border-2",
                                                 checked ? "border-emerald-600" : "border-transparent",
-                                                "absolute -inset-px rounded-lg pointer-events-none"
+                                                "absolute -inset-px rounded-lg"
                                             )}
                                             aria-hidden="true"
                                         />
