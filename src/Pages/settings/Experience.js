@@ -4,10 +4,10 @@ import { Menu, Transition, Dialog } from "@headlessui/react";
 import { PencilIcon, DotsVerticalIcon, PlusSmIcon as PlusSmIconSolid, TrashIcon, ExclamationIcon, LinkIcon } from "@heroicons/react/outline";
 
 import Container from "./Container";
-import ErrorMessage from "../../components/ErrorMessage";
-import UploadSuccess from "../../components/UploadSuccess";
-import UploadFailure from "../../components/UploadFailure";
-import DeletePublicationAlert from "../../components/DeletePublicationAlert";
+import ErrorMessage from "./ErrorMessage";
+import UploadSuccess from "./UploadSuccess";
+import UploadFailure from "./UploadFailure";
+import DeletePublicationAlert from "./DeletePublicationAlert";
 
 const Experience = () => {
     const [loading, setLoading] = useState(false);
