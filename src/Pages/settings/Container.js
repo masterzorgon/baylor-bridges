@@ -1,8 +1,18 @@
-import React from "react";
+import React, { useEffect, useContext } from "react";
 
 import Navbar from "./Navbar";
+import { AccountContext } from "../../components/Account";
 
 const Container = ({ current, children }) => {
+    const { getAccountLocal } = useContext(AccountContext);
+
+    useEffect(() => {
+        // If not signed in, redirect to sign in page
+        if (!getAccountLocal()) {
+            window.location.href = "/sign-in";
+        }
+    }, []);
+
     return (
         <>
             <div className="max-w-4xl mx-auto flex flex-col md:px-8 xl:px-0">

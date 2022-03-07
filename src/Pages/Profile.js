@@ -237,35 +237,6 @@ const Profile = () => {
 
                                     <div className="border-t border-gray-200 px-4 py-5 sm:px-6">
                                         <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
-                                            {/* {
-                                            // These are animated data-placeholders, don't remove -Cloudy
-                                                profileAccount === null ?
-                                                    <>
-                                                        <div className="sm:col-span-1">
-                                                            <dt data-placeholder className="w-1/3 h-4 rounded-md mb-1 mt-1"></dt>
-                                                            <dd data-placeholder className="w-1/2 h-5 rounded-md"></dd>
-                                                        </div>
-                                                        <div className="sm:col-span-1">
-                                                            <dt data-placeholder className="w-1/3 h-4 rounded-md mb-1 mt-1"></dt>
-                                                            <dd data-placeholder className="w-1/2 h-5 rounded-md"></dd>
-                                                        </div>
-                                                        <div className="sm:col-span-1">
-                                                            <dt data-placeholder className="w-1/3 h-4 rounded-md mb-1 mt-1"></dt>
-                                                            <dd data-placeholder className="w-1/2 h-5 rounded-md"></dd>
-                                                        </div><div className="sm:col-span-1">
-                                                            <dt data-placeholder className="w-1/3 h-4 rounded-md mb-1 mt-1"></dt>
-                                                            <dd data-placeholder className="w-1/2 h-5 rounded-md"></dd>
-                                                        </div>
-                                                        <div className="sm:col-span-2">
-                                                            <dt data-placeholder className="w-1/3 h-4 rounded-md mb-1 mt-1"></dt>
-                                                            <dd data-placeholder className="w-full h-5 rounded-md"></dd>
-                                                        </div>
-                                                    </>
-                                                    :
-                                                    Object.entries(profile).map(([field_key, field]) => (
-                                                        getFieldDisplayValue(field)
-                                                    ))
-                                            } */}
                                             {
                                                 Object.entries(profile).map(([field_key, field]) => (
                                                     getFieldDisplayValue(field)
