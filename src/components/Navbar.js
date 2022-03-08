@@ -435,15 +435,12 @@ const Navbar = (props) => {
                                     <a href="/" className="text-base font-medium text-gray-900 hover:text-gray-700">
                                         Home
                                     </a>
-                                    <a href="/about" className="text-base font-medium text-gray-900 hover:text-gray-700">
-                                        About
-                                    </a>
-                                    <a href="/contact-us" className="text-base font-medium text-gray-900 hover:text-gray-700">
-                                        Contact Us
-                                    </a>
                                     {
                                         account !== null &&
                                         <>
+                                            <a href="/profile" className="text-base font-medium text-gray-900 hover:text-gray-700">
+                                                My Profile
+                                            </a>
                                             <a href="/settings" className="text-base font-medium text-gray-900 hover:text-gray-700">
                                                 Settings
                                             </a>
@@ -451,10 +448,16 @@ const Navbar = (props) => {
                                                 className="mr-auto text-base font-medium text-gray-900 hover:text-gray-700 w-full text-left"
                                                 onClick={handleSignOut}
                                             >
-                                                Sign out
+                                                Sign Out
                                             </button>
                                         </>
                                     }
+                                    <a href="/about" className="text-base font-medium text-gray-900 hover:text-gray-700">
+                                        About Us
+                                    </a>
+                                    <a href="/contact-us" className="text-base font-medium text-gray-900 hover:text-gray-700">
+                                        Contact Us
+                                    </a>
                                 </div>
 
                                 {/* Account sign in / up / out */}

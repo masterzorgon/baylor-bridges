@@ -220,17 +220,9 @@ const Profile = () => {
                                                 <Menu.Items className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                     <div className="my-2">
                                                         <Menu.Item>
-                                                            {({ active }) => (
-                                                                <a
-                                                                    href="/settings/profile"
-                                                                    className={classNames(
-                                                                        active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                                                                        "block px-4 py-2 text-sm"
-                                                                    )}
-                                                                >
-                                                                    Edit Personal Information
-                                                                </a>
-                                                            )}
+                                                            <a href="/settings/profile" className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 block px-4 py-2 text-sm">
+                                                                Edit Personal Information
+                                                            </a>
                                                         </Menu.Item>
                                                     </div>
                                                 </Menu.Items>
