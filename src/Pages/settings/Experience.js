@@ -9,6 +9,7 @@ import ErrorMessage from "./ErrorMessage";
 import UploadSuccess from "./UploadSuccess";
 import UploadFailure from "./UploadFailure";
 import DeletePublicationAlert from "./DeletePublicationAlert";
+import Button from "../../components/Button";
 
 const Experience = () => {
     const [loading, setLoading] = useState(false);
@@ -100,6 +101,7 @@ const Experience = () => {
 
                         // }
                         // else { setValidSubmit(true); }
+                        setValidSubmit(true);
                     } else { setValidSubmit(false); }
 
 
@@ -371,30 +373,21 @@ const Experience = () => {
                                 </div>
                             </div>
 
-                            <div className="px-4 py-6 px-4 sm:p-4">
-                                <button
-                                    type="submit"
-                                    className={`${loading || !validSubmit ? "cursor-not-allowed" : ""} inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 ${validSubmit ? "bg-emerald-600 hover:bg-emerald-700" : "bg-emerald-400"} text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 sm:text-sm`}
+                            <div className="px-4 py-6 sm:p-4">
+                                <Button
+                                    loading={loading}
+                                    disabled={!validSubmit || loading}
                                     onClick={() => handleExperSubmit(field)}
-                                    {...(loading || !validSubmit ? { disabled: true } : {})}
                                 >
                                     {
-                                        loading &&
-                                        <svg className="cursor-not-allowed animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
-                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fillOpacity="0"></circle>
-                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                        </svg>
-                                    }
-                                    {
-                                        (!loading && modalSettings["modalType"] === "edit") &&
+                                        modalSettings["modalType"] === "edit" &&
                                         "Update"
                                     }
                                     {
-                                        !loading && modalSettings["modalType"] === "create" &&
+                                        modalSettings["modalType"] === "create" &&
                                         "Create"
                                     }
-                                </button>
-                                
+                                </Button>
                             </div>
                         </div>
                     </section>
@@ -426,27 +419,17 @@ const Experience = () => {
                         </div>
                     </div>
                     <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                        <button
-                            type="button"
-                            className={`${loading ? "cursor-not-allowed" : ""} w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm`}
+                        <Button
+                            className="ml-3 w-auto bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                            loading={loading}
+                            disabled={loading}
                             onClick={() => handleExperRemove(field.exper_id)}
-                            {...(loading ? { disabled: true } : {})}
                         >
-                            {
-                                loading &&
-                                <svg className="cursor-not-allowed animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
-                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fillOpacity="0"></circle>
-                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
-                            }
-                            {
-                                !loading &&
-                                "Remove"
-                            }
-                        </button>
+                            Remove
+                        </Button>
                         <button
                             type="button"
-                            className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                            className="mt-3 w-full inline-flex justify-center rounded-md shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                             onClick={() => setOpen(false)}
                             ref={cancelButtonRef}
                         >
@@ -480,24 +463,14 @@ const Experience = () => {
                         </div>
                     </div>
                     <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                        <button
-                            type="button"
-                            className={`${loading ? "cursor-not-allowed" : ""} w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm`}
+                        <Button
+                            className="ml-3 w-auto bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                            loading={loading}
+                            disabled={loading}
                             onClick={() => handlePubRemove(field[0].pub_id, field[1].exper_id)} // IMPLEMENT REMOVE PUBLICATION FUNCTION
-                            {...(loading ? { disabled: true } : {})}
                         >
-                            {
-                                loading &&
-                                <svg className="cursor-not-allowed animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
-                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fillOpacity="0"></circle>
-                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
-                            }
-                            {
-                                !loading &&
-                                "Remove"
-                            }
-                        </button>
+                            Remove
+                        </Button>
                         <button
                             type="button"
                             className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
@@ -567,28 +540,20 @@ const Experience = () => {
                             </div>
 
                             <div className="py-2 px-3 sm:p-3">
-                                <button
-                                    type="submit"
-                                    className={`${loading || !validSubmit ? "cursor-not-allowed" : ""} inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 ${validSubmit ? "bg-emerald-600 hover:bg-emerald-700" : "bg-emerald-400"} text-base font-medium text-white  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 sm:text-sm`}
+                                <Button
+                                    loading={loading}
+                                    disabled={!validSubmit || loading}
                                     onClick={() => handlePubSubmit(field)}
-                                    {...(loading || !validSubmit ? { disabled: true } : {})}
                                 >
                                     {
-                                        loading &&
-                                        <svg className="cursor-not-allowed animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
-                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fillOpacity="0"></circle>
-                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                        </svg>
-                                    }
-                                    {
-                                        (!loading && modalSettings["modalType"] === "edit pub") &&
+                                        modalSettings["modalType"] === "edit pub" &&
                                         "Update"
                                     }
                                     {
-                                        (!loading && modalSettings["modalType"] === "new pub") &&
+                                        modalSettings["modalType"] === "new pub" &&
                                         "Create"
                                     }
-                                </button>
+                                </Button>
                             </div>
                         </div>
                     </section>
@@ -779,7 +744,7 @@ const Experience = () => {
                                                     </li>
                                                 ))
                                             }
-                                            <li className="flex items-center">
+                                            <li className="flex items-center overflow-hidden">
                                                 {/* 
                                                         [*][*][*]                                     [*][*][*]
                                                         [*][*][*] ENTER ADD NEW PUBLICATION ITEM HERE [*][*][*]
@@ -787,7 +752,7 @@ const Experience = () => {
                                                     */}
                                                 <button
                                                     type="button"
-                                                    className="relative block w-full border-gray-300 border-dashed rounded-lg py-2 text-center hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-0 focus:ring-emerald-600"
+                                                    className="relative block w-full border-gray-300 border-dashed py-2.5 text-center hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-0 focus:ring-emerald-600"
                                                     onClick={() => handleOpenModal("new pub", null, { "db_id": exper.exper_id, "list_id": idx })}>
                                                     <PlusSmIconSolid className="mx-auto h-5 w-5 text-gray-400" />
                                                 </button>
