@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment, useRef } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import axios from "axios";
 import { Menu, Transition, Dialog } from "@headlessui/react";
 import { PencilIcon, DotsVerticalIcon, PlusSmIcon as PlusSmIconSolid, TrashIcon, ExclamationIcon, LinkIcon } from "@heroicons/react/outline";
@@ -6,9 +6,6 @@ import { PencilIcon, DotsVerticalIcon, PlusSmIcon as PlusSmIconSolid, TrashIcon,
 import Photo from "../../components/Photo";
 import Container from "./Container";
 import ErrorMessage from "./ErrorMessage";
-import UploadSuccess from "./UploadSuccess";
-import UploadFailure from "./UploadFailure";
-import DeletePublicationAlert from "./DeletePublicationAlert";
 import Button from "../../components/Button";
 
 const Experience = () => {
@@ -18,38 +15,8 @@ const Experience = () => {
     const [experiences, setExperiences] = useState(null);
     const [open, setOpen] = useState(false);
     const [field, setField] = useState(null);
-
-    // modalSetttings will start the modal type(edit/remove) and exper_idx
     const [modalSettings, setModalSettings] = useState({});
-    const cancelButtonRef = useRef(null);
-
-    // eslint-disable-next-line no-unused-vars
-    const [refresh, setRefresh] = useState(false);
-
-    // STATE FOR ADDING A NEW EXPERIENCE [*][*][*][*]
-    // eslint-disable-next-line no-unused-vars
-    const [modal, setModal] = useState(false);
-
-    // 
-    //  [*][*][*][*][*][*][*][*][*][*][*]
-    //  [*][*][*][*][*][*][*][*][*][*][*]
-    // 
-    //  BUG MUST FIX:
-    //      - suspected that alerts break code
-    //          - unable to scroll after submit experience
-    //          - possibly affects date input functionality
-    // 
-    //  [*][*][*][*][*][*][*][*][*][*][*]
-    //  [*][*][*][*][*][*][*][*][*][*][*]
-    // 
-
-    const [uploadSuccess, setUploadSuccess] = useState(false);
-    const [uploadFailure, setUploadFailure] = useState(false);
-
-    // STATE FOR PUBLICATION [*][*][*][*]
-    const [publicationDelete, setPublicationDelete] = useState(false);
-
-    const [validSubmit, setValidSubmit] = useState(false);
+    const [complete, setComplete] = useState(false);
 
     useEffect(() => {
         console.log("calling use effect");
@@ -72,11 +39,11 @@ const Experience = () => {
         if (field["title"] !== "") {
 
             // if the form is for submiting publication
-            if (modalSettings["modalType"] == "new pub" || modalSettings["modalType"] == "edit pub") {
+            if (modalSettings["modalType"] === "new pub" || modalSettings["modalType"] === "edit pub") {
                 if (field["duo_link"] === "") {
-                    setValidSubmit(false);
+                    setComplete(false);
                 } else {
-                    setValidSubmit(true);
+                    setComplete(true);
                 }
             } else {
                 // if the form is for submitting experience
@@ -101,17 +68,17 @@ const Experience = () => {
 
                         // }
                         // else { setValidSubmit(true); }
-                        setValidSubmit(true);
-                    } else { setValidSubmit(false); }
+                        setComplete(true);
+                    } else { setComplete(false); }
 
 
 
-                } else { setValidSubmit(false); }
+                } else { setComplete(false); }
 
 
             }
         } else {
-            setValidSubmit(false);
+            setComplete(false);
         }
 
     }, [field]);
@@ -376,7 +343,7 @@ const Experience = () => {
                             <div className="px-4 py-6 sm:p-4">
                                 <Button
                                     loading={loading}
-                                    disabled={!validSubmit || loading}
+                                    disabled={!complete || loading}
                                     onClick={() => handleExperSubmit(field)}
                                 >
                                     {
@@ -430,7 +397,6 @@ const Experience = () => {
                             type="button"
                             className="mt-3 w-full inline-flex justify-center rounded-md shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                             onClick={() => setOpen(false)}
-                            ref={cancelButtonRef}
                             disabled={loading}
                         >
                             Cancel
@@ -474,7 +440,6 @@ const Experience = () => {
                             type="button"
                             className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                             onClick={() => setOpen(false)}
-                            ref={cancelButtonRef}
                             disabled={loading}
                         >
                             Cancel
@@ -542,7 +507,7 @@ const Experience = () => {
                             <div className="py-2 px-3 sm:p-3">
                                 <Button
                                     loading={loading}
-                                    disabled={!validSubmit || loading}
+                                    disabled={!complete || loading}
                                     onClick={() => handlePubSubmit(field)}
                                 >
                                     {
@@ -569,7 +534,7 @@ const Experience = () => {
         if (modalType === "new pub")
         {
             setField({ "title": "", "duo_link": "" });
-            setValidSubmit(false);
+            setComplete(false);
         }
         else if (modalType === "create")
         {
@@ -579,14 +544,14 @@ const Experience = () => {
                 stop_time: "",
                 title: ""
             });
-            setValidSubmit(false);
+            setComplete(false);
         }
 
         else
         {
             console.log("the idx pass into handleOpenModal is " + exper_idx);
             setField(exper);
-            setValidSubmit(true);
+            setComplete(true);
         }
         console.log(exper);
         setOpen(true);
@@ -602,11 +567,6 @@ const Experience = () => {
     return (
         <>
             <Container current="experience">
-                {/* ALERTS THAT DISPLAY UPON CREATING A NEW EXPERIENCE */}
-
-                {uploadSuccess ? <UploadSuccess uploadSuccess={uploadSuccess} setUploadSuccess={setUploadSuccess} /> : null}
-                {uploadFailure ? <UploadFailure uploadFailure={uploadFailure} setUploadFailure={setUploadFailure} /> : null}
-
                 {/* NEW EXPERIENCE BANNER */}
                 <div className="mt-10 divide-y divide-gray-200">
                     <div className="flex items-center justify-between flex-wrap">
@@ -702,8 +662,6 @@ const Experience = () => {
                                                 [*][*][*] PUBLICATIONS LIST BELOW [*][*][*] 
                                                 [*][*][*]                         [*][*][*]
                                             */}
-
-                                        {publicationDelete ? <DeletePublicationAlert publicationDelete={publicationDelete} setPublicationDelete={setPublicationDelete} /> : null}
 
                                         <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
                                             {
