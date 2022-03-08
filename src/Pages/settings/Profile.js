@@ -43,8 +43,8 @@ const option_value_to_description = (options, value) => {
 
 const profile = {
     basic: {
-        title: "Basic",
-        description: "The following information will be displayed publically to everyone.",
+        title: "Basic Information",
+        description: "Your basic personal information will be shown publically to everyone.",
         fields: {
             // photo: {
             //     title: "Photo",
@@ -98,7 +98,7 @@ const profile = {
     },
     contact_info: {
         title: "Contact Information",
-        description: "Manage your contact information and how they should be displayed.",
+        description: "Manage your contact information and decide who can see them.",
         fields: {
             email: {
                 title: "Email address",
