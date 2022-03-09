@@ -16,6 +16,61 @@ const DELETE = 2;
 const EXPERIENCE = 0;
 const PUBLICATION = 1;
 
+const MonthYearPicker = ({ month, year, onMonthChange, onYearChange }) => {
+    return (
+        <div className="flex flex-row mt-1 border border-gray-300 shadow-sm rounded-md" name="start-date">
+            <div className="grow">
+                <label htmlFor="country" className="sr-only">
+                    Month
+                </label>
+                <select
+                    id="month"
+                    name="month"
+                    autoComplete="month"
+                    value={month}
+                    className="w-full py-2 px-3 focus:ring-emerald-500 focus:border-emerald-500 h-full pl-3 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md"
+                    onChange={onMonthChange}
+                >
+                    <option value="0">January</option>
+                    <option value="1">February</option>
+                    <option value="2">March</option>
+                    <option value="3">April</option>
+                    <option value="4">May</option>
+                    <option value="5">June</option>
+                    <option value="6">July</option>
+                    <option value="7">August</option>
+                    <option value="8">September</option>
+                    <option value="9">October</option>
+                    <option value="10">November</option>
+                    <option value="11">December</option>
+                </select>
+            </div>
+
+            <div className="grow">
+                <label htmlFor="year" className="sr-only">
+                    Year
+                </label>
+                <select
+                    id="year"
+                    name="year"
+                    autoComplete="year"
+                    value={year}
+                    className="w-full py-2 px-3 focus:ring-emerald-500 focus:border-emerald-500 h-full pl-3 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md"
+                    onChange={onYearChange}
+                >
+                    {
+                        Array.from(Array(50).keys()).map(i => {
+                            return (
+                                <option key={i}>{new Date().getFullYear() - i}</option>
+                            );
+                        })
+                    }
+                </select>
+            </div>
+        </div>
+    );
+};
+
 const Experience = () => {
     const [loading, setLoading] = useState(false);
     const [error, setErrorMessage] = useState(null);
@@ -173,70 +228,23 @@ const Experience = () => {
                             <label htmlFor="start-date" className="block text-sm font-medium text-gray-700">
                                 Start Date
                             </label>
-                            <div className="flex flex-row mt-1 border border-gray-300 shadow-sm rounded-md" name="start-date">
-                                <div className="grow">
-                                    <label htmlFor="country" className="sr-only">
-                                        Month
-                                    </label>
-                                    <select
-                                        id="month"
-                                        name="month"
-                                        autoComplete="month"
-                                        value={getDateComponent(field.start_time, "month")}
-                                        className="w-full py-2 px-3 focus:ring-emerald-500 focus:border-emerald-500 h-full pl-3 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md"
-                                        onChange={(e) => onChange(changeDateComponent(field.start_time, "month", e.target.value), "start_time")}
-                                    >
-                                        <option value="0">January</option>
-                                        <option value="1">February</option>
-                                        <option value="2">March</option>
-                                        <option value="3">April</option>
-                                        <option value="4">May</option>
-                                        <option value="5">June</option>
-                                        <option value="6">July</option>
-                                        <option value="7">August</option>
-                                        <option value="8">September</option>
-                                        <option value="9">October</option>
-                                        <option value="10">November</option>
-                                        <option value="11">December</option>
-                                    </select>
-                                </div>
-
-                                <div className="grow">
-                                    <label htmlFor="year" className="sr-only">
-                                        Year
-                                    </label>
-                                    <select
-                                        id="year"
-                                        name="year"
-                                        autoComplete="year"
-                                        value={getDateComponent(field.start_time, "year")}
-                                        className="w-full py-2 px-3 focus:ring-emerald-500 focus:border-emerald-500 h-full pl-3 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md"
-                                        onChange={(e) => onChange(changeDateComponent(field.start_time, "year", e.target.value), "start_time")}
-                                    >
-                                        {
-                                            Array.from(Array(50).keys()).map(i => {
-                                                return (
-                                                    <option key={i}>{new Date().getFullYear() - i}</option>
-                                                );
-                                            })
-                                        }
-                                    </select>
-                                </div>
-                            </div>
-                            {/* <DatePicker/> */}
+                            <MonthYearPicker
+                                month={getDateComponent(field.start_time, "month")}
+                                year={getDateComponent(field.start_time, "year")}
+                                onMonthChange={(e) => onChange(changeDateComponent(field.start_time, "month", e.target.value), "start_time")}
+                                onYearChange={(e) => onChange(changeDateComponent(field.start_time, "year", e.target.value), "start_time")}
+                            />
                         </div>
+
                         <div className="col-span-4 sm:col-span-2">
                             <label htmlFor="end-date" className="block text-sm font-medium text-gray-700">
                                 End Date
                             </label>
-                            <input
-                                type="text"
-                                name="end-date"
-                                id="end-date"
-                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
-                                placeholder="MM / YYYY"
-                                value={getFormattedDate(field.stop_time)}
-                                onChange={(e) => onChange(getRawDate(e.target.value), "stop_time")}
+                            <MonthYearPicker
+                                month={getDateComponent(field.stop_time, "month")}
+                                year={getDateComponent(field.stop_time, "year")}
+                                onMonthChange={(e) => onChange(changeDateComponent(field.stop_time, "month", e.target.value), "stop_time")}
+                                onYearChange={(e) => onChange(changeDateComponent(field.stop_time, "year", e.target.value), "stop_time")}
                             />
                         </div>
 
@@ -422,11 +430,6 @@ const Experience = () => {
     const getFormattedDate = (date) => {
         let d = dayjs(date);
         return d.isValid() ? d.format("MMMM YYYY") : "";
-    };
-
-    const getRawDate = (date) => {
-        let d = dayjs(date);
-        return d.isValid() ? d.format("YYYY-MM-DD") : "";
     };
 
     const changeDateComponent = (date, component, value) => {
