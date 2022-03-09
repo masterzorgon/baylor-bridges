@@ -33,10 +33,11 @@ const MonthYearPicker = ({ month, year, onMonthChange, onYearChange, min, max })
         let years = allYears;
         let months = allMonths;
 
-        let a = (min !== undefined && min) ? dayjs(min) : dayjs().year(1900);
+        let a = (min !== undefined && min) ? dayjs(min) : dayjs("1990-01-01");
         let b = (max !== undefined && max) ? dayjs(max) : dayjs();
 
-        years = years.filter(y => y >= a.year() && y <= b.year());
+        years = years.filter(y => y >= a.year());
+        years = years.filter(y => y <= b.year());
 
         if (a.year() === year) {
             months = months.filter(m => monthToIndex(m) >= a.month());
@@ -254,7 +255,7 @@ const Experience = () => {
                                 name="title"
                                 id="title"
                                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
-                                value={field.title}
+                                value={field.title || ""}
                                 onChange={(e) => onChange(e.target.value, "title")}
                             />
                         </div>
@@ -294,7 +295,7 @@ const Experience = () => {
                                 name="description"
                                 id="description"
                                 className="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 py-2 px-3 block w-full sm:text-sm border-gray-300 rounded-md"
-                                value={field.description}
+                                value={field.description || ""}
                                 onChange={(e) => onChange(e.target.value, "description")}
                             />
                         </div>
@@ -343,7 +344,7 @@ const Experience = () => {
                                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
                                 placeholder="Title"
                                 onChange={(e) => onChange(e.target.value, "title")}
-                                value={field.title}
+                                value={field.title || ""}
                             />
                         </div>
                         <div className="col-span-8 sm:col-span-5">
@@ -358,7 +359,7 @@ const Experience = () => {
                                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
                                 onChange={(e) => onChange(e.target.value, "duo_link")}
                                 placeholder="Link"
-                                value={field.duo_link}
+                                value={field.duo_link || ""}
                             />
                         </div>
                     </div>
@@ -497,7 +498,7 @@ const Experience = () => {
                         </div>
                         <div className="flex justify-center order-3 flex-shrink-0 w-full sm:order-2 sm:mt-0 sm:w-auto">
                             <button
-                                onClick={() => onOpenModal({ title: "", start_time: "", stop_time: "", description: "" }, EXPERIENCE, CREATE)}
+                                onClick={() => onOpenModal({ title: null, start_time: null, stop_time: null, description: null }, EXPERIENCE, CREATE)}
                                 className="h-10 w-10 text-white bg-emerald-600 hover:bg-emerald-700 focus:ring-emerald-500 focus:ring-2 focus:ring-offset-2 flex justify-center rounded-full items-center"
                             >
                                 <PlusSmIconSolid className="h-6 w-6" aria-hidden="true" />
@@ -625,7 +626,7 @@ const Experience = () => {
                                             <button
                                                 type="button"
                                                 className="relative block w-full border-gray-300 border-dashed py-2.5 text-center hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-0 focus:ring-emerald-600"
-                                                onClick={() => onOpenModal(Object.assign({}, { title: "", duo_link: "" }, { exper_id: experience.exper_id, exper_index: exper_index }), PUBLICATION, CREATE)}>
+                                                onClick={() => onOpenModal(Object.assign({}, { title: null, duo_link: null }, { exper_id: experience.exper_id, exper_index: exper_index }), PUBLICATION, CREATE)}>
                                                 <PlusSmIconSolid className="mx-auto h-5 w-5 text-gray-400" />
                                             </button>
                                         </li>
