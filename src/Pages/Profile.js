@@ -1,10 +1,10 @@
 
 import React, { Fragment, useEffect, useState, useContext } from "react";
-import { LinkIcon } from "@heroicons/react/outline";
-import { useParams } from "react-router-dom";
-import axios from "axios";
 import { Menu, Transition } from "@headlessui/react";
-import { DotsVerticalIcon } from "@heroicons/react/solid";
+import { useParams } from "react-router-dom";
+import { DotsVerticalIcon } from "@heroicons/react/outline";
+import { PaperClipIcon } from "@heroicons/react/solid";
+import axios from "axios";
 import dayjs from "dayjs";
 
 import Photo from "../components/Photo";
@@ -339,7 +339,7 @@ const Profile = () => {
                                                                         experience.publications.map((publication, index) => (
                                                                             <li className="pl-3 pr-4 py-3 flex items-center justify-between text-sm" key={publication.pub_id}>
                                                                                 <div className="w-0 flex-1 flex items-center">
-                                                                                    <LinkIcon className="flex-shrink-0 h-5 w-5 text-gray-400" />
+                                                                                    <PaperClipIcon className="flex-shrink-0 h-5 w-5 text-gray-400" />
                                                                                     <span className="ml-2 flex-1 w-0 truncate text-gray-700">
                                                                                         {publication.title}
                                                                                     </span>
