@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Menu, Transition } from "@headlessui/react";
 import { DotsVerticalIcon } from "@heroicons/react/solid";
+import dayjs from "dayjs";
 
 import Photo from "../components/Photo";
 import { AccountContext } from "../components/Account";
@@ -142,6 +143,19 @@ const Profile = () => {
                 </dd>
             </div>
         );
+    };
+
+    const getDisplayDateRange = (start, end) => {
+        let display_date = "";
+        if (start) display_date += getFormattedDate(start);
+        if (start && end) display_date += " - ";
+        if (end) display_date += getFormattedDate(end);
+        return display_date;
+    };
+
+    const getFormattedDate = (date) => {
+        let d = dayjs(date);
+        return d.isValid() ? d.format("MMMM YYYY") : "";
     };
 
     return (
@@ -310,7 +324,9 @@ const Profile = () => {
                                                     profileAccount && profileAccount.experiences && profileAccount.experiences.map((experience, index) => (
                                                         <li className="" key={experience.exper_id}>
                                                             <p className="font-medium">{experience.title}</p>
-                                                            <p className="font-medium text-sm text-gray-500 mt-0.5"><time dateTime={experience.start_time}>{experience.start_time}</time> - <time dateTime={experience.start_time}>{experience.start_time}</time></p>
+                                                            <p className="font-medium text-sm text-gray-500 mt-0.5">
+                                                                {getDisplayDateRange(experience.start_time, experience.stop_time)}
+                                                            </p>
                                                             <p className="mt-2 text-sm text-gray-700">{experience.description}</p>
                                                             {/* 
                                                                 [*][*][*][*]              [*][*][*][*]
