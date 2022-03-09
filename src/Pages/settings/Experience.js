@@ -3,6 +3,7 @@ import axios from "axios";
 import { Menu, Transition, Dialog } from "@headlessui/react";
 import { PencilIcon, DotsVerticalIcon, PlusSmIcon as PlusSmIconSolid, TrashIcon, ExclamationIcon } from "@heroicons/react/outline";
 import { PaperClipIcon } from "@heroicons/react/solid";
+import dayjs from "dayjs";
 
 import Photo from "../../components/Photo";
 import Container from "./Container";
@@ -210,8 +211,8 @@ const Experience = () => {
                                 id="start-date"
                                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
                                 placeholder="MM / YYYY"
-                                value={field.start_time}
-                                onChange={(e) => onChange(e.target.value, "start_time")}
+                                value={getFormattedDate(field.start_time)}
+                                onChange={(e) => onChange(getRawDate(e.target.value), "start_time")}
                             />
                             {/* <DatePicker/> */}
                         </div>
@@ -225,8 +226,8 @@ const Experience = () => {
                                 id="end-date"
                                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
                                 placeholder="MM / YYYY"
-                                value={field.stop_time}
-                                onChange={(e) => onChange(e.target.value, "stop_time")}
+                                value={getFormattedDate(field.stop_time)}
+                                onChange={(e) => onChange(getRawDate(e.target.value), "stop_time")}
                             />
                         </div>
 
@@ -401,6 +402,24 @@ const Experience = () => {
         setOpen(true);
     };
 
+    const getDisplayDateRange = (start, end) => {
+        let display_date = "";
+        if (start) display_date += getFormattedDate(start);
+        if (start && end ) display_date += " - ";
+        if (end) display_date += getFormattedDate(end);
+        return display_date;
+    };
+
+    const getFormattedDate = (date) => {
+        let d = dayjs(date);
+        return d.isValid() ? d.format("MMM YYYY") : "";
+    };
+
+    const getRawDate = (date) => {
+        let d = dayjs(date);
+        return d.isValid() ? d.format("YYYY-MM-DD") : "";
+    };
+
 
     // 
     //  [*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*]
@@ -445,7 +464,7 @@ const Experience = () => {
                                                 {experience.title}
                                             </h1>
                                             <h2 className="text-sm text-gray-500">
-                                                {experience.start_time} - {experience.stop_time}
+                                                {getDisplayDateRange(experience.start_time, experience.stop_time)}
                                             </h2>
                                         </div>
                                         <div className="flex-shrink-0 self-center flex">
