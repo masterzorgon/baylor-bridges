@@ -16,10 +16,44 @@ const DELETE = 2;
 const EXPERIENCE = 0;
 const PUBLICATION = 1;
 
-const MonthYearPicker = ({ month, year, onMonthChange, onYearChange }) => {
+const MonthYearPicker = ({ month, year, onMonthChange, onYearChange, min, max }) => {
+    const allMonths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const allYears = Array.from(Array(50).keys()).map(i => {
+        return new Date().getFullYear() - i;
+    });
+
+    const [months, setMonths] = useState(allMonths);
+    const [years, setYears] = useState(allYears);
+
+    const monthToIndex = month => {
+        return allMonths.indexOf(month);
+    };
+
+    useEffect(() => {
+        let years = allYears;
+        let months = allMonths;
+
+        let a = (min !== undefined && min) ? dayjs(min) : dayjs().year(1900);
+        let b = (max !== undefined && max) ? dayjs(max) : dayjs();
+
+        years = years.filter(y => y >= a.year() && y <= b.year());
+
+        if (a.year() === year) {
+            months = months.filter(m => monthToIndex(m) >= a.month());
+        }
+
+        if (b.year() === year) {
+            months = months.filter(m => monthToIndex(m) <= b.month());
+        }
+
+        setYears(years);
+        setMonths(months);
+    }, [month, year, min, max]);
+
+
     return (
         <div className="flex flex-row mt-1 border border-gray-300 shadow-sm rounded-md" name="start-date">
-            <div className="grow">
+            <div className="basis-3/5">
                 <label htmlFor="country" className="sr-only">
                     Month
                 </label>
@@ -31,18 +65,11 @@ const MonthYearPicker = ({ month, year, onMonthChange, onYearChange }) => {
                     className="w-full py-2 px-3 focus:ring-emerald-500 focus:border-emerald-500 h-full pl-3 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md"
                     onChange={onMonthChange}
                 >
-                    <option value="0">January</option>
-                    <option value="1">February</option>
-                    <option value="2">March</option>
-                    <option value="3">April</option>
-                    <option value="4">May</option>
-                    <option value="5">June</option>
-                    <option value="6">July</option>
-                    <option value="7">August</option>
-                    <option value="8">September</option>
-                    <option value="9">October</option>
-                    <option value="10">November</option>
-                    <option value="11">December</option>
+                    {
+                        months.map((month, index) => (
+                            <option key={index} value={monthToIndex(month)}>{month}</option>
+                        ))
+                    }
                 </select>
             </div>
 
@@ -59,9 +86,9 @@ const MonthYearPicker = ({ month, year, onMonthChange, onYearChange }) => {
                     onChange={onYearChange}
                 >
                     {
-                        Array.from(Array(50).keys()).map(i => {
+                        years.map((year) => {
                             return (
-                                <option key={i}>{new Date().getFullYear() - i}</option>
+                                <option key={year} value={year}>{year}</option>
                             );
                         })
                     }
@@ -81,14 +108,13 @@ const Experience = () => {
 
     const [experiences, setExperiences] = useState(null);
 
-    console.log(error);
     useEffect(() => {
         axios.get("/account/profile/experience")
             .then(res => {
                 setExperiences(res.data);
             })
             .catch(err => {
-                console.log(err);
+                console.log(err, error);
                 setError(err.response.data.message);
             });
     }, []);
@@ -128,7 +154,7 @@ const Experience = () => {
                 if (!d.isValid()) return;
                 value = d.date(1).format("YYYY-MM-DD");
             }
-            
+
             setField({ ...field, [attribute]: value });
         };
 
@@ -240,6 +266,7 @@ const Experience = () => {
                             <MonthYearPicker
                                 month={getDateComponent(field.start_time, "month")}
                                 year={getDateComponent(field.start_time, "year")}
+                                max={field.stop_time}
                                 onMonthChange={(e) => onChange(changeDateComponent(field.start_time, "month", e.target.value), "start_time")}
                                 onYearChange={(e) => onChange(changeDateComponent(field.start_time, "year", e.target.value), "start_time")}
                             />
@@ -252,6 +279,7 @@ const Experience = () => {
                             <MonthYearPicker
                                 month={getDateComponent(field.stop_time, "month")}
                                 year={getDateComponent(field.stop_time, "year")}
+                                min={field.start_time}
                                 onMonthChange={(e) => onChange(changeDateComponent(field.stop_time, "month", e.target.value), "stop_time")}
                                 onYearChange={(e) => onChange(changeDateComponent(field.stop_time, "year", e.target.value), "stop_time")}
                             />
@@ -431,7 +459,7 @@ const Experience = () => {
     const getDisplayDateRange = (start, end) => {
         let display_date = "";
         if (start) display_date += getFormattedDate(start);
-        if (start && end ) display_date += " - ";
+        if (start && end) display_date += " - ";
         if (end) display_date += getFormattedDate(end);
         return display_date;
     };
