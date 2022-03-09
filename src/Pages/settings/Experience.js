@@ -589,62 +589,58 @@ const Experience = () => {
                                         </div>
                                     </div>
 
-                                    <div className="my-6 mb-8">
-                                        <p className="block text-sm font-medium text-gray-600">
-                                            {experience.description}
-                                        </p>
+                                    <div className="mt-4 ml-12 pl-1 space-y-4">
+                                        <div className="">
+                                            <p className="block text-sm font-medium text-gray-600">
+                                                {experience.description}
+                                            </p>
+                                        </div>
+
+                                        <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
+                                            {
+                                                experience.publications.map((publication, pub_index) => (
+                                                    <li className="px-3 py-1 flex items-center justify-between text-sm" key={pub_index}>
+                                                        <div className="w-0 flex-1 flex items-center">
+                                                            <PaperClipIcon className="flex-shrink-0 h-5 w-5 text-gray-400" />
+                                                            <span className="ml-2 flex-1 w-0 truncate text-gray-700">
+                                                                <a href={/^http:\/\//.test(publication.duo_link) || /^https:\/\//.test(publication.duo_link) ? publication.duo_link : "//" + publication.duo_link}
+                                                                    className="font-medium text-emerald-600 hover:text-emerald-500" target="_blank" rel="noreferrer">
+                                                                    {publication.title}
+                                                                </a>
+                                                            </span>
+                                                        </div>
+                                                        <div className="ml-4 flex-shrink-0 flex justify-between gap-0 -mr-1">
+                                                            {/* Edit publication */}
+                                                            <button
+                                                                type="button"
+                                                                className="rounded-full p-2 hover:bg-gray-100"
+                                                                onClick={() => onOpenModal(Object.assign({}, publication, { exper_id: experience.exper_id, exper_index: exper_index, pub_index: pub_index }), PUBLICATION, UPDATE)}
+                                                            >
+                                                                <PencilIcon className="h-5 w-5 text-gray-400" />
+                                                            </button>
+
+                                                            {/* Delete publication */}
+                                                            <button
+                                                                className="rounded-full p-2 hover:bg-gray-100"
+                                                                onClick={() => onOpenModal(Object.assign({}, publication, { exper_id: experience.exper_id, exper_index: exper_index, pub_index: pub_index }), PUBLICATION, DELETE)}
+                                                            >
+                                                                <TrashIcon className="h-5 w-5 text-gray-400" />
+                                                            </button>
+                                                        </div>
+                                                    </li>
+                                                ))
+                                            }
+                                            <li className="flex items-center overflow-hidden">
+                                                {/* Add new publication */}
+                                                <button
+                                                    type="button"
+                                                    className="relative block w-full border-gray-300 border-dashed py-2.5 text-center hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-0 focus:ring-emerald-600"
+                                                    onClick={() => onOpenModal(Object.assign({}, { title: null, duo_link: null }, { exper_id: experience.exper_id, exper_index: exper_index }), PUBLICATION, CREATE)}>
+                                                    <PlusSmIcon className="mx-auto h-5 w-5 text-gray-400" />
+                                                </button>
+                                            </li>
+                                        </ul>
                                     </div>
-
-                                    {/* 
-                                            [*][*][*]                         [*][*][*]
-                                            [*][*][*] PUBLICATIONS LIST BELOW [*][*][*] 
-                                            [*][*][*]                         [*][*][*]
-                                        */}
-
-                                    <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
-                                        {
-                                            experience.publications.map((publication, pub_index) => (
-                                                <li className="px-3 py-1 flex items-center justify-between text-sm" key={pub_index}>
-                                                    <div className="w-0 flex-1 flex items-center">
-                                                        <PaperClipIcon className="flex-shrink-0 h-5 w-5 text-gray-400" />
-                                                        <span className="ml-2 flex-1 w-0 truncate text-gray-700">
-                                                            <a href={/^http:\/\//.test(publication.duo_link) || /^https:\/\//.test(publication.duo_link) ? publication.duo_link : "//" + publication.duo_link}
-                                                                className="font-medium text-emerald-600 hover:text-emerald-500" target="_blank" rel="noreferrer">
-                                                                {publication.title}
-                                                            </a>
-                                                        </span>
-                                                    </div>
-                                                    <div className="ml-4 flex-shrink-0 flex justify-between gap-0 -mr-1">
-                                                        {/* Edit publication */}
-                                                        <button
-                                                            type="button"
-                                                            className="rounded-full p-2 hover:bg-gray-100"
-                                                            onClick={() => onOpenModal(Object.assign({}, publication, { exper_id: experience.exper_id, exper_index: exper_index, pub_index: pub_index }), PUBLICATION, UPDATE)}
-                                                        >
-                                                            <PencilIcon className="h-5 w-5 text-gray-400" />
-                                                        </button>
-
-                                                        {/* Delete publication */}
-                                                        <button
-                                                            className="rounded-full p-2 hover:bg-gray-100"
-                                                            onClick={() => onOpenModal(Object.assign({}, publication, { exper_id: experience.exper_id, exper_index: exper_index, pub_index: pub_index }), PUBLICATION, DELETE)}
-                                                        >
-                                                            <TrashIcon className="h-5 w-5 text-gray-400" />
-                                                        </button>
-                                                    </div>
-                                                </li>
-                                            ))
-                                        }
-                                        <li className="flex items-center overflow-hidden">
-                                            {/* Add new publication */}
-                                            <button
-                                                type="button"
-                                                className="relative block w-full border-gray-300 border-dashed py-2.5 text-center hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-0 focus:ring-emerald-600"
-                                                onClick={() => onOpenModal(Object.assign({}, { title: null, duo_link: null }, { exper_id: experience.exper_id, exper_index: exper_index }), PUBLICATION, CREATE)}>
-                                                <PlusSmIcon className="mx-auto h-5 w-5 text-gray-400" />
-                                            </button>
-                                        </li>
-                                    </ul>
                                 </section>
                             ))}
                         </dl>
