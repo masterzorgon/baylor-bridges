@@ -52,38 +52,6 @@ const Experience = () => {
         }
 
         setComplete(true);
-
-
-        // FIXME: Low readability, what is even going on here??? @TinaXiayanLi -Cloudy
-        // if the form is for submitting experience
-        // if (field._type === EXPERIENCE && field.start_time && field["start_time"].includes("/")) {
-        //     let startTime = field["start_time"].split("/");
-        //     let startDate = Date.parse(startTime[1] + "-" + startTime[0]);
-        //     let currentDate = new Date().getTime();
-
-        //     if (startTime[1].length >= 3 && startDate && startDate < currentDate) {
-        //         // the experience must start in the past
-        //         if (field.stop_time && field["stop_time"] !== "") {
-        //             let endTime = field["stop_time"].split("/");
-        //             let endDate = Date.parse(endTime[1] + "-" + endTime[0]);
-        //             // if user input the end date
-        //             if (field["stop_time"].includes("/") && endTime[1].length >= 3 && endDate && endDate >= startDate) {
-        //                 setComplete(true);
-        //             } else {
-        //                 setComplete(false);
-        //             }
-        //         }
-        //         else {
-        //             setComplete(true);
-        //         }
-        //         setComplete(true);
-        //     } else {
-        //         setComplete(false);
-        //     }
-        // } else {
-        //     setComplete(false);
-        // }
-
     }, [field]);
 
     const getModal = (field) => {
@@ -91,12 +59,12 @@ const Experience = () => {
 
         const onChange = (value, attribute) => {
             if (attribute === "start_time" || attribute === "stop_time") {
-                // If does not match pattern, do not update value
-                if (/^\d{0,2}$/.test(value) === false && /^\d{2}\/\d{0,4}$/.test(value) === false) {
-                    return;
-                }
+                let d = dayjs(value);
+                if (!d.isValid()) return;
+                value = d.date(1).format("YYYY-MM-DD");
             }
-
+            
+            console.log(attribute, value);
             setField({ ...field, [attribute]: value });
         };
 
@@ -187,7 +155,7 @@ const Experience = () => {
                     </div> */}
 
                     <div className="grid grid-cols-4 gap-3">
-                        <div className="col-span-4 sm:col-span-2">
+                        <div className="col-span-4 sm:col-span-4">
                             <label htmlFor="title" className="block text-sm font-medium text-gray-700">
                                 Experience Title
                             </label>
@@ -201,22 +169,63 @@ const Experience = () => {
                             />
                         </div>
 
-                        <div className="col-span-4 sm:col-span-1">
+                        <div className="col-span-4 sm:col-span-2">
                             <label htmlFor="start-date" className="block text-sm font-medium text-gray-700">
                                 Start Date
                             </label>
-                            <input
-                                type="text"
-                                name="start-date"
-                                id="start-date"
-                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
-                                placeholder="MM / YYYY"
-                                value={getFormattedDate(field.start_time)}
-                                onChange={(e) => onChange(getRawDate(e.target.value), "start_time")}
-                            />
+                            <div className="flex flex-row mt-1 border border-gray-300 shadow-sm rounded-md" name="start-date">
+                                <div className="grow">
+                                    <label htmlFor="country" className="sr-only">
+                                        Month
+                                    </label>
+                                    <select
+                                        id="month"
+                                        name="month"
+                                        autoComplete="month"
+                                        value={getDateComponent(field.start_time, "month")}
+                                        className="w-full py-2 px-3 focus:ring-emerald-500 focus:border-emerald-500 h-full pl-3 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md"
+                                        onChange={(e) => onChange(changeDateComponent(field.start_time, "month", e.target.value), "start_time")}
+                                    >
+                                        <option value="0">January</option>
+                                        <option value="1">February</option>
+                                        <option value="2">March</option>
+                                        <option value="3">April</option>
+                                        <option value="4">May</option>
+                                        <option value="5">June</option>
+                                        <option value="6">July</option>
+                                        <option value="7">August</option>
+                                        <option value="8">September</option>
+                                        <option value="9">October</option>
+                                        <option value="10">November</option>
+                                        <option value="11">December</option>
+                                    </select>
+                                </div>
+
+                                <div className="grow">
+                                    <label htmlFor="year" className="sr-only">
+                                        Year
+                                    </label>
+                                    <select
+                                        id="year"
+                                        name="year"
+                                        autoComplete="year"
+                                        value={getDateComponent(field.start_time, "year")}
+                                        className="w-full py-2 px-3 focus:ring-emerald-500 focus:border-emerald-500 h-full pl-3 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md"
+                                        onChange={(e) => onChange(changeDateComponent(field.start_time, "year", e.target.value), "start_time")}
+                                    >
+                                        {
+                                            Array.from(Array(50).keys()).map(i => {
+                                                return (
+                                                    <option key={i}>{new Date().getFullYear() - i}</option>
+                                                );
+                                            })
+                                        }
+                                    </select>
+                                </div>
+                            </div>
                             {/* <DatePicker/> */}
                         </div>
-                        <div className="col-span-4 sm:col-span-1">
+                        <div className="col-span-4 sm:col-span-2">
                             <label htmlFor="end-date" className="block text-sm font-medium text-gray-700">
                                 End Date
                             </label>
@@ -412,12 +421,22 @@ const Experience = () => {
 
     const getFormattedDate = (date) => {
         let d = dayjs(date);
-        return d.isValid() ? d.format("MMM YYYY") : "";
+        return d.isValid() ? d.format("MMMM YYYY") : "";
     };
 
     const getRawDate = (date) => {
         let d = dayjs(date);
         return d.isValid() ? d.format("YYYY-MM-DD") : "";
+    };
+
+    const changeDateComponent = (date, component, value) => {
+        let d = date && date !== "" ? dayjs(date) : dayjs();
+        return d.isValid() ? d.set(component, value) : "";
+    };
+
+    const getDateComponent = (date, component) => {
+        let d = date && date !== "" ? dayjs(date) : dayjs();
+        return d.isValid() ? d.get(component) : "";
     };
 
 
