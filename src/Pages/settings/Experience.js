@@ -73,7 +73,7 @@ const MonthYearPicker = ({ month, year, onMonthChange, onYearChange }) => {
 
 const Experience = () => {
     const [loading, setLoading] = useState(false);
-    const [error, setErrorMessage] = useState(null);
+    const [error, setError] = useState(null);
     const [complete, setComplete] = useState(false);
 
     const [open, setOpen] = useState(false);
@@ -81,14 +81,16 @@ const Experience = () => {
 
     const [experiences, setExperiences] = useState(null);
 
+    console.log(error);
     useEffect(() => {
         axios.get("/account/profile/experience")
             .then(res => {
-                console.log(res.data);
                 setExperiences(res.data);
+            })
+            .catch(err => {
+                console.log(err);
+                setError(err.response.data.message);
             });
-
-        console.log(error);
     }, []);
 
     useEffect(() => {
@@ -106,6 +108,14 @@ const Experience = () => {
             return;
         }
 
+        // Check date validity
+        let s = field.start_time ? dayjs(field.start_time) : dayjs();
+        let e = field.stop_time ? dayjs(field.stop_time) : dayjs();
+        if (s.isAfter(e)) {
+            setComplete(false);
+            return;
+        }
+
         setComplete(true);
     }, [field]);
 
@@ -119,7 +129,6 @@ const Experience = () => {
                 value = d.date(1).format("YYYY-MM-DD");
             }
             
-            console.log(attribute, value);
             setField({ ...field, [attribute]: value });
         };
 
@@ -127,11 +136,11 @@ const Experience = () => {
             setLoading(true);
             axios.post("/account/profile/experience", field)
                 .then(res => {
-                    setErrorMessage(null);
+                    setError(null);
                     setExperiences(res.data);
                     setOpen(false);
                 })
-                .catch(err => setErrorMessage(err.response.data.message))
+                .catch(err => setError(err.response.data.message))
                 .finally(() => setLoading(false));
         };
 
@@ -139,11 +148,11 @@ const Experience = () => {
             setLoading(true);
             axios.put(`/account/profile/experience/${field.exper_id}`, field)
                 .then(res => {
-                    setErrorMessage(null);
+                    setError(null);
                     setExperiences(res.data);
                     setOpen(false);
                 })
-                .catch(err => setErrorMessage(err.response.data.message))
+                .catch(err => setError(err.response.data.message))
                 .finally(() => setLoading(false));
         };
 
@@ -152,10 +161,10 @@ const Experience = () => {
             axios.delete(`/account/profile/experience/${field.exper_id}`)
                 .then(res => {
                     setExperiences(res.data);
-                    setErrorMessage(null);
+                    setError(null);
                     setOpen(false);
                 })
-                .catch(err => setErrorMessage(err.response.data.message))
+                .catch(err => setError(err.response.data.message))
                 .finally(() => setLoading(false));
         };
 
@@ -163,12 +172,12 @@ const Experience = () => {
             setLoading(true);
             axios.post(`/account/profile/experience/${field.exper_id}/publication`, field)
                 .then(res => {
-                    setErrorMessage(null);
+                    setError(null);
                     experiences[field.exper_index].publications = res.data;
                     setExperiences(experiences);
                     setOpen(false);
                 })
-                .catch(err => setErrorMessage(err.response.data.message))
+                .catch(err => setError(err.response.data.message))
                 .finally(() => setLoading(false));
         };
 
@@ -176,12 +185,12 @@ const Experience = () => {
             setLoading(true);
             axios.put(`/account/profile/experience/${field.exper_id}/publication/${field.pub_id}`, field)
                 .then(res => {
-                    setErrorMessage(null);
+                    setError(null);
                     experiences[field.exper_index].publications = res.data;
                     setExperiences(experiences);
                     setOpen(false);
                 })
-                .catch(err => setErrorMessage(err.response.data.message))
+                .catch(err => setError(err.response.data.message))
                 .finally(() => setLoading(false));
         };
 
@@ -192,9 +201,9 @@ const Experience = () => {
                     setOpen(false);
                     experiences[field.exper_index].publications = res.data;
                     setExperiences(experiences);
-                    setErrorMessage(null);
+                    setError(null);
                 })
-                .catch(err => setErrorMessage(err.response.data.message))
+                .catch(err => setError(err.response.data.message))
                 .finally(() => setLoading(false));
         };
 
