@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Fragment } from "react";
 import axios from "axios";
 import { Menu, Transition, Dialog } from "@headlessui/react";
-import { PencilIcon, DotsVerticalIcon, PlusSmIcon as PlusSmIconSolid, TrashIcon, ExclamationIcon } from "@heroicons/react/outline";
+import { PencilIcon, DotsVerticalIcon, TrashIcon, ExclamationIcon, PlusSmIcon } from "@heroicons/react/outline";
 import { PaperClipIcon } from "@heroicons/react/solid";
 import dayjs from "dayjs";
 
@@ -480,6 +480,19 @@ const Experience = () => {
         return d.isValid() ? d.get(component) : "";
     };
 
+    const emptyState = () => {
+        return (
+            <button
+                type="button"
+                className="mt-8 relative block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                onClick={() => onOpenModal({ title: null, start_time: null, stop_time: null, description: null }, EXPERIENCE, CREATE)}
+            >
+                <PlusSmIcon className="mx-auto h-12 w-12 text-gray-400" />
+                <span className="mt-2 block text-sm font-medium text-gray-900" >Create a new experience</span>
+            </button>
+        );
+    };
+
 
     // 
     //  [*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*]
@@ -501,7 +514,7 @@ const Experience = () => {
                                 onClick={() => onOpenModal({ title: null, start_time: null, stop_time: null, description: null }, EXPERIENCE, CREATE)}
                                 className="h-10 w-10 text-white bg-emerald-600 hover:bg-emerald-700 focus:ring-emerald-500 focus:ring-2 focus:ring-offset-2 flex justify-center rounded-full items-center"
                             >
-                                <PlusSmIconSolid className="h-6 w-6" aria-hidden="true" />
+                                <PlusSmIcon className="h-6 w-6" aria-hidden="true" />
                             </button>
                         </div>
                     </div>
@@ -513,6 +526,7 @@ const Experience = () => {
                                 [*][*][*] EXPERIENCES SECTION [*][*][*]
                                 [*][*][*]                     [*][*][*]
                             */}
+                            {experiences && experiences.length === 0 && emptyState()}
                             {experiences && experiences.map((experience, exper_index) => (
                                 <section key={exper_index} className="py-6">
                                     <div className="flex space-x-3">
@@ -627,7 +641,7 @@ const Experience = () => {
                                                 type="button"
                                                 className="relative block w-full border-gray-300 border-dashed py-2.5 text-center hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-0 focus:ring-emerald-600"
                                                 onClick={() => onOpenModal(Object.assign({}, { title: null, duo_link: null }, { exper_id: experience.exper_id, exper_index: exper_index }), PUBLICATION, CREATE)}>
-                                                <PlusSmIconSolid className="mx-auto h-5 w-5 text-gray-400" />
+                                                <PlusSmIcon className="mx-auto h-5 w-5 text-gray-400" />
                                             </button>
                                         </li>
                                     </ul>
