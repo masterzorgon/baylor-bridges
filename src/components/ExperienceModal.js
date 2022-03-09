@@ -10,10 +10,6 @@ import {XCircleIcon} from "@heroicons/react/solid";
 import axios from "axios";
 
 const ExperienceModal = ({ modal, setModal, experience, setExperience, setUploadSuccess, setUploadFailure,loading,setLoading,experiences,setExperiences,setRefresh,error_message,setErrorMessage }) => {
-    /* 
-        TODO:
-            - add publication submission functionality to the modal
-    */
     
     const [publication, setPublication] = React.useState(false);
 
@@ -38,7 +34,7 @@ const ExperienceModal = ({ modal, setModal, experience, setExperience, setUpload
             method: "post",
             url: "/account/profile/experience", 
             headers: { "Content-Type": "application/json" },
-            data : JSON.stringify(experience)
+            data: JSON.stringify(experience)
         };
 
         setLoading(true);
@@ -148,7 +144,7 @@ const ExperienceModal = ({ modal, setModal, experience, setExperience, setUpload
         setPublication(false);
     };
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log("calling useeffect in experience modal, error message is",error_message);
         
 

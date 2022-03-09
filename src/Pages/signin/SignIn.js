@@ -90,15 +90,20 @@ const SignIn = () => {
                                         autoComplete="email"
                                         required
                                         className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
-                                        onChange={(event) => {
+                                        onChange={(event) =>
+                                        {
                                             setEmail(event.target.value);
                                             setErrorMessage(null);
                                         }}
-                                        onKeyPress={(event) => {
-                                            if(event.key === "Enter") {
+                                        onKeyPress={(event) =>
+                                        {
+                                            if (event.key === "Enter")
+                                            {
                                                 console.log("enter key pressed");
                                                 onSubmit();
-                                            } else {
+                                            } 
+                                            else 
+                                            {
                                                 setEmail(event.target.value);
                                                 setErrorMessage(null);
                                             }
@@ -120,11 +125,15 @@ const SignIn = () => {
                                         required
                                         className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
                                         onChange={(event) => setPassword(event.target.value)}
-                                        onKeyPress={(event) => {
-                                            if(event.key === "Enter") {
+                                        onKeyPress={(event) =>
+                                        {
+                                            if (event.key === "Enter")
+                                            {
                                                 console.log("enter key pressed");
                                                 onSubmit();
-                                            } else {
+                                            } 
+                                            else 
+                                            {
                                                 setPassword(event.target.value);
                                             }
                                         }}
