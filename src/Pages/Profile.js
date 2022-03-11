@@ -72,7 +72,7 @@ const Profile = () => {
             url = `/account/${user_id}/profile`;
         }
 
-        axios.get(url)
+        axios.get(url, { withoutInterceptors: true })
             .then(({ data }) => {
                 setProfileAccount(data);
 
@@ -82,7 +82,6 @@ const Profile = () => {
             })
             .catch(err => {
                 console.log(err);
-                window.location.href = "/404";
             });
     }, [user_id]);
 

@@ -51,6 +51,17 @@ axios.defaults.withCredentials = true;
 axios.defaults.timeout = 8000;
 axios.defaults.timeoutErrorMessage = "time out";
 axios.defaults.cancelToken = null;
+axios.interceptors.response.use((response) => {
+    return response;
+}, (error) => {
+    // If unauthorized access, redirected to sign in page
+    if (!error.response.config.withoutInterceptors && error.response.status === 401) {
+        window.location.href = "/sign-in";
+        return;
+    }
+
+    return Promise.reject(error);
+});
 
 function App() {
     return (

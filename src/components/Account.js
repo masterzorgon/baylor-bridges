@@ -3,23 +3,17 @@ import axios from "axios";
 
 const AccountContext = createContext();
 
-const Account = (props) =>
-{
-    const signIn = async (email, password) =>
-    {
-        return await new Promise((resolve, reject) =>
-        {
+const Account = (props) => {
+    const signIn = async (email, password) => {
+        return await new Promise((resolve, reject) => {
             axios.post("/signin", { email: email, password: password })
-                .then(response =>
-                {
-                    if (response.status === 200)
-                    {
+                .then(response => {
+                    if (response.status === 200) {
                         // Store to local storage and resolve
                         window.localStorage.setItem("account", JSON.stringify(response.data));
                         resolve(response.data);
                     }
-                    else
-                    {
+                    else {
                         window.localStorage.removeItem("account");
                         reject(response.data);
                     }
@@ -27,62 +21,49 @@ const Account = (props) =>
         });
     };
 
-    const signInChallenge = async (name, session, response) => 
-    {
-        return await new Promise((resolve, reject) =>
-        {
+    const signInChallenge = async (name, session, response) => {
+        return await new Promise((resolve, reject) => {
             axios.post("/signin/challenge", {
                 session: session,
                 challenge_name: name,
                 challenge_response: response
-            }).then(response =>
-            {
+            }).then(response => {
                 if (response.status === 200) resolve(response.data);
                 else reject(response.data);
-                
+
             }).catch(error => reject(error));
         });
     };
 
-    const getAccount = async () =>
-    {
-        return await new Promise((resolve, reject) =>
-        {
-            axios.get("/account").then(response =>
-            {
-                if (response.status === 200)
-                {
-                    // Store to local storage and resolve
-                    window.localStorage.setItem("account", JSON.stringify(response.data));
-                    resolve(response.data);
-                }
-                else
-                {
+    const getAccount = async () => {
+        return await new Promise((resolve, reject) => {
+            axios.get("/account", { withoutInterceptors: true })
+                .then(response => {
+                    if (response.status === 200) {
+                        // Store to local storage and resolve
+                        window.localStorage.setItem("account", JSON.stringify(response.data));
+                        resolve(response.data);
+                    }
+                    else {
+                        window.localStorage.removeItem("account");
+                        reject(response.data);
+                    }
+                }).catch(error => {
                     window.localStorage.removeItem("account");
-                    reject(response.data);
-                }
-            }).catch(error =>
-            {
-                window.localStorage.removeItem("account");
-                reject(error);
-            });
+                    reject(error);
+                });
         });
     };
 
-    const getAccountLocal = () =>
-    {
+    const getAccountLocal = () => {
         let account = window.localStorage.getItem("account");
         return account !== null ? JSON.parse(account) : null;
     };
 
-    const signOut = async () =>
-    {
-        return await new Promise((resolve, reject) =>
-        {
-            axios.post("/signout").then(response =>
-            {
-                if (response.status === 200)
-                {
+    const signOut = async () => {
+        return await new Promise((resolve, reject) => {
+            axios.post("/signout").then(response => {
+                if (response.status === 200) {
                     window.localStorage.removeItem("account");
                     resolve(response.data);
                 }
