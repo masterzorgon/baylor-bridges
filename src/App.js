@@ -20,7 +20,7 @@ import { default as SignUpEntrace } from "./Pages/signup/Entrace";
 import { default as SignUpForm } from "./Pages/signup/Form";
 import { default as SignUpClosed } from "./Pages/signup/Closed";
 
-import Search from "./Pages/search/Search";
+import Search from "./Pages/Search";
 import Profile from "./Pages/Profile";
 
 import { default as SettingsProfile } from "./Pages/settings/Profile";

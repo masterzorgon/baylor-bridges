@@ -6,7 +6,7 @@ import USAMap from "react-usa-map";
 import axios from "axios";
 import dayjs from "dayjs";
 
-import Photo from "../../components/Photo";
+import Photo from "../components/Photo";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
