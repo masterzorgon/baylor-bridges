@@ -1,10 +1,11 @@
 /* This example requires Tailwind CSS v2.0+ */
-import React, { Fragment, useState, useContext, useEffect } from "react";
+import React, { Fragment, useState, useContext, useEffect, useMemo } from "react";
 import { Popover, Transition, Menu } from "@headlessui/react";
 import { MenuIcon, SearchIcon } from "@heroicons/react/outline";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
+import debounce from "lodash.debounce";
 
 import { AccountContext } from "./Account";
 import Photo from "./Photo";
@@ -43,7 +44,6 @@ const Navbar = (props) => {
     }, [searchParams]);
 
     useEffect(() => {
-        abortController.abort();
         onSearch(keywords);
     }, [keywords]);
 
@@ -56,11 +56,13 @@ const Navbar = (props) => {
             });
     };
 
-    const onSearch = (keywords) => {
-        let abortController = new AbortController();
-        setAbortController(abortController);
+    const onSearchExecute = (keywords) => {
+        abortController.abort();
 
-        axios.get("/search", { params: { keywords: keywords }, signal: abortController.signal })
+        let newAbortController = new AbortController();
+        setAbortController(newAbortController);
+
+        axios.get("/search", { params: { keywords: keywords }, signal: newAbortController.signal })
             .then((res) => {
                 setProfiles(res.data);
             })
@@ -68,6 +70,10 @@ const Navbar = (props) => {
                 console.log(error);
             });
     };
+
+    const onSearch = useMemo(
+        () => debounce(onSearchExecute, 750)
+        , []);
 
     return (
         <>
