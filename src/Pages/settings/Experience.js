@@ -115,7 +115,7 @@ const Experience = () => {
                 setExperiences(res.data);
             })
             .catch(err => {
-                console.log(err, error);
+                console.log(error);
                 setError(err.response.data.message);
             });
     }, []);

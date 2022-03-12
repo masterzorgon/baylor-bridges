@@ -48,8 +48,14 @@ html{
   }
 }
 
-svg, path {
-  pointer-events: none;
+.clickable-map .us-state-map * {
+  cursor: pointer;
+  pointer-events: all;
+}
+
+.clickable-map .us-state-map path:hover{
+  opacity: 0.75;
+  cursor: pointer;
 }
 
 [data-placeholder]{

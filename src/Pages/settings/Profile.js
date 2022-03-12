@@ -71,7 +71,7 @@ const profile = {
                 ]
             },
             graduate_class_student: {
-                title: "Expecting Graduate Class",
+                title: "Expected Graduate Class",
                 role: "student",
                 attribute: [
                     { type: "dropdown", title: "Semester", placeholder: "Semester", key: "graduate_semester", options: semester },

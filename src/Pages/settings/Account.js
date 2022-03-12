@@ -1,28 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
+import { AccountContext } from "../../components/Account";
 import Container from "./Container";
 import Button from "../../components/Button";
 
 import axios from "axios";
 
 const Account = () => {
-
+    const { getAccount, getAccountLocal } = useContext(AccountContext);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     useEffect(() => {
-        axios.get("/account")
+        setEmail(getAccountLocal().email);
+        getAccount()
             .then(res => {
-                setEmail(res.data.email);
-                console.log(email);
-            })
-            .catch(err => {
-                err.response.status && err.response.status === 401
-                    ? window.location.href = "/sign-in"
-                    : window.location.href = "/404";
+                setEmail(res.email);
             });
-     
-
     }, []);
 
     const handleData = () =>

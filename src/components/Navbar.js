@@ -1,9 +1,11 @@
 /* This example requires Tailwind CSS v2.0+ */
 import React, { Fragment, useState, useContext, useEffect } from "react";
 import { Popover, Transition, Menu } from "@headlessui/react";
-import { MenuIcon, XIcon, SearchIcon } from "@heroicons/react/outline";
-import { ChevronDownIcon } from "@heroicons/react/solid";
+import { MenuIcon, SearchIcon, ChevronDownIcon, CogIcon, LogoutIcon } from "@heroicons/react/outline";
+import { useSearchParams } from "react-router-dom";
 import axios from "axios";
+import { DebounceInput } from "react-debounce-input";
+
 import { AccountContext } from "./Account";
 import Photo from "./Photo";
 
@@ -11,37 +13,18 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
-//const avatar="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80";
-// const people = [
-//     {
-//         name: "Calvin Hawkins",
-//         email: "calvin.hawkins@example.com",
-//         image:
-//             "https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-//     },
-//     {
-//         name: "Kristen Ramos",
-//         email: "kristen.ramos@example.com",
-//         image:
-//             "https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-//     },
-//     {
-//         name: "Ted Fox",
-//         email: "ted.fox@example.com",
-//         image:
-//             "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-//     },
-// ];
-
 const Navbar = (props) => {
-    const [isFocus, setFocus] = useState(false);
-    const [showDropdown, setShowDropdown] = useState(false);
-    const [searchText, setSearchText] = useState("");
-
-    // For current signed in account display
+    const [searchParams] = useSearchParams();
     const { signOut, getAccount, getAccountLocal } = useContext(AccountContext);
+
+    const [isFocus, setFocus] = useState(false);
+    const [keywords, setKeywords] = useState("");
+
     const [account, setAccount] = useState(null);
-    const [profile, setProfile] = useState([]);
+    const [profiles, setProfiles] = useState([]);
+
+    const [abortController, setAbortController] = useState(new AbortController());
+
 
     useEffect(() => {
         setAccount(getAccountLocal());
@@ -52,6 +35,33 @@ const Navbar = (props) => {
 
     }, [getAccount, getAccountLocal]);
 
+    useEffect(() => {
+        const url = window.location.href.split("?")[0];
+        if (searchParams.get("keywords") && url.endsWith("/search")) {
+            setKeywords(searchParams.get("keywords"));
+        }
+    }, []);
+
+    useEffect(() => {
+        abortController.abort();
+
+        let newAbortController = new AbortController();
+        setAbortController(newAbortController);
+
+        if (keywords.length === 0) {
+            return;
+        }
+
+        axios.get("/search", { params: { keywords: keywords }, signal: newAbortController.signal })
+            .then((res) => {
+                setProfiles(res.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }, [keywords]);
+
+
     const handleSignOut = () => {
         signOut()
             .then(() => {
@@ -60,27 +70,15 @@ const Navbar = (props) => {
             });
     };
 
-    const handleSearchLoading = (keywords) => {
-        console.log("handle search loading for keywords: ", keywords);
-        axios
-            .get("/search", { params: { keywords: keywords } })
-            .then((res) => {
-                // console.log(res.data);
-                setProfile(res.data);
-                console.log(profile);
-            });
-    };
-
     return (
         <>
             {/* Semi transparent cover */}
-            {/* TODO: Add transition */}
             <Transition
                 as={Fragment}
                 enter="transition ease-out duration-400"
                 enterFrom="opacity-0"
                 enterTo="opacity-100"
-                leave="transition ease-in duration-75"
+                leave="transition ease-in duration-200"
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
                 show={isFocus}
@@ -106,7 +104,10 @@ const Navbar = (props) => {
 
                     {/* MOBILE MENU ICON */}
                     <div className="-mr-2 -my-2 md:hidden flex">
-                        <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100">
+                        <Popover.Button
+                            className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100"
+                            onClickCapture={() => setFocus(true)}
+                        >
                             <span className="sr-only">Open menu</span>
                             <MenuIcon className="h-6 w-6" aria-hidden="true" />
                         </Popover.Button>
@@ -179,27 +180,20 @@ const Navbar = (props) => {
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center">
                                     <SearchIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                                 </div>
-                                <input
+                                <DebounceInput
                                     type="search"
                                     name="search"
                                     id="search"
                                     className="pl-10 shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md bg-gray-100 p-3 border-transparent border-0"
                                     placeholder="Search people"
                                     autoComplete="off"
-                                    value={searchText}
+                                    value={keywords}
+                                    debounceTimeout={750}
                                     onFocus={() => setFocus(true)}
-                                    onChange={(event) => {
-                                        setSearchText(event.target.value);
-                                        handleSearchLoading(event.target.value);
-
-                                    }}
-                                    onKeyPress={(event) => {
-                                        if (event.key === "Enter") {
-                                            console.log("enter key pressed");
-                                            window.location.href = "/search?keywords=" + searchText + "&sort=&role=&class=&state=";
-                                        } else {
-                                            setSearchText(event.target.value);
-                                            handleSearchLoading(event.target.value);
+                                    onChange={(e) => { setKeywords(e.target.value); }}
+                                    onKeyPress={(e) => {
+                                        if (e.key === "Enter") {
+                                            window.location.href = "/search?keywords=" + keywords;
                                         }
                                     }}
                                 />
@@ -215,25 +209,25 @@ const Navbar = (props) => {
                                 leave="transition ease-in duration-75"
                                 leaveFrom="transform opacity-100 scale-100"
                                 leaveTo="transform opacity-0 scale-95"
-                                show={isFocus}
+                                show={isFocus && profiles.length > 0 && keywords.length > 0}
                             >
                                 <div className="z-50 absolute bg-white shadow-md py-2 rounded-md w-full max-w-md mt-4 top-16">
                                     <ul className="">
-                                        {profile.map((person) => (
+                                        {profiles.map((person) => (
                                             <li key={person.email}>
-                                                <a className="py-4 px-5 flex hover:bg-gray-50" href={"/profile/" + person.user_id} target="_blank" rel="noreferrer">
-                                                    {/* TODO adding account avatar later*/}
-                                                    {/*<img className="h-10 w-10 rounded-full" src={avatar} alt="" />*/}
-                                                    <Photo size="10" account={person} />
-                                                    <div className="ml-3">
-                                                        <p className="text-sm font-medium text-gray-900">{person.first_name} {person.last_name}</p>
+                                                <a className="py-4 px-5 flex hover:bg-gray-50" href={"/profile/" + person.user_id} rel="noreferrer">
+                                                    <div className="h-10 w-10">
+                                                        <Photo size="10" account={person} />
+                                                    </div>
+                                                    <div className="mx-3">
+                                                        <p className="text-sm font-semibold text-gray-900">{person.first_name} {person.last_name}</p>
                                                         <p className="text-sm text-gray-500">{person.headline}</p>
                                                     </div>
                                                 </a>
                                             </li>
                                         ))}
                                     </ul>
-                                    <a key="more" className="py-3 px-5 pb-2 flex text-sm text-emerald-800 font-medium" href={"/search?keywords=" + searchText + "&sort=&role=&class=&state="}>
+                                    <a key="more" className="py-3 px-5 pb-2 flex text-sm text-emerald-800 font-medium" href={"/search?keywords=" + keywords}>
                                         More results
                                     </a>
                                 </div>
@@ -340,93 +334,6 @@ const Navbar = (props) => {
                                             alt="Baylor University logo"
                                         />
                                     </div>
-
-                                    {/* [*][*][*]            [*][*][*]
-                                        [*][*][*] SEARCH BAR [*][*][*] 
-                                        [*][*][*]            [*][*][*]
-                                    */}
-
-                                    {/* MOBILE SEARCH BAR BELOW */}
-                                    {/* 
-                                        FIX:
-                                            - dropdown search menu automatically pops up
-                                    */}
-                                    <div className="xs:block sm:flex-1 sm:flex sm:items-center sm:justify-between sm:max-w-sm mx-auto md:hidden relative">
-                                        <label htmlFor="email" className="sr-only">
-                                            Search people
-                                        </label>
-                                        <div className="search-box w-full relative">
-                                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center">
-                                                <SearchIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-                                            </div>
-                                            <input
-                                                type="search"
-                                                name="search"
-                                                id="search"
-                                                className="pl-10 shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md bg-gray-100 p-3 border-transparent border-0"
-                                                placeholder="Search people"
-                                                autoComplete="off"
-                                                value={searchText}
-                                                onClick={() => setShowDropdown(!showDropdown)} /* [*][*][*]  CHANGE STATE [*][*][*] */
-                                                onChange={(event) => {
-                                                    setSearchText(event.target.value);
-                                                    handleSearchLoading(event.target.value);
-                                                }}
-                                                onKeyPress={(event) => {
-                                                    if (event.key === "Enter") {
-                                                        console.log("enter key pressed");
-                                                        window.location.href = "/search?keywords=" + searchText + "&sort=&role=&class=&state=";
-                                                    }
-                                                    else {
-                                                        setSearchText(event.target.value);
-                                                        handleSearchLoading(event.target.value);
-                                                    }
-                                                }}
-                                            />
-                                        </div>
-
-                                        {/* Search results */}
-                                        {/* TODO: Add transition */}
-                                        <Transition
-                                            as={Fragment}
-                                            enter="transition ease-out duration-200"
-                                            enterFrom="transform opacity-0 scale-95"
-                                            enterTo="transform opacity-100 scale-100"
-                                            leave="transition ease-in duration-75"
-                                            leaveFrom="transform opacity-100 scale-100"
-                                            leaveTo="transform opacity-0 scale-95"
-                                            show={showDropdown}
-                                        >
-                                            <div className="z-50 absolute bg-white shadow-md py-2 rounded-md w-full max-w-md mt-4 top-16">
-                                                <ul className="">
-                                                    {profile.map((person) => (
-                                                        <li key={person.email}>
-                                                            <a className="py-4 px-5 flex hover:bg-gray-50" href={"/profile/" + person.user_id} target="_blank" rel="noreferrer">
-                                                                {/* TODO adding account avatar later*/}
-                                                                {/* <img className="h-10 w-10 rounded-full" src={avatar} alt="" /> */}
-                                                                <Photo size="10" account={person} />
-                                                                <div className="ml-3">
-                                                                    <p className="text-sm font-medium text-gray-900">{person.first_name} {person.last_name}</p>
-                                                                    <p className="text-sm text-gray-500">{person.headline}</p>
-                                                                </div>
-                                                            </a>
-                                                        </li>
-                                                    ))}
-                                                </ul>
-                                                <a key="more" className="py-3 px-5 pb-2 flex text-sm text-emerald-800 font-medium" href={"/search?keywords=" + searchText + "&sort=&role=&class=&state="}>
-                                                    More results
-                                                </a>
-                                            </div>
-                                        </Transition>
-                                    </div>
-                                    {/* MOBILE SEARCH BAR ABOVE */}
-
-                                    <div className="-mr-2">
-                                        <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-emerald-500">
-                                            <span className="sr-only">Close menu</span>
-                                            <XIcon className="h-6 w-6" aria-hidden="true" />
-                                        </Popover.Button>
-                                    </div>
                                 </div>
                             </div>
                             <div className="pt-3 pb-6 px-6 space-y-1">
@@ -435,25 +342,11 @@ const Navbar = (props) => {
                                     <a href="/" className="text-base font-medium text-gray-900 hover:text-gray-700">
                                         Home
                                     </a>
-                                    {
-                                        account !== null &&
-                                        <>
-                                            <a href="/profile" className="text-base font-medium text-gray-900 hover:text-gray-700">
-                                                My Profile
-                                            </a>
-                                            <a href="/settings" className="text-base font-medium text-gray-900 hover:text-gray-700">
-                                                Settings
-                                            </a>
-                                            <button
-                                                className="mr-auto text-base font-medium text-gray-900 hover:text-gray-700 w-full text-left"
-                                                onClick={handleSignOut}
-                                            >
-                                                Sign Out
-                                            </button>
-                                        </>
-                                    }
+                                    <a href="/search" className="text-base font-medium text-gray-900 hover:text-gray-700">
+                                        Search
+                                    </a>
                                     <a href="/about" className="text-base font-medium text-gray-900 hover:text-gray-700">
-                                        About Us
+                                        About
                                     </a>
                                     <a href="/contact-us" className="text-base font-medium text-gray-900 hover:text-gray-700">
                                         Contact Us
@@ -478,26 +371,41 @@ const Navbar = (props) => {
                                 {
                                     account !== null &&
                                     <>
-                                        <div className="pt-8 pb-2">
+                                        <div className="pt-8 pb-2 -mr-2">
                                             <div className="flex items-center">
-                                                <div className="flex-shrink-0">
+                                                <a href="/profile" className="flex-shrink-0 flex grow">
                                                     <Photo size="10" />
-                                                </div>
-                                                <div className="ml-3">
-                                                    <div className="text-base font-medium text-gray-800">{account.first_name} {account.last_name}</div>
-                                                    <div className="text-sm font-medium text-gray-500">{account.email}</div>
-                                                </div>
+                                                    <div className="ml-3">
+                                                        <div className="text-base font-medium text-gray-800">{account.first_name} {account.last_name}</div>
+                                                        <div className="text-sm font-medium text-gray-500">{account.email}</div>
+                                                    </div>
+                                                </a>
                                                 {/* <button
                                                     type="button"
-                                                    className="ml-auto flex-shrink-0 bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                                                    className="p-2 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
                                                 >
                                                     <span className="sr-only">View notifications</span>
                                                     <BellIcon className="h-6 w-6" aria-hidden="true" />
                                                 </button> */}
+                                                <a
+                                                    type="button"
+                                                    href="/settings"
+                                                    className="p-2 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                                                >
+                                                    <span className="sr-only">Settings</span>
+                                                    <CogIcon className="h-6 w-6" aria-hidden="true" />
+                                                </a>
+                                                <button
+                                                    type="button"
+                                                    className="p-2 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                                                    onClick={handleSignOut}
+                                                >
+                                                    <span className="sr-only">Sign Out</span>
+                                                    <LogoutIcon className="h-6 w-6" aria-hidden="true" />
+                                                </button>
                                             </div>
                                         </div>
                                     </>
-                                    
                                 }
                             </div>
                         </div>

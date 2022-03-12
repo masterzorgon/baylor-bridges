@@ -1,384 +1,368 @@
-/* eslint-disable no-unused-vars */
 import React, { Fragment, useEffect, useState } from "react";
 import { Menu, Popover, Transition } from "@headlessui/react";
-import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/solid";
-import { TrashIcon } from "@heroicons/react/outline";
-import USAMap from "react-usa-map";
+import { ChevronRightIcon, ChevronDownIcon, TrashIcon, SearchIcon } from "@heroicons/react/outline";
 import { useSearchParams } from "react-router-dom";
+import USAMap from "react-usa-map";
 import axios from "axios";
+import dayjs from "dayjs";
+import { DebounceInput } from "react-debounce-input";
+
 import Photo from "../components/Photo";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
-function generateFilterSort(role, graduate_class, sort) {
-    console.log("generate filter sort options");
-    let sortValue = ["Name", "Class", "Location", "Occupation"];
-    let roleValue = ["Alumni", "Current student"];
+const states = [
+    { title: "Arizona", value: "AZ", description: "AZ" }, { title: "New York", value: "NY", description: "NY" }, { title: "Connecticut", value: "CT", description: "CT" }, { title: "Maryland", value: "MD", description: "MD" }, { title: "Washington", value: "WA", description: "WA" }, { title: "Oregon", value: "OR", description: "OR" }, { title: "Nevada", value: "NV", description: "NV" }, { title: "New Mexico", value: "NM", description: "NM" }, { title: "District of Columbia", value: "DC", description: "DC" }, { title: "Delaware", value: "DE", description: "DE" }, { title: "Massachusetts", value: "MA", description: "MA" }, { title: "Minnesota", value: "MN", description: "MN" }, { title: "Wisconsin", value: "WI", description: "WI" }, { title: "Illinois", value: "IL", description: "IL" },
+    { title: "Vermont", value: "VT", description: "VT" }, { title: "Rhode Island", value: "RI", description: "RI" }, { title: "New Jersey", value: "NJ", description: "NJ" }, { title: "Colorado", value: "CO", description: "CO" }, { title: "California", value: "CA", description: "CA" }, { title: "Pennsylvania", value: "PA", description: "PA" }, { title: "Virginia", value: "VA", description: "VA" }, { title: "Georgia", value: "GA", description: "GA" }, { title: "Maine", value: "ME", description: "ME" }, { title: "New Hampshire", value: "NH", description: "NH" }, { title: "Hawaii", value: "HI", description: "HI" }, { title: "Idaho", value: "ID", description: "ID" }, { title: "Montana", value: "MT", description: "MT" }, { title: "Indiana", value: "IN", description: "IN" },
+    { title: "Alaska", value: "AK", description: "AK" }, { title: "Kentucky", value: "KY", description: "KY" }, { title: "North Carolina", value: "NC", description: "NC" }, { title: "West Virginia", value: "WV", description: "WV" }, { title: "Wyoming", value: "WY", description: "WY" }, { title: "North Dakota", value: "ND", description: "ND" }, { title: "South Dakota", value: "SD", description: "SD" }, { title: "Nebraska", value: "NE", description: "NE" }, { title: "Utah", value: "UT", description: "UT" }, { title: "Tennessee", value: "TN", description: "TN" }, { title: "Kansas", value: "KS", description: "KS" }, { title: "Oklahoma", value: "OK", description: "OK" }, { title: "Texas", value: "TX", description: "TX" },
+    { title: "Missouri", value: "MO", description: "MO" }, { title: "Arkansas", value: "AR", description: "AR" }, { title: "Alabama", value: "AL", description: "AL" }, { title: "Mississippi", value: "MS", description: "MS" }, { title: "Louisiana", value: "LA", description: "LA" }, { title: "Michigan", value: "MI", description: "MI" }, { title: "Florida", value: "FL", description: "FL" }, { title: "South Carolina", value: "SC", description: "SC" }, { title: "Ohio", value: "OH", description: "OH" }, { title: "Iowa", value: "IA", description: "IA" },
+];
 
-    // to generate class ranges options based on the current year
-    let current_year = new Date().getFullYear();
-    let graduate_class_value = [];
-    graduate_class_value.push(current_year.toString() + "-" + (current_year + 4).toString());
-    let year = current_year;
-    for (let i = 0; i < 6; i += 1) {
-        graduate_class_value.push((year - 10).toString() + "-" + year.toString());
-        year = year - 10;
-    }
+const sorts = [
+    { title: "Name", value: "name" },
+    { title: "Class", value: "class" },
+    { title: "Location", value: "location" },
+    { title: "Occupation", value: "occupation" },
+];
 
-    let sortOptions = [];
-    // sort should return a single value, role and grad_class should return an array of values
-    for (const s of sortValue) {
-        if (s === sort) {
-            sortOptions.push({ name: s, href: "#" + s, current: true });
-        } else {
-            sortOptions.push({ name: s, href: "#" + s, current: false });
+const filters = {
+    role: {
+        title: "Role",
+        options: [
+            { title: "Alumni", value: "alumni" },
+            { title: "Current student", value: "student" },
+        ],
+    },
+    graduate_class: {
+        title: "Class",
+        options: Array.from(Array(10).keys()).map((t) => ({
+            title: (dayjs().year() - (t * 10)) + " - " + (dayjs().year() - ((t + 1) * 10) + 1),
+            value: dayjs().year() - (t * 10),
+        })),
+    },
+};
+
+const queryToString = (query, addons) => {
+    const concatenateQueryValues = (key, value) => {
+        if (value.length === 0) {
+            delete query[key];
+            return;
         }
-    }
 
-
-    let filters = [
-        { id: "role", name: "Role", options: [] },
-        { id: "class", name: "Class", options: [] }
-    ];
-
-    for (const r of roleValue) {
-        if (role !== null && role.includes(r)) {
-            filters[0].options.push({ value: "#" + r, label: r, checked: true });
+        // Delete empty entries in value
+        if (Array.isArray(value)) {
+            value = value.filter((v) => v);
+            return `${key}=${value.join(",")}`;
         } else {
-            filters[0].options.push({ value: "#" + r, label: r, checked: false });
+            return `${key}=${value}`;
         }
-    }
+    };
 
-    for (const c of graduate_class_value) {
-        if (graduate_class !== null && graduate_class.includes(c)) {
-            filters[1].options.push({ value: "#" + c, label: c, checked: true });
-        } else {
-            filters[1].options.push({ value: "#" + c, label: c, checked: false });
-        }
-    }
+    let query_strings = [];
 
-    return [sortOptions, filters];
-
-}
-
-
-
-
-// const avatar_url = "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80";
-
-
-
-
-
-// TODO: Mobile responsive for everything in this page
-// TODO: On mobile, hide map, replace with a filter
-
-const Search = (props) => {
-    const [searchParams] = useSearchParams();
-
-    const keywords = searchParams.get("keywords");
-    // eslint-disable-next-line no-unused-vars
-    const [sort, setSort] = useState(searchParams.get("sort"));
-    const [role, setRole] = useState(searchParams.get("role").split(","));
-    const [graduate_class, setGraduateClass] = useState(searchParams.get("class").split(","));
-    const [states, setStates] = useState(searchParams.get("state"));
-    const [test, setTest] = useState(0);
-
-    const [needUpdate, setNeedUpdate] = useState(false);
-
-    const [statesCustomConfig, setStateCustomConfig] = useState({});
-
-
-    const [profiles, setProfiles] = useState([]);
-    // eslint-disable-next-line no-unused-vars
-    const [sortOptions, setSortOptions] = useState([]);
-    const [filtersOptions, setFiltersOptions] = useState([]);
-
-    function mapHandler(event) {
-
-        setNeedUpdate(true);
-        if (event.target.dataset.name === states) {
-            console.log("Cancelling state filter selection");
-            setStates();
-        } else {
-            console.log("selected " + event.target.dataset.name);
-            setStates(event.target.dataset.name);
-        }
-        setRole(searchParams.get("role"));
-    }
-
-    // eslint-disable-next-line no-unused-vars
-    function handleCheckFilter(option, options) {
-        console.log("options is ", options, "option is ", option);
-        if (options !== null && options.includes(option)) {
-            const index = options.indexOf(option);
-            if (index > -1) {
-                options.splice(index, 1); // 2nd parameter means remove one item only
-            }
-
-        } else {
-            if (options === null || options[0] === "") options = [];
-            options.push(option);
-        }
-        console.log("options now is ", options);
-
-        return options;
-    }
-
-
-    async function getProfiles(keywords, roleValue, classValue, states) {
-        axios.get("/search", {
-            params: {
-                keywords: keywords,
-                detailed: true,
-                role: roleValue,
-                class: classValue,
-                state: states
-            }
-        }).then((res) => {
-
-            // setProfiles(res.data.profiles);
-            let profile_data = res.data.profiles;
-            console.log("profile is", profile_data);
-            // console.log("sort is ", sort);
-
-            let config = {};
-            let max = 0;
-
-            // Find the state with the highest number of people
-            for (const value of Object.values(res.data.map_stats)) {
-                if (max < value) {
-                    max = value;
-                }
-            }
-
-            // Make config dictionary
-            for (const [key, value] of Object.entries(res.data.map_stats)) {
-                let opacity = value / max * 0.95;
-
-                config[key] = {};
-                config[key].fill = `rgba(21, 71, 52, ${opacity})`;
-            }
-
-            setStateCustomConfig(config);
-            setProfiles(profile_data);
+    if (query) {
+        Object.entries(query).forEach(([key, value]) => {
+            query_strings.push(concatenateQueryValues(key, value));
         });
-
     }
+
+    if (addons) {
+        Object.entries(addons).forEach(([key, value]) => {
+            query_strings.push(concatenateQueryValues(key, value));
+        });
+    }
+
+    const url = query_strings.length !== 0 ? `?${query_strings.join("&")}` : "";
+    return url;
+};
+
+const Search = () => {
+    const [searchParams] = useSearchParams();
+    const [query, setQueryDict] = useState({});
+    const [mapStats, setMapStats] = useState({});
+    const [profiles, setProfiles] = useState([]);
+
+    const setQuery = (key, value, checked) => {
+        if (!query[key] || !Array.isArray(query[key])) {
+            query[key] = [];
+        }
+
+        if (checked) {
+            query[key].push(value);
+        } else {
+            query[key] = query[key].filter((v) => v !== value);
+        }
+
+        setQueryDict({ ...query });
+    };
 
     useEffect(() => {
-
-        console.log("calling use Effect");
-        console.log(keywords, sort, role, graduate_class);
-        let roleValue = null;
-        let classValue = null;
-        if (role !== null || role === "") roleValue = role.toString();
-        if (graduate_class !== null || role === "") classValue = graduate_class.toString();
-        console.log("profile in useEffect is ", profiles);
-
-        if (profiles.length === 0 || needUpdate) {
-            console.log("need get profiles");
-            getProfiles(keywords, roleValue, classValue, states);
+        // For keyword
+        let keyword = searchParams.get("keywords");
+        if (keyword) {
+            keyword = keyword.trim();
+            query["keywords"] = keyword;
         }
 
-        setNeedUpdate(false);
 
+        Object.entries(filters).forEach(([filter_key, filter]) => {
+            let value = searchParams.get(filter_key);
 
-        const [get_sort, get_filter] = generateFilterSort(role, graduate_class, sort);
-        setSortOptions(get_sort);
-        setFiltersOptions(get_filter);
+            if (value) {
+                value = value.split(",");
+            }
 
-        // sort the profiles
-        if (sort === "Name") {
-            profiles.sort(function (a, b) {
-                return (a.first_name + a.last_name).localeCompare(b.first_name + b.last_name);
-            });
-        } else if (sort === "Class") {
-            profiles.sort(function (a, b) {
-                return a.graduate_year - b.graduate_year;
-            });
-        } else if (sort === "Location") {
-            profiles.sort(function (a, b) {
-                return (a.state + a.city).localeCompare(b.state + b.state);
-            });
+            if (Array.isArray(value) && value.length > 1) {
+                value = value.map((v) => v.trim());
+                query[filter_key] = value;
+            } else if (Array.isArray(value) && value.length === 1) {
+                value = value[0].trim();
+                query[filter_key] = value;
+            }
+        });
 
-        } else if (sort === "Occupation") {
-            profiles.sort(function (a, b) {
-                return a.occupation.localeCompare(b.occupation);
-            });
-
+        // For sort
+        let sort = searchParams.get("sort");
+        if (sort) {
+            query["sort"] = sort;
+        } else {
+            query["sort"] = "name";
         }
 
-        //form new url
-        let new_url = "/search?keywords=" + (keywords || "") + "&sort=" + (sort || "") + "&role=" + (roleValue || "") + "&class=" + (classValue || "") + "&state=" + (states || "");
-        console.log(new_url);
-        window.history.replaceState(null, "Baylor Bridges", new_url);
+        // For state
+        let state = searchParams.get("state");
+        if (state) {
+            query["state"] = state;
+        }
 
-    }, [keywords, sort, role, graduate_class, states, test]);
+        setQueryDict({ ...query });
+    }, []);
+
+
+    useEffect(() => {
+        window.history.replaceState(null, null, "/search" + queryToString(query));
+        axios.get("/search" + queryToString(query, { detailed: true })).then((res) => {
+            setProfiles(res.data.profiles);
+            setMapStats(res.data.map_stats);
+        });
+    }, [query]);
+
+    const getMapConfig = (stats, current) => {
+        let config = {};
+        let max = 0;
+
+        // Find the state with the highest number of people
+        for (const value of Object.values(stats)) {
+            if (max < value) {
+                max = value;
+            }
+        }
+        
+        states.forEach((state) => {
+            config[state.value] = {};
+
+            if (!(state.value in mapStats)) { // For the state has no people, grey out
+                if (!current) {
+                    config[state.value].fill = "rgba(211, 211, 211, 1)";
+                } else {
+                    config[state.value].fill = "rgba(211, 211, 211, 0.6)";
+                }
+            } else { // For the state has people, color it with different opacity
+                let value = mapStats[state.value];
+                let opacity = value / max * 0.9;
+
+                if (current && state.value !== current) {
+                    opacity *= 0.7;
+                    config[state.value].fill = `rgba(21, 71, 52, ${opacity})`;
+                } else if (current && state.value === current) {
+                    opacity = 1;
+                    config[state.value].fill = `rgba(21, 71, 52, ${opacity})`;
+                } else {
+                    config[state.value].fill = `rgba(21, 71, 52, ${opacity})`;
+                }
+            }
+        });
+
+        return config;
+    };
+
+    const onMapClick = (dataset) => {
+        console.log(dataset);
+        
+        if (dataset.name === query["state"]) {
+            delete query["state"];
+            setQueryDict({ ...query });
+        } else if (mapStats[dataset.name] && mapStats[dataset.name] !== 0) {
+            setQueryDict({ ...query, state: dataset.name });
+        }
+    };
 
     return (
         <>
             <div className="grid grid-cols-1 lg:grid-cols-2">
                 <div className="hidden lg:block col-span-1">
                     <div className="bg-gray-100 sticky p-2 h-screen" style={{ "top": "5.4rem" }}>
-                        <div className="align-middle relative flex">
-                            <USAMap customize={statesCustomConfig} onClick={mapHandler} />
+                        <div className="align-middle relative flex clickable-map">
+                            <USAMap title="" customize={getMapConfig(mapStats, query["state"])} onClick={(e) => onMapClick(e.target.dataset)} />
                         </div>
                     </div>
                 </div>
+                
                 <div className="col-span-1 px-4">
-                    {/* Filters */}
-                    <div
-                        className="bg-white sticky flex items-center justify-between px-6 py-5 sm:pt-6 md:pt-6 lg:pt-6 pt-2 z-30"
-                        style={{ "top": "5.4rem" }}>
+                    {/* Filters & Search Input */}
+                    <ul className="bg-white sticky px-4 py-6 sm:px-6 z-30" style={{ "top": "5.3rem" }}>
                         {/* White cover for sticky filter div, for visuals only */}
                         <div className="absolute bg-inherit w-full"
                             style={{ "top": "-2rem", "height": "4rem", "left": "0rem" }}></div>
 
-                        {/* Sort */}
-                        <Menu as="div" className="relative z-10 inline-block text-left">
-                            <div>
-                                <Menu.Button
-                                    className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                                    Sort
-                                    <ChevronDownIcon
-                                        className="flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500"
-                                        aria-hidden="true"
-                                    />
-                                </Menu.Button>
+                        {/* Search Input */}
+                        <li className="flex-1 flex items-center justify-between md:hidden w-full relative mb-6">
+                            <label htmlFor="email" className="sr-only">
+                                Search people
+                            </label>
+                            <div className="w-full relative">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center">
+                                    <SearchIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                                </div>
+                                <DebounceInput
+                                    type="search"
+                                    name="search"
+                                    id="search"
+                                    className="pl-10 shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md bg-gray-100 p-3 border-transparent border-0"
+                                    placeholder="Search people"
+                                    autoComplete="off"
+                                    value={query.keywords || ""}
+                                    debounceTimeout={750}
+                                    onChange={(e) => { setQueryDict({ ...query, keywords: e.target.value }); }}
+                                />
                             </div>
+                        </li>
 
-                            <Transition
-                                as={Fragment}
-                                enter="transition ease-out duration-100"
-                                enterFrom="transform opacity-0 scale-95"
-                                enterTo="transform opacity-100 scale-100"
-                                leave="transition ease-in duration-75"
-                                leaveFrom="transform opacity-100 scale-100"
-                                leaveTo="transform opacity-0 scale-95"
-                            >
-                                <Menu.Items className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                    <div className="py-1">
+                        <li className="flex items-center justify-between">
+                            {/* Sort */}
+                            <Menu as="div" className="relative z-10 inline-block text-left">
+                                <div>
+                                    <Menu.Button
+                                        className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                                        Sort
+                                        <ChevronDownIcon
+                                            className="flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500"
+                                            aria-hidden="true"
+                                        />
+                                    </Menu.Button>
+                                </div>
 
-                                        {sortOptions.map((option) => (
-                                            <Menu.Item key={option.name} onClick={() => setSort(option.name)}>
-                                                {({ active }) => (
+                                <Transition
+                                    as={Fragment}
+                                    enter="transition ease-out duration-100"
+                                    enterFrom="transform opacity-0 scale-95"
+                                    enterTo="transform opacity-100 scale-100"
+                                    leave="transition ease-in duration-75"
+                                    leaveFrom="transform opacity-100 scale-100"
+                                    leaveTo="transform opacity-0 scale-95"
+                                >
+                                    <Menu.Items className="absolute mt-2 w-40 rounded-md shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                        <div className="py-1">
+                                            {sorts.map((option) => (
+                                                <Menu.Item
+                                                    key={option.value}
+                                                    onClick={() => setQueryDict({ ...query, sort: option.value })}
+                                                >
                                                     <a
                                                         href={option.href}
                                                         className={classNames(
-                                                            option.current ? "font-medium text-gray-900" : "text-gray-500",
-                                                            active ? "bg-gray-100" : "",
-                                                            "block px-4 py-2 text-sm"
+                                                            query.sort === option.value ? "font-medium text-gray-900" : "text-gray-500",
+                                                            "hover:bg-gray-100 block px-4 py-2 text-sm cursor-pointer"
                                                         )}
                                                     >
-                                                        {option.name}
+                                                        {option.title}
                                                     </a>
-                                                )}
-                                            </Menu.Item>
-                                        ))}
-                                    </div>
-                                </Menu.Items>
-                            </Transition>
-                        </Menu>
+                                                </Menu.Item>
+                                            ))}
+                                        </div>
+                                    </Menu.Items>
+                                </Transition>
+                            </Menu>
 
 
-                        {/* Filters */}
-                        <Popover.Group className="hidden sm:flex sm:items-baseline sm:space-x-8">
-                            {/* Clear filters */}
-                            <Popover as="div" id="desktop-menu" className="relative z-10 inline-block text-left">
-                                <Popover.Button
-                                    className="group inline-flex items-center justify-center text-sm font-medium text-gray-400 hover:text-gray-700"
-                                >
-                                    <span className="text-transparent" aria-hidden="true">Clear</span>
-                                    <TrashIcon
-                                        className="flex-shrink-0 -mr-1 ml-1 h-5 w-5"
-                                        onClick={() => {
-                                            setNeedUpdate(true);
-                                            setRole(null);
-                                            setGraduateClass(null);
-                                        }}
-
-                                    />
-                                </Popover.Button>
-                            </Popover>
-
-                            {filtersOptions.map((section, sectionIdx) => (
-                                <Popover as="div" key={section.name} id="desktop-menu"
-                                    className="relative z-10 inline-block text-left">
-                                    <div>
-                                        <Popover.Button
-                                            className="group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                                            <span>{section.name}</span>
-
-                                            {/* todo showing how many filters are selected? */}
-                                            {/* {sectionIdx === 0 ? (
-                                                <span
-                                                    className="ml-1.5 rounded py-0.5 px-1.5 bg-gray-200 text-xs font-semibold text-gray-700 tabular-nums">
-                                                    1
-                                                </span>
-                                            ) : null} */}
-                                            <ChevronDownIcon
-                                                className="flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500"
-                                                aria-hidden="true"
-                                            />
-                                        </Popover.Button>
-                                    </div>
-
-                                    <Transition
-                                        as={Fragment}
-                                        enter="transition ease-out duration-100"
-                                        enterFrom="transform opacity-0 scale-95"
-                                        enterTo="transform opacity-100 scale-100"
-                                        leave="transition ease-in duration-75"
-                                        leaveFrom="transform opacity-100 scale-100"
-                                        leaveTo="transform opacity-0 scale-95"
+                            {/* Filters */}
+                            <Popover.Group className="hidden sm:flex sm:items-baseline sm:space-x-8">
+                                {/* Clear filters */}
+                                <Popover as="div" id="desktop-menu" className="relative z-10 inline-block text-left">
+                                    <button
+                                        className="group inline-flex items-center justify-center text-sm font-medium text-gray-400 hover:text-gray-700"
+                                        onClick={() => { setQueryDict({ keywords: query["keywords"], sort: query["sort"] }); }}
                                     >
-                                        <Popover.Panel
-                                            className="origin-top-right absolute right-0 mt-2 bg-white rounded-md shadow-lg p-4 ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                            <form className="space-y-4">
-                                                {section.options.map((option, optionIdx) => (
-                                                    <div key={option.value} className="flex items-center">
-                                                        <input
-                                                            id={`filter-${section.id}-${optionIdx}`}
-                                                            name={`${section.id}[]`}
-                                                            defaultValue={option.value}
-                                                            type="checkbox"
-                                                            className="h-4 w-4 border-gray-300 rounded text-emerald-600 focus:ring-emerald-500"
-                                                            defaultChecked={option.checked}
-                                                            onClick={() => {
-
-                                                                setNeedUpdate(true);
-                                                                if (section.id === "role") {
-                                                                    console.log("clicking role");
-                                                                    setRole(handleCheckFilter(option.label, role));
-                                                                    console.log("role now is ", role);
-
-                                                                } else {
-                                                                    console.log("clicking class");
-                                                                    setGraduateClass(handleCheckFilter(option.label, graduate_class));
-                                                                }
-
-                                                                setTest(test + 1);
-
-                                                            }}
-                                                        />
-                                                        <label
-                                                            htmlFor={`filter-${section.id}-${optionIdx}`}
-                                                            className="ml-3 pr-6 text-sm font-medium text-gray-900 whitespace-nowrap"
-                                                        >
-                                                            {option.label}
-                                                        </label>
-                                                    </div>
-                                                ))}
-                                            </form>
-                                        </Popover.Panel>
-                                    </Transition>
+                                        <span className="text-transparent" aria-hidden="true">Clear</span>
+                                        <TrashIcon
+                                            className="flex-shrink-0 -mr-1 ml-1 h-5 w-5"
+                                        />
+                                    </button>
                                 </Popover>
-                            ))}
-                        </Popover.Group>
-                    </div>
+
+                                {/* Filters */}
+                                {Object.entries(filters).map(([filter_key, filter]) => (
+                                    <Popover as="div" key={filter_key} id="desktop-menu"
+                                        className="relative z-10 inline-block text-left">
+                                        <div>
+                                            <Popover.Button
+                                                className="group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                                                <span>{filter.title}</span>
+                                                {
+                                                    query[filter_key] && query[filter_key].length > 0 && 
+                                                    <span
+                                                        className="ml-1.5 rounded py-0.5 px-1.5 bg-gray-200 text-xs font-semibold text-gray-700 tabular-nums">
+                                                        {query[filter_key].length}
+                                                    </span>
+                                                }
+                                                <ChevronDownIcon
+                                                    className="flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500"
+                                                    aria-hidden="true"
+                                                />
+                                            </Popover.Button>
+                                        </div>
+
+                                        <Transition
+                                            as={Fragment}
+                                            enter="transition ease-out duration-100"
+                                            enterFrom="transform opacity-0 scale-95"
+                                            enterTo="transform opacity-100 scale-100"
+                                            leave="transition ease-in duration-75"
+                                            leaveFrom="transform opacity-100 scale-100"
+                                            leaveTo="transform opacity-0 scale-95"
+                                        >
+                                            <Popover.Panel
+                                                className="origin-top-right absolute right-0 mt-2 bg-white rounded-md shadow-lg p-4 ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                <div className="space-y-4">
+                                                    {filter.options.map((option) => (
+                                                        <div key={option.value} className="flex items-center">
+                                                            <input
+                                                                id={`filter-${filter_key}-${option.value}`}
+                                                                name={`${filter.id}[]`}
+                                                                defaultValue={option.value}
+                                                                type="checkbox"
+                                                                className="h-4 w-4 border-gray-300 rounded text-emerald-600 focus:ring-emerald-500"
+                                                                defaultChecked={query[filter_key] && query[filter_key].includes(option.value)}
+                                                                onClick={(e) => setQuery(filter_key, option.value, e.target.checked)}
+                                                            />
+                                                            <label
+                                                                htmlFor={`filter-${filter_key}-${option.value}`}
+                                                                className="ml-3 pr-6 text-sm font-medium text-gray-900 whitespace-nowrap"
+                                                            >
+                                                                {option.title}
+                                                            </label>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </Popover.Panel>
+                                        </Transition>
+                                    </Popover>
+                                ))}
+                            </Popover.Group>
+                        </li>
+                    </ul>
 
                     {/* People list */}
                     <div className="bg-white overflow-hidden sm:rounded-md">
@@ -386,7 +370,7 @@ const Search = (props) => {
                             {profiles.map((profile) => (
                                 <li key={profile.user_id} >
                                     {/*TODO add href for account detail page*/}
-                                    <a className="block hover:bg-gray-50" href={"/profile/" + profile.user_id} target="_blank" rel="noreferrer">
+                                    <a className="block hover:bg-gray-50" href={"/profile/" + profile.user_id} rel="noreferrer">
                                         <div className="flex items-center px-4 py-4 sm:px-6">
                                             <div className="min-w-0 flex-1 flex items-center">
                                                 <div className="flex-shrink-0">
