@@ -14,8 +14,18 @@ const classNames = (...classes) => classes.filter(Boolean).join(" ");
 
 
 const profile = {
-    graduate: {
-        title: "Graduate in",
+    graduate_alumni: {
+        title: "Graduate Class",
+        role: "alumni",
+        value_class: "capitalize",
+        attribute: [
+            { key: "graduate_semester" },
+            { key: "graduate_year" }
+        ]
+    },
+    graduate_student: {
+        title: "Expected Graduate Class",
+        role: "student",
         value_class: "capitalize",
         attribute: [
             { key: "graduate_semester" },
@@ -24,6 +34,7 @@ const profile = {
     },
     occupation: {
         title: "Occupation",
+        role: "alumni",
         attribute: { key: "occupation" },
     },
     location: {
@@ -118,6 +129,10 @@ const Profile = () => {
                     <dd data-placeholder className="w-1/2 h-5 rounded-md"></dd>
                 </div>
             );
+        }
+
+        if ("role" in field && field.role !== profileAccount.role) {
+            return;
         }
 
         let value = getFieldDisplayValueRaw(field);
