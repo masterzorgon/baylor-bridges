@@ -23,6 +23,8 @@ const SignIn = () => {
             })
             .catch(error =>
             {
+                console.log("ERROR", error);
+
                 if (error.message === "time out") setErrorMessage("server time out");
                 else
                 {

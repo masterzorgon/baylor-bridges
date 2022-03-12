@@ -262,11 +262,13 @@ const Form = () => {
 
                 {/* Title and subtitle */}
                 <div className="text-center">
-                    <img
-                        className="mx-auto h-9 w-auto"
-                        src="/Baylor-University-Athletics-01.svg"
-                        alt="Workflow"
-                    />
+                    <a href="/">
+                        <img
+                            className="mx-auto h-9 w-auto"
+                            src="/Baylor-University-Athletics-01.svg"
+                            alt="Workflow"
+                        />
+                    </a>
                     <h2 className="mt-2 text-lg font-extrabold tracking-tight text-gray-900 sm:text-2xl">Sign up</h2>
                 </div>
 
