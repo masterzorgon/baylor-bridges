@@ -73,13 +73,12 @@ const Navbar = (props) => {
     return (
         <>
             {/* Semi transparent cover */}
-            {/* TODO: Add transition */}
             <Transition
                 as={Fragment}
                 enter="transition ease-out duration-400"
                 enterFrom="opacity-0"
                 enterTo="opacity-100"
-                leave="transition ease-in duration-75"
+                leave="transition ease-in duration-200"
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
                 show={isFocus}
@@ -105,7 +104,10 @@ const Navbar = (props) => {
 
                     {/* MOBILE MENU ICON */}
                     <div className="-mr-2 -my-2 md:hidden flex">
-                        <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100">
+                        <Popover.Button
+                            className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100"
+                            onClickCapture={() => setFocus(true)}
+                        >
                             <span className="sr-only">Open menu</span>
                             <MenuIcon className="h-6 w-6" aria-hidden="true" />
                         </Popover.Button>
@@ -371,7 +373,7 @@ const Navbar = (props) => {
                                     <>
                                         <div className="pt-8 pb-2 -mr-2">
                                             <div className="flex items-center">
-                                                <a href="/profile" className="flex-shrink-0 flex">
+                                                <a href="/profile" className="flex-shrink-0 flex grow">
                                                     <Photo size="10" />
                                                     <div className="ml-3">
                                                         <div className="text-base font-medium text-gray-800">{account.first_name} {account.last_name}</div>
@@ -380,23 +382,22 @@ const Navbar = (props) => {
                                                 </a>
                                                 {/* <button
                                                     type="button"
-                                                    className="ml-auto flex-shrink-0 bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                                                    className="p-2 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
                                                 >
                                                     <span className="sr-only">View notifications</span>
                                                     <BellIcon className="h-6 w-6" aria-hidden="true" />
                                                 </button> */}
-                                                <div className="flex-auto"></div>
                                                 <a
                                                     type="button"
                                                     href="/settings"
-                                                    className="ml-auto bg-white p-2 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                                                    className="p-2 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
                                                 >
                                                     <span className="sr-only">Settings</span>
                                                     <CogIcon className="h-6 w-6" aria-hidden="true" />
                                                 </a>
                                                 <button
                                                     type="button"
-                                                    className="ml-autobg-white p-2 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                                                    className="p-2 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
                                                     onClick={handleSignOut}
                                                 >
                                                     <span className="sr-only">Sign Out</span>
