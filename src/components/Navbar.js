@@ -1,11 +1,11 @@
 /* This example requires Tailwind CSS v2.0+ */
-import React, { Fragment, useState, useContext, useEffect, useMemo } from "react";
+import React, { Fragment, useState, useContext, useEffect } from "react";
 import { Popover, Transition, Menu } from "@headlessui/react";
 import { MenuIcon, SearchIcon } from "@heroicons/react/outline";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
-import debounce from "lodash.debounce";
+import { DebounceInput } from "react-debounce-input";
 
 import { AccountContext } from "./Account";
 import Photo from "./Photo";
@@ -41,22 +41,9 @@ const Navbar = (props) => {
         if (searchParams.get("keywords") && url.endsWith("/search")) {
             setKeywords(searchParams.get("keywords"));
         }
-    }, [searchParams]);
+    }, []);
 
     useEffect(() => {
-        onSearch(keywords);
-    }, [keywords]);
-
-
-    const handleSignOut = () => {
-        signOut()
-            .then(() => {
-                setAccount(null);
-                window.location.href = "/";
-            });
-    };
-
-    const onSearchExecute = (keywords) => {
         abortController.abort();
 
         let newAbortController = new AbortController();
@@ -73,9 +60,16 @@ const Navbar = (props) => {
             .catch(error => {
                 console.log(error);
             });
-    };
+    }, [keywords]);
 
-    const onSearch = useMemo(() => debounce(onSearchExecute, 750), []);
+
+    const handleSignOut = () => {
+        signOut()
+            .then(() => {
+                setAccount(null);
+                window.location.href = "/";
+            });
+    };
 
     return (
         <>
@@ -185,7 +179,7 @@ const Navbar = (props) => {
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center">
                                     <SearchIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                                 </div>
-                                <input
+                                <DebounceInput
                                     type="search"
                                     name="search"
                                     id="search"
@@ -193,13 +187,12 @@ const Navbar = (props) => {
                                     placeholder="Search people"
                                     autoComplete="off"
                                     value={keywords}
+                                    debounceTimeout={750}
                                     onFocus={() => setFocus(true)}
                                     onChange={(e) => { setKeywords(e.target.value); }}
                                     onKeyPress={(e) => {
                                         if (e.key === "Enter") {
                                             window.location.href = "/search?keywords=" + keywords;
-                                        } else {
-                                            setKeywords(e.target.value);
                                         }
                                     }}
                                 />
