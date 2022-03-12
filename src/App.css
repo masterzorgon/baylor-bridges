@@ -53,6 +53,11 @@ html{
   pointer-events: all;
 }
 
+.clickable-map .us-state-map path:hover{
+  opacity: 0.75;
+  cursor: pointer;
+}
+
 [data-placeholder]{
   overflow: hidden;
   position: relative;

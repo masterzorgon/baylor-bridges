@@ -118,7 +118,7 @@ const Home = () => {
                 {/* TODO: Center map and show population, and text below */}
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-6 my-6 grid-cols-3 gap-2 hidden lg:grid">
                     <div className="relative flex col-span-2">
-                        <USAMap customize={statesCustomConfig} />
+                        <USAMap title="" customize={statesCustomConfig} />
                     </div>
                     <div className="col-span-1 relative">
                         <div className="absolute bottom-0 mb-16">

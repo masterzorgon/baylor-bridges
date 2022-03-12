@@ -62,6 +62,10 @@ const Navbar = (props) => {
         let newAbortController = new AbortController();
         setAbortController(newAbortController);
 
+        if (keywords.length === 0) {
+            return;
+        }
+
         axios.get("/search", { params: { keywords: keywords }, signal: newAbortController.signal })
             .then((res) => {
                 setProfiles(res.data);
