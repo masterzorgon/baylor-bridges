@@ -18,7 +18,7 @@ const Navbar = (props) => {
                     <nav className="-mb-px flex space-x-8">
                         {tabs.map((tab) => (
                             <a
-                                key={tab.name}
+                                key={tab.id}
                                 href={tab.href}
                                 className={classNames(
                                     tab.id === props.current
