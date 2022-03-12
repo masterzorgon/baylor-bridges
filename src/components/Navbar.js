@@ -1,8 +1,7 @@
 /* This example requires Tailwind CSS v2.0+ */
 import React, { Fragment, useState, useContext, useEffect } from "react";
 import { Popover, Transition, Menu } from "@headlessui/react";
-import { MenuIcon, SearchIcon } from "@heroicons/react/outline";
-import { ChevronDownIcon } from "@heroicons/react/solid";
+import { MenuIcon, SearchIcon, ChevronDownIcon, CogIcon, LogoutIcon } from "@heroicons/react/outline";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { DebounceInput } from "react-debounce-input";
@@ -341,25 +340,11 @@ const Navbar = (props) => {
                                     <a href="/" className="text-base font-medium text-gray-900 hover:text-gray-700">
                                         Home
                                     </a>
-                                    {
-                                        account !== null &&
-                                        <>
-                                            <a href="/profile" className="text-base font-medium text-gray-900 hover:text-gray-700">
-                                                My Profile
-                                            </a>
-                                            <a href="/settings" className="text-base font-medium text-gray-900 hover:text-gray-700">
-                                                Settings
-                                            </a>
-                                            <button
-                                                className="mr-auto text-base font-medium text-gray-900 hover:text-gray-700 w-full text-left"
-                                                onClick={handleSignOut}
-                                            >
-                                                Sign Out
-                                            </button>
-                                        </>
-                                    }
+                                    <a href="/search" className="text-base font-medium text-gray-900 hover:text-gray-700">
+                                        Search
+                                    </a>
                                     <a href="/about" className="text-base font-medium text-gray-900 hover:text-gray-700">
-                                        About Us
+                                        About
                                     </a>
                                     <a href="/contact-us" className="text-base font-medium text-gray-900 hover:text-gray-700">
                                         Contact Us
@@ -384,15 +369,15 @@ const Navbar = (props) => {
                                 {
                                     account !== null &&
                                     <>
-                                        <div className="pt-8 pb-2">
+                                        <div className="pt-8 pb-2 -mr-2">
                                             <div className="flex items-center">
-                                                <div className="flex-shrink-0">
+                                                <a href="/profile" className="flex-shrink-0 flex">
                                                     <Photo size="10" />
-                                                </div>
-                                                <div className="ml-3">
-                                                    <div className="text-base font-medium text-gray-800">{account.first_name} {account.last_name}</div>
-                                                    <div className="text-sm font-medium text-gray-500">{account.email}</div>
-                                                </div>
+                                                    <div className="ml-3">
+                                                        <div className="text-base font-medium text-gray-800">{account.first_name} {account.last_name}</div>
+                                                        <div className="text-sm font-medium text-gray-500">{account.email}</div>
+                                                    </div>
+                                                </a>
                                                 {/* <button
                                                     type="button"
                                                     className="ml-auto flex-shrink-0 bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
@@ -400,10 +385,26 @@ const Navbar = (props) => {
                                                     <span className="sr-only">View notifications</span>
                                                     <BellIcon className="h-6 w-6" aria-hidden="true" />
                                                 </button> */}
+                                                <div className="flex-auto"></div>
+                                                <a
+                                                    type="button"
+                                                    href="/settings"
+                                                    className="ml-auto bg-white p-2 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                                                >
+                                                    <span className="sr-only">Settings</span>
+                                                    <CogIcon className="h-6 w-6" aria-hidden="true" />
+                                                </a>
+                                                <button
+                                                    type="button"
+                                                    className="ml-autobg-white p-2 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                                                    onClick={handleSignOut}
+                                                >
+                                                    <span className="sr-only">Sign Out</span>
+                                                    <LogoutIcon className="h-6 w-6" aria-hidden="true" />
+                                                </button>
                                             </div>
                                         </div>
                                     </>
-
                                 }
                             </div>
                         </div>
