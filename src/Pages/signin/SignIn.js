@@ -26,10 +26,10 @@ const SignIn = () => {
                 if (error.message === "time out") setErrorMessage("server time out");
                 else
                 {
-                    let response = error.response;
+                    let response = error.response.data;
 
                     // Needs authentication challenge
-                    if (response === "ChallengeRequiredException") 
+                    if (response.code === "ChallengeRequiredException") 
                     {
                         let payload = response.payload;
                         let name = payload["challenge_name"];
