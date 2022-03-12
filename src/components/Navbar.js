@@ -75,9 +75,7 @@ const Navbar = (props) => {
             });
     };
 
-    const onSearch = useMemo(
-        () => debounce(onSearchExecute, 750)
-        , []);
+    const onSearch = useMemo(() => debounce(onSearchExecute, 750), []);
 
     return (
         <>
