@@ -3,7 +3,9 @@ import React, { Fragment, useState, useContext, useEffect } from "react";
 import { Popover, Transition, Menu } from "@headlessui/react";
 import { MenuIcon, SearchIcon } from "@heroicons/react/outline";
 import { ChevronDownIcon } from "@heroicons/react/solid";
+import { useSearchParams } from "react-router-dom";
 import axios from "axios";
+
 import { AccountContext } from "./Account";
 import Photo from "./Photo";
 
@@ -12,13 +14,17 @@ function classNames(...classes) {
 }
 
 const Navbar = (props) => {
-    const [isFocus, setFocus] = useState(false);
-    const [searchText, setSearchText] = useState("");
-
-    // For current signed in account display
+    const [searchParams] = useSearchParams();
     const { signOut, getAccount, getAccountLocal } = useContext(AccountContext);
+
+    const [isFocus, setFocus] = useState(false);
+    const [keywords, setKeywords] = useState("");
+
     const [account, setAccount] = useState(null);
-    const [profile, setProfile] = useState([]);
+    const [profiles, setProfiles] = useState([]);
+
+    const [abortController, setAbortController] = useState(new AbortController());
+
 
     useEffect(() => {
         setAccount(getAccountLocal());
@@ -29,6 +35,19 @@ const Navbar = (props) => {
 
     }, [getAccount, getAccountLocal]);
 
+    useEffect(() => {
+        const url = window.location.href.split("?")[0];
+        if (searchParams.get("keywords") && url.endsWith("/search")) {
+            setKeywords(searchParams.get("keywords"));
+        }
+    }, [searchParams]);
+
+    useEffect(() => {
+        abortController.abort();
+        onSearch(keywords);
+    }, [keywords]);
+
+
     const handleSignOut = () => {
         signOut()
             .then(() => {
@@ -37,14 +56,16 @@ const Navbar = (props) => {
             });
     };
 
-    const handleSearchLoading = (keywords) => {
-        console.log("handle search loading for keywords: ", keywords);
-        axios
-            .get("/search", { params: { keywords: keywords } })
+    const onSearch = (keywords) => {
+        let abortController = new AbortController();
+        setAbortController(abortController);
+
+        axios.get("/search", { params: { keywords: keywords }, signal: abortController.signal })
             .then((res) => {
-                // console.log(res.data);
-                setProfile(res.data);
-                console.log(profile);
+                setProfiles(res.data);
+            })
+            .catch(error => {
+                console.log(error);
             });
     };
 
@@ -163,19 +184,14 @@ const Navbar = (props) => {
                                     className="pl-10 shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md bg-gray-100 p-3 border-transparent border-0"
                                     placeholder="Search people"
                                     autoComplete="off"
-                                    value={searchText}
+                                    value={keywords}
                                     onFocus={() => setFocus(true)}
-                                    onChange={(event) => {
-                                        setSearchText(event.target.value);
-                                        handleSearchLoading(event.target.value);
-                                    }}
-                                    onKeyPress={(event) => {
-                                        if (event.key === "Enter") {
-                                            console.log("enter key pressed");
-                                            window.location.href = "/search?keywords=" + searchText + "&sort=&role=&class=&state=";
+                                    onChange={(e) => { setKeywords(e.target.value); }}
+                                    onKeyPress={(e) => {
+                                        if (e.key === "Enter") {
+                                            window.location.href = "/search?keywords=" + keywords;
                                         } else {
-                                            setSearchText(event.target.value);
-                                            handleSearchLoading(event.target.value);
+                                            setKeywords(e.target.value);
                                         }
                                     }}
                                 />
@@ -191,25 +207,25 @@ const Navbar = (props) => {
                                 leave="transition ease-in duration-75"
                                 leaveFrom="transform opacity-100 scale-100"
                                 leaveTo="transform opacity-0 scale-95"
-                                show={isFocus}
+                                show={isFocus && profiles.length > 0 && keywords.length > 0}
                             >
                                 <div className="z-50 absolute bg-white shadow-md py-2 rounded-md w-full max-w-md mt-4 top-16">
                                     <ul className="">
-                                        {profile.map((person) => (
+                                        {profiles.map((person) => (
                                             <li key={person.email}>
-                                                <a className="py-4 px-5 flex hover:bg-gray-50" href={"/profile/" + person.user_id} target="_blank" rel="noreferrer">
-                                                    {/* TODO adding account avatar later*/}
-                                                    {/*<img className="h-10 w-10 rounded-full" src={avatar} alt="" />*/}
-                                                    <Photo size="10" account={person} />
-                                                    <div className="ml-3">
-                                                        <p className="text-sm font-medium text-gray-900">{person.first_name} {person.last_name}</p>
+                                                <a className="py-4 px-5 flex hover:bg-gray-50" href={"/profile/" + person.user_id} rel="noreferrer">
+                                                    <div className="h-10 w-10">
+                                                        <Photo size="10" account={person} />
+                                                    </div>
+                                                    <div className="mx-3">
+                                                        <p className="text-sm font-semibold text-gray-900">{person.first_name} {person.last_name}</p>
                                                         <p className="text-sm text-gray-500">{person.headline}</p>
                                                     </div>
                                                 </a>
                                             </li>
                                         ))}
                                     </ul>
-                                    <a key="more" className="py-3 px-5 pb-2 flex text-sm text-emerald-800 font-medium" href={"/search?keywords=" + searchText + "&sort=&role=&class=&state="}>
+                                    <a key="more" className="py-3 px-5 pb-2 flex text-sm text-emerald-800 font-medium" href={"/search?keywords=" + keywords}>
                                         More results
                                     </a>
                                 </div>
@@ -386,7 +402,7 @@ const Navbar = (props) => {
                                             </div>
                                         </div>
                                     </>
-                                    
+
                                 }
                             </div>
                         </div>

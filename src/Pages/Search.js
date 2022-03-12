@@ -1,222 +1,151 @@
-/* eslint-disable no-unused-vars */
 import React, { Fragment, useEffect, useState } from "react";
 import { Menu, Popover, Transition } from "@headlessui/react";
-import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/solid";
-import { TrashIcon } from "@heroicons/react/outline";
-import USAMap from "react-usa-map";
+import { ChevronRightIcon, ChevronDownIcon, TrashIcon } from "@heroicons/react/outline";
 import { useSearchParams } from "react-router-dom";
+import USAMap from "react-usa-map";
 import axios from "axios";
+import dayjs from "dayjs";
+
 import Photo from "../components/Photo";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
-function generateFilterSort(role, graduate_class, sort) {
-    console.log("generate filter sort options");
-    let sortValue = ["Name", "Class", "Location", "Occupation"];
-    let roleValue = ["Alumni", "Current student"];
+const sorts = [
+    { title: "Name", value: "name" },
+    { title: "Class", value: "class" },
+    { title: "Location", value: "location" },
+    { title: "Occupation", value: "occupation" },
+];
 
-    // to generate class ranges options based on the current year
-    let current_year = new Date().getFullYear();
-    let graduate_class_value = [];
-    graduate_class_value.push(current_year.toString() + "-" + (current_year + 4).toString());
-    let year = current_year;
-    for (let i = 0; i < 6; i += 1) {
-        graduate_class_value.push((year - 10).toString() + "-" + year.toString());
-        year = year - 10;
-    }
+const filters = {
+    role: {
+        title: "Role",
+        options: [
+            { title: "Alumni", value: "alumni" },
+            { title: "Current student", value: "student" },
+        ],
+    },
+    graduate_class: {
+        title: "Class",
+        options: Array.from(Array(10).keys()).map((t) => ({
+            title: (dayjs().year() - (t * 10)) + " - " + (dayjs().year() - ((t + 1) * 10) + 1),
+            value: dayjs().year() - (t * 10),
+        })),
+    },
+};
 
-    let sortOptions = [];
-    // sort should return a single value, role and grad_class should return an array of values
-    for (const s of sortValue) {
-        if (s === sort) {
-            sortOptions.push({ name: s, href: "#" + s, current: true });
-        } else {
-            sortOptions.push({ name: s, href: "#" + s, current: false });
+const queryToString = (query, addons) => {
+    const concatenateQueryValues = (key, value) => {
+        if (value.length === 0) {
+            delete query[key];
+            return;
         }
-    }
 
-
-    let filters = [
-        { id: "role", name: "Role", options: [] },
-        { id: "class", name: "Class", options: [] }
-    ];
-
-    for (const r of roleValue) {
-        if (role !== null && role.includes(r)) {
-            filters[0].options.push({ value: "#" + r, label: r, checked: true });
+        // Delete empty entries in value
+        if (Array.isArray(value)) {
+            value = value.filter((v) => v);
+            return `${key}=${value.join(",")}`;
         } else {
-            filters[0].options.push({ value: "#" + r, label: r, checked: false });
+            return `${key}=${value}`;
         }
-    }
+    };
 
-    for (const c of graduate_class_value) {
-        if (graduate_class !== null && graduate_class.includes(c)) {
-            filters[1].options.push({ value: "#" + c, label: c, checked: true });
-        } else {
-            filters[1].options.push({ value: "#" + c, label: c, checked: false });
-        }
-    }
+    let query_strings = [];
 
-    return [sortOptions, filters];
-
-}
-
-
-
-
-// const avatar_url = "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80";
-
-
-
-
-
-// TODO: Mobile responsive for everything in this page
-// TODO: On mobile, hide map, replace with a filter
-
-const Search = (props) => {
-    const [searchParams] = useSearchParams();
-
-    const keywords = searchParams.get("keywords");
-    // eslint-disable-next-line no-unused-vars
-    const [sort, setSort] = useState(searchParams.get("sort"));
-    const [role, setRole] = useState(searchParams.get("role").split(","));
-    const [graduate_class, setGraduateClass] = useState(searchParams.get("class").split(","));
-    const [states, setStates] = useState(searchParams.get("state"));
-    const [test, setTest] = useState(0);
-
-    const [needUpdate, setNeedUpdate] = useState(false);
-
-    const [statesCustomConfig, setStateCustomConfig] = useState({});
-
-
-    const [profiles, setProfiles] = useState([]);
-    // eslint-disable-next-line no-unused-vars
-    const [sortOptions, setSortOptions] = useState([]);
-    const [filtersOptions, setFiltersOptions] = useState([]);
-
-    function mapHandler(event) {
-
-        setNeedUpdate(true);
-        if (event.target.dataset.name === states) {
-            console.log("Cancelling state filter selection");
-            setStates();
-        } else {
-            console.log("selected " + event.target.dataset.name);
-            setStates(event.target.dataset.name);
-        }
-        setRole(searchParams.get("role"));
-    }
-
-    // eslint-disable-next-line no-unused-vars
-    function handleCheckFilter(option, options) {
-        console.log("options is ", options, "option is ", option);
-        if (options !== null && options.includes(option)) {
-            const index = options.indexOf(option);
-            if (index > -1) {
-                options.splice(index, 1); // 2nd parameter means remove one item only
-            }
-
-        } else {
-            if (options === null || options[0] === "") options = [];
-            options.push(option);
-        }
-        console.log("options now is ", options);
-
-        return options;
-    }
-
-
-    async function getProfiles(keywords, roleValue, classValue, states) {
-        axios.get("/search", {
-            params: {
-                keywords: keywords,
-                detailed: true,
-                role: roleValue,
-                class: classValue,
-                state: states
-            }
-        }).then((res) => {
-
-            // setProfiles(res.data.profiles);
-            let profile_data = res.data.profiles;
-            console.log("profile is", profile_data);
-            // console.log("sort is ", sort);
-
-            let config = {};
-            let max = 0;
-
-            // Find the state with the highest number of people
-            for (const value of Object.values(res.data.map_stats)) {
-                if (max < value) {
-                    max = value;
-                }
-            }
-
-            // Make config dictionary
-            for (const [key, value] of Object.entries(res.data.map_stats)) {
-                let opacity = value / max * 0.95;
-
-                config[key] = {};
-                config[key].fill = `rgba(21, 71, 52, ${opacity})`;
-            }
-
-            setStateCustomConfig(config);
-            setProfiles(profile_data);
+    if (query) {
+        Object.entries(query).forEach(([key, value]) => {
+            query_strings.push(concatenateQueryValues(key, value));
         });
-
     }
+
+    if (addons) {
+        Object.entries(addons).forEach(([key, value]) => {
+            query_strings.push(concatenateQueryValues(key, value));
+        });
+    }
+
+    const url = query_strings.length !== 0 ? `?${query_strings.join("&")}` : "";
+    return url;
+};
+
+const Search = () => {
+    const [searchParams] = useSearchParams();
+    const [query, setQueryDict] = useState({});
+    const [mapStats, setMapStats] = useState({});
+    const [profiles, setProfiles] = useState([]);
+
+
+    const onMapClick = (event) => {
+        setProfiles([]);
+        setMapStats({});
+        return;
+    };
+
+    const setQuery = (key, value, checked) => {
+        if (!query[key] || !Array.isArray(query[key])) {
+            query[key] = [];
+        }
+
+        if (checked) {
+            query[key].push(value);
+        } else {
+            query[key] = query[key].filter((v) => v !== value);
+        }
+
+        setQueryDict({ ...query });
+    };
 
     useEffect(() => {
-
-        console.log("calling use Effect");
-        console.log(keywords, sort, role, graduate_class);
-        let roleValue = null;
-        let classValue = null;
-        if (role !== null || role === "") roleValue = role.toString();
-        if (graduate_class !== null || role === "") classValue = graduate_class.toString();
-        console.log("profile in useEffect is ", profiles);
-
-        if (profiles.length === 0 || needUpdate) {
-            console.log("need get profiles");
-            getProfiles(keywords, roleValue, classValue, states);
+        // For keyword
+        let keyword = searchParams.get("keywords");
+        if (keyword) {
+            keyword = keyword.trim();
+            query["keywords"] = keyword;
         }
 
-        setNeedUpdate(false);
 
+        Object.entries(filters).forEach(([filter_key, filter]) => {
+            let value = searchParams.get(filter_key);
 
-        const [get_sort, get_filter] = generateFilterSort(role, graduate_class, sort);
-        setSortOptions(get_sort);
-        setFiltersOptions(get_filter);
+            if (value) {
+                value = value.split(",");
+            }
 
-        // sort the profiles
-        if (sort === "Name") {
-            profiles.sort(function (a, b) {
-                return (a.first_name + a.last_name).localeCompare(b.first_name + b.last_name);
-            });
-        } else if (sort === "Class") {
-            profiles.sort(function (a, b) {
-                return a.graduate_year - b.graduate_year;
-            });
-        } else if (sort === "Location") {
-            profiles.sort(function (a, b) {
-                return (a.state + a.city).localeCompare(b.state + b.state);
-            });
+            if (Array.isArray(value) && value.length > 1) {
+                value = value.map((v) => v.trim());
+                query[filter_key] = value;
+            } else if (Array.isArray(value) && value.length === 1) {
+                value = value[0].trim();
+                query[filter_key] = value;
+            }
+        });
 
-        } else if (sort === "Occupation") {
-            profiles.sort(function (a, b) {
-                return a.occupation.localeCompare(b.occupation);
-            });
-
+        // For sort
+        let sort = searchParams.get("sort");
+        if (sort) {
+            query["sort"] = sort;
+        } else {
+            query["sort"] = "name";
         }
 
-        //form new url
-        let new_url = "/search?keywords=" + (keywords || "") + "&sort=" + (sort || "") + "&role=" + (roleValue || "") + "&class=" + (classValue || "") + "&state=" + (states || "");
-        console.log(new_url);
-        window.history.replaceState(null, "Baylor Bridges", new_url);
+        setQueryDict({ ...query });
+    }, []);
 
-    }, [keywords, sort, role, graduate_class, states, test]);
+
+    useEffect(() => {
+        console.log("query changed", query);
+        window.history.replaceState(null, null, "/search" + queryToString(query));
+
+        axios.get("/search" + queryToString(query, { detailed: true })).then((res) => {
+            setProfiles(res.data.profiles);
+            setMapStats(res.data.map_stats);
+        });
+    }, [query]);
+
+
+
 
     return (
         <>
@@ -224,7 +153,7 @@ const Search = (props) => {
                 <div className="hidden lg:block col-span-1">
                     <div className="bg-gray-100 sticky p-2 h-screen" style={{ "top": "5.4rem" }}>
                         <div className="align-middle relative flex">
-                            <USAMap customize={statesCustomConfig} onClick={mapHandler} />
+                            <USAMap customize={mapStats} onClick={onMapClick} />
                         </div>
                     </div>
                 </div>
@@ -261,19 +190,21 @@ const Search = (props) => {
                             >
                                 <Menu.Items className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                                     <div className="py-1">
-
-                                        {sortOptions.map((option) => (
-                                            <Menu.Item key={option.name} onClick={() => setSort(option.name)}>
+                                        {sorts.map((option) => (
+                                            <Menu.Item
+                                                key={option.value}
+                                                onClick={() => setQueryDict({ ...query, sort: option.value })}
+                                            >
                                                 {({ active }) => (
                                                     <a
                                                         href={option.href}
                                                         className={classNames(
-                                                            option.current ? "font-medium text-gray-900" : "text-gray-500",
+                                                            query.sort === option.value ? "font-medium text-gray-900" : "text-gray-500",
                                                             active ? "bg-gray-100" : "",
                                                             "block px-4 py-2 text-sm"
                                                         )}
                                                     >
-                                                        {option.name}
+                                                        {option.title}
                                                     </a>
                                                 )}
                                             </Menu.Item>
@@ -294,31 +225,27 @@ const Search = (props) => {
                                     <span className="text-transparent" aria-hidden="true">Clear</span>
                                     <TrashIcon
                                         className="flex-shrink-0 -mr-1 ml-1 h-5 w-5"
-                                        onClick={() => {
-                                            setNeedUpdate(true);
-                                            setRole(null);
-                                            setGraduateClass(null);
-                                        }}
+                                        onClick={() => { setQueryDict({}); }}
 
                                     />
                                 </Popover.Button>
                             </Popover>
 
-                            {filtersOptions.map((section, sectionIdx) => (
-                                <Popover as="div" key={section.name} id="desktop-menu"
+                            {/* Filters */}
+                            {Object.entries(filters).map(([filter_key, filter]) => (
+                                <Popover as="div" key={filter_key} id="desktop-menu"
                                     className="relative z-10 inline-block text-left">
                                     <div>
                                         <Popover.Button
                                             className="group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                                            <span>{section.name}</span>
-
-                                            {/* todo showing how many filters are selected? */}
-                                            {/* {sectionIdx === 0 ? (
+                                            <span>{filter.title}</span>
+                                            {
+                                                query[filter_key] && query[filter_key].length > 0 && 
                                                 <span
                                                     className="ml-1.5 rounded py-0.5 px-1.5 bg-gray-200 text-xs font-semibold text-gray-700 tabular-nums">
-                                                    1
+                                                    {query[filter_key].length}
                                                 </span>
-                                            ) : null} */}
+                                            }
                                             <ChevronDownIcon
                                                 className="flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500"
                                                 aria-hidden="true"
@@ -337,42 +264,27 @@ const Search = (props) => {
                                     >
                                         <Popover.Panel
                                             className="origin-top-right absolute right-0 mt-2 bg-white rounded-md shadow-lg p-4 ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                            <form className="space-y-4">
-                                                {section.options.map((option, optionIdx) => (
+                                            <div className="space-y-4">
+                                                {filter.options.map((option) => (
                                                     <div key={option.value} className="flex items-center">
                                                         <input
-                                                            id={`filter-${section.id}-${optionIdx}`}
-                                                            name={`${section.id}[]`}
+                                                            id={`filter-${filter_key}-${option.value}`}
+                                                            name={`${filter.id}[]`}
                                                             defaultValue={option.value}
                                                             type="checkbox"
                                                             className="h-4 w-4 border-gray-300 rounded text-emerald-600 focus:ring-emerald-500"
-                                                            defaultChecked={option.checked}
-                                                            onClick={() => {
-
-                                                                setNeedUpdate(true);
-                                                                if (section.id === "role") {
-                                                                    console.log("clicking role");
-                                                                    setRole(handleCheckFilter(option.label, role));
-                                                                    console.log("role now is ", role);
-
-                                                                } else {
-                                                                    console.log("clicking class");
-                                                                    setGraduateClass(handleCheckFilter(option.label, graduate_class));
-                                                                }
-
-                                                                setTest(test + 1);
-
-                                                            }}
+                                                            defaultChecked={query[filter_key] && query[filter_key].includes(option.value)}
+                                                            onClick={(e) => setQuery(filter_key, option.value, e.target.checked)}
                                                         />
                                                         <label
-                                                            htmlFor={`filter-${section.id}-${optionIdx}`}
+                                                            htmlFor={`filter-${filter_key}-${option.value}`}
                                                             className="ml-3 pr-6 text-sm font-medium text-gray-900 whitespace-nowrap"
                                                         >
-                                                            {option.label}
+                                                            {option.title}
                                                         </label>
                                                     </div>
                                                 ))}
-                                            </form>
+                                            </div>
                                         </Popover.Panel>
                                     </Transition>
                                 </Popover>
@@ -386,7 +298,7 @@ const Search = (props) => {
                             {profiles.map((profile) => (
                                 <li key={profile.user_id} >
                                     {/*TODO add href for account detail page*/}
-                                    <a className="block hover:bg-gray-50" href={"/profile/" + profile.user_id} target="_blank" rel="noreferrer">
+                                    <a className="block hover:bg-gray-50" href={"/profile/" + profile.user_id} rel="noreferrer">
                                         <div className="flex items-center px-4 py-4 sm:px-6">
                                             <div className="min-w-0 flex-1 flex items-center">
                                                 <div className="flex-shrink-0">
