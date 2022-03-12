@@ -219,16 +219,15 @@ const Search = () => {
                         <Popover.Group className="hidden sm:flex sm:items-baseline sm:space-x-8">
                             {/* Clear filters */}
                             <Popover as="div" id="desktop-menu" className="relative z-10 inline-block text-left">
-                                <Popover.Button
+                                <button
                                     className="group inline-flex items-center justify-center text-sm font-medium text-gray-400 hover:text-gray-700"
+                                    onClick={() => { setQueryDict({ keywords: query["keywords"], sort: query["sort"] }); }}
                                 >
                                     <span className="text-transparent" aria-hidden="true">Clear</span>
                                     <TrashIcon
                                         className="flex-shrink-0 -mr-1 ml-1 h-5 w-5"
-                                        onClick={() => { setQueryDict({}); }}
-
                                     />
-                                </Popover.Button>
+                                </button>
                             </Popover>
 
                             {/* Filters */}
