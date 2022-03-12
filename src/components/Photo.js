@@ -22,7 +22,7 @@ const Photo = ({ size, account }) => {
     }
 
 
-    if ("photo" in account) {
+    if (account && "photo" in account) {
         return (
             <img
                 className={`h-${size} w-${size} rounded-full`}
@@ -35,16 +35,16 @@ const Photo = ({ size, account }) => {
     
     let initials = "";
 
-    if ("first_name" in account && account.first_name) {
+    if (account && "first_name" in account && account.first_name) {
         initials += account.first_name.charAt(0);
     }
 
-    if ("last_name" in account && account.last_name) {
+    if (account && "last_name" in account && account.last_name) {
         initials += account.last_name.charAt(0);
     }
 
     // If has no name for this account, take the first letter of the email
-    if (initials === "" && "email" in account && account.email) {
+    if (initials === "" && account && "email" in account && account.email) {
         initials += account.email.charAt(0);
     }
 
