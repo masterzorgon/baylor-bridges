@@ -48,8 +48,9 @@ html{
   }
 }
 
-svg, path {
-  pointer-events: none;
+.clickable-map .us-state-map * {
+  cursor: pointer;
+  pointer-events: all;
 }
 
 [data-placeholder]{
