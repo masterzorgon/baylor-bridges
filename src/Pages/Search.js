@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Menu, Popover, Transition } from "@headlessui/react";
-import { ChevronRightIcon, ChevronDownIcon, TrashIcon } from "@heroicons/react/outline";
+import { ChevronRightIcon, ChevronDownIcon, TrashIcon, SearchIcon } from "@heroicons/react/outline";
 import { useSearchParams } from "react-router-dom";
 import USAMap from "react-usa-map";
 import axios from "axios";
@@ -142,13 +142,11 @@ const Search = () => {
 
     useEffect(() => {
         window.history.replaceState(null, null, "/search" + queryToString(query));
-
         axios.get("/search" + queryToString(query, { detailed: true })).then((res) => {
             setProfiles(res.data.profiles);
             setMapStats(res.data.map_stats);
         });
     }, [query]);
-
 
     const getMapConfig = (stats, current) => {
         let config = {};
@@ -210,139 +208,159 @@ const Search = () => {
                         </div>
                     </div>
                 </div>
+                
                 <div className="col-span-1 px-4">
-                    {/* Filters */}
-                    <div
-                        className="bg-white sticky flex items-center justify-between px-6 py-5 sm:pt-6 md:pt-6 lg:pt-6 pt-2 z-30"
-                        style={{ "top": "5.4rem" }}>
+                    {/* Filters & Search Input */}
+                    <ul className="bg-white sticky px-4 py-6 sm:px-6 z-30" style={{ "top": "5.3rem" }}>
                         {/* White cover for sticky filter div, for visuals only */}
                         <div className="absolute bg-inherit w-full"
                             style={{ "top": "-2rem", "height": "4rem", "left": "0rem" }}></div>
 
-                        {/* Sort */}
-                        <Menu as="div" className="relative z-10 inline-block text-left">
-                            <div>
-                                <Menu.Button
-                                    className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                                    Sort
-                                    <ChevronDownIcon
-                                        className="flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500"
-                                        aria-hidden="true"
-                                    />
-                                </Menu.Button>
+                        {/* Search Input */}
+                        <li className="flex-1 flex items-center justify-between md:hidden w-full relative mb-6">
+                            <label htmlFor="email" className="sr-only">
+                                Search people
+                            </label>
+                            <div className="w-full relative">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center">
+                                    <SearchIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                                </div>
+                                <input
+                                    type="search"
+                                    name="search"
+                                    id="search"
+                                    className="pl-10 shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md bg-gray-100 p-3 border-transparent border-0"
+                                    placeholder="Search people"
+                                    autoComplete="off"
+                                    value={query.keywords || ""}
+                                    onChange={(e) => { setQueryDict({ ...query, keywords: e.target.value }); }}
+                                />
                             </div>
+                        </li>
 
-                            <Transition
-                                as={Fragment}
-                                enter="transition ease-out duration-100"
-                                enterFrom="transform opacity-0 scale-95"
-                                enterTo="transform opacity-100 scale-100"
-                                leave="transition ease-in duration-75"
-                                leaveFrom="transform opacity-100 scale-100"
-                                leaveTo="transform opacity-0 scale-95"
-                            >
-                                <Menu.Items className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                    <div className="py-1">
-                                        {sorts.map((option) => (
-                                            <Menu.Item
-                                                key={option.value}
-                                                onClick={() => setQueryDict({ ...query, sort: option.value })}
-                                            >
-                                                {({ active }) => (
+                        <li className="flex items-center justify-between">
+                            {/* Sort */}
+                            <Menu as="div" className="relative z-10 inline-block text-left">
+                                <div>
+                                    <Menu.Button
+                                        className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                                        Sort
+                                        <ChevronDownIcon
+                                            className="flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500"
+                                            aria-hidden="true"
+                                        />
+                                    </Menu.Button>
+                                </div>
+
+                                <Transition
+                                    as={Fragment}
+                                    enter="transition ease-out duration-100"
+                                    enterFrom="transform opacity-0 scale-95"
+                                    enterTo="transform opacity-100 scale-100"
+                                    leave="transition ease-in duration-75"
+                                    leaveFrom="transform opacity-100 scale-100"
+                                    leaveTo="transform opacity-0 scale-95"
+                                >
+                                    <Menu.Items className="absolute mt-2 w-40 rounded-md shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                        <div className="py-1">
+                                            {sorts.map((option) => (
+                                                <Menu.Item
+                                                    key={option.value}
+                                                    onClick={() => setQueryDict({ ...query, sort: option.value })}
+                                                >
                                                     <a
                                                         href={option.href}
                                                         className={classNames(
                                                             query.sort === option.value ? "font-medium text-gray-900" : "text-gray-500",
-                                                            active ? "bg-gray-100" : "",
-                                                            "block px-4 py-2 text-sm"
+                                                            "hover:bg-gray-100 block px-4 py-2 text-sm cursor-pointer"
                                                         )}
                                                     >
                                                         {option.title}
                                                     </a>
-                                                )}
-                                            </Menu.Item>
-                                        ))}
-                                    </div>
-                                </Menu.Items>
-                            </Transition>
-                        </Menu>
+                                                </Menu.Item>
+                                            ))}
+                                        </div>
+                                    </Menu.Items>
+                                </Transition>
+                            </Menu>
 
-
-                        {/* Filters */}
-                        <Popover.Group className="hidden sm:flex sm:items-baseline sm:space-x-8">
-                            {/* Clear filters */}
-                            <Popover as="div" id="desktop-menu" className="relative z-10 inline-block text-left">
-                                <button
-                                    className="group inline-flex items-center justify-center text-sm font-medium text-gray-400 hover:text-gray-700"
-                                    onClick={() => { setQueryDict({ keywords: query["keywords"], sort: query["sort"] }); }}
-                                >
-                                    <span className="text-transparent" aria-hidden="true">Clear</span>
-                                    <TrashIcon
-                                        className="flex-shrink-0 -mr-1 ml-1 h-5 w-5"
-                                    />
-                                </button>
-                            </Popover>
 
                             {/* Filters */}
-                            {Object.entries(filters).map(([filter_key, filter]) => (
-                                <Popover as="div" key={filter_key} id="desktop-menu"
-                                    className="relative z-10 inline-block text-left">
-                                    <div>
-                                        <Popover.Button
-                                            className="group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                                            <span>{filter.title}</span>
-                                            {
-                                                query[filter_key] && query[filter_key].length > 0 && 
-                                                <span
-                                                    className="ml-1.5 rounded py-0.5 px-1.5 bg-gray-200 text-xs font-semibold text-gray-700 tabular-nums">
-                                                    {query[filter_key].length}
-                                                </span>
-                                            }
-                                            <ChevronDownIcon
-                                                className="flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500"
-                                                aria-hidden="true"
-                                            />
-                                        </Popover.Button>
-                                    </div>
-
-                                    <Transition
-                                        as={Fragment}
-                                        enter="transition ease-out duration-100"
-                                        enterFrom="transform opacity-0 scale-95"
-                                        enterTo="transform opacity-100 scale-100"
-                                        leave="transition ease-in duration-75"
-                                        leaveFrom="transform opacity-100 scale-100"
-                                        leaveTo="transform opacity-0 scale-95"
+                            <Popover.Group className="hidden sm:flex sm:items-baseline sm:space-x-8">
+                                {/* Clear filters */}
+                                <Popover as="div" id="desktop-menu" className="relative z-10 inline-block text-left">
+                                    <button
+                                        className="group inline-flex items-center justify-center text-sm font-medium text-gray-400 hover:text-gray-700"
+                                        onClick={() => { setQueryDict({ keywords: query["keywords"], sort: query["sort"] }); }}
                                     >
-                                        <Popover.Panel
-                                            className="origin-top-right absolute right-0 mt-2 bg-white rounded-md shadow-lg p-4 ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                            <div className="space-y-4">
-                                                {filter.options.map((option) => (
-                                                    <div key={option.value} className="flex items-center">
-                                                        <input
-                                                            id={`filter-${filter_key}-${option.value}`}
-                                                            name={`${filter.id}[]`}
-                                                            defaultValue={option.value}
-                                                            type="checkbox"
-                                                            className="h-4 w-4 border-gray-300 rounded text-emerald-600 focus:ring-emerald-500"
-                                                            defaultChecked={query[filter_key] && query[filter_key].includes(option.value)}
-                                                            onClick={(e) => setQuery(filter_key, option.value, e.target.checked)}
-                                                        />
-                                                        <label
-                                                            htmlFor={`filter-${filter_key}-${option.value}`}
-                                                            className="ml-3 pr-6 text-sm font-medium text-gray-900 whitespace-nowrap"
-                                                        >
-                                                            {option.title}
-                                                        </label>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </Popover.Panel>
-                                    </Transition>
+                                        <span className="text-transparent" aria-hidden="true">Clear</span>
+                                        <TrashIcon
+                                            className="flex-shrink-0 -mr-1 ml-1 h-5 w-5"
+                                        />
+                                    </button>
                                 </Popover>
-                            ))}
-                        </Popover.Group>
-                    </div>
+
+                                {/* Filters */}
+                                {Object.entries(filters).map(([filter_key, filter]) => (
+                                    <Popover as="div" key={filter_key} id="desktop-menu"
+                                        className="relative z-10 inline-block text-left">
+                                        <div>
+                                            <Popover.Button
+                                                className="group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                                                <span>{filter.title}</span>
+                                                {
+                                                    query[filter_key] && query[filter_key].length > 0 && 
+                                                    <span
+                                                        className="ml-1.5 rounded py-0.5 px-1.5 bg-gray-200 text-xs font-semibold text-gray-700 tabular-nums">
+                                                        {query[filter_key].length}
+                                                    </span>
+                                                }
+                                                <ChevronDownIcon
+                                                    className="flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500"
+                                                    aria-hidden="true"
+                                                />
+                                            </Popover.Button>
+                                        </div>
+
+                                        <Transition
+                                            as={Fragment}
+                                            enter="transition ease-out duration-100"
+                                            enterFrom="transform opacity-0 scale-95"
+                                            enterTo="transform opacity-100 scale-100"
+                                            leave="transition ease-in duration-75"
+                                            leaveFrom="transform opacity-100 scale-100"
+                                            leaveTo="transform opacity-0 scale-95"
+                                        >
+                                            <Popover.Panel
+                                                className="origin-top-right absolute right-0 mt-2 bg-white rounded-md shadow-lg p-4 ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                <div className="space-y-4">
+                                                    {filter.options.map((option) => (
+                                                        <div key={option.value} className="flex items-center">
+                                                            <input
+                                                                id={`filter-${filter_key}-${option.value}`}
+                                                                name={`${filter.id}[]`}
+                                                                defaultValue={option.value}
+                                                                type="checkbox"
+                                                                className="h-4 w-4 border-gray-300 rounded text-emerald-600 focus:ring-emerald-500"
+                                                                defaultChecked={query[filter_key] && query[filter_key].includes(option.value)}
+                                                                onClick={(e) => setQuery(filter_key, option.value, e.target.checked)}
+                                                            />
+                                                            <label
+                                                                htmlFor={`filter-${filter_key}-${option.value}`}
+                                                                className="ml-3 pr-6 text-sm font-medium text-gray-900 whitespace-nowrap"
+                                                            >
+                                                                {option.title}
+                                                            </label>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </Popover.Panel>
+                                        </Transition>
+                                    </Popover>
+                                ))}
+                            </Popover.Group>
+                        </li>
+                    </ul>
 
                     {/* People list */}
                     <div className="bg-white overflow-hidden sm:rounded-md">
