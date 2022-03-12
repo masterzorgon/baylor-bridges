@@ -26,10 +26,10 @@ const SignIn = () => {
                 if (error.message === "time out") setErrorMessage("server time out");
                 else
                 {
-                    let response = error.response.data;
+                    let response = error.response;
 
                     // Needs authentication challenge
-                    if (response.code === "ChallengeRequiredException") 
+                    if (response === "ChallengeRequiredException") 
                     {
                         let payload = response.payload;
                         let name = payload["challenge_name"];
@@ -48,11 +48,13 @@ const SignIn = () => {
         <>
             <div className="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-md">
-                    <img
-                        className="mx-auto h-20 w-auto"
-                        src="/Baylor-University-Athletics-01.svg"
-                        alt="Workflow"
-                    />
+                    <a href="/">
+                        <img
+                            className="mx-auto h-20 w-auto"
+                            src="/Baylor-University-Athletics-01.svg"
+                            alt="Workflow"
+                        />
+                    </a>
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
                 </div>
 
