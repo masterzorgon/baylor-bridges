@@ -4,16 +4,26 @@ import axios from "axios";
 const AccountContext = createContext();
 
 const Account = (props) => {
-    const signIn = async (email, password) => {
-        return await new Promise((resolve, reject) => {
-            axios.post("/signin", { email: email, password: password })
-                .then(response => {
-                    if (response.status === 200) {
+    const signIn = async (email, password) =>
+    {
+        return await new Promise((resolve, reject) =>
+        {
+            // .post("/signin", { email: email, password: password })
+            axios({
+                method: "POST",
+                url: "http://127.0.0.1:5000/signin",
+                data: { email: email, password: password }
+            })
+                .then(response =>
+                {
+                    if (response.status === 200)
+                    {
                         // Store to local storage and resolve
                         window.localStorage.setItem("account", JSON.stringify(response.data));
                         resolve(response.data);
                     }
-                    else {
+                    else 
+                    {
                         window.localStorage.removeItem("account");
                         reject(response.data);
                     }

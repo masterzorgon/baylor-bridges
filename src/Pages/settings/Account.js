@@ -11,12 +11,13 @@ const Account = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    // BUG: CANNOT GET ACCOUNT [*][*][*][*][*][*][*][*][*][*][*][*]
     useEffect(() => {
+        console.log("ERROR");
         setEmail(getAccountLocal().email);
         getAccount()
-            .then(res => {
-                setEmail(res.email);
-            });
+            .then(res => setEmail(res.email))
+            .catch(() => console.log("ERROR: CANNOT GET ACCOUNT"));
     }, []);
 
     const handleData = () =>
