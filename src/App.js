@@ -47,8 +47,18 @@ axios.defaults.headers = {
     "Access-Control-Allow-Origin": "*",
 };
 
-axios.defaults.baseURL = "http://127.0.0.1:5000";
-// axios.defaults.baseURL = "//api.baylorbridges.org";
+
+// Make API Base URL
+const hostname = window.location.hostname;
+const port = window.location.port;
+if (hostname === "localhost" || hostname === "127.0.0.1" || port === 3000) {
+    axios.defaults.baseURL = `http://${hostname}:5000`;
+    console.log("Running on Localhost", axios.defaults.baseURL);
+} else {
+    axios.defaults.baseURL = `https://api.${hostname}`;
+    console.log("Running on Production", axios.defaults.baseURL);
+}
+
 axios.defaults.withCredentials = true;
 axios.defaults.timeout = 8000;
 axios.defaults.timeoutErrorMessage = "time out";
