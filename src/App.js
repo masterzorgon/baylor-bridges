@@ -12,7 +12,7 @@ import NotFound from "./Pages/404";
 
 import PrivacyPolicy from "./Pages/policies&terms/PrivacyPolicy";
 import TermsConditions from "./Pages/policies&terms/Terms&Conditions";
-import CookiePolicy from "./Pages/policies&terms/CookiePolicy";
+import CookiesPolicy from "./Pages/policies&terms/CookiesPolicy";
 
 import SignIn from "./Pages/signin/SignIn";
 import ResetPassword from "./Pages/signin/ResetPassword";
@@ -111,7 +111,7 @@ function App() {
 
                     <Route path="/terms/privacy-policy" element={components(<Navbar />, <PrivacyPolicy />, <Footer />)} />
                     <Route path="/terms/terms-conditions" element={components(<Navbar />, <TermsConditions />, <Footer />)} />
-                    <Route path="/terms/cookies-policy" element={components(<Navbar />, <CookiePolicy />, <Footer />)} />
+                    <Route path="/terms/cookies-policy" element={components(<Navbar />, <CookiesPolicy />, <Footer />)} />
 
                     <Route path="/404" element={components(<NotFound />)} />
                     <Route path="*" element={<Navigate to="/404" />} />
