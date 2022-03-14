@@ -6,8 +6,7 @@ import { DotsVerticalIcon } from "@heroicons/react/outline";
 import { PaperClipIcon } from "@heroicons/react/solid";
 import axios from "axios";
 import dayjs from "dayjs";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import Markdown from "../components/Markdown";
 
 import Photo from "../components/Photo";
 import { AccountContext } from "../components/Account";
@@ -279,17 +278,10 @@ const Profile = () => {
                                     </div>
                                     <div className="border-t border-gray-200 px-4 py-5 sm:px-6">
                                         {
-                                            profileAccount ? 
-                                                <article
-                                                    className="prose prose-sm prose-neutral prose-h1:font-bold prose-h1:text-2xl prose-h2:font-semibold prose-h2:text-xl"
-                                                >
-                                                    <ReactMarkdown
-                                                        linkTarget="_blank"
-                                                        remarkPlugins={[remarkGfm]}
-                                                    >
-                                                        {profileAccount && profileAccount.biography}
-                                                    </ReactMarkdown>
-                                                </article>
+                                            profileAccount ?
+                                                <Markdown>
+                                                    {profileAccount.biography}
+                                                </Markdown>
                                                 :
                                                 Array(5).fill(0).map((_, i) => (
                                                     <div data-placeholder className="h-5 w-full lg:w-1/2 rounded-lg mt-2" key={i}></div>
