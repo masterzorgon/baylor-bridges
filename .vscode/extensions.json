@@ -1,5 +1,16 @@
 {
     "recommendations": [
-        "dbaeumer.vscode-eslint"
+        "dbaeumer.vscode-eslint",
+        "dsznajder.es7-react-js-snippets",
+        "github.copilot",
+        "eamodio.gitlens",
+        "eg2.vscode-npm-script",
+        "christian-kohler.npm-intellisense",
+        "bradlc.vscode-tailwindcss",
+        "wayou.vscode-todo-highlight",
+        "visualstudioexptteam.vscodeintellicode",
+        "visualstudioexptteam.intellicode-api-usage-examples",
+        "wakatime.vscode-wakatime",
+        "pflannery.vscode-versionlens"
     ]
 }
