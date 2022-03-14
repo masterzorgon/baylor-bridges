@@ -7,6 +7,7 @@ import { PaperClipIcon } from "@heroicons/react/solid";
 import axios from "axios";
 import dayjs from "dayjs";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 import Photo from "../components/Photo";
 import { AccountContext } from "../components/Account";
@@ -279,8 +280,15 @@ const Profile = () => {
                                     <div className="border-t border-gray-200 px-4 py-5 sm:px-6">
                                         {
                                             profileAccount ? 
-                                                <article className="prose prose-sm prose-neutral prose-h1:font-bold prose-h1:text-2xl prose-h2:font-semibold prose-h2:text-xl">
-                                                    <ReactMarkdown>{profileAccount && profileAccount.biography}</ReactMarkdown>
+                                                <article
+                                                    className="prose prose-sm prose-neutral prose-h1:font-bold prose-h1:text-2xl prose-h2:font-semibold prose-h2:text-xl"
+                                                >
+                                                    <ReactMarkdown
+                                                        linkTarget="_blank"
+                                                        remarkPlugins={[remarkGfm]}
+                                                    >
+                                                        {profileAccount && profileAccount.biography}
+                                                    </ReactMarkdown>
                                                 </article>
                                                 :
                                                 Array(5).fill(0).map((_, i) => (
