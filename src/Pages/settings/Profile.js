@@ -6,6 +6,7 @@ import axios from "axios";
 import Container from "./Container";
 import Photo from "../../components/Photo";
 import Button from "../../components/Button";
+import Markdown from "../../components/Markdown";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -92,7 +93,8 @@ const profile = {
             },
             biography: {
                 title: "Biography",
-                attribute: { type: "textarea", title: "Biography", placeholder: "Biography", key: "biography" },
+                className: "sm:max-w-6xl",
+                attribute: { type: "markdown-editor", title: "Biography", placeholder: "Biography", key: "biography" },
             },
         }
     },
@@ -392,7 +394,10 @@ const Profile = () => {
                                             leaveFrom="opacity-100"
                                             leaveTo="opacity-0"
                                         >
-                                            <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                                            <Listbox.Options
+                                                className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+                                                key={`${attribute.key}-options`}
+                                            >
                                                 {attribute.options.map((option, index) => (
                                                     <Listbox.Option
                                                         key={option.value + "_option"}
@@ -448,6 +453,31 @@ const Profile = () => {
                 value_copy.title = value_copy.title ? value_copy.title : "Visibility";
                 value_copy.description = value_copy.description ? value_copy.description : "Who can see this?";
                 return getAttributeDom(value_copy);
+            } else if (attribute.type === "markdown-editor") {
+                return (
+                    <>
+                        <label htmlFor="comment" className="block text-sm font-medium text-gray-700 sr-only">
+                            {attribute.title}
+                        </label>
+                        <div className="grid grid-cols-2 gap-2 h-96">
+                            <div className="mt-1">
+                                <textarea
+                                    rows={4}
+                                    name="comment"
+                                    id="comment"
+                                    className="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md h-full resize-none"
+                                    value={section_key === "basic" ? update[attribute.key] : update[section_key][attribute.key]}
+                                    onChange={(e) => updateAttributeValue(e.target.value)}
+                                />
+                            </div>
+                            <div className="overflow-auto shadow-sm px-4 py-2 rounded-md border-gray-300">
+                                <Markdown>
+                                    {section_key === "basic" ? update[attribute.key] : update[section_key][attribute.key]}
+                                </Markdown>    
+                            </div>
+                        </div>
+                    </>
+                );
             }
         };
 
@@ -575,7 +605,7 @@ const Profile = () => {
             </Container>
 
             <Transition.Root show={open} as={Fragment}>
-                <Dialog as="div" className="fixed z-50 inset-0 overflow-y-auto" onClose={() => { if (!loading) setOpen(false); }}>
+                <Dialog as="div" className="fixed z-50 inset-0 overflow-none" onClose={() => { if (!loading) setOpen(false); }}>
                     <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                         <Transition.Child
                             as={Fragment}
@@ -603,7 +633,14 @@ const Profile = () => {
                             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
-                            <div className="w-full inline-block align-bottom bg-white rounded-lg p-4 text-left shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6 space-y-4">
+                            <div
+                                className={
+                                    classNames("w-full inline-block align-bottom bg-white rounded-lg p-4 text-left shadow-xl",
+                                        "transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6 space-y-4",
+                                        field && field.className ? field.className : ""
+                                    )
+                                }
+                            >
                                 {getFieldModal(field)}
                             </div>
                         </Transition.Child>
