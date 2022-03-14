@@ -6,6 +6,7 @@ import { DotsVerticalIcon } from "@heroicons/react/outline";
 import { PaperClipIcon } from "@heroicons/react/solid";
 import axios from "axios";
 import dayjs from "dayjs";
+import ReactMarkdown from "react-markdown";
 
 import Photo from "../components/Photo";
 import { AccountContext } from "../components/Account";
@@ -59,11 +60,11 @@ const profile = {
         has_visibility: true,
         attribute: { section: "contact_info", key: "phone" },
     },
-    biography: {
-        title: "Biography",
-        field_class: "sm:col-span-2",
-        attribute: { key: "biography" },
-    }
+    // biography: {
+    //     title: "Biography",
+    //     field_class: "sm:col-span-2",
+    //     attribute: { key: "biography" },
+    // }
 };
 
 const Profile = () => {
@@ -105,7 +106,7 @@ const Profile = () => {
 
         let string = "";
         field.attribute.forEach((attribute, index) => {
-            if (attribute.key && attribute.key in profileAccount && profileAccount[attribute.key]){
+            if (attribute.key && attribute.key in profileAccount && profileAccount[attribute.key]) {
                 string += profileAccount[attribute.key] + " ";
             } else if (attribute.section && attribute.section in profileAccount && attribute.key in profileAccount[attribute.section] && profileAccount[attribute.section][attribute.key]) {
                 string += profileAccount[attribute.section][attribute.key] + " ";
@@ -210,7 +211,6 @@ const Profile = () => {
                         </div>
                     </div>
 
-                    {/* FIXME: Experience style */}
                     <div className="mt-8 max-w-3xl mx-auto grid grid-cols-1 gap-6 sm:px-6 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-2">
                         <div className="space-y-6 lg:col-start-1 lg:col-span-2">
                             {/* Description list*/}
@@ -267,6 +267,31 @@ const Profile = () => {
                                                 ))
                                             }
                                         </dl>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section>
+                                <div className="bg-white shadow sm:rounded-lg">
+                                    <div className="px-4 py-5 sm:px-6 flex justify-between">
+                                        <div>
+                                            <h2 id="applicant-information-title" className="text-lg leading-6 font-medium text-gray-900">
+                                                Biography
+                                            </h2>
+                                            <p className="mt-1 max-w-2xl text-sm text-gray-500">A detailed description of person&apos;s life.</p>
+                                        </div>
+                                    </div>
+                                    <div className="border-t border-gray-200 px-4 py-5 sm:px-6">
+                                        {
+                                            profileAccount ? 
+                                                <article className="prose prose-sm">
+                                                    <ReactMarkdown>{profileAccount && profileAccount.biography}</ReactMarkdown>
+                                                </article>
+                                                :
+                                                Array(5).fill(0).map((_, i) => (
+                                                    <div data-placeholder className="h-5 w-full lg:w-1/2 rounded-lg mt-2" key={i}></div>
+                                                ))
+                                        }
                                     </div>
                                 </div>
                             </section>
