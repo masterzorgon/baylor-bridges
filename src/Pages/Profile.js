@@ -279,7 +279,7 @@ const Profile = () => {
                                     <div className="border-t border-gray-200 px-4 py-5 sm:px-6">
                                         {
                                             profileAccount ? 
-                                                <article className="prose prose-sm">
+                                                <article className="prose prose-sm prose-neutral prose-h1:font-bold prose-h1:text-2xl prose-h2:font-semibold prose-h2:text-xl">
                                                     <ReactMarkdown>{profileAccount && profileAccount.biography}</ReactMarkdown>
                                                 </article>
                                                 :
