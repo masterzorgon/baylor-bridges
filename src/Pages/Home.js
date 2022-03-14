@@ -30,8 +30,7 @@ const Home = () => {
     const { getAccount, getAccountLocal } = useContext(AccountContext);
     const [account, setAccount] = useState(null);
 
-    useEffect(() =>
-    {
+    useEffect(() => {
         setAccount(getAccountLocal());
 
         getAccount()

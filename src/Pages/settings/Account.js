@@ -20,8 +20,7 @@ const Account = () => {
             .catch(() => console.log("ERROR: CANNOT GET ACCOUNT"));
     }, []);
 
-    const handleData = () =>
-    {
+    const handleData = () => {
         setPassword("password");
 
         const config =

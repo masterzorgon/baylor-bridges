@@ -176,7 +176,7 @@ const Profile = () => {
 
     // Get the raw value of a field, return either the field attribute value, or null, with the visibility value
     const getFieldDisplayValueRaw = (section_key, field) => {
-        if(account === null){
+        if(account === null) {
             return [null, null];
         }
 
@@ -313,8 +313,7 @@ const Profile = () => {
                 if (isValidAttributeValue(attribute, v)) {
                     if (section_key === "basic") {
                         setUpdate({ ...update, [attribute.key]: v });
-                    }
-                    else {
+                    } else {
                         setUpdate({ ...update, [section_key]: { ...update[section_key], [attribute.key]: v } });
                     }
                 }
@@ -322,9 +321,7 @@ const Profile = () => {
 
             if (attribute.type === "file") {
                 return <></>;
-            }
-
-            else if (attribute.type === "text") {
+            } else if (attribute.type === "text") {
                 return (
                     <>
                         <label htmlFor={attribute.key} className="block text-sm font-medium text-gray-700 sr-only">
@@ -343,9 +340,7 @@ const Profile = () => {
                         </div>
                     </>
                 );
-            }
-
-            else if (attribute.type === "textarea") {
+            } else if (attribute.type === "textarea") {
                 return (
                     <>
                         <label htmlFor="comment" className="block text-sm font-medium text-gray-700 sr-only">
@@ -363,9 +358,7 @@ const Profile = () => {
                         </div>
                     </>
                 );
-            }
-
-            else if (attribute.type === "dropdown") {
+            } else if (attribute.type === "dropdown") {
                 return (
                     <>
                         <label htmlFor="dropdown" className="block text-sm font-medium text-gray-700 sr-only">
@@ -444,9 +437,7 @@ const Profile = () => {
                         </Listbox>
                     </>
                 );
-            }
-
-            else if (attribute.type === "visibility") {
+            } else if (attribute.type === "visibility") {
                 // Visibility is a special type of dropdown
                 // Define it's behavior and render it using dropdown
                 let value_copy = {};

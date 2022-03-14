@@ -1,8 +1,7 @@
 import React from "react";
 import { MailIcon } from "@heroicons/react/outline";
 
-export default function ContactUs()
-{
+export default function ContactUs() {
     return (
         <>
             <div className="relative bg-white">
