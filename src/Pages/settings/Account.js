@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
+import { EyeIcon, EyeOffIcon, ExclamationIcon } from "@heroicons/react/outline";
 import axios from "axios";
 
 import Container from "./Container";
@@ -32,7 +32,7 @@ const option_value_to_title = (options, value) => {
 const account_information = {
     basic: {
         title: "Account Settings",
-        description: "Manage your account information, password, set up 2FA, and de-activate your account.",
+        description: "Manage your account information, password, set up 2FA, and deactivate your account.",
         fields: {
             verified_email:
             {
@@ -61,7 +61,7 @@ const account_information = {
             deactivate_account:
             {
                 title: "Deactivate Account",
-                attribute: { title: "Deactivate Account", key: "deactivate-account" },
+                attribute: { type: "deactivate", title: "Deactivate Account", key: "deactivate-account" },
             },
         }
     },
@@ -291,15 +291,6 @@ const Account = () => {
                         </div>
                     </>
                 );
-            } else if (attribute.type === "deactivate") {
-                return (
-                    <>
-                        <label htmlFor={attribute.key} className="block text-sm font-medium text-gray-700 sr-only">
-                            {attribute.title}
-                        </label>
-                        
-                    </>
-                );
             } else if (attribute.type === "text") {
                 return (
                     <>
@@ -316,6 +307,24 @@ const Account = () => {
                                 value={section_key === "basic" ? update[attribute.key] : update[section_key][attribute.key]}
                                 onChange={(e) => updateAttributeValue(e.target.value)}
                             />
+                        </div>
+                    </>
+                );
+            } else if (attribute.type === "deactivate") {
+                return (
+                    <>
+                        <label htmlFor={attribute.key} className="block text-sm font-medium text-gray-700 sr-only">
+                            {attribute.title}
+                        </label>
+                        <div className="mt-1 flex">
+                            <div className="mx-auto my-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                                <ExclamationIcon className="h-6 w-6 text-red-600" aria-hidden="true" />
+                            </div>
+                            <p className="ml-5 max-w-2xl text-sm text-gray-500">
+                                You’re about to start the process of deactivating your
+                                Baylor Birdges account. Your display name, and public
+                                profile will no longer be viewable on baylorbridges.com.
+                            </p>
                         </div>
                     </>
                 );
