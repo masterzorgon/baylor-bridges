@@ -61,15 +61,22 @@ if (hostname === "localhost" || hostname === "127.0.0.1" || port === 3000) {
 
 axios.defaults.withCredentials = true;
 axios.defaults.timeout = 8000;
-axios.defaults.timeoutErrorMessage = "time out";
 axios.defaults.cancelToken = null;
 axios.interceptors.response.use((response) => {
     return response;
 }, (error) => {
     // If unauthorized access, redirected to sign in page
-    if (!error.response.config.withoutInterceptors && error.response.status === 401) {
+    if (error.response && error.response.config.withoutInterceptors !== undefined && !error.response.config.withoutInterceptors && error.response.status === 401) {
         window.location.href = "/sign-in";
         return;
+    }
+
+    // Convert network error into a server error
+    if (error.message === "Network Error") {
+        error.response = {};
+        error.response.data = {};
+        error.response.data.code = "NetworkError";
+        error.response.data.message = "There is a problem with your network connection. Please try again.";
     }
 
     return Promise.reject(error);

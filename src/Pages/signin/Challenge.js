@@ -62,14 +62,9 @@ const Challenge = () => {
                 console.log(response);
 
                 authChallenge(name, session, response).then(response => {
-                    // window.location.href = "/";
                     setSuccess(true);
                 }).catch(error => {
-                    if(error.message==="time out"){
-                        setErrorMessage("server time out");
-                    }else{
-                        setErrorMessage(error.response.data.message);
-                    }
+                    setErrorMessage(error.response.data.message);
                 }).finally(() => {
                     setLoading(false); 
                 });
