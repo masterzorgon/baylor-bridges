@@ -12,8 +12,7 @@ const Account = (props) => {
                         // Store to local storage and resolve
                         window.localStorage.setItem("account", JSON.stringify(response.data));
                         resolve(response.data);
-                    }
-                    else {
+                    } else {
                         window.localStorage.removeItem("account");
                         reject(response.data);
                     }
@@ -43,8 +42,7 @@ const Account = (props) => {
                         // Store to local storage and resolve
                         window.localStorage.setItem("account", JSON.stringify(response.data));
                         resolve(response.data);
-                    }
-                    else {
+                    } else {
                         window.localStorage.removeItem("account");
                         reject(response.data);
                     }
@@ -66,8 +64,7 @@ const Account = (props) => {
                 if (response.status === 200) {
                     window.localStorage.removeItem("account");
                     resolve(response.data);
-                }
-                else reject(response.data);
+                } else reject(response.data);
 
             }).catch(error => reject(error));
         });

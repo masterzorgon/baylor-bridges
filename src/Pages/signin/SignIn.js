@@ -1,4 +1,4 @@
-import React, { useState, useContext} from "react";
+import React, { useState, useContext } from "react";
 import { XCircleIcon, ArrowSmLeftIcon } from "@heroicons/react/solid";
 
 import { AccountContext } from "../../components/Account";
@@ -12,36 +12,30 @@ const SignIn = () => {
     const [error_message, setErrorMessage] = useState(null);
     const { signIn } = useContext(AccountContext);
 
-    const onSubmit = (event) =>
-    {
+    const onSubmit = (event) => {
         setLoading(true);
-        
+
         signIn(email, password)
-            .then(response =>
-            {
+            .then(response => {
                 console.log(response);
                 window.location.href = "/";
             })
-            .catch(error =>
-            {
+            .catch(error => {
                 console.log("ERROR", error);
 
                 if (error.message === "time out") setErrorMessage("server time out");
-                else
-                {
+                else {
                     let response = error.response.data;
 
                     // Needs authentication challenge
-                    if (response.code === "ChallengeRequiredException") 
-                    {
+                    if (response.code === "ChallengeRequiredException") {
                         let payload = response.payload;
                         let name = payload["challenge_name"];
                         let session = payload["session"];
                         let sub = payload["sub"];
 
                         window.location.href = `/sign-in/challenge?session=${session}&name=${name}&sub=${sub}`;
-                    } 
-                    else setErrorMessage(response.message);
+                    } else setErrorMessage(response.message);
                 }
             })
             .finally(() => setLoading(false));
@@ -70,7 +64,7 @@ const SignIn = () => {
                                 <div className="bg-red-50 rounded-md p-4 mt-3">
                                     <div className="flex">
                                         <div className="flex-shrink-0">
-                                            <XCircleIcon className="h-5 w-5 text-red-400" aria-hidden="true"/>
+                                            <XCircleIcon className="h-5 w-5 text-red-400" aria-hidden="true" />
                                         </div>
                                         <div className="ml-2">
                                             <div className="text-red-700 text-sm">
@@ -95,20 +89,15 @@ const SignIn = () => {
                                         autoComplete="email"
                                         required
                                         className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
-                                        onChange={(event) =>
-                                        {
+                                        onChange={(event) => {
                                             setEmail(event.target.value);
                                             setErrorMessage(null);
                                         }}
-                                        onKeyPress={(event) =>
-                                        {
-                                            if (event.key === "Enter")
-                                            {
+                                        onKeyPress={(event) => {
+                                            if (event.key === "Enter") {
                                                 console.log("enter key pressed");
                                                 onSubmit();
-                                            } 
-                                            else 
-                                            {
+                                            } else {
                                                 setEmail(event.target.value);
                                                 setErrorMessage(null);
                                             }
@@ -130,15 +119,11 @@ const SignIn = () => {
                                         required
                                         className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
                                         onChange={(event) => setPassword(event.target.value)}
-                                        onKeyPress={(event) =>
-                                        {
-                                            if (event.key === "Enter")
-                                            {
+                                        onKeyPress={(event) => {
+                                            if (event.key === "Enter") {
                                                 console.log("enter key pressed");
                                                 onSubmit();
-                                            } 
-                                            else 
-                                            {
+                                            } else {
                                                 setPassword(event.target.value);
                                             }
                                         }}
@@ -163,7 +148,7 @@ const SignIn = () => {
                                     <a href="/reset-password" className="font-medium text-emerald-600 hover:text-emerald-500">
                                         Forgot your password?
                                     </a>
-                                </div> 
+                                </div>
                             </div>
 
                             <div>

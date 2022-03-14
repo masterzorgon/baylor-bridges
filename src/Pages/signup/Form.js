@@ -40,13 +40,9 @@ const Form = () => {
             }
 
             setComplete(email && email !== "" && is_valid);
-        }
-
-        else if (step === 2) {
+        } else if (step === 2) {
             setComplete(password_checked && agreed);
-        }
-
-        else if (step === 3) {
+        } else if (step === 3) {
             let reg = /^\d{6}$/;
             let is_valid = reg.test(confirmation_code || "");
 
@@ -89,7 +85,7 @@ const Form = () => {
         }
 
         // Password
-        else if (step === 2) {
+        if (step === 2) {
             setLoading(true);
             axios.post("/signup", {
                 email: email,
@@ -119,7 +115,7 @@ const Form = () => {
         }
 
         // Confirmation code
-        else if (step === 3) {
+        if (step === 3) {
             setLoading(true);
 
             axios.post("/signup/confirm", {

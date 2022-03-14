@@ -88,7 +88,15 @@
           "beforeColon": false,
           "afterColon": true
         }
-      ]
+      ],
+      "brace-style": [
+        "error",
+        "1tbs",
+        {
+          "allowSingleLine": true
+        }
+      ],
+      "space-before-blocks": "error"
     }
   },
   "browserslist": {
