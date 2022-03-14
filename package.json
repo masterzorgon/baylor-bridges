@@ -28,6 +28,7 @@
     "react-scripts": "5.0.0",
     "react-usa-map": "^1.5.0",
     "react-use-window-size": "^1.0.1",
+    "remark-gfm": "^3.0.1",
     "tailwind-react-datepicker": "^1.1.4",
     "web-vitals": "^2.1.3"
   },
