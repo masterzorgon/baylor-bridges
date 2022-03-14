@@ -60,11 +60,6 @@ const profile = {
         has_visibility: true,
         attribute: { section: "contact_info", key: "phone" },
     },
-    // biography: {
-    //     title: "Biography",
-    //     field_class: "sm:col-span-2",
-    //     attribute: { key: "biography" },
-    // }
 };
 
 const Profile = () => {
