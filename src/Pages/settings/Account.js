@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { EyeIcon, EyeOffIcon, ExclamationIcon } from "@heroicons/react/outline";
+import { EyeIcon, EyeOffIcon, ExclamationIcon, LockClosedIcon } from "@heroicons/react/outline";
 import axios from "axios";
 
 import Container from "./Container";
@@ -54,8 +54,7 @@ const account_information = {
             {
                 title: "Two-Factor Authentication",
                 attribute: [
-                    { type: "text", title: "Two-Factor Authentication", placeholder: "Two-Factor Authentication", key: "graduate_semester", required: true },
-                    { type: "text", title: "Year", placeholder: "Year", key: "graduate_year" }
+                    { type: "two-fa", title: "Two-Factor Authentication", placeholder: "Two-Factor Authentication", key: "graduate_semester", required: true },
                 ]
             },
             deactivate_account:
@@ -216,7 +215,7 @@ const Account = () => {
         if (value === null) {
             return makeButton("Change");
         } else {
-            return makeButton("idk");
+            return makeButton("Enable");
         }
     };
 
@@ -328,6 +327,24 @@ const Account = () => {
                         </div>
                     </>
                 );
+            } else if (attribute.type === "two-fa") {
+                return (
+                    <>
+                        <label htmlFor={attribute.key} className="block text-sm font-medium text-gray-700 sr-only">
+                            {attribute.title}
+                        </label>
+                        <div className="mt-1 flex">
+                            <div className="mx-auto my-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-emerald-100 sm:mx-0 sm:h-10 sm:w-10">
+                                <LockClosedIcon className="h-6 w-6 text-emerald-600" aria-hidden="true" />
+                            </div>
+                            <p className="ml-5 max-w-2xl text-sm text-gray-500">
+                                Help protect your account from unauthorized access by
+                                requiring a second authentication method in addition to your
+                                Baylor Bridges password. 
+                            </p>
+                        </div>
+                    </>
+                );
             }
         };
 
@@ -358,10 +375,17 @@ const Account = () => {
                     onClick={() => onSubmit()} 
                     className={field.title === "Deactivate Account" ? "text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" : "text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"}
                 >
-                    {field.title === "Deactivate Account" ?  "Deactivate" : "Save"}
+                    {field.title === "Deactivate Account"
+                        ? "Deactivate"
+                        : (field.title === "Two-Factor Authentication" ? "Enable" : "Save")}
                 </Button>
                 
-                {/* [*][*][*][*] TESTING BUTTON [*][*][*][*] */}
+
+                {/* 
+                    [*][*][*][*] TESTING BUTTON [*][*][*][*] 
+                    [*][*][*][*] TESTING BUTTON [*][*][*][*] 
+                    [*][*][*][*] TESTING BUTTON [*][*][*][*] 
+                */} 
                 <Button
                     
                     onClick={() => console.log("FIELD", field)} 
