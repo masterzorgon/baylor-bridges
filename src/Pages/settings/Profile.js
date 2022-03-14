@@ -47,10 +47,6 @@ const profile = {
         title: "Basic Information",
         description: "Your basic personal information will be shown publically to everyone.",
         fields: {
-            // photo: {
-            //     title: "Photo",
-            //     attribute: { type: "photo", key: "photo" },
-            // },
             name: {
                 title: "Name",
                 attribute: [
