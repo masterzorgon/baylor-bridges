@@ -7,6 +7,8 @@ import Container from "./Container";
 import Button from "../../components/Button";
 import Markdown from "../../components/Markdown";
 
+// const AccountContext = JSON.parse(localStorage.getItem("account"));
+
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
@@ -32,13 +34,13 @@ const option_value_to_title = (options, value) => {
 const account_information = {
     basic: {
         title: "Account Settings",
-        description: "Manage your account information, password, set up 2FA, and deactivate your account.",
+        description: "Manage your account information, authentication, and deactivation status.",
         fields: {
             verified_email:
             {
                 title: "Change Verified Email",
                 attribute: [
-                    { type: "text", title: "Change Verfied Email", placeholder: "New email address", key: "verified_email", required: true },
+                    { type: "text", title: "Change Verfied Email", placeholder: "New Email Address", key: "verified_email", required: true },
                 ],
             },
             change_password:
@@ -54,13 +56,13 @@ const account_information = {
             {
                 title: "Two-Factor Authentication",
                 attribute: [
-                    { type: "two-fa", title: "Two-Factor Authentication", placeholder: "Two-Factor Authentication", key: "graduate_semester", required: true },
+                    { type: "two-fa", title: "Two-Factor Authentication" },
                 ]
             },
             deactivate_account:
             {
                 title: "Deactivate Account",
-                attribute: { type: "deactivate", title: "Deactivate Account", key: "deactivate-account" },
+                attribute: { type: "deactivate", title: "Deactivate Account" },
             },
         }
     },
@@ -111,6 +113,7 @@ const Account = () => {
         // For all atomic attribute in this field, check if required ones are not empty
         let complete = true;
         let required = field.attribute.filter(value => value.required); // Fetch all REQUIRED atomic attribute
+        
         required.forEach(value => {
             let _value = update[value.key];
 
@@ -174,6 +177,7 @@ const Account = () => {
   
         // Other fields
         const [value, visibility] = getFieldDisplayValueRaw(section_key, field);
+
         if (value === null) {
             return <div className="text-gray-400"></div>;
         } else {
@@ -213,7 +217,7 @@ const Account = () => {
         const [value, visibility] = getFieldDisplayValueRaw(section_key, field);
 
         if (value === null) {
-            return makeButton("Change");
+            return makeButton("Update");
         } else {
             return makeButton("Enable");
         }
@@ -386,12 +390,12 @@ const Account = () => {
                     [*][*][*][*] TESTING BUTTON [*][*][*][*] 
                     [*][*][*][*] TESTING BUTTON [*][*][*][*] 
                 */} 
-                <Button
+                {/* <Button
                     
-                    onClick={() => console.log("FIELD", field)} 
+                    onClick={() => console.log("ACCOUNT", )} 
                 >
                    check
-                </Button>
+                </Button> */}
             </>
         );
     };

@@ -455,7 +455,7 @@ const Profile = () => {
                         <label htmlFor="comment" className="block text-sm font-medium text-gray-700 sr-only">
                             {attribute.title}
                         </label>
-                        <div className="grid grid-cols-2 gap-2 h-96">
+                        <div className="mx-5 grid grid-cols-2 gap-2 h-96">
                             <div className="mt-1">
                                 <textarea
                                     rows={4}
@@ -466,7 +466,7 @@ const Profile = () => {
                                     onChange={(e) => updateAttributeValue(e.target.value)}
                                 />
                             </div>
-                            <div className="overflow-auto shadow-sm px-4 py-2 rounded-md border-gray-300">
+                            <div className="overflow-auto bg-gray-200 shadow-sm px-4 py-2 rounded-md border-gray-200">
                                 <Markdown>
                                     {section_key === "basic" ? update[attribute.key] : update[section_key][attribute.key]}
                                 </Markdown>    
