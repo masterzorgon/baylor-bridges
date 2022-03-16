@@ -266,137 +266,146 @@ const Profile = () => {
                                 </div>
                             </section>
 
-                            <section>
-                                <div className="bg-white shadow sm:rounded-lg">
-                                    <div className="px-4 py-5 sm:px-6 flex justify-between">
-                                        <div>
-                                            <h2 id="applicant-information-title" className="text-lg leading-6 font-medium text-gray-900">
-                                                Biography
-                                            </h2>
-                                            <p className="mt-1 max-w-2xl text-sm text-gray-500">A detailed description of person&apos;s life.</p>
-                                        </div>
-                                    </div>
-                                    <div className="border-t border-gray-200 px-4 py-5 sm:px-6">
-                                        {
-                                            profileAccount ?
-                                                <Markdown>
-                                                    {profileAccount.biography}
-                                                </Markdown>
-                                                :
-                                                Array(5).fill(0).map((_, i) => (
-                                                    <div data-placeholder className="h-5 w-full lg:w-1/2 rounded-lg mt-2" key={i}></div>
-                                                ))
-                                        }
-                                    </div>
-                                </div>
-                            </section>
-
-                            {/* Experiences */}
-                            <section aria-labelledby="notes-title">
-                                <div className="bg-white shadow sm:rounded-lg sm:overflow-hidden">
-                                    <div className="divide-y divide-gray-200">
+                            {
+                                (!profileAccount || profileAccount.biography) &&
+                                <section>
+                                    <div className="bg-white shadow sm:rounded-lg">
                                         <div className="px-4 py-5 sm:px-6 flex justify-between">
                                             <div>
                                                 <h2 id="applicant-information-title" className="text-lg leading-6 font-medium text-gray-900">
-                                                    Experiences
+                                                Biography
                                                 </h2>
-                                                <p className="mt-1 max-w-2xl text-sm text-gray-500">Past experiences for this profile.</p>
+                                                <p className="mt-1 max-w-2xl text-sm text-gray-500">A detailed description of person&apos;s life.</p>
+                                            </div>
+                                        </div>
+                                        <div className="border-t border-gray-200 px-4 py-5 sm:px-6">
+                                            {
+                                                profileAccount ?
+                                                    <Markdown>
+                                                        {profileAccount.biography}
+                                                    </Markdown>
+                                                    :
+                                                    Array(5).fill(0).map((_, i) => (
+                                                        <div data-placeholder className="h-5 w-full lg:w-1/2 rounded-lg mt-2" key={i}></div>
+                                                    ))
+                                            }
+                                        </div>
+                                    </div>
+                                </section>
+                            }
+
+                            {/* Experiences */}
+                            {
+                                (!profileAccount || profileAccount.experiences) &&
+                                <section aria-labelledby="notes-title">
+                                    <div className="bg-white shadow sm:rounded-lg sm:overflow-hidden">
+                                        <div className="divide-y divide-gray-200">
+                                            <div className="px-4 py-5 sm:px-6 flex justify-between">
+                                                <div>
+                                                    <h2 id="applicant-information-title" className="text-lg leading-6 font-medium text-gray-900">
+                                                        Experiences
+                                                    </h2>
+                                                    <p className="mt-1 max-w-2xl text-sm text-gray-500">Past experiences for this profile.</p>
+                                                </div>
+
+
+                                                {/* INSERT MODAL DISPLAY BUTTON */}
+                                                <Menu as="div" className="relative inline-block text-left">
+                                                    {
+                                                        // Onle show editing button when this is user's own profile
+                                                        isSelf &&
+                                                        <div>
+                                                            <Menu.Button className="p-1 -mr-2 rounded-full flex items-center text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-emerald-500">
+                                                                <span className="sr-only">Open options</span>
+                                                                <DotsVerticalIcon className="h-5 w-5" aria-hidden="true" />
+                                                            </Menu.Button>
+                                                        </div>
+                                                    }
+
+                                                    <Transition
+                                                        as={Fragment}
+                                                        enter="transition ease-out duration-100"
+                                                        enterFrom="transform opacity-0 scale-95"
+                                                        enterTo="transform opacity-100 scale-100"
+                                                        leave="transition ease-in duration-75"
+                                                        leaveFrom="transform opacity-100 scale-100"
+                                                        leaveTo="transform opacity-0 scale-95"
+                                                    >
+                                                        <Menu.Items className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                            <div className="my-2">
+                                                                <Menu.Item>
+                                                                    {({ active }) => (
+                                                                        <a
+                                                                            href="/settings/experience"
+                                                                            className={classNames(
+                                                                                active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                                                                                "block px-4 py-2 text-sm"
+                                                                            )}
+                                                                        >
+                                                                            Edit Experiences
+                                                                        </a>
+                                                                    )}
+                                                                </Menu.Item>
+                                                            </div>
+                                                        </Menu.Items>
+                                                    </Transition>
+                                                </Menu>
                                             </div>
 
-
-                                            {/* INSERT MODAL DISPLAY BUTTON */}
-                                            <Menu as="div" className="relative inline-block text-left">
-                                                {
-                                                    // Onle show editing button when this is user's own profile
-                                                    isSelf &&
-                                                    <div>
-                                                        <Menu.Button className="p-1 -mr-2 rounded-full flex items-center text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-emerald-500">
-                                                            <span className="sr-only">Open options</span>
-                                                            <DotsVerticalIcon className="h-5 w-5" aria-hidden="true" />
-                                                        </Menu.Button>
-                                                    </div>
-                                                }
-
-                                                <Transition
-                                                    as={Fragment}
-                                                    enter="transition ease-out duration-100"
-                                                    enterFrom="transform opacity-0 scale-95"
-                                                    enterTo="transform opacity-100 scale-100"
-                                                    leave="transition ease-in duration-75"
-                                                    leaveFrom="transform opacity-100 scale-100"
-                                                    leaveTo="transform opacity-0 scale-95"
-                                                >
-                                                    <Menu.Items className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                                        <div className="my-2">
-                                                            <Menu.Item>
-                                                                {({ active }) => (
-                                                                    <a
-                                                                        href="/settings/experience"
-                                                                        className={classNames(
-                                                                            active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                                                                            "block px-4 py-2 text-sm"
-                                                                        )}
-                                                                    >
-                                                                        Edit Experiences
-                                                                    </a>
-                                                                )}
-                                                            </Menu.Item>
-                                                        </div>
-                                                    </Menu.Items>
-                                                </Transition>
-                                            </Menu>
-                                        </div>
-
-                                        {/* 
+                                            {/* 
                                             [*][*][*][*]             [*][*][*][*]
                                             [*][*][*][*] EXPERIENCES [*][*][*][*]
                                             [*][*][*][*]             [*][*][*][*]
                                         */}
-                                        <div className="px-4 py-6 sm:px-6">
-                                            <ul className="space-y-8">
-                                                {
-                                                    profileAccount && profileAccount.experiences && profileAccount.experiences.map((experience, index) => (
-                                                        <li className="" key={experience.exper_id}>
-                                                            <p className="font-medium">{experience.title}</p>
-                                                            <p className="font-medium text-sm text-gray-500 mt-0.5">
-                                                                {getDisplayDateRange(experience.start_time, experience.stop_time)}
-                                                            </p>
-                                                            <p className="mt-2 text-sm text-gray-700">{experience.description}</p>
-                                                            {/* 
+                                            <div className="px-4 py-6 sm:px-6">
+                                                <ul className="space-y-8">
+                                                    {
+                                                        profileAccount && profileAccount.experiences && profileAccount.experiences.map((experience, index) => (
+                                                            <li className="" key={experience.exper_id}>
+                                                                <p className="font-medium">{experience.title}</p>
+                                                                <p className="font-medium text-sm text-gray-500 mt-0.5">
+                                                                    {getDisplayDateRange(experience.start_time, experience.stop_time)}
+                                                                </p>
+                                                                <p className="mt-2 text-sm text-gray-700">{experience.description}</p>
+                                                                {/* 
                                                                 [*][*][*][*]              [*][*][*][*]
                                                                 [*][*][*][*] PUBLICATIONS [*][*][*][*]
                                                                 [*][*][*][*]              [*][*][*][*]
                                                             */}
-                                                            <div className="mt-4">
-                                                                <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
-                                                                    {
-                                                                        experience.publications.map((publication, index) => (
-                                                                            <li className="pl-3 pr-4 py-3 flex items-center justify-between text-sm" key={publication.pub_id}>
-                                                                                <div className="w-0 flex-1 flex items-center">
-                                                                                    <PaperClipIcon className="flex-shrink-0 h-5 w-5 text-gray-400" />
-                                                                                    <span className="ml-2 flex-1 w-0 truncate text-gray-700">
-                                                                                        {publication.title}
-                                                                                    </span>
-                                                                                </div>
-                                                                                <div className="ml-4 flex-shrink-0">
-                                                                                    <a href={/^http:\/\//.test(publication.duo_link) || /^https:\/\//.test(publication.duo_link) ? publication.duo_link : "//" + publication.duo_link}
-                                                                                        className="font-medium text-emerald-600 hover:text-emerald-500" target="_blank" rel="noreferrer">
-                                                                                        Open
-                                                                                    </a>
-                                                                                </div>
-                                                                            </li>
-                                                                        ))
-                                                                    }
-                                                                </ul>
-                                                            </div>
-                                                        </li>
-                                                    ))
-                                                }
-                                            </ul>
+                                                                <div className="mt-4">
+                                                                    <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
+                                                                        {
+                                                                            experience.publications.map((publication, index) => (
+                                                                                <li className="pl-3 pr-4 py-3 flex items-center justify-between text-sm" key={publication.pub_id}>
+                                                                                    <div className="w-0 flex-1 flex items-center">
+                                                                                        <PaperClipIcon className="flex-shrink-0 h-5 w-5 text-gray-400" />
+                                                                                        <span className="ml-2 flex-1 w-0 truncate text-gray-700">
+                                                                                            {publication.title}
+                                                                                        </span>
+                                                                                    </div>
+                                                                                    <div className="ml-4 flex-shrink-0">
+                                                                                        <a href={/^http:\/\//.test(publication.duo_link) || /^https:\/\//.test(publication.duo_link) ? publication.duo_link : "//" + publication.duo_link}
+                                                                                            className="font-medium text-emerald-600 hover:text-emerald-500" target="_blank" rel="noreferrer">
+                                                                                            Open
+                                                                                        </a>
+                                                                                    </div>
+                                                                                </li>
+                                                                            ))
+                                                                        }
+                                                                    </ul>
+                                                                </div>
+                                                            </li>
+                                                        ))
+                                                    }
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </section>
+                                </section>
+
+                            }
+                            
+
                         </div>
                     </div>
                 </main>
