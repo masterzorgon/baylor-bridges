@@ -137,6 +137,12 @@ const Profile = () => {
     const [loading, setLoading] = useState(false); // Whether the axios is requesting
     const [complete, setComplete] = useState(true); // Whether the fields in the modal are completed (prevent REQUIRED fields left empty)
 
+    const [markdownEditorTab, setMarkdownEditorTab] = useState("edit");
+
+    useEffect(() => {
+        console.log(markdownEditorTab, markdownEditorTab === 0, markdownEditorTab === 1);
+    }, [markdownEditorTab]);
+
     // First enter this page, fetch account profile data
     useEffect(() => {
         axios.get("/account/profile")
@@ -463,8 +469,23 @@ const Profile = () => {
                         <label htmlFor="comment" className="block text-sm font-medium text-gray-700 sr-only">
                             {attribute.title}
                         </label>
+                        <div className="md:hidden">
+                            <label htmlFor="tabs" className="sr-only">
+                                Select a tab
+                            </label>
+                            <select
+                                id="tabs"
+                                name="tabs"
+                                className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm rounded-md"
+                                value={markdownEditorTab}
+                                onChange={(e) => setMarkdownEditorTab(e.target.value)}
+                            >
+                                <option key="edit" value={"edit"}>Edit</option>
+                                <option key="preview" value={"preview"}>Preview</option>
+                            </select>
+                        </div>
                         <div className="grid grid-cols-2 gap-2 h-full grid-rows-1" style={{height: "65vh"}}>
-                            <div>
+                            <div className={classNames("col-span-2 md:col-span-1", markdownEditorTab === "edit" ? "" : "hidden md:block")}>
                                 <textarea
                                     rows={4}
                                     name="comment"
@@ -474,12 +495,12 @@ const Profile = () => {
                                     onChange={(e) => updateAttributeValue(e.target.value)}
                                 />
                             </div>
-                            <div className="overflow-auto shadow-sm px-4 py-2 rounded-md border-gray-300 border">
+                            <div className={classNames("col-span-2 sm:col-span-1 overflow-auto shadow-sm px-4 py-2 rounded-md border-gray-300 border", markdownEditorTab === "preview" ? "" : "hidden md:block")}>
                                 <Markdown>
                                     {section_key === "basic" ? update[attribute.key] : update[section_key][attribute.key]}
                                 </Markdown>    
                             </div>
-                            <a className="flex text-xs space-x-1 items-center text-gray-500 fill-gray-500 hover:text-gray-800 hover:fill-gray-800" href="https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax" target="_blank" rel="noreferrer">
+                            <a className="col-span-2 md:col-span-1 flex text-xs space-x-1 items-center text-gray-500 fill-gray-500 hover:text-gray-800 hover:fill-gray-800" href="https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax" target="_blank" rel="noreferrer">
                                 <MarkdownIcon />
                                 <p>Styling with Markdown is supported</p>
                             </a>
