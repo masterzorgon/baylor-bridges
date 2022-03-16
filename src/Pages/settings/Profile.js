@@ -42,6 +42,14 @@ const option_value_to_description = (options, value) => {
     return option ? option.description : "";
 };
 
+const MarkdownIcon = () => {
+    return (
+        <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" className="octicon octicon-markdown v-align-bottom">
+            <path fillRule="evenodd" d="M14.85 3H1.15C.52 3 0 3.52 0 4.15v7.69C0 12.48.52 13 1.15 13h13.69c.64 0 1.15-.52 1.15-1.15v-7.7C16 3.52 15.48 3 14.85 3zM9 11H7V8L5.5 9.92 4 8v3H2V5h2l1.5 2L7 5h2v6zm2.99.5L9.5 8H11V5h2v3h1.5l-2.51 3.5z"></path>
+        </svg>
+    );
+};
+
 const profile = {
     basic: {
         title: "Basic Information",
@@ -455,8 +463,8 @@ const Profile = () => {
                         <label htmlFor="comment" className="block text-sm font-medium text-gray-700 sr-only">
                             {attribute.title}
                         </label>
-                        <div className="mx-5 grid grid-cols-2 gap-2 h-96">
-                            <div className="mt-1">
+                        <div className="grid grid-cols-2 gap-2" style={{height: "65vh"}}>
+                            <div>
                                 <textarea
                                     rows={4}
                                     name="comment"
@@ -466,11 +474,15 @@ const Profile = () => {
                                     onChange={(e) => updateAttributeValue(e.target.value)}
                                 />
                             </div>
-                            <div className="overflow-auto bg-gray-200 shadow-sm px-4 py-2 rounded-md border-gray-200">
+                            <div className="overflow-auto shadow-sm px-4 py-2 rounded-md border-gray-300 border">
                                 <Markdown>
                                     {section_key === "basic" ? update[attribute.key] : update[section_key][attribute.key]}
                                 </Markdown>    
                             </div>
+                            <a className="flex text-xs space-x-1 items-center text-gray-500 fill-gray-500 hover:text-gray-800 hover:fill-gray-800" href="https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax" target="_blank" rel="noreferrer">
+                                <MarkdownIcon />
+                                <p>Styling with Markdown is supported</p>
+                            </a>
                         </div>
                     </>
                 );
