@@ -6,6 +6,7 @@ import axios from "axios";
 import Container from "./Container";
 import Button from "../../components/Button";
 import Markdown from "../../components/Markdown";
+import Password from "../../components/Password";
 
 // const AccountContext = JSON.parse(localStorage.getItem("account"));
 
@@ -40,16 +41,14 @@ const account_information = {
             {
                 title: "Change Verified Email",
                 attribute: [
-                    { type: "text", title: "Change Verfied Email", placeholder: "New Email Address", key: "verified_email", required: true },
+                    { type: "", title: "Change Verfied Email", placeholder: "New Email Address", key: "verified_email" },
                 ],
             },
             change_password:
             {
                 title: "Change Password",
                 attribute: [
-                    { type: "text", title: "Current Password", placeholder: "Current password", key: "current_password", required: true },
-                    { type: "text", title: "New Password", placeholder: "New password", key: "new_password", required: true },
-                    { type: "text", title: "Confirm Password", placeholder: "Confirm password", key: "confirm_password", required: true },
+                    { type: "text", title: "New Password", key: "new_password", required: true },
                 ],
             },
             two_factor_authentication:
@@ -301,7 +300,7 @@ const Account = () => {
                             {attribute.title}
                         </label>
                         <div className="mt-1">
-                            <input
+                            {/* <input
                                 type={attribute.type}
                                 name={attribute.key}
                                 id={attribute.key}
@@ -309,7 +308,8 @@ const Account = () => {
                                 placeholder={attribute.placeholder}
                                 value={section_key === "basic" ? update[attribute.key] : update[section_key][attribute.key]}
                                 onChange={(e) => updateAttributeValue(e.target.value)}
-                            />
+                            /> */}
+                            <Password />
                         </div>
                     </>
                 );
@@ -392,7 +392,7 @@ const Account = () => {
                 */} 
                 {/* <Button
                     
-                    onClick={() => console.log("ACCOUNT", )} 
+                    onClick={() => console.log("VALUE", value, "VISIBILITY", visibility)} 
                 >
                    check
                 </Button> */}

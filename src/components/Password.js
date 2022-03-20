@@ -49,15 +49,16 @@ const Password = ({value, onChange}) => {
 
     return (
         <div className="sm:col-span-2">
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            {/* <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                 Password
-            </label>
+            </label> */}
             <div className="mt-1 relative">
                 <input
                     id="password"
                     name="password"
                     type="password"
                     autoComplete="password"
+                    placeholder="Password"
                     className="py-2 px-3 block w-full shadow-sm focus:ring-emerald-500 focus:border-emerald-500 border-gray-300 rounded-md"
                     onChange={setPasswordTrigger}
                     value={password}
