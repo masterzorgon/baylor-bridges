@@ -159,7 +159,6 @@ const Form = () => {
         );
     };
 
-
     const step2 = () => {
         return (
             <>

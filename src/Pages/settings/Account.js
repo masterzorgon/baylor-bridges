@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { EyeIcon, EyeOffIcon, ExclamationIcon, LockClosedIcon } from "@heroicons/react/outline";
+import { useParams } from "react-router-dom";
+import { EyeIcon, MailIcon, EyeOffIcon, ExclamationIcon, LockClosedIcon } from "@heroicons/react/outline";
 import axios from "axios";
 
 import Container from "./Container";
@@ -41,7 +42,7 @@ const account_information = {
             {
                 title: "Change Verified Email",
                 attribute: [
-                    { type: "", title: "Change Verfied Email", placeholder: "New Email Address", key: "verified_email" },
+                    { type: "email", title: "Change Verfied Email", placeholder: "New Email Address", key: "verified_email" },
                 ],
             },
             change_password:
@@ -80,8 +81,16 @@ const Account = () => {
     const [loading, setLoading] = useState(false); // Whether the axios is requesting
     const [complete, setComplete] = useState(true); // Whether the fields in the modal are completed (prevent REQUIRED fields left empty)
 
+    const [email, setEmail] = useState(null); // the value of the email provided
+    const [error_message, setErrorMessage] = useState(null); 
+    const [step, setStep] = useState(null);
+
+    const { role } = useParams(); // to retrieve the type of user associated with this account (student or alumni)
+
     // First enter this page, fetch account profile data
     useEffect(() => {
+        setStep(null);
+        
         axios.get("/account/profile")
             .then(res => {
                 setAccount(res.data);
@@ -349,6 +358,29 @@ const Account = () => {
                         </div>
                     </>
                 );
+            } else if (attribute.type === "email") {
+                return (
+                    <>
+                        <label htmlFor={attribute.key} className="block text-sm font-medium text-gray-700 sr-only">
+                            {attribute.title}
+                        </label>
+                        <div className="mt-4 relative rounded-md shadow-sm">
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center">
+                                <MailIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                            </div>
+                            <input
+                                type="email"
+                                name="email"
+                                id="email"
+                                className={classNames("block w-full pl-10 sm:text-sm rounded-md", error_message === null ? "border-gray-300 focus:ring-emerald-500 focus:border-emerald-500" : "border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500")}
+                                placeholder={role === "student" ? "you@baylor.edu" : "you@alumni.baylor.edu"}
+                                value={email}
+                                onChange={event => setEmail(event.target.value)} 
+                                onSubmit={onSubmitEmail}
+                            />
+                        </div>
+                    </>
+                );
             }
         };
 
@@ -390,12 +422,12 @@ const Account = () => {
                     [*][*][*][*] TESTING BUTTON [*][*][*][*] 
                     [*][*][*][*] TESTING BUTTON [*][*][*][*] 
                 */} 
-                {/* <Button
+                <Button
                     
-                    onClick={() => console.log("VALUE", value, "VISIBILITY", visibility)} 
+                    onClick={() => console.log("ROLE", field.role)} 
                 >
                    check
-                </Button> */}
+                </Button>
             </>
         );
     };
@@ -426,6 +458,32 @@ const Account = () => {
     const onSubmit = () => {
         setLoading(true);
 
+        if (step === 1) {
+            setLoading(true);
+
+            axios.get("/signup/email/" + email)
+                .then(res => {
+                    console.log(res.data);
+                    setStep(null);
+                }).catch(err => {
+                    let response = err.response.data;
+
+                    if (response.code === "EmailExistsException") {
+                        setErrorMessage("This email address is already associated with another account.");
+                    } else if (response.code === "ConfirmationRequiredException") {
+                        // Email is already signed up in Cognito, but just not confirmed yet
+                        setStep(3);
+                    } else {
+                        setErrorMessage("We are unable to continue for you at this moment.");
+                    }
+
+                    console.log(err);
+                }).finally(() => {
+                    setLoading(false);
+                });
+        }
+        
+
         axios.put("/account/profile", update)
             .then(res => {
                 console.log(res);
@@ -434,6 +492,12 @@ const Account = () => {
             })
             .catch(err => console.log(err))
             .finally(() => setLoading(false));
+    };
+
+    const onSubmitEmail = (event) => {
+        event.target.value = "";
+        console.log("EMAIL SUBMITTED");
+        setStep(1);
     };
 
     const makeField = (section_key, field_key, field) => {
