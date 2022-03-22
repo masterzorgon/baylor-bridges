@@ -18,7 +18,11 @@ const SignIn = () => {
         signIn(email, password)
             .then(response => {
                 console.log(response);
-                window.location.href = "/";
+
+                // IF FIRST TIME SIGNED IN, RE LOCATE TO NEW MEMBER PAGE
+                window.location.href = "/sign-in/profile-setup";
+                // ELSE, RE LOCATE TO HOME PAGE
+                // window.location.href = "/";
             })
             .catch(error => {
                 let response = error.response.data;
