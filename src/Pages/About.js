@@ -340,7 +340,7 @@ const About = () => {
     
     return (
         <div className="bg-white">
-            <div className="relative bg-emerald-800">
+            <div className="relative bg-emerald-800 mb-8">
                 <div className="absolute inset-0">
                     <img
                         className="w-full h-full object-cover"
@@ -363,18 +363,18 @@ const About = () => {
             </div>
 
             {/* CHAIR SECTION */}
-            <div className="mx-auto py-12 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-24">
-                <div className="space-y-12 lg:grid lg:grid-cols-3 lg:gap-8 lg:space-y-0">
+            <div className="mx-auto py-8 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-20">
+                <div className="space-y-8 lg:grid lg:grid-cols-3 lg:gap-8 lg:space-y-0">
                     <div className="space-y-5 sm:space-y-4">
                         <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">Chairs</h2>
                         {/* this is the left side descriptions */}
-                        <p className="text-md text-gray-500">
+                        <p className="text-md text-gray-500 tracking-tight">
                             To ensure the success of Baylor Bridges, an Alumni Board will be established to direct and govern its program goals, engagement, and outreach.
                         </p>
                     </div>
                     {/* PROFILE CARDS BELOW */}
                     <div className="lg:col-span-2">
-                        <ul className="space-y-12 sm:grid sm:grid-cols-2 sm:gap-12 sm:space-y-0 lg:gap-x-8">
+                        <ul className="space-y-6 sm:grid sm:grid-cols-2 sm:gap-8 sm:space-y-0 lg:gap-x-8">
                             {chair.map((person) => (
                                 <li key={person.name}>
                                     <div className="flex items-center space-x-4 lg:space-x-6">
@@ -404,17 +404,17 @@ const About = () => {
                 </div>
             </div>
             {/* MENTORSHIP */}
-            <div className="mx-auto py-12 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-24">
-                <div className="space-y-12 lg:grid lg:grid-cols-3 lg:gap-8 lg:space-y-0">
+            <div className="mx-auto py-8 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-20">
+                <div className="space-y-8 lg:grid lg:grid-cols-3 lg:gap-8 lg:space-y-0">
                     <div className="space-y-5 sm:space-y-4">
                         <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">Mentorship Pillar</h2>
-                        <p className="text-md text-gray-500">
+                        <p className="text-md text-gray-500 tracking-tight">
                             Baylor Bridges will allow meaningful engagement between healthcare alumni and prehealth undergraduates through intentional programs that facilitate professional, personal and spiritual mentorship.
                         </p>
                     </div>
                     {/* PROFILE CARDS BELOW */}
                     <div className="lg:col-span-2">
-                        <ul className="space-y-12 sm:grid sm:grid-cols-2 sm:gap-12 sm:space-y-0 lg:gap-x-8">
+                        <ul className="space-y-6 sm:grid sm:grid-cols-2 sm:gap-8 sm:space-y-0 lg:gap-x-8">
                             {mentorship.map((person) => (
                                 <li key={person.name}>
                                     <div className="flex items-center space-x-4 lg:space-x-6">
@@ -444,17 +444,17 @@ const About = () => {
                 </div>
             </div>
             {/* LEADERSHIP */}
-            <div className="mx-auto py-12 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-24">
-                <div className="space-y-12 lg:grid lg:grid-cols-3 lg:gap-8 lg:space-y-0">
+            <div className="mx-auto py-8 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-20">
+                <div className="space-y-8 lg:grid lg:grid-cols-3 lg:gap-8 lg:space-y-0">
                     <div className="space-y-5 sm:space-y-4">
                         <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">Leadership Pillar</h2>
-                        <p className="text-md text-gray-500">
+                        <p className="text-md text-gray-500 tracking-tight">
                             Baylor Bridges will address many issues of the global healthcare system by preparing talented and conscientious students for a career in medical leadership and service.
                         </p>
                     </div>
                     {/* PROFILE CARDS BELOW */}
                     <div className="lg:col-span-2">
-                        <ul className="space-y-12 sm:grid sm:grid-cols-2 sm:gap-12 sm:space-y-0 lg:gap-x-8">
+                        <ul className="space-y-6 sm:grid sm:grid-cols-2 sm:gap-8 sm:space-y-0 lg:gap-x-8">
                             {leadership.map((person) => (
                                 <li key={person.name}>
                                     <div className="flex items-center space-x-4 lg:space-x-6">
@@ -484,17 +484,17 @@ const About = () => {
                 </div>
             </div>
             {/* RESEARCH */}
-            <div className="mx-auto py-12 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-24">
-                <div className="space-y-12 lg:grid lg:grid-cols-3 lg:gap-8 lg:space-y-0">
+            <div className="mx-auto py-8 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-20">
+                <div className="space-y-8 lg:grid lg:grid-cols-3 lg:gap-8 lg:space-y-0">
                     <div className="space-y-5 sm:space-y-4">
                         <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">Research  Pillar</h2>
-                        <p className="text-md text-gray-500">
+                        <p className="text-md text-gray-500 tracking-tight">
                             Baylor Bridges will encourage cutting edge research between alumni and pre-health undergraduates through selective programs that focus on academic rigor.
                         </p>
                     </div>
                     {/* PROFILE CARDS BELOW */}
                     <div className="lg:col-span-2">
-                        <ul className="space-y-12 sm:grid sm:grid-cols-2 sm:gap-12 sm:space-y-0 lg:gap-x-8">
+                        <ul className="space-y-6 sm:grid sm:grid-cols-2 sm:gap-8 sm:space-y-0 lg:gap-x-8">
                             {research.map((person) => (
                                 <li key={person.name}>
                                     <div className="flex items-center space-x-4 lg:space-x-6">
@@ -524,17 +524,17 @@ const About = () => {
                 </div>
             </div>
             {/* TECH TEAM */}
-            <div className="mx-auto py-12 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-24">
-                <div className="space-y-12 lg:grid lg:grid-cols-3 lg:gap-8 lg:space-y-0">
+            <div className="mx-auto py-8 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-20">
+                <div className="space-y-8 lg:grid lg:grid-cols-3 lg:gap-8 lg:space-y-0">
                     <div className="space-y-5 sm:space-y-4">
                         <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">Technology Directors</h2>
-                        <p className="text-md text-gray-500">
+                        <p className="text-md text-gray-500 tracking-tight">
                             Development and Maintenance Team for the Baylor Bridges Web Application and Database.
                         </p>
                     </div>
                     {/* PROFILE CARDS BELOW */}
                     <div className="lg:col-span-2">
-                        <ul className="space-y-12 sm:grid sm:grid-cols-2 sm:gap-12 sm:space-y-0 lg:gap-x-8">
+                        <ul className="space-y-6 sm:grid sm:grid-cols-2 sm:gap-8 sm:space-y-0 lg:gap-x-8">
                             {tech.map((person) => (
                                 <li key={person.name}>
                                     <div className="flex items-center space-x-4 lg:space-x-6">
