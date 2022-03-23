@@ -504,17 +504,17 @@ const Experience = () => {
         <>
             <Container current="experience">
                 <div className="mt-10 divide-y divide-gray-200">
-                    <div className="flex items-center justify-between flex-wrap">
+                    <div className="flex items-center justify-between space-x-4">
                         <div className="space-y-1">
                             <h3 className="text-lg leading-6 font-medium text-gray-900">Experience</h3>
                             <p className="max-w-2xl text-sm text-gray-500">Manage all your past experiences and publications.</p>
                         </div>
-                        <div className="flex justify-center order-3 flex-shrink-0 w-full sm:order-2 sm:mt-0 sm:w-auto">
+                        <div className="flex justify-center order-3 flex-shrink-0 sm:order-2 sm:mt-0 sm:w-auto">
                             <button
                                 onClick={() => onOpenModal({ title: null, start_time: null, stop_time: null, description: null }, EXPERIENCE, CREATE)}
-                                className="h-10 w-10 text-white bg-emerald-600 hover:bg-emerald-700 focus:ring-emerald-500 focus:ring-2 focus:ring-offset-2 flex justify-center rounded-full items-center"
+                                className="h-11 w-11 sm:h-10 sm:w-10 text-white bg-emerald-600 hover:bg-emerald-700 focus:ring-emerald-500 focus:ring-2 focus:ring-offset-2 flex justify-center rounded-full items-center"
                             >
-                                <PlusSmIcon className="h-6 w-6" aria-hidden="true" />
+                                <PlusSmIcon className="h-7 w-7 sm:h-6 sm:w-6" aria-hidden="true" />
                             </button>
                         </div>
                     </div>
