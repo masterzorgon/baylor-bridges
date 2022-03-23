@@ -10,6 +10,7 @@ import Markdown from "../components/Markdown";
 
 import Photo from "../components/Photo";
 import { AccountContext } from "../components/Account";
+import SignInRequiredModal from "../components/SignInRequiredModal";
 
 const classNames = (...classes) => classes.filter(Boolean).join(" ");
 
@@ -70,6 +71,9 @@ const Profile = () => {
     const [isSelf, setIsSelf] = useState(false);
     const [profileAccount, setProfileAccount] = useState(null);
 
+    // eslint-disable-next-line no-unused-vars
+    const [authenticated,setAuthenticated]=useState(null);
+
     useEffect(() => {
         let url = "";
 
@@ -79,6 +83,7 @@ const Profile = () => {
             url = `/account/${user_id}/profile`;
         }
 
+        console.log("call useeffect");
         axios.get(url, { withoutInterceptors: true })
             .then(({ data }) => {
                 setProfileAccount(data);
@@ -86,9 +91,12 @@ const Profile = () => {
                 if (getAccountLocal().user_id === data.user_id) {
                     setIsSelf(true);
                 }
+
+                setAuthenticated(true);
             })
             .catch(err => {
-                console.log(err);
+                setAuthenticated(false);
+                console.log(err.response.data.code);
             });
     }, [user_id]);
 
@@ -169,9 +177,15 @@ const Profile = () => {
     };
 
     return (
+
         <>
-            <div className="min-h-full bg-gray-100">
+            {console.log("authenticated is"+authenticated)}
+
+            <div className={authenticated!==false?"min-h-full bg-gray-100":"min-h-full bg-gray-100 blur-sm"}>
                 <main className="py-10">
+
+                    {authenticated===false?<SignInRequiredModal/>:""}
+
                     {/* Page header */}
                     <div className="max-w-3xl mx-auto px-4 sm:px-6 md:flex md:items-center md:justify-between md:space-x-5 lg:max-w-7xl lg:px-8">
                         <div className="flex items-center space-x-5">
