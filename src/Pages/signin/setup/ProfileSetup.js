@@ -15,7 +15,7 @@ const ProfileSetup = () => {
         refAnimationInstance.current &&
         refAnimationInstance.current({
             ...opts,
-            origin: { y: 0.7 },
+            origin: { y: 0.6 },
             particleCount: Math.floor(750 * particleRatio)
         });
     }, []);
@@ -68,7 +68,7 @@ const ProfileSetup = () => {
     };
 
     return (
-        <div className="relative bg-gray-50 overflow-hidden">
+        <div className="relative bg-white-50 overflow-hidden">
             <ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
             <div className="hidden sm:block sm:absolute sm:inset-y-0 sm:h-full sm:w-full" aria-hidden="true">
                 <div className="relative h-full max-w-7xl mx-auto">
@@ -88,7 +88,7 @@ const ProfileSetup = () => {
                                 height={20}
                                 patternUnits="userSpaceOnUse"
                             >
-                                <rect x={0} y={0} width={4} height={4} className="text-gray-200" fill="currentColor" />
+                                <rect x={0} y={0} width={4} height={4} className="text-gray-300" fill="currentColor" />
                             </pattern>
                         </defs>
                         <rect width={404} height={784} fill="url(#f210dbf6-a58d-4871-961e-36d5016a0f49)" />
@@ -109,7 +109,7 @@ const ProfileSetup = () => {
                                 height={20}
                                 patternUnits="userSpaceOnUse"
                             >
-                                <rect x={0} y={0} width={4} height={4} className="text-gray-200" fill="currentColor" />
+                                <rect x={0} y={0} width={4} height={4} className="text-gray-300" fill="currentColor" />
                             </pattern>
                         </defs>
                         <rect width={404} height={784} fill="url(#5d0dd344-b041-4d26-bec4-8d33ea57ec9b)" />
@@ -206,6 +206,9 @@ const ProfileSetup = () => {
                 </main>
             </div>
         </div>
+
+
+
     );
 };
 
