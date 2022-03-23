@@ -10,7 +10,7 @@ const SignIn = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error_message, setErrorMessage] = useState(null);
-    // const [newUser, setNewUser] = useState(null);
+    // const [newUser, setNewUser] = useState(null); // used to determine whether user has any null values, and direct them to new user page
     const { signIn } = useContext(AccountContext);
 
     // useEffect(() => {
@@ -24,7 +24,7 @@ const SignIn = () => {
             .then(response => {
                 console.log(response);
 
-                // FIX ME: newUser STATE DOES NOT CHANGE IMMEDIATELY UPON SIGN IN
+                // FIX ME: newUser state does not change from prev state upon click, but only after the second click
                 // for (const key in response) {
                 //     if (response[key] === null) {
                 //         setNewUser(true);
