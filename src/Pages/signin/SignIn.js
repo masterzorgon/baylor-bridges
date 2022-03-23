@@ -10,7 +10,7 @@ const SignIn = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error_message, setErrorMessage] = useState(null);
-    // const [newUser, setNewUser] = useState(null); // used to determine whether user has any null values, and direct them to new user page
+    // const [newUser, setNewUser] = useState(false); // used to determine whether user has any null values, and direct them to new user page
     const { signIn } = useContext(AccountContext);
 
     // useEffect(() => {
@@ -23,20 +23,21 @@ const SignIn = () => {
         signIn(email, password)
             .then(response => {
                 console.log(response);
+                let redirect = false;
+                
+                for (const key in response) {
+                    if (response[key] === null) {
+                        redirect = true;
+                        console.log(redirect);
+                        break;
+                    } else {
+                        redirect = false;
+                        console.log(redirect);
+                    }
+                }
 
-                // FIX ME: newUser state does not change from prev state upon click, but only after the second click
-                // for (const key in response) {
-                //     if (response[key] === null) {
-                //         setNewUser(true);
-                //         break;
-                //     } else {
-                //         setNewUser(false);
-                //     }
-                // }
-
-                // if (newUser) window.location.href = "/sign-in/setup/profile-setup";
-                // else window.location.href = "/";
-                window.location.href = "/sign-in/setup/profile-setup";
+                if (redirect) window.location.href = "/sign-in/setup/profile-setup";
+                else window.location.href = "/";
             })
             .catch(error => {
                 let response = error.response.data;

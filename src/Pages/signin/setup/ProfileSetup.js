@@ -16,7 +16,7 @@ const ProfileSetup = () => {
         refAnimationInstance.current({
             ...opts,
             origin: { y: 0.7 },
-            particleCount: Math.floor(200 * particleRatio)
+            particleCount: Math.floor(750 * particleRatio)
         });
     }, []);
 
@@ -42,20 +42,20 @@ const ProfileSetup = () => {
             });
 
         makeShot(0.35, {
-            spread: 100,
+            spread: 180,
             decay: 0.91,
             scalar: 0.8
         });
 
         makeShot(0.1, {
-            spread: 120,
+            spread: 180,
             startVelocity: 25,
             decay: 0.92,
             scalar: 1.2
         });
 
         makeShot(0.1, {
-            spread: 120,
+            spread: 180,
             startVelocity: 45
         });
     }, [makeShot]);
@@ -63,7 +63,7 @@ const ProfileSetup = () => {
     const onSubmit = (event) => {
         fire();
         setTimeout(() => {
-            window.location.href = "/sign-in/setup/all-done";
+            window.location.href = "/sign-in/setup/all-done"; // link to next page
         }, 1500);
     };
 
