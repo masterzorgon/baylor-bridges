@@ -206,9 +206,6 @@ const ProfileSetup = () => {
                 </main>
             </div>
         </div>
-
-
-
     );
 };
 
