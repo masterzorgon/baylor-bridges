@@ -95,8 +95,13 @@ const Profile = () => {
                 setAuthenticated(true);
             })
             .catch(err => {
-                setAuthenticated(false);
-                console.log(err.response.data.code);
+                if(err.response.data.code&&err.response.data.code==="AuthenticationRequiredException") {
+                    setAuthenticated(false);
+                    console.log(err.response.data.code);
+                }else{
+                    console.log("other errors");
+                }
+                
             });
     }, [user_id]);
 
