@@ -9,13 +9,18 @@ const EnterInfo = () => {
     const [account, setAccount] = useState({
         biography: "",
         city: "",
-        email: "",
         first_name: "",
-        graduate_semester: "",
         graduate_year: "",
+        graduate_semester: "",
         headline: "",
         last_name: "",
         state: "",
+        contact_info: {
+            email: "",
+            email_visibility: false,
+            phone: "",
+            phone_visibility: false,
+        }
     }); // updates account info
 
     useEffect(() => {
@@ -78,7 +83,6 @@ const EnterInfo = () => {
                                         type="text"
                                         name="first-name"
                                         id="first-name"
-                                        autoComplete="given-name"
                                         placeholder="John"
                                         onChange={event => setAccount({...account, first_name: event.target.value})}
                                         className="block w-full shadow-sm sm:text-sm focus:ring-emerald-500 focus:border-emerald-500 border-gray-300 rounded-md"
@@ -94,9 +98,38 @@ const EnterInfo = () => {
                                         type="text"
                                         name="last-name"
                                         id="last-name"
-                                        autoComplete="family-name"
                                         placeholder="Doe"
                                         onChange={event => setAccount({...account, last_name: event.target.value})}
+                                        className="block w-full shadow-sm sm:text-sm focus:ring-emerald-500 focus:border-emerald-500 border-gray-300 rounded-md"
+                                    />
+                                </div>
+                            </div>
+                            <div>
+                                <label htmlFor="first-name" className="block text-sm font-medium text-gray-700">
+                                    Graduate Class Semester
+                                </label>
+                                <div className="mt-1">
+                                    <input
+                                        type="text"
+                                        name="first-name"
+                                        id="first-name"
+                                        placeholder="Spring"
+                                        onChange={event => setAccount({...account, graduate_semester: event.target.value})}
+                                        className="block w-full shadow-sm sm:text-sm focus:ring-emerald-500 focus:border-emerald-500 border-gray-300 rounded-md"
+                                    />
+                                </div>
+                            </div>
+                            <div>
+                                <label htmlFor="last-name" className="block text-sm font-medium text-gray-700">
+                                    Graduate Class Year
+                                </label>
+                                <div className="mt-1">
+                                    <input
+                                        type="text"
+                                        name="last-name"
+                                        id="last-name"
+                                        placeholder="2001"
+                                        onChange={event => setAccount({...account, graduate_year: event.target.value})}
                                         className="block w-full shadow-sm sm:text-sm focus:ring-emerald-500 focus:border-emerald-500 border-gray-300 rounded-md"
                                     />
                                 </div>
@@ -110,23 +143,8 @@ const EnterInfo = () => {
                                         id="email"
                                         name="email"
                                         type="email"
-                                        autoComplete="email"
-                                        placeholder="Your work title"
+                                        placeholder="Orthopedic surgeon"
                                         onChange={event => setAccount({...account, headline: event.target.value})}
-                                        className="block w-full shadow-sm sm:text-sm focus:ring-emerald-500 focus:border-emerald-500 border-gray-300 rounded-md"
-                                    />
-                                </div>
-                            </div>
-                            <div className="sm:col-span-2">
-                                <label htmlFor="grad" className="block text-sm font-medium text-gray-700">
-                                    Graduate Class
-                                </label>
-                                <div className="mt-1">
-                                    <input
-                                        type="text"
-                                        name="grad"
-                                        id="grad"
-                                        placeholder="Class of x-x-x-x"
                                         className="block w-full shadow-sm sm:text-sm focus:ring-emerald-500 focus:border-emerald-500 border-gray-300 rounded-md"
                                     />
                                 </div>
@@ -141,6 +159,7 @@ const EnterInfo = () => {
                                         name="state"
                                         id="state"
                                         placeholder="Texas"
+                                        onChange={event => setAccount({...account, state: event.target.value})}
                                         className="block w-full shadow-sm sm:text-sm focus:ring-emerald-500 focus:border-emerald-500 border-gray-300 rounded-md"
                                     />
                                 </div>
@@ -154,8 +173,8 @@ const EnterInfo = () => {
                                         id="email"
                                         name="email"
                                         type="email"
-                                        autoComplete="email"
                                         placeholder="you@example.com"
+                                        onChange={event => setAccount({ ...account, contact_info: {...account.contact_info, email: event.target.value}})}
                                         className="block w-full shadow-sm sm:text-sm focus:ring-emerald-500 focus:border-emerald-500 border-gray-300 rounded-md"
                                     />
                                 </div>
@@ -174,9 +193,9 @@ const EnterInfo = () => {
                                         type="text"
                                         name="phone"
                                         id="phone"
-                                        autoComplete="tel"
                                         aria-describedby="phone-description"
                                         placeholder="+1 (234) 567-8910"
+                                        onChange={event => setAccount({...account, contact_info: {...account.contact_info, phone: event.target.value}})}
                                         className="block w-full shadow-sm sm:text-sm focus:ring-emerald-500 focus:border-emerald-500 border-gray-300 rounded-md"
                                     />
                                 </div>
@@ -195,6 +214,7 @@ const EnterInfo = () => {
                                         name="how-can-we-help"
                                         aria-describedby="how-can-we-help-description"
                                         placeholder="A brief summary of who you are and what you do"
+                                        onChange={event => setAccount({...account, biography: event.target.value})}
                                         rows={4}
                                         className="block w-full shadow-sm sm:text-sm focus:ring-emerald-500 focus:border-emerald-500 border border-gray-300 rounded-md"
                                         defaultValue={""}
