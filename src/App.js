@@ -17,7 +17,7 @@ import CookiesPolicy from "./Pages/policies&terms/CookiesPolicy";
 import SignIn from "./Pages/signin/SignIn";
 import ResetPassword from "./Pages/signin/ResetPassword";
 import ProfileSetup from "./Pages/signin/setup/ProfileSetup";
-import EnterName from "./Pages/signin/setup/EnterName";
+import EnterInfo from "./Pages/signin/setup/EnterInfo";
 import { default as SignInChallenge } from "./Pages/signin/Challenge";
 import { default as SignUpEntrace } from "./Pages/signup/Entrace";
 import { default as SignUpForm } from "./Pages/signup/Form";
@@ -105,7 +105,7 @@ function App() {
                     <Route path="/reset-password" element={<ResetPassword />}/>
                     <Route path="/sign-in/challenge" element={<SignInChallenge />} />
                     <Route path="/sign-in/setup/profile-setup" element={<ProfileSetup />} /> 
-                    <Route path="/sign-in/setup/enter-name" element={<EnterName />} /> 
+                    <Route path="/sign-in/setup/enter-info" element={<EnterInfo />} /> 
 
                     <Route path="/sign-up" element={<SignUpEntrace />} />
                     <Route path="/sign-up/:role" element={<SignUpForm />} />

@@ -63,8 +63,8 @@ const ProfileSetup = () => {
     const onSubmit = (event) => {
         fire();
         setTimeout(() => {
-            window.location.href = "/sign-in/setup/enter-name"; // link to next page
-        }, 1500);
+            window.location.href = "/sign-in/setup/enter-info"; // link to next page
+        }, 2000);
     };
 
     return (
