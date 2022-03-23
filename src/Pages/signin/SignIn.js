@@ -171,12 +171,6 @@ const SignIn = () => {
                                 >
                                     Sign In
                                 </Button>
-
-                                <Button
-                                    onClick={onSubmit}
-                                >
-                                    TESTING
-                                </Button>
                             </div>
 
                             <div className="mt-3 text-sm text-center w-full grid place-items-center">
