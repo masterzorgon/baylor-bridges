@@ -10,7 +10,12 @@ const SignIn = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error_message, setErrorMessage] = useState(null);
+    // const [newUser, setNewUser] = useState(null);
     const { signIn } = useContext(AccountContext);
+
+    // useEffect(() => {
+    //     console.log("NEW USER STATUS", newUser);
+    // }, []);
 
     const onSubmit = (event) => {
         setLoading(true);
@@ -19,10 +24,19 @@ const SignIn = () => {
             .then(response => {
                 console.log(response);
 
-                // IF FIRST TIME SIGNED IN, RE LOCATE TO NEW MEMBER PAGE
-                window.location.href = "/sign-in/profile-setup";
-                // ELSE, RE LOCATE TO HOME PAGE
-                // window.location.href = "/";
+                // FIX ME: newUser STATE DOES NOT CHANGE IMMEDIATELY UPON SIGN IN
+                // for (const key in response) {
+                //     if (response[key] === null) {
+                //         setNewUser(true);
+                //         break;
+                //     } else {
+                //         setNewUser(false);
+                //     }
+                // }
+
+                // if (newUser) window.location.href = "/sign-in/setup/profile-setup";
+                // else window.location.href = "/";
+                window.location.href = "/sign-in/setup/profile-setup";
             })
             .catch(error => {
                 let response = error.response.data;
@@ -37,7 +51,9 @@ const SignIn = () => {
                     window.location.href = `/sign-in/challenge?session=${session}&name=${name}&sub=${sub}`;
                 } else setErrorMessage(response.message);
             })
-            .finally(() => setLoading(false));
+            .finally(() => {
+                setLoading(false);
+            });
     };
 
     return (
@@ -157,6 +173,12 @@ const SignIn = () => {
                                     disabled={loading}
                                 >
                                     Sign In
+                                </Button>
+
+                                <Button
+                                    onClick={onSubmit}
+                                >
+                                    TESTING
                                 </Button>
                             </div>
 
