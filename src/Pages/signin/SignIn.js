@@ -28,12 +28,8 @@ const SignIn = () => {
                 for (const key in response) {
                     if (response[key] === null) {
                         redirect = true;
-                        console.log(redirect);
                         break;
-                    } else {
-                        redirect = false;
-                        console.log(redirect);
-                    }
+                    } 
                 }
 
                 if (redirect) window.location.href = "/sign-in/setup/profile-setup";
