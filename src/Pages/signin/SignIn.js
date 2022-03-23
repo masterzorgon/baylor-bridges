@@ -32,8 +32,10 @@ const SignIn = () => {
                     } 
                 }
 
+            
+
                 if (redirect) window.location.href = "/sign-in/setup/profile-setup";
-                else window.location.href = "/";
+                else window.history.back();
             })
             .catch(error => {
                 let response = error.response.data;
@@ -52,6 +54,7 @@ const SignIn = () => {
                 setLoading(false);
             });
     };
+
 
     return (
         <>
