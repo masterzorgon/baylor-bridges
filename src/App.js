@@ -16,6 +16,8 @@ import CookiesPolicy from "./Pages/policies&terms/CookiesPolicy";
 
 import SignIn from "./Pages/signin/SignIn";
 import ResetPassword from "./Pages/signin/ResetPassword";
+import ProfileSetup from "./Pages/signin/setup/ProfileSetup";
+import AllDone from "./Pages/signin/setup/AllDone";
 import { default as SignInChallenge } from "./Pages/signin/Challenge";
 import { default as SignUpEntrace } from "./Pages/signup/Entrace";
 import { default as SignUpForm } from "./Pages/signup/Form";
@@ -102,6 +104,8 @@ function App() {
                     <Route path="/sign-in" element={<SignIn />} />
                     <Route path="/reset-password" element={<ResetPassword />}/>
                     <Route path="/sign-in/challenge" element={<SignInChallenge />} />
+                    <Route path="/sign-in/setup/profile-setup" element={<ProfileSetup />} /> 
+                    <Route path="/sign-in/setup/all-done" element={<AllDone />} /> 
 
                     <Route path="/sign-up" element={<SignUpEntrace />} />
                     <Route path="/sign-up/:role" element={<SignUpForm />} />

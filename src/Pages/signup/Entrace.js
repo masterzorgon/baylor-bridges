@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { RadioGroup } from "@headlessui/react";
-import { CheckCircleIcon } from "@heroicons/react/solid";
+import { CheckCircleIcon, ArrowSmLeftIcon } from "@heroicons/react/solid";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -50,11 +50,13 @@ const Entrace = () => {
 
                 {/* Title and subtitle */}
                 <div className="text-center">
-                    <img
-                        className="mx-auto h-20 w-auto"
-                        src="/Baylor-University-Athletics-01.svg"
-                        alt="Workflow"
-                    />
+                    <a href="/">
+                        <img
+                            className="mx-auto h-20 w-auto"
+                            src="/Baylor-University-Athletics-01.svg"
+                            alt="Workflow"
+                        />
+                    </a>
                     <h2 className="mt-6 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">Sign up</h2>
                     <p className="mt-4 text-lg leading-6 text-gray-500">
                         Create an account in Baylor Bridges, start your connection with all the Baylor University people around the world.
@@ -117,6 +119,13 @@ const Entrace = () => {
                     >
                         Next
                     </button>
+                </div>
+                
+                <div className="mt-3 text-sm text-center w-full grid place-items-center">
+                    <a href="/" className="font-medium text-emerald-600 hover:text-emerald-500 flex items-center space-x-0.5">
+                        <ArrowSmLeftIcon className="h-4 w-4" />
+                        <span>Go back home</span>
+                    </a>
                 </div>
             </div>
         </div>

@@ -83,14 +83,12 @@ const Account = () => {
 
     const [email, setEmail] = useState(null); // the value of the email provided
     const [error_message, setErrorMessage] = useState(null); 
-    const [step, setStep] = useState(null);
+    const [sendEmail, setSendEmail] = useState(false);
 
     const { role } = useParams(); // to retrieve the type of user associated with this account (student or alumni)
 
     // First enter this page, fetch account profile data
-    useEffect(() => {
-        setStep(null);
-        
+    useEffect(() => {        
         axios.get("/account/profile")
             .then(res => {
                 setAccount(res.data);
@@ -375,8 +373,8 @@ const Account = () => {
                                 className={classNames("block w-full pl-10 sm:text-sm rounded-md", error_message === null ? "border-gray-300 focus:ring-emerald-500 focus:border-emerald-500" : "border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500")}
                                 placeholder={role === "student" ? "you@baylor.edu" : "you@alumni.baylor.edu"}
                                 value={email}
+                                onFocus={() => setSendEmail(true)}
                                 onChange={event => setEmail(event.target.value)} 
-                                onSubmit={onSubmitEmail}
                             />
                         </div>
                     </>
@@ -422,12 +420,12 @@ const Account = () => {
                     [*][*][*][*] TESTING BUTTON [*][*][*][*] 
                     [*][*][*][*] TESTING BUTTON [*][*][*][*] 
                 */} 
-                <Button
+                {/* <Button
                     
-                    onClick={() => console.log("ROLE", field.role)} 
+                    onClick={getEmail} 
                 >
                    check
-                </Button>
+                </Button> */}
             </>
         );
     };
@@ -458,27 +456,25 @@ const Account = () => {
     const onSubmit = () => {
         setLoading(true);
 
-        if (step === 1) {
-            setLoading(true);
-
-            axios.get("/signup/email/" + email)
+        if (sendEmail) {
+            // UPDATE ACCOUNT VERIFIED EMAIL
+            axios.put("/signup/email/" + email)
                 .then(res => {
                     console.log(res.data);
-                    setStep(null);
                 }).catch(err => {
                     let response = err.response.data;
 
                     if (response.code === "EmailExistsException") {
                         setErrorMessage("This email address is already associated with another account.");
                     } else if (response.code === "ConfirmationRequiredException") {
-                        // Email is already signed up in Cognito, but just not confirmed yet
-                        setStep(3);
+                        setErrorMessage("This email address is already associated with another account.");
                     } else {
                         setErrorMessage("We are unable to continue for you at this moment.");
                     }
 
                     console.log(err);
                 }).finally(() => {
+                    setSendEmail(false);
                     setLoading(false);
                 });
         }
@@ -492,12 +488,6 @@ const Account = () => {
             })
             .catch(err => console.log(err))
             .finally(() => setLoading(false));
-    };
-
-    const onSubmitEmail = (event) => {
-        event.target.value = "";
-        console.log("EMAIL SUBMITTED");
-        setStep(1);
     };
 
     const makeField = (section_key, field_key, field) => {

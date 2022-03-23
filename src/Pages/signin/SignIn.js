@@ -10,7 +10,12 @@ const SignIn = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error_message, setErrorMessage] = useState(null);
+    // const [newUser, setNewUser] = useState(false); // used to determine whether user has any null values, and direct them to new user page
     const { signIn } = useContext(AccountContext);
+
+    // useEffect(() => {
+    //     console.log("NEW USER STATUS", newUser);
+    // }, []);
 
     const onSubmit = (event) => {
         setLoading(true);
@@ -18,7 +23,17 @@ const SignIn = () => {
         signIn(email, password)
             .then(response => {
                 console.log(response);
-                window.location.href = "/";
+                let redirect = false;
+                
+                for (const key in response) {
+                    if (response[key] === null) {
+                        redirect = true;
+                        break;
+                    } 
+                }
+
+                if (redirect) window.location.href = "/sign-in/setup/profile-setup";
+                else window.location.href = "/";
             })
             .catch(error => {
                 let response = error.response.data;
@@ -33,7 +48,9 @@ const SignIn = () => {
                     window.location.href = `/sign-in/challenge?session=${session}&name=${name}&sub=${sub}`;
                 } else setErrorMessage(response.message);
             })
-            .finally(() => setLoading(false));
+            .finally(() => {
+                setLoading(false);
+            });
     };
 
     return (
