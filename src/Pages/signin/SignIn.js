@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { XCircleIcon, ArrowSmLeftIcon } from "@heroicons/react/solid";
+import { XCircleIcon } from "@heroicons/react/solid";
 
 import { AccountContext } from "../../components/Account";
 import Button from "../../components/Button";
@@ -64,8 +64,8 @@ const SignIn = () => {
 
     return (
         <>
-            <div className="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-                <div className="sm:mx-auto sm:w-full sm:max-w-md">
+            <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+                <div className="sm:mx-auto sm:w-full sm:max-w-md -mt-14">
                     <a href="/">
                         <img
                             className="mx-auto h-20 w-auto"
@@ -78,7 +78,7 @@ const SignIn = () => {
 
                 <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
                     <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-                        <div className="space-y-6">
+                        <div className="space-y-7">
                             {/* Error message */}
                             {
                                 error_message !== null &&
@@ -172,21 +172,15 @@ const SignIn = () => {
                                 </div>
                             </div>
 
-                            <div>
+                            <div className="text-sm text-center w-full grid place-items-center space-y-4">
                                 <Button
                                     onClick={onSubmit}
                                     loading={loading}
                                     disabled={loading}
+                                    className="py-3"
                                 >
                                     Sign In
                                 </Button>
-                            </div>
-
-                            <div className="mt-3 text-sm text-center w-full grid place-items-center">
-                                <a href="/" className="font-medium text-emerald-600 hover:text-emerald-500 flex items-center space-x-0.5">
-                                    <ArrowSmLeftIcon className="h-4 w-4" />
-                                    <span>Go back home</span>
-                                </a>
                             </div>
                         </div>
                     </div>
