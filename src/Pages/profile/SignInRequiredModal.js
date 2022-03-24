@@ -3,13 +3,19 @@ import React, { Fragment, useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 
 export default function SignInRequiredModal() {
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(false);
     const [signInUrl, setSignInUrl] = useState("");
 
     useEffect(() => {
         const query = new URLSearchParams(window.location.search);
         query.set("redirect", window.location.pathname);
         setSignInUrl(`/sign-in?${query.toString()}`);
+    }, []);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setOpen(true);
+        }, 400);
     }, []);
 
     return (
@@ -44,11 +50,14 @@ export default function SignInRequiredModal() {
                     >
                         <div className="w-full inline-block bg-white rounded-lg p-4 text-left shadow-xl transform transition-all sm:my-8 align-middle sm:max-w-lg sm:w-full sm:p-6 space-y-4">
                             <div>
-                                <img
-                                    className="mx-auto h-12 w-auto my-2"
-                                    src="/Baylor-University-Athletics-01.svg"
-                                    alt="Workflow"
-                                />
+                                <div className="flex justify-center">
+                                    <lord-icon
+                                        src="https://cdn.lordicon.com/zpxybbhl.json"
+                                        trigger="loop"
+                                        style={{ width: "8rem", height: "8rem" }}
+                                    >
+                                    </lord-icon>
+                                </div>
                                 <div className="mt-3 text-center sm:mt-5">
                                     <Dialog.Title as="h2" className="text-lg leading-6 font-medium text-gray-900">
                                         Join Baylor Bridges Today
