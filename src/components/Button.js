@@ -1,8 +1,7 @@
 import React from "react";
 
-function classNames(...classes) {
-    return classes.filter(Boolean).join(" ");
-}
+import { classNames } from "./Utils";
+
 
 const Button = ({onClick, loading, disabled, children, className}) => {
 

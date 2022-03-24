@@ -8,9 +8,8 @@ import Progress from "./Progress";
 import Password from "../../components/Password";
 import Button from "../../components/Button";
 
-function classNames(...classes) {
-    return classes.filter(Boolean).join(" ");
-}
+import { classNames } from "../../components/Utils";
+
 
 const Form = () => {
     const [loading, setLoading] = useState(false);

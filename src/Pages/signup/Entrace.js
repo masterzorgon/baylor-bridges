@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import { RadioGroup } from "@headlessui/react";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 
-function classNames(...classes) {
-    return classes.filter(Boolean).join(" ");
-}
+import { classNames } from "../../components/Utils";
 
 
 const Entrace = () => {

@@ -9,9 +9,8 @@ import { DebounceInput } from "react-debounce-input";
 import { AccountContext } from "./Account";
 import Photo from "./Photo";
 
-function classNames(...classes) {
-    return classes.filter(Boolean).join(" ");
-}
+import { classNames } from "./Utils";
+
 
 const Navbar = (props) => {
     const [searchParams] = useSearchParams();
