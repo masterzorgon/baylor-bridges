@@ -41,6 +41,7 @@ const profile = {
     },
     location: {
         title: "Location",
+        field_class: "col-span-1 sm:col-span-1",
         attribute: [
             { key: "city" },
             { key: "state" },
@@ -48,6 +49,7 @@ const profile = {
     },
     role: {
         title: "Role",
+        field_class: "col-span-1 sm:col-span-1",
         value_class: "capitalize",
         attribute: { key: "role" },
     },
@@ -82,8 +84,6 @@ const Profile = () => {
             setAuthenticated(false);
         }
 
-        setIsSelf(account && account.id === user_id);
-
 
         let url = "";
 
@@ -96,7 +96,7 @@ const Profile = () => {
         axios.get(url, { withoutInterceptors: true })
             .then(({ data }) => {
                 setProfileAccount(data);
-                setIsSelf(account && account.id === data.user_id);
+                setIsSelf(account && account.user_id === data.user_id);
                 setAuthenticated(true);
             })
             .catch(err => {
@@ -106,13 +106,10 @@ const Profile = () => {
                 } else {
                     console.log("other errors");
                 }
-
             });
     }, [user_id]);
 
     const getFieldDisplayValueRaw = (field) => {
-        console.log(field);
-
         if (!Array.isArray(field.attribute)) {
             field.attribute = [field.attribute];
         }
@@ -164,7 +161,7 @@ const Profile = () => {
         }
 
         return (
-            <div className={field.field_class ? field.field_class : "sm:col-span-1"}>
+            <div className={classNames("col-span-2 sm:col-span-1", field.field_class)}>
                 <dt className="text-sm font-medium text-gray-500">{field.title}</dt>
                 <dd className={classNames("mt-1 text-sm text-gray-900", field.value_class ? field.value_class : "")}>
                     {value}
@@ -218,14 +215,14 @@ const Profile = () => {
                                 </div>
                             }
                         </div>
-                        <div className="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3">
-                            {/* <button
+                        {/* <div className="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3">
+                            <button
                                 type="button"
                                 className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-emerald-500"
                             >
                                 Connect
-                            </button> */}
-                        </div>
+                            </button>
+                        </div> */}
                     </div>
 
                     <div className="mt-8 max-w-3xl mx-auto grid grid-cols-1 gap-6 sm:px-6 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-2">
@@ -277,7 +274,7 @@ const Profile = () => {
 
 
                                     <div className="border-t border-gray-200 px-4 py-5 sm:px-6">
-                                        <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+                                        <dl className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-2">
                                             {
                                                 Object.entries(profile).map(([field_key, field]) => (
                                                     getFieldDisplayValue(field)
