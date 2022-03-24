@@ -25,8 +25,8 @@ const semester = [
 ];
 
 const visibility_options = [
-    { title: "Self", value: "self", description: "Only visibie to you" },
-    { title: "Alumni", value: "alumni", description: "Visible to other alumni" },
+    { title: "Self", value: "self", description: "Only visibie to yourself" },
+    { title: "Alumni", value: "alumni", description: "Only visible to other alumni" },
     { title: "Public", value: "public", description: "Visibie to everyone" },
 ];
 
