@@ -302,7 +302,7 @@ const Experience = () => {
                     </div>
 
                     <Button
-                        className="mt-4"
+                        className="mt-4 text-sm"
                         loading={loading}
                         disabled={!complete || loading}
                         onClick={() => {
@@ -365,7 +365,7 @@ const Experience = () => {
                     </div>
 
                     <Button
-                        className="mt-4"
+                        className="mt-4 text-sm"
                         loading={loading}
                         disabled={!complete || loading}
                         onClick={() => {
@@ -413,7 +413,7 @@ const Experience = () => {
                     </div>
                     <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                         <Button
-                            className="w-full bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                            className="w-full text-sm bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                             loading={loading}
                             disabled={loading}
                             onClick={() => {
@@ -428,7 +428,7 @@ const Experience = () => {
                         </Button>
                         <button
                             type="button"
-                            className="mt-3 w-full inline-flex justify-center rounded-md shadow-sm px-4 py-2 bg-white text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                            className="mt-3 text-sm w-full inline-flex justify-center rounded-md shadow-sm px-4 py-2 bg-white text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                             onClick={() => !loading && setOpen(false)}
                             disabled={loading}
                         >

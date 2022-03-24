@@ -529,6 +529,7 @@ const Profile = () => {
                     ))
                 }
                 <Button
+                    className="text-sm"
                     loading={loading}
                     disabled={loading || !complete}
                     onClick={() => onSubmit()}
