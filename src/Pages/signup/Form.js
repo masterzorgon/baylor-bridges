@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Switch } from "@headlessui/react";
 import { MailIcon, ArrowSmRightIcon, CalculatorIcon } from "@heroicons/react/outline";
-import { ArrowSmLeftIcon } from "@heroicons/react/solid";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
@@ -150,7 +149,7 @@ const Form = () => {
                         type="email"
                         name="email"
                         id="email"
-                        className={classNames("block w-full pl-10 sm:text-sm rounded-md", error_message === null ? "border-gray-300 focus:ring-emerald-500 focus:border-emerald-500" : "border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500")}
+                        className={classNames("py-4 block w-full pl-10 sm:text-sm rounded-md", error_message === null ? "border-gray-300 focus:ring-emerald-500 focus:border-emerald-500" : "border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500")}
                         placeholder={role === "student" ? "you@baylor.edu" : "you@alumni.baylor.edu"}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
@@ -166,6 +165,7 @@ const Form = () => {
                 <h3 className="text-lg leading-6 font-medium text-gray-900">Your password</h3>
                 <p className="mt-1 text-sm font-medium mb-4 text-gray-500">Set a password for your account.</p>
                 <Password
+                    className="py-4"
                     onChange={(password, checked) => {
                         setPassword(password);
                         setPasswordChecked(checked);
@@ -223,7 +223,7 @@ const Form = () => {
                         type="email"
                         name="email"
                         id="email"
-                        className={classNames("block w-full pl-10 sm:text-sm rounded-md", error_message === null ? "border-gray-300 focus:ring-emerald-500 focus:border-emerald-500" : "border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500")}
+                        className={classNames("py-4 block w-full pl-10 sm:text-sm rounded-md", error_message === null ? "border-gray-300 focus:ring-emerald-500 focus:border-emerald-500" : "border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500")}
                         placeholder="000000"
                         value={confirmation_code}
                         onChange={(e) => setConfirmationCode(e.target.value)}
@@ -272,7 +272,7 @@ const Form = () => {
                 <Progress currentStep={step} />
 
 
-                <div className="px-5 md:mt-2 md:bg-white md:shadow md:rounded-lg md:px-8 md:py-8 md:-mx-8">
+                <div className="px-5 mt-10 md:mt-2 md:bg-white md:shadow md:rounded-lg md:px-8 md:py-8 md:-mx-8">
                     
                     {step === 1 && step1()}
                     {step === 2 && step2()}
@@ -288,9 +288,9 @@ const Form = () => {
                     }
 
 
-                    <div className="mt-6 text-sm text-right w-full grid place-items-end">
+                    <div className="mt-6 text-sm text-right w-full grid place-items-center space-y-4">
                         <Button
-                            className="relative text-center text-sm px-4 py-2 border border-transparent font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="relative text-center text-sm px-4 py-4 border border-transparent font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed"
                             onClick={onSubmit}
                             loading={loading}
                             disabled={loading || !complete}
@@ -300,13 +300,6 @@ const Form = () => {
                                 <ArrowSmRightIcon className="h-4 w-4" />
                             </span>
                         </Button>
-                    </div>
-                    
-                    <div className="mt-3 text-sm text-center w-full grid place-items-center">
-                        <a href="/" className="font-medium text-emerald-600 hover:text-emerald-500 flex items-center space-x-0.5">
-                            <ArrowSmLeftIcon className="h-4 w-4" />
-                            <span>Go back home</span>
-                        </a>
                     </div>
                 </div>
             </div>

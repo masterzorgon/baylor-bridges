@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { RadioGroup } from "@headlessui/react";
-import { CheckCircleIcon, ArrowSmLeftIcon } from "@heroicons/react/solid";
+import { CheckCircleIcon } from "@heroicons/react/solid";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -29,8 +29,8 @@ const Entrace = () => {
 
 
     return (
-        <div className="bg-white py-12 px-4 overflow-hidden sm:px-6 lg:px-8">
-            <div className="relative max-w-xl mx-auto">
+        <div className="min-h-screen flex justify-center bg-white py-12 px-4 overflow-hidden sm:px-6 lg:px-8">
+            <div className="min-h-full flex flex-col justify-center relative max-w-2xl mx-auto">
                 <svg className="absolute left-full transdiv translate-x-1/2" width={404} height={404} fill="none" viewBox="0 0 404 404" aria-hidden="true">
                     <defs>
                         <pattern id="85737c0e-0916-41d7-917f-596dc7edfa27" x={0} y={0} width={20} height={20} patternUnits="userSpaceOnUse">
@@ -49,7 +49,7 @@ const Entrace = () => {
                 </svg>
 
                 {/* Title and subtitle */}
-                <div className="text-center">
+                <div className="text-center -mt-14">
                     <a href="/">
                         <img
                             className="mx-auto h-20 w-auto"
@@ -74,7 +74,7 @@ const Entrace = () => {
                                     classNames(
                                         checked ? "border-transparent" : "border-gray-300",
                                         active ? "ring-2 ring-emerald-500" : "",
-                                        "relative bg-white border rounded-lg shadow-sm p-4 flex cursor-pointer focus:outline-none"
+                                        "relative bg-white border rounded-lg shadow-sm p-6 pb-7 flex cursor-pointer focus:outline-none"
                                     )
                                 }
                             >
@@ -91,7 +91,7 @@ const Entrace = () => {
                                             </div>
                                         </div>
                                         <CheckCircleIcon
-                                            className={classNames(checked ? "" : "opacity-0", "h-5 w-5 text-emerald-600 transition-all duration-75 ease-in")}
+                                            className={classNames(checked ? "" : "opacity-0", "h-7 w-7 -mt-1 -mr-2 text-emerald-600 transition-all duration-75 ease-in")}
                                             aria-hidden="true"
                                         />
                                         <div
@@ -110,22 +110,15 @@ const Entrace = () => {
                 </RadioGroup>
 
                 
-                <div className="mt-14 sm:mt-18 text-center">
+                <div className="mt-14 sm:mt-10 w-full grid text-center place-items-center space-y-4">
                     <button
                         type="button"
-                        className="transition-all duration-75 ease-in w-1/3 sm:w-1/4 text-center px-6 py-3 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="transition-all duration-75 ease-in w-1/2 sm:w-1/3 text-center px-6 py-4 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed"
                         disabled={currentRole === null}
                         onClick={onNext}
                     >
                         Next
                     </button>
-                </div>
-                
-                <div className="mt-3 text-sm text-center w-full grid place-items-center">
-                    <a href="/" className="font-medium text-emerald-600 hover:text-emerald-500 flex items-center space-x-0.5">
-                        <ArrowSmLeftIcon className="h-4 w-4" />
-                        <span>Go back home</span>
-                    </a>
                 </div>
             </div>
         </div>

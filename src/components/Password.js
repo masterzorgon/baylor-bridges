@@ -7,7 +7,7 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
-const Password = ({value, onChange}) => {
+const Password = ({value, onChange, className}) => {
     const [password, setPassword] = useState("");
     const [check, setCheck] = useState({
         is_low: false,
@@ -59,7 +59,7 @@ const Password = ({value, onChange}) => {
                     type="password"
                     autoComplete="password"
                     placeholder="Password"
-                    className="py-2 px-3 block w-full shadow-sm focus:ring-emerald-500 focus:border-emerald-500 border-gray-300 rounded-md"
+                    className={classNames("py-2 px-3 block w-full shadow-sm focus:ring-emerald-500 focus:border-emerald-500 border-gray-300 rounded-md", className)}
                     onChange={setPasswordTrigger}
                     value={password}
                 />
