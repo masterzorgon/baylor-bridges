@@ -8,7 +8,7 @@ import Progress from "./Progress";
 import Password from "../../components/Password";
 import Button from "../../components/Button";
 
-import { classNames } from "../../components/Utils";
+import { classNames, changeBaseURL } from "../../components/Utils";
 
 
 const Form = () => {
@@ -233,7 +233,8 @@ const Form = () => {
     };
 
     const step9 = () => {
-        window.location.href = "/sign-in";
+        let url = changeBaseURL(window.location.href, "/sign-in");
+        window.location.href = url;
     };
 
     return (

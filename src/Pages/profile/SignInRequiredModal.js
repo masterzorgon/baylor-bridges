@@ -4,12 +4,12 @@ import { Transition } from "@headlessui/react";
 
 export default function SignInRequiredModal() {
     const [open, setOpen] = useState(false);
-    const [signInUrl, setSignInUrl] = useState("");
+    const [signUpUrl, setSignUpUrl] = useState("");
 
     useEffect(() => {
         const query = new URLSearchParams(window.location.search);
         query.set("redirect", window.location.pathname);
-        setSignInUrl(`/sign-in?${query.toString()}`);
+        setSignUpUrl(`/sign-up?${query.toString()}`);
     }, []);
 
     useEffect(() => {
@@ -60,12 +60,11 @@ export default function SignInRequiredModal() {
                                 </div>
                                 <div className="mt-3 text-center sm:mt-5">
                                     <div as="h2" className="text-lg leading-6 font-medium text-gray-900">
-                                        Join Baylor Bridges Today
+                                        Join Baylor Bridges today
                                     </div>
                                     <div className="mt-2">
                                         <p className="text-sm text-gray-500">
                                             Be a part of the community, start expanding your network with everyone else.
-                                            
                                         </p>
                                     </div>
                                 </div>
@@ -74,9 +73,9 @@ export default function SignInRequiredModal() {
                                 <a
                                     type="button"
                                     className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-3 bg-emerald-600 text-base font-medium text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 sm:col-start-2 sm:text-sm"
-                                    href={signInUrl}
+                                    href={signUpUrl}
                                 >
-                                    Sign in to continue
+                                    Sign up to continue
                                 </a>
                             </div>
                         </div>

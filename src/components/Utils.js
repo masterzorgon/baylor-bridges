@@ -1,29 +1,56 @@
 const classNames = (...args) => args.filter(Boolean).join(" ");
 
-const changeSearchParams = (url, key, value) => {
+const changeSearchParam = (url, key, value) => {
     const urlParts = url.split("?");
     const baseUrl = urlParts[0];
+    let queryString = urlParts[1];
 
-    const queryString = urlParts[1];
-    const queryParams = queryString ? queryString.split("&") : [];
+    const param = new URLSearchParams(queryString);
 
-    const param = new URLSearchParams(queryParams);
-
-    if (value === null) {
-        param.delete(key);
-    } else {
-        param.set(key, value);
+    if (key) {
+        if (!value) {
+            param.delete(key);
+        } else {
+            param.set(key, value);
+        }
     }
 
-    return `${baseUrl}?${param.toString()}`;
+    queryString = param.toString();
+
+    if (queryString.length > 0) {
+        return `${baseUrl}?${queryString}`;
+    } else {
+        return baseUrl;
+    }
 };
 
+const changeBaseURL = (url, baseUrl) => {
+    const urlParts = url.split("?");
+    const queryString = urlParts[1];
+
+    if (queryString.length > 0) {
+        return `${baseUrl}?${queryString}`;   
+    } else {
+        return baseUrl;
+    }
+};
+
+const getSearchParam = (url, key) => {
+    const urlParts = url.split("?");
+    const queryString = urlParts[1];
+
+    const param = new URLSearchParams(queryString);
+
+    return param.get(key);
+};
 
 
 const Utils = {
     classNames,
-    changeSearchParams,
+    changeSearchParam,
+    changeBaseURL,
+    getSearchParam,
 };
 
-export { classNames };
+export { classNames, changeSearchParam, changeBaseURL, getSearchParam };
 export default Utils;

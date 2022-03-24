@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { XCircleIcon } from "@heroicons/react/solid";
 
 import { AccountContext } from "../../components/Account";
+import { changeBaseURL, changeSearchParam, getSearchParam } from "../../components/Utils";
 import Button from "../../components/Button";
 
 const SignIn = () => {
@@ -13,33 +14,34 @@ const SignIn = () => {
     const { signIn } = useContext(AccountContext);
 
 
-    const onSubmit = (event) => {
+    const onSubmit = () => {
         setLoading(true);
 
         signIn(email, password)
             .then(response => {
                 console.log(response);
-                let redirect = false;
+                let requiresProfileSetup = false;
 
                 for (const key in response) {
                     if (response[key] === null) {
-                        redirect = true;
+                        requiresProfileSetup = true;
                         break;
                     }
                 }
 
-                if (redirect) {
-                    window.location.href = "/sign-in/setup/profile-setup";
+                if (requiresProfileSetup) {
+                    let destination = changeBaseURL(window.location.href, "/sign-in/setup/profile-setup");
+                    window.location.href = destination;
                 } else {
-                    // Get redirect url from query string
-                    const query = new URLSearchParams(window.location.search);
-                    const redirectTo = query.get("redirect");
+                    let redirect = getSearchParam(window.location.href, "redirect");
 
-                    if (redirectTo) {
-                        query.delete("redirect");
-                        window.location.href = redirectTo + (query.toString().length > 0 ? "?" + query.toString() : "");
+                    if (redirect) {
+                        let destination = "";
+                        destination = changeBaseURL(window.location.href, redirect);
+                        destination = changeSearchParam(destination, "redirect", null);
+                        window.location.href = destination;
                     } else {
-                        window.history.back();
+                        window.location.href = "/";
                     }
                 }
             })

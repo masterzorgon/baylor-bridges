@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { RadioGroup } from "@headlessui/react";
 import { CheckCircleIcon } from "@heroicons/react/solid";
 
-import { classNames } from "../../components/Utils";
+import { classNames, changeBaseURL } from "../../components/Utils";
 
 
 const Entrace = () => {
@@ -22,7 +22,8 @@ const Entrace = () => {
     const [currentRole, setCurrentRole] = useState(null);
 
     const onNext = () => {
-        window.location.href = "/sign-up/" + currentRole + "";
+        const url = changeBaseURL(window.location.href, "/sign-up/" + currentRole);
+        window.location.href = url;
     };
 
 
