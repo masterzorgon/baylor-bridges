@@ -55,11 +55,13 @@ const profile = {
     },
     email: {
         title: "Email",
+        type: "email",
         has_visibility: true,
         attribute: { section: "contact_info", key: "email" },
     },
     phone: {
         title: "Phone",
+        type: "phone",
         has_visibility: true,
         attribute: { section: "contact_info", key: "phone" },
     },
@@ -86,7 +88,6 @@ const Profile = () => {
 
 
         let url = "";
-
         if (user_id === undefined) {
             url = "/account/profile";
         } else {
@@ -131,6 +132,19 @@ const Profile = () => {
         return string;
     };
 
+    const formatValue = (value, type) => {
+        switch (type) {
+        case "email":
+            return <a className="underline underline-offset-4 decoration-dashed decoration-gray-500" href={`mailto:${value}`}>{value}</a>;
+            
+        case "phone":
+            return <a className="underline underline-offset-4 decoration-dashed decoration-gray-500" href={`tel:${value}`}>{value}</a>;
+            
+        default:
+            return value;
+        }
+    };
+
     const getFieldDisplayValue = (field) => {
         // If profileAccount is not intialized at all, display animated data-placeholder 
         if (profileAccount === null) {
@@ -164,7 +178,7 @@ const Profile = () => {
             <div className={classNames("col-span-2 sm:col-span-1", field.field_class)}>
                 <dt className="text-sm font-medium text-gray-500">{field.title}</dt>
                 <dd className={classNames("mt-1 text-sm text-gray-900", field.value_class ? field.value_class : "")}>
-                    {value}
+                    {formatValue(value, field.type)}
                 </dd>
             </div>
         );
