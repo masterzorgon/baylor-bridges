@@ -188,12 +188,11 @@ const Profile = () => {
 
     return (
         <>
-            {console.log("authenticated is" + authenticated)}
+            {authenticated === false ? <SignInRequiredModal /> : ""}
 
             <div className={classNames("min-h-full bg-gray-100", authenticated !== false ? "" : "blur-sm")}>
                 <main className="py-10">
 
-                    {authenticated === false ? <SignInRequiredModal /> : ""}
 
                     {/* Page header */}
                     <div className="max-w-3xl mx-auto px-4 sm:px-6 md:flex md:items-center md:justify-between md:space-x-5 lg:max-w-7xl lg:px-8">

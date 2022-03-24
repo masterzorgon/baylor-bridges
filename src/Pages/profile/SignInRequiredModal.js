@@ -1,6 +1,6 @@
 /* This example requires Tailwind CSS v2.0+ */
 import React, { Fragment, useState, useEffect } from "react";
-import { Dialog, Transition } from "@headlessui/react";
+import { Transition } from "@headlessui/react";
 
 export default function SignInRequiredModal() {
     const [open, setOpen] = useState(false);
@@ -20,7 +20,7 @@ export default function SignInRequiredModal() {
 
     return (
         <Transition.Root show={open} as={Fragment}>
-            <Dialog as="div" className="fixed z-5 inset-0 overflow-y-auto" onClose={() => setOpen(true)}>
+            <div className="fixed z-10 inset-0 overflow-y-auto">
                 <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                     <Transition.Child
                         as={Fragment}
@@ -31,7 +31,7 @@ export default function SignInRequiredModal() {
                         leaveFrom="opacity-100"
                         leaveTo="opacity-0"
                     >
-                        <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-10 transition-opacity" />
+                        <div className="fixed inset-0 bg-black bg-opacity-10 transition-opacity" />
                     </Transition.Child>
 
                     {/* This element is to trick the browser into centering the modal contents. */}
@@ -59,9 +59,9 @@ export default function SignInRequiredModal() {
                                     </lord-icon>
                                 </div>
                                 <div className="mt-3 text-center sm:mt-5">
-                                    <Dialog.Title as="h2" className="text-lg leading-6 font-medium text-gray-900">
+                                    <div as="h2" className="text-lg leading-6 font-medium text-gray-900">
                                         Join Baylor Bridges Today
-                                    </Dialog.Title>
+                                    </div>
                                     <div className="mt-2">
                                         <p className="text-sm text-gray-500">
                                             Be a part of the community, start expanding your network with everyone else.
@@ -70,7 +70,7 @@ export default function SignInRequiredModal() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="mt-5 space-y-2">
+                            <div className="pt-1 space-y-2">
                                 <a
                                     type="button"
                                     className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-3 bg-emerald-600 text-base font-medium text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 sm:col-start-2 sm:text-sm"
@@ -82,7 +82,7 @@ export default function SignInRequiredModal() {
                         </div>
                     </Transition.Child>
                 </div>
-            </Dialog>
+            </div>
         </Transition.Root>
     );
 }
