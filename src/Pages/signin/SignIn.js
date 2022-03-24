@@ -10,12 +10,8 @@ const SignIn = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error_message, setErrorMessage] = useState(null);
-    // const [newUser, setNewUser] = useState(false); // used to determine whether user has any null values, and direct them to new user page
     const { signIn } = useContext(AccountContext);
 
-    // useEffect(() => {
-    //     console.log("NEW USER STATUS", newUser);
-    // }, []);
 
     const onSubmit = (event) => {
         setLoading(true);
@@ -24,18 +20,28 @@ const SignIn = () => {
             .then(response => {
                 console.log(response);
                 let redirect = false;
-                
+
                 for (const key in response) {
                     if (response[key] === null) {
                         redirect = true;
                         break;
-                    } 
+                    }
                 }
 
-            
+                if (redirect) {
+                    window.location.href = "/sign-in/setup/profile-setup";
+                } else {
+                    // Get redirect url from query string
+                    const query = new URLSearchParams(window.location.search);
+                    const redirectTo = query.get("redirect");
 
-                if (redirect) window.location.href = "/sign-in/setup/profile-setup";
-                else window.history.back();
+                    if (redirectTo) {
+                        query.delete("redirect");
+                        window.location.href = redirectTo + (query.toString().length > 0 ? "?" + query.toString() : "");
+                    } else {
+                        window.history.back();
+                    }
+                }
             })
             .catch(error => {
                 let response = error.response.data;
