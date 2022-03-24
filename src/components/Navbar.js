@@ -70,6 +70,10 @@ const Navbar = (props) => {
             });
     };
 
+    const handleSettings = () => {
+        window.location.href = "/settings";
+    };
+
     return (
         <>
             {/* Semi transparent cover */}
@@ -387,14 +391,14 @@ const Navbar = (props) => {
                                                     <span className="sr-only">View notifications</span>
                                                     <BellIcon className="h-6 w-6" aria-hidden="true" />
                                                 </button> */}
-                                                <a
+                                                <button
                                                     type="button"
-                                                    href="/settings"
+                                                    onClick={handleSettings}
                                                     className="p-2 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
                                                 >
                                                     <span className="sr-only">Settings</span>
                                                     <CogIcon className="h-6 w-6" aria-hidden="true" />
-                                                </a>
+                                                </button>
                                                 <button
                                                     type="button"
                                                     className="p-2 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
