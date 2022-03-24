@@ -422,7 +422,7 @@ const Profile = () => {
                                                         {({ selected, active }) => (
                                                             <>
                                                                 <div className="flex">
-                                                                    <span className={classNames(selected ? "font-semibold" : "font-normal", "truncate")}>
+                                                                    <span className={classNames(selected ? "font-semibold" : "font-normal")}>
                                                                         {option.title}
                                                                     </span>
                                                                     <span className={classNames(active ? "text-emerald-200" : "text-gray-500", "ml-2 truncate")}>
