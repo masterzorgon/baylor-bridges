@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-// import axios from "axios";
+import axios from "axios";
 
 import Button from "../../../components/Button";
 
@@ -30,16 +30,16 @@ const EnterInfo = () => {
     const onSubmit = (event) => {
         setLoading(true);
 
-        // IMPLEMENT AXIOS PUT REQUEST FOR NAME INPUT
-        // axios.get("/account/profile") // account
-        //     .then(res => {
-        //         console.log(res.data);
-        //         // setAccount(res.data);
-        //     })
-        //     .catch(err => console.log(err))
-        //     .finally(() => setLoading(false));
+        axios.get("/account/profile") // account
+            .then(res => {
+                console.log(res.data);
+                
+            })
+            .catch(err => console.log(err))
+            .finally(() => setLoading(false));
         
-        // axios.get("/account/profile", account)
+        // CODE FOR UPDATING USER PROFILE
+        // axios.put("/account/profile", account)
         //     .then(res => {
         //         console.log(res);
         //         console.log(account);
@@ -48,7 +48,7 @@ const EnterInfo = () => {
         //         console.log(err);
         //     });
         
-        window.location.href = "/sign-in/setup/all-done";
+        // window.location.href = "/sign-in/setup/all-done";
     };
 
     return (

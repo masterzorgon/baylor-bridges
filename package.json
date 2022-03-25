@@ -7,8 +7,8 @@
     "@fortawesome/free-regular-svg-icons": "^5.15.4",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.16",
-    "@headlessui/react": "^1.4.2",
     "@heroicons/react": "^1.0.5",
+    "@jridgewell/trace-mapping": "^0.2.3",
     "@tailwindcss/forms": "^0.4.0",
     "@tailwindcss/typography": "^0.5.1",
     "@testing-library/jest-dom": "^5.16.1",
@@ -118,5 +118,18 @@
     "autoprefixer": "^10.4.2",
     "postcss": "^8.4.5",
     "tailwindcss": "^3.0.13"
-  }
+  },
+  "description": "\"# Alumni_Web_React_Frontend\"",
+  "main": "postcss.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/baylorbridges/baylor-bridges-frontend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/baylorbridges/baylor-bridges-frontend/issues"
+  },
+  "homepage": "https://github.com/baylorbridges/baylor-bridges-frontend#readme"
 }
