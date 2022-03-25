@@ -8,7 +8,8 @@ import ContactInput from "./input-components/ContactInput";
 const InfoInput = () => {
 
     const [show, setShow] = useState(false); // used to fade modals out
-    const [, , showTheModal] = useTimeoutFn(() => setShow(true), 300); // used to fade modals in
+    const [, , showTheModal] = useTimeoutFn(() => setShow(true), 400); // used to fade modals in
+    
     const [modal, setModal] = useState(1); // used to switch between modals
     const [account, setAccount] = useState({
         biography: "",
@@ -28,7 +29,10 @@ const InfoInput = () => {
     }); // updates account info
 
     // this makes the modal fade in/out of the page on refresh
-    useEffect(() => showTheModal(), [modal]);
+    useEffect(() => {
+        showTheModal();
+        window.onunload = () => window.scrollTo(0, 0);
+    }, [modal]);
     useEffect(() => console.log("ACCOUNT", account), [account]);
 
     const modals = () => {
@@ -38,7 +42,7 @@ const InfoInput = () => {
 
     return (
         <>
-            <div className="bg-gray-100">
+            <div className="bg-white">
                 {/* Header */}
                 <div className="relative pb-32 bg-gray-800">
                     <div className="absolute inset-0">

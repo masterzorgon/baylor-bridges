@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { InboxIcon } from "@heroicons/react/outline";
+import { InboxIcon, ArrowLeftIcon } from "@heroicons/react/outline";
 import Button from "../../../../components/Button";
 import { useTimeoutFn } from "react-use";
 import { Transition } from "@headlessui/react";
@@ -8,9 +8,10 @@ const ContactInput = ({ account, setAccount, modal, show, setModal, setShow }) =
 
     const [, , takeAwayModal] = useTimeoutFn(() => setShow(false), 0);
 
-    const onSubmit = () => {    
+    const onSubmit = (event) => {    
+        event.preventDefault();
         takeAwayModal();
-        setTimeout(() => setModal(1), 300);
+        setTimeout(() => setModal(1), 400);
     };
 
     return (
@@ -19,10 +20,10 @@ const ContactInput = ({ account, setAccount, modal, show, setModal, setShow }) =
             <Transition
                 show={show && modal === 2}
                 as={Fragment}
-                enter="transform transition duration-[300ms]"
+                enter="transform transition duration-[400ms]"
                 enterFrom="opacity-0"
                 enterTo="opacity-100"
-                leave="transform duration-[300ms] transition ease-out"
+                leave="transform duration-[400ms] transition ease-out"
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
             >
@@ -43,7 +44,7 @@ const ContactInput = ({ account, setAccount, modal, show, setModal, setShow }) =
                                 </p>
                             </div>
                             <div className="p-6 pt-0 bg-white rounded-bl-2xl rounded-br-2xl md:px-8">
-                                <div className="isolate -space-y-px rounded-md shadow-sm">
+                                <div className="isolate -space-y-px rounded-md shadow-lg">
                                     <div className="relative border border-gray-300 rounded-md rounded-b-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600">
                                         <label htmlFor="name" className="block text-xs font-medium text-gray-900">
                                             Phone Number
@@ -54,7 +55,8 @@ const ContactInput = ({ account, setAccount, modal, show, setModal, setShow }) =
                                             id="phone"
                                             className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
                                             placeholder="+1 (234) 567-8910"
-                                            onChange={event => setAccount({...account, contact_info: {...account.contact_info, phone: event.target.value}})}
+                                            onChange={event => setAccount({ ...account, contact_info: { ...account.contact_info, phone: event.target.value } })}
+                                            value={account.contact_info.phone}
                                         />
                                     </div>
                                     <div className="relative border border-gray-300 rounded-md rounded-t-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600">
@@ -67,13 +69,20 @@ const ContactInput = ({ account, setAccount, modal, show, setModal, setShow }) =
                                             id="last-name"
                                             className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
                                             placeholder="you@email.com"
-                                            onChange={event => setAccount({ ...account, contact_info: {...account.contact_info, email: event.target.value}})}
+                                            onChange={event => setAccount({ ...account, contact_info: { ...account.contact_info, email: event.target.value } })}
+                                            value={account.contact_info.email}
                                         />
                                     </div>
                                 </div>
                                 <Button className="mt-4" onClick={onSubmit}>
                                     Next
                                 </Button>
+                                <div className="flex justify-center mt-6 text-emerald-600 hover:text-emerald-700">
+                                    <ArrowLeftIcon className="w-4 mr-2" />
+                                    <a href="/sign-in/setup/profile-setup">
+                                        Previous
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
