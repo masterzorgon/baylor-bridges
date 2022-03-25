@@ -1,39 +1,27 @@
 // import axios from "axios";
-import React, { useState } from "react";
-import { Transition } from "@headlessui/react";
+import React, { useState, useEffect } from "react";
 import { useTimeoutFn } from "react-use";
 
+import NameInput from "./input-components/NameInput";
 import ContactInput from "./input-components/ContactInput";
 
 const EnterName = () => {
 
-    const [show, setShow] = useState(true);
-    let [, , resetIsShowing] = useTimeoutFn(() => setShow(true), 500);
+    const [show, setShow] = useState(false);
+    const [, , resetIsShowing] = useTimeoutFn(() => setShow(true), 500);
+    const [modal, setModal] = useState(1);
 
-    const onSubmit = event => {
-        setShow(show => !show);
+    // this makes the modal fade in/out of the page on refresh
+    useEffect(() => {
         resetIsShowing();
-
-
-        // axios.get("/account/profile") // account
-        //     .then(res => {
-        //         console.log("---RESPONSE---", res.data);
-                
-        //     })
-        //     .catch(err => console.log("---ERROR---", err));
+        console.log("MODAL", modal);
         
-        // CODE FOR UPDATING USER PROFILE
-        // axios.put("/account/profile", account)
-        //     .then(res => {
-        //         console.log(res);
-        //         console.log(account);
-        //     })
-        //     .catch(err => {
-        //         console.log(err);
-        //     });
-        
-        // window.location.href = "/sign-in/setup/all-done";
-    };  
+    }, [modal]);
+
+    const modals = () => {
+        if (modal === 1) { return <NameInput show={show} modal={modal} setShow={setShow} setModal={setModal} />; }
+        if (modal === 2) { return <ContactInput show={show} modal={modal} setShow={setShow} setModal={setModal} />; }
+    };
 
     return (
         <>
@@ -59,22 +47,47 @@ const EnterName = () => {
                         </p>
                     </div>
                 </div>
-
                 {/* Overlapping cards */}
-                <Transition
-                    show={show}
-                    enter="transform transition duration-[500ms]"
-                    enterFrom="opacity-0"
-                    enterTo="opacity-100"
-                    leave="transform duration-500 transition ease-in-out"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
-                >
-                    <ContactInput onSubmit={onSubmit} />
-                </Transition>
+                {modals()}
             </div>
         </>
     );
 };
 
 export default EnterName;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const onSubmit = event => {
+
+//     // axios.get("/account/profile") // account
+//     //     .then(res => {
+//     //         console.log("---RESPONSE---", res.data);
+            
+//     //     })
+//     //     .catch(err => console.log("---ERROR---", err));
+    
+//     // CODE FOR UPDATING USER PROFILE
+//     // axios.put("/account/profile", account)
+//     //     .then(res => {
+//     //         console.log(res);
+//     //         console.log(account);
+//     //     })
+//     //     .catch(err => {
+//     //         console.log(err);
+//     //     });
+    
+//     // window.location.href = "/sign-in/setup/all-done";
+// };  
