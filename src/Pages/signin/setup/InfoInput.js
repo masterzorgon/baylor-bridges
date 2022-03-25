@@ -13,7 +13,7 @@ const InfoInput = () => {
     const [show, setShow] = useState(false); // used to fade modals out
     const [, , showTheModal] = useTimeoutFn(() => setShow(true), 400); // used to fade modals in
     
-    const [modal, setModal] = useState(1); // used to switch between modals
+    const [modal, setModal] = useState(5); // used to switch between modals
     const [account, setAccount] = useState({
         biography: "",
         city: "",
@@ -79,39 +79,3 @@ const InfoInput = () => {
 };
 
 export default InfoInput;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const onSubmit = event => {
-
-//     // axios.get("/account/profile") // account
-//     //     .then(res => {
-//     //         console.log("---RESPONSE---", res.data);
-            
-//     //     })
-//     //     .catch(err => console.log("---ERROR---", err));
-    
-//     // CODE FOR UPDATING USER PROFILE
-//     // axios.put("/account/profile", account)
-//     //     .then(res => {
-//     //         console.log(res);
-//     //         console.log(account);
-//     //     })
-//     //     .catch(err => {
-//     //         console.log(err);
-//     //     });
-    
-//     // window.location.href = "/sign-in/setup/all-done";
-// };  

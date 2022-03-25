@@ -1,14 +1,35 @@
-import React, { Fragment } from "react";
-import { ArrowLeftIcon, ArrowRightIcon, BriefcaseIcon } from "@heroicons/react/outline";
+import React, { useState, Fragment } from "react";
+import { ArrowLeftIcon, ArrowRightIcon, BriefcaseIcon, ExclamationCircleIcon, XIcon } from "@heroicons/react/outline";
 import { useTimeoutFn } from "react-use";
 import { Transition } from "@headlessui/react";
+import axios from "axios";
 
 const HeadlineInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
 
     const [, , takeAwayModal] = useTimeoutFn(() => setShow(false), 0);
+    const [alert, setAlert] = useState(false);
 
     const onSubmit = (event) => {    
-        window.location.href = "";
+
+        axios.get("/account/profile")
+            .then(res => {
+                console.log("---RESPONSE---", res);
+                setTimeout(() => window.location.href = "/sign-in/setup/all-done", 3000);
+            })
+            .catch(err => {
+                console.log("---ERROR---", err);
+                setAlert(true);
+            });
+        
+        // CODE FOR UPDATING USER PROFILE
+        // axios.put("/account/profile", account)
+        //     .then(res => {
+        //         console.log(res);
+        //         console.log(account);
+        //     })
+        //     .catch(err => {
+        //         console.log(err);
+        //     });
     };
 
     const prevModal = (event) => {
@@ -34,6 +55,51 @@ const HeadlineInput = ({ account, setAccount, modal, show, setModal, setShow }) 
                     className="-mt-32 max-w-7xl mx-auto relative z-10 pb-32 px-4 sm:px-6 lg:px-8"
                     aria-labelledby="contact-heading"
                 >
+                    {/* ALERT NOTIFICATION */}
+                    <div
+                        aria-live="assertive"
+                        className="fixed inset-0 flex items-end px-4 py-6 pointer-events-none sm:p-6 sm:items-start"
+                    >
+                        <div className="w-full flex flex-col items-center space-y-4 sm:items-end">
+                            {/* Notification panel, dynamically insert this into the live region when it needs to be displayed */}
+                            <Transition
+                                show={alert}
+                                as={Fragment}
+                                enter="transform ease-out duration-300 transition"
+                                enterFrom="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
+                                enterTo="translate-y-0 opacity-100 sm:translate-x-0"
+                                leave="transition ease-in duration-100"
+                                leaveFrom="opacity-100"
+                                leaveTo="opacity-0"
+                            >
+                                <div className="max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden">
+                                    <div className="p-4">
+                                        <div className="flex items-start">
+                                            <div className="flex-shrink-0">
+                                                <ExclamationCircleIcon className="h-6 w-6 text-red-400" aria-hidden="true" />
+                                            </div>
+                                            <div className="ml-3 w-0 flex-1 pt-0.5">
+                                                <p className="text-sm font-medium text-gray-900">Submission unsuccessful</p>
+                                                <p className="mt-1 text-sm text-gray-500">Network Issues — Please try again.</p>
+                                            </div>
+                                            <div className="ml-4 flex-shrink-0 flex">
+                                                <button
+                                                    className="bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                                                    onClick={() => {
+                                                        setAlert(false);
+                                                    }}
+                                                >
+                                                    <span className="sr-only">Close</span>
+                                                    <XIcon className="h-5 w-5" aria-hidden="true" />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Transition>
+                        </div>
+                    </div>
+                    {/* ALERT NOTIFICATION */}
                     <div className="grid grid-cols-1 gap-y-20 lg:gap-y-0 lg:gap-x-8">
                         <div className="flex flex-col bg-white rounded-2xl shadow-xl">
                             <div className="flex-1 relative pt-16 px-6 pb-8 md:px-8">
@@ -94,7 +160,7 @@ const HeadlineInput = ({ account, setAccount, modal, show, setModal, setShow }) 
                                         onClick={onSubmit}
                                         className="mt-6 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
                                     >
-                                        Next
+                                        Submit
                                         <ArrowRightIcon className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
                                     </button>
                                 </div>
