@@ -18,7 +18,7 @@ import SignIn from "./Pages/signin/SignIn";
 import ResetPassword from "./Pages/signin/ResetPassword";
 import ProfileSetup from "./Pages/signin/setup/ProfileSetup";
 import EnterInfo from "./Pages/signin/setup/EnterInfo";
-import EnterName from "./Pages/signin/setup/EnterName";
+import InfoInput from "./Pages/signin/setup/InfoInput";
 import AllDone from "./Pages/signin/setup/AllDone";
 import { default as SignInChallenge } from "./Pages/signin/Challenge";
 import { default as SignUpEntrace } from "./Pages/signup/Entrace";
@@ -109,7 +109,7 @@ function App() {
                     <Route path="/sign-in/challenge" element={<SignInChallenge />} />
                     <Route path="/sign-in/setup/profile-setup" element={<ProfileSetup />} /> 
                     <Route path="/sign-in/setup/enter-info" element={<EnterInfo />} /> 
-                    <Route path="/sign-in/setup/enter-name" element={<EnterName />} /> 
+                    <Route path="/sign-in/setup/info-input" element={<InfoInput />} /> 
                     <Route path="/sign-in/setup/all-done" element={<AllDone />} /> 
 
                     <Route path="/sign-up" element={<SignUpEntrace />} />

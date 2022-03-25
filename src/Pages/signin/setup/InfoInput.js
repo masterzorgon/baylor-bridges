@@ -5,7 +5,7 @@ import { useTimeoutFn } from "react-use";
 import NameInput from "./input-components/NameInput";
 import ContactInput from "./input-components/ContactInput";
 
-const EnterName = () => {
+const InfoInput = () => {
 
     const [show, setShow] = useState(false); // used to fade modals out
     const [, , showTheModal] = useTimeoutFn(() => setShow(true), 300); // used to fade modals in
@@ -54,7 +54,7 @@ const EnterName = () => {
     );
 };
 
-export default EnterName;
+export default InfoInput;
 
 
 

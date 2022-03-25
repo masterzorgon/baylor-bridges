@@ -77,7 +77,7 @@ const NameInput = ({ modal, show, setModal, setShow }) => {
                                     </div>
                                 </Transition>
                                 <Button className="mt-4" onClick={onSubmit}>
-                                    Submit
+                                    Next
                                 </Button>
                             </div>
                         </div>

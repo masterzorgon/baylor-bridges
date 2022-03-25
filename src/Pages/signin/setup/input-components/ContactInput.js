@@ -70,7 +70,7 @@ const ContactInput = ({ modal, show, setModal, setShow }) => {
                                     </div>
                                 </div>
                                 <Button className="mt-4" onClick={onSubmit}>
-                                    Submit
+                                    Next
                                 </Button>
                             </div>
                         </div>
