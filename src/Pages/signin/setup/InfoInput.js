@@ -10,17 +10,30 @@ const InfoInput = () => {
     const [show, setShow] = useState(false); // used to fade modals out
     const [, , showTheModal] = useTimeoutFn(() => setShow(true), 300); // used to fade modals in
     const [modal, setModal] = useState(1); // used to switch between modals
+    const [account, setAccount] = useState({
+        biography: "",
+        city: "",
+        first_name: "",
+        graduate_year: "",
+        graduate_semester: "",
+        headline: "",
+        last_name: "",
+        state: "",
+        contact_info: {
+            email: "",
+            email_visibility: false,
+            phone: "",
+            phone_visibility: false,
+        }
+    }); // updates account info
 
     // this makes the modal fade in/out of the page on refresh
-    useEffect(() => {
-        showTheModal();
-        console.log("MODAL", modal);
-
-    }, [modal]);
+    useEffect(() => showTheModal(), [modal]);
+    useEffect(() => console.log("ACCOUNT", account), [account]);
 
     const modals = () => {
-        if (modal === 1) { return <NameInput show={show} modal={modal} setShow={setShow} setModal={setModal} />; }
-        if (modal === 2) { return <ContactInput show={show} modal={modal} setShow={setShow} setModal={setModal} />; }
+        if (modal === 1) { return <NameInput account={account} setAccount={setAccount} show={show} modal={modal} setShow={setShow} setModal={setModal} />; }
+        if (modal === 2) { return <ContactInput account={account} setAccount={setAccount} show={show} modal={modal} setShow={setShow} setModal={setModal} />; }
     };
 
     return (

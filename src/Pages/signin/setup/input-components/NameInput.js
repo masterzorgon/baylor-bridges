@@ -4,7 +4,7 @@ import { UserCircleIcon } from "@heroicons/react/outline";
 import { useTimeoutFn } from "react-use";
 import Button from "../../../../components/Button";
 
-const NameInput = ({ modal, show, setModal, setShow }) => {
+const NameInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
 
     const [, , takeAwayModal] = useTimeoutFn(() => setShow(false), 0);
 
@@ -60,6 +60,7 @@ const NameInput = ({ modal, show, setModal, setShow }) => {
                                                 id="first-name"
                                                 className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
                                                 placeholder="Jane"
+                                                onChange={event => setAccount({...account, first_name: event.target.value})}
                                             />
                                         </div>
                                         <div className="relative border border-gray-300 rounded-md rounded-t-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600">
@@ -72,6 +73,7 @@ const NameInput = ({ modal, show, setModal, setShow }) => {
                                                 id="last-name"
                                                 className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
                                                 placeholder="Doe"
+                                                onChange={event => setAccount({...account, last_name: event.target.value})}
                                             />
                                         </div>
                                     </div>

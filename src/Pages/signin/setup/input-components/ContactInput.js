@@ -4,7 +4,7 @@ import Button from "../../../../components/Button";
 import { useTimeoutFn } from "react-use";
 import { Transition } from "@headlessui/react";
 
-const ContactInput = ({ modal, show, setModal, setShow }) => {
+const ContactInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
 
     const [, , takeAwayModal] = useTimeoutFn(() => setShow(false), 0);
 
@@ -53,7 +53,8 @@ const ContactInput = ({ modal, show, setModal, setShow }) => {
                                             name="phone"
                                             id="phone"
                                             className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
-                                            placeholder="+1 (234)-567-8910"
+                                            placeholder="+1 (234) 567-8910"
+                                            onChange={event => setAccount({...account, contact_info: {...account.contact_info, phone: event.target.value}})}
                                         />
                                     </div>
                                     <div className="relative border border-gray-300 rounded-md rounded-t-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600">
@@ -66,6 +67,7 @@ const ContactInput = ({ modal, show, setModal, setShow }) => {
                                             id="last-name"
                                             className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
                                             placeholder="you@email.com"
+                                            onChange={event => setAccount({ ...account, contact_info: {...account.contact_info, email: event.target.value}})}
                                         />
                                     </div>
                                 </div>
