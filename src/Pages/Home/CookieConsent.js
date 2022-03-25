@@ -41,7 +41,7 @@ export default function CookieConsent() {
                                     <div className="ml-3 w-0 flex-1 pt-0.5">
                                         <p className="text-sm font-medium text-gray-900">Cookie Alert</p>
                                         <p className="mt-1 text-sm text-gray-500">
-                                            We use cookies to improve the user experience on our site. To find out more, read our<a
+                                            We use cookies to improve the user experience on our site. To find out more, read our <a
                                                 href="/terms/privacy-policy" className="underline" target="_blank" rel="noopener noreferrer">
                                                 privacy policy</a> and <a
                                                 href="/terms/cookies-policy" className="underline" target="_blank" rel="noopener noreferrer">
@@ -64,6 +64,7 @@ export default function CookieConsent() {
                                             <button
                                                 type="button"
                                                 className="bg-white rounded-md text-sm font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                                onClick={() => window.location.href="https://www.google.com"}
 
                                             >
                                                 Decline
