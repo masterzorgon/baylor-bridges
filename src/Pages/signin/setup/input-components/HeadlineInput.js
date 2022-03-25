@@ -72,7 +72,7 @@ const HeadlineInput = ({ account, setAccount, modal, show, setModal, setShow }) 
                                 leaveFrom="opacity-100"
                                 leaveTo="opacity-0"
                             >
-                                <div className="max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden">
+                                <div className="max-w-sm w-full bg-red-50 shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden">
                                     <div className="p-4">
                                         <div className="flex items-start">
                                             <div className="flex-shrink-0">
@@ -80,11 +80,11 @@ const HeadlineInput = ({ account, setAccount, modal, show, setModal, setShow }) 
                                             </div>
                                             <div className="ml-3 w-0 flex-1 pt-0.5">
                                                 <p className="text-sm font-medium text-gray-900">Submission unsuccessful</p>
-                                                <p className="mt-1 text-sm text-gray-500">Network Issues — Please try again.</p>
+                                                <p className="mt-1 text-sm text-gray-500">Network issues — Please try again.</p>
                                             </div>
                                             <div className="ml-4 flex-shrink-0 flex">
                                                 <button
-                                                    className="bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                                                    className="bg-red-50 rounded-md inline-flex text-gray-500 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                                                     onClick={() => {
                                                         setAlert(false);
                                                     }}
