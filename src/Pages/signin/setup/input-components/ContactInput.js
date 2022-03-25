@@ -14,6 +14,12 @@ const ContactInput = ({ account, setAccount, modal, show, setModal, setShow }) =
         setTimeout(() => setModal(1), 400);
     };
 
+    const prevModal = (event) => {
+        event.preventDefault();
+        takeAwayModal();
+        setTimeout(() => setModal(modal - 1), 400);
+    };
+
     return (
         <>
             {/* Overlapping cards */}
@@ -79,7 +85,7 @@ const ContactInput = ({ account, setAccount, modal, show, setModal, setShow }) =
                                 </Button>
                                 <div className="flex justify-center mt-6 text-emerald-600 hover:text-emerald-700">
                                     <ArrowLeftIcon className="w-4 mr-2" />
-                                    <a href="/sign-in/setup/profile-setup">
+                                    <a href="#" onClick={prevModal}>
                                         Previous
                                     </a>
                                 </div>
