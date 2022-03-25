@@ -1,25 +1,28 @@
 import React, { Fragment } from "react";
 import { Transition } from "@headlessui/react";
 import { UserCircleIcon } from "@heroicons/react/outline";
+import { useTimeoutFn } from "react-use";
 import Button from "../../../../components/Button";
 
 const NameInput = ({ modal, show, setModal, setShow }) => {
 
+    const [, , takeAwayModal] = useTimeoutFn(() => setShow(false), 0);
+
     const onSubmit = () => {    
-        setShow(false);
-        setModal(2);
+        takeAwayModal();
+        setTimeout(() => setModal(2), 300);
     };
 
     return (
         <>
             {/* Overlapping cards */}
             <Transition
-                show={show}
+                show={show && modal === 1}
                 as={Fragment}
-                enter="transform transition duration-[500ms]"
+                enter="transform transition duration-[300ms]"
                 enterFrom="opacity-0"
                 enterTo="opacity-100"
-                leave="transform duration-[500ms] transition ease-out"
+                leave="transform duration-[300ms] transition ease-out"
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
             >

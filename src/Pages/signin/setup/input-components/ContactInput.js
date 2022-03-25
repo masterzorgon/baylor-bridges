@@ -1,13 +1,16 @@
 import React, { Fragment } from "react";
 import { InboxIcon } from "@heroicons/react/outline";
 import Button from "../../../../components/Button";
+import { useTimeoutFn } from "react-use";
 import { Transition } from "@headlessui/react";
 
 const ContactInput = ({ modal, show, setModal, setShow }) => {
 
-    const onSubmit = () => {
-        setShow(false);
-        setModal(1);
+    const [, , takeAwayModal] = useTimeoutFn(() => setShow(false), 0);
+
+    const onSubmit = () => {    
+        takeAwayModal();
+        setTimeout(() => setModal(1), 300);
     };
 
     return (
@@ -16,10 +19,10 @@ const ContactInput = ({ modal, show, setModal, setShow }) => {
             <Transition
                 show={show && modal === 2}
                 as={Fragment}
-                enter="transform transition duration-[500ms]"
+                enter="transform transition duration-[300ms]"
                 enterFrom="opacity-0"
                 enterTo="opacity-100"
-                leave="transform duration-[500ms] transition ease-out"
+                leave="transform duration-[300ms] transition ease-out"
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
             >

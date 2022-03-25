@@ -7,15 +7,15 @@ import ContactInput from "./input-components/ContactInput";
 
 const EnterName = () => {
 
-    const [show, setShow] = useState(false);
-    const [, , resetIsShowing] = useTimeoutFn(() => setShow(true), 500);
-    const [modal, setModal] = useState(1);
+    const [show, setShow] = useState(false); // used to fade modals out
+    const [, , showTheModal] = useTimeoutFn(() => setShow(true), 300); // used to fade modals in
+    const [modal, setModal] = useState(1); // used to switch between modals
 
     // this makes the modal fade in/out of the page on refresh
     useEffect(() => {
-        resetIsShowing();
+        showTheModal();
         console.log("MODAL", modal);
-        
+
     }, [modal]);
 
     const modals = () => {
