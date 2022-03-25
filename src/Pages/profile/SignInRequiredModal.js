@@ -11,7 +11,6 @@ export default function SignInRequiredModal() {
 
     useEffect(() => {
         let current = changeSearchParam(window.location.href, "redirect", window.location.pathname);
-
         let signUpURL = changeBaseURL(current, "/sign-up");
         let signInURL = changeBaseURL(current, "/sign-in");
 

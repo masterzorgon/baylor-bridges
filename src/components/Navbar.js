@@ -7,9 +7,8 @@ import axios from "axios";
 import { DebounceInput } from "react-debounce-input";
 
 import { AccountContext } from "./Account";
+import { classNames, changeBaseURL, changeSearchParam } from "./Utils";
 import Photo from "./Photo";
-
-import { classNames } from "./Utils";
 
 
 const Navbar = (props) => {
@@ -23,6 +22,9 @@ const Navbar = (props) => {
     const [profiles, setProfiles] = useState([]);
 
     const [abortController, setAbortController] = useState(new AbortController());
+
+    const [signInUrl, setSignInUrl] = useState("");
+    const [signUpUrl, setSignUpUrl] = useState("");
 
 
     useEffect(() => {
@@ -39,6 +41,13 @@ const Navbar = (props) => {
         if (searchParams.get("keywords") && url.endsWith("/search")) {
             setKeywords(searchParams.get("keywords"));
         }
+
+        let current = changeSearchParam(window.location.href, "redirect", window.location.pathname);
+        let signUpURL = changeBaseURL(current, "/sign-up");
+        let signInURL = changeBaseURL(current, "/sign-in");
+
+        setSignUpUrl(signUpURL);
+        setSignInUrl(signInURL);
     }, []);
 
     useEffect(() => {
@@ -242,10 +251,10 @@ const Navbar = (props) => {
                         {
                             account === null &&
                             <div className="flex items-center md:ml-12">
-                                <a href="/sign-in" className="text-base font-medium text-gray-500 hover:text-gray-900">
+                                <a href={signInUrl} className="text-base font-medium text-gray-500 hover:text-gray-900">
                                     Sign in
                                 </a>
-                                <a href="/sign-up" className="ml-8 inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-600 hover:bg-emerald-700">
+                                <a href={signUpUrl} className="ml-8 inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-600 hover:bg-emerald-700">
                                     Sign up
                                 </a>
                             </div>
