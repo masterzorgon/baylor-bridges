@@ -6,11 +6,16 @@ import { AccountContext } from "../components/Account";
 
 import axios from "axios";
 
+import { Fragment } from "react";
+import { Transition } from "@headlessui/react";
+import { ExclamationIcon } from "@heroicons/react/outline";
+// import { XIcon } from "@heroicons/react/solid";
+
 // This is where the features in the landing page is configured
 const features = [
-    { name: "Advertise Yourself", description: "You can manage your personal contact info and add personalized experience to your profile.",},
+    { name: "Advertise Yourself", description: "You can manage your personal contact info and add personalized experience to your profile.", },
     { name: "Info Security Customization", description: "You can manage which of your phone numbers, email addresses, or biogrgaphy you would like to show to the public." },
-    { name: "Alumni Exploration", description: "You can find New Connections with our fascinating search page detailed filters and US map user interface.",},
+    { name: "Alumni Exploration", description: "You can find New Connections with our fascinating search page detailed filters and US map user interface.", },
     { name: "Student Engagement", description: "You can interact with current Baylor Prehealth students through student and alumni-led projects regarding research, leadership, mentorship, and more." },
     // { name: "Coming Soon - Become Friends", description: "Establish a solid connection by becoming friends with your new found Alumni" },
     // { name: "Coming Soon - Manage Workload", description: "Manage friend request you would like to recieve every week" },
@@ -30,13 +35,15 @@ const Home = () => {
     const { getAccount, getAccountLocal } = useContext(AccountContext);
     const [account, setAccount] = useState(null);
 
+    const [show, setShow] = useState(true);
+
     useEffect(() => {
         setAccount(getAccountLocal());
 
         getAccount()
             .then(account => setAccount(account))
             .catch(error => setAccount(null));
-        
+
     }, [getAccount, getAccountLocal]);
 
     useEffect(() => {
@@ -47,7 +54,7 @@ const Home = () => {
 
                 // Find the state with the highest number of people
                 for (const value of Object.values(res.data)) {
-                    if(max < value) {
+                    if (max < value) {
                         max = value;
                     }
                 }
@@ -65,145 +72,162 @@ const Home = () => {
     }, [setStateCustomConfig]);
 
     return (
-        <main>
-            <div>
-                {/* HERO CARD */}
-                <div className="relative sm:my-6">
-                    <div className="max-w-7xl mx-auto sm:px-6 lg:px-6">
-                        <div className="relative shadow-xl sm:rounded-2xl sm:overflow-hidden">
-                            <div className="absolute inset-0">
-                                <img
-                                    className="h-full w-full object-cover"
-                                    src="landing_page_background.jfif"
-                                    alt="People working on laptops"
-                                />
-                                <div className="absolute inset-0 bg-emerald-700 mix-blend-multiply" />
+        <>
+
+            <main>
+                <div>
+
+
+
+                    {/* HERO CARD */}
+                    <div className="relative sm:my-6">
+                        <div className="max-w-7xl mx-auto sm:px-6 lg:px-6">
+                            <div className="relative shadow-xl sm:rounded-2xl sm:overflow-hidden">
+                                <div className="absolute inset-0">
+                                    <img
+                                        className="h-full w-full object-cover"
+                                        src="landing_page_background.jfif"
+                                        alt="People working on laptops"
+                                    />
+                                    <div className="absolute inset-0 bg-emerald-700 mix-blend-multiply" />
+                                </div>
+                                <div className="relative px-4 py-16 sm:px-6 sm:py-24 lg:py-32 lg:px-8">
+                                    <h1 className="text-center text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
+                                        <span className="block text-white">
+                                            {account ? "Welcome Back" : "Connect with Baylor Bears"}
+                                        </span>
+                                        <span className="block text-emerald-200">
+                                            {account ? "Connect with your fellow Bears" : "and build your network"}
+                                        </span>
+                                    </h1>
+                                    <p className="mt-6 max-w-lg mx-auto text-center text-xl text-emerald-200 sm:max-w-3xl">
+                                        A brand new platform for Baylor alumni and students to connect and explore the vast and endless possibilities
+                                        of Baylor alumni in the health industry.
+                                    </p>
+                                    <div className="mt-10 max-w-sm mx-auto sm:max-w-none sm:flex sm:justify-center">
+                                        {
+                                            account
+                                                ?
+                                                null
+                                                :
+                                                <div className="space-y-4 sm:space-y-0 sm:mx-auto sm:inline-grid sm:grid-cols-1 sm:gap-5">
+                                                    <a
+                                                        href="/sign-up"
+                                                        className="flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-emerald-700 bg-white hover:bg-emerald-50 sm:px-9"
+                                                    >
+                                                        Get Started
+                                                    </a>
+                                                </div>
+                                        }
+                                    </div>
+                                </div>
                             </div>
-                            <div className="relative px-4 py-16 sm:px-6 sm:py-24 lg:py-32 lg:px-8">
-                                <h1 className="text-center text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
-                                    <span className="block text-white">
-                                        {account ? "Welcome Back" : "Connect with Baylor Bears"}
-                                    </span>
-                                    <span className="block text-emerald-200">
-                                        {account ? "Connect with your fellow Bears" : "and build your network"}
-                                    </span>
-                                </h1>
-                                <p className="mt-6 max-w-lg mx-auto text-center text-xl text-emerald-200 sm:max-w-3xl">
-                                    A brand new platform for Baylor alumni and students to connect and explore the vast and endless possibilities
-                                    of Baylor alumni in the health industry.
+                        </div>
+                        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gray-100 -z-10 lg:hidden"></div>
+                    </div>
+                    {/* USA population map */}
+                    {/* TODO: Center map and show population, and text below */}
+                    <div className="max-w-7xl mx-auto sm:px-6 lg:px-6 my-6 grid-cols-3 gap-2 hidden lg:grid">
+                        <div className="relative flex col-span-2">
+                            <USAMap title="" customize={statesCustomConfig} />
+                        </div>
+                        <div className="col-span-1 relative">
+                            <div className="absolute bottom-0 mb-16">
+                                <h2 className="text-base font-semibold text-emerald-600 uppercase tracking-wide">Alumni Heat Map</h2>
+                                <p className="mt-2 text-3xl font-extrabold text-gray-900">Alumni Connection Platform</p>
+                                <p className="mt-4 text-lg text-gray-500">
+                                    Join the network, explore and connect with all the other Baylor people from different locations around the states.
                                 </p>
-                                <div className="mt-10 max-w-sm mx-auto sm:max-w-none sm:flex sm:justify-center">
-                                    {
-                                        account
-                                            ?
-                                            null
-                                            :
-                                            <div className="space-y-4 sm:space-y-0 sm:mx-auto sm:inline-grid sm:grid-cols-1 sm:gap-5">
-                                                <a
-                                                    href="/sign-up"
-                                                    className="flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-emerald-700 bg-white hover:bg-emerald-50 sm:px-9"
-                                                >
-                                                    Get Started
-                                                </a>
-                                            </div>
-                                    }
+                            </div>
+                        </div>
+                    </div>
+
+
+                    {/* Logo cloud */}
+                    {/* TODO: Add logos for baylor prehealth student orginization, ABB, and baylor prehealth office */}
+                    <div className="bg-gray-100 -mt-6 lg:mt-0">
+                        <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-6">
+                            <p className="text-center text-sm font-semibold uppercase text-gray-500 tracking-wide">
+                                Supported By
+                            </p>
+                            {/* TODO: add logo*/}
+
+                            <div className="mt-6 grid grid-cols-1 gap-8 md:grid-cols-2">
+                                <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
+                                    <img
+                                        className="h-9 md:h-14 w-auto"
+                                        src="/Baylor-Prehealth.png"
+                                        alt="Mirage" />
+                                </div>
+                                <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
+                                    <img
+                                        className="h-9 md:h-14 w-auto"
+                                        src="/Baylor-CS.png"
+                                        alt="Tuple" />
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gray-100 -z-10 lg:hidden"></div>
                 </div>
-                {/* USA population map */}
-                {/* TODO: Center map and show population, and text below */}
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-6 my-6 grid-cols-3 gap-2 hidden lg:grid">
-                    <div className="relative flex col-span-2">
-                        <USAMap title="" customize={statesCustomConfig} />
-                    </div>
-                    <div className="col-span-1 relative">
-                        <div className="absolute bottom-0 mb-16">
-                            <h2 className="text-base font-semibold text-emerald-600 uppercase tracking-wide">Alumni Heat Map</h2>
+
+                {/* Features */}
+                <div className="bg-white">
+                    <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:py-24 lg:px-8 lg:grid lg:grid-cols-3 lg:gap-x-8">
+                        <div>
+                            <h2 className="text-base font-semibold text-emerald-600 uppercase tracking-wide">Everything you need</h2>
                             <p className="mt-2 text-3xl font-extrabold text-gray-900">Alumni Connection Platform</p>
                             <p className="mt-4 text-lg text-gray-500">
-                                Join the network, explore and connect with all the other Baylor people from different locations around the states.
+                                Providing a platform for current students and alumni to discover new connections and foster deeper relationship with one another.
                             </p>
                         </div>
-                    </div>
-                </div>
-
-
-                {/* Logo cloud */}
-                {/* TODO: Add logos for baylor prehealth student orginization, ABB, and baylor prehealth office */}
-                <div className="bg-gray-100 -mt-6 lg:mt-0">
-                    <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-6">
-                        <p className="text-center text-sm font-semibold uppercase text-gray-500 tracking-wide">
-                                Supported By
-                        </p>
-                        {/* TODO: add logo*/}
-
-                        <div className="mt-6 grid grid-cols-1 gap-8 md:grid-cols-2">
-                            <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
-                                <img
-                                    className="h-9 md:h-14 w-auto"
-                                    src="/Baylor-Prehealth.png"
-                                    alt="Mirage" />
-                            </div>
-                            <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
-                                <img 
-                                    className="h-9 md:h-14 w-auto" 
-                                    src="/Baylor-CS.png" 
-                                    alt="Tuple" />
-                            </div>
+                        <div className="mt-12 lg:mt-0 lg:col-span-2">
+                            <dl className="space-y-10 sm:space-y-0 sm:grid sm:grid-cols-2 sm:grid-rows-2 sm:grid-flow-col sm:gap-x-6 sm:gap-y-10 lg:gap-x-8">
+                                {features.map((feature) => (
+                                    <div key={feature.name} className="relative">
+                                        <dt>
+                                            <CheckIcon className="absolute h-6 w-6 text-green-500" aria-hidden="true" />
+                                            <p className="ml-9 text-lg leading-6 font-medium text-gray-900">{feature.name}</p>
+                                        </dt>
+                                        <dd className="mt-2 ml-9 text-base text-gray-500">{feature.description}</dd>
+                                    </div>
+                                ))}
+                            </dl>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            {/* Features */}
-            <div className="bg-white">
-                <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:py-24 lg:px-8 lg:grid lg:grid-cols-3 lg:gap-x-8">
-                    <div>
-                        <h2 className="text-base font-semibold text-emerald-600 uppercase tracking-wide">Everything you need</h2>
-                        <p className="mt-2 text-3xl font-extrabold text-gray-900">Alumni Connection Platform</p>
-                        <p className="mt-4 text-lg text-gray-500">
-                                Providing a platform for current students and alumni to discover new connections and foster deeper relationship with one another.
-                        </p>
-                    </div>
-                    <div className="mt-12 lg:mt-0 lg:col-span-2">
-                        <dl className="space-y-10 sm:space-y-0 sm:grid sm:grid-cols-2 sm:grid-rows-2 sm:grid-flow-col sm:gap-x-6 sm:gap-y-10 lg:gap-x-8">
-                            {features.map((feature) => (
-                                <div key={feature.name} className="relative">
-                                    <dt>
-                                        <CheckIcon className="absolute h-6 w-6 text-green-500" aria-hidden="true" />
-                                        <p className="ml-9 text-lg leading-6 font-medium text-gray-900">{feature.name}</p>
-                                    </dt>
-                                    <dd className="mt-2 ml-9 text-base text-gray-500">{feature.description}</dd>
-                                </div>
-                            ))}
-                        </dl>
-                    </div>
-                </div>
-            </div>
-
-            {/* CTA Section */}
-            <div className="bg-white">
-                <div className="max-w-7xl mx-auto text-center py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
-                    <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-                        <span className="block">Ready to dive in?</span>
-                        {account ? null : <span className="block">Create you personal account today.</span>}
-                    </h2>
-                    <div className="mt-8 flex justify-center">
-                        {
-                            account === null
-                                ?
-                                <>
-                                    <div className="inline-flex rounded-md shadow">
-                                        <a
-                                            href="/sign-up"
-                                            className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700"
-                                        >
-                                            Sign Up
-                                        </a>
-                                    </div>
+                {/* CTA Section */}
+                <div className="bg-white">
+                    <div className="max-w-7xl mx-auto text-center py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
+                        <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                            <span className="block">Ready to dive in?</span>
+                            {account ? null : <span className="block">Create you personal account today.</span>}
+                        </h2>
+                        <div className="mt-8 flex justify-center">
+                            {
+                                account === null
+                                    ?
+                                    <>
+                                        <div className="inline-flex rounded-md shadow">
+                                            <a
+                                                href="/sign-up"
+                                                className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700"
+                                            >
+                                                Sign Up
+                                            </a>
+                                        </div>
+                                        <div className="ml-3 inline-flex">
+                                            <a
+                                                href="https://www.baylor.edu/prehealth/index.php?id=981654"
+                                                target="_blank"
+                                                rel="noreferrer"
+                                                className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-emerald-700 bg-emerald-100 hover:bg-emerald-200"
+                                            >
+                                                Learn more
+                                            </a>
+                                        </div>
+                                    </>
+                                    :
                                     <div className="ml-3 inline-flex">
                                         <a
                                             href="https://www.baylor.edu/prehealth/index.php?id=981654"
@@ -211,26 +235,77 @@ const Home = () => {
                                             rel="noreferrer"
                                             className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-emerald-700 bg-emerald-100 hover:bg-emerald-200"
                                         >
-                                                Learn more
+                                            Learn more
                                         </a>
                                     </div>
-                                </>
-                                :
-                                <div className="ml-3 inline-flex">
-                                    <a
-                                        href="https://www.baylor.edu/prehealth/index.php?id=981654"
-                                        target="_blank"
-                                        rel="noreferrer"
-                                        className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-emerald-700 bg-emerald-100 hover:bg-emerald-200"
-                                    >
-                                            Learn more
-                                    </a>
-                                </div>
-                        }
+                            }
+                        </div>
                     </div>
                 </div>
-            </div>
-        </main>
+
+                {/* first time visitor pop up */}
+                <div
+                    aria-live="assertive"
+                    className="sticky inset-0 flex items-end px-4 py-6 pointer-events-none sm:p-6 sm:items-start"
+                >
+                    <div className="w-full flex flex-col items-center space-y-4 sm:items-end">
+                        {/* Notification panel, dynamically insert this into the live region when it needs to be displayed */}
+                        <Transition
+                            show={show}
+                            as={Fragment}
+                            enter="transform ease-out duration-300 transition"
+                            enterFrom="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
+                            enterTo="translate-y-0 opacity-100 sm:translate-x-0"
+                            leave="transition ease-in duration-100"
+                            leaveFrom="opacity-100"
+                            leaveTo="opacity-0"
+                        >
+                            <div className="max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-visible">
+                                <div className="p-4">
+                                    <div className="flex items-start">
+                                        <div className="flex-shrink-0">
+                                            <ExclamationIcon className="h-6 w-6 text-gray-400" aria-hidden="true" />
+                                        </div>
+                                        <div className="ml-3 w-0 flex-1 pt-0.5">
+                                            <p className="text-sm font-medium text-gray-900">Cookie Alert</p>
+                                            <p className="mt-1 text-sm text-gray-500">
+                                                We use cookies to improve the user experience on our site. To find out more, read our <a href="/">privacy policy</a> and <a href="/">cookie policy</a>
+                                            </p>
+                                            <div className="mt-3 flex space-x-7">
+                                                <button
+                                                    type="button"
+                                                    className="bg-white rounded-md text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                                >
+                                                    Accept
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    className="bg-white rounded-md text-sm font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                                >
+                                                    Decline
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div className="ml-4 flex-shrink-0 flex">
+                                            <button
+                                                className="bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                                onClick={() => {
+                                                    setShow(false);
+                                                }}
+                                            >
+                                                <span className="sr-only">Close</span>
+                                                {/* <XIcon className="h-5 w-5" aria-hidden="true" /> */}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Transition>
+                    </div>
+                </div>
+
+            </main>
+        </>
     );
 };
 
