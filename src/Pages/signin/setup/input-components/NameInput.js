@@ -1,8 +1,8 @@
 import React, { Fragment } from "react";
 import { Transition } from "@headlessui/react";
-import { UserCircleIcon, ArrowLeftIcon } from "@heroicons/react/outline";
+import { UserCircleIcon, ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/outline";
 import { useTimeoutFn } from "react-use";
-import Button from "../../../../components/Button";
+// import Button from "../../../../components/Button";
 
 const NameInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
 
@@ -12,6 +12,10 @@ const NameInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
         event.preventDefault();
         takeAwayModal();
         setTimeout(() => setModal(2), 400);
+    };
+
+    const prevModal = (event) => {
+        window.location.href = "/sign-in/setup/profile-setup";
     };
 
     return (
@@ -71,14 +75,24 @@ const NameInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
                                         />
                                     </div>
                                 </div>
-                                <Button className="mt-4" onClick={onSubmit}>
-                                    Next
-                                </Button>
-                                <div className="flex justify-center mt-6 text-emerald-600 hover:text-emerald-700">
-                                    <ArrowLeftIcon className="w-4 mr-2" />
-                                    <a href="/sign-in/setup/profile-setup">
-                                        Previous
-                                    </a>
+
+                                <div className="flex justify-between">
+                                    <button
+                                        type="button"
+                                        onClick={prevModal}
+                                        className="mt-6 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                                    >
+                                        <ArrowLeftIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
+                                        Back
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={onSubmit}
+                                        className="mt-6 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                                    >
+                                        Next
+                                        <ArrowRightIcon className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
+                                    </button>
                                 </div>
                             </div>
                         </div>
