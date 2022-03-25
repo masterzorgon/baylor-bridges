@@ -26,11 +26,12 @@ import { default as SignUpClosed } from "./Pages/signup/Closed";
 
 
 import Search from "./Pages/Search";
-import Profile from "./Pages/Profile";
+import Profile from "./Pages/profile/Profile";
 
 import { default as SettingsProfile } from "./Pages/settings/Profile";
 import { default as SettingsExperience } from "./Pages/settings/Experience";
 import { default as SettingsAccount } from "./Pages/settings/Account";
+
 import { Account } from "./components/Account";
 
 import "./App.css";

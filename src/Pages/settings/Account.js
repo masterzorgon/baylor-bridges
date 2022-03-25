@@ -11,9 +11,8 @@ import Password from "../../components/Password";
 
 // const AccountContext = JSON.parse(localStorage.getItem("account"));
 
-function classNames(...classes) {
-    return classes.filter(Boolean).join(" ");
-}
+import { classNames } from "../../components/Utils";
+
 
 const visibility_options = [
     { title: "Self", value: "self", description: "Only you can see this field in your profile" },

@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { XCircleIcon } from "@heroicons/react/solid";
 
 import { AccountContext } from "../../components/Account";
+import { changeBaseURL, changeSearchParam, getSearchParam } from "../../components/Utils";
 import Password from "../../components/Password";
 import Button from "../../components/Button";
 
@@ -71,7 +72,20 @@ const Challenge = () => {
                 });
             },
             done: () => {
-                window.location.href = "/";
+                let redirect = getSearchParam(window.location.href, "redirect");
+                let destination = "";
+
+                if (redirect) {
+                    destination = changeBaseURL(window.location.href, redirect);
+                    destination = changeSearchParam(destination, "redirect", null);
+                    destination = changeSearchParam(destination, "session", null);
+                    destination = changeSearchParam(destination, "name", null);
+                    destination = changeSearchParam(destination, "sub", null);
+                } else {
+                    destination = changeBaseURL(destination, "/");
+                }
+                
+                window.location.href = destination;
             }
         }
     };

@@ -8,9 +8,8 @@ import Photo from "../../components/Photo";
 import Button from "../../components/Button";
 import Markdown from "../../components/Markdown";
 
-function classNames(...classes) {
-    return classes.filter(Boolean).join(" ");
-}
+import { classNames } from "../../components/Utils";
+
 
 const states = [
     { title: "Arizona", value: "AZ", description: "AZ" }, { title: "New York", value: "NY", description: "NY" }, { title: "Connecticut", value: "CT", description: "CT" }, { title: "Maryland", value: "MD", description: "MD" }, { title: "Washington", value: "WA", description: "WA" }, { title: "Oregon", value: "OR", description: "OR" }, { title: "Nevada", value: "NV", description: "NV" }, { title: "New Mexico", value: "NM", description: "NM" }, { title: "District of Columbia", value: "DC", description: "DC" }, { title: "Delaware", value: "DE", description: "DE" }, { title: "Massachusetts", value: "MA", description: "MA" }, { title: "Minnesota", value: "MN", description: "MN" }, { title: "Wisconsin", value: "WI", description: "WI" }, { title: "Illinois", value: "IL", description: "IL" },
@@ -25,9 +24,9 @@ const semester = [
 ];
 
 const visibility_options = [
-    { title: "Self", value: "self", description: "Only you can see this field in your profile" },
-    { title: "Alumni", value: "alumni", description: "Other alumni can see this field in your profile" },
-    { title: "Public", value: "public", description: "Everyone can see this field in your profile" },
+    { title: "Self", value: "self", description: "Only visibie to yourself" },
+    { title: "Alumni", value: "alumni", description: "Only visible to other alumni" },
+    { title: "Public", value: "public", description: "Visibie to everyone" },
 ];
 
 const option_value_to_title = (options, value) => {
@@ -422,7 +421,7 @@ const Profile = () => {
                                                         {({ selected, active }) => (
                                                             <>
                                                                 <div className="flex">
-                                                                    <span className={classNames(selected ? "font-semibold" : "font-normal", "truncate")}>
+                                                                    <span className={classNames(selected ? "font-semibold" : "font-normal")}>
                                                                         {option.title}
                                                                     </span>
                                                                     <span className={classNames(active ? "text-emerald-200" : "text-gray-500", "ml-2 truncate")}>
@@ -529,6 +528,7 @@ const Profile = () => {
                     ))
                 }
                 <Button
+                    className="text-sm"
                     loading={loading}
                     disabled={loading || !complete}
                     onClick={() => onSubmit()}

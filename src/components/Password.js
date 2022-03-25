@@ -3,9 +3,8 @@
 import React, { useEffect, useState } from "react";
 import { XCircleIcon, CheckCircleIcon } from "@heroicons/react/solid";
 
-function classNames(...classes) {
-    return classes.filter(Boolean).join(" ");
-}
+import { classNames } from "./Utils";
+
 
 const Password = ({value, onChange, className}) => {
     const [password, setPassword] = useState("");

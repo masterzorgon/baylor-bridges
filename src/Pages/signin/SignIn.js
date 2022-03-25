@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { XCircleIcon } from "@heroicons/react/solid";
 
 import { AccountContext } from "../../components/Account";
+import { changeBaseURL, changeSearchParam, getSearchParam } from "../../components/Utils";
 import Button from "../../components/Button";
 
 const SignIn = () => {
@@ -10,30 +11,39 @@ const SignIn = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error_message, setErrorMessage] = useState(null);
-    // const [newUser, setNewUser] = useState(false); // used to determine whether user has any null values, and direct them to new user page
     const { signIn } = useContext(AccountContext);
 
-    // useEffect(() => {
-    //     console.log("NEW USER STATUS", newUser);
-    // }, []);
 
-    const onSubmit = (event) => {
+    const onSubmit = () => {
         setLoading(true);
 
         signIn(email, password)
             .then(response => {
                 console.log(response);
-                let redirect = false;
-                
+                let requiresProfileSetup = false;
+
                 for (const key in response) {
                     if (response[key] === null) {
-                        redirect = true;
+                        requiresProfileSetup = true;
                         break;
-                    } 
+                    }
                 }
 
-                if (redirect) window.location.href = "/sign-in/setup/profile-setup";
-                else window.location.href = "/";
+                if (requiresProfileSetup) {
+                    let destination = changeBaseURL(window.location.href, "/sign-in/setup/profile-setup");
+                    window.location.href = destination;
+                } else {
+                    let redirect = getSearchParam(window.location.href, "redirect");
+
+                    if (redirect) {
+                        let destination = "";
+                        destination = changeBaseURL(window.location.href, redirect);
+                        destination = changeSearchParam(destination, "redirect", null);
+                        window.location.href = destination;
+                    } else {
+                        window.location.href = "/";
+                    }
+                }
             })
             .catch(error => {
                 let response = error.response.data;
@@ -45,13 +55,19 @@ const SignIn = () => {
                     let session = payload["session"];
                     let sub = payload["sub"];
 
-                    window.location.href = `/sign-in/challenge?session=${session}&name=${name}&sub=${sub}`;
+                    let destination = changeBaseURL(window.location.href, "/sign-in/challenge");
+                    destination = changeSearchParam(destination, "name", name);
+                    destination = changeSearchParam(destination, "session", session);
+                    destination = changeSearchParam(destination, "sub", sub);
+
+                    window.location.href = destination;
                 } else setErrorMessage(response.message);
             })
             .finally(() => {
                 setLoading(false);
             });
     };
+
 
     return (
         <>
