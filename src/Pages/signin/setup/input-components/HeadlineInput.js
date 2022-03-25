@@ -74,6 +74,8 @@ const HeadlineInput = ({ account, setAccount, modal, show, setModal, setShow }) 
                                                 id="comment"
                                                 className="shadow-sm focus:ring-gray-100 focus:border-gray-300 block w-full sm:text-sm border-gray-300 rounded-md"
                                                 defaultValue={""}
+                                                onChange={event => setAccount({ ...account, biography: event.target.biography })}
+                                                value={account.biography}
                                             />
                                         </div>
                                     </div>
