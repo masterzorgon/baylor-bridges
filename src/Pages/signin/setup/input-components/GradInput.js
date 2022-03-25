@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { LocationMarkerIcon, ArrowLeftIcon } from "@heroicons/react/outline";
+import { AcademicCapIcon, ArrowLeftIcon } from "@heroicons/react/outline";
 import Button from "../../../../components/Button";
 import { useTimeoutFn } from "react-use";
 import { Transition } from "@headlessui/react";
@@ -41,7 +41,7 @@ const GradInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
                         <div className="flex flex-col bg-white rounded-2xl shadow-xl">
                             <div className="flex-1 relative pt-16 px-6 pb-8 md:px-8">
                                 <div className="absolute top-0 p-5 inline-block bg-emerald-600 rounded-xl shadow-lg transform -translate-y-1/2">
-                                    <LocationMarkerIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                                    <AcademicCapIcon className="h-6 w-6 text-white" aria-hidden="true" />
                                 </div>
                                 <h3 className="text-xl font-medium text-gray-900">Graduating Class</h3>
                                 <p className="mt-4 text-base text-gray-500">
