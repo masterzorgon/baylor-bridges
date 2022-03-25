@@ -24,7 +24,8 @@ const Navbar = (props) => {
                                     tab.id === props.current
                                         ? "border-emerald-500 text-emerald-600"
                                         : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700",
-                                    "whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+                                    "whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm",
+                                    "transition-all duration-150",
                                 )}
                             >
                                 {tab.name}

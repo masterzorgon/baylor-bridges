@@ -187,7 +187,7 @@ const Profile = () => {
 
     // Get the raw value of a field, return either the field attribute value, or null, with the visibility value
     const getFieldDisplayValueRaw = (section_key, field) => {
-        if(account === null) {
+        if (account === null) {
             return [null, null];
         }
 
@@ -267,7 +267,7 @@ const Profile = () => {
             return (
                 <button
                     type="button"
-                    className="bg-white rounded-md font-medium text-emerald-600 hover:text-emerald-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                    className="transition-all bg-white rounded-md font-medium text-emerald-600 hover:text-emerald-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
                     onClick={() => onOpenFieldModal(section_key, field)}
                 >
                     {text}
@@ -343,7 +343,7 @@ const Profile = () => {
                                 type={attribute.type}
                                 name={attribute.key}
                                 id={attribute.key}
-                                className="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                className="transition-colors shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                 placeholder={attribute.placeholder}
                                 value={section_key === "basic" ? update[attribute.key] : update[section_key][attribute.key]}
                                 onChange={(e) => updateAttributeValue(e.target.value)}
@@ -362,7 +362,7 @@ const Profile = () => {
                                 rows={4}
                                 name="comment"
                                 id="comment"
-                                className="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                className="transition-colors shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                 value={section_key === "basic" ? update[attribute.key] : update[section_key][attribute.key]}
                                 onChange={(e) => updateAttributeValue(e.target.value)}
                             />
@@ -386,7 +386,7 @@ const Profile = () => {
                             {({ open }) => (
                                 <>
                                     <div className="relative">
-                                        <Listbox.Button className="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
+                                        <Listbox.Button className="transition-colors relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
                                             <span className="w-full inline-flex truncate">
                                                 <span className="">{option_value_to_title(attribute.options, section_key === "basic" ? update[attribute.key] : update[section_key][attribute.key]) || option_value_to_title(attribute.options, attribute.placeholder) || <div className="text-gray-500">{attribute.title}</div>}</span>
                                                 <span className="ml-2 truncate text-gray-500">{option_value_to_description(attribute.options, section_key === "basic" ? update[attribute.key] : update[section_key][attribute.key]) || option_value_to_description(attribute.options, attribute.placeholder)}</span>
@@ -413,7 +413,8 @@ const Profile = () => {
                                                         className={({ active }) =>
                                                             classNames(
                                                                 active ? "text-white bg-emerald-600" : "text-gray-900",
-                                                                "cursor-default select-none relative py-2 pl-8 pr-4"
+                                                                "cursor-default select-none relative py-2 pl-8 pr-4",
+                                                                "transition-colors"
                                                             )
                                                         }
                                                         value={option.value}
@@ -475,7 +476,7 @@ const Profile = () => {
                             <select
                                 id="tabs"
                                 name="tabs"
-                                className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm rounded-md"
+                                className="transition-colors block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm rounded-md"
                                 value={markdownEditorTab}
                                 onChange={(e) => setMarkdownEditorTab(e.target.value)}
                             >
@@ -483,23 +484,23 @@ const Profile = () => {
                                 <option key="preview" value={"preview"}>Preview</option>
                             </select>
                         </div>
-                        <div className="grid grid-cols-2 gap-2 h-full grid-rows-1" style={{height: "65vh"}}>
+                        <div className="grid grid-cols-2 gap-2 h-full grid-rows-1" style={{ height: "65vh" }}>
                             <div className={classNames("col-span-2 md:col-span-1", markdownEditorTab === "edit" ? "" : "hidden md:block")}>
                                 <textarea
                                     rows={4}
                                     name="comment"
                                     id="comment"
-                                    className="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md h-full resize-none"
+                                    className="transition-colors shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md h-full resize-none"
                                     value={section_key === "basic" ? (update[attribute.key] || "") : (update[section_key][attribute.key] || "")}
                                     onChange={(e) => updateAttributeValue(e.target.value)}
                                 />
                             </div>
-                            <div className={classNames("col-span-2 sm:col-span-1 overflow-auto shadow-sm px-4 py-2 rounded-md border-gray-300 border", markdownEditorTab === "preview" ? "" : "hidden md:block")}>
+                            <div className={classNames("transition-colors col-span-2 sm:col-span-1 overflow-auto shadow-sm px-4 py-2 rounded-md border-gray-300 border", markdownEditorTab === "preview" ? "" : "hidden md:block")}>
                                 <Markdown>
                                     {section_key === "basic" ? update[attribute.key] : update[section_key][attribute.key]}
-                                </Markdown>    
+                                </Markdown>
                             </div>
-                            <a className="col-span-2 md:col-span-1 flex text-xs space-x-1 items-center text-gray-500 fill-gray-500 hover:text-gray-800 hover:fill-gray-800" href="https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax" target="_blank" rel="noreferrer">
+                            <a className="transition-colors col-span-2 md:col-span-1 flex text-xs space-x-1 items-center text-gray-500 fill-gray-500 hover:text-gray-800 hover:fill-gray-800" href="https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax" target="_blank" rel="noreferrer">
                                 <MarkdownIcon />
                                 <p>Styling with Markdown is supported</p>
                             </a>

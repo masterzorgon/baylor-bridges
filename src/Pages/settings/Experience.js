@@ -63,7 +63,7 @@ const MonthYearPicker = ({ month, year, onMonthChange, onYearChange, min, max })
                     name="month"
                     autoComplete="month"
                     value={month}
-                    className="w-full py-2 px-3 focus:ring-emerald-500 focus:border-emerald-500 h-full pl-3 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md"
+                    className="transition-colors w-full py-2 px-3 focus:ring-emerald-500 focus:border-emerald-500 h-full pl-3 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md"
                     onChange={onMonthChange}
                 >
                     {
@@ -83,7 +83,7 @@ const MonthYearPicker = ({ month, year, onMonthChange, onYearChange, min, max })
                     name="year"
                     autoComplete="year"
                     value={year}
-                    className="w-full py-2 px-3 focus:ring-emerald-500 focus:border-emerald-500 h-full pl-3 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md"
+                    className="transition-colors w-full py-2 px-3 focus:ring-emerald-500 focus:border-emerald-500 h-full pl-3 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md"
                     onChange={onYearChange}
                 >
                     {
@@ -254,7 +254,7 @@ const Experience = () => {
                                 type="text"
                                 name="title"
                                 id="title"
-                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+                                className="transition-colors mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
                                 value={field.title || ""}
                                 onChange={(e) => onChange(e.target.value, "title")}
                             />
@@ -294,7 +294,7 @@ const Experience = () => {
                                 rows={4}
                                 name="description"
                                 id="description"
-                                className="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 py-2 px-3 block w-full sm:text-sm border-gray-300 rounded-md"
+                                className="transition-colors shadow-sm focus:ring-emerald-500 focus:border-emerald-500 py-2 px-3 block w-full sm:text-sm border-gray-300 rounded-md"
                                 value={field.description || ""}
                                 onChange={(e) => onChange(e.target.value, "description")}
                             />
@@ -324,12 +324,6 @@ const Experience = () => {
         const getPublicationDom = (field) => {
             return (
                 <div className="p-4 pb-5 sm:align-middle sm:p-6">
-                    {/* <div>
-                        <h2 id="payment-details-heading" className="text-lg leading-6 font-medium text-gray-900">
-                            {field._operation === CREATE && "Add Publication"}
-                            {field._operation === UPDATE && "Edit Publication"}
-                        </h2>
-                    </div> */}
 
                     <div className="grid grid-cols-8 gap-3">
                         <div className="col-span-8 sm:col-span-3">
@@ -341,7 +335,7 @@ const Experience = () => {
                                 name="expiration-date"
                                 id="expiration-date"
                                 autoComplete="cc-exp"
-                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+                                className="transition-colors mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
                                 placeholder="Title"
                                 onChange={(e) => onChange(e.target.value, "title")}
                                 value={field.title || ""}
@@ -356,7 +350,7 @@ const Experience = () => {
                                 name="expiration-date"
                                 id="expiration-date"
                                 autoComplete="cc-exp"
-                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+                                className="transition-colors mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
                                 onChange={(e) => onChange(e.target.value, "duo_link")}
                                 placeholder="Link"
                                 value={field.duo_link || ""}
@@ -428,7 +422,7 @@ const Experience = () => {
                         </Button>
                         <button
                             type="button"
-                            className="mt-3 text-sm w-full inline-flex justify-center rounded-md shadow-sm px-4 py-2 bg-white text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                            className="transition-all mt-3 text-sm w-full inline-flex justify-center rounded-md shadow-sm px-4 py-2 bg-white text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                             onClick={() => !loading && setOpen(false)}
                             disabled={loading}
                         >
@@ -484,7 +478,7 @@ const Experience = () => {
         return (
             <button
                 type="button"
-                className="mt-8 relative block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                className="transition-all mt-8 relative block w-full border-2 border-gray-300 border-dashed rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
                 onClick={() => onOpenModal({ title: null, start_time: null, stop_time: null, description: null }, EXPERIENCE, CREATE)}
             >
                 <PlusSmIcon className="mx-auto h-12 w-12 text-gray-400" />
@@ -512,7 +506,7 @@ const Experience = () => {
                         <div className="flex justify-center order-3 flex-shrink-0 sm:order-2 sm:mt-0 sm:w-auto">
                             <button
                                 onClick={() => onOpenModal({ title: null, start_time: null, stop_time: null, description: null }, EXPERIENCE, CREATE)}
-                                className="h-11 w-11 sm:h-10 sm:w-10 text-white bg-emerald-600 hover:bg-emerald-700 focus:ring-emerald-500 focus:ring-2 focus:ring-offset-2 flex justify-center rounded-full items-center"
+                                className="transition-all h-11 w-11 sm:h-10 sm:w-10 text-white bg-emerald-600 hover:bg-emerald-700 focus:ring-emerald-500 focus:ring-2 focus:ring-offset-2 flex justify-center rounded-full items-center"
                             >
                                 <PlusSmIcon className="h-7 w-7 sm:h-6 sm:w-6" aria-hidden="true" />
                             </button>
@@ -544,7 +538,7 @@ const Experience = () => {
                                         <div className="flex-shrink-0 self-center flex">
                                             <Menu as="div" className="relative z-30 inline-block text-left">
                                                 <div>
-                                                    <Menu.Button className="-m-2 p-2 rounded-full flex items-center text-gray-400 hover:text-gray-600">
+                                                    <Menu.Button className="transition-all -m-2 p-2 rounded-full flex items-center text-gray-400 hover:text-gray-600">
                                                         <span className="sr-only">Open options</span>
                                                         <DotsVerticalIcon className="h-5 w-5" aria-hidden="true" />
                                                     </Menu.Button>
@@ -564,7 +558,7 @@ const Experience = () => {
                                                             {/* Edit experience */}
                                                             <Menu.Item>
                                                                 <button
-                                                                    className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 cursor-pointer flex px-4 py-2 text-sm w-full"
+                                                                    className="transition-all text-gray-700 hover:bg-gray-100 hover:text-gray-900 cursor-pointer flex px-4 py-2 text-sm w-full"
                                                                     onClick={() => onOpenModal(experience, EXPERIENCE, UPDATE)}
                                                                 >
                                                                     <PencilIcon className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
@@ -575,7 +569,7 @@ const Experience = () => {
                                                             {/* Delete experience */}
                                                             <Menu.Item>
                                                                 <button
-                                                                    className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 cursor-pointer flex px-4 py-2 text-sm w-full"
+                                                                    className="transition-all text-gray-700 hover:bg-gray-100 hover:text-gray-900 cursor-pointer flex px-4 py-2 text-sm w-full"
                                                                     onClick={() => onOpenModal(experience, EXPERIENCE, DELETE)}
                                                                 >
                                                                     <TrashIcon className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
@@ -604,7 +598,7 @@ const Experience = () => {
                                                             <PaperClipIcon className="flex-shrink-0 h-5 w-5 text-gray-400" />
                                                             <span className="ml-2 flex-1 w-0 truncate text-gray-700">
                                                                 <a href={/^http:\/\//.test(publication.duo_link) || /^https:\/\//.test(publication.duo_link) ? publication.duo_link : "//" + publication.duo_link}
-                                                                    className="font-medium text-emerald-600 hover:text-emerald-500" target="_blank" rel="noreferrer">
+                                                                    className="transition-all font-medium text-emerald-600 hover:text-emerald-500" target="_blank" rel="noreferrer">
                                                                     {publication.title}
                                                                 </a>
                                                             </span>
@@ -613,7 +607,7 @@ const Experience = () => {
                                                             {/* Edit publication */}
                                                             <button
                                                                 type="button"
-                                                                className="rounded-full p-2 hover:bg-gray-100"
+                                                                className="transition-all rounded-full p-2 hover:bg-gray-100"
                                                                 onClick={() => onOpenModal(Object.assign({}, publication, { exper_id: experience.exper_id, exper_index: exper_index, pub_index: pub_index }), PUBLICATION, UPDATE)}
                                                             >
                                                                 <PencilIcon className="h-5 w-5 text-gray-400" />
@@ -621,7 +615,7 @@ const Experience = () => {
 
                                                             {/* Delete publication */}
                                                             <button
-                                                                className="rounded-full p-2 hover:bg-gray-100"
+                                                                className="transition-all rounded-full p-2 hover:bg-gray-100"
                                                                 onClick={() => onOpenModal(Object.assign({}, publication, { exper_id: experience.exper_id, exper_index: exper_index, pub_index: pub_index }), PUBLICATION, DELETE)}
                                                             >
                                                                 <TrashIcon className="h-5 w-5 text-gray-400" />
@@ -634,7 +628,7 @@ const Experience = () => {
                                                 {/* Add new publication */}
                                                 <button
                                                     type="button"
-                                                    className="relative block w-full border-gray-300 border-dashed py-2.5 text-center hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-0 focus:ring-emerald-600"
+                                                    className="transition-all relative block w-full border-gray-300 border-dashed py-2.5 text-center hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-0 focus:ring-emerald-600"
                                                     onClick={() => onOpenModal(Object.assign({}, { title: null, duo_link: null }, { exper_id: experience.exper_id, exper_index: exper_index }), PUBLICATION, CREATE)}>
                                                     <PlusSmIcon className="mx-auto h-5 w-5 text-gray-400" />
                                                 </button>
