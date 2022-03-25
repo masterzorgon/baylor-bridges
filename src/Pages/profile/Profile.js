@@ -172,13 +172,15 @@ const Profile = () => {
             } else {
                 value = <div className="text-gray-400">Not set</div>;
             }
+        } else {
+            value = formatValue(value, field.type);
         }
 
         return (
             <div className={classNames("col-span-2 sm:col-span-1", field.field_class)}>
                 <dt className="text-sm font-medium text-gray-500">{field.title}</dt>
                 <dd className={classNames("mt-1 text-sm text-gray-900", field.value_class ? field.value_class : "")}>
-                    {formatValue(value, field.type)}
+                    {value}
                 </dd>
             </div>
         );
