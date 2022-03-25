@@ -73,7 +73,7 @@ const HeadlineInput = ({ account, setAccount, modal, show, setModal, setShow }) 
                                                 name="comment"
                                                 id="comment"
                                                 className="shadow-sm focus:ring-gray-100 focus:border-gray-300 block w-full sm:text-sm border-gray-300 rounded-md"
-                                                defaultValue={""}
+                                                placeholder="As an orthopedic surgeon, I..."
                                                 onChange={event => setAccount({ ...account, biography: event.target.biography })}
                                                 value={account.biography}
                                             />
