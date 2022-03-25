@@ -55,7 +55,12 @@ const SignIn = () => {
                     let session = payload["session"];
                     let sub = payload["sub"];
 
-                    window.location.href = `/sign-in/challenge?session=${session}&name=${name}&sub=${sub}`;
+                    let destination = changeBaseURL(window.location.href, "/sign-in/challenge");
+                    destination = changeSearchParam(destination, "name", name);
+                    destination = changeSearchParam(destination, "session", session);
+                    destination = changeSearchParam(destination, "sub", sub);
+
+                    window.location.href = destination;
                 } else setErrorMessage(response.message);
             })
             .finally(() => {
