@@ -1,5 +1,5 @@
 import React from "react";
-import { UserCircleIcon } from "@heroicons/react/outline";
+import { InboxIcon } from "@heroicons/react/outline";
 import Button from "../../../../components/Button";
 
 const ContactInput = ({ onSubmit }) => {
@@ -14,11 +14,11 @@ const ContactInput = ({ onSubmit }) => {
                     <div className="flex flex-col bg-white rounded-2xl shadow-xl">
                         <div className="flex-1 relative pt-16 px-6 pb-8 md:px-8">
                             <div className="absolute top-0 p-5 inline-block bg-emerald-600 rounded-xl shadow-lg transform -translate-y-1/2">
-                                <UserCircleIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                                <InboxIcon className="h-6 w-6 text-white" aria-hidden="true" />
                             </div>
-                            <h3 className="text-xl font-medium text-gray-900">Contact information</h3>
+                            <h3 className="text-xl font-medium text-gray-900">Contact Information</h3>
                             <p className="mt-4 text-base text-gray-500">
-                                Please probide adequate contact information through which
+                                Please provide adequate contact information through which
                                 others may reach you via your Baylor Bridges account.
                             </p>
                         </div>

@@ -1,17 +1,19 @@
 // import axios from "axios";
 import React, { useState } from "react";
 import { Transition } from "@headlessui/react";
+import { useTimeoutFn } from "react-use";
 
 import ContactInput from "./input-components/ContactInput";
 
 const EnterName = () => {
 
     const [show, setShow] = useState(true);
+    let [, , resetIsShowing] = useTimeoutFn(() => setShow(true), 500);
 
     const onSubmit = event => {
         setShow(show => !show);
+        resetIsShowing();
 
-        
 
         // axios.get("/account/profile") // account
         //     .then(res => {
@@ -61,10 +63,10 @@ const EnterName = () => {
                 {/* Overlapping cards */}
                 <Transition
                     show={show}
-                    enter="transition-opacity duration-300"
+                    enter="transform transition duration-[500ms]"
                     enterFrom="opacity-0"
                     enterTo="opacity-100"
-                    leave="transition-opacity duration-300"
+                    leave="transform duration-500 transition ease-in-out"
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                 >
