@@ -93,8 +93,8 @@ function App() {
             <Router>
                 <Routes>
                     <Route path="/" element={components(<Navbar />, <Home />, <Footer />, <CookieConsent/>)} />
-                    <Route path="/about" element={components(<Navbar />, <About />, <Footer />)} />
-                    <Route path="/search" element={components(<Navbar />, <Search />, <Footer />)} />
+                    <Route path="/about" element={components(<Navbar />, <About />, <Footer />), <CookieConsent/>} />
+                    <Route path="/search" element={components(<Navbar />, <Search />, <Footer />), <CookieConsent/>} />
 
                     <Route path="/settings" element={<Navigate to="/settings/account" />} />
                     <Route path="/settings/profile" element={components(<Navbar />, <SettingsProfile />, <Footer />)} />
@@ -104,18 +104,18 @@ function App() {
                     <Route path="/profile" element={components(<Navbar />, <Profile />, <Footer />)} />
                     <Route path="/profile/:user_id" element={components(<Navbar />, <Profile />, <Footer />)} />
 
-                    <Route path="/sign-in" element={<SignIn />} />
+                    <Route path="/sign-in" element={components(<SignIn />, <CookieConsent/>)} />
                     <Route path="/reset-password" element={<ResetPassword />}/>
                     <Route path="/sign-in/challenge" element={<SignInChallenge />} />
                     <Route path="/sign-in/setup/profile-setup" element={<ProfileSetup />} /> 
                     <Route path="/sign-in/setup/enter-info" element={<EnterInfo />} /> 
                     <Route path="/sign-in/setup/all-done" element={<AllDone />} /> 
 
-                    <Route path="/sign-up" element={<SignUpEntrace />} />
+                    <Route path="/sign-up" element={components(<SignUpEntrace />, <CookieConsent/>)} />
                     <Route path="/sign-up/:role" element={<SignUpForm />} />
                     <Route path="/sign-up/closed" element={<SignUpClosed />} />
 
-                    <Route path="/contact-us" element={components(<Navbar />, <ContactUs />, <Footer />)} />
+                    <Route path="/contact-us" element={components(<Navbar />, <ContactUs />, <Footer />, <CookieConsent/>)} />
 
                     <Route path="/terms/privacy-policy" element={components(<Navbar />, <PrivacyPolicy />, <Footer />)} />
                     <Route path="/terms/terms-conditions" element={components(<Navbar />, <TermsConditions />, <Footer />)} />
