@@ -72,7 +72,7 @@ const HeadlineInput = ({ account, setAccount, modal, show, setModal, setShow }) 
                                 leaveFrom="opacity-100"
                                 leaveTo="opacity-0"
                             >
-                                <div className="max-w-sm w-full bg-red-50 shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden">
+                                <div className="max-w-sm w-full bg-red-50 shadow-xl rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden">
                                     <div className="p-4">
                                         <div className="flex items-start">
                                             <div className="flex-shrink-0">
