@@ -26,9 +26,9 @@ const changeSearchParam = (url, key, value) => {
 
 const changeBaseURL = (url, baseUrl) => {
     const urlParts = url.split("?");
-    const queryString = urlParts[1];
+    const queryString = urlParts[1]; // If there is no ? in url, urlParts will be [url] only one element, and queryString will be undefined
 
-    if (queryString.length > 0) {
+    if (queryString && queryString.length > 0) {
         return `${baseUrl}?${queryString}`;   
     } else {
         return baseUrl;
