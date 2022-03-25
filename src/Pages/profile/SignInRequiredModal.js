@@ -2,14 +2,23 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { Transition } from "@headlessui/react";
 
+import { changeBaseURL, changeSearchParam } from "../../components/Utils";
+
 export default function SignInRequiredModal() {
     const [open, setOpen] = useState(false);
     const [signUpUrl, setSignUpUrl] = useState("");
+    const [signInUrl, setSignInUrl] = useState("");
 
     useEffect(() => {
-        const query = new URLSearchParams(window.location.search);
-        query.set("redirect", window.location.pathname);
-        setSignUpUrl(`/sign-up?${query.toString()}`);
+        let current = changeSearchParam(window.location.href, "redirect", window.location.pathname);
+
+        let signUpURL = changeBaseURL(current, "/sign-up");
+        let signInURL = changeBaseURL(current, "/sign-in");
+
+        setSignUpUrl(signUpURL);
+        setSignInUrl(signInURL);
+
+        console.log(signInUrl);
     }, []);
 
     useEffect(() => {
@@ -69,7 +78,8 @@ export default function SignInRequiredModal() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="pt-1 space-y-2">
+                            <div className="pt-1 space-y-3">
+                                {/* Sign up link */}
                                 <a
                                     type="button"
                                     className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-3 bg-emerald-600 text-base font-medium text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 sm:col-start-2 sm:text-sm"
@@ -77,6 +87,11 @@ export default function SignInRequiredModal() {
                                 >
                                     Sign up to continue
                                 </a>
+                                {/* Sign in link, TODO: to be visible in future -Cloudy */}
+                                {/* <div className="text-sm space-x-1 flex items-center justify-center">
+                                    <p className="text-gray-600">Already have an account?</p>
+                                    <a href={signInUrl} className="text-emerald-800">Sign in</a>
+                                </div> */}
                             </div>
                         </div>
                     </Transition.Child>
