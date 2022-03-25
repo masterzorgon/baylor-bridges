@@ -1,17 +1,51 @@
 import React, { useState } from "react";
 import { Transition } from "@headlessui/react";
 import { UserCircleIcon } from "@heroicons/react/outline";
+// import { UsersIcon } from "@heroicons/react/solid";
+
+import Button from "../../../components/Button";
 
 
 const EnterName = () => {
 
     const [show, setShow] = useState(false);
 
+    const nameInput = () => {
+        return (
+            <div className="isolate -space-y-px rounded-md shadow-sm">
+                <div className="relative border border-gray-300 rounded-md rounded-b-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600">
+                    <label htmlFor="name" className="block text-xs font-medium text-gray-900">
+                        Name
+                    </label>
+                    <input
+                        type="text"
+                        name="name"
+                        id="name"
+                        className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
+                        placeholder="Jane Doe"
+                    />
+                </div>
+                <div className="relative border border-gray-300 rounded-md rounded-t-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600">
+                    <label htmlFor="job-title" className="block text-xs font-medium text-gray-900">
+                        Job Title
+                    </label>
+                    <input
+                        type="text"
+                        name="job-title"
+                        id="job-title"
+                        className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
+                        placeholder="Head of Tomfoolery"
+                    />
+                </div>
+            </div>
+        );
+    };
+
     const supportLinks = [
         {
             name: "Name",
-            description:
-                "This is your full, legal name. This is the name others will know you by via your Baylor Bridges account.",
+            description: "This is your full, legal name. This is the name others will know you by via your Baylor Bridges account.",
+            input: nameInput,
             icon: UserCircleIcon,
         },
         // {
@@ -29,6 +63,10 @@ const EnterName = () => {
         //     icon: NewspaperIcon,
         // },
     ];
+
+    const onSubmit = () => {
+        setShow(show => !show);
+    };  
 
     return (
         <div className="bg-white">
@@ -60,7 +98,7 @@ const EnterName = () => {
             >
                 <div className="grid grid-cols-1 gap-y-20 lg:gap-y-0 lg:gap-x-8">
                     {supportLinks.map((link) => (
-                        <div key={link.name} className="flex flex-col bg-white rounded-2xl shadow-xl">
+                        <div key={link.name} className="flex flex-col bg-gray-50 rounded-2xl shadow-xl">
                             <div className="flex-1 relative pt-16 px-6 pb-8 md:px-8">
 
                                 <Transition
@@ -81,9 +119,12 @@ const EnterName = () => {
                                 <p className="mt-4 text-base text-gray-500">{link.description}</p>
                             </div>
                             <div className="p-6 bg-gray-50 rounded-bl-2xl rounded-br-2xl md:px-8">
-                                <button onClick={() => setShow(show => !show)}>
-                                    show
-                                </button>
+                                {/* INPUT SECTION GOES BELOW */}
+                                {link.input()}
+                                {/* INPUT SECTION GOES ABOVE */}
+                                <Button className="mt-4" onClick={onSubmit}>
+                                    Submit
+                                </Button>
                             </div>
                         </div>
                     ))}
