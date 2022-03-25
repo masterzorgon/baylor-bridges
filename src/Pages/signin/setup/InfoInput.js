@@ -5,6 +5,7 @@ import { useTimeoutFn } from "react-use";
 import NameInput from "./input-components/NameInput";
 import ContactInput from "./input-components/ContactInput";
 import LocationInput from "./input-components/LocationInput";
+import GradInput from "./input-components/GradInput";
 
 const InfoInput = () => {
 
@@ -41,6 +42,7 @@ const InfoInput = () => {
         if (modal === 1) { return <NameInput account={account} setAccount={setAccount} show={show} modal={modal} setShow={setShow} setModal={setModal} />; }
         if (modal === 2) { return <ContactInput account={account} setAccount={setAccount} show={show} modal={modal} setShow={setShow} setModal={setModal} />; }
         if (modal === 3) { return <LocationInput account={account} setAccount={setAccount} show={show} modal={modal} setShow={setShow} setModal={setModal} />; }
+        if (modal === 4) { return <GradInput account={account} setAccount={setAccount} show={show} modal={modal} setShow={setShow} setModal={setModal} />; }
     };
 
     return (

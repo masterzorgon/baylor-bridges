@@ -4,14 +4,14 @@ import Button from "../../../../components/Button";
 import { useTimeoutFn } from "react-use";
 import { Transition } from "@headlessui/react";
 
-const LocationInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
+const GradInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
 
     const [, , takeAwayModal] = useTimeoutFn(() => setShow(false), 0);
 
     const onSubmit = (event) => {    
         event.preventDefault();
         takeAwayModal();
-        setTimeout(() => setModal(4), 400);
+        setTimeout(() => setModal(1), 400);
     };
 
     const prevModal = (event) => {
@@ -24,7 +24,7 @@ const LocationInput = ({ account, setAccount, modal, show, setModal, setShow }) 
         <>
             {/* Overlapping cards */}
             <Transition
-                show={show && modal === 3}
+                show={show && modal === 4}
                 as={Fragment}
                 enter="transform transition duration-[400ms]"
                 enterFrom="opacity-0"
@@ -43,11 +43,10 @@ const LocationInput = ({ account, setAccount, modal, show, setModal, setShow }) 
                                 <div className="absolute top-0 p-5 inline-block bg-emerald-600 rounded-xl shadow-lg transform -translate-y-1/2">
                                     <LocationMarkerIcon className="h-6 w-6 text-white" aria-hidden="true" />
                                 </div>
-                                <h3 className="text-xl font-medium text-gray-900">Location Information</h3>
+                                <h3 className="text-xl font-medium text-gray-900">Graduating Class</h3>
                                 <p className="mt-4 text-base text-gray-500">
-                                    At your discretion, please provide your location information. This information
-                                    will be available for others to see on your Baylor Bridges account. Your state
-                                    information will be used to fill in the Baylor Bridges heat map displayed on the home page.
+                                    Please provide the year and semester of graduating class
+                                    from Baylor University.
 
                                 </p>
                             </div>
@@ -55,30 +54,30 @@ const LocationInput = ({ account, setAccount, modal, show, setModal, setShow }) 
                                 <div className="isolate -space-y-px rounded-md shadow-sm">
                                     <div className="relative border border-gray-300 rounded-md rounded-b-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600">
                                         <label htmlFor="name" className="block text-xs font-medium text-gray-900">
-                                            State
+                                            Semester
                                         </label>
                                         <input
                                             type="text"
-                                            name="state"
-                                            id="state"
+                                            name="semester"
+                                            id="semester"
                                             className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
-                                            placeholder="Texas"
-                                            onChange={event => setAccount({...account, state: event.target.value})}
-                                            value={account.state}
+                                            placeholder="Spring"
+                                            onChange={event => setAccount({ ...account, graduate_semester: event.target.value })}
+                                            value={account.graduate_semester}
                                         />
                                     </div>
                                     <div className="relative border border-gray-300 rounded-md rounded-t-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600">
                                         <label htmlFor="job-title" className="block text-xs font-medium text-gray-900">
-                                            City
+                                            Year
                                         </label>
                                         <input
                                             type="text"
-                                            name="city"
-                                            id="city"
+                                            name="year"
+                                            id="year"
                                             className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
-                                            placeholder="Houston"
-                                            onChange={event => setAccount({...account, city: event.target.value})}
-                                            value={account.city}
+                                            placeholder="2001"
+                                            onChange={event => setAccount({ ...account, graduate_year: event.target.value })}
+                                            value={account.graduate_year}
                                         />
                                     </div>
                                 </div>
@@ -100,4 +99,4 @@ const LocationInput = ({ account, setAccount, modal, show, setModal, setShow }) 
     );
 };
 
-export default LocationInput;
+export default GradInput;

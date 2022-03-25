@@ -24,6 +24,7 @@ const SignIn = () => {
 
                 for (const key in response) {
                     if (response[key] === null) {
+                        console.log("NULL KEY", key);
                         requiresProfileSetup = true;
                         break;
                     }

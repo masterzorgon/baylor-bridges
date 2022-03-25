@@ -41,7 +41,7 @@ const NameInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
                                 <p className="mt-4 text-base text-gray-500">Please provide your full, legal name. This is the name others will know you by via your Baylor Bridges account.</p>
                             </div>
                             <div className="p-6 pt-0 bg-white rounded-bl-2xl rounded-br-2xl md:px-8">
-                                <div className="isolate -space-y-px rounded-md shadow-lg">
+                                <div className="isolate -space-y-px rounded-md shadow-sm">
                                     <div className="relative border border-gray-300 rounded-md rounded-b-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600">
                                         <label htmlFor="name" className="block text-xs font-medium text-gray-900">
                                             First Name
