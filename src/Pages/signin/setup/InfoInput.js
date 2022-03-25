@@ -4,6 +4,7 @@ import { useTimeoutFn } from "react-use";
 
 import NameInput from "./input-components/NameInput";
 import ContactInput from "./input-components/ContactInput";
+import LocationInput from "./input-components/LocationInput";
 
 const InfoInput = () => {
 
@@ -31,13 +32,15 @@ const InfoInput = () => {
     // this makes the modal fade in/out of the page on refresh
     useEffect(() => {
         showTheModal();
-        window.onunload = () => window.scrollTo(0, 0);
+        console.log("MODAL", modal);
     }, [modal]);
+    
     useEffect(() => console.log("ACCOUNT", account), [account]);
 
     const modals = () => {
         if (modal === 1) { return <NameInput account={account} setAccount={setAccount} show={show} modal={modal} setShow={setShow} setModal={setModal} />; }
         if (modal === 2) { return <ContactInput account={account} setAccount={setAccount} show={show} modal={modal} setShow={setShow} setModal={setModal} />; }
+        if (modal === 3) { return <LocationInput account={account} setAccount={setAccount} show={show} modal={modal} setShow={setShow} setModal={setModal} />; }
     };
 
     return (
