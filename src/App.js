@@ -4,8 +4,9 @@ import axios from "axios";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import CookieConsent from "./Pages/Home/CookieConsent";
 
-import Home from "./Pages/Home";
+import Home from "./Pages/Home/Home";
 import About from "./Pages/About";
 import ContactUs from "./Pages/ContactUs";
 import NotFound from "./Pages/404";
@@ -91,7 +92,7 @@ function App() {
         <Account>
             <Router>
                 <Routes>
-                    <Route path="/" element={components(<Navbar />, <Home />, <Footer />)} />
+                    <Route path="/" element={components(<Navbar />, <Home />, <Footer />, <CookieConsent/>)} />
                     <Route path="/about" element={components(<Navbar />, <About />, <Footer />)} />
                     <Route path="/search" element={components(<Navbar />, <Search />, <Footer />)} />
 
