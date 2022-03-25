@@ -6,13 +6,14 @@ import NameInput from "./input-components/NameInput";
 import ContactInput from "./input-components/ContactInput";
 import LocationInput from "./input-components/LocationInput";
 import GradInput from "./input-components/GradInput";
+import HeadlineInput from "./input-components/HeadlineInput";
 
 const InfoInput = () => {
 
     const [show, setShow] = useState(false); // used to fade modals out
     const [, , showTheModal] = useTimeoutFn(() => setShow(true), 400); // used to fade modals in
     
-    const [modal, setModal] = useState(1); // used to switch between modals
+    const [modal, setModal] = useState(5); // used to switch between modals
     const [account, setAccount] = useState({
         biography: "",
         city: "",
@@ -43,6 +44,7 @@ const InfoInput = () => {
         if (modal === 2) { return <ContactInput account={account} setAccount={setAccount} show={show} modal={modal} setShow={setShow} setModal={setModal} />; }
         if (modal === 3) { return <LocationInput account={account} setAccount={setAccount} show={show} modal={modal} setShow={setShow} setModal={setModal} />; }
         if (modal === 4) { return <GradInput account={account} setAccount={setAccount} show={show} modal={modal} setShow={setShow} setModal={setModal} />; }
+        if (modal === 5) { return <HeadlineInput account={account} setAccount={setAccount} show={show} modal={modal} setShow={setShow} setModal={setModal} />; }
     };
 
     return (

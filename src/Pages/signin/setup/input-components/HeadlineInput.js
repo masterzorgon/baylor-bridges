@@ -1,16 +1,14 @@
 import React, { Fragment } from "react";
-import { AcademicCapIcon, ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/outline";
+import { ArrowLeftIcon, ArrowRightIcon, BriefcaseIcon } from "@heroicons/react/outline";
 import { useTimeoutFn } from "react-use";
 import { Transition } from "@headlessui/react";
 
-const GradInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
+const HeadlineInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
 
     const [, , takeAwayModal] = useTimeoutFn(() => setShow(false), 0);
 
     const onSubmit = (event) => {    
-        event.preventDefault();
-        takeAwayModal();
-        setTimeout(() => setModal(5), 400);
+        window.location.href = "";
     };
 
     const prevModal = (event) => {
@@ -23,7 +21,7 @@ const GradInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
         <>
             {/* Overlapping cards */}
             <Transition
-                show={show && modal === 4}
+                show={show && modal === 5}
                 as={Fragment}
                 enter="transform transition duration-[400ms]"
                 enterFrom="opacity-0"
@@ -40,12 +38,12 @@ const GradInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
                         <div className="flex flex-col bg-white rounded-2xl shadow-xl">
                             <div className="flex-1 relative pt-16 px-6 pb-8 md:px-8">
                                 <div className="absolute top-0 p-5 inline-block bg-emerald-600 rounded-xl shadow-lg transform -translate-y-1/2">
-                                    <AcademicCapIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                                    <BriefcaseIcon className="h-6 w-6 text-white" aria-hidden="true" />
                                 </div>
-                                <h3 className="text-xl font-medium text-gray-900">Graduating Class</h3>
+                                <h3 className="text-xl font-medium text-gray-900">Headline</h3>
                                 <p className="mt-4 text-base text-gray-500">
-                                    Please provide the year and semester of graduating class
-                                    from Baylor University.
+                                    Youe headline should be your professional title, and your biography should be
+                                    a summary of who you are and what you do.
 
                                 </p>
                             </div>
@@ -53,31 +51,31 @@ const GradInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
                                 <div className="isolate -space-y-px rounded-md shadow-sm">
                                     <div className="relative border border-gray-300 rounded-md rounded-b-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600">
                                         <label htmlFor="name" className="block text-xs font-medium text-gray-900">
-                                            Semester
+                                            Headline
                                         </label>
                                         <input
                                             type="text"
-                                            name="semester"
-                                            id="semester"
+                                            name="headline"
+                                            id="headline"
                                             className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
-                                            placeholder="Spring"
-                                            onChange={event => setAccount({ ...account, graduate_semester: event.target.value })}
-                                            value={account.graduate_semester}
+                                            placeholder="Orthopedic Surgeon"
+                                            onChange={event => setAccount({ ...account, headline: event.target.value })}
+                                            value={account.headline}
                                         />
                                     </div>
                                     <div className="relative border border-gray-300 rounded-md rounded-t-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600">
                                         <label htmlFor="job-title" className="block text-xs font-medium text-gray-900">
-                                            Year
+                                            Biography
                                         </label>
-                                        <input
-                                            type="text"
-                                            name="year"
-                                            id="year"
-                                            className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
-                                            placeholder="2001"
-                                            onChange={event => setAccount({ ...account, graduate_year: event.target.value })}
-                                            value={account.graduate_year}
-                                        />
+                                        <div className="mt-1">
+                                            <textarea
+                                                rows={4}
+                                                name="comment"
+                                                id="comment"
+                                                className="shadow-sm focus:ring-gray-100 focus:border-gray-300 block w-full sm:text-sm border-gray-300 rounded-md"
+                                                defaultValue={""}
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="flex justify-between">
@@ -107,4 +105,4 @@ const GradInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
     );
 };
 
-export default GradInput;
+export default HeadlineInput;
