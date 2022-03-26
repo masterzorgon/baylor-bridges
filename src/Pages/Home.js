@@ -71,58 +71,94 @@ const Home = () => {
 
     return (
         <>
-
             <main>
                 <div>
-
-
-
-                    {/* HERO CARD */}
-                    <div className="relative sm:my-6">
-                        <div className="max-w-7xl mx-auto sm:px-6 lg:px-6">
-                            <div className="relative shadow-xl sm:rounded-2xl sm:overflow-hidden">
-                                <div className="absolute inset-0">
+                    {/* Hero section */}
+                    <div className="pt-8 overflow-hidden sm:pt-12 lg:relative lg:py-28">
+                        <div className="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl lg:grid lg:grid-cols-2 lg:gap-24">
+                            <div>
+                                <div>
                                     <img
-                                        className="h-full w-full object-cover"
-                                        src="landing_page_background.jfif"
-                                        alt="People working on laptops"
+                                        className="h-20 w-auto"
+                                        src="/Baylor-University-Athletics-01.svg"
+                                        alt="Baylor University icon"
                                     />
-                                    <div className="absolute inset-0 bg-emerald-700 mix-blend-multiply" />
                                 </div>
-                                <div className="relative px-4 py-16 sm:px-6 sm:py-24 lg:py-32 lg:px-8">
-                                    <h1 className="text-center text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
-                                        <span className="block text-white">
-                                            {account ? "Welcome Back" : "Connect with Baylor Bears"}
-                                        </span>
-                                        <span className="block text-emerald-200">
-                                            {account ? "Connect with your fellow Bears" : "and build your network"}
-                                        </span>
-                                    </h1>
-                                    <p className="mt-6 max-w-lg mx-auto text-center text-xl text-emerald-200 sm:max-w-3xl">
-                                        A brand new platform for Baylor alumni and students to connect and explore the vast and endless possibilities
-                                        of Baylor alumni in the health industry.
-                                    </p>
-                                    <div className="mt-10 max-w-sm mx-auto sm:max-w-none sm:flex sm:justify-center">
-                                        {
-                                            account
-                                                ?
-                                                null
-                                                :
-                                                <div className="space-y-4 sm:space-y-0 sm:mx-auto sm:inline-grid sm:grid-cols-1 sm:gap-5">
-                                                    <a
-                                                        href="/sign-up"
-                                                        className="flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-emerald-700 bg-white hover:bg-emerald-50 sm:px-9"
-                                                    >
-                                                        Get Started
-                                                    </a>
-                                                </div>
-                                        }
+                                <div className="mt-20">
+                                    {/* <div>
+                                        <a href="#" className="inline-flex space-x-4">
+                                            <span className="rounded bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-600 tracking-wide uppercase">
+                                                What&apos;s new
+                                            </span>
+                                            <span className="inline-flex items-center text-sm font-medium text-emerald-600 space-x-1">
+                                                <span>Just shipped version 0.1.0</span>
+                                                <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
+                                            </span>
+                                        </a>
+                                    </div> */}
+                                    <div className="mt-6 sm:max-w-lg">
+                                        <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">
+                                            Connect with your fellow Bears today
+                                        </h1>
+                                        <p className="mt-6 text-xl text-gray-500">
+                                            A brand new platform for Baylor alumni and current students to
+                                            connect and explore the vast and endless possibilities
+                                            of Baylor alumni in the health industry.
+                                        </p>
+                                    </div>
+                                    <div action="#" className="mt-12 sm:max-w-lg sm:w-full sm:flex">
+                                        <a
+                                            className="transition-all text-center w-full flex justify-center px-4 py-5 border border-transparent font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed relative"
+                                            href="/sign-up"
+                                        >
+                                            Sign Up to Join the Community
+                                        </a>
+                                    </div>
+                                    <div className="mt-6 flex space-x-1 justify-center">
+                                        <p>Already have an account?</p>
+                                        <a href="/sign-in" className="transition-all text-base font-medium text-emerald-600 hover:text-emerald-800 underline underline-offset-2">Continue with Sign In</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gray-100 -z-10 lg:hidden"></div>
+
+                        <div className="sm:mx-auto sm:max-w-3xl sm:px-6">
+                            <div className="py-12 sm:relative sm:mt-12 sm:py-16 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+                                <div className="hidden sm:block">
+                                    <div className="absolute inset-y-0 left-1/2 w-screen bg-gray-50 rounded-l-3xl lg:left-80 lg:right-0 lg:w-full" />
+                                    <svg
+                                        className="absolute top-8 right-1/2 -mr-3 lg:m-0 lg:left-0"
+                                        width={404}
+                                        height={392}
+                                        fill="none"
+                                        viewBox="0 0 404 392"
+                                    >
+                                        <defs>
+                                            <pattern
+                                                id="837c3e70-6c3a-44e6-8854-cc48c737b659"
+                                                x={0}
+                                                y={0}
+                                                width={20}
+                                                height={20}
+                                                patternUnits="userSpaceOnUse"
+                                            >
+                                                <rect x={0} y={0} width={4} height={4} className="text-gray-200" fill="currentColor" />
+                                            </pattern>
+                                        </defs>
+                                        <rect width={404} height={392} fill="url(#837c3e70-6c3a-44e6-8854-cc48c737b659)" />
+                                    </svg>
+                                </div>
+                                <div className="relative pl-4 -mr-40 sm:mx-auto sm:max-w-3xl sm:px-0 lg:max-w-none lg:h-full lg:pl-12">
+                                    <img
+                                        className="w-full rounded-md shadow-xl ring-1 ring-black ring-opacity-5 lg:h-full lg:w-auto lg:max-w-none"
+                                        src="https://tailwindui.com/img/component-images/task-app-rose.jpg"
+                                        alt=""
+                                    />
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
                     {/* USA population map */}
                     {/* TODO: Center map and show population, and text below */}
                     <div className="max-w-7xl mx-auto sm:px-6 lg:px-6 my-6 grid-cols-3 gap-2 hidden lg:grid">
