@@ -1,19 +1,16 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Fragment } from "react";
 import { Transition } from "@headlessui/react";
 import { ExclamationIcon } from "@heroicons/react/outline";
 export default function CookieConsent() {
-    const [cookieConsent,setcookieConsent]=useState(true);
+    const [cookieConsent, setcookieConsent] = useState(true);
 
     useEffect(() => {
-        setcookieConsent(localStorage["cookieConsent"]?true:false);
-        console.log("already visited? " + cookieConsent+" "+localStorage["cookieConsent"]);
-
-
-
+        setcookieConsent(localStorage["cookieConsent"] ? true : false);
+        console.log("already visited? " + cookieConsent + " " + localStorage["cookieConsent"]);
     }, [cookieConsent]);
 
-    
+
     return (
         <>
             {/* first time visitor pop up */}
@@ -41,46 +38,34 @@ export default function CookieConsent() {
                                     <div className="ml-3 w-0 flex-1 pt-0.5">
                                         <p className="text-sm font-medium text-gray-900">Cookie Alert</p>
                                         <p className="mt-1 text-sm text-gray-500">
-                                            We use cookies to improve the user experience on our site. To find out more, read our <a
-                                                href="/terms/privacy-policy" className="underline" target="_blank" rel="noopener noreferrer">
-                                                privacy policy</a> and <a
-                                                href="/terms/cookies-policy" className="underline" target="_blank" rel="noopener noreferrer">
-                                                cookie policy</a>
+                                            We use cookies to improve the user experience on our site. To find out more, read our{" "}
+                                            <a href="/terms/privacy-policy" className="underline" target="_blank" rel="noopener noreferrer">
+                                                privacy policy</a>
+                                            {" "}and{" "}
+                                            <a href="/terms/cookies-policy" className="underline" target="_blank" rel="noopener noreferrer">cookie policy</a>.
                                         </p>
                                         <div className="mt-3 flex space-x-7">
                                             <button
                                                 type="button"
-                                                className="bg-white rounded-md text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                                className="bg-white rounded-md text-sm font-medium text-emerald-600 hover:text-emerald-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
                                                 onClick={() => {
-                                                    localStorage["cookieConsent"]=true;
+                                                    localStorage["cookieConsent"] = true;
                                                     setcookieConsent(true);
                                                 }}
                                             >
                                                 Accept
                                             </button>
 
-                                            {/* TODO : what if user decline? */}
                                             <button
                                                 type="button"
-                                                className="bg-white rounded-md text-sm font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                                onClick={() => window.location.href="https://www.google.com"}
+                                                className="bg-white rounded-md text-sm font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                                                onClick={() => window.location.href = "https://www.google.com"}
 
                                             >
                                                 Decline
                                             </button>
                                         </div>
                                     </div>
-                                    {/* <div className="ml-4 flex-shrink-0 flex">
-                                        <button
-                                            className="bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                            onClick={() => {
-                                                setShow(false);
-                                            }}
-                                        >
-                                            <span className="sr-only">Close</span>
-                                            {/* <XIcon className="h-5 w-5" aria-hidden="true" />
-                                        </button>
-                                    </div> */}
                                 </div>
                             </div>
                         </div>

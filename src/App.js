@@ -4,9 +4,9 @@ import axios from "axios";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import CookieConsent from "./Pages/Home/CookieConsent";
+import CookieConsent from "./components/CookieConsent";
 
-import Home from "./Pages/Home/Home";
+import Home from "./Pages/Home";
 import About from "./Pages/About";
 import ContactUs from "./Pages/ContactUs";
 import NotFound from "./Pages/404";

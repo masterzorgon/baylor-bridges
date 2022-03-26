@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import USAMap from "react-usa-map";
 import { CheckIcon } from "@heroicons/react/outline";
 
-import { AccountContext } from "../../components/Account";
+import { AccountContext } from "../components/Account";
 
 import axios from "axios";
 
