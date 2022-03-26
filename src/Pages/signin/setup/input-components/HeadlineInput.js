@@ -14,7 +14,7 @@ const HeadlineInput = ({ account, setAccount, modal, show, setModal, setShow }) 
         axios.get("/account/profile")
             .then(res => {
                 console.log("---RESPONSE---", res);
-                setTimeout(() => window.location.href = "/sign-in/setup/all-done", 3000);
+                window.location.href = "/sign-in/setup/all-done";
             })
             .catch(err => {
                 console.log("---ERROR---", err);

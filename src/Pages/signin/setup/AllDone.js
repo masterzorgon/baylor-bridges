@@ -64,69 +64,36 @@ const AllDone = () => {
             startVelocity: 45
         });
     }, [makeShot]);
-
+    
     return (
-        <div className="bg-white py-16 sm:py-24">
-            <div className="relative sm:py-16">
-                <div aria-hidden="true" className="hidden sm:block">
-                    <div className="absolute inset-y-0 left-0 w-1/2 bg-gray-50 rounded-r-3xl" />
-                    <ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
-                    <svg className="absolute top-8 left-1/2 -ml-3" width={404} height={392} fill="none" viewBox="0 0 404 392">
-                        <defs>
-                            <pattern
-                                id="8228f071-bcee-4ec8-905a-2a059a2cc4fb"
-                                x={0}
-                                y={0}
-                                width={20}
-                                height={20}
-                                patternUnits="userSpaceOnUse"
-                            >
-                                <rect x={0} y={0} width={4} height={4} className="text-gray-200" fill="currentColor" />
-                            </pattern>
-                        </defs>
-                        <rect width={404} height={392} fill="url(#8228f071-bcee-4ec8-905a-2a059a2cc4fb)" />
-                    </svg>
-                </div>
-                <div className="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:max-w-7xl lg:px-8">
-                    <div className="relative rounded-2xl px-6 py-10 bg-emerald-600 overflow-hidden shadow-xl sm:px-12 sm:py-20">
-                        <div aria-hidden="true" className="absolute inset-0 -mt-72 sm:-mt-32 md:mt-0">
-                            <svg
-                                className="absolute inset-0 h-full w-full"
-                                preserveAspectRatio="xMidYMid slice"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 1463 360"
-                            >
-                                <path
-                                    className="text-emerald-500 text-opacity-40"
-                                    fill="currentColor"
-                                    d="M-82.673 72l1761.849 472.086-134.327 501.315-1761.85-472.086z"
-                                />
-                                <path
-                                    className="text-emerald-700 text-opacity-40"
-                                    fill="currentColor"
-                                    d="M-217.088 544.086L1544.761 72l134.327 501.316-1761.849 472.086z"
-                                />
-                            </svg>
-                        </div>
-                        <div className="relative">
-                            <div className="sm:text-center">
-                                <h2 className="text-3xl font-extrabold text-white tracking-tight sm:text-4xl">
-                                    Ready to dive in?
-                                </h2>
-                                <p className="mt-6 mx-auto max-w-2xl text-lg text-white">
-                                    Thank you for setting up your Baylor Bridges account.<br />
-                                    We hope you enjoy the platform!
-                                </p>
-                            </div>
+        <div className="bg-white">
+            <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+                <ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
+                <div className="bg-white rounded-lg shadow-xl overflow-hidden lg:grid lg:grid-cols-2 lg:gap-4">
+                    <div className="pt-10 pb-12 px-6 sm:pt-16 sm:px-16 lg:py-16 lg:pr-0 xl:py-20 xl:px-20">
+                        <div className="lg:self-center">
+                            <h2 className="text-3xl font-extrabold text-emerald-700 sm:text-4xl">
+                                <span className="block">Ready to dive in?</span>
+                                <span className="block">Start your free trial today.</span>
+                            </h2>
+                            <p className="mt-4 text-lg leading-6 text-emerald-700">
+                                Ac euismod vel sit maecenas id pellentesque eu sed consectetur. Malesuada adipiscing sagittis vel nulla
+                                nec.
+                            </p>
                             <button
-                                type="submit"
                                 onClick={onSubmit}
-                                className="block w-full mt-8 rounded-md border border-transparent px-5 py-3 bg-emerald-500 text-base font-medium text-white shadow hover:bg-emerald-400 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-emerald-600 sm:px-10"
+                                className="mt-8 bg-white border border-transparent rounded-md shadow px-5 py-3 inline-flex items-center text-base font-medium text-emerald-700 hover:bg-emerald-50"
                             >
-                                Go to Baylor Bridges
+                                Sign up for free
                             </button>
                         </div>
+                    </div>
+                    <div className="-mt-6 bg-blue-500 w-50 aspect-w-5 aspect-h-3 md:aspect-w-2 md:aspect-h-1">
+                        <img
+                            className="transform w-13 translate-x-3 translate-y-3 rounded-md object-cover object-left-top sm:translate-x-16 lg:translate-y-20"
+                            src="/new_baylor_logo.jpeg"
+                            alt="App screenshot"
+                        />
                     </div>
                 </div>
             </div>
