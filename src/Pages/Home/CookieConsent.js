@@ -3,7 +3,7 @@ import { Fragment } from "react";
 import { Transition } from "@headlessui/react";
 import { ExclamationIcon } from "@heroicons/react/outline";
 export default function CookieConsent() {
-    const [cookieConsent,setcookieConsent]=useState(null);
+    const [cookieConsent,setcookieConsent]=useState(true);
 
     useEffect(() => {
         setcookieConsent(localStorage["cookieConsent"]?true:false);
@@ -52,7 +52,6 @@ export default function CookieConsent() {
                                                 type="button"
                                                 className="bg-white rounded-md text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                                 onClick={() => {
-                                                    console.log("click accept");
                                                     localStorage["cookieConsent"]=true;
                                                     setcookieConsent(true);
                                                 }}
