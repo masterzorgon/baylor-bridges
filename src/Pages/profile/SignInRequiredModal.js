@@ -87,10 +87,10 @@ export default function SignInRequiredModal() {
                                     Sign up to continue
                                 </a>
                                 {/* Sign in link, TODO: to be visible in future -Cloudy */}
-                                {/* <div className="text-sm space-x-1 flex items-center justify-center">
+                                <div className="text-sm space-x-1 flex items-center justify-center">
                                     <p className="text-gray-600">Already have an account?</p>
                                     <a href={signInUrl} className="text-emerald-800">Sign in</a>
-                                </div> */}
+                                </div>
                             </div>
                         </div>
                     </Transition.Child>
