@@ -5,7 +5,7 @@ import { ArrowLeftIcon, ArrowRightIcon, CheckCircleIcon, ExclamationCircleIcon, 
 import { Fragment } from "react/cjs/react.production.min";
 import { Transition } from "@headlessui/react";
 import axios from "axios";
-
+    
 const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
 
     const [, , takeAwayModal] = useTimeoutFn(() => setShow(false), 0);
@@ -67,27 +67,16 @@ const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
     }, [makeShot]);
 
     const onSubmit = (event) => {    
-        fire();
-
-        axios.get("/account/profile")
+        axios.put("/account/profile")
             .then(res => {
+                fire();
                 console.log("---RESPONSE---", res);
-                setTimeout(() => window.location.href = "/", 1000);
+                setTimeout(() => window.location.href = "/", 1500);
             })
             .catch(err => {
                 console.log("---ERROR---", err);
                 setAlert(true);
             });
-        
-        // CODE FOR UPDATING USER PROFILE
-        // axios.put("/account/profile", account)
-        //     .then(res => {
-        //         console.log(res);
-        //         console.log(account);
-        //     })
-        //     .catch(err => {
-        //         console.log(err);
-        //     });
     };
 
     const prevModal = (event) => {
@@ -183,6 +172,7 @@ const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
                                         <ArrowLeftIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
                                         Back
                                     </button>
+
                                     <button
                                         type="button"
                                         onClick={onSubmit}
@@ -190,7 +180,7 @@ const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
                                     >
                                         Submit
                                         <ArrowRightIcon className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
-                                    </button>
+                                    </button>                              
                                 </div>
                             </div>
                         </div>
