@@ -93,8 +93,8 @@ function App() {
             <Router>
                 <Routes>
                     <Route path="/" element={components(<Navbar />, <Home />, <Footer />, <CookieConsent/>)} />
-                    <Route path="/about" element={components(<Navbar />, <About />, <Footer />), <CookieConsent/>} />
-                    <Route path="/search" element={components(<Navbar />, <Search />, <Footer />), <CookieConsent/>} />
+                    <Route path="/about" element={components(<Navbar />, <About />, <Footer />, <CookieConsent />)} />
+                    <Route path="/search" element={components(<Navbar />, <Search />, <Footer />, <CookieConsent />)} />
 
                     <Route path="/settings" element={<Navigate to="/settings/account" />} />
                     <Route path="/settings/profile" element={components(<Navbar />, <SettingsProfile />, <Footer />)} />
