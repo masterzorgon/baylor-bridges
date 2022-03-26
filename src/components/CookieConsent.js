@@ -15,7 +15,7 @@ export default function CookieConsent() {
         <>
             {/* first time visitor pop up */}
             <div aria-live="assertive"
-                className="sticky inset-0 flex items-end px-4 py-6 pointer-events-none sm:p-6 sm:items-start"
+                className="fixed w-full bottom-0 right-0 py-6 px-4"
             >
                 <div className="w-full flex flex-col items-center space-y-4 sm:items-end">
                     {/* Notification panel, dynamically insert this into the live region when it needs to be displayed */}
