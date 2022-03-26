@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import USAMap from "react-usa-map";
 import { CheckIcon } from "@heroicons/react/outline";
+import axios from "axios";
 
 import { AccountContext } from "../components/Account";
-
-import axios from "axios";
+import Photo from "../components/Photo";
 
 
 // import { XIcon } from "@heroicons/react/solid";
@@ -96,7 +96,7 @@ const Home = () => {
                                             </span>
                                         </a>
                                     </div> */}
-                                    <div className="mt-6 sm:max-w-lg">
+                                    <div className="mt-8 sm:max-w-lg">
                                         <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">
                                             Connect with your fellow Bears today
                                         </h1>
@@ -106,17 +106,38 @@ const Home = () => {
                                             of Baylor alumni in the health industry.
                                         </p>
                                     </div>
-                                    <div action="#" className="mt-12 sm:max-w-lg sm:w-full sm:flex">
-                                        <a
-                                            className="transition-all text-center w-full flex justify-center px-4 py-5 border border-transparent font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed relative"
-                                            href="/sign-up"
-                                        >
-                                            Sign Up to Join the Community
-                                        </a>
-                                    </div>
-                                    <div className="sm:max-w-lg mt-6 flex space-x-1 justify-center">
-                                        <p>Already have an account?</p>
-                                        <a href="/sign-in" className="transition-all text-base font-medium text-emerald-600 hover:text-emerald-800 underline underline-offset-2">Continue with Sign In</a>
+                                    <div className="h-32 sm:max-w-lg mt-12">
+                                        {
+                                            account ? 
+                                                <>
+                                                    {/* You're signed in as: */}
+                                                    <p className="sr-only">You are signed in as</p>
+                                                    <a href="/profile" className="transition-all flex-shrink-0 flex grow bg-gray-100 rounded-lg px-6 py-6">
+                                                        <Photo size="10" />
+                                                        <div className="ml-3">
+                                                            <div className="text-base font-medium text-gray-800">{account.first_name} {account.last_name}</div>
+                                                            <div className="text-sm font-medium text-gray-500">{account.email}</div>
+                                                        </div>
+                                                        <div className="grow"></div>
+                                                        <p className="text-gray-400 uppercase text-sm font-medium m-auto">Signed In</p>
+                                                    </a>
+                                                </>
+                                                :
+                                                <>
+                                                    <div className="sm:w-full sm:flex">
+                                                        <a
+                                                            className="transition-all text-center w-full flex justify-center px-4 py-5 border border-transparent font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed relative"
+                                                            href="/sign-up"
+                                                        >
+                                                            Sign Up to Join the Community
+                                                        </a>
+                                                    </div>
+                                                    <div className="mt-6 flex space-x-1 justify-center">
+                                                        <p>Already have an account?</p>
+                                                        <a href="/sign-in" className="transition-all text-base font-medium text-emerald-600 hover:text-emerald-800 underline underline-offset-2">Continue with Sign In</a>
+                                                    </div>
+                                                </>
+                                        }
                                     </div>
                                 </div>
                             </div>
