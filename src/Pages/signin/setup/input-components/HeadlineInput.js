@@ -2,7 +2,6 @@ import React, { useState, Fragment } from "react";
 import { ArrowLeftIcon, ArrowRightIcon, BriefcaseIcon, ExclamationCircleIcon, XIcon } from "@heroicons/react/outline";
 import { useTimeoutFn } from "react-use";
 import { Transition } from "@headlessui/react";
-import axios from "axios";
 
 const HeadlineInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
 
@@ -10,26 +9,9 @@ const HeadlineInput = ({ account, setAccount, modal, show, setModal, setShow }) 
     const [alert, setAlert] = useState(false);
 
     const onSubmit = (event) => {    
-
-        axios.get("/account/profile")
-            .then(res => {
-                console.log("---RESPONSE---", res);
-                window.location.href = "/sign-in/setup/all-done";
-            })
-            .catch(err => {
-                console.log("---ERROR---", err);
-                setAlert(true);
-            });
-        
-        // CODE FOR UPDATING USER PROFILE
-        // axios.put("/account/profile", account)
-        //     .then(res => {
-        //         console.log(res);
-        //         console.log(account);
-        //     })
-        //     .catch(err => {
-        //         console.log(err);
-        //     });
+        event.preventDefault();
+        takeAwayModal();
+        setTimeout(() => setModal(6), 400);
     };
 
     const prevModal = (event) => {
@@ -160,7 +142,7 @@ const HeadlineInput = ({ account, setAccount, modal, show, setModal, setShow }) 
                                         onClick={onSubmit}
                                         className="mt-6 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
                                     >
-                                        Submit
+                                        Next
                                         <ArrowRightIcon className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
                                     </button>
                                 </div>

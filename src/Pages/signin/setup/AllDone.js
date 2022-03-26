@@ -1,14 +1,15 @@
-import React, { useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef } from "react";
+import { useTimeoutFn } from "react-use";
 import ReactCanvasConfetti from "react-canvas-confetti";
+import { ArrowLeftIcon, ArrowRightIcon, CheckCircleIcon, ExclamationCircleIcon, XIcon } from "@heroicons/react/outline";
+import { Fragment } from "react/cjs/react.production.min";
+import { Transition } from "@headlessui/react";
+import axios from "axios";
 
-const AllDone = () => {
+const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
 
-    const onSubmit = () => {
-        fire();
-        // setTimeout(() => {
-        //     window.location.href = "/";
-        // }, 2000);
-    };
+    const [, , takeAwayModal] = useTimeoutFn(() => setShow(false), 0);
+    const [alert, setAlert] = useState(false);
 
     const refAnimationInstance = useRef(null);
 
@@ -64,40 +65,139 @@ const AllDone = () => {
             startVelocity: 45
         });
     }, [makeShot]);
+
+    const onSubmit = (event) => {    
+        fire();
+
+        axios.get("/account/profile")
+            .then(res => {
+                console.log("---RESPONSE---", res);
+                setTimeout(() => window.location.href = "/", 1000);
+            })
+            .catch(err => {
+                console.log("---ERROR---", err);
+                setAlert(true);
+            });
+        
+        // CODE FOR UPDATING USER PROFILE
+        // axios.put("/account/profile", account)
+        //     .then(res => {
+        //         console.log(res);
+        //         console.log(account);
+        //     })
+        //     .catch(err => {
+        //         console.log(err);
+        //     });
+    };
+
+    const prevModal = (event) => {
+        event.preventDefault();
+        takeAwayModal();
+        setTimeout(() => setModal(modal - 1), 400);
+    };
     
     return (
-        <div className="bg-white">
-            <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
-                <ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
-                <div className="bg-white rounded-lg shadow-xl overflow-hidden lg:grid lg:grid-cols-2 lg:gap-4">
-                    <div className="pt-10 pb-12 px-6 sm:pt-16 sm:px-16 lg:py-16 lg:pr-0 xl:py-20 xl:px-20">
-                        <div className="lg:self-center">
-                            <h2 className="text-3xl font-extrabold text-emerald-700 sm:text-4xl">
-                                <span className="block">Ready to dive in?</span>
-                                <span className="block">Start your free trial today.</span>
-                            </h2>
-                            <p className="mt-4 text-lg leading-6 text-emerald-700">
-                                Ac euismod vel sit maecenas id pellentesque eu sed consectetur. Malesuada adipiscing sagittis vel nulla
-                                nec.
-                            </p>
-                            <button
-                                onClick={onSubmit}
-                                className="mt-8 bg-white border border-transparent rounded-md shadow px-5 py-3 inline-flex items-center text-base font-medium text-emerald-700 hover:bg-emerald-50"
+        <>
+            {/* Overlapping cards */}
+            <Transition
+                show={show && modal === 6}
+                as={Fragment}
+                enter="transform transition duration-[400ms]"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
+                leave="transform duration-[400ms] transition ease-out"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+            >
+                <section
+                    className="-mt-32 max-w-7xl mx-auto relative z-10 pb-32 px-4 sm:px-6 lg:px-8"
+                    aria-labelledby="contact-heading"
+                >
+                    <ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
+                    {/* ALERT NOTIFICATION BELOW */}
+                    <div
+                        aria-live="assertive"
+                        className="fixed z-50 inset-0 flex items-end px-4 py-6 pointer-events-none sm:p-6 sm:items-start"
+                    >
+                        <div className="w-full flex flex-col items-center space-y-4 sm:items-end">
+                            {/* Notification panel, dynamically insert this into the live region when it needs to be displayed */}
+                            <Transition
+                                show={alert}
+                                as={Fragment}
+                                enter="transform ease-out duration-300 transition"
+                                enterFrom="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
+                                enterTo="translate-y-0 opacity-100 sm:translate-x-0"
+                                leave="transition ease-in duration-100"
+                                leaveFrom="opacity-100"
+                                leaveTo="opacity-0"
                             >
-                                Sign up for free
-                            </button>
+                                <div className="max-w-sm w-full bg-red-50 shadow-xl rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden">
+                                    <div className="p-4">
+                                        <div className="flex items-start">
+                                            <div className="flex-shrink-0">
+                                                <ExclamationCircleIcon className="h-6 w-6 text-red-400" aria-hidden="true" />
+                                            </div>
+                                            <div className="ml-3 w-0 flex-1 pt-0.5">
+                                                <p className="text-sm font-medium text-gray-900">Submission unsuccessful</p>
+                                                <p className="mt-1 text-sm text-gray-500">Network issues — Please try again.</p>
+                                            </div>
+                                            <div className="ml-4 flex-shrink-0 flex">
+                                                <button
+                                                    className="bg-red-50 rounded-md inline-flex text-gray-500 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                                                    onClick={() => {
+                                                        setAlert(false);
+                                                    }}
+                                                >
+                                                    <span className="sr-only">Close</span>
+                                                    <XIcon className="h-5 w-5" aria-hidden="true" />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Transition>
                         </div>
                     </div>
-                    <div className="-mt-6 bg-blue-500 w-50 aspect-w-5 aspect-h-3 md:aspect-w-2 md:aspect-h-1">
-                        <img
-                            className="transform w-13 translate-x-3 translate-y-3 rounded-md object-cover object-left-top sm:translate-x-16 lg:translate-y-20"
-                            src="/new_baylor_logo.jpeg"
-                            alt="App screenshot"
-                        />
+                    {/* ALERT NOTIFICATION ABOVE */}
+                    <div className="grid grid-cols-1 gap-y-20 lg:gap-y-0 lg:gap-x-8">
+                        <div className="flex flex-col bg-emerald-50 rounded-2xl shadow-xl">
+                            <div className="flex-1 relative pt-16 px-6 pb-8 md:px-8">
+                                <div className="absolute top-0 p-5 inline-block bg-emerald-600 rounded-xl shadow-lg transform -translate-y-1/2">
+                                    <CheckCircleIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                                </div>
+                                <h3 className="text-xl font-medium text-gray-900">You are all set!</h3>
+                                <p className="mt-4 text-base text-gray-500">
+                                    Thank you so much for taking the time to set up your Baylor Bridges account.
+                                    We hope you enjoy our platform, and please feel to reach out via the Contact us
+                                    page if you have any questions or concerns.
+
+                                </p>
+                            </div>
+                            <div className="p-6 pt-0 bg-emerald-50 rounded-bl-2xl rounded-br-2xl md:px-8">
+                                <div className="flex justify-between">
+                                    <button
+                                        type="button"
+                                        onClick={prevModal}
+                                        className="mt-6 inline-flex items-center px-4 py-2 border border-emerald-600 shadow-sm text-sm font-medium rounded-md text-emerald-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                                    >
+                                        <ArrowLeftIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
+                                        Back
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={onSubmit}
+                                        className="mt-6 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                                    >
+                                        Submit
+                                        <ArrowRightIcon className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
+                </section>
+            </Transition>
+        </>
     );
 };
 
