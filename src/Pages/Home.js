@@ -114,7 +114,7 @@ const Home = () => {
                                             Sign Up to Join the Community
                                         </a>
                                     </div>
-                                    <div className="mt-6 flex space-x-1 justify-center">
+                                    <div className="sm:max-w-lg mt-6 flex space-x-1 justify-center">
                                         <p>Already have an account?</p>
                                         <a href="/sign-in" className="transition-all text-base font-medium text-emerald-600 hover:text-emerald-800 underline underline-offset-2">Continue with Sign In</a>
                                     </div>
@@ -149,15 +149,17 @@ const Home = () => {
                                     </svg>
                                 </div>
                                 <div className="relative pl-4 -mr-40 sm:mx-auto sm:max-w-3xl sm:px-0 lg:max-w-none lg:h-full lg:pl-12">
+                                    {/* FIXME: Replace with a better screenshot */}
                                     <img
-                                        className="w-full rounded-md shadow-xl ring-1 ring-black ring-opacity-5 lg:h-full lg:w-auto lg:max-w-none"
-                                        src="https://tailwindui.com/img/component-images/task-app-rose.jpg"
+                                        className="w-auto rounded-md shadow-xl ring-1 ring-black ring-opacity-5 lg:h-full lg:w-auto lg:max-w-none"
+                                        src="https://user-images.githubusercontent.com/20573623/160237546-65a00452-bfbf-4184-96e2-aa0cc7991233.png"
                                         alt=""
                                     />
                                 </div>
                             </div>
                         </div>
                     </div>
+
 
                     {/* USA population map */}
                     {/* TODO: Center map and show population, and text below */}
@@ -179,10 +181,10 @@ const Home = () => {
 
                     {/* Logo cloud */}
                     {/* TODO: Add logos for baylor prehealth student orginization, ABB, and baylor prehealth office */}
-                    <div className="bg-gray-100 -mt-6 lg:mt-0">
+                    <div className="bg-gray-100 mt-6">
                         <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-6">
                             <p className="text-center text-sm font-semibold uppercase text-gray-500 tracking-wide">
-                                Supported By
+                                Proudly supported By
                             </p>
                             {/* TODO: add logo*/}
 
@@ -202,6 +204,7 @@ const Home = () => {
                             </div>
                         </div>
                     </div>
+
                 </div>
 
                 {/* Features */}
