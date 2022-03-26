@@ -112,14 +112,14 @@ const Home = () => {
                                                 <>
                                                     {/* You're signed in as: */}
                                                     <p className="sr-only">You are signed in as</p>
-                                                    <a href="/profile" className="transition-all flex-shrink-0 flex grow bg-gray-100 rounded-lg px-6 py-6">
-                                                        <Photo size="10" />
+                                                    <a href="/profile" className="transition-all flex-shrink-0 flex grow bg-gray-100 rounded-lg px-6 py-6 space-x-2">
+                                                        <Photo size="11" />
                                                         <div className="ml-3">
-                                                            <div className="text-base font-medium text-gray-800">{account.first_name} {account.last_name}</div>
+                                                            <div className="text-base font-semibold text-gray-800">{account.first_name} {account.last_name}</div>
                                                             <div className="text-sm font-medium text-gray-500">{account.email}</div>
                                                         </div>
                                                         <div className="grow"></div>
-                                                        <p className="text-gray-400 uppercase text-sm font-medium m-auto">Signed In</p>
+                                                        <p className="text-gray-400 uppercase text-sm font-medium m-auto hidden sm:block text-center">Signed In</p>
                                                     </a>
                                                 </>
                                                 :
