@@ -74,7 +74,7 @@ const Home = () => {
             <main>
                 <div>
                     {/* Hero section */}
-                    <div className="pt-8 overflow-hidden sm:pt-12 lg:relative lg:py-28">
+                    <div className="pt-8 overflow-hidden sm:pt-12 lg:relative lg:py-24">
                         <div className="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl lg:grid lg:grid-cols-2 lg:gap-24">
                             <div>
                                 <div>
@@ -98,7 +98,7 @@ const Home = () => {
                                     </div> */}
                                     <div className="mt-8 sm:max-w-lg">
                                         <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">
-                                            Connect with your <span className="text-gradient bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500">fellow Bears</span> today
+                                            Connect with your <span className="text-gradient bg-gradient-to-r from-green-600 via-emerald-500 to-teal-500">fellow Bears</span> today
                                         </h1>
                                         <p className="mt-6 text-xl text-gray-500">
                                             A brand new platform for Baylor alumni and current students to
@@ -126,15 +126,16 @@ const Home = () => {
                                                 <>
                                                     <div className="sm:w-full sm:flex">
                                                         <a
-                                                            className="transition-all text-center w-full flex justify-center px-4 py-5 border border-transparent font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed relative"
+                                                            className="transition-all text-center w-full flex justify-center px-4 py-5 border border-transparent font-medium rounded-md shadow-sm text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed relative bg-gradient-to-r from-green-500 via-emerald-600 to-teal-600 hover:opacity-90"
+                                                            // className="transition-all text-center w-full flex justify-center px-4 py-5 border border-transparent font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed relative"
                                                             href="/sign-up"
                                                         >
-                                                            Sign Up to Join the Community
+                                                            Sign Up / Join the Community
                                                         </a>
                                                     </div>
                                                     <div className="mt-6 flex space-x-1 justify-center">
                                                         <p>Already have an account?</p>
-                                                        <a href="/sign-in" className="transition-all text-base font-medium text-emerald-600 hover:text-emerald-800 underline underline-offset-2">Continue with Sign In</a>
+                                                        <a href="/sign-in" className="transition-all text-base font-medium text-emerald-600 hover:text-emerald-800 underline underline-offset-4">Continue with Sign In</a>
                                                     </div>
                                                 </>
                                         }
