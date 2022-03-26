@@ -98,7 +98,7 @@ const Home = () => {
                                     </div> */}
                                     <div className="mt-8 sm:max-w-lg">
                                         <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">
-                                            Connect with your fellow Bears today
+                                            Connect with your <span className="text-gradient bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500">fellow Bears</span> today
                                         </h1>
                                         <p className="mt-6 text-xl text-gray-500">
                                             A brand new platform for Baylor alumni and current students to
