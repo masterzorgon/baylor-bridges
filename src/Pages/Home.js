@@ -86,7 +86,8 @@ const Home = () => {
                                         className="h-full w-full object-cover"
                                         src="landing_page_background.jfif"
                                         alt="People working on laptops"
-                                    />hgjn                                    <div className="absolute inset-0 bg-emerald-700 mix-blend-multiply" />
+                                    />
+                                    <div className="absolute inset-0 bg-emerald-700 mix-blend-multiply" />
                                 </div>
                                 <div className="relative px-4 py-16 sm:px-6 sm:py-24 lg:py-32 lg:px-8">
                                     <h1 className="text-center text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
