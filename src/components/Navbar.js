@@ -11,7 +11,7 @@ import { classNames, changeBaseURL, changeSearchParam } from "./Utils";
 import Photo from "./Photo";
 
 
-const Navbar = (props) => {
+const Navbar = ({ hideOnTop }) => {
     const [searchParams] = useSearchParams();
     const { signOut, getAccount, getAccountLocal } = useContext(AccountContext);
 
@@ -26,6 +26,13 @@ const Navbar = (props) => {
     const [signInUrl, setSignInUrl] = useState("");
     const [signUpUrl, setSignUpUrl] = useState("");
 
+    const [pageYOffset, setPageYOffset] = useState(0);
+
+    window.addEventListener("scroll", () => {
+        if (window.pageYOffset) {
+            setPageYOffset(window.pageYOffset);
+        }
+    });
 
     useEffect(() => {
         setAccount(getAccountLocal());
@@ -82,6 +89,8 @@ const Navbar = (props) => {
         window.location.href = "/settings";
     };
 
+    const additionalClassNames = classNames(pageYOffset > 100 ? "opacity-100" : "opacity-0", hideOnTop === true ? "fixed w-full" : "sticky");
+
     return (
         <>
             {/* Semi transparent cover */}
@@ -100,7 +109,7 @@ const Navbar = (props) => {
                 </div>
             </Transition>
 
-            <Popover className="bg-white z-50 sticky top-0">
+            <Popover className={classNames("bg-white z-50 top-0 transition-all", additionalClassNames)}>
                 <div className="flex shadow-md justify-between items-center px-4 py-5 sm:px-6 md:justify-start md:space-x-10">
                     {/* Baylor University logo */}
                     <div className="h-8 w-auto sm:h-10">

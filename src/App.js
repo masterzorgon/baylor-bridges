@@ -92,7 +92,7 @@ function App() {
         <Account>
             <Router>
                 <Routes>
-                    <Route path="/" element={components(<Navbar />, <Home />, <Footer />, <CookieConsent/>)} />
+                    <Route path="/" element={components(<Navbar hideOnTop={true} />, <Home />, <Footer />, <CookieConsent/>)} />
                     <Route path="/about" element={components(<Navbar />, <About />, <Footer />, <CookieConsent />)} />
                     <Route path="/search" element={components(<Navbar />, <Search />, <Footer />, <CookieConsent />)} />
 
