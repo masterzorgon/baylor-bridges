@@ -4,12 +4,17 @@ import { MailIcon, ArrowSmRightIcon, CalculatorIcon } from "@heroicons/react/out
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-import Progress from "./Progress";
+import Progress from "../../components/Progress";
 import Password from "../../components/Password";
 import Button from "../../components/Button";
 
 import { classNames, changeBaseURL } from "../../components/Utils";
 
+const steps = [
+    { id: 1, name: "Email Address", href: "1" },
+    { id: 2, name: "Password", href: "2" },
+    { id: 3, name: "Confirmation", href: "3" },
+];
 
 const Form = () => {
     const [loading, setLoading] = useState(false);
@@ -22,7 +27,7 @@ const Form = () => {
     const [password_checked, setPasswordChecked] = useState("");
     const [agreed, setAgreed] = useState(false);
     const [confirmation_code, setConfirmationCode] = useState("");
-    
+
 
     const { role } = useParams();
     if (role !== "student" && role !== "alumni") {
@@ -139,7 +144,7 @@ const Form = () => {
         return (
             <>
                 <h3 className="text-lg leading-6 font-medium text-gray-900">Your email address</h3>
-                <p className="mt-1 text-sm font-medium mb-4 text-gray-500">{role === "student" ? "Please use your Baylor University email to sign up as a current student." : "Please use your email address to sign up as an alumnus." }</p>
+                <p className="mt-1 text-sm font-medium mb-4 text-gray-500">{role === "student" ? "Please use your Baylor University email to sign up as a current student." : "Please use your email address to sign up as an alumnus."}</p>
                 <div className="mt-4 relative rounded-md shadow-sm">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center">
                         <MailIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
@@ -213,7 +218,7 @@ const Form = () => {
         return (
             <>
                 <h3 className="text-lg leading-6 font-medium text-gray-900">Confirmation Code</h3>
-                <p className="mt-1 text-sm font-medium mb-4 text-gray-500">Please check your mail inbox for { email }.</p>
+                <p className="mt-1 text-sm font-medium mb-4 text-gray-500">Please check your mail inbox for {email}.</p>
                 <div className="mt-4 relative rounded-md shadow-sm">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center">
                         <CalculatorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
@@ -269,11 +274,11 @@ const Form = () => {
                     <h2 className="mt-2 text-lg font-extrabold tracking-tight text-gray-900 sm:text-2xl">Sign up</h2>
                 </div>
 
-                <Progress currentStep={step} />
+                <Progress currentStep={step} steps={steps} />
 
 
                 <div className="px-5 mt-10 md:mt-2 md:bg-white md:shadow md:rounded-lg md:px-8 md:py-8 md:-mx-8">
-                    
+
                     {step === 1 && step1()}
                     {step === 2 && step2()}
                     {step === 3 && step3()}
