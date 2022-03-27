@@ -85,17 +85,6 @@ const Home = () => {
                                     />
                                 </div>
                                 <div className="mt-20">
-                                    {/* <div>
-                                        <a href="#" className="inline-flex space-x-4">
-                                            <span className="rounded bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-600 tracking-wide uppercase">
-                                                What&apos;s new
-                                            </span>
-                                            <span className="inline-flex items-center text-sm font-medium text-emerald-600 space-x-1">
-                                                <span>Just shipped version 0.1.0</span>
-                                                <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
-                                            </span>
-                                        </a>
-                                    </div> */}
                                     <div className="mt-8 sm:max-w-lg">
                                         <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">
                                             Connect with your <span className="text-gradient bg-gradient-to-r from-green-600 via-emerald-500 to-teal-500">fellow Bears</span> today
