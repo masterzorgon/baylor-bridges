@@ -5,34 +5,23 @@ import axios from "axios";
 
 import { AccountContext } from "../components/Account";
 import Photo from "../components/Photo";
+import { states } from "../components/Utils";
 
-
-// import { XIcon } from "@heroicons/react/solid";
 
 // This is where the features in the landing page is configured
 const features = [
-    { name: "Advertise Yourself", description: "You can manage your personal contact info and add personalized experience to your profile.", },
-    { name: "Info Security Customization", description: "You can manage which of your phone numbers, email addresses, or biogrgaphy you would like to show to the public." },
-    { name: "Alumni Exploration", description: "You can find New Connections with our fascinating search page detailed filters and US map user interface.", },
-    { name: "Student Engagement", description: "You can interact with current Baylor Prehealth students through student and alumni-led projects regarding research, leadership, mentorship, and more." },
-    // { name: "Coming Soon - Become Friends", description: "Establish a solid connection by becoming friends with your new found Alumni" },
-    // { name: "Coming Soon - Manage Workload", description: "Manage friend request you would like to recieve every week" },
+    { name: "Advertise Yourself", description: "Present your personal information on your profile and how people could contact you", },
+    { name: "Visibility Customization", description: "Manage who can see your contact information, customize separately for each method" },
+    { name: "Alumni Exploration", description: "Explore alumni with searching functionality and by multiple filters and locations", },
+    { name: "Student Engagement", description: "Interact with current students via alumni-led research, leadership, mentorship, etc" },
+    // { name: "Request Connection", description: "Establish a solid connection by connecting with new found alumni" },
+    // { name: "Manage Workload", description: "Customize how many connection you would like to handle in a time range" },
 ];
 
 const Home = () => {
-    // const getAllStates = () => {
-    //     return [
-    //         "AZ", "NY", "CT", "MD", "WA", "OR", "NV", "NM", "DC", "DE", "MA", "MN", "WI", "IL",
-    //         "VT", "RI", "NJ", "CO", "CA", "PA", "VA", "GA", "ME", "NH", "HI", "ID", "MT", "IN",
-    //         "TE", "AK", "KY", "NC", "WV", "WY", "ND", "SD", "NE", "UT", "TN", "KS", "OK", "TX",
-    //         "IO", "MO", "AR", "AL", "MS", "LA", "MI", "LA", "FL", "SC", "OH", "IA",
-    //     ];
-    // };
-
-    const [statesCustomConfig, setStateCustomConfig] = useState({});
+    const [mapStats, setMapStats] = useState({});
     const { getAccount, getAccountLocal } = useContext(AccountContext);
     const [account, setAccount] = useState(null);
-
 
     useEffect(() => {
         setAccount(getAccountLocal());
@@ -45,28 +34,37 @@ const Home = () => {
 
     useEffect(() => {
         axios.get("/landing/map_stats")
-            .then(res => {
-                let config = {};
-                let max = 0;
-
-                // Find the state with the highest number of people
-                for (const value of Object.values(res.data)) {
-                    if (max < value) {
-                        max = value;
-                    }
-                }
-
-                // Make config dictionary
-                for (const [key, value] of Object.entries(res.data)) {
-                    let opacity = value / max * 0.95;
-
-                    config[key] = {};
-                    config[key].fill = `rgba(21, 71, 52, ${opacity})`;
-                }
-
-                setStateCustomConfig(config);
+            .then(({ data }) => {
+                setMapStats(data);
             });
-    }, [setStateCustomConfig]);
+    }, []);
+
+    const getMapConfig = (stats) => {
+        let config = {};
+        let max = 0;
+
+        // Find the state with the highest number of people
+        for (const value of Object.values(stats)) {
+            if (max < value) {
+                max = value;
+            }
+        }
+
+        states.forEach((state) => {
+            config[state.value] = {};
+
+            if (!(state.value in stats)) { // For the state has no people, grey out
+                config[state.value].fill = "rgba(229, 231, 235, 0.7)";
+            } else { 
+                let value = stats[state.value];
+                let opacity = value / max;
+
+                config[state.value].fill = `rgba(5, 150, 105, ${opacity})`;
+            }
+        });
+
+        return config;
+    };
 
 
     return (
@@ -87,7 +85,7 @@ const Home = () => {
                                 <div className="mt-20">
                                     <div className="mt-8 sm:max-w-lg">
                                         <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">
-                                            Connect with your <span className="text-gradient bg-gradient-to-r from-green-600 via-emerald-500 to-teal-500">fellow Bears</span> today
+                                            Connect with your <span className="text-gradient bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500">fellow Bears</span> today
                                         </h1>
                                         <p className="mt-6 text-xl text-gray-500">
                                             A brand new platform for Baylor alumni and current students to
@@ -115,7 +113,7 @@ const Home = () => {
                                                 <>
                                                     <div className="sm:w-full sm:flex">
                                                         <a
-                                                            className="transition-all text-center w-full flex justify-center px-4 py-5 font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed relative bg-gradient-to-r from-green-500 via-emerald-600 to-teal-600 hover:opacity-90 shadow-md"
+                                                            className="transition-all text-center w-full flex justify-center px-4 py-5 font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed relative bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 hover:opacity-90 shadow-md"
                                                             // className="transition-all text-center w-full flex justify-center px-4 py-5 border border-transparent font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed relative"
                                                             href="/sign-up"
                                                         >
@@ -175,8 +173,8 @@ const Home = () => {
                     {/* USA population map */}
                     {/* TODO: Center map and show population, and text below */}
                     <div className="max-w-7xl mx-auto sm:px-6 lg:px-6 my-6 grid-cols-3 gap-2 hidden lg:grid">
-                        <div className="relative flex col-span-2">
-                            <USAMap title="" customize={statesCustomConfig} />
+                        <div className="relative flex col-span-2 pointer-events-none">
+                            <USAMap title="" customize={getMapConfig(mapStats)} />
                         </div>
                         <div className="col-span-1 relative">
                             <div className="absolute bottom-0 mb-16">
@@ -192,7 +190,7 @@ const Home = () => {
 
                     {/* Logo cloud */}
                     {/* TODO: Add logos for baylor prehealth student orginization, ABB, and baylor prehealth office */}
-                    <div className="bg-gray-100 mt-6">
+                    <div className="bg-gray-50 mt-6">
                         <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-6">
                             <p className="text-center text-sm font-semibold uppercase text-gray-500 tracking-wide">
                                 Proudly supported By
@@ -220,27 +218,24 @@ const Home = () => {
 
                 {/* Features */}
                 <div className="bg-white">
-                    <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:py-24 lg:px-8 lg:grid lg:grid-cols-3 lg:gap-x-8">
-                        <div>
-                            <h2 className="text-base font-semibold text-emerald-600 uppercase tracking-wide">Everything you need</h2>
-                            <p className="mt-2 text-3xl font-extrabold text-gray-900">Alumni Connection Platform</p>
+                    <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:py-24 lg:px-8">
+                        <div className="max-w-3xl mx-auto text-center">
+                            <h2 className="text-3xl font-extrabold text-gray-900">Everything you need</h2>
                             <p className="mt-4 text-lg text-gray-500">
                                 Providing a platform for current students and alumni to discover new connections and foster deeper relationship with one another.
                             </p>
                         </div>
-                        <div className="mt-12 lg:mt-0 lg:col-span-2">
-                            <dl className="space-y-10 sm:space-y-0 sm:grid sm:grid-cols-2 sm:grid-rows-2 sm:grid-flow-col sm:gap-x-6 sm:gap-y-10 lg:gap-x-8">
-                                {features.map((feature) => (
-                                    <div key={feature.name} className="relative">
-                                        <dt>
-                                            <CheckIcon className="absolute h-6 w-6 text-green-500" aria-hidden="true" />
-                                            <p className="ml-9 text-lg leading-6 font-medium text-gray-900">{feature.name}</p>
-                                        </dt>
-                                        <dd className="mt-2 ml-9 text-base text-gray-500">{feature.description}</dd>
-                                    </div>
-                                ))}
-                            </dl>
-                        </div>
+                        <dl className="mt-12 space-y-10 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 lg:grid-cols-4 lg:gap-x-8">
+                            {features.map((feature) => (
+                                <div key={feature.name} className="relative">
+                                    <dt>
+                                        <CheckIcon className="absolute h-6 w-6 text-emerald-500" aria-hidden="true" />
+                                        <p className="ml-9 text-lg leading-6 font-medium text-gray-900">{feature.name}</p>
+                                    </dt>
+                                    <dd className="mt-2 ml-9 text-base text-gray-500">{feature.description}</dd>
+                                </div>
+                            ))}
+                        </dl>
                     </div>
                 </div>
 
@@ -256,7 +251,7 @@ const Home = () => {
                                 <div className="inline-flex rounded-md shadow">
                                     <button
                                         onClick={() => window.scrollTo({ top: 0, behavior: "smooth"}) }
-                                        className="inline-flex items-center justify-center px-5 py-3 text-base font-medium rounded-md text-white bg-gradient-to-r from-green-500 via-emerald-600 to-teal-600 hover:opacity-90"
+                                        className="inline-flex items-center justify-center px-5 py-3 text-base font-medium rounded-md text-white bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 hover:opacity-90"
                                     >
                                         Back to top
                                     </button>
