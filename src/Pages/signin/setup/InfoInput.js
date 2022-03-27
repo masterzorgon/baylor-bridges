@@ -13,7 +13,6 @@ const InfoInput = () => {
 
     const [show, setShow] = useState(false); // used to fade modals out
     const [, , showTheModal] = useTimeoutFn(() => setShow(true), 400); // used to fade modals in
-    
     const [modal, setModal] = useState(1); // used to switch between modals
     const [account, setAccount] = useState({
         biography: "",
@@ -26,9 +25,7 @@ const InfoInput = () => {
         state: "",
         contact_info: {
             email: "",
-            email_visibility: false,
             phone: "",
-            phone_visibility: false,
         }
     }); // updates account info
 
@@ -37,9 +34,7 @@ const InfoInput = () => {
         showTheModal();
         console.log("MODAL", modal);
     }, [modal]);
-    
     useEffect(() => console.log("ACCOUNT", account), [account]);
-
     useEffect(() => showTheModal(), []);
 
     const modals = () => {

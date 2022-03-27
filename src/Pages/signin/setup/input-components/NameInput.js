@@ -2,11 +2,16 @@ import React, { Fragment } from "react";
 import { Transition } from "@headlessui/react";
 import { UserCircleIcon, ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/outline";
 import { useTimeoutFn } from "react-use";
-// import Button from "../../../../components/Button";
+import { useTransition, animated } from "react-spring";
 
 const NameInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
 
     const [, , takeAwayModal] = useTimeoutFn(() => setShow(false), 0);
+    const transition = useTransition(show, { 
+        from: { x: -100, y: 800, opacity: 0 },
+        enter: { x: 0, y: -30, opacity: 1 },
+        leave: {}
+    });
 
     const onSubmit = (event) => {   
         event.preventDefault();
@@ -38,9 +43,16 @@ const NameInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
                     <div className="grid grid-cols-1 gap-y-20 lg:gap-y-0 lg:gap-x-8">
                         <div className="flex flex-col bg-white rounded-2xl shadow-xl">
                             <div className="flex-1 relative pt-16 px-6 pb-8 md:px-8">
-                                <div className="absolute top-0 p-5 inline-block bg-emerald-600 rounded-xl shadow-xl transform -translate-y-1/2">
-                                    <UserCircleIcon className="h-6 w-6 text-white" aria-hidden="true" />
-                                </div>
+
+                                {transition((style, item) => {
+                                    return item
+                                        ?
+                                        <animated.div style={style} className="absolute top-0 p-5 inline-block bg-emerald-600 rounded-xl shadow-xl transform -translate-y-1/2">
+                                            <UserCircleIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                                        </animated.div>
+                                        : "";
+                                })}
+
                                 <h3 className="text-xl font-medium text-gray-900">Name</h3>
                                 <p className="mt-4 text-base text-gray-500">Please provide your full, legal name. This is the name others will know you by via your Baylor Bridges account.</p>
                             </div>
