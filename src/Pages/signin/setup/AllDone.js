@@ -4,11 +4,17 @@ import ReactCanvasConfetti from "react-canvas-confetti";
 import { ArrowLeftIcon, ArrowRightIcon, CheckCircleIcon, ExclamationCircleIcon, XIcon } from "@heroicons/react/outline";
 import { Fragment } from "react/cjs/react.production.min";
 import { Transition } from "@headlessui/react";
+import { useTransition, animated } from "react-spring";
 import axios from "axios";
     
 const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
 
     const [, , takeAwayModal] = useTimeoutFn(() => setShow(false), 0);
+    const transition = useTransition(show, { // used to fade icon in
+        from: { x: 0, y: 50, opacity: 0 },
+        enter: { x: 0, y: -30, opacity: 1 },
+        leave: { x: 0, y: -80, opacity: 0 }
+    });
     const [alert, setAlert] = useState(false);
 
     const refAnimationInstance = useRef(null);
@@ -151,9 +157,14 @@ const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
                     <div className="grid grid-cols-1 gap-y-20 lg:gap-y-0 lg:gap-x-8">
                         <div className="flex flex-col bg-emerald-50 rounded-2xl shadow-xl">
                             <div className="flex-1 relative pt-16 px-6 pb-8 md:px-8">
-                                <div className="absolute top-0 p-5 inline-block bg-emerald-600 rounded-xl shadow-lg transform -translate-y-1/2">
-                                    <CheckCircleIcon className="h-6 w-6 text-white" aria-hidden="true" />
-                                </div>
+                                {transition((style, item) => {
+                                    return item
+                                        ?
+                                        <animated.div style={style} className="absolute top-0 p-5 inline-block bg-emerald-600 rounded-xl shadow-lg transform -translate-y-1/2">
+                                            <CheckCircleIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                                        </animated.div>
+                                        : "";
+                                })}
                                 <h3 className="text-xl font-medium text-gray-900">You are all set!</h3>
                                 <p className="mt-4 text-base text-gray-500">
                                     Thank you so much for taking the time to set up your Baylor Bridges account.
