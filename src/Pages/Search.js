@@ -157,22 +157,22 @@ const Search = () => {
 
             if (!(state.value in stats)) { // For the state has no people, grey out
                 if (!current) {
-                    config[state.value].fill = "rgba(211, 211, 211, 1)";
+                    config[state.value].fill = "rgba(229, 231, 235, 1)";
                 } else {
-                    config[state.value].fill = "rgba(211, 211, 211, 0.6)";
+                    config[state.value].fill = "rgba(229, 231, 235, 0.6)";
                 }
             } else { // For the state has people, color it with different opacity
                 let value = stats[state.value];
-                let opacity = value / max * 0.9;
+                let opacity = value / max;
 
                 if (current && state.value !== current) {
                     opacity *= 0.7;
-                    config[state.value].fill = `rgba(21, 71, 52, ${opacity})`;
+                    config[state.value].fill = `rgba(5, 150, 105, ${opacity})`;
                 } else if (current && state.value === current) {
                     opacity = 1;
-                    config[state.value].fill = `rgba(21, 71, 52, ${opacity})`;
+                    config[state.value].fill = `rgba(5, 150, 105, ${opacity})`;
                 } else {
-                    config[state.value].fill = `rgba(21, 71, 52, ${opacity})`;
+                    config[state.value].fill = `rgba(5, 150, 105, ${opacity})`;
                 }
             }
         });
