@@ -6,11 +6,11 @@ import { useTransition, animated } from "react-spring";
 
 const NameInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
 
-    const [, , takeAwayModal] = useTimeoutFn(() => setShow(false), 0);
-    const transition = useTransition(show, { 
-        from: { x: -100, y: 800, opacity: 0 },
+    const [, , takeAwayModal] = useTimeoutFn(() => setShow(false), 0); // used to fade modal out
+    const transition = useTransition(show, { // used to fade icon in
+        from: { x: 0, y: 50, opacity: 0 },
         enter: { x: 0, y: -30, opacity: 1 },
-        leave: {}
+        leave: { x: 0, y: -80, opacity: 0 }
     });
 
     const onSubmit = (event) => {   

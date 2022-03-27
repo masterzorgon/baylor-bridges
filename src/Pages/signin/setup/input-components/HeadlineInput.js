@@ -2,10 +2,16 @@ import React, { useState, Fragment } from "react";
 import { ArrowLeftIcon, ArrowRightIcon, BriefcaseIcon, ExclamationCircleIcon, XIcon } from "@heroicons/react/outline";
 import { useTimeoutFn } from "react-use";
 import { Transition } from "@headlessui/react";
+import { useTransition, animated } from "react-spring";
 
 const HeadlineInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
 
     const [, , takeAwayModal] = useTimeoutFn(() => setShow(false), 0);
+    const transition = useTransition(show, { // used to fade icon in
+        from: { x: 0, y: 50, opacity: 0 },
+        enter: { x: 0, y: -30, opacity: 1 },
+        leave: { x: 0, y: -80, opacity: 0 }
+    });
     const [alert, setAlert] = useState(false);
 
     const onSubmit = (event) => {    
@@ -85,9 +91,14 @@ const HeadlineInput = ({ account, setAccount, modal, show, setModal, setShow }) 
                     <div className="grid grid-cols-1 gap-y-20 lg:gap-y-0 lg:gap-x-8">
                         <div className="flex flex-col bg-white rounded-2xl shadow-xl">
                             <div className="flex-1 relative pt-16 px-6 pb-8 md:px-8">
-                                <div className="absolute top-0 p-5 inline-block bg-emerald-600 rounded-xl shadow-lg transform -translate-y-1/2">
-                                    <BriefcaseIcon className="h-6 w-6 text-white" aria-hidden="true" />
-                                </div>
+                                {transition((style, item) => {
+                                    return item
+                                        ?
+                                        <animated.div style={style} className="absolute top-0 p-5 inline-block bg-emerald-600 rounded-xl shadow-lg transform -translate-y-1/2">
+                                            <BriefcaseIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                                        </animated.div>
+                                        : "";
+                                })}
                                 <h3 className="text-xl font-medium text-gray-900">Headline</h3>
                                 <p className="mt-4 text-base text-gray-500">
                                     Youe headline should be your professional title, and your biography should be
