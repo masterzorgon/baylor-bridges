@@ -74,7 +74,7 @@ const Home = () => {
             <main>
                 <div>
                     {/* Hero section */}
-                    <div className="pt-8 overflow-hidden sm:pt-12 lg:relative lg:py-24">
+                    <div className="pt-8 overflow-hidden sm:pt-12 lg:relative lg:py-24" id="top">
                         <div className="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl lg:grid lg:grid-cols-2 lg:gap-24">
                             <div>
                                 <div>
@@ -106,7 +106,7 @@ const Home = () => {
                                             of Baylor alumni in the health industry.
                                         </p>
                                     </div>
-                                    <div className="h-32 sm:max-w-lg mt-12">
+                                    <div className="h-28 sm:max-w-lg mt-12">
                                         {
                                             account ? 
                                                 <>
@@ -126,14 +126,14 @@ const Home = () => {
                                                 <>
                                                     <div className="sm:w-full sm:flex">
                                                         <a
-                                                            className="transition-all text-center w-full flex justify-center px-4 py-5 border border-transparent font-medium rounded-md shadow-sm text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed relative bg-gradient-to-r from-green-500 via-emerald-600 to-teal-600 hover:opacity-90"
+                                                            className="transition-all text-center w-full flex justify-center px-4 py-5 font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed relative bg-gradient-to-r from-green-500 via-emerald-600 to-teal-600 hover:opacity-90 shadow-md"
                                                             // className="transition-all text-center w-full flex justify-center px-4 py-5 border border-transparent font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed relative"
                                                             href="/sign-up"
                                                         >
                                                             Sign Up / Join the Community
                                                         </a>
                                                     </div>
-                                                    <div className="mt-6 flex space-x-1 justify-center">
+                                                    <div className="mt-5 flex space-x-1 justify-center">
                                                         <p>Already have an account?</p>
                                                         <a href="/sign-in" className="transition-all text-base font-medium text-emerald-600 hover:text-emerald-800 underline underline-offset-4">Continue with Sign In</a>
                                                     </div>
@@ -260,44 +260,29 @@ const Home = () => {
                     <div className="max-w-7xl mx-auto text-center py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
                         <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
                             <span className="block">Ready to dive in?</span>
-                            {account ? null : <span className="block">Create you personal account today.</span>}
+                            <span className="block">Create your account today.</span>
                         </h2>
                         <div className="mt-8 flex justify-center">
-                            {
-                                account === null
-                                    ?
-                                    <>
-                                        <div className="inline-flex rounded-md shadow">
-                                            <a
-                                                href="/sign-up"
-                                                className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700"
-                                            >
-                                                Sign Up
-                                            </a>
-                                        </div>
-                                        <div className="ml-3 inline-flex">
-                                            <a
-                                                href="https://www.baylor.edu/prehealth/index.php?id=981654"
-                                                target="_blank"
-                                                rel="noreferrer"
-                                                className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-emerald-700 bg-emerald-100 hover:bg-emerald-200"
-                                            >
-                                                Learn more
-                                            </a>
-                                        </div>
-                                    </>
-                                    :
-                                    <div className="ml-3 inline-flex">
-                                        <a
-                                            href="https://www.baylor.edu/prehealth/index.php?id=981654"
-                                            target="_blank"
-                                            rel="noreferrer"
-                                            className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-emerald-700 bg-emerald-100 hover:bg-emerald-200"
-                                        >
-                                            Learn more
-                                        </a>
-                                    </div>
-                            }
+                            <>
+                                <div className="inline-flex rounded-md shadow">
+                                    <button
+                                        onClick={() => window.scrollTo({ top: 0, behavior: "smooth"}) }
+                                        className="inline-flex items-center justify-center px-5 py-3 text-base font-medium rounded-md text-white bg-gradient-to-r from-green-500 via-emerald-600 to-teal-600 hover:opacity-90"
+                                    >
+                                        Back to top
+                                    </button>
+                                </div>
+                                <div className="ml-3 inline-flex">
+                                    <a
+                                        href="https://www.baylor.edu/prehealth/index.php?id=981654"
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-emerald-700 bg-emerald-100 hover:bg-emerald-200"
+                                    >
+                                        Learn more
+                                    </a>
+                                </div>
+                            </>
                         </div>
                     </div>
                 </div>
