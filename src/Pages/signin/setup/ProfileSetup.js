@@ -68,8 +68,8 @@ const ProfileSetup = () => {
     };
 
     return (
-        <div className="relative bg-white-50 overflow-hidden">
-            <div className="hidden sm:block sm:absolute sm:inset-y-0 sm:h-full sm:w-full" aria-hidden="true">
+        <div className="flex h-screen relative bg-white-50 overflow-hidden">
+            <div className="sm:block sm:absolute sm:inset-y-0 sm:h-full sm:w-full" aria-hidden="true">
                 <div className="relative h-full max-w-7xl mx-auto">
                     <svg
                         className="absolute right-full transform translate-y-1/4 translate-x-1/4 lg:translate-x-1/2"
@@ -116,16 +116,16 @@ const ProfileSetup = () => {
                 </div>
             </div>
 
-            <div className="relative sm:mx-10 sm:my-10 flex justify-center align-middle">
+            <div className="relative sm:mx-10 sm:my-10 justify-center p-10">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-6">
-                    <div className="relative shadow-xl sm:rounded-2xl sm:overflow-hidden">
+                    <div className="relative shadow-xl sm:rounded-2xl sm:overflow-hidden rounded-lg">
                         <div className="absolute inset-0">
                             <img
-                                className="h-full w-full object-cover"
+                                className="h-full w-full object-cover rounded-lg"
                                 src="/landing_page_background.jfif"
                                 alt="People working on laptops"
                             />
-                            <div className="absolute inset-0 bg-emerald-700 mix-blend-multiply" />
+                            <div className="absolute rounded-lg inset-0 bg-emerald-700 mix-blend-multiply" />
                             <ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
                         </div>
                         <div className="relative px-4 py-14 sm:px-6 sm:py-24 lg:py-28 lg:px-8">
