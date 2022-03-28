@@ -371,20 +371,34 @@ const Search = () => {
                                                 </div>
                                                 <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
                                                     <div>
-                                                        <p className="text-sm font-medium text-emerald-600 truncate">{profile.first_name} {profile.last_name}</p>
-                                                        <p className="mt-2 flex items-center text-sm text-gray-500">
-                                                            <span className="truncate">{profile.headline}</span>
-                                                        </p>
+                                                        {
+                                                            (profile.first_name || profile.last_name) ?
+                                                                <p className="text-sm font-medium text-emerald-600 truncate">{profile.first_name} {profile.last_name}</p>
+                                                                :
+                                                                <p className="text-sm font-medium text-gray-400 truncate">Baylor Bridge User</p>
+                                                        }
+                                                        {
+                                                            profile.headline &&
+                                                            <p className="mt-2 flex items-center text-sm text-gray-500">
+                                                                <span className="truncate">{profile.headline}</span>
+                                                            </p>
+                                                        }
                                                     </div>
                                                     <div className="hidden md:block">
                                                         <div>
-                                                            <p className="text-sm text-gray-900">
-                                                                {profile.city} {profile.state}
-                                                            </p>
-                                                            <p className="mt-2 flex items-center text-sm text-gray-500">
-                                                                {/* <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-400" aria-hidden="true" /> */}
-                                                                Class {profile.graduate_year}
-                                                            </p>
+                                                            {
+                                                                (profile.city || profile.state) &&
+                                                                <p className="text-sm text-gray-900">
+                                                                    {profile.city} {profile.state}
+                                                                </p>
+                                                            }
+                                                            {
+                                                                profile.graduate_year &&
+                                                                <p className="mt-2 flex items-center text-sm text-gray-500">
+                                                                    {/* <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-400" aria-hidden="true" /> */}
+                                                                    Class {profile.graduate_year}
+                                                                </p>
+                                                            }
                                                         </div>
                                                     </div>
                                                 </div>
