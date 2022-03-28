@@ -34,8 +34,8 @@ const InfoInput = () => {
         showTheModal();
         console.log("MODAL", modal);
     }, [modal]);
+    
     useEffect(() => console.log("ACCOUNT", account), [account]);
-    useEffect(() => showTheModal(), []);
 
     const modals = () => {
         if (modal === 1) { return <NameInput        account={account} setAccount={setAccount} show={show} modal={modal} setShow={setShow} setModal={setModal} />; }

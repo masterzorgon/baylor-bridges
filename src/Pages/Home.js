@@ -199,7 +199,8 @@ const Home = () => {
                                     <div className="inline-flex rounded-md shadow">
                                         <a
                                             href="/sign-up"
-                                            className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700"
+                                            className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-emerald-600 
+                                            transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-103 hover:bg-emerald-700 duration-200"
                                         >
                                             Sign Up
                                         </a>
@@ -209,7 +210,8 @@ const Home = () => {
                                             href="https://www.baylor.edu/prehealth/index.php?id=981654"
                                             target="_blank"
                                             rel="noreferrer"
-                                            className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-emerald-700 bg-emerald-100 hover:bg-emerald-200"
+                                            className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-emerald-700 bg-emerald-100
+                                            transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-103 hover:bg-emerald-200 duration-200"
                                         >
                                                 Learn more
                                         </a>
@@ -221,7 +223,8 @@ const Home = () => {
                                         href="https://www.baylor.edu/prehealth/index.php?id=981654"
                                         target="_blank"
                                         rel="noreferrer"
-                                        className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-emerald-700 bg-emerald-100 hover:bg-emerald-200"
+                                        className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-emerald-700 bg-emerald-100
+                                        transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-103 hover:bg-emerald-200 duration-200"
                                     >
                                             Learn more
                                     </a>

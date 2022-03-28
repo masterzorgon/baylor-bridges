@@ -168,7 +168,7 @@ const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
                                 <h3 className="text-xl font-medium text-gray-900">You are all set!</h3>
                                 <p className="mt-4 text-base text-gray-500">
                                     Thank you so much for taking the time to set up your Baylor Bridges account.
-                                    We hope you enjoy our platform, and please feel to reach out via the Contact us
+                                    We hope you enjoy our platform, and please feel to reach out via the Contact Us
                                     page if you have any questions or concerns.
 
                                 </p>
