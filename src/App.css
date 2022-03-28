@@ -12,6 +12,10 @@ html{
   -ms-user-select: none;
 }
 
+.text-gradient {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
 
 .clickable-map .us-state-map * {
