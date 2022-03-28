@@ -381,10 +381,10 @@ const Search = () => {
                                                             <p className="text-sm text-gray-900">
                                                                 {profile.city} {profile.state}
                                                             </p>
-                                                            {/*<p className="mt-2 flex items-center text-sm text-gray-500">*/}
-                                                            {/*    <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-400" aria-hidden="true" />*/}
-                                                            {/*    {application.stage}*/}
-                                                            {/*</p>*/}
+                                                            <p className="mt-2 flex items-center text-sm text-gray-500">
+                                                                {/* <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-400" aria-hidden="true" /> */}
+                                                                Class {profile.graduate_year}
+                                                            </p>
                                                         </div>
                                                     </div>
                                                 </div>
