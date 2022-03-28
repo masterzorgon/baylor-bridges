@@ -101,7 +101,8 @@ const Home = () => {
                                             <div className="space-y-4 sm:space-y-0 sm:mx-auto sm:inline-grid sm:grid-cols-1 sm:gap-5">
                                                 <a
                                                     href="/sign-up"
-                                                    className="flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-emerald-700 bg-white hover:bg-emerald-50 sm:px-9"
+                                                    className="flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-emerald-700 bg-white sm:px-9
+                                                    transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-103 hover:bg-emerald-100 duration-200"
                                                 >
                                                     Get Started
                                                 </a>
