@@ -38,6 +38,10 @@ const filters = {
 
 const queryToString = (query, addons) => {
     const concatenateQueryValues = (key, value) => {
+        if (!value) {
+            return;
+        }
+
         if (value.length === 0) {
             delete query[key];
             return;
@@ -375,7 +379,7 @@ const Search = () => {
                                                             (profile.first_name || profile.last_name) ?
                                                                 <p className="text-sm font-medium text-emerald-600 truncate">{profile.first_name} {profile.last_name}</p>
                                                                 :
-                                                                <p className="text-sm font-medium text-gray-400 truncate">Baylor Bridge User</p>
+                                                                <p className="text-sm font-medium text-gray-400 truncate">Baylor Bridges User</p>
                                                         }
                                                         {
                                                             profile.headline &&
