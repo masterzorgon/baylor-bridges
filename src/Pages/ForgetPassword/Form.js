@@ -41,6 +41,9 @@ const Form = () => {
             setComplete(verificationCode && verificationCode !== "" && is_valid);
 
         }
+        if (step ===3 ) {
+            setComplete(password_checked );
+        }
         setErrorMessage(null);
 
     }, [email, verificationCode, step]);
