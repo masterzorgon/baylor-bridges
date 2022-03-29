@@ -410,12 +410,11 @@ const Profile = () => {
                                                 {attribute.options.map((option, index) => (
                                                     <Listbox.Option
                                                         key={option.value + "_option"}
-                                                        className={({ active }) =>
-                                                            classNames(
-                                                                active ? "text-white bg-emerald-600" : "text-gray-900",
-                                                                "cursor-default select-none relative py-2 pl-8 pr-4",
-                                                                "transition-colors"
-                                                            )
+                                                        className={({ active }) => classNames(
+                                                            active ? "text-white bg-emerald-600" : "text-gray-900",
+                                                            "cursor-default select-none relative py-2 pl-8 pr-4",
+                                                            "transition-colors"
+                                                        )
                                                         }
                                                         value={option.value}
                                                     >
