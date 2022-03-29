@@ -109,10 +109,10 @@ const Navbar = ({ hideOnTop }) => {
                 </div>
             </Transition>
 
-            <Popover className={classNames("bg-white z-50 top-0 transition-all", additionalClassNames)}>
-                <div className="flex shadow-md justify-between items-center px-4 py-5 sm:px-6 md:justify-start md:space-x-10">
+            <Popover className={classNames("z-50 top-0 transition-all", additionalClassNames)}>
+                <div className="flex shadow-md justify-between items-center px-4 py-5 sm:px-6 md:justify-start bg-white">
                     {/* Baylor University logo */}
-                    <div className="h-8 w-auto sm:h-10">
+                    <div className="h-8 w-auto sm:h-10 mr-4">
                         <a href="/" className="flex">
                             <span className="sr-only">Baylor Bridge</span>
                             <img
@@ -126,7 +126,7 @@ const Navbar = ({ hideOnTop }) => {
                     {/* MOBILE MENU ICON */}
                     <div className="-mr-2 -my-2 md:hidden flex">
                         <Popover.Button
-                            className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100"
+                            className="rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100"
                             onClickCapture={() => setFocus(true)}
                         >
                             <span className="sr-only">Open menu</span>
@@ -136,8 +136,8 @@ const Navbar = ({ hideOnTop }) => {
 
                     {/* DESKTOP NAVBAR */}
                     <div className="hidden md:flex-1 md:flex md:items-center md:justify-between">
-                        <Popover.Group as="nav" className="flex space-x-10">
-                            <a href="/" className="transition-all text-base font-medium text-gray-500 hover:text-gray-900">
+                        <Popover.Group as="nav" className="flex space-x-0">
+                            <a href="/" className="transition-all px-4 py-2 rounded-md text-base font-medium text-gray-500 hover:text-gray-900">
                                 Home
                             </a>
 
@@ -147,8 +147,8 @@ const Navbar = ({ hideOnTop }) => {
                                         <Popover.Button
                                             className={classNames(
                                                 open ? "text-gray-900" : "text-gray-500",
-                                                "group bg-white rounded-md inline-flex items-center text-base font-medium hover:text-gray-900",
-                                                "transition-all"
+                                                "group rounded-md inline-flex items-center text-base font-medium hover:text-gray-900",
+                                                "transition-all px-4 py-2 rounded-md"
                                             )}
                                         >
                                             <span>More</span>
@@ -173,7 +173,7 @@ const Navbar = ({ hideOnTop }) => {
                                         >
                                             <Popover.Panel className="absolute z-10 left-1/2 transform -translate-x-1/2 mt-3 px-2 w-screen max-w-xs sm:px-0">
                                                 <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
-                                                    <div className="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
+                                                    <div className="relative grid gap-6 px-5 py-6 sm:gap-8 sm:p-8">
                                                         {/* <a href="/about" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
                                                             <div className="ml-4 text-base font-medium text-gray-900">About</div>
                                                         </a> */}
@@ -194,7 +194,7 @@ const Navbar = ({ hideOnTop }) => {
                         </Popover.Group>
 
                         {/* SEARCH BAR */}
-                        <div className="hidden md:flex-1 md:flex md:items-center md:justify-between ml-6 mr-12 max-w-md relative">
+                        <div className="hidden md:flex-1 md:flex md:items-center md:justify-between mx-auto max-w-md relative">
                             <label htmlFor="email" className="sr-only">
                                 Search people
                             </label>
@@ -234,7 +234,7 @@ const Navbar = ({ hideOnTop }) => {
                                 leaveTo="transform opacity-0 scale-95"
                                 show={isFocus && profiles.length > 0 && keywords.length > 0}
                             >
-                                <div className="z-50 absolute bg-white shadow-md py-2 rounded-md w-full max-w-md mt-4 top-16">
+                                <div className="z-50 bg-white absolute shadow-md py-2 rounded-md w-full max-w-md mt-4 top-16">
                                     <ul className="">
                                         {profiles.map((person) => (
                                             <li key={person.email}>
@@ -262,10 +262,10 @@ const Navbar = ({ hideOnTop }) => {
                         {
                             account === null &&
                             <div className="flex items-center md:ml-12">
-                                <a href={signInUrl} className="transition-all text-base font-medium text-gray-500 hover:text-gray-900">
+                                <a href={signInUrl} className="transition-all px-4 py-2 rounded-md text-base font-medium text-gray-500 hover:text-gray-900">
                                     Sign in
                                 </a>
-                                <a href={signUpUrl} className="transition-all ml-8 inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-600 hover:bg-emerald-700">
+                                <a href={signUpUrl} className="transition-all ml-4 inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-600 hover:bg-emerald-700">
                                     Sign up
                                 </a>
                             </div>
@@ -275,7 +275,7 @@ const Navbar = ({ hideOnTop }) => {
                             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 mr-4 gap-3">
                                 {/* <button
                                     type="button"
-                                    className="transition-all bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                                    className="transition-all p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
                                 >
                                     <span className="sr-only">View notifications</span>
                                     <BellIcon className="h-6 w-6" aria-hidden="true" />
@@ -283,11 +283,11 @@ const Navbar = ({ hideOnTop }) => {
                                 {/* Profile dropdown */}
                                 <Menu as="div" className="ml-3 relative">
                                     <div>
-                                        <Menu.Button className="transition-all bg-white rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
+                                        <Menu.Button className="transition-all rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
                                             <span className="sr-only">Open user menu</span>
                                             <Photo size="10" />
                                         </Menu.Button>
-                                    </div>
+                                    </div>  
                                     <Transition
                                         as={Fragment}
                                         enter="transition ease-out duration-200"
@@ -297,7 +297,7 @@ const Navbar = ({ hideOnTop }) => {
                                         leaveFrom="transform opacity-100 scale-100"
                                         leaveTo="transform opacity-0 scale-95"
                                     >
-                                        <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-2xl py-2 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                        <Menu.Items className="origin-top-right bg-white absolute right-0 mt-2 w-48 rounded-md shadow-2xl py-2 ring-1 ring-black ring-opacity-5 focus:outline-none">
                                             <Menu.Item>
                                                 {({ active }) => (
                                                     <a
@@ -347,7 +347,7 @@ const Navbar = ({ hideOnTop }) => {
                     leaveTo="opacity-0 scale-95"
                 >
                     <Popover.Panel focus className="absolute top-0 inset-x-0 transition transform origin-top-right md:hidden">
-                        <div className="space-y-1 bg-white shadow-lg divide-y-2 divide-gray-50">
+                        <div className="space-y-1 shadow-lg divide-y-2 divide-gray-50 bg-white">
                             <div className="py-4 px-4">
                                 <div className="flex items-center justify-between">
                                     <div>
