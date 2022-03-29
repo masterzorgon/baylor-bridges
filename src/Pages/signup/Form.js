@@ -4,7 +4,7 @@ import { MailIcon, ArrowSmRightIcon, CalculatorIcon } from "@heroicons/react/out
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-import Progress from "../../components/Progress";
+import Progress from "./Progress";
 import Password from "../../components/Password";
 import Button from "../../components/Button";
 

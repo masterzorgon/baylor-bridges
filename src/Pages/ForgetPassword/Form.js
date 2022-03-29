@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { ArrowSmRightIcon, CalculatorIcon, MailIcon } from "@heroicons/react/outline";
 
-import Progress from "../../components/Progress";
+import Progress from "./progress";
 import Button from "../../components/Button";
 import Password from "../../components/Password";
 
@@ -42,11 +42,11 @@ const Form = () => {
 
         }
         if (step ===3 ) {
-            setComplete(password_checked );
+            setComplete(password_checked);
         }
         setErrorMessage(null);
 
-    }, [email, verificationCode, step]);
+    }, [email, verificationCode, step,password]);
 
     const onSubmit = () => {
         if (step === 1) {
