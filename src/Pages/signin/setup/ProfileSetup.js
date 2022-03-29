@@ -69,7 +69,7 @@ const ProfileSetup = () => {
 
     return (
         <div className="flex h-screen relative bg-white-50 overflow-hidden">
-            <div className="sm:block sm:absolute sm:inset-y-0 sm:h-full sm:w-full" aria-hidden="true">
+            <div className="flex sm:block sm:absolute sm:inset-y-0 sm:h-full sm:w-full" aria-hidden="true">
                 <div className="relative h-full max-w-7xl mx-auto">
                     <svg
                         className="absolute right-full transform translate-y-1/4 translate-x-1/4 lg:translate-x-1/2"
@@ -144,7 +144,7 @@ const ProfileSetup = () => {
                                 via your Baylor Bridges account.
                             </p>
                             <div className="mt-10 max-w-sm mx-auto sm:max-w-none sm:flex sm:justify-center">
-                                <div className="space-y-4 sm:space-y-0 sm:mx-auto sm:inline-grid sm:grid-cols-1 sm:gap-5">
+                                <div className="flex justify-center space-y-4 sm:space-y-0 sm:mx-auto sm:inline-grid sm:grid-cols-1 sm:gap-5">
                                     <button
                                         href="/sign-up"
                                         onClick={onSubmit}
