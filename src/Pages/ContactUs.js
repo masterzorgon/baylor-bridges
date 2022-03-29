@@ -8,7 +8,7 @@ export default function ContactUs() {
                 <div className="mt-4 relative py-5 px-4 sm:py-5 sm:px-6 lg:px-8 lg:max-w-7xl lg:mx-auto lg:py-5 lg:grid lg:grid-cols-2">
                     <div className="lg:pr-8">
                         <div className="flex flex-col justify-around max-w-md mx-auto sm:max-w-lg lg:mx-0">
-                            
+
                             <h2 className="flex justify-center text-3xl font-extrabold tracking-tight sm:text-4xl underline">
                                 Contact Us
                             </h2>

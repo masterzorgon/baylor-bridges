@@ -55,7 +55,7 @@ const Home = () => {
 
             if (!(state.value in stats)) { // For the state has no people, grey out
                 config[state.value].fill = "rgba(229, 231, 235, 0.7)";
-            } else { 
+            } else {
                 let value = stats[state.value];
                 let opacity = value / max;
 
@@ -95,7 +95,7 @@ const Home = () => {
                                     </div>
                                     <div className="h-28 sm:max-w-lg mt-12">
                                         {
-                                            account ? 
+                                            account ?
                                                 <>
                                                     {/* You're signed in as: */}
                                                     <p className="sr-only">You are signed in as</p>
@@ -271,10 +271,10 @@ const Home = () => {
                     </div>
                 </div>
 
-                
+
 
             </main>
-            
+
         </>
     );
 };

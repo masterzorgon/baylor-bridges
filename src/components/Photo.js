@@ -34,7 +34,7 @@ const Photo = ({ size, account }) => {
         );
     }
 
-    
+
     let initials = "";
 
     if (account && "first_name" in account && account.first_name) {

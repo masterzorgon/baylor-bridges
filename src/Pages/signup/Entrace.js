@@ -62,19 +62,18 @@ const Entrace = () => {
                     </p>
                 </div>
 
-                
+
                 <RadioGroup value={currentRole} onChange={setCurrentRole}>
                     <div className="mt-14 sm:mt-18 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
                         {roles.map((role) => (
                             <RadioGroup.Option
                                 key={role.key}
                                 value={role.key}
-                                className={({ checked, active }) =>
-                                    classNames(
-                                        checked ? "border-transparent" : "border-gray-300",
-                                        active ? "ring-2 ring-emerald-500" : "",
-                                        "relative bg-white border rounded-lg shadow-sm p-6 pb-7 flex cursor-pointer focus:outline-none"
-                                    )
+                                className={({ checked, active }) => classNames(
+                                    checked ? "border-transparent" : "border-gray-300",
+                                    active ? "ring-2 ring-emerald-500" : "",
+                                    "relative bg-white border rounded-lg shadow-sm p-6 pb-7 flex cursor-pointer focus:outline-none"
+                                )
                                 }
                             >
                                 {({ checked, active }) => (
@@ -108,7 +107,7 @@ const Entrace = () => {
                     </div>
                 </RadioGroup>
 
-                
+
                 <div className="mt-14 sm:mt-10 w-full grid text-center place-items-center space-y-4">
                     <button
                         type="button"
