@@ -93,7 +93,7 @@ const Search = () => {
     const [searchParams] = useSearchParams();
     const [query, setQueryDict] = useState({});
     const [mapStats, setMapStats] = useState({});
-    const [profiles, setProfiles] = useState([]);
+    const [profiles, setProfiles] = useState(null);
 
     const setQuery = (key, value, checked) => {
         if (!query[key] || !Array.isArray(query[key])) {
@@ -135,7 +135,12 @@ const Search = () => {
 
 
     useEffect(() => {
-        console.log(query);
+        if (!query.keywords || query.keywords.length <= 0) {
+            // TODO: Add "enter search keywords" message
+            setProfiles(null);
+            return;
+        }
+
         window.history.replaceState(null, null, "/search" + queryToString(query));
         axios.get("/search" + queryToString(query, { detailed: true })).then((res) => {
             setProfiles(res.data.profiles);
@@ -187,7 +192,7 @@ const Search = () => {
 
         Object.entries(filters).forEach(([filter_key, filter]) => {
             if (filter.show === true) {
-                // Do nothng
+                // Do nothng and let it be cleared
             } else {
                 query_new[filter_key] = query[filter_key];
             }
@@ -197,8 +202,6 @@ const Search = () => {
     };
 
     const onMapClick = (dataset) => {
-        console.log(dataset);
-
         if (dataset.name === query["state"]) {
             delete query["state"];
             setQueryDict({ ...query });
@@ -382,7 +385,7 @@ const Search = () => {
                     {/* People list */}
                     <div className="bg-white sm:rounded-md mt-1">
                         <ul className="divide-y divide-gray-100">
-                            {profiles.map((profile) => (
+                            {profiles && profiles.map((profile) => (
                                 <li key={profile.user_id} >
                                     {/*TODO add href for account detail page*/}
                                     <a className="block hover:bg-gray-50" href={"/profile/" + profile.user_id} rel="noreferrer">
