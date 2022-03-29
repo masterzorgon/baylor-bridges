@@ -155,7 +155,7 @@ const Search = () => {
                 max = value;
             }
         }
-        
+
         states.forEach((state) => {
             config[state.value] = {};
 
@@ -186,7 +186,7 @@ const Search = () => {
 
     const onMapClick = (dataset) => {
         console.log(dataset);
-        
+
         if (dataset.name === query["state"]) {
             delete query["state"];
             setQueryDict({ ...query });
@@ -205,7 +205,7 @@ const Search = () => {
                         </div>
                     </div>
                 </div>
-                
+
                 <div className="col-span-1 px-4">
                     {/* Filters & Search Input */}
                     <ul className="bg-white sticky px-4 py-6 sm:px-6 z-30" style={{ "top": "5.3rem" }}>
@@ -307,7 +307,7 @@ const Search = () => {
                                                 className="group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
                                                 <span>{filter.title}</span>
                                                 {
-                                                    query[filter_key] && query[filter_key].length > 0 && 
+                                                    query[filter_key] && query[filter_key].length > 0 &&
                                                     <span
                                                         className="ml-1.5 rounded py-0.5 px-1.5 bg-gray-200 text-xs font-semibold text-gray-700 tabular-nums">
                                                         {query[filter_key].length}

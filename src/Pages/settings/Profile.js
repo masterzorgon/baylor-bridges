@@ -26,7 +26,7 @@ const semester = [
 const visibility_options = [
     { title: "Self", value: "self", description: "Only visibie to yourself" },
     { title: "Alumni", value: "alumni", description: "Only visible to other alumni" },
-    { title: "Public", value: "public", description: "Visibie to everyone" },
+    { title: "Public", value: "public", description: "Visibie to every user" },
 ];
 
 const option_value_to_title = (options, value) => {
