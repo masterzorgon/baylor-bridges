@@ -244,18 +244,20 @@ const Search = () => {
                                     placeholder="Search people"
                                     autoComplete="off"
                                     value={query.keywords || ""}
-                                    debounceTimeout={750}
+                                    debounceTimeout={250}
                                     onChange={(e) => { setQueryDict({ ...query, keywords: e.target.value }); }}
                                 />
                             </div>
                         </li>
 
                         <li className="flex items-center justify-between">
+
                             {/* Sort */}
                             <Menu as="div" className="relative z-10 inline-block text-left">
                                 <div>
                                     <Menu.Button
-                                        className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                                        className="p-2 group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900"
+                                    >
                                         Sort
                                         <ChevronDownIcon
                                             className="flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500"
@@ -298,16 +300,16 @@ const Search = () => {
 
 
                             {/* Filters */}
-                            <Popover.Group className="hidden sm:flex sm:items-baseline sm:space-x-8">
+                            <Popover.Group className="hidden sm:flex sm:items-center space-x-2">
                                 {/* Clear filters */}
-                                <Popover as="div" id="desktop-menu" className="relative z-10 inline-block text-left">
+                                <Popover as="div" className="relative z-10 inline-block text-left">
                                     <button
-                                        className="group inline-flex items-center justify-center text-sm font-medium text-gray-400 hover:text-gray-700"
+                                        className="p-2 text-gray-400 hover:text-gray-700"
                                         onClick={() => clearFilters()}
                                     >
-                                        <span className="text-transparent" aria-hidden="true">Clear</span>
+                                        <span className="text-transparent sr-only" aria-hidden="true">Clear</span>
                                         <TrashIcon
-                                            className="flex-shrink-0 -mr-1 ml-1 h-5 w-5"
+                                            className="flex-shrink-0 h-5 w-5"
                                         />
                                     </button>
                                 </Popover>
@@ -316,22 +318,26 @@ const Search = () => {
                                 {Object.entries(filters)
                                     .filter(([key, value]) => value.show === true) // Only show filters with options
                                     .map(([filter_key, filter]) => (
-                                        <Popover as="div" key={filter_key} id="desktop-menu"
+                                        <Popover
+                                            as="div"
+                                            key={filter_key}
                                             className={classNames("relative z-10 inline-block text-left", filter.className)}
                                         >
                                             <div>
                                                 <Popover.Button
-                                                    className="group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                                                    className="p-2 group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900"
+                                                >
                                                     <span>{filter.title}</span>
                                                     {
+                                                        // Display how many options are selected
                                                         query[filter_key] && query[filter_key].length > 0 && 
-                                                    <span
-                                                        className="ml-1.5 rounded py-0.5 px-1.5 bg-gray-200 text-xs font-semibold text-gray-700 tabular-nums">
-                                                        {query[filter_key].length}
-                                                    </span>
+                                                        <span
+                                                            className="ml-1.5 rounded py-0.5 px-1.5 bg-gray-200 text-xs font-semibold text-gray-700 tabular-nums">
+                                                            {query[filter_key].length}
+                                                        </span>
                                                     }
                                                     <ChevronDownIcon
-                                                        className="flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500"
+                                                        className="flex-shrink-0 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500"
                                                         aria-hidden="true"
                                                     />
                                                 </Popover.Button>
@@ -379,7 +385,7 @@ const Search = () => {
                     </ul>
 
                     {/* People list */}
-                    <div className="bg-white overflow-hidden sm:rounded-md">
+                    <div className="bg-white sm:rounded-md">
                         <ul className="divide-y divide-gray-100">
                             {profiles.map((profile) => (
                                 <li key={profile.user_id} >
