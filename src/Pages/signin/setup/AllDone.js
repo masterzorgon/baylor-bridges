@@ -73,7 +73,7 @@ const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
     }, [makeShot]);
 
     const onSubmit = (event) => {    
-        axios.put("/account/profile")
+        axios.put("/account/profile", account)
             .then(res => {
                 fire();
                 console.log("---RESPONSE---", res);
