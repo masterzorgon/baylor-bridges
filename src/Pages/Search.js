@@ -11,16 +11,20 @@ import { classNames } from "../components/Utils";
 import Photo from "../components/Photo";
 import { states } from "../components/Utils";
 
-
-const sorts = [
-    { title: "Name", value: "name" },
-    { title: "Class", value: "class" },
-    { title: "Location", value: "location" },
-    { title: "Occupation", value: "occupation" },
-];
-
+/**
+ * All filters and their attributes
+ */
 const filters = {
-    keyword: {
+    sort: {
+        title: "Sort",
+        options: [
+            { title: "Name", value: "name" },
+            { title: "Class", value: "class" },
+            { title: "Location", value: "location" },
+            { title: "Occupation", value: "occupation" },
+        ],
+    },
+    keywords: {
         title: "Keyboard",
     },
     role: {
@@ -47,10 +51,16 @@ const filters = {
     },
 };
 
+/**
+ * Concatenate all filters into a single string
+ * 
+ * @param {Dictonary} query 
+ * @param {Dictonary} addons 
+ * @returns 
+ */
 const queryToString = (query, addons) => {
     const concatenateQueryValues = (key, value) => {
         if (!value || value.length === 0) {
-            delete query[key];
             return;
         }
 
@@ -66,18 +76,18 @@ const queryToString = (query, addons) => {
     let query_strings = [];
 
     if (query) {
-        Object.entries(query).forEach(([key, value]) => {
+        Object.entries(query).filter(([k, v]) => v).forEach(([key, value]) => {
             query_strings.push(concatenateQueryValues(key, value));
         });
     }
 
     if (addons) {
-        Object.entries(addons).forEach(([key, value]) => {
+        Object.entries(addons).filter(([k, v]) => v).forEach(([key, value]) => {
             query_strings.push(concatenateQueryValues(key, value));
         });
     }
 
-    const url = query_strings.length !== 0 ? `?${query_strings.join("&")}` : "";
+    const url = query_strings.length !== 0 ? `?${query_strings.filter(v => v).join("&")}` : "";
     return url;
 };
 
@@ -102,42 +112,24 @@ const Search = () => {
     };
 
     useEffect(() => {
-        // For keyword
-        let keyword = searchParams.get("keywords");
-        if (keyword) {
-            keyword = keyword.trim();
-            query["keywords"] = keyword;
-        }
-
-
         Object.entries(filters).forEach(([filter_key, filter]) => {
             let value = searchParams.get(filter_key);
 
             if (value) {
-                value = value.split(",");
-            }
-
-            if (Array.isArray(value) && value.length > 1) {
-                value = value.map((v) => v.trim());
-                query[filter_key] = value;
-            } else if (Array.isArray(value) && value.length === 1) {
-                value = value[0].trim();
-                query[filter_key] = value;
+                if (filter.options) {
+                    value = value.split(",");
+                    value = value.map((v) => v.trim());
+                    query[filter_key] = value;
+                } else {
+                    value = value.trim();
+                    query[filter_key] = value;
+                }
             }
         });
 
-        // For sort
-        let sort = searchParams.get("sort");
-        if (sort) {
-            query["sort"] = sort;
-        } else {
-            query["sort"] = "name";
-        }
-
-        // For state
-        let state = searchParams.get("state");
-        if (state) {
-            query["state"] = state;
+        // Give sorting a default value
+        if (!query.sort) {
+            query.sort = "name";
         }
 
         setQueryDict({ ...query });
@@ -145,6 +137,7 @@ const Search = () => {
 
 
     useEffect(() => {
+        console.log(query);
         window.history.replaceState(null, null, "/search" + queryToString(query));
         axios.get("/search" + queryToString(query, { detailed: true })).then((res) => {
             setProfiles(res.data.profiles);
@@ -191,6 +184,20 @@ const Search = () => {
         return config;
     };
 
+    const clearFilters = () => {
+        let query_new = {};
+
+        Object.entries(filters).forEach(([filter_key, filter]) => {
+            if (filter.show === true) {
+                // Do nothng
+            } else {
+                query_new[filter_key] = query[filter_key];
+            }
+        });
+
+        setQueryDict({ ...query_new });
+    };
+
     const onMapClick = (dataset) => {
         console.log(dataset);
         
@@ -206,7 +213,7 @@ const Search = () => {
         <>
             <div className="grid grid-cols-1 lg:grid-cols-2">
                 <div className="hidden lg:block col-span-1">
-                    <div className="bg-gray-100 sticky p-2 h-screen" style={{ "top": "5.4rem" }}>
+                    <div className="bg-gray-50 sticky p-2 h-screen" style={{ "top": "5.4rem" }}>
                         <div className="align-middle relative flex clickable-map">
                             <USAMap title="" customize={getMapConfig(mapStats, query["state"])} onClick={(e) => onMapClick(e.target.dataset)} />
                         </div>
@@ -268,7 +275,7 @@ const Search = () => {
                                 >
                                     <Menu.Items className="absolute mt-2 w-40 rounded-md shadow-2xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                                         <div className="py-1">
-                                            {sorts.map((option) => (
+                                            {filters.sort.options.map((option) => (
                                                 <Menu.Item
                                                     key={option.value}
                                                     onClick={() => setQueryDict({ ...query, sort: option.value })}
@@ -276,7 +283,7 @@ const Search = () => {
                                                     <a
                                                         href={option.href}
                                                         className={classNames(
-                                                            query.sort === option.value ? "font-medium text-gray-900" : "text-gray-500",
+                                                            query.sort === option.value ? "font-medium text-gray-900" : "text-gray-400",
                                                             "hover:bg-gray-100 block px-4 py-2 text-sm cursor-pointer"
                                                         )}
                                                     >
@@ -296,7 +303,7 @@ const Search = () => {
                                 <Popover as="div" id="desktop-menu" className="relative z-10 inline-block text-left">
                                     <button
                                         className="group inline-flex items-center justify-center text-sm font-medium text-gray-400 hover:text-gray-700"
-                                        onClick={() => { setQueryDict({ keywords: query["keywords"], sort: query["sort"] }); }}
+                                        onClick={() => clearFilters()}
                                     >
                                         <span className="text-transparent" aria-hidden="true">Clear</span>
                                         <TrashIcon
@@ -390,7 +397,7 @@ const Search = () => {
                                                             (profile.first_name || profile.last_name) ?
                                                                 <p className="text-sm font-medium text-emerald-600 truncate">{profile.first_name} {profile.last_name}</p>
                                                                 :
-                                                                <p className="text-sm font-medium text-gray-400 truncate">Baylor Bridges User</p>
+                                                                <p className="text-sm font-medium text-gray-500 truncate">Baylor Bridges User</p>
                                                         }
                                                         {
                                                             profile.headline &&
