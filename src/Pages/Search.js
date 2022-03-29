@@ -24,9 +24,7 @@ const filters = {
             { title: "Occupation", value: "occupation" },
         ],
     },
-    keywords: {
-        title: "Keyboard",
-    },
+    keywords: {title: "Keyboard", },
     role: {
         title: "Role",
         options: [
@@ -53,10 +51,10 @@ const filters = {
 
 /**
  * Concatenate all filters into a single string
- * 
- * @param {Dictonary} query 
- * @param {Dictonary} addons 
- * @returns 
+ *
+ * @param {Dictonary} query
+ * @param {Dictonary} addons
+ * @returns
  */
 const queryToString = (query, addons) => {
     const concatenateQueryValues = (key, value) => {
@@ -155,7 +153,7 @@ const Search = () => {
                 max = value;
             }
         }
-        
+
         states.forEach((state) => {
             config[state.value] = {};
 
@@ -200,7 +198,7 @@ const Search = () => {
 
     const onMapClick = (dataset) => {
         console.log(dataset);
-        
+
         if (dataset.name === query["state"]) {
             delete query["state"];
             setQueryDict({ ...query });
@@ -219,7 +217,7 @@ const Search = () => {
                         </div>
                     </div>
                 </div>
-                
+
                 <div className="col-span-1 px-4">
                     {/* Filters & Search Input */}
                     <ul className="bg-white sticky px-4 pt-9 pb-3 top-16 -mt-2 sm:px-6 sm:pt-6 sm:pb-4 sm:top-20 sm:-mt-1 z-30">
@@ -327,7 +325,7 @@ const Search = () => {
                                                     <span>{filter.title}</span>
                                                     {
                                                         // Display how many options are selected
-                                                        query[filter_key] && query[filter_key].length > 0 && 
+                                                        query[filter_key] && query[filter_key].length > 0 &&
                                                         <span
                                                             className="ml-1.5 rounded py-0.5 px-1.5 bg-gray-200 text-xs font-semibold text-gray-700 tabular-nums">
                                                             {query[filter_key].length}
