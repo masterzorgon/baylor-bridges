@@ -149,7 +149,7 @@ const ProfileSetup = () => {
                                         href="/sign-up"
                                         onClick={onSubmit}
                                         className="flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-emerald-700 bg-white sm:px-9
-                                            transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-103 hover:bg-emerald-100 duration-200"
+                                            transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-103 hover:bg-emerald-100 duration-200 hover:shadow-md"
                                     >
                                         Get Started
                                     </button>
