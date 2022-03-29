@@ -171,7 +171,7 @@ const Navbar = ({ hideOnTop }) => {
                                             leaveFrom="opacity-100 translate-y-0"
                                             leaveTo="opacity-0 translate-y-1"
                                         >
-                                            <Popover.Panel className="absolute z-10 left-1/2 transform -translate-x-1/2 mt-3 px-2 w-screen max-w-xs sm:px-0">
+                                            <Popover.Panel className="absolute bg-white z-10 left-1/2 transform -translate-x-1/2 mt-3 px-2 w-screen max-w-xs sm:px-0">
                                                 <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
                                                     <div className="relative grid gap-6 px-5 py-6 sm:gap-8 sm:p-8">
                                                         {/* <a href="/about" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
@@ -287,7 +287,7 @@ const Navbar = ({ hideOnTop }) => {
                                             <span className="sr-only">Open user menu</span>
                                             <Photo size="10" />
                                         </Menu.Button>
-                                    </div>  
+                                    </div>
                                     <Transition
                                         as={Fragment}
                                         enter="transition ease-out duration-200"
