@@ -213,7 +213,7 @@ const Search = () => {
         <>
             <div className="grid grid-cols-1 lg:grid-cols-2">
                 <div className="hidden lg:block col-span-1">
-                    <div className="bg-gray-50 sticky p-2 h-screen" style={{ "top": "5.4rem" }}>
+                    <div className="bg-gray-50 sticky top-20 -mt-1 p-2 h-screen">
                         <div className="align-middle relative flex clickable-map">
                             <USAMap title="" customize={getMapConfig(mapStats, query["state"])} onClick={(e) => onMapClick(e.target.dataset)} />
                         </div>
@@ -222,13 +222,10 @@ const Search = () => {
                 
                 <div className="col-span-1 px-4">
                     {/* Filters & Search Input */}
-                    <ul className="bg-white sticky px-4 py-6 sm:px-6 z-30" style={{ "top": "5.3rem" }}>
-                        {/* White cover for sticky filter div, for visuals only */}
-                        <div className="absolute bg-inherit w-full"
-                            style={{ "top": "-2rem", "height": "4rem", "left": "0rem" }}></div>
+                    <ul className="bg-white sticky px-4 pt-9 pb-3 top-16 -mt-2 sm:px-6 sm:pt-6 sm:pb-4 sm:top-20 sm:-mt-1 z-30">
 
                         {/* Search Input */}
-                        <li className="flex-1 flex items-center justify-between md:hidden w-full relative mb-6">
+                        <li className="flex-1 flex items-center justify-between md:hidden w-full relative mb-3">
                             <label htmlFor="email" className="sr-only">
                                 Search people
                             </label>
@@ -256,7 +253,7 @@ const Search = () => {
                             <Menu as="div" className="relative z-10 inline-block text-left">
                                 <div>
                                     <Menu.Button
-                                        className="p-2 group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900"
+                                        className="p-2 -ml-2 group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900"
                                     >
                                         Sort
                                         <ChevronDownIcon
@@ -325,7 +322,7 @@ const Search = () => {
                                         >
                                             <div>
                                                 <Popover.Button
-                                                    className="p-2 group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900"
+                                                    className="p-2 last-of-type:-mr-2 group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900"
                                                 >
                                                     <span>{filter.title}</span>
                                                     {
@@ -385,7 +382,7 @@ const Search = () => {
                     </ul>
 
                     {/* People list */}
-                    <div className="bg-white sm:rounded-md">
+                    <div className="bg-white sm:rounded-md mt-1">
                         <ul className="divide-y divide-gray-100">
                             {profiles.map((profile) => (
                                 <li key={profile.user_id} >
