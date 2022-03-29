@@ -136,17 +136,17 @@ const Profile = () => {
         switch (type) {
         case "email":
             return <a className="underline underline-offset-4 decoration-dashed decoration-gray-500" href={`mailto:${value}`}>{value}</a>;
-            
+
         case "phone":
             return <a className="underline underline-offset-4 decoration-dashed decoration-gray-500" href={`tel:${value}`}>{value}</a>;
-            
+
         default:
             return value;
         }
     };
 
     const getFieldDisplayValue = (field) => {
-        // If profileAccount is not intialized at all, display animated data-placeholder 
+        // If profileAccount is not intialized at all, display animated data-placeholder
         if (profileAccount === null) {
             return (
                 <div className="sm:col-span-1">
@@ -387,7 +387,7 @@ const Profile = () => {
                                                 </Menu>
                                             </div>
 
-                                            {/* 
+                                            {/*
                                             [*][*][*][*]             [*][*][*][*]
                                             [*][*][*][*] EXPERIENCES [*][*][*][*]
                                             [*][*][*][*]             [*][*][*][*]
@@ -402,7 +402,7 @@ const Profile = () => {
                                                                     {getDisplayDateRange(experience.start_time, experience.stop_time)}
                                                                 </p>
                                                                 <p className="mt-2 text-sm text-gray-700">{experience.description}</p>
-                                                                {/* 
+                                                                {/*
                                                                 [*][*][*][*]              [*][*][*][*]
                                                                 [*][*][*][*] PUBLICATIONS [*][*][*][*]
                                                                 [*][*][*][*]              [*][*][*][*]

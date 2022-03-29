@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 export default function TermsConditions() {
     // eslint-disable-next-line no-unused-vars
     const [email, setEmail] = useState("");
-    
+
     useEffect(() => {
         setEmail("baylorbridges@baylor.edu");
 
@@ -235,6 +235,6 @@ You agree that the original English text shall prevail in the case of a dispute.
                     </div>
                 </div>
             </div>
-        </>  
+        </>
     );
-}  
+}

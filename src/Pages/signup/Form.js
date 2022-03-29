@@ -22,7 +22,7 @@ const Form = () => {
     const [password_checked, setPasswordChecked] = useState("");
     const [agreed, setAgreed] = useState(false);
     const [confirmation_code, setConfirmationCode] = useState("");
-    
+
 
     const { role } = useParams();
     if (role !== "student" && role !== "alumni") {
@@ -273,7 +273,7 @@ const Form = () => {
 
 
                 <div className="px-5 mt-10 md:mt-2 md:bg-white md:shadow md:rounded-lg md:px-8 md:py-8 md:-mx-8">
-                    
+
                     {step === 1 && step1()}
                     {step === 2 && step2()}
                     {step === 3 && step3()}

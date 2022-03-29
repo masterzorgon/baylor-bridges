@@ -38,7 +38,7 @@ const EnterInfo = () => {
         //     })
         //     .catch(err => console.log(err))
         //     .finally(() => setLoading(false));
-        
+
         // axios.get("/account/profile", account)
         //     .then(res => {
         //         console.log(res);
@@ -47,7 +47,7 @@ const EnterInfo = () => {
         //     .catch(err => {
         //         console.log(err);
         //     });
-        
+
         window.location.href = "/sign-in/setup/all-done";
     };
 
@@ -56,12 +56,12 @@ const EnterInfo = () => {
             <div className="lg:absolute lg:inset-0">
                 <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
                     <img
-                        
+
                         className="h-56 w-full object-cover lg:absolute lg:h-full"
                         // panorama
                         src="https://static.wixstatic.com/media/deb6cf_bfb248d824ccae8bde09b64f3a6e202f.jpg/v1/fill/w_1110,h_870,al_c,q_85,usm_0.66_1.00_0.01/deb6cf_bfb248d824ccae8bde09b64f3a6e202f.webp"
                         alt=""
-                    /> 
+                    />
                 </div>
             </div>
             <div className="relative py-16 px-4 sm:py-24 sm:px-6 lg:px-8 lg:max-w-7xl lg:mx-auto lg:py-32 lg:grid lg:grid-cols-2">
@@ -239,5 +239,5 @@ const EnterInfo = () => {
         </div>
     );
 };
-    
+
 export default EnterInfo;

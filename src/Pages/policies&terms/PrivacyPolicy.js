@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 
 export default function PrivacyPolicy() {
     const [email, setEmail] = useState("");
-    
+
     useEffect(() => {
         setEmail("baylorbridges@baylor.edu");
     }, [setEmail]);
@@ -567,11 +567,10 @@ export default function PrivacyPolicy() {
                         <ul>
                             <li>By email: <a href={`mailto:${email}`}>{email}</a></li>
                         </ul>
-                        
+
                     </div>
                 </div>
             </div>
         </>
     );
 }
-  

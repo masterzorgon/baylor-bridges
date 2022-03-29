@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 export default function CookiesPolicy() {
     // eslint-disable-next-line no-unused-vars
     const [email, setEmail] = useState("");
-    
+
     useEffect(() => {
         setEmail("baylorbridges@baylor.edu");
     }, [setEmail]);
@@ -172,6 +172,6 @@ export default function CookiesPolicy() {
                     </div>
                 </div>
             </div>
-        </>  
+        </>
     );
-}  
+}
