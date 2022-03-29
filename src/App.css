@@ -51,13 +51,22 @@ html{
   100%{ left: 150%}
 }
 
-path{
+path {
   pointer-events: inherit;
 }
 
-pre, code{
+pre, code {
   user-select: text;
   -moz-user-select: text;
   -webkit-user-select: text;
   -ms-user-select: text;
+}
+
+button, a {
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+input, textarea, select {
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity;
 }

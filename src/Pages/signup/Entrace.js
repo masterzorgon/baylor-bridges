@@ -89,7 +89,7 @@ const Entrace = () => {
                                             </div>
                                         </div>
                                         <CheckCircleIcon
-                                            className={classNames(checked ? "" : "opacity-0", "h-7 w-7 -mt-1 -mr-2 text-emerald-600 transition-all duration-75 ease-in")}
+                                            className={classNames(checked ? "" : "opacity-0", "h-7 w-7 -mt-1 -mr-2 text-emerald-600 duration-75 ease-in")}
                                             aria-hidden="true"
                                         />
                                         <div
@@ -111,7 +111,7 @@ const Entrace = () => {
                 <div className="mt-14 sm:mt-10 w-full grid text-center place-items-center space-y-4">
                     <button
                         type="button"
-                        className="transition-all duration-75 ease-in w-1/2 sm:w-1/3 text-center px-6 py-4 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="duration-75 ease-in w-1/2 sm:w-1/3 text-center px-6 py-4 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed"
                         disabled={currentRole === null}
                         onClick={onNext}
                     >
