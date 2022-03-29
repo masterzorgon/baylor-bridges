@@ -112,7 +112,7 @@ const Navbar = ({ hideOnTop }) => {
             <Popover className={classNames("z-50 top-0", additionalClassNames)}>
                 <div className="flex shadow-md justify-between items-center px-4 py-5 sm:px-6 md:justify-start bg-white">
                     {/* Baylor University logo */}
-                    <div className="h-8 w-auto sm:h-10">
+                    <div className="h-8 w-auto sm:h-10 mr-4">
                         <a href="/" className="flex">
                             <span className="sr-only">Baylor Bridge</span>
                             <img
