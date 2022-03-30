@@ -445,4 +445,109 @@ const Search = () => {
     );
 };
 
+const SearchInput = ({ focus, onFocus }) => {
+    const [searchParams] = useSearchParams();
+    const [abortController, setAbortController] = useState(new AbortController());
+
+    const [profiles, setProfiles] = useState([]);
+    const [keywords, setKeywords] = useState("");
+
+    useEffect(() => {
+        const url = window.location.href.split("?")[0];
+        if (searchParams.get("keywords") && url.endsWith("/search")) {
+            setKeywords(searchParams.get("keywords"));
+        }
+    }, []);
+
+    useEffect(() => {
+        abortController.abort();
+
+        let newAbortController = new AbortController();
+        setAbortController(newAbortController);
+
+        if (keywords.length === 0) {
+            return;
+        }
+
+        axios.get("/search", { params: { keywords: keywords }, signal: newAbortController.signal })
+            .then((res) => {
+                setProfiles(res.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }, [keywords]);
+
+
+    return (
+        <>
+            {/* SEARCH BAR */}
+            <div className="hidden md:flex-1 md:flex md:items-center md:justify-between mx-auto max-w-md relative">
+                <label htmlFor="email" className="sr-only">
+                    Search people
+                </label>
+                <div className="w-full relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center">
+                        <SearchIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                    </div>
+                    <DebounceInput
+                        type="search"
+                        name="search"
+                        id="search"
+                        className="transition pl-10 shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md bg-gray-100 p-3 border-transparent border-0"
+                        placeholder="Search people"
+                        autoComplete="off"
+                        value={keywords}
+                        debounceTimeout={750}
+                        onFocus={() => onFocus(true)}
+                        onBlur={() => { if (keywords.length === 0) onFocus(false); }}
+                        onChange={(e) => { setKeywords(e.target.value); }}
+                        onKeyPress={(e) => {
+                            if (e.key === "Enter") {
+                                window.location.href = "/search?keywords=" + keywords;
+                            }
+                        }}
+                    />
+                </div>
+
+                {/* Search results */}
+                {/* TODO: Add transition */}
+                <Transition
+                    as={Fragment}
+                    enter="transition ease-out duration-200"
+                    enterFrom="transform opacity-0 scale-95"
+                    enterTo="transform opacity-100 scale-100"
+                    leave="transition ease-in duration-75"
+                    leaveFrom="transform opacity-100 scale-100"
+                    leaveTo="transform opacity-0 scale-95"
+                    show={focus && profiles.length > 0 && keywords.length > 0}
+                >
+                    <div className="z-50 bg-white absolute shadow-md py-2 rounded-md w-full max-w-md mt-4 top-16">
+                        <ul className="">
+                            {profiles.map((person) => (
+                                <li key={person.email}>
+                                    <a className="transition-all py-4 px-5 flex hover:bg-gray-50" href={"/profile/" + person.user_id} rel="noreferrer">
+                                        <div className="h-10 w-10">
+                                            <Photo size="10" account={person} />
+                                        </div>
+                                        <div className="mx-3">
+                                            <p className="text-sm font-semibold text-gray-900">{person.first_name} {person.last_name}</p>
+                                            <p className="text-sm text-gray-500">{person.headline}</p>
+                                        </div>
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                        <a key="more" className="py-3 px-5 pb-2 flex text-sm text-emerald-600 font-medium" href={"/search?keywords=" + keywords}>
+                            More results
+                        </a>
+                    </div>
+                </Transition>
+            </div>
+            {/* END OF SEARCH BAR */}
+        </>
+    );
+};
+
 export default Search;
+export { SearchInput };
