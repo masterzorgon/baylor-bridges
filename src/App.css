@@ -23,6 +23,7 @@ html{
 .clickable-map .us-state-map * {
   cursor: pointer;
   pointer-events: all;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .clickable-map .us-state-map path:hover{
