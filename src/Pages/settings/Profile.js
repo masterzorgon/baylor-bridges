@@ -267,7 +267,7 @@ const Profile = () => {
             return (
                 <button
                     type="button"
-                    className="transition-all bg-white rounded-md font-medium text-emerald-600 hover:text-emerald-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                    className="bg-white rounded-md font-medium text-emerald-600 hover:text-emerald-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
                     onClick={() => onOpenFieldModal(section_key, field)}
                 >
                     {text}
@@ -343,7 +343,7 @@ const Profile = () => {
                                 type={attribute.type}
                                 name={attribute.key}
                                 id={attribute.key}
-                                className="transition-colors shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                className="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                 placeholder={attribute.placeholder}
                                 value={section_key === "basic" ? update[attribute.key] : update[section_key][attribute.key]}
                                 onChange={(e) => updateAttributeValue(e.target.value)}
@@ -362,7 +362,7 @@ const Profile = () => {
                                 rows={4}
                                 name="comment"
                                 id="comment"
-                                className="transition-colors shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                                className="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                 value={section_key === "basic" ? update[attribute.key] : update[section_key][attribute.key]}
                                 onChange={(e) => updateAttributeValue(e.target.value)}
                             />
@@ -386,7 +386,7 @@ const Profile = () => {
                             {({ open }) => (
                                 <>
                                     <div className="relative">
-                                        <Listbox.Button className="transition-colors relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
+                                        <Listbox.Button className="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
                                             <span className="w-full inline-flex truncate">
                                                 <span className="">{option_value_to_title(attribute.options, section_key === "basic" ? update[attribute.key] : update[section_key][attribute.key]) || option_value_to_title(attribute.options, attribute.placeholder) || <div className="text-gray-500">{attribute.title}</div>}</span>
                                                 <span className="ml-2 truncate text-gray-500">{option_value_to_description(attribute.options, section_key === "basic" ? update[attribute.key] : update[section_key][attribute.key]) || option_value_to_description(attribute.options, attribute.placeholder)}</span>
@@ -412,8 +412,7 @@ const Profile = () => {
                                                         key={option.value + "_option"}
                                                         className={({ active }) => classNames(
                                                             active ? "text-white bg-emerald-600" : "text-gray-900",
-                                                            "cursor-default select-none relative py-2 pl-8 pr-4",
-                                                            "transition-colors"
+                                                            "cursor-default select-none relative py-2 pl-8 pr-4"
                                                         )
                                                         }
                                                         value={option.value}
@@ -475,7 +474,7 @@ const Profile = () => {
                             <select
                                 id="tabs"
                                 name="tabs"
-                                className="transition-colors block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm rounded-md"
+                                className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm rounded-md"
                                 value={markdownEditorTab}
                                 onChange={(e) => setMarkdownEditorTab(e.target.value)}
                             >
@@ -489,17 +488,17 @@ const Profile = () => {
                                     rows={4}
                                     name="comment"
                                     id="comment"
-                                    className="transition-colors shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md h-full resize-none"
+                                    className="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md h-full resize-none"
                                     value={section_key === "basic" ? (update[attribute.key] || "") : (update[section_key][attribute.key] || "")}
                                     onChange={(e) => updateAttributeValue(e.target.value)}
                                 />
                             </div>
-                            <div className={classNames("transition-colors col-span-2 sm:col-span-1 overflow-auto shadow-sm px-4 py-2 rounded-md border-gray-300 border", markdownEditorTab === "preview" ? "" : "hidden md:block")}>
+                            <div className={classNames("col-span-2 sm:col-span-1 overflow-auto shadow-sm px-4 py-2 rounded-md border-gray-300 border", markdownEditorTab === "preview" ? "" : "hidden md:block")}>
                                 <Markdown>
                                     {section_key === "basic" ? update[attribute.key] : update[section_key][attribute.key]}
                                 </Markdown>
                             </div>
-                            <a className="transition-colors col-span-2 md:col-span-1 flex text-xs space-x-1 items-center text-gray-500 fill-gray-500 hover:text-gray-800 hover:fill-gray-800" href="https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax" target="_blank" rel="noreferrer">
+                            <a className="col-span-2 md:col-span-1 flex text-xs space-x-1 items-center text-gray-500 fill-gray-500 hover:text-gray-800 hover:fill-gray-800" href="https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax" target="_blank" rel="noreferrer">
                                 <MarkdownIcon />
                                 <p>Styling with Markdown is supported</p>
                             </a>
@@ -665,7 +664,7 @@ const Profile = () => {
                             <div
                                 className={
                                     classNames("w-full inline-block align-bottom bg-white rounded-lg p-4 text-left shadow-xl",
-                                        "transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6 space-y-4",
+                                        "transform sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6 space-y-4",
                                         field && field.className ? field.className : ""
                                     )
                                 }

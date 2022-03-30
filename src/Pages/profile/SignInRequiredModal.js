@@ -56,7 +56,7 @@ export default function SignInRequiredModal() {
                         leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                         leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                     >
-                        <div className="w-full inline-block bg-white rounded-lg p-4 text-left shadow-xl transform transition-all sm:my-8 align-middle sm:max-w-lg sm:w-full sm:p-6 space-y-4">
+                        <div className="w-full inline-block bg-white rounded-lg p-4 text-left shadow-xl transform sm:my-8 align-middle sm:max-w-lg sm:w-full sm:p-6 space-y-4">
                             <div>
                                 <div className="flex justify-center">
                                     <lord-icon

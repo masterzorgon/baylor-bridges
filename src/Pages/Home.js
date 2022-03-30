@@ -99,7 +99,7 @@ const Home = () => {
                                                 <>
                                                     {/* You're signed in as: */}
                                                     <p className="sr-only">You are signed in as</p>
-                                                    <a href="/profile" className="transition-all flex-shrink-0 flex grow bg-gray-100 rounded-lg px-6 py-6 space-x-2">
+                                                    <a href="/profile" className="flex-shrink-0 flex grow bg-gray-100 rounded-lg px-6 py-6 space-x-2">
                                                         <Photo size="11" />
                                                         <div className="ml-3">
                                                             <div className="text-base font-semibold text-gray-800">{account.first_name} {account.last_name}</div>
@@ -113,8 +113,8 @@ const Home = () => {
                                                 <>
                                                     <div className="sm:w-full sm:flex">
                                                         <a
-                                                            className="transition-all text-center w-full flex justify-center px-4 py-5 font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed relative bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 hover:opacity-90 shadow-md"
-                                                            // className="transition-all text-center w-full flex justify-center px-4 py-5 border border-transparent font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed relative"
+                                                            className="text-center w-full flex justify-center px-4 py-5 font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed relative bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 hover:opacity-90 shadow-md"
+                                                            // className="text-center w-full flex justify-center px-4 py-5 border border-transparent font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed relative"
                                                             href="/sign-up"
                                                         >
                                                             Sign Up / Join the Community
@@ -122,7 +122,7 @@ const Home = () => {
                                                     </div>
                                                     <div className="mt-5 flex space-x-1 justify-center">
                                                         <p>Already have an account?</p>
-                                                        <a href="/sign-in" className="transition-all text-base font-medium text-emerald-600 hover:text-emerald-800 underline underline-offset-4">Continue with Sign In</a>
+                                                        <a href="/sign-in" className="text-base font-medium text-emerald-600 hover:text-emerald-800 underline underline-offset-4">Continue with Sign In</a>
                                                     </div>
                                                 </>
                                         }

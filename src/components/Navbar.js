@@ -73,7 +73,7 @@ const Navbar = ({ hideOnTop }) => {
                 </div>
             </Transition>
 
-            <Popover className={classNames("z-50 top-0 transition-all", additionalClassNames)}>
+            <Popover className={classNames("z-50 top-0", additionalClassNames)}>
                 <div className="flex shadow-md justify-between items-center px-4 py-5 sm:px-6 md:justify-start bg-white">
                     {/* Baylor University logo */}
                     <div className="h-8 w-auto sm:h-10 mr-4">
@@ -101,7 +101,7 @@ const Navbar = ({ hideOnTop }) => {
                     {/* DESKTOP NAVBAR */}
                     <div className="hidden md:flex-1 md:flex md:items-center md:justify-between">
                         <Popover.Group as="nav" className="flex space-x-0">
-                            <a href="/" className="transition-all px-4 py-2 rounded-md text-base font-medium text-gray-500 hover:text-gray-900">
+                            <a href="/" className="px-4 py-2 rounded-md text-base font-medium text-gray-500 hover:text-gray-900">
                                 Home
                             </a>
 
@@ -112,7 +112,7 @@ const Navbar = ({ hideOnTop }) => {
                                             className={classNames(
                                                 open ? "text-gray-900" : "text-gray-500",
                                                 "group rounded-md inline-flex items-center text-base font-medium hover:text-gray-900",
-                                                "transition-all px-4 py-2 rounded-md"
+                                                "px-4 py-2 rounded-md"
                                             )}
                                         >
                                             <span>More</span>
@@ -142,10 +142,10 @@ const Navbar = ({ hideOnTop }) => {
                                                             <div className="ml-4 text-base font-medium text-gray-900">About</div>
                                                         </a> */}
                                                         {/*TODO to create this page and connect the url*/}
-                                                        <a href="/about" className="transition-all -m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
+                                                        <a href="/about" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
                                                             <div className="ml-4 text-base font-medium text-gray-900">About Us</div>
                                                         </a>
-                                                        <a href="/contact-us" className="transition-all -m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
+                                                        <a href="/contact-us" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
                                                             <div className="ml-4 text-base font-medium text-gray-900">Contact Us</div>
                                                         </a>
                                                     </div>
@@ -163,10 +163,10 @@ const Navbar = ({ hideOnTop }) => {
                         {
                             account === null &&
                             <div className="flex items-center md:ml-12">
-                                <a href={signInUrl} className="transition-all px-4 py-2 rounded-md text-base font-medium text-gray-500 hover:text-gray-900">
+                                <a href={signInUrl} className="px-4 py-2 rounded-md text-base font-medium text-gray-500 hover:text-gray-900">
                                     Sign in
                                 </a>
-                                <a href={signUpUrl} className="transition-all ml-4 inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-600 hover:bg-emerald-700">
+                                <a href={signUpUrl} className="ml-4 inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-600 hover:bg-emerald-700">
                                     Sign up
                                 </a>
                             </div>
@@ -176,7 +176,7 @@ const Navbar = ({ hideOnTop }) => {
                             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 mr-4 gap-3">
                                 {/* <button
                                     type="button"
-                                    className="transition-all p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                                    className="p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
                                 >
                                     <span className="sr-only">View notifications</span>
                                     <BellIcon className="h-6 w-6" aria-hidden="true" />
@@ -184,7 +184,7 @@ const Navbar = ({ hideOnTop }) => {
                                 {/* Profile dropdown */}
                                 <Menu as="div" className="ml-3 relative">
                                     <div>
-                                        <Menu.Button className="transition-all rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
+                                        <Menu.Button className="rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
                                             <span className="sr-only">Open user menu</span>
                                             <Photo size="10" />
                                         </Menu.Button>
@@ -203,7 +203,7 @@ const Navbar = ({ hideOnTop }) => {
                                                 {({ active }) => (
                                                     <a
                                                         href="/profile"
-                                                        className={classNames(active ? "bg-gray-100" : "", "transition-all block px-6 py-3 text-sm text-gray-700")}
+                                                        className={classNames(active ? "bg-gray-100" : "", "block px-6 py-3 text-sm text-gray-700")}
                                                     >
                                                         My Profile
                                                     </a>
@@ -213,7 +213,7 @@ const Navbar = ({ hideOnTop }) => {
                                                 {({ active }) => (
                                                     <a
                                                         href="/settings"
-                                                        className={classNames(active ? "bg-gray-100" : "", "transition-all block px-6 py-3 text-sm text-gray-700")}
+                                                        className={classNames(active ? "bg-gray-100" : "", "block px-6 py-3 text-sm text-gray-700")}
                                                     >
                                                         Settings
                                                     </a>
@@ -222,7 +222,7 @@ const Navbar = ({ hideOnTop }) => {
                                             <Menu.Item>
                                                 {({ active }) => (
                                                     <button
-                                                        className={classNames(active ? "bg-gray-100" : "", "transition-all block px-6 py-3 text-sm text-gray-700 w-full text-left")}
+                                                        className={classNames(active ? "bg-gray-100" : "", "block px-6 py-3 text-sm text-gray-700 w-full text-left")}
                                                         onClick={handleSignOut}
                                                     >
                                                         Sign out
@@ -263,16 +263,16 @@ const Navbar = ({ hideOnTop }) => {
                             <div className="pt-3 pb-6 px-6 space-y-1">
                                 {/* Navbar links */}
                                 <div className="grid grid-cols-1 gap-6">
-                                    <a href="/" className="transition-all text-base font-medium text-gray-900 hover:text-gray-700">
+                                    <a href="/" className="text-base font-medium text-gray-900 hover:text-gray-700">
                                         Home
                                     </a>
-                                    <a href="/search" className="transition-all text-base font-medium text-gray-900 hover:text-gray-700">
+                                    <a href="/search" className="text-base font-medium text-gray-900 hover:text-gray-700">
                                         Search
                                     </a>
-                                    <a href="/about" className="transition-all text-base font-medium text-gray-900 hover:text-gray-700">
+                                    <a href="/about" className="text-base font-medium text-gray-900 hover:text-gray-700">
                                         About
                                     </a>
-                                    <a href="/contact-us" className="transition-all text-base font-medium text-gray-900 hover:text-gray-700">
+                                    <a href="/contact-us" className="text-base font-medium text-gray-900 hover:text-gray-700">
                                         Contact Us
                                     </a>
                                 </div>
@@ -281,12 +281,12 @@ const Navbar = ({ hideOnTop }) => {
                                 {
                                     account === null &&
                                     <div className="pt-6">
-                                        <a href="/sign-up" className="transition-all w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-600 hover:bg-emerald-700">
+                                        <a href="/sign-up" className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-600 hover:bg-emerald-700">
                                             Sign up
                                         </a>
                                         <p className="mt-4 text-center text-base font-medium text-gray-500">
                                             Existing student or alumini?{" "}
-                                            <a href="/sign-in" className="transition-all text-emerald-600 hover:text-emerald-500">
+                                            <a href="/sign-in" className="text-emerald-600 hover:text-emerald-500">
                                                 Sign in
                                             </a>
                                         </p>
@@ -297,7 +297,7 @@ const Navbar = ({ hideOnTop }) => {
                                     <>
                                         <div className="pt-8 pb-2 -mr-2">
                                             <div className="flex items-center">
-                                                <a href="/profile" className="transition-all flex-shrink-0 flex grow">
+                                                <a href="/profile" className="flex-shrink-0 flex grow">
                                                     <Photo size="10" />
                                                     <div className="ml-3">
                                                         <div className="text-base font-medium text-gray-800">{account.first_name} {account.last_name}</div>
@@ -314,14 +314,14 @@ const Navbar = ({ hideOnTop }) => {
                                                 <button
                                                     type="button"
                                                     onClick={handleSettings}
-                                                    className="transition-all p-2 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                                                    className="p-2 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
                                                 >
                                                     <span className="sr-only">Settings</span>
                                                     <CogIcon className="h-6 w-6" aria-hidden="true" />
                                                 </button>
                                                 <button
                                                     type="button"
-                                                    className="transition-all p-2 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                                                    className="p-2 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
                                                     onClick={handleSignOut}
                                                 >
                                                     <span className="sr-only">Sign Out</span>

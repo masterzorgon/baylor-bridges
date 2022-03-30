@@ -566,7 +566,7 @@ const Account = () => {
                             <div
                                 className={
                                     classNames("w-full inline-block align-bottom bg-white rounded-lg p-4 text-left shadow-xl",
-                                        "transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6 space-y-4",
+                                        "transform sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6 space-y-4",
                                         field && field.className ? field.className : ""
                                     )
                                 }
