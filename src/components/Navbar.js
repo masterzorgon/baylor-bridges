@@ -53,7 +53,7 @@ const Navbar = ({ hideOnTop }) => {
         window.location.href = "/settings";
     };
 
-    const additionalClassNames = classNames((!hideOnTop || pageYOffset > window.screen.height * 0.5) ? "opacity-100" : "opacity-0", hideOnTop === true ? "fixed w-full" : "sticky");
+    const additionalClassNames = classNames((!hideOnTop || pageYOffset > window.screen.height * 0.5) ? "opacity-100" : "opacity-0", hideOnTop === true ? "fixed w-full" : "sticky", "transition-all");
 
     return (
         <>
