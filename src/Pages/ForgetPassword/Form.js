@@ -1,12 +1,13 @@
-/* eslint-disable no-unused-vars */
+
 import React, { useState, useEffect } from "react";
 import { ArrowSmRightIcon, CalculatorIcon, MailIcon } from "@heroicons/react/outline";
+import axios from "axios";
 
 import Progress from "./progress";
 import Button from "../../components/Button";
 import Password from "../../components/Password";
 
-import { classNames, changeBaseURL } from "../../components/Utils";
+import { classNames } from "../../components/Utils";
 
 
 const steps = [
@@ -24,6 +25,7 @@ const Form = () => {
 
     const [email, setEmail] = useState("");
     const [verificationCode, setVerificationCode] = useState("");
+    const [wrongVCode, setwrongVCode] = useState(false);
     const [password, setPassword] = useState("");
     const [password_checked, setPasswordChecked] = useState("");
 
@@ -41,17 +43,31 @@ const Form = () => {
             setComplete(verificationCode && verificationCode !== "" && is_valid);
 
         }
-        if (step ===3 ) {
+        if (step === 3) {
             setComplete(password_checked);
         }
-        setErrorMessage(null);
+    }, [email, verificationCode, password]);
+    useEffect(() => {
 
-    }, [email, verificationCode, step,password]);
+        if (!wrongVCode) {
+            setErrorMessage(null);
+
+        }
+    }, [step]);
 
     const onSubmit = () => {
+        setwrongVCode(false);
         if (step === 1) {
-            // setLoading(true);
-            setStep(2);
+            setLoading(true);
+            axios.post("/forgot-password", {
+                email: email,
+            }).then(res => {
+                setStep(2);
+            }).catch(err => {
+                setErrorMessage(err.response.data);
+            }).finally(() => {
+                setLoading(false);
+            });
 
             //todo: axios request
 
@@ -64,10 +80,32 @@ const Form = () => {
 
         }
         if (step === 3) {
-            // setLoading(true);
-            setStep(4);
+            setLoading(true);
+            axios.post("/forgot-password/confirm", {
+                "email": email,
+                "confirm_code": verificationCode,
+                "new_password": password
+            }).then(res => {
+                setStep(4);
+            }).catch(err => {
+                console.log(err.response);
+                if (err.response.data.code === "CodeMismatchException") {
+                    setErrorMessage(err.response.data.message);
+                    // wrongVCode state is going to notify the useEffect do not remove the error message when it jumps from step 3 to step 2
+                    setwrongVCode(true);
+                    setStep(2);
+                } else if (err.response.data.code === "ExpiredCodeException") {
+                    setErrorMessage("account might not exist or code is expired. Please try again.");
+                    // wrongVCode state is going to notify the useEffect do not remove the error message when it jumps from step 3 to step 1
+                    setwrongVCode(true);
+                    setStep(1);
+                } else {
+                    setErrorMessage(err.response.data.message);
+                }
 
-            //todo: axios request
+            }).finally(() => {
+                setLoading(false);
+            });
 
         }
 
@@ -142,8 +180,8 @@ const Form = () => {
     const step4 = () => {
         return (
             <>
-                <h3 className="text-lg leading-6 font-medium text-gray-900">successfully Reset the Password!</h3>
-                <p className="mt-1 text-sm font-medium mb-4 text-gray-500 self-center">Your account password has been successfully reset. Sign in your account </p>
+                <h3 className="text-lg leading-6 font-medium text-gray-900">successfully Reset the Password :)</h3>
+                <p className="mt-1 text-sm font-medium mb-4 text-gray-500 self-center">Your account password has been successfully reset. Sign in your account with new password</p>
 
 
             </>
@@ -211,7 +249,7 @@ const Form = () => {
                             disabled={loading || !complete}
                         >
                             <span className={`flex items-center ${loading ? "invisible" : ""}`}>
-                                <span>{step===4?"Sign In My Account":"Next"}</span>
+                                <span>{step === 4 ? "Sign In My Account" : "Next"}</span>
                                 <ArrowSmRightIcon className="h-4 w-4" />
                             </span>
                         </Button>
