@@ -13,7 +13,7 @@ const LocationInput = ({ account, setAccount, modal, show, setModal, setShow }) 
         leave: { x: 0, y: -80, opacity: 0 }
     });
 
-    const onSubmit = (event) => {    
+    const onSubmit = (event) => {
         event.preventDefault();
         takeAwayModal();
         setTimeout(() => setModal(4), 400);

@@ -6,7 +6,7 @@ import { Fragment } from "react/cjs/react.production.min";
 import { Transition } from "@headlessui/react";
 import { useTransition, animated } from "react-spring";
 import axios from "axios";
-    
+
 const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
 
     const [, , takeAwayModal] = useTimeoutFn(() => setShow(false), 0);
@@ -70,7 +70,7 @@ const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
         });
     }, [makeShot]);
 
-    const onSubmit = (event) => {    
+    const onSubmit = (event) => {
         axios.put("/account/profile", account)
             .then(res => {
                 fire();
@@ -88,7 +88,7 @@ const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
         takeAwayModal();
         setTimeout(() => setModal(modal - 1), 400);
     };
-    
+
     return (
         <>
             {/* Overlapping cards */}
@@ -191,7 +191,7 @@ const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
                                     >
                                         Submit
                                         <ArrowRightIcon className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
-                                    </button>                              
+                                    </button>
                                 </div>
                             </div>
                         </div>

@@ -34,7 +34,7 @@ const InfoInput = () => {
         showTheModal();
         console.log("MODAL", modal);
     }, [modal]);
-    
+
     useEffect(() => console.log("ACCOUNT", account), [account]);
 
     const modals = () => {

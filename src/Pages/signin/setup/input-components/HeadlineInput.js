@@ -14,7 +14,7 @@ const HeadlineInput = ({ account, setAccount, modal, show, setModal, setShow }) 
     });
     const [alert, setAlert] = useState(false);
 
-    const onSubmit = (event) => {    
+    const onSubmit = (event) => {
         event.preventDefault();
         takeAwayModal();
         setTimeout(() => setModal(6), 400);
