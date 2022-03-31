@@ -22,7 +22,7 @@ const Form = () => {
     const [password_checked, setPasswordChecked] = useState("");
     const [agreed, setAgreed] = useState(false);
     const [confirmation_code, setConfirmationCode] = useState("");
-    
+
 
     const { role } = useParams();
     if (role !== "student" && role !== "alumni") {
@@ -178,7 +178,7 @@ const Form = () => {
                             onChange={setAgreed}
                             className={classNames(
                                 agreed ? "bg-emerald-600" : "bg-gray-200",
-                                "relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                                "relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
                             )}
                         >
                             <span className="sr-only">Agree to policies</span>
@@ -273,7 +273,7 @@ const Form = () => {
 
 
                 <div className="px-5 mt-10 md:mt-2 md:bg-white md:shadow md:rounded-lg md:px-8 md:py-8 md:-mx-8">
-                    
+
                     {step === 1 && step1()}
                     {step === 2 && step2()}
                     {step === 3 && step3()}

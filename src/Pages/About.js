@@ -1,7 +1,7 @@
 import React from "react";
 import { ArrowSmRightIcon } from "@heroicons/react/outline";
 
-// TODO: Replace the profile pictures with actual pictures 
+// TODO: Replace the profile pictures with actual pictures
 
 // chair profiles
 const chair = [
@@ -331,13 +331,19 @@ const tech = [
             "Bio goes here...",
         linkedinUrl: "#",
     },
+    {
+        name: "Benjamin Li",
+        role: "Bug Developer / Tina's Cat",
+        imageUrl: "Banjamin.jpg"
+
+    }
     // More people...
 ];
 
 const About = () => {
     const defaultBg = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQoAAAC+CAMAAAD6ObEsAAAAilBMVEX///8SRzQAPyj2+PcAQi1beW0ANx7H0M0NRTEfUkAAPCVnfnTr8O4AQi51iYH7/f2aq6RMbWAAMBOElo5UdGfd5OEAOSHP1dKhr6kANBkwWUmxvrmMnpbc5OGXqaIAMBIAIgAYTTo/ZVe+ycTL1NEARzIAHwAAFAAAGgA8YVN5jITl6uiotrF+k4ux2DaVAAAESUlEQVR4nO3dbXuaMBiG4YJIA4oKq1a0tfWl25T1//+9UV8eEyQgSE0T7vOj49gRrlIrhODDAwAAAAAAAAAAAAAAAAAAAAAAAMAPN+xUNlQ95m8yiu2KnOWsO+2rHvc3mPpWVYwFE3+keuDNq5Fizw07qofetLopLNszrUXtFFZgWov6KYxrcUMKyzGrxS0pDGtxUwormBn0eeu2FJbdVb0DzbkxhRXPVe9BY6auk2KH/WJOuUBMwTzVe9CY+VM3Fe5bsFWvW85m4mExVr0LzXp297vlvVxxmjV2hBYTc35D9h7d47ug23su3TgRjgt/cYfx3dEpRfpRIV6Vxkj448J+uccA7+ecIj3nLP8xryftSHHFpYjXmEvx6w7ju6OKKcZIcYIUBCkIUhCkIEhBRtzpbLs/V6y5g6LdKdYRV8Lgc5D9vg2LzPljIj0zXasefLP4FJa1LGJNhBKWa9j0qZiCFRJLBKHqsTdMTFFFVH59Qy+1U1xxRq+ZuikmPdUjb1zNFLZ5JeqmcFSP+xvUTBFsDZonPKr7XmFvVY+8cbX/gvjGvVvU/1wRG/a5W0zBgiKZT5tspnrsDeNTsFlYZJU5gEybMxXOTKfF227ehBSmzpnuU5RdrxBbGH29ovQq1gZXscgcc6Yn7ZozTT68PB/799TLi/99O3/zfyr3qpacFG7uJayJLEVUsLlWclJkLmGe/lGWIi7YXCtIQZCCIAVBCoIUBCkIUhCkIEhBLlOMf0cpYcVDnL7wvr86cZki+fO1uXN4KXCjo3f9VubKzky7XIvo/LLsXqzeocU16wd+LFmKJz7FefrnUXK94pjCfuvqO78uSxFGLvlLqwf7sjv/jynSX5Foq+ukgCzF+Plsc3ox8WXrQShFGuNN09+STYUr3mNfXCXEXZ3hUli2dinWg9SOf3tk4W4gt+u64qSQy82D6J1iGl8sEyxeV5hdUbjk/jPNUzS5zrTVKewn/j9rcwrHE+41aXGK7BMs2pvi4lkerU1x+fSKtqbIeY5HS1PkPQGpnSkmq5xnu7QvBXP8OPdWAr1TjCJfTnxUhW0fXgxYuMjfT71TdPoFOiF3xhEnx1fld/DqnaKY5CqWDFIQpCBIQZCCIAVBCoIUBCkIUhCkIEhBkIIgBUEKghQEKQhSEKQgvcDgFNyP2X0t3XzGzE0h3I3jle3cjp9IcAxLMbC5nQuWxXu3Exa2WyZ9HUBqIUwYBSwp2PZTfKCUacv21+JafGaH0iedb8VpNmegeuwNG2anEQPp7WqZhzm4ut7CKvWSvwCglGPek18evKB8v3PE5X95tdNndVoY9FUZnOSjeotYv6XoV0kqHxemlqj+O2Juia8WTnmAVpRIW1jXHxdml0hbzK68ZSsw82+H4DP2g+zDaLOY4870XTR2vfEinFnF3/nq9cw/JE5KvglY9fAAAAAAAAAAAAAAAAAAAAAAAAAA6vgPHIxi4MevoYwAAAAASUVORK5CYII=";
     const noImg = "https://images.unsplash.com/photo-1505840717430-882ce147ef2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80";
-    
+
     return (
         <div className="bg-white">
             <div className="relative bg-emerald-800">

@@ -81,13 +81,13 @@ const Account = () => {
     const [complete, setComplete] = useState(true); // Whether the fields in the modal are completed (prevent REQUIRED fields left empty)
 
     const [email, setEmail] = useState(null); // the value of the email provided
-    const [error_message, setErrorMessage] = useState(null); 
+    const [error_message, setErrorMessage] = useState(null);
     const [sendEmail, setSendEmail] = useState(false);
 
     const { role } = useParams(); // to retrieve the type of user associated with this account (student or alumni)
 
     // First enter this page, fetch account profile data
-    useEffect(() => {        
+    useEffect(() => {
         axios.get("/account/profile")
             .then(res => {
                 setAccount(res.data);
@@ -118,7 +118,7 @@ const Account = () => {
         // For all atomic attribute in this field, check if required ones are not empty
         let complete = true;
         let required = field.attribute.filter(value => value.required); // Fetch all REQUIRED atomic attribute
-        
+
         required.forEach(value => {
             let _value = update[value.key];
 
@@ -132,7 +132,7 @@ const Account = () => {
 
     // Get the raw value of a field, return either the field attribute value, or null, with the visibility value
     const getFieldDisplayValueRaw = (section_key, field) => {
-        if(account === null) {
+        if (account === null) {
             return [null, null];
         }
 
@@ -179,7 +179,7 @@ const Account = () => {
     };
 
     const getFieldDisplayValue = (section_key, field) => {
-  
+
         // Other fields
         const [value, visibility] = getFieldDisplayValueRaw(section_key, field);
 
@@ -294,7 +294,7 @@ const Account = () => {
                             <div className="overflow-auto shadow-sm px-4 py-2 rounded-md border-gray-300">
                                 <Markdown>
                                     {section_key === "basic" ? update[attribute.key] : update[section_key][attribute.key]}
-                                </Markdown>    
+                                </Markdown>
                             </div>
                         </div>
                     </>
@@ -350,7 +350,7 @@ const Account = () => {
                             <p className="ml-5 max-w-2xl text-sm text-gray-500">
                                 Help protect your account from unauthorized access by
                                 requiring a second authentication method in addition to your
-                                Baylor Bridges password. 
+                                Baylor Bridges password.
                             </p>
                         </div>
                     </>
@@ -373,7 +373,7 @@ const Account = () => {
                                 placeholder={role === "student" ? "you@baylor.edu" : "you@alumni.baylor.edu"}
                                 value={email}
                                 onFocus={() => setSendEmail(true)}
-                                onChange={event => setEmail(event.target.value)} 
+                                onChange={event => setEmail(event.target.value)}
                             />
                         </div>
                     </>
@@ -400,31 +400,18 @@ const Account = () => {
                     ))
                 }
                 {
-                
+
                 }
                 <Button
                     loading={loading}
                     disabled={loading || !complete}
-                    onClick={() => onSubmit()} 
+                    onClick={() => onSubmit()}
                     className={field.title === "Deactivate Account" ? "text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" : "text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"}
                 >
                     {field.title === "Deactivate Account"
                         ? "Deactivate"
                         : (field.title === "Two-Factor Authentication" ? "Enable" : "Save")}
                 </Button>
-                
-
-                {/* 
-                    [*][*][*][*] TESTING BUTTON [*][*][*][*] 
-                    [*][*][*][*] TESTING BUTTON [*][*][*][*] 
-                    [*][*][*][*] TESTING BUTTON [*][*][*][*] 
-                */} 
-                {/* <Button
-                    
-                    onClick={getEmail} 
-                >
-                   check
-                </Button> */}
             </>
         );
     };
@@ -477,7 +464,7 @@ const Account = () => {
                     setLoading(false);
                 });
         }
-        
+
 
         axios.put("/account/profile", update)
             .then(res => {
@@ -579,7 +566,7 @@ const Account = () => {
                             <div
                                 className={
                                     classNames("w-full inline-block align-bottom bg-white rounded-lg p-4 text-left shadow-xl",
-                                        "transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6 space-y-4",
+                                        "transform sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6 space-y-4",
                                         field && field.className ? field.className : ""
                                     )
                                 }
