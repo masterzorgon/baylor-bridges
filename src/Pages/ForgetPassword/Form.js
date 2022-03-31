@@ -108,6 +108,10 @@ const Form = () => {
             });
 
         }
+        if (step === 4) {
+            window.location.href = "/sign-in";
+
+        }
 
     };
 
