@@ -59,9 +59,14 @@ const NameInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
                             <div className="p-6 pt-0 bg-white rounded-bl-2xl rounded-br-2xl md:px-8">
                                 <div className="isolate -space-y-px rounded-md shadow-sm">
                                     <div className="relative border border-gray-300 rounded-md rounded-b-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600">
-                                        <label htmlFor="name" className="block text-xs font-medium text-gray-900">
-                                            First Name
-                                        </label>
+                                        <div className="flex justify-between">
+                                            <label htmlFor="name" className="block text-xs font-medium text-gray-900">
+                                                First Name
+                                            </label>
+                                            <span className="text-sm text-gray-500" id="email-optional">
+                                                Required
+                                            </span>
+                                        </div>
                                         <input
                                             type="text"
                                             name="first-name"
@@ -73,9 +78,14 @@ const NameInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
                                         />
                                     </div>
                                     <div className="relative border border-gray-300 rounded-md rounded-t-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600">
-                                        <label htmlFor="job-title" className="block text-xs font-medium text-gray-900">
-                                            Last Name
-                                        </label>
+                                        <div className="flex justify-between">
+                                            <label htmlFor="name" className="block text-xs font-medium text-gray-900">
+                                                Last Name
+                                            </label>
+                                            <span className="text-sm text-gray-500" id="email-optional">
+                                                Required
+                                            </span>
+                                        </div>
                                         <input
                                             type="text"
                                             name="last-name"
@@ -101,6 +111,7 @@ const NameInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
                                     <button
                                         type="button"
                                         onClick={onSubmit}
+                                        
                                         className="mt-6 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500
                                         transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-103 duration-200 hover:shadow-md"
                                     >

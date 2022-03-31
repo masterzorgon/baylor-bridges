@@ -65,9 +65,14 @@ const LocationInput = ({ account, setAccount, modal, show, setModal, setShow }) 
                             <div className="p-6 pt-0 bg-white rounded-bl-2xl rounded-br-2xl md:px-8">
                                 <div className="isolate -space-y-px rounded-md shadow-sm">
                                     <div className="relative border border-gray-300 rounded-md rounded-b-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600">
-                                        <label htmlFor="name" className="block text-xs font-medium text-gray-900">
-                                            State
-                                        </label>
+                                        <div className="flex justify-between">
+                                            <label htmlFor="name" className="block text-xs font-medium text-gray-900">
+                                                State
+                                            </label>
+                                            <span className="text-sm text-gray-500" id="email-optional">
+                                                Required
+                                            </span>
+                                        </div>
                                         <input
                                             type="text"
                                             name="state"
