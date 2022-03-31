@@ -1,74 +1,10 @@
-import React, { useRef, useCallback } from "react";
-// import { Popover, Transition } from "@headlessui/react";
-// import { MenuIcon, XIcon } from "@heroicons/react/outline";
-import ReactCanvasConfetti from "react-canvas-confetti";
+import React from "react";
 
 const ProfileSetup = () => {
-
-    const refAnimationInstance = useRef(null);
-
-    const getInstance = useCallback((instance) => {
-        refAnimationInstance.current = instance;
-    }, []);
-
-    const makeShot = useCallback((particleRatio, opts) => {
-        refAnimationInstance.current &&
-        refAnimationInstance.current({
-            ...opts,
-            origin: { y: 0.6 },
-            particleCount: Math.floor(750 * particleRatio)
-        });
-    }, []);
-
-    const canvasStyles = {
-        position: "fixed",
-        pointerEvents: "none",
-        width: "100%",
-        height: "100%",
-        top: 0,
-        left: 0
-    };
-
-    const fire = useCallback(() => {
-        makeShot(0.25,
-            {
-                spread: 26,
-                startVelocity: 55
-            });
-
-        makeShot(0.2,
-            {spread: 60});
-
-        makeShot(0.35, {
-            spread: 180,
-            decay: 0.91,
-            scalar: 0.8
-        });
-
-        makeShot(0.1, {
-            spread: 180,
-            startVelocity: 25,
-            decay: 0.92,
-            scalar: 1.2
-        });
-
-        makeShot(0.1, {
-            spread: 180,
-            startVelocity: 45
-        });
-    }, [makeShot]);
-
-    const onSubmit = (event) => {
-        fire();
-        setTimeout(() => {
-            window.location.href = "/sign-in/setup/info-input"; // link to next page
-        }, 2000);
-    };
-
     return (
-        <div className="flex h-screen relative bg-white-50 overflow-hidden">
-            <div className="flex sm:block sm:absolute sm:inset-y-0 sm:h-full sm:w-full" aria-hidden="true">
-                <div className="relative h-full max-w-7xl mx-auto">
+        <>
+            <div className="flex sm:block sm:absolute sm:inset-y-0 sm:h-full sm:w-full pointer-events-none -z-10" aria-hidden="true">
+                <div className="relative h-full w-full mx-auto overflow-hidden">
                     <svg
                         className="absolute right-full transform translate-y-1/4 translate-x-1/4 lg:translate-x-1/2"
                         width={404}
@@ -115,51 +51,33 @@ const ProfileSetup = () => {
             </div>
 
             {/* HERO SECTION */}
-            <div className="w-screen relative sm:my-10 flex justify-center p-10">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-6">
-                    <div className="relative shadow-xl sm:rounded-2xl sm:overflow-hidden rounded-lg">
-                        <div className="absolute inset-0">
-                            <img
-                                className="h-full w-full object-cover rounded-lg"
-                                src="/landing_page_background.jfif"
-                                alt="People working on laptops"
-                            />
-                            <div className="absolute rounded-lg inset-0 bg-emerald-700 mix-blend-multiply" />
-                            <ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
-                        </div>
-                        <div className="relative px-4 py-14 sm:px-6 sm:py-24 lg:py-28 lg:px-8">
-                            <h1 className="text-center text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
-                                <span className="block text-white">
-                                    Welcome,
-                                </span>
-                                <span className="block text-emerald-200">
-                                    We are so glad to have you!
-                                </span>
-                            </h1>
-                            <p className="mt-6 max-w-lg mx-auto text-center text-xl text-white sm:max-w-3xl">
-                                Since your account is so new, we will walk you through
-                                a few steps to get you started. You will be prompted to fill out
-                                some profile information so that others can better connect with you
-                                via your Baylor Bridges account.
-                            </p>
-                            <div className="mt-10 max-w-sm mx-auto sm:max-w-none sm:flex sm:justify-center">
-                                <div className="flex justify-center space-y-4 sm:space-y-0 sm:mx-auto sm:inline-grid sm:grid-cols-1 sm:gap-5">
-                                    <button
-                                        href="/sign-up"
-                                        onClick={onSubmit}
-                                        className="flex items-center justify-center px-4 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-emerald-700 bg-white sm:px-9
-                                            transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-103 hover:bg-emerald-100 duration-200 hover:shadow-md"
-                                    >
-                                        Get Started
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <div className="z-10 min-h-screen flex flex-col justify-center ">
+                <div className="bg-white max-w-2xl mx-auto py-12 px-4 sm:px-6 md:py-16 lg:px-8 lg:py-20 -mt-8">
+                    <lord-icon
+                        src="https://cdn.lordicon.com/lupuorrc.json"
+                        trigger="loop"
+                        style={{ width: "8rem", height: "8rem" }}
+                    >
+                    </lord-icon>
+                    <h2 className="mt-6 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                        <span className="text-gradient bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500">Welcome!</span>
+                        <span className="block">We are so glad to have you.</span>
+                    </h2>
+                    <p className="mt-4 mx-auto text-gray-700">
+                        Since your account is so new, we will walk you through{" "}
+                    a few steps to get you started. You will be prompted to fill out
+                        some profile information to <span className="underline underline-offset-4 decoration-emerald-400">complete your profile</span>,
+                        so that others can better connect with you via your profile.
+                    </p>
+                    <a
+                        href="info-input"
+                        className="bg-emerald-600 mt-8 shadow-md inline-flex items-center justify-center px-5 py-3 text-base font-medium rounded-md text-white hover:bg-emerald-700"
+                    >
+                        Get started
+                    </a>
                 </div>
-                <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gray-100 -z-10 lg:hidden"></div>
             </div>
-        </div>
+        </>
     );
 };
 
