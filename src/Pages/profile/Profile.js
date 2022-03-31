@@ -331,7 +331,7 @@ const Profile = () => {
 
                             {/* Experiences */}
                             {
-                                (!profileAccount || profileAccount.experiences) &&
+                                profileAccount && profileAccount.experiences && Array.isArray(profileAccount.experiences) && profileAccount.experiences.length > 0 &&
                                 <section aria-labelledby="notes-title">
                                     <div className="bg-white shadow sm:rounded-lg sm:overflow-hidden">
                                         <div className="divide-y divide-gray-200">
@@ -387,48 +387,50 @@ const Profile = () => {
                                                 </Menu>
                                             </div>
 
-                                            {/*
-                                            [*][*][*][*]             [*][*][*][*]
-                                            [*][*][*][*] EXPERIENCES [*][*][*][*]
-                                            [*][*][*][*]             [*][*][*][*]
-                                        */}
-                                            <div className="px-4 py-6 sm:px-6">
-                                                <ul className="space-y-8">
+                                            {/* EXPERIENCES */}
+                                            <div className="pb-2">
+                                                <ul className="divide-y">
                                                     {
                                                         profileAccount && profileAccount.experiences && profileAccount.experiences.map((experience, index) => (
-                                                            <li className="" key={experience.exper_id}>
+                                                            <li className="px-4 sm:px-6 py-5" key={experience.exper_id}>
                                                                 <p className="font-medium">{experience.title}</p>
-                                                                <p className="font-medium text-sm text-gray-500 mt-0.5">
-                                                                    {getDisplayDateRange(experience.start_time, experience.stop_time)}
-                                                                </p>
-                                                                <p className="mt-2 text-sm text-gray-700">{experience.description}</p>
-                                                                {/*
-                                                                [*][*][*][*]              [*][*][*][*]
-                                                                [*][*][*][*] PUBLICATIONS [*][*][*][*]
-                                                                [*][*][*][*]              [*][*][*][*]
-                                                            */}
-                                                                <div className="mt-4">
-                                                                    <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
-                                                                        {
-                                                                            experience.publications.map((publication, index) => (
-                                                                                <li className="pl-3 pr-4 py-3 flex items-center justify-between text-sm" key={publication.pub_id}>
-                                                                                    <div className="w-0 flex-1 flex items-center">
-                                                                                        <PaperClipIcon className="flex-shrink-0 h-5 w-5 text-gray-400" />
-                                                                                        <span className="ml-2 flex-1 w-0 truncate text-gray-700">
-                                                                                            {publication.title}
-                                                                                        </span>
-                                                                                    </div>
-                                                                                    <div className="ml-4 flex-shrink-0">
-                                                                                        <a href={/^http:\/\//.test(publication.duo_link) || /^https:\/\//.test(publication.duo_link) ? publication.duo_link : "//" + publication.duo_link}
-                                                                                            className="font-medium text-emerald-600 hover:text-emerald-500" target="_blank" rel="noreferrer">
-                                                                                            Open
-                                                                                        </a>
-                                                                                    </div>
-                                                                                </li>
-                                                                            ))
-                                                                        }
-                                                                    </ul>
-                                                                </div>
+                                                                {
+                                                                    (experience.start_time || experience.stop_time) &&
+                                                                            <p className="font-medium text-sm text-gray-500 mt-0.5">
+                                                                                {getDisplayDateRange(experience.start_time, experience.stop_time)}
+                                                                            </p>
+                                                                }
+                                                                {
+                                                                    experience.description &&
+                                                                            <p className="mt-2 text-sm text-gray-700">{experience.description}</p>
+                                                                }
+
+                                                                {/* PUBLICATIONS */}
+                                                                {
+                                                                    experience.publications && Array.isArray(experience.publications) && experience.publications.length > 0 &&
+                                                                            <div className="mt-4">
+                                                                                <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
+                                                                                    {
+                                                                                        experience.publications.map((publication, index) => (
+                                                                                            <li className="pl-3 pr-4 py-3 flex items-center justify-between text-sm" key={publication.pub_id}>
+                                                                                                <div className="w-0 flex-1 flex items-center">
+                                                                                                    <PaperClipIcon className="flex-shrink-0 h-5 w-5 text-gray-400" />
+                                                                                                    <span className="ml-2 flex-1 w-0 truncate text-gray-700">
+                                                                                                        {publication.title}
+                                                                                                    </span>
+                                                                                                </div>
+                                                                                                <div className="ml-4 flex-shrink-0">
+                                                                                                    <a href={/^http:\/\//.test(publication.duo_link) || /^https:\/\//.test(publication.duo_link) ? publication.duo_link : "//" + publication.duo_link}
+                                                                                                        className="font-medium text-emerald-600 hover:text-emerald-500" target="_blank" rel="noreferrer">
+                                                                                                        Open
+                                                                                                    </a>
+                                                                                                </div>
+                                                                                            </li>
+                                                                                        ))
+                                                                                    }
+                                                                                </ul>
+                                                                            </div>
+                                                                }
                                                             </li>
                                                         ))
                                                     }
