@@ -90,7 +90,7 @@ const Home = () => {
                                         <p className="mt-6 text-xl text-gray-500">
                                             A brand new platform for Baylor alumni and current students to
                                             connect and explore the vast and endless possibilities
-                                            of Baylor alumni in the health industry.
+                                            of the Baylor Brdges network.
                                         </p>
                                     </div>
                                     <div className="h-28 sm:max-w-lg mt-12">
