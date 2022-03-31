@@ -90,7 +90,7 @@ const Home = () => {
                                         <p className="mt-6 text-xl text-gray-500">
                                             A brand new platform for Baylor alumni and current students to
                                             connect and explore the vast and endless possibilities
-                                            of Baylor alumni in the health industry.
+                                            of the Baylor Brdges network.
                                         </p>
                                     </div>
                                     <div className="h-28 sm:max-w-lg mt-12">
@@ -113,16 +113,18 @@ const Home = () => {
                                                 <>
                                                     <div className="sm:w-full sm:flex">
                                                         <a
-                                                            className="text-center w-full flex justify-center px-4 py-5 font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed relative bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 hover:opacity-90 shadow-md"
+                                                            className="font-semibold text-center w-full flex justify-center px-4 py-5 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed relative bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 hover:opacity-90 shadow-md"
                                                             // className="text-center w-full flex justify-center px-4 py-5 border border-transparent font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed relative"
                                                             href="/sign-up"
                                                         >
                                                             Sign Up / Join the Community
                                                         </a>
                                                     </div>
-                                                    <div className="mt-5 flex space-x-1 justify-center">
-                                                        <p>Already have an account?</p>
-                                                        <a href="/sign-in" className="text-base font-medium text-emerald-600 hover:text-emerald-800 underline underline-offset-4">Continue with Sign In</a>
+                                                    <div className="mt-8 sm:mt-5 flex space-x-1 justify-center">
+                                                        <div className="text-center">
+                                                            <span className="block sm:inline">Already have an account?</span>{" "}
+                                                            <a href="/sign-in" className="text-base font-medium text-emerald-600 hover:text-emerald-800 underline underline-offset-4">Continue with Sign In</a>
+                                                        </div>
                                                     </div>
                                                 </>
                                         }
@@ -132,7 +134,7 @@ const Home = () => {
                         </div>
 
                         <div className="sm:mx-auto sm:max-w-3xl sm:px-6">
-                            <div className="py-12 sm:relative sm:mt-12 sm:py-16 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+                            <div className="mt-10 py-12 sm:relative sm:mt-12 sm:py-16 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
                                 <div className="hidden sm:block">
                                     <div className="absolute inset-y-0 left-1/2 w-screen bg-gray-50 rounded-l-3xl lg:left-80 lg:right-0 lg:w-full" />
                                     <svg
