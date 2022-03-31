@@ -9,14 +9,8 @@ import { DebounceInput } from "react-debounce-input";
 
 import { classNames } from "../components/Utils";
 import Photo from "../components/Photo";
+import { states } from "../components/Utils";
 
-
-const states = [
-    { title: "Arizona", value: "AZ", description: "AZ" }, { title: "New York", value: "NY", description: "NY" }, { title: "Connecticut", value: "CT", description: "CT" }, { title: "Maryland", value: "MD", description: "MD" }, { title: "Washington", value: "WA", description: "WA" }, { title: "Oregon", value: "OR", description: "OR" }, { title: "Nevada", value: "NV", description: "NV" }, { title: "New Mexico", value: "NM", description: "NM" }, { title: "District of Columbia", value: "DC", description: "DC" }, { title: "Delaware", value: "DE", description: "DE" }, { title: "Massachusetts", value: "MA", description: "MA" }, { title: "Minnesota", value: "MN", description: "MN" }, { title: "Wisconsin", value: "WI", description: "WI" }, { title: "Illinois", value: "IL", description: "IL" },
-    { title: "Vermont", value: "VT", description: "VT" }, { title: "Rhode Island", value: "RI", description: "RI" }, { title: "New Jersey", value: "NJ", description: "NJ" }, { title: "Colorado", value: "CO", description: "CO" }, { title: "California", value: "CA", description: "CA" }, { title: "Pennsylvania", value: "PA", description: "PA" }, { title: "Virginia", value: "VA", description: "VA" }, { title: "Georgia", value: "GA", description: "GA" }, { title: "Maine", value: "ME", description: "ME" }, { title: "New Hampshire", value: "NH", description: "NH" }, { title: "Hawaii", value: "HI", description: "HI" }, { title: "Idaho", value: "ID", description: "ID" }, { title: "Montana", value: "MT", description: "MT" }, { title: "Indiana", value: "IN", description: "IN" },
-    { title: "Alaska", value: "AK", description: "AK" }, { title: "Kentucky", value: "KY", description: "KY" }, { title: "North Carolina", value: "NC", description: "NC" }, { title: "West Virginia", value: "WV", description: "WV" }, { title: "Wyoming", value: "WY", description: "WY" }, { title: "North Dakota", value: "ND", description: "ND" }, { title: "South Dakota", value: "SD", description: "SD" }, { title: "Nebraska", value: "NE", description: "NE" }, { title: "Utah", value: "UT", description: "UT" }, { title: "Tennessee", value: "TN", description: "TN" }, { title: "Kansas", value: "KS", description: "KS" }, { title: "Oklahoma", value: "OK", description: "OK" }, { title: "Texas", value: "TX", description: "TX" },
-    { title: "Missouri", value: "MO", description: "MO" }, { title: "Arkansas", value: "AR", description: "AR" }, { title: "Alabama", value: "AL", description: "AL" }, { title: "Mississippi", value: "MS", description: "MS" }, { title: "Louisiana", value: "LA", description: "LA" }, { title: "Michigan", value: "MI", description: "MI" }, { title: "Florida", value: "FL", description: "FL" }, { title: "South Carolina", value: "SC", description: "SC" }, { title: "Ohio", value: "OH", description: "OH" }, { title: "Iowa", value: "IA", description: "IA" },
-];
 
 const sorts = [
     { title: "Name", value: "name" },
@@ -44,6 +38,10 @@ const filters = {
 
 const queryToString = (query, addons) => {
     const concatenateQueryValues = (key, value) => {
+        if (!value) {
+            return;
+        }
+
         if (value.length === 0) {
             delete query[key];
             return;
@@ -161,24 +159,24 @@ const Search = () => {
         states.forEach((state) => {
             config[state.value] = {};
 
-            if (!(state.value in mapStats)) { // For the state has no people, grey out
+            if (!(state.value in stats)) { // For the state has no people, grey out
                 if (!current) {
-                    config[state.value].fill = "rgba(211, 211, 211, 1)";
+                    config[state.value].fill = "rgba(229, 231, 235, 1)";
                 } else {
-                    config[state.value].fill = "rgba(211, 211, 211, 0.6)";
+                    config[state.value].fill = "rgba(229, 231, 235, 0.6)";
                 }
             } else { // For the state has people, color it with different opacity
-                let value = mapStats[state.value];
-                let opacity = value / max * 0.9;
+                let value = stats[state.value];
+                let opacity = value / max;
 
                 if (current && state.value !== current) {
                     opacity *= 0.7;
-                    config[state.value].fill = `rgba(21, 71, 52, ${opacity})`;
+                    config[state.value].fill = `rgba(5, 150, 105, ${opacity})`;
                 } else if (current && state.value === current) {
                     opacity = 1;
-                    config[state.value].fill = `rgba(21, 71, 52, ${opacity})`;
+                    config[state.value].fill = `rgba(5, 150, 105, ${opacity})`;
                 } else {
-                    config[state.value].fill = `rgba(21, 71, 52, ${opacity})`;
+                    config[state.value].fill = `rgba(5, 150, 105, ${opacity})`;
                 }
             }
         });
@@ -377,20 +375,34 @@ const Search = () => {
                                                 </div>
                                                 <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
                                                     <div>
-                                                        <p className="text-sm font-medium text-emerald-600 truncate">{profile.first_name} {profile.last_name}</p>
-                                                        <p className="mt-2 flex items-center text-sm text-gray-500">
-                                                            <span className="truncate">{profile.headline}</span>
-                                                        </p>
+                                                        {
+                                                            (profile.first_name || profile.last_name) ?
+                                                                <p className="text-sm font-medium text-emerald-600 truncate">{profile.first_name} {profile.last_name}</p>
+                                                                :
+                                                                <p className="text-sm font-medium text-gray-400 truncate">Baylor Bridges User</p>
+                                                        }
+                                                        {
+                                                            profile.headline &&
+                                                            <p className="mt-2 flex items-center text-sm text-gray-500">
+                                                                <span className="truncate">{profile.headline}</span>
+                                                            </p>
+                                                        }
                                                     </div>
                                                     <div className="hidden md:block">
                                                         <div>
-                                                            <p className="text-sm text-gray-900">
-                                                                {profile.city} {profile.state}
-                                                            </p>
-                                                            {/*<p className="mt-2 flex items-center text-sm text-gray-500">*/}
-                                                            {/*    <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-400" aria-hidden="true" />*/}
-                                                            {/*    {application.stage}*/}
-                                                            {/*</p>*/}
+                                                            {
+                                                                (profile.city || profile.state) &&
+                                                                <p className="text-sm text-gray-900">
+                                                                    {profile.city} {profile.state}
+                                                                </p>
+                                                            }
+                                                            {
+                                                                profile.graduate_year &&
+                                                                <p className="mt-2 flex items-center text-sm text-gray-500">
+                                                                    {/* <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-400" aria-hidden="true" /> */}
+                                                                    Class {profile.graduate_year}
+                                                                </p>
+                                                            }
                                                         </div>
                                                     </div>
                                                 </div>

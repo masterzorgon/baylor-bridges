@@ -64,6 +64,10 @@
         "error",
         "always"
       ],
+      "semi-style": [
+        "error",
+        "last"
+      ],
       "curly": [
         "error",
         "multi-line"
@@ -99,7 +103,57 @@
           "allowSingleLine": true
         }
       ],
-      "space-before-blocks": "error"
+      "space-before-blocks": "error",
+      "no-irregular-whitespace": "error",
+      "func-style": [
+        "error",
+        "expression"
+      ],
+      "max-statements": [
+        "error",
+        20
+      ],
+      "no-confusing-arrow": "error",
+      "no-empty-function": "error",
+      "comma-spacing": [
+        "error",
+        {
+          "before": false,
+          "after": true
+        }
+      ],
+      "comma-style": [
+        "error",
+        "last"
+      ],
+      "dot-location": [
+        "error",
+        "property"
+      ],
+      "implicit-arrow-linebreak": [
+        "error",
+        "beside"
+      ],
+      "jsx-quotes": [
+        "error",
+        "prefer-double"
+      ],
+      "keyword-spacing": [
+        "error"
+      ],
+      "no-trailing-spaces": "error",
+      "no-whitespace-before-property": "error",
+      "object-curly-newline": [
+        "error",
+        {
+          "multiline": true
+        }
+      ],
+      "rest-spread-spacing": [
+        "error",
+        "never"
+      ],
+      "space-infix-ops": "error"
     }
   },
   "browserslist": {

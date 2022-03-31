@@ -9,10 +9,12 @@ const Photo = ({ size, account }) => {
     const { getAccountLocal } = useContext(AccountContext);
     account = account !== undefined ? account : getAccountLocal();
 
-    if (size >= 14) {
+    if (size >= 16) {
+        font_size = "2xl";
+    } else if (size >= 14) {
         font_size = "xl";
     } else if (size >= 12) {
-        font_size = "lg";
+        font_size = "md";
     } else if (size >= 10) {
         font_size = "sm";
     } else if (size >= 8) {
@@ -51,7 +53,7 @@ const Photo = ({ size, account }) => {
     return (
         <div className={`h-${size} w-${size}`}>
             <div className={`inline-flex items-center justify-center h-${size} w-${size} rounded-full bg-gray-500`}>
-                <span className={`text-${font_size} font-medium leading-none text-white capitalize`}>{initials}</span>
+                <span className={`text-${font_size} font-medium leading-none text-white uppercase`}>{initials}</span>
             </div>
         </div>
     );
