@@ -116,7 +116,8 @@ const ProfileSetup = () => {
                 </div>
             </div>
 
-            <div className="relative sm:mx-10 sm:my-10 justify-center p-10">
+            {/* HERO SECTION */}
+            <div className="w-screen relative sm:my-10 flex justify-center p-10">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-6">
                     <div className="relative shadow-xl sm:rounded-2xl sm:overflow-hidden rounded-lg">
                         <div className="absolute inset-0">
