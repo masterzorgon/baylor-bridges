@@ -26,7 +26,7 @@ const ResetPassword = () => {
                     </a>
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
                         Reset your password
-                    </h2>                  
+                    </h2>
                 </div>
                 <form className="mt-8 space-y-6" action="#" method="POST">
                     <input type="hidden" name="remember" defaultValue="true" />

@@ -68,7 +68,7 @@ const Challenge = () => {
                 }).catch(error => {
                     setErrorMessage(error.response.data.message);
                 }).finally(() => {
-                    setLoading(false); 
+                    setLoading(false);
                 });
             },
             done: () => {
@@ -84,7 +84,7 @@ const Challenge = () => {
                 } else {
                     destination = changeBaseURL(destination, "/");
                 }
-                
+
                 window.location.href = destination;
             }
         }
@@ -92,7 +92,7 @@ const Challenge = () => {
 
     // If it is an undefined challenge, then it is an error (Or could be a challenge have not been implemented yet)
     if (challenges[name] === undefined) {
-        window.location.href = "/404";   
+        window.location.href = "/404";
     }
 
     const onSubmit = (event) => {

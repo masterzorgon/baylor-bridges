@@ -62,19 +62,18 @@ const Entrace = () => {
                     </p>
                 </div>
 
-                
+
                 <RadioGroup value={currentRole} onChange={setCurrentRole}>
                     <div className="mt-14 sm:mt-18 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
                         {roles.map((role) => (
                             <RadioGroup.Option
                                 key={role.key}
                                 value={role.key}
-                                className={({ checked, active }) =>
-                                    classNames(
-                                        checked ? "border-transparent" : "border-gray-300",
-                                        active ? "ring-2 ring-emerald-500" : "",
-                                        "relative bg-white border rounded-lg shadow-sm p-6 pb-7 flex cursor-pointer focus:outline-none"
-                                    )
+                                className={({ checked, active }) => classNames(
+                                    checked ? "border-transparent" : "border-gray-300",
+                                    active ? "ring-2 ring-emerald-500" : "",
+                                    "relative bg-white border rounded-lg shadow-sm p-6 pb-7 flex cursor-pointer focus:outline-none"
+                                )
                                 }
                             >
                                 {({ checked, active }) => (
@@ -90,7 +89,7 @@ const Entrace = () => {
                                             </div>
                                         </div>
                                         <CheckCircleIcon
-                                            className={classNames(checked ? "" : "opacity-0", "h-7 w-7 -mt-1 -mr-2 text-emerald-600 transition-all duration-75 ease-in")}
+                                            className={classNames(checked ? "" : "opacity-0", "h-7 w-7 -mt-1 -mr-2 text-emerald-600 duration-75 ease-in")}
                                             aria-hidden="true"
                                         />
                                         <div
@@ -108,11 +107,11 @@ const Entrace = () => {
                     </div>
                 </RadioGroup>
 
-                
+
                 <div className="mt-14 sm:mt-10 w-full grid text-center place-items-center space-y-4">
                     <button
                         type="button"
-                        className="transition-all duration-75 ease-in w-1/2 sm:w-1/3 text-center px-6 py-4 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="duration-75 ease-in w-1/2 sm:w-1/3 text-center px-6 py-4 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed"
                         disabled={currentRole === null}
                         onClick={onNext}
                     >
