@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { ArrowSmRightIcon, CalculatorIcon, MailIcon } from "@heroicons/react/outline";
 import axios from "axios";
 
-import Progress from "./progress";
+import Progress from "./Progress";
 import Button from "../../components/Button";
 import Password from "../../components/Password";
 
