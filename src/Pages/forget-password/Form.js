@@ -62,7 +62,7 @@ const Form = () => {
             axios.post("/reset-password", { email: email, }).then(res => {
                 setStep(2);
             }).catch(err => {
-                setErrorMessage(err.response.data);
+                setErrorMessage(err.response.data.message);
             }).finally(() => {
                 setLoading(false);
             });
