@@ -1,12 +1,13 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { Transition } from "@headlessui/react";
-import { UserCircleIcon, ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/outline";
+import { UserCircleIcon, ArrowLeftIcon, ArrowRightIcon, ExclamationCircleIcon, XIcon } from "@heroicons/react/outline";
 import { useTimeoutFn } from "react-use";
 import { useTransition, animated } from "react-spring";
 
 const NameInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
 
     const [, , takeAwayModal] = useTimeoutFn(() => setShow(false), 0); // used to fade modal out
+    const [alert, setAlert] = useState(false);
     const transition = useTransition(show, { // used to fade icon in
         from: { x: 0, y: 50, opacity: 0 },
         enter: { x: 0, y: -30, opacity: 1 },
@@ -14,9 +15,14 @@ const NameInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
     });
 
     const onSubmit = (event) => {
-        event.preventDefault();
-        takeAwayModal();
-        setTimeout(() => setModal(2), 400);
+        if (account.first_name === "" || account.last_name === "") {
+            setAlert(true);
+        } else {
+            event.preventDefault();
+            takeAwayModal();
+            setTimeout(() => setModal(2), 400);
+        }
+
     };
 
     const prevModal = (event) => {
@@ -40,6 +46,51 @@ const NameInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
                     className="-mt-32 max-w-7xl mx-auto relative z-10 pb-32 px-4 sm:px-6 lg:px-8"
                     aria-labelledby="contact-heading"
                 >
+                    {/* ALERT NOTIFICATION BELOW */}
+                    <div
+                        aria-live="assertive"
+                        className="fixed z-50 inset-0 flex items-end px-4 py-6 pointer-events-none sm:p-6 sm:items-start"
+                    >
+                        <div className="w-full flex flex-col items-center space-y-4 sm:items-end">
+                            {/* Notification panel, dynamically insert this into the live region when it needs to be displayed */}
+                            <Transition
+                                show={alert}
+                                as={Fragment}
+                                enter="transform ease-out duration-300 transition"
+                                enterFrom="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
+                                enterTo="translate-y-0 opacity-100 sm:translate-x-0"
+                                leave="transition ease-in duration-100"
+                                leaveFrom="opacity-100"
+                                leaveTo="opacity-0"
+                            >
+                                <div className="max-w-sm w-full bg-red-50 shadow-xl rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden">
+                                    <div className="p-4">
+                                        <div className="flex items-start">
+                                            <div className="flex-shrink-0">
+                                                <ExclamationCircleIcon className="h-6 w-6 text-red-400" aria-hidden="true" />
+                                            </div>
+                                            <div className="ml-3 w-0 flex-1 pt-0.5">
+                                                <p className="text-sm font-medium text-gray-900">Submission unsuccessful</p>
+                                                <p className="mt-1 text-sm text-gray-500">Please fill in required fields.</p>
+                                            </div>
+                                            <div className="ml-4 flex-shrink-0 flex">
+                                                <button
+                                                    className="bg-red-50 rounded-md inline-flex text-gray-500 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                                                    onClick={() => {
+                                                        setAlert(false);
+                                                    }}
+                                                >
+                                                    <span className="sr-only">Close</span>
+                                                    <XIcon className="h-5 w-5" aria-hidden="true" />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Transition>
+                        </div>
+                    </div>
+                    {/* ALERT NOTIFICATION ABOVE */}
                     <div className="grid grid-cols-1 gap-y-20 lg:gap-y-0 lg:gap-x-8">
                         <div className="flex flex-col bg-white rounded-2xl shadow-xl">
                             <div className="flex-1 relative pt-16 px-6 pb-8 md:px-8">
@@ -111,8 +162,8 @@ const NameInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
                                     <button
                                         type="button"
                                         onClick={onSubmit}
-                                        disabled={account.first_name === "" || account.last_name === ""}
-                                        className="mt-6 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500
+                                        id="next-button"
+                                        className=" mt-6 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500
                                         transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-103 duration-200 hover:shadow-md"
                                     >
                                         Next
