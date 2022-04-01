@@ -44,7 +44,7 @@ const Password = ({value, onChange, className}) => {
         }
     };
 
-    
+
 
     return (
         <div className="sm:col-span-2">

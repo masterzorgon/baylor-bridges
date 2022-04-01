@@ -42,9 +42,7 @@ const AllDone = () => {
             });
 
         makeShot(0.2,
-            {
-                spread: 60
-            });
+            {spread: 60});
 
         makeShot(0.35, {
             spread: 180,
