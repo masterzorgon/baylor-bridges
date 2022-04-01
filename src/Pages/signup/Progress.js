@@ -1,8 +1,6 @@
 import React from "react";
 
-
-
-const Progress = ({ currentStep,steps }) => {
+const Progress = ({ currentStep, steps }) => {
     return (
         <nav aria-label="Progress" className="my-4 sm:my-10">
             <ol className="space-y-4 md:flex md:space-y-0 md:space-x-8">
