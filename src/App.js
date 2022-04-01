@@ -16,7 +16,7 @@ import TermsConditions from "./Pages/policies&terms/Terms&Conditions";
 import CookiesPolicy from "./Pages/policies&terms/CookiesPolicy";
 
 import SignIn from "./Pages/signin/SignIn";
-import {default as ResetPassword} from "./Pages/ForgetPassword/Form";
+import { default as ResetPassword } from "./Pages/ForgetPassword/Form";
 import ProfileSetup from "./Pages/signin/setup/ProfileSetup";
 import EnterInfo from "./Pages/signin/setup/EnterInfo";
 import AllDone from "./Pages/signin/setup/AllDone";
@@ -37,13 +37,13 @@ import { Account } from "./components/Account";
 
 import "./App.css";
 
-function components(...components) {
+const components = (...components) => {
     return (
         <>
             {components.map(component => component)}
         </>
     );
-}
+};
 
 axios.defaults.headers = {
     "Cache-Control": "no-cache",
@@ -87,12 +87,12 @@ axios.interceptors.response.use((response) => {
     return Promise.reject(error);
 });
 
-function App() {
+const App = () => {
     return (
         <Account>
             <Router>
                 <Routes>
-                    <Route path="/" element={components(<Navbar hideOnTop={true} />, <Home />, <Footer />, <CookieConsent/>)} />
+                    <Route path="/" element={components(<Navbar hideOnTop={true} />, <Home />, <Footer />, <CookieConsent />)} />
                     <Route path="/about" element={components(<Navbar />, <About />, <Footer />, <CookieConsent />)} />
                     <Route path="/search" element={components(<Navbar />, <Search />, <Footer />, <CookieConsent />)} />
 
@@ -104,18 +104,18 @@ function App() {
                     <Route path="/profile" element={components(<Navbar />, <Profile />, <Footer />)} />
                     <Route path="/profile/:user_id" element={components(<Navbar />, <Profile />, <Footer />)} />
 
-                    <Route path="/sign-in" element={components(<SignIn />, <CookieConsent/>)} />
-                    <Route path="/reset-password" element={<ResetPassword />}/>
+                    <Route path="/sign-in" element={components(<SignIn />, <CookieConsent />)} />
+                    <Route path="/reset-password" element={<ResetPassword />} />
                     <Route path="/sign-in/challenge" element={<SignInChallenge />} />
-                    <Route path="/sign-in/setup/profile-setup" element={<ProfileSetup />} /> 
-                    <Route path="/sign-in/setup/enter-info" element={<EnterInfo />} /> 
-                    <Route path="/sign-in/setup/all-done" element={<AllDone />} /> 
+                    <Route path="/sign-in/setup/profile-setup" element={<ProfileSetup />} />
+                    <Route path="/sign-in/setup/enter-info" element={<EnterInfo />} />
+                    <Route path="/sign-in/setup/all-done" element={<AllDone />} />
 
-                    <Route path="/sign-up" element={components(<SignUpEntrace />, <CookieConsent/>)} />
+                    <Route path="/sign-up" element={components(<SignUpEntrace />, <CookieConsent />)} />
                     <Route path="/sign-up/:role" element={<SignUpForm />} />
                     <Route path="/sign-up/closed" element={<SignUpClosed />} />
 
-                    <Route path="/contact-us" element={components(<Navbar />, <ContactUs />, <Footer />, <CookieConsent/>)} />
+                    <Route path="/contact-us" element={components(<Navbar />, <ContactUs />, <Footer />, <CookieConsent />)} />
 
                     <Route path="/terms/privacy-policy" element={components(<Navbar />, <PrivacyPolicy />, <Footer />)} />
                     <Route path="/terms/terms-conditions" element={components(<Navbar />, <TermsConditions />, <Footer />)} />
@@ -128,6 +128,6 @@ function App() {
             </Router>
         </Account>
     );
-}
+};
 
 export default App;

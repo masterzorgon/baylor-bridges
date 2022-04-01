@@ -1,7 +1,7 @@
 import React from "react";
 import { ArrowSmRightIcon } from "@heroicons/react/outline";
 
-// TODO: Replace the profile pictures with actual pictures 
+// TODO: Replace the profile pictures with actual pictures
 
 // chair profiles
 const chair = [

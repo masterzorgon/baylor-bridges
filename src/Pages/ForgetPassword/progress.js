@@ -1,13 +1,13 @@
 import React from "react";
 
 const Progress = ({ currentStep, steps }) => {
-    console.log("current step is "+currentStep+"\tsteps: "+steps);
+    console.log("current step is " + currentStep + "\tsteps: " + steps);
 
     const percentProgress = () => {
-        
-        if (currentStep===steps.length) return "100%";
-        let number=(currentStep/steps.length)*100 - 12.5;
-        return number.toString()+"%";
+
+        if (currentStep === steps.length) return "100%";
+        let number = (currentStep / steps.length) * 100 - 12.5;
+        return number.toString() + "%";
 
 
     };
@@ -21,7 +21,7 @@ const Progress = ({ currentStep, steps }) => {
                     {steps.map((step) => (
                         <span key={step.name}>
                             <div className={`${step.id > 1 && step.id < steps.length ? "text-center" : ""} 
-                            ${step.id <= currentStep ? "text-emerald-800":"text-gray-400"} ${step.id === steps.length && "text-right"}`}>
+                            ${step.id <= currentStep ? "text-emerald-800" : "text-gray-400"} ${step.id === steps.length && "text-right"}`}>
                                 {step.name}
 
                             </div>

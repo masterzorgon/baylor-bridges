@@ -59,7 +59,7 @@ const Form = () => {
         setwrongVCode(false);
         if (step === 1) {
             setLoading(true);
-            axios.post("/reset-password", {email: email, }).then(res => {
+            axios.post("/reset-password", { email: email, }).then(res => {
                 setStep(2);
             }).catch(err => {
                 setErrorMessage(err.response.data);
