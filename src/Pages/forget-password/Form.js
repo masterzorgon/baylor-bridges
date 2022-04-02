@@ -11,10 +11,10 @@ import { classNames } from "../../components/Utils";
 
 
 const steps = [
-    { id: 1, name: "Email" },
-    { id: 2, name: "Verification" },
-    { id: 3, name: "Reset Password" },
-    { id: 4, name: "Success" }
+    { id: 1, name: "Email", button: "send the email", isSent: true },
+    { id: 2, name: "Verification", button: "next step", isSent: false },
+    { id: 3, name: "Reset Password", button: "verify", isSent: false },
+    { id: 4, name: "Success", button: "sign in account", isSent: false }
 ];
 
 const Form = () => {
@@ -210,7 +210,7 @@ const Form = () => {
                 <Progress currentStep={step} steps={steps} />
 
 
-                <div className="bg-white mt-10 py-8 px-4 shadow sm:rounded-lg sm:px-10 sm:mt-5">
+                <div className="bg-white mt-5 py-8 px-4 shadow sm:rounded-lg sm:px-10 sm:mt-10">
 
                     {step === 1 && step1()}
                     {step === 2 && step2()}
@@ -235,7 +235,7 @@ const Form = () => {
                             disabled={loading || !complete}
                         >
                             <span className={`flex items-center ${loading ? "invisible" : ""}`}>
-                                <span>{step === 4 ? "Sign In My Account" : "Next"}</span>
+                                <span>{steps[step - 1].button}</span>
                                 <ArrowSmRightIcon className="h-4 w-4" />
                             </span>
                         </Button>
