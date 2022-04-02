@@ -10,13 +10,14 @@ import Password from "../../components/Password";
 import VerificationCode from "../../components/VerificationCode";
 
 import { classNames } from "../../components/Utils";
+import { ArrowSmLeftIcon } from "@heroicons/react/solid";
 
 
 const steps = [
-    { id: 1, name: "Email", button: "send the email", isSent: true },
-    { id: 2, name: "Verification", button: "next step", isSent: true },
-    { id: 3, name: "Reset Password", button: "verify", isSent: false },
-    { id: 4, name: "Success", button: "sign in account", isSent: true }
+    { id: 1, name: "Email", button: "Send The Email", isSent: true },
+    { id: 2, name: "Verification", button: ["Change Email", "Next Step"], isSent: true },
+    { id: 3, name: "Reset Password", button: "Verify", isSent: false },
+    { id: 4, name: "Success", button: "Sign In Account", isSent: true }
 ];
 
 const Form = () => {
@@ -79,6 +80,7 @@ const Form = () => {
             axios.post("/reset-password", { email: email, }).then(res => {
                 setStep(2);
                 setComplete(false);
+                setResentFreeze(60);
                 setIsResent(true);
             }).catch(err => {
                 setErrorMessage(err.response.data.message);
@@ -252,18 +254,48 @@ const Form = () => {
                     }
 
 
-                    <div className="mt-6 text-sm text-right w-full grid place-items-center space-y-4">
-                        <Button
-                            className="relative text-center text-sm px-4 py-4 border border-transparent font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed"
-                            onClick={onSubmit}
-                            loading={loading}
-                            disabled={loading || !complete}
-                        >
-                            <span className={`flex items-center ${loading ? "invisible" : ""}`}>
-                                <span>{steps[step - 1].button}</span>
-                                <ArrowSmRightIcon className="h-4 w-4" />
-                            </span>
-                        </Button>
+                    <div className="mt-6 text-sm text-right w-full grid grid-cols-2 gap-4 place-items-center pt-2">
+                        {Array.isArray(steps[step - 1].button) ?
+
+                            <>
+                                <Button
+                                    className="relative text-center col-span-2 sm:col-span-1 text-sm px-4 py-4 border border-transparent font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    onClick={() => setStep(1)}
+                                    disabled={isResent}
+                                    loading={loading}
+                                >
+                                    <span className={`flex items-center ${loading ? "invisible" : ""}`}>
+                                        <ArrowSmLeftIcon className="h-4 w-4" />
+                                        <span>{steps[step - 1].button[0]}</span>
+                                    </span>
+                                </Button>
+                                <Button
+                                    className="relative text-center col-span-2 sm:col-span-1 text-sm px-4 py-4 border border-transparent font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    onClick={onSubmit}
+                                    loading={loading}
+                                    disabled={loading || !complete}
+                                >
+                                    <span className={`flex items-center ${loading ? "invisible" : ""}`}>
+                                        <span>{steps[step - 1].button[1]}</span>
+                                        <ArrowSmRightIcon className="h-4 w-4" />
+                                    </span>
+                                </Button>
+
+                            </>
+                            :
+                            <Button
+                                className="relative col-span-2 text-center text-sm px-4 py-4 border border-transparent font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                                onClick={onSubmit}
+                                loading={loading}
+                                disabled={loading || !complete}
+                            >
+                                <span className={`flex items-center ${loading ? "invisible" : ""}`}>
+                                    <span>{steps[step - 1].button}</span>
+                                    <ArrowSmRightIcon className="h-4 w-4" />
+                                </span>
+                            </Button>
+                        }
+
                     </div>
                 </div>
             </div>
