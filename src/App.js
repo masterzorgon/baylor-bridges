@@ -16,7 +16,6 @@ import TermsConditions from "./Pages/policies&terms/Terms&Conditions";
 import CookiesPolicy from "./Pages/policies&terms/CookiesPolicy";
 
 import SignIn from "./Pages/signin/SignIn";
-import ResetPassword from "./Pages/signin/ResetPassword";
 import ProfileSetup from "./Pages/signin/setup/ProfileSetup";
 import InfoInput from "./Pages/signin/setup/InfoInput";
 import AllDone from "./Pages/signin/setup/AllDone";
