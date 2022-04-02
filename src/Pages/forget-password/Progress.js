@@ -1,8 +1,6 @@
 import React from "react";
 
 const Progress = ({ currentStep, steps }) => {
-    console.log("current step is " + currentStep + "\tsteps: " + steps);
-
     const percentProgress = () => {
 
         if (currentStep === steps.length) return "100%";

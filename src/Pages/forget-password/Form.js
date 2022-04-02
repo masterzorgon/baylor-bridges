@@ -23,10 +23,9 @@ const Form = () => {
     const [complete, setComplete] = useState(false);
     const [step, setStep] = useState(1);
     const [error_message, setErrorMessage] = useState(null);
-
     const [email, setEmail] = useState("");
-    // eslint-disable-next-line no-unused-vars
     const [verificationCode, setVerificationCode] = useState("");
+    const [verificationCode_checked, setVerificationCode_checked] = useState(false);
     const [wrongVCode, setwrongVCode] = useState(false);
     const [password, setPassword] = useState("");
     const [password_checked, setPasswordChecked] = useState("");
@@ -40,15 +39,15 @@ const Form = () => {
             setComplete(email && email !== "" && is_valid);
         }
         if (step === 2) {
-            let reg = /^\d{6}$/;
-            let is_valid = reg.test(verificationCode || "");
-            setComplete(verificationCode && verificationCode !== "" && is_valid);
+
+            console.log(verificationCode_checked);
+            setComplete(verificationCode_checked);
 
         }
         if (step === 3) {
             setComplete(password_checked);
         }
-    }, [email, verificationCode, password]);
+    }, [email, verificationCode, password, verificationCode_checked, password_checked]);
     useEffect(() => {
 
         if (!wrongVCode) {
@@ -152,7 +151,10 @@ const Form = () => {
                 <p className="mt-1 text-sm font-medium mb-4 text-gray-500">
                     The Verification email is sent
                 </p>
-                <VerificationCode />
+                <VerificationCode onChange={(verificationCode, checked) => {
+                    setVerificationCode(verificationCode);
+                    setVerificationCode_checked(checked);
+                }} />
             </>
         );
 

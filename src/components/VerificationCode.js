@@ -1,8 +1,26 @@
-import { React } from "react";
+import { React, useEffect, useState } from "react";
 
-const VerificationCode = ({ value, onchange }) => {
-    // const [code, setCode] = useState([]);
-    // const [codeCheck, setCodeCheck] = useState(false);
+const VerificationCode = ({ value, onChange }) => {
+    const [code, setCode] = useState("");
+
+    useEffect(() => {
+        setCode(value);
+    }, [value]);
+
+
+    const setCodeTrigger = (e) => {
+        let code_uncheck = e.target.value;
+
+        if (/^\d{0,6}$/.test(code_uncheck)) {
+            setCode(code_uncheck);
+        }
+
+        if (onChange) {
+            onChange(code, code_uncheck.length >= 6);
+        }
+
+
+    };
     return (
         <>
             <div className="mt-1 grid">
@@ -12,6 +30,8 @@ const VerificationCode = ({ value, onchange }) => {
                     id="name"
                     className="shadow-sm focus:ring-emerald-800 focus:border-emerald-800 block w-full sm:w-2/3 justify-self-center sm:text-lg font-semibold tracking-[1em] text-center text-slate-600 border-gray-300 px-4 rounded-full"
                     placeholder="******"
+                    value={code}
+                    onChange={setCodeTrigger}
                 />
             </div>
         </>
