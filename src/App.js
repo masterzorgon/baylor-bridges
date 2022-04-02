@@ -105,7 +105,6 @@ const App = () => {
                     <Route path="/profile/:user_id" element={components(<Navbar />, <Profile />, <Footer />)} />
 
                     <Route path="/sign-in" element={components(<SignIn />, <CookieConsent />)} />
-                    <Route path="/reset-password" element={<ResetPassword />} />
                     <Route path="/sign-in/challenge" element={<SignInChallenge />} />
                     <Route path="/sign-in/setup/profile-setup" element={<ProfileSetup />} />
                     <Route path="/sign-in/setup/info-input" element={<InfoInput />} />
