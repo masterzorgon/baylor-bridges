@@ -40,7 +40,7 @@ const HeadlineInput = ({ account, setAccount, modal, show, setModal, setShow }) 
                 leaveTo="opacity-0"
             >
                 <section
-                    className="-mt-32 max-w-7xl mx-auto relative z-10 pb-32 px-4 sm:px-6 lg:px-8"
+                    className="-mt-32 max-w-7xl sm:mx-20 relative z-10 pb-32 px-4 sm:px-6 lg:px-8"
                     aria-labelledby="contact-heading"
                 >
                     {/* ALERT NOTIFICATION */}
@@ -126,17 +126,15 @@ const HeadlineInput = ({ account, setAccount, modal, show, setModal, setShow }) 
                                         <label htmlFor="job-title" className="block text-xs font-medium text-gray-900">
                                             Biography
                                         </label>
-                                        <div className="mt-1">
-                                            <textarea
-                                                rows={4}
-                                                name="comment"
-                                                id="comment"
-                                                className="shadow-sm focus:ring-gray-100 focus:border-gray-300 block w-full sm:text-sm border-gray-300 rounded-md"
-                                                placeholder="As an orthopedic surgeon, I..."
-                                                onChange={event => setAccount({ ...account, biography: event.target.biography })}
-                                                value={account.biography}
-                                            />
-                                        </div>
+                                        <input
+                                            type="text"
+                                            name="bio"
+                                            id="bio"
+                                            className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
+                                            placeholder="As an orthopedic surgeon, I..."
+                                            onChange={event => setAccount({ ...account, biography: event.target.biography })}
+                                            value={account.biography}
+                                        />
                                     </div>
                                 </div>
                                 <div className="flex justify-between">
@@ -144,7 +142,7 @@ const HeadlineInput = ({ account, setAccount, modal, show, setModal, setShow }) 
                                         type="button"
                                         onClick={prevModal}
                                         className="mt-6 inline-flex items-center px-4 py-2 border border-emerald-600 shadow-sm text-sm font-medium rounded-md text-emerald-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500
-                                        transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-103 duration-200 hover:shadow-md"
+                                        transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 duration-200 hover:shadow-md"
                                     >
                                         <ArrowLeftIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
                                         Back
@@ -153,7 +151,7 @@ const HeadlineInput = ({ account, setAccount, modal, show, setModal, setShow }) 
                                         type="button"
                                         onClick={onSubmit}
                                         className="mt-6 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500
-                                        transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-103 duration-200 hover:shadow-md"
+                                        transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 duration-200 hover:shadow-md"
                                     >
                                         Next
                                         <ArrowRightIcon className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />

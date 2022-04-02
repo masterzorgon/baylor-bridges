@@ -39,7 +39,7 @@ const LocationInput = ({ account, setAccount, modal, show, setModal, setShow }) 
                 leaveTo="opacity-0"
             >
                 <section
-                    className="-mt-32 max-w-7xl mx-auto relative z-10 pb-32 px-4 sm:px-6 lg:px-8"
+                    className="-mt-32 max-w-7xl sm:mx-20 relative z-10 pb-32 px-4 sm:px-6 lg:px-8"
                     aria-labelledby="contact-heading"
                 >
                     <div className="grid grid-cols-1 gap-y-20 lg:gap-y-0 lg:gap-x-8">
@@ -56,8 +56,7 @@ const LocationInput = ({ account, setAccount, modal, show, setModal, setShow }) 
 
                                 <h3 className="text-xl font-medium text-gray-900">Location Information</h3>
                                 <p className="mt-4 text-base text-gray-500">
-                                    At your discretion, please provide your location information. This information
-                                    will be available for others to see on your Baylor Bridges account. Your state
+                                    At your discretion, please provide your location information. Your state
                                     information will be used to fill in the Baylor Bridges heat map displayed on the home page.
 
                                 </p>
@@ -69,9 +68,6 @@ const LocationInput = ({ account, setAccount, modal, show, setModal, setShow }) 
                                             <label htmlFor="name" className="block text-xs font-medium text-gray-900">
                                                 State
                                             </label>
-                                            <span className="text-sm text-gray-500" id="email-optional">
-                                                Required
-                                            </span>
                                         </div>
                                         <input
                                             type="text"
@@ -103,7 +99,7 @@ const LocationInput = ({ account, setAccount, modal, show, setModal, setShow }) 
                                         type="button"
                                         onClick={prevModal}
                                         className="mt-6 inline-flex items-center px-4 py-2 border border-emerald-600 shadow-sm text-sm font-medium rounded-md text-emerald-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500
-                                        transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-103 duration-200 hover:shadow-md"
+                                        transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 duration-200 hover:shadow-md"
                                     >
                                         <ArrowLeftIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
                                         Back
@@ -112,7 +108,7 @@ const LocationInput = ({ account, setAccount, modal, show, setModal, setShow }) 
                                         type="button"
                                         onClick={onSubmit}
                                         className="mt-6 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500
-                                        transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-103 duration-200 hover:shadow-md"
+                                        transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 duration-200 hover:shadow-md"
                                     >
                                         Next
                                         <ArrowRightIcon className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />

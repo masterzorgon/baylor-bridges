@@ -50,7 +50,7 @@ const InfoInput = () => {
         <>
             <div className="bg-white">
                 {/* Header */}
-                <div className="relative pb-32 bg-gray-800">
+                <div className="relative mb-5 pb-32 bg-gray-800">
                     <div className="absolute inset-0">
                         <img
                             className="w-full h-full object-cover"
@@ -59,14 +59,12 @@ const InfoInput = () => {
                         />
                         <div className="absolute inset-0 bg-gray-500 mix-blend-multiply" aria-hidden="true" />
                     </div>
-                    <div className="relative max-w-7xl mx-auto py-24 px-4 sm:py-32 sm:px-6 lg:px-8">
+                    <div className="relative max-w-7xl mx-auto px-4 py-10 sm:px-6 lg:px-8">
                         <h1 className="text-4xl font-extrabold tracking-tight text-white md:text-5xl lg:text-6xl">
                             Enter your profile information
                         </h1>
                         <p className="mt-6 max-w-3xl text-xl text-gray-300">
                             The information you provide here should be authentic and verifiable.
-                            What you provide will be the information that others will identify you with via your
-                            Baylor Bridges account.
                         </p>
                     </div>
                 </div>

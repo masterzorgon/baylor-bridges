@@ -44,19 +44,22 @@ const components = (...components) => {
     );
 };
 
-axios.defaults.headers = {
+axios.defaults.headers.common = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Credentials": true,
     "Cache-Control": "no-cache",
     "Pragma": "no-cache",
     "Expires": "0",
-    "Access-Control-Allow-Origin": "*",
 };
 
+// i am only able to make requests to the server if my client is pointed to localhost:3000 and the baseURL is pointed to "127.0.0.1:5000" - string interpolation does not work
 
 // Make API Base URL
 const hostname = window.location.hostname;
 const port = window.location.port;
 if (hostname === "localhost" || hostname === "127.0.0.1" || port === 3000) {
-    axios.defaults.baseURL = `http://${hostname}:5000`;
+    // axios.defaults.baseURL = `http://${hostname}:5000`;
+    axios.defaults.baseURL = "http://127.0.0.1:5000";
     console.log("Running on Localhost", axios.defaults.baseURL);
 } else {
     axios.defaults.baseURL = `https://api.${hostname}`;

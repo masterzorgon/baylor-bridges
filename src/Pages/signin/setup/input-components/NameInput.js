@@ -43,7 +43,7 @@ const NameInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
                 leaveTo="opacity-0"
             >
                 <section
-                    className="-mt-32 max-w-7xl mx-auto relative z-10 pb-32 px-4 sm:px-6 lg:px-8"
+                    className="-mt-32 max-w-7xl sm:mx-20 relative z-10 pb-32 px-4 sm:px-6 lg:px-8"
                     aria-labelledby="contact-heading"
                 >
                     {/* ALERT NOTIFICATION BELOW */}
@@ -154,7 +154,7 @@ const NameInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
                                         type="button"
                                         onClick={prevModal}
                                         className="mt-6 inline-flex items-center px-4 py-2 border border-emerald-600 shadow-sm text-sm font-medium rounded-md text-emerald-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500
-                                        transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-103 duration-200 hover:shadow-md"
+                                        transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 duration-200 hover:shadow-md"
                                     >
                                         <ArrowLeftIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
                                         Back
@@ -164,7 +164,7 @@ const NameInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
                                         onClick={onSubmit}
                                         id="next-button"
                                         className=" mt-6 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500
-                                        transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-103 duration-200 hover:shadow-md"
+                                        transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 duration-200 hover:shadow-md"
                                     >
                                         Next
                                         <ArrowRightIcon className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
