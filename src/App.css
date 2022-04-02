@@ -72,3 +72,39 @@ input, textarea, select {
   transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity;
 }
+
+.btn .arrow-symbol,
+.link .arrow-symbol {
+  transition: transform .2s;
+  transform: translateX(0);
+}
+
+.btn:focus .arrow-symbol,
+.btn:hover .arrow-symbol,
+.link:focus .arrow-symbol,
+.link:hover .arrow-symbol {
+  transform: translateX(4px);
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  transform-origin: 0px 0px;
+}
+
+.btn .arrow-symbol path,
+.link .arrow-symbol path {
+  /* stroke-width: 3px; */
+}
+
+.btn .arrow-symbol path:last-child,
+.link .arrow-symbol path:last-child {
+  stroke-dasharray: 10;
+  stroke-dashoffset: 10;
+  transition: stroke-dashoffset .2s;
+}
+
+.btn:focus .arrow-symbol path:last-child,
+.btn:hover .arrow-symbol path:last-child,
+.link:focus .arrow-symbol path:last-child,
+.link:hover .arrow-symbol path:last-child {
+  stroke-dashoffset: 20;
+}
