@@ -1,20 +1,21 @@
 
 import React, { useState, useEffect } from "react";
-import { ArrowSmRightIcon, CalculatorIcon, MailIcon } from "@heroicons/react/outline";
+import { ArrowSmRightIcon, MailIcon } from "@heroicons/react/outline";
 import axios from "axios";
 
 import Progress from "./Progress";
 import Button from "../../components/Button";
 import Password from "../../components/Password";
+import VerificationCode from "../../components/VerificationCode";
 
 import { classNames } from "../../components/Utils";
 
 
 const steps = [
     { id: 1, name: "Email", button: "send the email", isSent: true },
-    { id: 2, name: "Verification", button: "next step", isSent: false },
+    { id: 2, name: "Verification", button: "next step", isSent: true },
     { id: 3, name: "Reset Password", button: "verify", isSent: false },
-    { id: 4, name: "Success", button: "sign in account", isSent: false }
+    { id: 4, name: "Success", button: "sign in account", isSent: true }
 ];
 
 const Form = () => {
@@ -24,6 +25,7 @@ const Form = () => {
     const [error_message, setErrorMessage] = useState(null);
 
     const [email, setEmail] = useState("");
+    // eslint-disable-next-line no-unused-vars
     const [verificationCode, setVerificationCode] = useState("");
     const [wrongVCode, setwrongVCode] = useState(false);
     const [password, setPassword] = useState("");
@@ -61,6 +63,7 @@ const Form = () => {
             setLoading(true);
             axios.post("/reset-password", { email: email, }).then(res => {
                 setStep(2);
+                setComplete(false);
             }).catch(err => {
                 setErrorMessage(err.response.data.message);
             }).finally(() => {
@@ -73,6 +76,7 @@ const Form = () => {
         if (step === 2) {
             // setLoading(true);
             setStep(3);
+            setComplete(false);
 
             //todo: axios request
 
@@ -92,6 +96,7 @@ const Form = () => {
                     // wrongVCode state is going to notify the useEffect do not remove the error message when it jumps from step 3 to step 2
                     setwrongVCode(true);
                     setStep(2);
+                    setComplete(false);
                 } else if (err.response.data.code === "ExpiredCodeException") {
                     setErrorMessage("account might not exist or code is expired. Please try again.");
                     // wrongVCode state is going to notify the useEffect do not remove the error message when it jumps from step 3 to step 1
@@ -117,6 +122,9 @@ const Form = () => {
         return (
             <>
                 <h3 className="text-lg leading-6 font-medium text-gray-900">Your email address</h3>
+                <p className="mt-1 text-sm font-medium mb-4 text-gray-500">
+                    The verification code willl be send to this email, please check your inbox. If you do not see the email, please check your junk email folder.
+                </p>
                 <div className="mt-4 relative rounded-md shadow-sm">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center">
                         <MailIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
@@ -144,19 +152,7 @@ const Form = () => {
                 <p className="mt-1 text-sm font-medium mb-4 text-gray-500">
                     The Verification email is sent
                 </p>
-                <div className="mt-4 relative rounded-md shadow-sm">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center">
-                        <CalculatorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-                    </div>
-                    <input
-                        type="text"
-
-                        className={classNames("py-4 w-full pl-10 sm:text-sm rounded-md z-30", error_message === null ? "border-gray-300 focus:ring-emerald-500 focus:border-emerald-500" : "border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500")}
-                        placeholder="0 0 0 0 0 0"
-                        value={verificationCode}
-                        onChange={(e) => setVerificationCode(e.target.value)}
-                    />
-                </div>
+                <VerificationCode />
             </>
         );
 
