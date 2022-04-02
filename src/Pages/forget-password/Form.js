@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 
 import React, { useState, useEffect } from "react";
 import { ArrowSmRightIcon, MailIcon } from "@heroicons/react/outline";
@@ -29,6 +30,8 @@ const Form = () => {
     const [wrongVCode, setwrongVCode] = useState(false);
     const [password, setPassword] = useState("");
     const [password_checked, setPasswordChecked] = useState("");
+    const [isResent, setIsResent] = useState(false);
+    const [resentFreeze, setResentFreeze] = useState(0);
 
 
     useEffect(() => {
@@ -55,6 +58,19 @@ const Form = () => {
 
         }
     }, [step]);
+    useEffect(() => {
+        if (!resentFreeze) {
+            setIsResent(false);
+            return;
+        }
+
+        const intervalId = setInterval(() => {
+            setResentFreeze(resentFreeze - 1);
+        }, 1000);
+        console.log("resend freeze is" + resentFreeze);
+
+        return () => clearInterval(intervalId);
+    }, [resentFreeze]);
 
     const onSubmit = () => {
         setwrongVCode(false);
@@ -63,6 +79,7 @@ const Form = () => {
             axios.post("/reset-password", { email: email, }).then(res => {
                 setStep(2);
                 setComplete(false);
+                setIsResent(true);
             }).catch(err => {
                 setErrorMessage(err.response.data.message);
             }).finally(() => {
@@ -148,8 +165,18 @@ const Form = () => {
         return (
             <>
                 <h3 className="text-lg leading-6 font-medium text-gray-900">Verification Code</h3>
-                <p className="mt-1 text-sm font-medium mb-4 text-gray-500">
-                    The Verification email is sent
+                <p className="mt-1 text-sm font-medium mb-4 text-gray-500 pointer-events-auto">
+                    The Verification email is sent, please check your inbox.{" "}
+                    <button
+                        className={isResent ? "text-gray-700 font-semibold" : "text-emerald-800 underline font-semibold"}
+                        disabled={isResent}
+                        onClick={() => {
+                            console.log("click resend");
+                            setIsResent(true);
+                            setResentFreeze(60);
+                            // TODO: axios request handle resent
+                        }}
+                    >{!isResent ? "resend the code" : "sent(" + resentFreeze + "S). "}</button>
                 </p>
                 <VerificationCode onChange={(verificationCode, checked) => {
                     setVerificationCode(verificationCode);
