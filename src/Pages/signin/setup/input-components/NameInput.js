@@ -51,7 +51,7 @@ const NameInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
                         aria-live="assertive"
                         className="fixed z-50 inset-0 flex items-end px-4 py-6 pointer-events-none sm:p-6 sm:items-start"
                     >
-                        <div className="w-full flex flex-col items-center space-y-4 sm:items-end">
+                        <div className="w-full flex flex-col space-y-4 mb-auto items-end">
                             {/* Notification panel, dynamically insert this into the live region when it needs to be displayed */}
                             <Transition
                                 show={alert}
@@ -69,11 +69,11 @@ const NameInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
                                             <div className="flex-shrink-0">
                                                 <ExclamationCircleIcon className="h-6 w-6 text-red-400" aria-hidden="true" />
                                             </div>
-                                            <div className="ml-3 w-0 flex-1 pt-0.5">
+                                            <div className="ml-1 w-0 flex-1 pt-0.5">
                                                 <p className="text-sm font-medium text-gray-900">Submission unsuccessful</p>
                                                 <p className="mt-1 text-sm text-gray-500">Please fill in required fields.</p>
                                             </div>
-                                            <div className="ml-4 flex-shrink-0 flex">
+                                            <div className="ml-1 flex-shrink-0 flex">
                                                 <button
                                                     className="bg-red-50 rounded-md inline-flex text-gray-500 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                                                     onClick={() => {
