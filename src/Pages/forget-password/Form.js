@@ -44,14 +44,14 @@ const Form = () => {
         }
         if (step === 2) {
 
-            console.log(verificationCode_checked);
+            console.log(verificationCode_checked + "\t" + verificationCode);
             setComplete(verificationCode_checked);
 
         }
         if (step === 3) {
             setComplete(password_checked);
         }
-    }, [email, verificationCode, password, verificationCode_checked, password_checked]);
+    }, [email, password, verificationCode_checked, password_checked]);
     useEffect(() => {
 
         if (!wrongVCode) {
@@ -68,8 +68,6 @@ const Form = () => {
         const intervalId = setInterval(() => {
             setResentFreeze(resentFreeze - 1);
         }, 1000);
-        console.log("resend freeze is" + resentFreeze);
-
         return () => clearInterval(intervalId);
     }, [resentFreeze]);
 
@@ -162,6 +160,17 @@ const Form = () => {
 
     };
 
+    const handleResend = () => {
+        axios.post("/reset-password", { "email": email })
+            .then(res => {
+                console.log("click resend");
+                setIsResent(true);
+                setResentFreeze(60);
+            }).catch(err => {
+                setErrorMessage(err.response.data.message);
+            });
+    };
+
     const step2 = () => {
 
         return (
@@ -173,9 +182,7 @@ const Form = () => {
                         className={isResent ? "text-gray-700 font-semibold" : "text-emerald-800 underline font-semibold"}
                         disabled={isResent}
                         onClick={() => {
-                            console.log("click resend");
-                            setIsResent(true);
-                            setResentFreeze(60);
+                            handleResend();
                             // TODO: axios request handle resent
                         }}
                     >{!isResent ? "resend the code" : "sent(" + resentFreeze + "S). "}</button>

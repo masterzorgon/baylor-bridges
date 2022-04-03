@@ -7,17 +7,17 @@ const VerificationCode = ({ value, onChange }) => {
         setCode(value);
     }, [value]);
 
-
     const setCodeTrigger = (e) => {
         let code_uncheck = e.target.value;
 
         if (/^\d{0,6}$/.test(code_uncheck)) {
             setCode(code_uncheck);
+
+            if (onChange) {
+                onChange(code_uncheck, code_uncheck.length >= 6);
+            }
         }
 
-        if (onChange) {
-            onChange(code, code_uncheck.length >= 6);
-        }
 
 
     };
