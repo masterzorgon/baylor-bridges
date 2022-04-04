@@ -159,16 +159,29 @@ const NameInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
                                         <ArrowLeftIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
                                         Back
                                     </button>
-                                    <button
-                                        type="button"
-                                        onClick={onSubmit}
-                                        id="next-button"
-                                        className=" mt-6 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500
-                                        transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 duration-200 hover:shadow-md"
-                                    >
-                                        Next
-                                        <ArrowRightIcon className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
-                                    </button>
+                                    {
+                                        account.first_name === "" || account.last_name === "" ?
+                                            <button
+                                                type="button"
+                                                disabled={true}
+                                                id="next-button"
+                                                className="disabled:opacity-50 disabled:cursor-not-allowed mt-6 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                                            >
+                                                Next
+                                                <ArrowRightIcon className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
+                                            </button> :
+                                            <button
+                                                type="button"
+                                                onClick={onSubmit}
+                                                id="next-button"
+                                                className=" mt-6 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500
+                                                transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 duration-200 hover:shadow-md"
+                                            >
+                                                Next
+                                                <ArrowRightIcon className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
+                                            </button>
+
+                                    }
                                 </div>
                             </div>
                         </div>

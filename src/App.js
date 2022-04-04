@@ -44,7 +44,7 @@ const components = (...components) => {
     );
 };
 
-axios.defaults.headers.common = {
+axios.defaults.headers = {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Credentials": true,
     "Cache-Control": "no-cache",
@@ -58,7 +58,7 @@ axios.defaults.headers.common = {
 const hostname = window.location.hostname;
 const port = window.location.port;
 if (hostname === "localhost" || hostname === "127.0.0.1" || port === 3000) {
-    // axios.defaults.baseURL = `http://${hostname}:5000`;
+    // axios.defaults.baseURL = `//${hostname}:5000`;
     axios.defaults.baseURL = "http://127.0.0.1:5000";
     console.log("Running on Localhost", axios.defaults.baseURL);
 } else {
