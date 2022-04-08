@@ -14,7 +14,7 @@ import { ArrowSmLeftIcon } from "@heroicons/react/solid";
 
 
 const steps = [
-    { id: 1, name: "Email", button: "Send The Email", isSent: true },
+    { id: 1, name: "Email", button: "Next", isSent: true },
     { id: 2, name: "Verification", button: ["Change Email", "Next Step"], isSent: true },
     { id: 3, name: "Reset Password", button: "Verify", isSent: false },
     { id: 4, name: "Success", button: "Sign In Account", isSent: true }
@@ -266,7 +266,7 @@ const Form = () => {
 
                             <>
                                 <Button
-                                    className="relative text-center col-span-2 sm:col-span-1 text-sm px-4 py-4 border border-transparent font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="relative text-center col-span-2 sm:col-span-1 text-sm hover:ring px-4 py-4 border border-transparent font-medium rounded-md shadow-sm text-emerald-800 bg-white hover:bg-white border-zinc-200 hover:ring-emerald-400 focus:ring-2 ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
                                     onClick={() => setStep(1)}
                                     disabled={isResent}
                                     loading={loading}
@@ -281,10 +281,10 @@ const Form = () => {
                                     onClick={onSubmit}
                                     loading={loading}
                                     disabled={loading || !complete}
+                                    arrow={true}
                                 >
                                     <span className={`flex items-center ${loading ? "invisible" : ""}`}>
                                         <span>{steps[step - 1].button[1]}</span>
-                                        <ArrowSmRightIcon className="h-4 w-4" />
                                     </span>
                                 </Button>
 
@@ -295,10 +295,11 @@ const Form = () => {
                                 onClick={onSubmit}
                                 loading={loading}
                                 disabled={loading || !complete}
+                                arrow={true}
                             >
                                 <span className={`flex items-center ${loading ? "invisible" : ""}`}>
                                     <span>{steps[step - 1].button}</span>
-                                    <ArrowSmRightIcon className="h-4 w-4" />
+
                                 </span>
                             </Button>
                         }
