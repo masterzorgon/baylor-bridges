@@ -138,7 +138,7 @@ const LocationInput = ({ account, setAccount, modal, show, setModal, setShow }) 
                                         <Menu as="div" id="dropdown" className="flex relative text-left">
                                             <div className="w-full">
                                                 <Menu.Button className="inline-flex justify-betweem w-full rounded-md border border-transparent bg-white text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-white">
-                                                    {account.state === "" ? "Select your state" : location}
+                                                    {location}
                                                     <SelectorIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
                                                 </Menu.Button>
                                             </div>
