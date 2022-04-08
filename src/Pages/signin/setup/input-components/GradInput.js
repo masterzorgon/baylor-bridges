@@ -90,7 +90,7 @@ const GradInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
                                             >
                                                 <Menu.Items className="origin-top-right absolute right-0 mt-1 w-full rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                     <div className="py-1">
-                                                        <Menu.Item value="Spring">
+                                                        <Menu.Item>
                                                             {({ active }) => (
                                                                 <button
                                                                     type="submit"
@@ -98,13 +98,13 @@ const GradInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
                                                                         active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                                                                         "block w-full text-left px-4 py-2 text-sm"
                                                                     )}
-                                                                    onClick={event => setSemester(event.target.value)}
+                                                                    onClick={event => setSemester(event.target.textContent)}
                                                                 >
                                                                     Spring
                                                                 </button>
                                                             )}
                                                         </Menu.Item>
-                                                        <Menu.Item value="Fall">
+                                                        <Menu.Item>
                                                             {({ active }) => (
                                                                 <button
                                                                     type="submit"
@@ -112,7 +112,7 @@ const GradInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
                                                                         active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                                                                         "block w-full text-left px-4 py-2 text-sm"
                                                                     )}
-                                                                    onClick={event => setSemester(event.target.value)}
+                                                                    onClick={event => setSemester(event.target.textContent)}
                                                                 >
                                                                     Fall
                                                                 </button>
