@@ -48,7 +48,7 @@ const InfoInput = () => {
 
     return (
         <>
-            <div className="flex-col justify-center sm:overflow-hidden">
+            <div className="flex-col justify-center">
                 {/* Header */}
                 <div className="flex-col mb-5 pb-32">
                     <div className="absolute inset-0">
@@ -59,7 +59,7 @@ const InfoInput = () => {
                         />
                         <div className="absolute inset-0 bg-gray-200 mix-blend-multiply" aria-hidden="true" />
                         <div className="relative sm:block sm:absolute sm:inset-y-0 sm:h-full sm:w-full pointer-events-none -z-10" aria-hidden="true">
-                            <div className="relative h-full w-full mx-auto overflow-hidden">
+                            <div className="hidden md:block relative h-full w-full mx-auto overflow-hidden">
                                 <svg
                                     className="flex right-full transform -translate-y-1/4 -translate-x-3/4"
                                     width={404}
