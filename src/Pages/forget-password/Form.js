@@ -177,7 +177,7 @@ const Form = () => {
             <>
                 <h3 className="text-lg leading-6 font-medium text-gray-900">Verification Code</h3>
                 <p className="mt-1 text-sm font-medium mb-4 text-gray-500 pointer-events-auto">
-                    The Verification email is sent, please check your inbox.{" "}
+                    The Verification email 6-digit code is sent, please check your inbox.{" "}
                     <button
                         className={isResent ? "text-gray-700 font-semibold" : "text-emerald-800 underline font-semibold"}
                         disabled={isResent}
@@ -185,7 +185,7 @@ const Form = () => {
                             handleResend();
                             // TODO: axios request handle resent
                         }}
-                    >{!isResent ? "resend the code" : "sent(" + resentFreeze + "S). "}</button>
+                    >{!isResent ? "Resend the code?" : "Already sent(" + resentFreeze + "S). "}</button>
                 </p>
                 <VerificationCode onChange={(verificationCode, checked) => {
                     setVerificationCode(verificationCode);
@@ -216,7 +216,7 @@ const Form = () => {
     const step4 = () => {
         return (
             <>
-                <h3 className="text-lg leading-6 font-medium text-gray-900">successfully Reset the Password :)</h3>
+                <h3 className="text-lg leading-6 font-medium text-gray-900">Successfully Reset The Password :)</h3>
                 <p className="mt-1 text-sm font-medium mb-4 text-gray-500 self-center">Your account password has been successfully reset. Sign in your account with new password</p>
 
 

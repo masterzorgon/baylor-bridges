@@ -9,6 +9,7 @@ const VerificationCode = ({ value, onChange }) => {
 
     const setCodeTrigger = (e) => {
         let code_uncheck = e.target.value;
+        console.log(code_uncheck[code_uncheck.length - 1]);
 
         if (/^\d{0,6}$/.test(code_uncheck)) {
             setCode(code_uncheck);
@@ -28,7 +29,7 @@ const VerificationCode = ({ value, onChange }) => {
                     type="text"
                     name="name"
                     id="name"
-                    className="shadow-sm focus:ring-emerald-800 focus:border-emerald-800 block w-full sm:w-2/3 justify-self-center sm:text-lg font-semibold tracking-[1em] text-center text-slate-600 border-gray-300 px-4 rounded-full"
+                    className="caret-white shadow-sm focus:ring-emerald-800 focus:border-emerald-800 block w-full sm:w-2/3 justify-self-center sm:text-lg font-semibold tracking-[1em] text-center text-slate-600 border-gray-300 px-4 rounded-full"
                     placeholder="******"
                     value={code}
                     onChange={setCodeTrigger}
