@@ -13,7 +13,7 @@ const InfoInput = () => {
 
     const [show, setShow] = useState(false); // used to fade modals out
     const [, , showTheModal] = useTimeoutFn(() => setShow(true), 400); // used to fade modals in
-    const [modal, setModal] = useState(3); // used to switch between modals
+    const [modal, setModal] = useState(1); // used to switch between modals
     const [account, setAccount] = useState({
         biography: "",
         city: "",
