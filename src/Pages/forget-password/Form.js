@@ -137,7 +137,7 @@ const Form = () => {
     const step1 = () => {
         return (
             <>
-                <h3 className="text-lg leading-6 font-medium text-gray-900">Your email address</h3>
+                <h3 className="text-lg leading-6 font-medium text-gray-900">Email Address</h3>
                 <p className="mt-1 text-sm font-medium mb-4 text-gray-500">
                     The verification code willl be send to this email, please check your inbox. If you do not see the email, please check your junk email folder.
                 </p>
@@ -199,7 +199,7 @@ const Form = () => {
     const step3 = () => {
         return (
             <>
-                <h3 className="text-lg leading-6 font-medium text-gray-900">Your password</h3>
+                <h3 className="text-lg leading-6 font-medium text-gray-900">Password</h3>
                 <p className="mt-1 text-sm font-medium mb-4 text-gray-500">Set a password for your account.</p>
                 <Password
                     className="py-4"
