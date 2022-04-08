@@ -13,7 +13,7 @@ const InfoInput = () => {
 
     const [show, setShow] = useState(false); // used to fade modals out
     const [, , showTheModal] = useTimeoutFn(() => setShow(true), 400); // used to fade modals in
-    const [modal, setModal] = useState(1); // used to switch between modals
+    const [modal, setModal] = useState(3); // used to switch between modals
     const [account, setAccount] = useState({
         biography: "",
         city: "",
@@ -48,30 +48,28 @@ const InfoInput = () => {
 
     return (
         <>
-            <div className="flex justify-center 3xl:w-80">
-                <div className="bg-white">
-                    {/* Header */}
-                    <div className="relative mb-5 pb-32 bg-gray-800">
-                        <div className="absolute inset-0">
-                            <img
-                                className="w-full h-full object-cover"
-                                src="https://upload.wikimedia.org/wikipedia/commons/d/d6/Old_Main%2C_Baylor_University.jpg"
-                                alt=""
-                            />
-                            <div className="absolute inset-0 bg-gray-500 mix-blend-multiply" aria-hidden="true" />
-                        </div>
-                        <div className="relative max-w-7xl mx-auto px-4 py-10 sm:px-6 lg:px-8">
-                            <h1 className="text-4xl font-extrabold tracking-tight text-white md:text-5xl lg:text-6xl">
-                                Enter your profile information
-                            </h1>
-                            <p className="mt-6 max-w-3xl text-xl text-gray-300">
-                                The information you provide here should be authentic and verifiable.
-                            </p>
-                        </div>
+            <div className="bg-white overflow-clip">
+                {/* Header */}
+                <div className="flex-col mb-5 pb-32 bg-gray-800">
+                    <div className="absolute inset-0">
+                        <img
+                            className="w-full h-full object-cover"
+                            src="https://upload.wikimedia.org/wikipedia/commons/d/d6/Old_Main%2C_Baylor_University.jpg"
+                            alt=""
+                        />
+                        <div className="absolute inset-0 bg-gray-500 mix-blend-multiply" aria-hidden="true" />
                     </div>
-                    {/* Overlapping cards */}
-                    {modals()}
+                    <div className="relative max-w-7xl mx-auto px-4 py-10 sm: lg:px-8">
+                        <h1 className="text-4xl font-extrabold tracking-tight text-white md:text-5xl lg:text-6xl">
+                            Enter your profile information
+                        </h1>
+                        <p className="mt-6 max-w-3xl text-xl text-gray-300">
+                            The information you provide here should be authentic and verifiable.
+                        </p>
+                    </div>
                 </div>
+                {/* Overlapping cards */}
+                {modals()}
             </div>
         </>
     );
