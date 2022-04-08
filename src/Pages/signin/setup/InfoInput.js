@@ -53,17 +53,17 @@ const InfoInput = () => {
                 <div className="flex-col mb-5 pb-32 bg-gray-800">
                     <div className="absolute inset-0">
                         <img
-                            className="w-full h-full object-cover"
+                            className="w-full flex-col-reverse h-80 object-cover"
                             src="https://upload.wikimedia.org/wikipedia/commons/d/d6/Old_Main%2C_Baylor_University.jpg"
                             alt=""
                         />
-                        <div className="absolute inset-0 bg-gray-500 mix-blend-multiply" aria-hidden="true" />
+                        <div className="absolute inset-0 bg-gray-300 mix-blend-multiply" aria-hidden="true" />
                     </div>
-                    <div className="relative max-w-7xl mx-auto px-4 py-10 sm: lg:px-8">
+                    <div className="relative max-w-7xl mx-auto px-4 py-10 sm:px-6 lg:px-8">
                         <h1 className="text-4xl font-extrabold tracking-tight text-white md:text-5xl lg:text-6xl">
                             Enter your profile information
                         </h1>
-                        <p className="mt-6 max-w-3xl text-xl text-gray-300">
+                        <p className="mt-6 max-w-3xl text-xl text-white">
                             The information you provide here should be authentic and verifiable.
                         </p>
                     </div>
