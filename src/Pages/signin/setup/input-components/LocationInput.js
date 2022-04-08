@@ -83,6 +83,11 @@ const LocationInput = ({ account, setAccount, modal, show, setModal, setShow }) 
         return classes.filter(Boolean).join(" ");
     };
 
+    const handleLocation = event => {
+        setLocation(event.target.textContent);
+        setAccount({ ...account, state: event.target.textContent });
+    };
+
     return (
         <>
             {/* Overlapping cards */}
@@ -133,7 +138,7 @@ const LocationInput = ({ account, setAccount, modal, show, setModal, setShow }) 
                                         <Menu as="div" id="dropdown" className="flex relative text-left">
                                             <div className="w-full">
                                                 <Menu.Button className="inline-flex justify-betweem w-full rounded-md border border-transparent bg-white text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-white">
-                                                    {location}
+                                                    {account.state === "" ? "Select your state" : location}
                                                     <SelectorIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
                                                 </Menu.Button>
                                             </div>
@@ -157,7 +162,7 @@ const LocationInput = ({ account, setAccount, modal, show, setModal, setShow }) 
                                                                             active ? "bg-gray-100 text-green-600" : "text-gray-900",
                                                                             "block w-full text-left px-4 py-2 text-sm"
                                                                         )}
-                                                                        onClick={event => setLocation(event.target.textContent)}
+                                                                        onClick={handleLocation}
                                                                     >
                                                                         {state.state}
                                                                     </button>
@@ -169,7 +174,7 @@ const LocationInput = ({ account, setAccount, modal, show, setModal, setShow }) 
                                             </Transition>
                                         </Menu>
                                     </div>
-                                    <div className="relative border border-gray-300 rounded-md rounded-t-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600">
+                                    <div className="relative border border-gray-300 rounded-md rounded-t-none px-3 py-2 focus-within:z-2 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600">
                                         <label htmlFor="job-title" className="block text-xs font-medium text-gray-900">
                                             City
                                         </label>
@@ -200,7 +205,7 @@ const LocationInput = ({ account, setAccount, modal, show, setModal, setShow }) 
                                                 type="button"
                                                 disabled={true}
                                                 id="next-button"
-                                                className="disabled:opacity-50 disabled:cursor-not-allowed mt-6 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                                                className="cursor-not-allowed mt-6 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
                                             >
                                                 Next
                                                 <ArrowRightIcon className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
