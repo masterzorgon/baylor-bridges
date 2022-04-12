@@ -1,15 +1,15 @@
 import React, { useState, useCallback, useRef } from "react";
-import { useTimeoutFn } from "react-use";
 import ReactCanvasConfetti from "react-canvas-confetti";
-import { ArrowLeftIcon, ArrowRightIcon, CheckCircleIcon, ExclamationCircleIcon, XIcon } from "@heroicons/react/outline";
+import { CheckCircleIcon, ExclamationCircleIcon, XIcon } from "@heroicons/react/outline";
 import { Fragment } from "react/cjs/react.production.min";
 import { Transition } from "@headlessui/react";
 import { useTransition, animated } from "react-spring";
 import axios from "axios";
 
+import Button from "../../../components/Button";
+
 const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
 
-    const [, , takeAwayModal] = useTimeoutFn(() => setShow(false), 0);
     const transition = useTransition(show, { // used to fade icon in
         from: { x: 0, y: 50, opacity: 0 },
         enter: { x: 0, y: -30, opacity: 1 },
@@ -70,7 +70,7 @@ const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
         });
     }, [makeShot]);
 
-    const onSubmit = (event) => {
+    const onSubmit = () => {
         axios.put("/account/profile", account)
             .then(res => {
                 fire();
@@ -81,12 +81,6 @@ const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
                 console.log("---ERROR---", err);
                 setAlert(true);
             });
-    };
-
-    const prevModal = (event) => {
-        event.preventDefault();
-        takeAwayModal();
-        setTimeout(() => setModal(modal - 1), 400);
     };
 
     return (
@@ -103,7 +97,7 @@ const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
                 leaveTo="opacity-0"
             >
                 <section
-                    className="-mt-32 max-w-7xl sm:mx-20 relative z-10 pb-32 px-4 sm:px-6 lg:px-8"
+                    className=""
                     aria-labelledby="contact-heading"
                 >
                     <ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
@@ -151,10 +145,12 @@ const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
                             </Transition>
                         </div>
                     </div>
+
                     {/* ALERT NOTIFICATION ABOVE */}
-                    <div className="lg:w-3/4 xl:1/2 grid grid-cols-1 gap-y-20 lg:gap-y-0 lg:gap-x-8 mx-auto">
-                        <div className="flex flex-col bg-emerald-50 rounded-2xl shadow-xl">
+                    <div className="grid grid-cols-1 gap-y-20 lg:gap-y-0 lg:gap-x-8 mx-auto">
+                        <div className="flex flex-col bg-white rounded-2xl">
                             <div className="flex-1 relative pt-16 px-6 pb-8 md:px-8">
+
                                 {transition((style, item) => {
                                     return item
                                         ?
@@ -163,35 +159,24 @@ const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
                                         </animated.div>
                                         : "";
                                 })}
-                                <h3 className="text-xl font-medium text-gray-900">You are all set!</h3>
+                                <h2 className="mt-6 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                                    <span className="text-gradient bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500">You&apos;re all set!</span>
+                                    <span className="block">Great job.</span>
+                                </h2>
                                 <p className="mt-4 text-base text-gray-500">
                                     Thank you so much for taking the time to set up your Baylor Bridges account.
                                     We hope you enjoy our platform, and please feel to reach out via the Contact Us
                                     page if you have any questions or concerns.
-
                                 </p>
-                            </div>
-                            <div className="p-6 pt-0 bg-emerald-50 rounded-bl-2xl rounded-br-2xl md:px-8">
-                                <div className="flex justify-between">
-                                    <button
-                                        type="button"
-                                        onClick={prevModal}
-                                        className="mt-6 inline-flex items-center px-4 py-2 border border-emerald-600 shadow-sm text-sm font-medium rounded-md text-emerald-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500
-                                        transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 duration-200 hover:shadow-md"
-                                    >
-                                        <ArrowLeftIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
-                                        Back
-                                    </button>
-
-                                    <button
-                                        type="button"
+                                <div className="flex justify-between mt-6 space-x-2">
+                                    <Button
+                                        className="sm:w-fit px-5 py-3"
+                                        disabled={account.first_name === "" || account.last_name === ""}
                                         onClick={onSubmit}
-                                        className="mt-6 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500
-                                        transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 duration-200 hover:shadow-md"
+                                        arrow={true}
                                     >
-                                        Submit
-                                        <ArrowRightIcon className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
-                                    </button>
+                                        Next
+                                    </Button>
                                 </div>
                             </div>
                         </div>
