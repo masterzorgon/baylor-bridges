@@ -51,11 +51,10 @@ axios.defaults.headers = {
     "Expires": "0",
 };
 
-// i am only able to make requests to the server if my client is pointed to localhost:3000 and the baseURL is pointed to "127.0.0.1:5000" - string interpolation does not work
-
 // Make API Base URL
 const hostname = window.location.hostname;
 const port = window.location.port;
+
 if (hostname === "localhost" || hostname === "127.0.0.1" || port === 3000) {
     // axios.defaults.baseURL = `//${hostname}:5000`;
     axios.defaults.baseURL = "http://127.0.0.1:5000";
