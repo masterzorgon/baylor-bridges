@@ -21,6 +21,8 @@ import { default as SignUpEntrace } from "./Pages/signup/Entrace";
 import { default as SignUpForm } from "./Pages/signup/Form";
 import { default as SignUpClosed } from "./Pages/signup/Closed";
 
+import ProfileSetup from "./Pages/setup/ProfileSetup";
+import InfoInput from "./Pages/setup/InfoInput";
 
 import Search from "./Pages/Search";
 import Profile from "./Pages/profile/Profile";
@@ -42,18 +44,19 @@ const components = (...components) => {
 };
 
 axios.defaults.headers = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Credentials": true,
     "Cache-Control": "no-cache",
     "Pragma": "no-cache",
     "Expires": "0",
-    "Access-Control-Allow-Origin": "*",
 };
-
 
 // Make API Base URL
 const hostname = window.location.hostname;
 const port = window.location.port;
+
 if (hostname === "localhost" || hostname === "127.0.0.1" || port === 3000) {
-    axios.defaults.baseURL = `http://${hostname}:5000`;
+    axios.defaults.baseURL = `//${hostname}:5000`;
     console.log("Running on Localhost", axios.defaults.baseURL);
 } else {
     axios.defaults.baseURL = `https://api.${hostname}`;
@@ -102,6 +105,9 @@ const App = () => {
 
                     <Route path="/sign-in" element={components(<SignIn />, <CookieConsent />)} />
                     <Route path="/sign-in/challenge" element={<SignInChallenge />} />
+
+                    <Route path="/setup/profile-setup" element={<ProfileSetup />} />
+                    <Route path="/setup/info-input" element={<InfoInput />} />
 
                     <Route path="/sign-up" element={components(<SignUpEntrace />, <CookieConsent />)} />
                     <Route path="/sign-up/:role" element={<SignUpForm />} />

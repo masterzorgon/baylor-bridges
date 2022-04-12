@@ -24,13 +24,14 @@ const SignIn = () => {
 
                 for (const key in response) {
                     if (response[key] === null) {
+                        console.log("NULL KEY", key);
                         requiresProfileSetup = true;
                         break;
                     }
                 }
 
                 if (requiresProfileSetup) {
-                    let destination = changeBaseURL(window.location.href, "/sign-in/setup/profile-setup");
+                    let destination = changeBaseURL(window.location.href, "/setup/profile-setup");
                     window.location.href = destination;
                 } else {
                     let redirect = getSearchParam(window.location.href, "redirect");

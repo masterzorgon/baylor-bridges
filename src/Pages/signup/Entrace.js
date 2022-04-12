@@ -26,7 +26,6 @@ const Entrace = () => {
         window.location.href = url;
     };
 
-
     return (
         <div className="min-h-screen flex justify-center bg-white py-12 px-4 overflow-hidden sm:px-6 lg:px-8">
             <div className="min-h-full flex flex-col justify-center relative max-w-2xl mx-auto">
@@ -61,7 +60,6 @@ const Entrace = () => {
                         Create an account in Baylor Bridges, start your connection with all the Baylor University people around the world.
                     </p>
                 </div>
-
 
                 <RadioGroup value={currentRole} onChange={setCurrentRole}>
                     <div className="mt-14 sm:mt-18 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
@@ -106,7 +104,6 @@ const Entrace = () => {
                         ))}
                     </div>
                 </RadioGroup>
-
 
                 <div className="mt-14 sm:mt-10 w-full grid text-center place-items-center space-y-4">
                     <button

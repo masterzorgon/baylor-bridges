@@ -561,13 +561,15 @@ const About = () => {
                                             {
                                                 person.linkedinUrl === "#"
                                                     ?
-                                                    <h3>
+                                                    <h3 className="">
                                                         {person.name}
                                                     </h3>
                                                     :
-                                                    <h3><a className="text-black hover:text-slate-500" href={person.linkedinUrl} target="_blank" rel="noreferrer">
-                                                        {person.name}
-                                                    </a></h3>
+                                                    <h3 className="transition ease-in-out delay-150 hover:-translate-y-1 hover:text-slate-500 hover:scale-103 duration-300">
+                                                        <a className="text-black hover:text-slate-500" href={person.linkedinUrl} target="_blank" rel="noreferrer">
+                                                            {person.name}
+                                                        </a>
+                                                    </h3>
                                             }
                                             <p className="text-emerald-700">{person.role}</p>
                                         </div>
