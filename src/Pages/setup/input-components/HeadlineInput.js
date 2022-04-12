@@ -1,8 +1,10 @@
-import React, { useState, Fragment } from "react";
-import { ArrowLeftIcon, ArrowRightIcon, BriefcaseIcon, ExclamationCircleIcon, XIcon } from "@heroicons/react/outline";
+import React, { Fragment } from "react";
+import { BriefcaseIcon } from "@heroicons/react/outline";
 import { useTimeoutFn } from "react-use";
 import { Transition } from "@headlessui/react";
 import { useTransition, animated } from "react-spring";
+
+import Button from "../../../components/Button";
 
 const HeadlineInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
 
@@ -12,18 +14,15 @@ const HeadlineInput = ({ account, setAccount, modal, show, setModal, setShow }) 
         enter: { x: 0, y: -30, opacity: 1 },
         leave: { x: 0, y: -80, opacity: 0 }
     });
-    const [alert, setAlert] = useState(false);
 
-    const onSubmit = (event) => {
-        event.preventDefault();
+    const onSubmit = () => {
         takeAwayModal();
-        setTimeout(() => setModal(6), 400);
+        setTimeout(() => setModal(6), 300);
     };
 
-    const prevModal = (event) => {
-        event.preventDefault();
+    const prevModal = () => {
         takeAwayModal();
-        setTimeout(() => setModal(modal - 1), 400);
+        setTimeout(() => setModal(modal - 1), 300);
     };
 
     return (
@@ -40,56 +39,11 @@ const HeadlineInput = ({ account, setAccount, modal, show, setModal, setShow }) 
                 leaveTo="opacity-0"
             >
                 <section
-                    className="-mt-32 max-w-7xl sm:mx-20 relative z-10 pb-32 px-4 sm:px-6 lg:px-8"
+                    className=""
                     aria-labelledby="contact-heading"
                 >
-                    {/* ALERT NOTIFICATION */}
-                    <div
-                        aria-live="assertive"
-                        className="fixed z-50 inset-0 flex items-end px-4 py-6 pointer-events-none sm:p-6 sm:items-start"
-                    >
-                        <div className="w-full flex flex-col items-center space-y-4 sm:items-end">
-                            {/* Notification panel, dynamically insert this into the live region when it needs to be displayed */}
-                            <Transition
-                                show={alert}
-                                as={Fragment}
-                                enter="transform ease-out duration-300 transition"
-                                enterFrom="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
-                                enterTo="translate-y-0 opacity-100 sm:translate-x-0"
-                                leave="transition ease-in duration-100"
-                                leaveFrom="opacity-100"
-                                leaveTo="opacity-0"
-                            >
-                                <div className="max-w-sm w-full bg-red-50 shadow-xl rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden">
-                                    <div className="p-4">
-                                        <div className="flex items-start">
-                                            <div className="flex-shrink-0">
-                                                <ExclamationCircleIcon className="h-6 w-6 text-red-400" aria-hidden="true" />
-                                            </div>
-                                            <div className="ml-3 w-0 flex-1 pt-0.5">
-                                                <p className="text-sm font-medium text-gray-900">Submission unsuccessful</p>
-                                                <p className="mt-1 text-sm text-gray-500">Network issues — Please try again.</p>
-                                            </div>
-                                            <div className="ml-4 flex-shrink-0 flex">
-                                                <button
-                                                    className="bg-red-50 rounded-md inline-flex text-gray-500 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                                                    onClick={() => {
-                                                        setAlert(false);
-                                                    }}
-                                                >
-                                                    <span className="sr-only">Close</span>
-                                                    <XIcon className="h-5 w-5" aria-hidden="true" />
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </Transition>
-                        </div>
-                    </div>
-                    {/* ALERT NOTIFICATION */}
-                    <div className="lg:w-3/4 xl:1/2 grid grid-cols-1 gap-y-20 lg:gap-y-0 lg:gap-x-8 mx-auto">
-                        <div className="flex flex-col bg-white rounded-2xl shadow-xl">
+                    <div className="grid grid-cols-1 gap-y-20 lg:gap-y-0 lg:gap-x-8 mx-auto">
+                        <div className="flex flex-col bg-white rounded-2xl">
                             <div className="flex-1 relative pt-16 px-6 pb-8 md:px-8">
                                 {transition((style, item) => {
                                     return item
@@ -108,8 +62,8 @@ const HeadlineInput = ({ account, setAccount, modal, show, setModal, setShow }) 
                             </div>
                             <div className="p-6 pt-0 bg-white rounded-bl-2xl rounded-br-2xl md:px-8">
                                 <div className="isolate -space-y-px rounded-md shadow-sm">
-                                    <div className="relative border border-gray-300 rounded-md rounded-b-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600">
-                                        <label htmlFor="name" className="block text-xs font-medium text-gray-900">
+                                    <div className="relative border border-gray-300 rounded-md rounded-b-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600 transition-colors">
+                                        <label htmlFor="headline" className="block text-xs font-medium text-gray-900">
                                             Headline
                                         </label>
                                         <input
@@ -122,11 +76,11 @@ const HeadlineInput = ({ account, setAccount, modal, show, setModal, setShow }) 
                                             value={account.headline}
                                         />
                                     </div>
-                                    <div className="relative border border-gray-300 rounded-md rounded-t-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600">
-                                        <label htmlFor="job-title" className="block text-xs font-medium text-gray-900">
+                                    <div className="relative border border-gray-300 rounded-md rounded-t-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600 transition-colors">
+                                        <label htmlFor="bio" className="block text-xs font-medium text-gray-900">
                                             Biography
                                         </label>
-                                        <input
+                                        <textarea
                                             type="text"
                                             name="bio"
                                             id="bio"
@@ -137,25 +91,21 @@ const HeadlineInput = ({ account, setAccount, modal, show, setModal, setShow }) 
                                         />
                                     </div>
                                 </div>
-                                <div className="flex justify-between">
-                                    <button
-                                        type="button"
+                                <div className="flex justify-between mt-6 space-x-2">
+                                    <Button
                                         onClick={prevModal}
-                                        className="mt-6 inline-flex items-center px-4 py-2 border border-emerald-600 shadow-sm text-sm font-medium rounded-md text-emerald-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500
-                                        transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 duration-200 hover:shadow-md"
+                                        className="sm:w-fit px-5 py-3 border shadow-sm text-sm bg-gray-100 font-medium rounded-md text-gray-600 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
                                     >
-                                        <ArrowLeftIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
                                         Back
-                                    </button>
-                                    <button
-                                        type="button"
+                                    </Button>
+                                    <Button
+                                        className="sm:w-fit px-5 py-3 text-sm"
+                                        disabled={account.first_name === "" || account.last_name === ""}
                                         onClick={onSubmit}
-                                        className="mt-6 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500
-                                        transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 duration-200 hover:shadow-md"
+                                        arrow={true}
                                     >
-                                        Skip
-                                        <ArrowRightIcon className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
-                                    </button>
+                                        Next
+                                    </Button>
                                 </div>
                             </div>
                         </div>
