@@ -70,7 +70,10 @@ const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
         });
     }, [makeShot]);
 
+    const [loading, setLoading] = useState(false);
+
     const onSubmit = () => {
+        setLoading(true);
         axios.put("/account/profile", account)
             .then(res => {
                 fire();
@@ -80,7 +83,8 @@ const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
             .catch(err => {
                 console.log("---ERROR---", err);
                 setAlert(true);
-            });
+            })
+            .finally(() => setLoading(false));
     };
 
     return (
@@ -171,9 +175,10 @@ const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
                                 <div className="flex justify-between mt-6 space-x-2">
                                     <Button
                                         className="sm:w-fit px-5 py-3"
-                                        disabled={account.first_name === "" || account.last_name === ""}
                                         onClick={onSubmit}
                                         arrow={true}
+                                        loading={loading}
+                                        disabled={loading}
                                     >
                                         Next
                                     </Button>
