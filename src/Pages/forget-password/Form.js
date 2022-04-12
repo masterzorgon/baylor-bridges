@@ -149,7 +149,7 @@ const Form = () => {
                         type="email"
                         name="email"
                         id="email"
-                        className={classNames("py-4 w-full pl-10 sm:text-sm rounded-md z-30", error_message === null ? "border-gray-300 focus:ring-emerald-500 focus:border-emerald-500" : "border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500")}
+                        className={classNames("py-2 w-full pl-10 sm:text-sm rounded-md z-30", error_message === null ? "border-gray-300 focus:ring-emerald-500 focus:border-emerald-500" : "border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500")}
                         placeholder="abc@123.com"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
@@ -202,7 +202,7 @@ const Form = () => {
                 <h3 className="text-lg leading-6 font-medium text-gray-900">Password</h3>
                 <p className="mt-1 text-sm font-medium mb-4 text-gray-500">Set a password for your account.</p>
                 <Password
-                    className="py-4"
+                    className="py-2"
                     onChange={(password, checked) => {
                         setPassword(password);
                         setPasswordChecked(checked);
@@ -266,7 +266,7 @@ const Form = () => {
 
                             <>
                                 <Button
-                                    className="relative text-center col-span-2 sm:col-span-1 text-sm hover:ring px-4 py-4 border border-transparent font-medium rounded-md shadow-sm text-emerald-800 bg-white hover:bg-white border-zinc-200 hover:ring-emerald-400 focus:ring-2 ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="relative text-center col-span-2 sm:col-span-1 text-sm hover:ring px-4 py-2 border border-transparent font-medium rounded-md shadow-sm text-emerald-800 bg-white hover:bg-white border-zinc-200 hover:ring-emerald-400 focus:ring-2 ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
                                     onClick={() => setStep(1)}
                                     disabled={isResent}
                                     loading={loading}
@@ -277,7 +277,7 @@ const Form = () => {
                                     </span>
                                 </Button>
                                 <Button
-                                    className="relative text-center col-span-2 sm:col-span-1 text-sm px-4 py-4 border border-transparent font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="relative text-center col-span-2 sm:col-span-1 text-sm px-4 py-2 border border-transparent font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed"
                                     onClick={onSubmit}
                                     loading={loading}
                                     disabled={loading || !complete}
