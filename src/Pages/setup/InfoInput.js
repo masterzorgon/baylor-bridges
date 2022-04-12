@@ -15,7 +15,7 @@ const InfoInput = () => {
     const [show, setShow] = useState(false); // used to fade modals out
     const [, , showTheModal] = useTimeoutFn(() => setShow(true), 400); // used to fade modals in
     const [modal, setModal] = useState(1); // used to switch between modals
-    const [account, setAccount] = useState(null); // updates account info
+    const [account, setAccount] = useState({}); // updates account info
 
     useEffect(() => {
         axios.get("/account/profile")
@@ -97,11 +97,13 @@ const InfoInput = () => {
                 </div>
             </div>
 
+
             <div className="z-10 min-h-screen flex flex-col justify-center ">
                 <div className="bg-white max-w-2xl mx-auto py-12 px-4 sm:px-6 md:py-16 lg:px-8 lg:py-20 mt-2">
                     {modals()}
                 </div>
             </div>
+
         </>
     );
 };
