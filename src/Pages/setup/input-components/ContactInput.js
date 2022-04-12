@@ -20,10 +20,9 @@ const ContactInput = ({ account, setAccount, modal, show, setModal, setShow }) =
         setTimeout(() => setModal(3), 300);
     };
 
-    const prevModal = (event) => {
-        event.preventDefault();
+    const prevModal = () => {
         takeAwayModal();
-        setTimeout(() => setModal(modal - 1), 400);
+        setTimeout(() => setModal(modal - 1), 300);
     };
 
     return (
