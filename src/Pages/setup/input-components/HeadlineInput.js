@@ -88,7 +88,7 @@ const HeadlineInput = ({ account, setAccount, modal, show, setModal, setShow }) 
                         </div>
                     </div>
                     {/* ALERT NOTIFICATION */}
-                    <div className="grid grid-cols-1 gap-y-20 lg:gap-y-0 lg:gap-x-8">
+                    <div className="lg:w-3/4 xl:1/2 grid grid-cols-1 gap-y-20 lg:gap-y-0 lg:gap-x-8 mx-auto">
                         <div className="flex flex-col bg-white rounded-2xl shadow-xl">
                             <div className="flex-1 relative pt-16 px-6 pb-8 md:px-8">
                                 {transition((style, item) => {

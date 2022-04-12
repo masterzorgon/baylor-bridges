@@ -48,7 +48,7 @@ const GradInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
                     className="-mt-32 max-w-7xl sm:mx-20 relative z-10 pb-32 px-4 sm:px-6 lg:px-8"
                     aria-labelledby="contact-heading"
                 >
-                    <div className="grid grid-cols-1 gap-y-20 lg:gap-y-0 lg:gap-x-8">
+                    <div className="lg:w-3/4 xl:1/2 grid grid-cols-1 gap-y-20 lg:gap-y-0 lg:gap-x-8 mx-auto">
                         <div className="flex flex-col bg-white rounded-2xl shadow-xl">
                             <div className="flex-1 relative pt-16 px-6 pb-8 md:px-8">
                                 {transition((style, item) => {
