@@ -16,14 +16,13 @@ import TermsConditions from "./Pages/policies&terms/Terms&Conditions";
 import CookiesPolicy from "./Pages/policies&terms/CookiesPolicy";
 
 import SignIn from "./Pages/signin/SignIn";
-import ProfileSetup from "./Pages/signin/setup/ProfileSetup";
-import InfoInput from "./Pages/signin/setup/InfoInput";
-import AllDone from "./Pages/signin/setup/AllDone";
 import { default as SignInChallenge } from "./Pages/signin/Challenge";
 import { default as SignUpEntrace } from "./Pages/signup/Entrace";
 import { default as SignUpForm } from "./Pages/signup/Form";
 import { default as SignUpClosed } from "./Pages/signup/Closed";
 
+import ProfileSetup from "./Pages/setup/ProfileSetup";
+import InfoInput from "./Pages/setup/InfoInput";
 
 import Search from "./Pages/Search";
 import Profile from "./Pages/profile/Profile";
@@ -108,9 +107,9 @@ const App = () => {
 
                     <Route path="/sign-in" element={components(<SignIn />, <CookieConsent />)} />
                     <Route path="/sign-in/challenge" element={<SignInChallenge />} />
-                    <Route path="/sign-in/setup/profile-setup" element={<ProfileSetup />} />
-                    <Route path="/sign-in/setup/info-input" element={<InfoInput />} />
-                    <Route path="/sign-in/setup/all-done" element={<AllDone />} />
+
+                    <Route path="/setup/profile-setup" element={<ProfileSetup />} />
+                    <Route path="/setup/info-input" element={<InfoInput />} />
 
                     <Route path="/sign-up" element={components(<SignUpEntrace />, <CookieConsent />)} />
                     <Route path="/sign-up/:role" element={<SignUpForm />} />

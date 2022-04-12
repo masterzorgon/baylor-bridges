@@ -7,7 +7,7 @@ import ContactInput from "./input-components/ContactInput";
 import LocationInput from "./input-components/LocationInput";
 import GradInput from "./input-components/GradInput";
 import HeadlineInput from "./input-components/HeadlineInput";
-import AllDone from "./AllDone";
+import AllDone from "./input-components/AllDone";
 
 const InfoInput = () => {
 
