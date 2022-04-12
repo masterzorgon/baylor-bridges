@@ -142,11 +142,12 @@ const GradInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
                                     </Button>
                                     <Button
                                         className="sm:w-fit px-5 py-3 text-sm"
-                                        disabled={account.first_name === "" || account.last_name === ""}
                                         onClick={onSubmit}
                                         arrow={true}
                                     >
-                                        Next
+                                        {
+                                            account.graduate_year === "" && account.graduate_semester === "" ? "Skip" : "Next"
+                                        }
                                     </Button>
                                 </div>
                             </div>

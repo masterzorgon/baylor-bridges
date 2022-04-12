@@ -100,11 +100,12 @@ const HeadlineInput = ({ account, setAccount, modal, show, setModal, setShow }) 
                                     </Button>
                                     <Button
                                         className="sm:w-fit px-5 py-3 text-sm"
-                                        disabled={account.first_name === "" || account.last_name === ""}
                                         onClick={onSubmit}
                                         arrow={true}
                                     >
-                                        Next
+                                        {
+                                            account.headline === "" && account.biography === "" ? "Skip" : "Next"
+                                        }
                                     </Button>
                                 </div>
                             </div>
