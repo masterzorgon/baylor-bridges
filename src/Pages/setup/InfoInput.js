@@ -1,6 +1,7 @@
 // import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useTimeoutFn } from "react-use";
+import axios from "axios";
 
 import NameInput from "./input-components/NameInput";
 import ContactInput from "./input-components/ContactInput";
@@ -14,20 +15,20 @@ const InfoInput = () => {
     const [show, setShow] = useState(false); // used to fade modals out
     const [, , showTheModal] = useTimeoutFn(() => setShow(true), 400); // used to fade modals in
     const [modal, setModal] = useState(1); // used to switch between modals
-    const [account, setAccount] = useState({
-        biography: "",
-        city: "",
-        first_name: "",
-        graduate_year: null,
-        graduate_semester: "",
-        headline: "",
-        last_name: "",
-        state: "",
-        contact_info: {
-            email: "",
-            phone: "",
-        }
-    }); // updates account info
+    const [account, setAccount] = useState(null); // updates account info
+
+    useEffect(() => {
+        axios.get("/account/profile")
+            .then(res => {
+                setAccount(res.data);
+                console.log(res.data);
+            })
+            .catch(err => {
+                err.response.status && err.response.status === 401
+                    ? window.location.href = "/sign-in"
+                    : window.location.href = "/404";
+            });
+    }, []);
 
     // this makes the modal fade in on refresh
     useEffect(() => {
