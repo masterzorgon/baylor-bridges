@@ -25,10 +25,6 @@ const Progress = ({ currentStep, steps }) => {
                             </div>
                         </span>
                     ))}
-                    {/* <div className="text-indigo-600">Copying files</div>
-                    <div className="text-center text-indigo-600">Migrating database</div>
-                    <div className="text-center">Compiling assets</div>
-                    <div className="text-right">Deployed</div> */}
                 </div>
             </div>
         </div>

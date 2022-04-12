@@ -226,25 +226,25 @@ const Form = () => {
 
 
     return (
-        <div className="bg-white py-12 px-4 overflow-hidden sm:px-6 lg:px-8">
+        <div className="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
             <div className="relative max-w-xl mx-auto">
-
                 {/* Title and subtitle */}
                 <div className="text-center">
-                    <a href="/">
+                    <a className="sm:mx-auto sm:w-full sm:max-w-md" href="/">
                         <img
-                            className="mx-auto h-9 w-auto"
+                            className="mx-auto h-20 w-auto"
                             src="/Baylor-University-Athletics-01.svg"
                             alt="Workflow"
                         />
+                        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Forget Password</h2>
                     </a>
-                    <h2 className="mt-2 text-lg font-extrabold tracking-tight text-gray-900 sm:text-2xl">Forget Password</h2>
                 </div>
+            </div>
 
-                <Progress currentStep={step} steps={steps} />
+            {/* <Progress currentStep={step} steps={steps} /> */}
 
-
-                <div className="bg-white mt-5 py-8 px-4 shadow sm:rounded-lg sm:px-10 sm:mt-10">
+            <div className="sm:mx-auto sm:w-full sm:max-w-md">
+                <div className="mt-8 bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
 
                     {step === 1 && step1()}
                     {step === 2 && step2()}
@@ -261,7 +261,7 @@ const Form = () => {
                     }
 
 
-                    <div className="mt-6 text-sm text-right w-full grid grid-cols-2 gap-4 place-items-center pt-2">
+                    <div className="mt-4 text-sm text-right w-full grid grid-cols-2 gap-4 place-items-center pt-2">
                         {Array.isArray(steps[step - 1].button) ?
 
                             <>
@@ -291,11 +291,10 @@ const Form = () => {
                             </>
                             :
                             <Button
-                                className="relative col-span-2 text-center text-sm px-4 py-4 border border-transparent font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="relative col-span-2 text-center text-sm px-4 py-3 border border-transparent font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed"
                                 onClick={onSubmit}
                                 loading={loading}
                                 disabled={loading || !complete}
-                                arrow={true}
                             >
                                 <span className={`flex items-center ${loading ? "invisible" : ""}`}>
                                     <span>{steps[step - 1].button}</span>
