@@ -143,7 +143,14 @@ const GradInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
                                             id="year"
                                             className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
                                             placeholder="2001"
-                                            onChange={event => setAccount({ ...account, graduate_year: event.target.value })}
+                                            onChange={event => {
+                                                // Check if it's 4 digits
+                                                console.log(event);
+                                                console.log(!isNaN(event.target.value));
+                                                if (event.target.value.length <= 4 && !isNaN(event.target.value)) {
+                                                    setAccount({ ...account, graduate_year: parseInt(event.target.value )});
+                                                }
+                                            }}
                                             value={account.graduate_year}
                                         />
                                     </div>

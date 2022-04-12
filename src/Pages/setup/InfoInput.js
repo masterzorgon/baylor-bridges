@@ -18,7 +18,7 @@ const InfoInput = () => {
         biography: "",
         city: "",
         first_name: "",
-        graduate_year: "",
+        graduate_year: null,
         graduate_semester: "",
         headline: "",
         last_name: "",
