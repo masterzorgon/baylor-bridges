@@ -1,8 +1,11 @@
 import React, { Fragment, useState } from "react";
-import { AcademicCapIcon, ArrowLeftIcon, ArrowRightIcon, SelectorIcon } from "@heroicons/react/outline";
+import { AcademicCapIcon, SelectorIcon } from "@heroicons/react/outline";
 import { useTimeoutFn } from "react-use";
 import { Menu, Transition } from "@headlessui/react";
 import { useTransition, animated } from "react-spring";
+
+import Button from "../../../components/Button";
+import { classNames } from "../../../components/Utils";
 
 const GradInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
 
@@ -14,22 +17,15 @@ const GradInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
         leave: { x: 0, y: -80, opacity: 0 }
     });
 
-    const onSubmit = (event) => {
-        event.preventDefault();
+    const onSubmit = () => {
         takeAwayModal();
-        setTimeout(() => setModal(5), 400);
+        setTimeout(() => setModal(5), 300);
     };
 
-    const prevModal = (event) => {
-        event.preventDefault();
+    const prevModal = () => {
         takeAwayModal();
-        setTimeout(() => setModal(modal - 1), 400);
+        setTimeout(() => setModal(modal - 1), 300);
     };
-
-    const classNames = (...classes) => {
-        return classes.filter(Boolean).join(" ");
-    };
-
 
     return (
         <>
@@ -45,11 +41,11 @@ const GradInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
                 leaveTo="opacity-0"
             >
                 <section
-                    className="-mt-32 max-w-7xl sm:mx-20 relative z-10 pb-32 px-4 sm:px-6 lg:px-8"
+                    className=""
                     aria-labelledby="contact-heading"
                 >
-                    <div className="lg:w-3/4 xl:1/2 grid grid-cols-1 gap-y-20 lg:gap-y-0 lg:gap-x-8 mx-auto">
-                        <div className="flex flex-col bg-white rounded-2xl shadow-xl">
+                    <div className="grid grid-cols-1 gap-y-20 lg:gap-y-0 lg:gap-x-8 mx-auto">
+                        <div className="flex flex-col bg-white rounded-2xl">
                             <div className="flex-1 relative pt-16 px-6 pb-8 md:px-8">
                                 {transition((style, item) => {
                                     return item
@@ -61,14 +57,13 @@ const GradInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
                                 })}
                                 <h3 className="text-xl font-medium text-gray-900">Graduating Class</h3>
                                 <p className="mt-4 text-base text-gray-500">
-                                    Please provide the year and semester of your graduating class
+                                    Please provide the {account.role === "student" && "expected"} year and semester of your graduating class
                                     from Baylor University.
-
                                 </p>
                             </div>
                             <div className="p-6 pt-0 bg-white rounded-bl-2xl rounded-br-2xl md:px-8">
                                 <div className="isolate -space-y-px rounded-md shadow-sm">
-                                    <div className="relative border border-gray-300 rounded-md rounded-b-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600">
+                                    <div className="relative border border-gray-300 rounded-md rounded-b-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600 transition-colors">
                                         <label htmlFor="name" className="block text-xs font-medium text-gray-900">
                                             Semester
                                         </label>
@@ -88,7 +83,7 @@ const GradInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
                                                 leaveFrom="transform opacity-100 scale-100"
                                                 leaveTo="transform opacity-0 scale-95"
                                             >
-                                                <Menu.Items className="overflow-scroll max-h-40 origin-top-right absolute right-0 mt-1 w-full rounded-md shadow-lg bg-gray-50 ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                <Menu.Items className="max-h-40 origin-top-right absolute right-0 mt-1 w-full rounded-md shadow-lg bg-gray-50 ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                     <div className="py-1">
                                                         <Menu.Item>
                                                             {({ active }) => (
@@ -123,7 +118,7 @@ const GradInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
                                             </Transition>
                                         </Menu>
                                     </div>
-                                    <div className="relative border border-gray-300 rounded-md rounded-t-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600">
+                                    <div className="relative border border-gray-300 rounded-md rounded-t-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600 transition-colors">
                                         <label htmlFor="job-title" className="block text-xs font-medium text-gray-900">
                                             Year
                                         </label>
@@ -138,25 +133,21 @@ const GradInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
                                         />
                                     </div>
                                 </div>
-                                <div className="flex justify-between">
-                                    <button
-                                        type="button"
+                                <div className="flex justify-between mt-6 space-x-2">
+                                    <Button
                                         onClick={prevModal}
-                                        className="mt-6 inline-flex items-center px-4 py-2 border border-emerald-600 shadow-sm text-sm font-medium rounded-md text-emerald-600 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500
-                                        transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 duration-200 hover:shadow-md"
+                                        className="sm:w-fit px-5 py-3 border shadow-sm text-sm bg-gray-100 font-medium rounded-md text-gray-600 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
                                     >
-                                        <ArrowLeftIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
                                         Back
-                                    </button>
-                                    <button
-                                        type="button"
+                                    </Button>
+                                    <Button
+                                        className="sm:w-fit px-5 py-3 text-sm"
+                                        disabled={account.first_name === "" || account.last_name === ""}
                                         onClick={onSubmit}
-                                        className="mt-6 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500
-                                        transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-100 duration-200 hover:shadow-md"
+                                        arrow={true}
                                     >
-                                        Skip
-                                        <ArrowRightIcon className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
-                                    </button>
+                                        Next
+                                    </Button>
                                 </div>
                             </div>
                         </div>
