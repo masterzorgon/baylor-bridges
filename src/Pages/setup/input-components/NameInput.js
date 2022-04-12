@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment } from "react";
 import { Transition } from "@headlessui/react";
 import { UserCircleIcon } from "@heroicons/react/outline";
 import { useTimeoutFn } from "react-use";
@@ -8,26 +8,19 @@ import Button from "../../../components/Button";
 
 const NameInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
 
-    const [, , takeAwayModal] = useTimeoutFn(() => setShow(false), 0); // used to fade modal out
-    const [alert, setAlert] = useState(false);
+    const [, , takeAwayModal] = useTimeoutFn(() => setShow(false), 50); // used to fade modal out
     const transition = useTransition(show, { // used to fade icon in
         from: { x: 0, y: 50, opacity: 0 },
         enter: { x: 0, y: -30, opacity: 1 },
         leave: { x: 0, y: -80, opacity: 0 }
     });
 
-    const onSubmit = (event) => {
-        if (account.first_name === "" || account.last_name === "") {
-            setAlert(true);
-        } else {
-            event.preventDefault();
-            takeAwayModal();
-            setTimeout(() => setModal(2), 400);
-        }
-
+    const onSubmit = () => {
+        setTimeout(() => setModal(2), 300);
+        takeAwayModal();
     };
 
-    const prevModal = (event) => {
+    const prevModal = () => {
         window.location.href = "/sign-in/setup/profile-setup";
     };
 
@@ -48,52 +41,6 @@ const NameInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
                     className=""
                     aria-labelledby="contact-heading"
                 >
-                    {/* ALERT NOTIFICATION BELOW */}
-                    <div
-                        aria-live="assertive"
-                        className="fixed z-50 inset-0 flex items-end px-4 py-6 pointer-events-none sm:p-6 sm:items-start"
-                    >
-                        <div className="w-full flex flex-col space-y-4 mb-auto items-end">
-                            {/* Notification panel, dynamically insert this into the live region when it needs to be displayed */}
-                            <Transition
-                                show={alert}
-                                as={Fragment}
-                                enter="transform ease-out duration-300 transition"
-                                enterFrom="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
-                                enterTo="translate-y-0 opacity-100 sm:translate-x-0"
-                                leave="transition ease-in duration-100"
-                                leaveFrom="opacity-100"
-                                leaveTo="opacity-0"
-                            >
-                                <div className="max-w-sm w-full bg-red-50 shadow-xl rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden">
-                                    <div className="p-4">
-                                        <div className="flex items-start">
-                                            <div className="flex-shrink-0">
-                                                {/* <ExclamationCircleIcon className="h-6 w-6 text-red-400" aria-hidden="true" /> */}
-                                            </div>
-                                            <div className="ml-1 w-0 flex-1 pt-0.5">
-                                                <p className="text-sm font-medium text-gray-900">Submission unsuccessful</p>
-                                                <p className="mt-1 text-sm text-gray-500">Please fill in required fields.</p>
-                                            </div>
-                                            <div className="ml-1 flex-shrink-0 flex">
-                                                <button
-                                                    className="bg-red-50 rounded-md inline-flex text-gray-500 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                                                    onClick={() => {
-                                                        setAlert(false);
-                                                    }}
-                                                >
-                                                    <span className="sr-only">Close</span>
-                                                    {/* <XIcon className="h-5 w-5" aria-hidden="true" /> */}
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </Transition>
-                        </div>
-                    </div>
-                    {/* ALERT NOTIFICATION ABOVE */}
-
                     <div className="grid grid-cols-1 gap-y-20 lg:gap-y-0 lg:gap-x-8 mx-auto">
                         <div className="flex flex-col bg-white rounded-2xl">
                             <div className="flex-1 relative pt-16 px-6 pb-8 md:px-8">
@@ -144,16 +91,15 @@ const NameInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
                                     </div>
                                 </div>
 
-                                <div className="flex mt-6 space-x-2">
+                                <div className="flex justify-between mt-6 space-x-2">
                                     <Button
                                         onClick={prevModal}
-                                        className="px-4 py-3 border shadow-sm text-sm bg-gray-100 font-medium rounded-md text-gray-600 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                                        className="sm:w-fit px-5 py-3 border shadow-sm text-sm bg-gray-100 font-medium rounded-md text-gray-600 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
                                     >
                                         Back
                                     </Button>
-
                                     <Button
-                                        className="py-3 text-sm"
+                                        className="sm:w-fit px-5 py-3 text-sm"
                                         disabled={account.first_name === "" || account.last_name === ""}
                                         onClick={onSubmit}
                                         arrow={true}
