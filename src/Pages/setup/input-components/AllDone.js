@@ -74,7 +74,16 @@ const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
 
     const onSubmit = () => {
         setLoading(true);
-        axios.put("/account/profile", account)
+
+        // Replace null with empty string in account object
+        const accountCopy = { ...account };
+        Object.keys(accountCopy).forEach(key => {
+            if (accountCopy[key] === null) {
+                accountCopy[key] = " ";
+            }
+        });
+
+        axios.put("/account/profile", accountCopy)
             .then(res => {
                 fire();
                 console.log("---RESPONSE---", res);
