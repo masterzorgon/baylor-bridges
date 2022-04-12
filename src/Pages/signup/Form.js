@@ -233,8 +233,8 @@ const Form = () => {
     };
 
     const step9 = () => {
-        let url = changeBaseURL(window.location.href, "/sign-in");
-        window.location.href = url;
+        let destination = changeBaseURL(window.location.href, "/setup/profile-setup");
+        window.location.href = destination;
     };
 
     return (

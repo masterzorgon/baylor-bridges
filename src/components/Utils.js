@@ -51,6 +51,20 @@ const states = [
     { title: "Missouri", value: "MO", description: "MO" }, { title: "Arkansas", value: "AR", description: "AR" }, { title: "Alabama", value: "AL", description: "AL" }, { title: "Mississippi", value: "MS", description: "MS" }, { title: "Louisiana", value: "LA", description: "LA" }, { title: "Michigan", value: "MI", description: "MI" }, { title: "Florida", value: "FL", description: "FL" }, { title: "South Carolina", value: "SC", description: "SC" }, { title: "Ohio", value: "OH", description: "OH" }, { title: "Iowa", value: "IA", description: "IA" },
 ];
 
+const requiresProfileSetup = (profile) => {
+    let requiresProfileSetup = false;
+
+    for (const key in profile) {
+        if (profile[key] === null) {
+            console.log("NULL KEY", key);
+            requiresProfileSetup = true;
+            break;
+        }
+    }
+
+    return requiresProfileSetup;
+};
+
 
 const Utils = {
     classNames,
@@ -60,5 +74,5 @@ const Utils = {
     states,
 };
 
-export { classNames, changeSearchParam, changeBaseURL, getSearchParam, states };
+export { classNames, changeSearchParam, changeBaseURL, getSearchParam, states, requiresProfileSetup };
 export default Utils;

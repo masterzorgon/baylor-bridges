@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { XCircleIcon } from "@heroicons/react/solid";
 
 import { AccountContext } from "../../components/Account";
-import { changeBaseURL, changeSearchParam, getSearchParam } from "../../components/Utils";
+import { changeBaseURL, changeSearchParam, getSearchParam, requiresProfileSetup } from "../../components/Utils";
 import Button from "../../components/Button";
 
 const SignIn = () => {
@@ -20,30 +20,22 @@ const SignIn = () => {
         signIn(email, password)
             .then(response => {
                 console.log(response);
-                let requiresProfileSetup = false;
 
-                for (const key in response) {
-                    if (response[key] === null) {
-                        console.log("NULL KEY", key);
-                        requiresProfileSetup = true;
-                        break;
-                    }
-                }
-
-                if (requiresProfileSetup) {
+                if (requiresProfileSetup()) {
                     let destination = changeBaseURL(window.location.href, "/setup/profile-setup");
                     window.location.href = destination;
-                } else {
-                    let redirect = getSearchParam(window.location.href, "redirect");
+                    return;
+                }
 
-                    if (redirect) {
-                        let destination = "";
-                        destination = changeBaseURL(window.location.href, redirect);
-                        destination = changeSearchParam(destination, "redirect", null);
-                        window.location.href = destination;
-                    } else {
-                        window.location.href = "/";
-                    }
+                let redirect = getSearchParam(window.location.href, "redirect");
+
+                if (redirect) {
+                    let destination = "";
+                    destination = changeBaseURL(window.location.href, redirect);
+                    destination = changeSearchParam(destination, "redirect", null);
+                    window.location.href = destination;
+                } else {
+                    window.location.href = "/";
                 }
             })
             .catch(error => {
