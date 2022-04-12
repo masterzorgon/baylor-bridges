@@ -132,56 +132,6 @@ const GradInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
                                                 </>
                                             )}
                                         </Listbox>
-                                        {/* <Menu as="div" id="dropdown" className="flex relative text-left">
-                                            <div className="w-full">
-                                                <Menu.Button className="inline-flex justify-betweem w-full rounded-md border border-transparent bg-white text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-white">
-                                                    {semester}
-                                                    <SelectorIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
-                                                </Menu.Button>
-                                            </div>
-                                            <Transition
-                                                as={Fragment}
-                                                enter="transition ease-out duration-100"
-                                                enterFrom="transform opacity-0 scale-95"
-                                                enterTo="transform opacity-100 scale-100"
-                                                leave="transition ease-in duration-75"
-                                                leaveFrom="transform opacity-100 scale-100"
-                                                leaveTo="transform opacity-0 scale-95"
-                                            >
-                                                <Menu.Items className="max-h-40 origin-top-right absolute right-0 mt-1 w-full rounded-md shadow-lg bg-gray-50 ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                                    <div className="py-1">
-                                                        <Menu.Item>
-                                                            {({ active }) => (
-                                                                <button
-                                                                    type="submit"
-                                                                    className={classNames(
-                                                                        active ? "bg-gray-100 text-green-600" : "text-gray-700",
-                                                                        "block w-full text-left px-4 py-2 text-sm"
-                                                                    )}
-                                                                    onClick={event => setSemester(event.target.textContent)}
-                                                                >
-                                                                    Spring
-                                                                </button>
-                                                            )}
-                                                        </Menu.Item>
-                                                        <Menu.Item>
-                                                            {({ active }) => (
-                                                                <button
-                                                                    type="submit"
-                                                                    className={classNames(
-                                                                        active ? "bg-gray-100 text-green-600" : "text-gray-700",
-                                                                        "block w-full text-left px-4 py-2 text-sm"
-                                                                    )}
-                                                                    onClick={event => setSemester(event.target.textContent)}
-                                                                >
-                                                                    Fall
-                                                                </button>
-                                                            )}
-                                                        </Menu.Item>
-                                                    </div>
-                                                </Menu.Items>
-                                            </Transition>
-                                        </Menu> */}
                                     </div>
                                     <div className="relative border border-gray-300 rounded-md rounded-t-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600 transition-colors">
                                         <label htmlFor="job-title" className="block text-xs font-medium text-gray-900">
