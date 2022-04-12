@@ -44,7 +44,7 @@ const ContactInput = ({ account, setAccount, modal, show, setModal, setShow }) =
                 >
                     <div className="grid grid-cols-1 gap-y-20 lg:gap-y-0 lg:gap-x-8 mx-auto">
                         <div className="flex flex-col bg-white rounded-2xl">
-                            <div className="flex-1 relative pt-16 px-6 pb-8 md:px-8">
+                            <div className="flex-1 relative pt-16 pb-8">
 
                                 {transition((style, item) => {
                                     return item
@@ -61,7 +61,7 @@ const ContactInput = ({ account, setAccount, modal, show, setModal, setShow }) =
                                     others may reach you via your Baylor Bridges account.
                                 </p>
                             </div>
-                            <div className="p-6 pt-0 bg-white rounded-bl-2xl rounded-br-2xl md:px-8">
+                            <div className="bg-white rounded-bl-2xl rounded-br-2xl">
                                 <div className="isolate -space-y-px rounded-md shadow-sm">
                                     <div className="relative border border-gray-300 rounded-md rounded-b-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600 transition-color">
                                         <label htmlFor="phone" className="block text-xs font-medium text-gray-900">
