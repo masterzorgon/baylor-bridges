@@ -1,16 +1,23 @@
-import React, { Fragment, useState } from "react";
-import { AcademicCapIcon, SelectorIcon } from "@heroicons/react/outline";
+import React, { Fragment, useState, useEffect } from "react";
+import { AcademicCapIcon, SelectorIcon, CheckIcon } from "@heroicons/react/outline";
 import { useTimeoutFn } from "react-use";
-import { Menu, Transition } from "@headlessui/react";
+import { Listbox, Transition } from "@headlessui/react";
 import { useTransition, animated } from "react-spring";
 
 import Button from "../../../components/Button";
 import { classNames } from "../../../components/Utils";
 
+const semesters = [
+    { title: "Spring", value: "spring" },
+    { title: "Fall", value: "fall" }
+];
+
 const GradInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
 
     const [, , takeAwayModal] = useTimeoutFn(() => setShow(false), 0);
-    const [semester, setSemester] = useState("Spring");
+
+    const [semester, setSemester] = useState(semesters[0]);
+
     const transition = useTransition(show, { // used to fade icon in
         from: { x: 0, y: 50, opacity: 0 },
         enter: { x: 0, y: -30, opacity: 1 },
@@ -26,6 +33,10 @@ const GradInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
         takeAwayModal();
         setTimeout(() => setModal(modal - 1), 300);
     };
+
+    useEffect(() => {
+        setAccount({ ...account, graduate_semester: semester.value });
+    }, [semester, setAccount]);
 
     return (
         <>
@@ -67,7 +78,61 @@ const GradInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
                                         <label htmlFor="name" className="block text-xs font-medium text-gray-900">
                                             Semester
                                         </label>
-                                        <Menu as="div" id="dropdown" className="flex relative text-left">
+                                        <Listbox value={semester} onChange={setSemester}>
+                                            {({ open }) => (
+                                                <>
+                                                    <div className="mt-1 relative">
+                                                        <Listbox.Button className="bg-white relative w-full rounded-md text-left py-1 cursor-default focus:outline-none focus:ring-0 sm:text-sm">
+                                                            <span className="block truncate">{semester.title}</span>
+                                                            <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                                                                <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                                                            </span>
+                                                        </Listbox.Button>
+
+                                                        <Transition
+                                                            show={open}
+                                                            as={Fragment}
+                                                            leave="transition ease-in duration-100"
+                                                            leaveFrom="opacity-100"
+                                                            leaveTo="opacity-0"
+                                                        >
+                                                            <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                                                                {semesters.map((semester) => (
+                                                                    <Listbox.Option
+                                                                        key={semester.value}
+                                                                        className={({ active }) => classNames(
+                                                                            active ? "text-white bg-emerald-600" : "text-gray-900",
+                                                                            "cursor-default select-none relative py-2 pl-3 pr-9"
+                                                                        )}
+                                                                        value={semester}
+                                                                    >
+                                                                        {({ selected, active }) => (
+                                                                            <>
+                                                                                <span className={classNames(selected ? "font-semibold" : "font-normal", "block truncate")}>
+                                                                                    {semester.title}
+                                                                                </span>
+
+                                                                                {selected ? (
+                                                                                    <span
+                                                                                        className={classNames(
+                                                                                            active ? "text-white" : "text-emerald-600",
+                                                                                            "absolute inset-y-0 right-0 flex items-center pr-4"
+                                                                                        )}
+                                                                                    >
+                                                                                        <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                                                                                    </span>
+                                                                                ) : null}
+                                                                            </>
+                                                                        )}
+                                                                    </Listbox.Option>
+                                                                ))}
+                                                            </Listbox.Options>
+                                                        </Transition>
+                                                    </div>
+                                                </>
+                                            )}
+                                        </Listbox>
+                                        {/* <Menu as="div" id="dropdown" className="flex relative text-left">
                                             <div className="w-full">
                                                 <Menu.Button className="inline-flex justify-betweem w-full rounded-md border border-transparent bg-white text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-white">
                                                     {semester}
@@ -116,7 +181,7 @@ const GradInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
                                                     </div>
                                                 </Menu.Items>
                                             </Transition>
-                                        </Menu>
+                                        </Menu> */}
                                     </div>
                                     <div className="relative border border-gray-300 rounded-md rounded-t-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600 transition-colors">
                                         <label htmlFor="job-title" className="block text-xs font-medium text-gray-900">
