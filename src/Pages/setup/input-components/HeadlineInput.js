@@ -61,7 +61,7 @@ const HeadlineInput = ({ account, setAccount, modal, show, setModal, setShow }) 
                                 </p>
                             </div>
                             <div className="bg-white rounded-bl-2xl rounded-br-2xl">
-                                <div className="isolate -space-y-px rounded-md shadow-sm">
+                                <div className="-space-y-px rounded-md shadow-sm">
                                     <div className="relative border border-gray-300 rounded-md rounded-b-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600 transition-colors">
                                         <label htmlFor="headline" className="block text-xs font-medium text-gray-900">
                                             Headline
