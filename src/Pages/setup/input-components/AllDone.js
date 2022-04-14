@@ -79,7 +79,7 @@ const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
         const accountCopy = { ...account };
         Object.keys(accountCopy).forEach(key => {
             if (accountCopy[key] === null) {
-                accountCopy[key] = " ";
+                accountCopy[key] = "";
             }
         });
 
