@@ -1,4 +1,6 @@
-const classNames = (...args) => args.filter(Boolean).join(" ");
+import { twMerge } from "tailwind-merge";
+
+const classNames = (...args) => twMerge(args.filter(Boolean).join(" "));
 
 const changeSearchParam = (url, key, value) => {
     const urlParts = url.split("?");
