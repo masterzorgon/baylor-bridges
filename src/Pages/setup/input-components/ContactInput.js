@@ -71,7 +71,7 @@ const ContactInput = ({ account, setAccount, modal, show, setModal, setShow }) =
                                             type="text"
                                             name="phone"
                                             id="phone"
-                                            className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
+                                            className="block w-full border-0 px-0 py-2 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
                                             placeholder="+1 (234) 567-8910"
                                             onChange={event => setAccount({ ...account, contact_info: { ...account.contact_info, phone: event.target.value } })}
                                             value={account.contact_info.phone}
@@ -85,7 +85,7 @@ const ContactInput = ({ account, setAccount, modal, show, setModal, setShow }) =
                                             type="text"
                                             name="email"
                                             id="email"
-                                            className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
+                                            className="block w-full border-0 px-0 py-2 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
                                             placeholder="you@baylor.edu"
                                             onChange={event => setAccount({ ...account, contact_info: { ...account.contact_info, email: event.target.value } })}
                                             value={account.contact_info.email}

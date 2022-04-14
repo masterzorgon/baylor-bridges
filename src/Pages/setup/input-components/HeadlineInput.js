@@ -70,7 +70,7 @@ const HeadlineInput = ({ account, setAccount, modal, show, setModal, setShow }) 
                                             type="text"
                                             name="headline"
                                             id="headline"
-                                            className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
+                                            className="block w-full border-0 px-0 py-2 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
                                             placeholder="Orthopedic Surgeon"
                                             onChange={event => setAccount({ ...account, headline: event.target.value })}
                                             value={account.headline}
@@ -84,7 +84,8 @@ const HeadlineInput = ({ account, setAccount, modal, show, setModal, setShow }) 
                                             type="text"
                                             name="bio"
                                             id="bio"
-                                            className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
+                                            className="block w-full border-0 px-0 py-2 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
+                                            style={{"height": "10rem"}}
                                             placeholder="As an orthopedic surgeon, I..."
                                             onChange={event => setAccount({ ...account, biography: event.target.biography })}
                                             value={account.biography}

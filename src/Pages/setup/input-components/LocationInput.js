@@ -12,7 +12,6 @@ const LocationInput = ({ account, setAccount, modal, show, setModal, setShow }) 
     const [, , takeAwayModal] = useTimeoutFn(() => setShow(false), 0);
 
     const [state, setState] = useState(states[0]);
-    // const [city, setCity] = useState("");
 
     const transition = useTransition(show, { // used to fade icon in
         from: { x: 0, y: 50, opacity: 0 },
@@ -31,6 +30,14 @@ const LocationInput = ({ account, setAccount, modal, show, setModal, setShow }) 
         takeAwayModal();
         setTimeout(() => setModal(modal - 1), 400);
     };
+
+    useEffect(() => {
+        for (let state of states) {
+            if (state.value === account.state) {
+                setState(state);
+            }
+        }
+    }, []);
 
     useEffect(() => {
         setAccount({ ...account, state: state.value });
@@ -86,7 +93,7 @@ const LocationInput = ({ account, setAccount, modal, show, setModal, setShow }) 
                                         <Listbox value={state} onChange={setState}>
                                             {({ open }) => (
                                                 <>
-                                                    <div className="mt-1 relative">
+                                                    <div className="mt-0 relative px-0 py-2">
                                                         <Listbox.Button className="bg-white relative w-full rounded-md text-left cursor-default focus:outline-none focus:ring-0 sm:text-sm">
                                                             <span className="block truncate">{state.title}</span>
                                                             <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
@@ -146,7 +153,7 @@ const LocationInput = ({ account, setAccount, modal, show, setModal, setShow }) 
                                             type="text"
                                             name="city"
                                             id="city"
-                                            className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
+                                            className="block w-full border-0 px-0 py-2 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
                                             placeholder="Houston"
                                             onChange={event => setAccount({ ...account, city: event.target.value })}
                                             value={account.city}

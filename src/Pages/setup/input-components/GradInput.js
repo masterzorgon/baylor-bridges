@@ -35,6 +35,14 @@ const GradInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
     };
 
     useEffect(() => {
+        for (let semester of semesters) {
+            if (semester.value === account.graduate_semester) {
+                setSemester(semester);
+            }
+        }
+    }, []);
+
+    useEffect(() => {
         setAccount({ ...account, graduate_semester: semester.value });
     }, [semester, setAccount]);
 
@@ -81,7 +89,7 @@ const GradInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
                                         <Listbox value={semester} onChange={setSemester}>
                                             {({ open }) => (
                                                 <>
-                                                    <div className="mt-1 relative">
+                                                    <div className="px-0 py-2 mt-1 relative">
                                                         <Listbox.Button className="bg-white relative w-full rounded-md text-left py-1 cursor-default focus:outline-none focus:ring-0 sm:text-sm">
                                                             <span className="block truncate">{semester.title}</span>
                                                             <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
@@ -141,7 +149,7 @@ const GradInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
                                             type="text"
                                             name="year"
                                             id="year"
-                                            className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
+                                            className="block w-full border-0 px-0 py-2 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
                                             placeholder="2001"
                                             onChange={event => {
                                                 // Check if it's 4 digits

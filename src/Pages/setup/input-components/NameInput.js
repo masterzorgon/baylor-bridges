@@ -67,7 +67,7 @@ const NameInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
                                             type="text"
                                             name="first-name"
                                             id="first-name"
-                                            className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
+                                            className="block w-full border-0 px-0 py-2 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
                                             placeholder=""
                                             autoComplete="off"
                                             onChange={event => setAccount({ ...account, first_name: event.target.value })}
@@ -82,7 +82,7 @@ const NameInput = ({ account, setAccount, modal, show, setModal, setShow }) => {
                                             type="text"
                                             name="last-name"
                                             id="last-name"
-                                            className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
+                                            className="block w-full border-0 px-0 py-2 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
                                             placeholder=""
                                             autoComplete="off"
                                             onChange={event => setAccount({ ...account, last_name: event.target.value })}

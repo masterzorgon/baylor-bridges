@@ -54,16 +54,7 @@ const states = [
 ];
 
 const requiresProfileSetup = (profile) => {
-    let requiresProfileSetup = false;
-
-    for (const key in profile) {
-        if (profile[key] === null) {
-            console.log("NULL KEY", key);
-            requiresProfileSetup = true;
-            break;
-        }
-    }
-
+    let requiresProfileSetup = profile && (profile.first_name === null || profile.last_name === null || profile.state === null);
     return requiresProfileSetup;
 };
 
