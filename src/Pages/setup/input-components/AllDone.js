@@ -28,7 +28,8 @@ const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
         refAnimationInstance.current({
             ...opts,
             origin: { y: 0.6 },
-            particleCount: Math.floor(750 * particleRatio)
+            particleCount: Math.floor(750 * particleRatio),
+            colors: ["#6ee7b7", "#fbd34c"]
         });
     }, []);
 
