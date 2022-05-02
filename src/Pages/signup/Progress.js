@@ -1,12 +1,6 @@
 import React from "react";
 
-const steps = [
-    { id: 1, name: "Email Address", href: "1" },
-    { id: 2, name: "Password", href: "2" },
-    { id: 3, name: "Confirmation", href: "3" },
-];
-
-const Progress = ({ currentStep }) => {
+const Progress = ({ currentStep, steps }) => {
     return (
         <nav aria-label="Progress" className="my-4 sm:my-10">
             <ol className="space-y-4 md:flex md:space-y-0 md:space-x-8">

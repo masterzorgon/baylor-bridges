@@ -145,6 +145,7 @@ const Challenge = () => {
                                         onClick={onSubmit}
                                         loading={loading}
                                         disabled={loading || !complete}
+                                        className="text-sm py-3"
                                     >
                                         Submit
                                     </Button>
@@ -155,7 +156,7 @@ const Challenge = () => {
                                 <div>
                                     <button
                                         type="submit"
-                                        className={`${loading ? "cursor-not-allowed" : ""} w-full flex justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-emerald-700 bg-emerald-100 hover:bg-emerald-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500`}
+                                        className={`${loading ? "cursor-not-allowed" : ""} text-sm w-full flex justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-emerald-700 bg-emerald-100 hover:bg-emerald-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500`}
                                         onClick={challenges[name].done}
                                     >
                                         Complete
