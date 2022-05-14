@@ -144,7 +144,7 @@ const Profile = () => {
 
     // First enter this page, fetch account profile data
     useEffect(() => {
-        axios.get("/account/profile")
+        axios.get("/accounts/me", { headers: { "x-fields": "user_id, first_name, last_name, headline, role, occupation, graduate_year, city, state, biography, contact_info" }})
             .then(res => {
                 setAccount(res.data);
                 console.log(res.data);
