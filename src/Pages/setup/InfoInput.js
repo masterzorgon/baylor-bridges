@@ -18,7 +18,7 @@ const InfoInput = () => {
     const [account, setAccount] = useState({}); // updates account info
 
     useEffect(() => {
-        axios.get("/account/profile")
+        axios.get("/accounts/me")
             .then(res => {
                 setAccount(res.data);
                 console.log(res.data);
