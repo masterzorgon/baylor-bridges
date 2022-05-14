@@ -18,6 +18,7 @@ const InfoInput = () => {
     const [account, setAccount] = useState({}); // updates account info
 
     useEffect(() => {
+        // get current authenticated account
         axios.get("/accounts/me")
             .then(res => {
                 setAccount(res.data);

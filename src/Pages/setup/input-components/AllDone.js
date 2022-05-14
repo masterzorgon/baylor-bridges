@@ -84,7 +84,8 @@ const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
             }
         });
 
-        axios.put("/account/profile", accountCopy)
+        // input form content to current account
+        axios.put("/accounts/me", accountCopy)
             .then(res => {
                 fire();
                 console.log("---RESPONSE---", res);
