@@ -466,7 +466,7 @@ const Account = () => {
         }
 
 
-        axios.put("/account/profile", update)
+        axios.put("/accounts/me/username", update)
             .then(res => {
                 console.log(res);
                 setAccount(res.data);

@@ -10,11 +10,13 @@ import Button from "../../../components/Button";
 
 const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
 
-    const transition = useTransition(show, { // used to fade icon in
+    // used to fade icon into view
+    const transition = useTransition(show, {
         from: { x: 0, y: 50, opacity: 0 },
         enter: { x: 0, y: -30, opacity: 1 },
         leave: { x: 0, y: -80, opacity: 0 }
     });
+
     const [alert, setAlert] = useState(false);
 
     const refAnimationInstance = useRef(null);
