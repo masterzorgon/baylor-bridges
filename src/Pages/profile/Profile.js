@@ -89,12 +89,12 @@ const Profile = () => {
 
         let url = "";
         if (user_id === undefined) {
-            url = "/account/profile";
+            url = "/accounts/me";
         } else {
-            url = `/account/${user_id}/profile`;
+            url = `/accounts/${user_id}`;
         }
 
-        axios.get(url, { withoutInterceptors: true })
+        axios.get(url, { withoutInterceptors: true, headers: { "x-fields": "user_id, first_name, last_name, headline, role, occupation, graduate_year, city, state, biography, contact_info, experiences" } })
             .then(({ data }) => {
                 setProfileAccount(data);
                 setIsSelf(account && account.user_id === data.user_id);
@@ -396,40 +396,40 @@ const Profile = () => {
                                                                 <p className="font-medium">{experience.title}</p>
                                                                 {
                                                                     (experience.start_time || experience.stop_time) &&
-                                                                            <p className="font-medium text-sm text-gray-500 mt-0.5">
-                                                                                {getDisplayDateRange(experience.start_time, experience.stop_time)}
-                                                                            </p>
+                                                                    <p className="font-medium text-sm text-gray-500 mt-0.5">
+                                                                        {getDisplayDateRange(experience.start_time, experience.stop_time)}
+                                                                    </p>
                                                                 }
                                                                 {
                                                                     experience.description &&
-                                                                            <p className="mt-2 text-sm text-gray-700">{experience.description}</p>
+                                                                    <p className="mt-2 text-sm text-gray-700">{experience.description}</p>
                                                                 }
 
                                                                 {/* PUBLICATIONS */}
                                                                 {
                                                                     experience.publications && Array.isArray(experience.publications) && experience.publications.length > 0 &&
-                                                                            <div className="mt-4">
-                                                                                <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
-                                                                                    {
-                                                                                        experience.publications.map((publication, index) => (
-                                                                                            <li className="pl-3 pr-4 py-3 flex items-center justify-between text-sm" key={publication.pub_id}>
-                                                                                                <div className="w-0 flex-1 flex items-center">
-                                                                                                    <PaperClipIcon className="flex-shrink-0 h-5 w-5 text-gray-400" />
-                                                                                                    <span className="ml-2 flex-1 w-0 truncate text-gray-700">
-                                                                                                        {publication.title}
-                                                                                                    </span>
-                                                                                                </div>
-                                                                                                <div className="ml-4 flex-shrink-0">
-                                                                                                    <a href={/^http:\/\//.test(publication.duo_link) || /^https:\/\//.test(publication.duo_link) ? publication.duo_link : "//" + publication.duo_link}
-                                                                                                        className="font-medium text-emerald-600 hover:text-emerald-500" target="_blank" rel="noreferrer">
-                                                                                                        Open
-                                                                                                    </a>
-                                                                                                </div>
-                                                                                            </li>
-                                                                                        ))
-                                                                                    }
-                                                                                </ul>
-                                                                            </div>
+                                                                    <div className="mt-4">
+                                                                        <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
+                                                                            {
+                                                                                experience.publications.map((publication, index) => (
+                                                                                    <li className="pl-3 pr-4 py-3 flex items-center justify-between text-sm" key={publication.pub_id}>
+                                                                                        <div className="w-0 flex-1 flex items-center">
+                                                                                            <PaperClipIcon className="flex-shrink-0 h-5 w-5 text-gray-400" />
+                                                                                            <span className="ml-2 flex-1 w-0 truncate text-gray-700">
+                                                                                                {publication.title}
+                                                                                            </span>
+                                                                                        </div>
+                                                                                        <div className="ml-4 flex-shrink-0">
+                                                                                            <a href={/^http:\/\//.test(publication.duo_link) || /^https:\/\//.test(publication.duo_link) ? publication.duo_link : "//" + publication.duo_link}
+                                                                                                className="font-medium text-emerald-600 hover:text-emerald-500" target="_blank" rel="noreferrer">
+                                                                                                Open
+                                                                                            </a>
+                                                                                        </div>
+                                                                                    </li>
+                                                                                ))
+                                                                            }
+                                                                        </ul>
+                                                                    </div>
                                                                 }
                                                             </li>
                                                         ))
