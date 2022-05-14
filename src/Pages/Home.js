@@ -103,7 +103,7 @@ const Home = () => {
                                                         <Photo size="11" />
                                                         <div className="ml-3">
                                                             <div className="text-base font-semibold text-gray-800">{account.first_name} {account.last_name}</div>
-                                                            <div className="text-sm font-medium text-gray-500">{account.email}</div>
+                                                            <div className="text-sm font-medium text-gray-500">{account.username}</div>
                                                         </div>
                                                         <div className="grow"></div>
                                                         <p className="text-gray-400 uppercase text-sm font-medium m-auto hidden sm:block text-center">Signed In</p>

@@ -525,7 +525,7 @@ const SearchInput = ({ focus, onFocus }) => {
                     <div className="z-50 bg-white absolute shadow-md py-2 rounded-md w-full max-w-md mt-4 top-16">
                         <ul className="">
                             {profiles.map((person) => (
-                                <li key={person.email}>
+                                <li key={person.user_id}>
                                     <a className="transition-all py-4 px-5 flex hover:bg-gray-50" href={"/profile/" + person.user_id} rel="noreferrer">
                                         <div className="h-10 w-10">
                                             <Photo size="10" account={person} />

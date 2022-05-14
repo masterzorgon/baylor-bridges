@@ -300,7 +300,7 @@ const Navbar = ({ hideOnTop }) => {
                                                     <Photo size="10" />
                                                     <div className="ml-3">
                                                         <div className="text-base font-medium text-gray-800">{account.first_name} {account.last_name}</div>
-                                                        <div className="text-sm font-medium text-gray-500">{account.email}</div>
+                                                        <div className="text-sm font-medium text-gray-500">{account.username}</div>
                                                     </div>
                                                 </a>
                                                 {/* <button

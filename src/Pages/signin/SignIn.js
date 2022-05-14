@@ -16,6 +16,7 @@ const SignIn = () => {
 
     const onSubmit = () => {
         setLoading(true);
+        setErrorMessage(null);
 
         signIn(email, password)
             .then(response => {
