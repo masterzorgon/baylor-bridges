@@ -174,7 +174,7 @@ const Experience = () => {
 
         const onUpdateExperience = (field) => {
             setLoading(true);
-            axios.put(`/account/profile/experience/${field.exper_id}`, field)
+            axios.put(`/experiences/${field.exper_id}`, field)
                 .then(res => {
                     setError(null);
                     setExperiences(res.data);
