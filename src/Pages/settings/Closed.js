@@ -16,7 +16,7 @@ const Closed = () => {
                             <div className="px-4 sm:px-6 md:px-0">
                                 <div className="py-6">
                                     <Navbar current="experience" />
-                                    
+
                                     <div className="text-center mt-10">
                                         <CubeTransparentIcon className="mx-auto h-12 w-12 text-gray-400" />
                                         <h3 className="mt-2 text-md font-medium text-gray-900">We are working on it!</h3>

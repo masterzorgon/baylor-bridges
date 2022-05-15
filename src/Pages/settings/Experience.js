@@ -110,7 +110,8 @@ const Experience = () => {
     const [experiences, setExperiences] = useState(null);
 
     useEffect(() => {
-        axios.get("/account/profile/experience")
+        // get all experiences of current account
+        axios.get("/experiences/me")
             .then(res => {
                 setExperiences(res.data);
             })
@@ -161,7 +162,7 @@ const Experience = () => {
 
         const onCreateExperience = (field) => {
             setLoading(true);
-            axios.post("/account/profile/experience", field)
+            axios.post("/experiences/me", field)
                 .then(res => {
                     setError(null);
                     setExperiences(res.data);
