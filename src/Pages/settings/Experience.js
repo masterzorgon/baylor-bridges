@@ -186,7 +186,7 @@ const Experience = () => {
 
         const onDeleteExperience = (field) => {
             setLoading(true);
-            axios.delete(`/account/profile/experience/${field.exper_id}`)
+            axios.delete(`/experiences/${field.exper_id}`)
                 .then(res => {
                     setExperiences(res.data);
                     setError(null);
@@ -198,7 +198,7 @@ const Experience = () => {
 
         const onCreatePublication = (field) => {
             setLoading(true);
-            axios.post(`/account/profile/experience/${field.exper_id}/publication`, field)
+            axios.post("/publications/me", field)
                 .then(res => {
                     setError(null);
                     experiences[field.exper_index].publications = res.data;
@@ -211,7 +211,7 @@ const Experience = () => {
 
         const onUpdatePublication = (field) => {
             setLoading(true);
-            axios.put(`/account/profile/experience/${field.exper_id}/publication/${field.pub_id}`, field)
+            axios.put(`/publications/${field.pub_id}`, field)
                 .then(res => {
                     setError(null);
                     experiences[field.exper_index].publications = res.data;
@@ -224,7 +224,7 @@ const Experience = () => {
 
         const onDeletePublication = (field) => {
             setLoading(true);
-            axios.delete(`/account/profile/experience/${field.exper_id}/publication/${field.pub_id}`)
+            axios.delete(`/publications/${field.pub_id}`)
                 .then(res => {
                     setOpen(false);
                     experiences[field.exper_index].publications = res.data;
