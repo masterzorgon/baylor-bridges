@@ -165,7 +165,8 @@ const Experience = () => {
             axios.post("/experiences/me", field)
                 .then(res => {
                     setError(null);
-                    setExperiences(res.data);
+                    experiences.push(res.data);
+                    setExperiences(experiences);
                     setOpen(false);
                 })
                 .catch(err => setError(err.response.data.message))
@@ -177,7 +178,8 @@ const Experience = () => {
             axios.put(`/experiences/${field.exper_id}`, field)
                 .then(res => {
                     setError(null);
-                    setExperiences(res.data);
+                    experiences[experiences.findIndex(e => e.exper_id === field.exper_id)] = res.data;
+                    setExperiences(experiences);
                     setOpen(false);
                 })
                 .catch(err => setError(err.response.data.message))
@@ -188,7 +190,7 @@ const Experience = () => {
             setLoading(true);
             axios.delete(`/experiences/${field.exper_id}`)
                 .then(res => {
-                    setExperiences(res.data);
+                    setExperiences(experiences.filter(e => e.exper_id !== field.exper_id));
                     setError(null);
                     setOpen(false);
                 })
@@ -201,7 +203,7 @@ const Experience = () => {
             axios.post("/publications/me", field)
                 .then(res => {
                     setError(null);
-                    experiences[field.exper_index].publications = res.data;
+                    experiences[experiences.findIndex(e => e.exper_id === field.exper_id)].publications.push(res.data);
                     setExperiences(experiences);
                     setOpen(false);
                 })
@@ -214,7 +216,11 @@ const Experience = () => {
             axios.put(`/publications/${field.pub_id}`, field)
                 .then(res => {
                     setError(null);
-                    experiences[field.exper_index].publications = res.data;
+
+                    let exper_index = experiences.findIndex(e => e.exper_id === field.exper_id);
+                    let pub_index = experiences[exper_index].publications.findIndex(p => p.pub_id === field.pub_id);
+                    experiences[exper_index].publications[pub_index] = res.data;
+
                     setExperiences(experiences);
                     setOpen(false);
                 })
@@ -227,8 +233,10 @@ const Experience = () => {
             axios.delete(`/publications/${field.pub_id}`)
                 .then(res => {
                     setOpen(false);
-                    experiences[field.exper_index].publications = res.data;
-                    setExperiences(experiences);
+
+                    let exper_index = experiences.findIndex(e => e.exper_id === field.exper_id);
+                    setExperiences(experiences[exper_index].publications.filter(p => p.pub_id !== field.pub_id));
+
                     setError(null);
                 })
                 .catch(err => setError(err.response.data.message))
