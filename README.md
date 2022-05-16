@@ -1,1 +1,6 @@
-"# Alumni_Web_React_Frontend" 
+"# Baylor Bridges
+
+## Run the website
+```
+npm run start
+```
