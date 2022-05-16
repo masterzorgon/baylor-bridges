@@ -33,7 +33,7 @@ const Home = () => {
     }, [getAccount, getAccountLocal]);
 
     useEffect(() => {
-        axios.get("/landing/map_stats")
+        axios.get("/miscellaneous/landing-map")
             .then(({ data }) => {
                 setMapStats(data);
             });
@@ -252,7 +252,7 @@ const Home = () => {
                             <>
                                 <div className="inline-flex rounded-md shadow">
                                     <button
-                                        onClick={() => window.scrollTo({ top: 0, behavior: "smooth"}) }
+                                        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                                         className="inline-flex items-center justify-center px-5 py-3 text-base font-medium rounded-md text-white bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 hover:opacity-90"
                                     >
                                         Back to top
