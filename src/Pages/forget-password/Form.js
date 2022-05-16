@@ -75,7 +75,7 @@ const Form = () => {
         setwrongVCode(false);
         if (step === 1) {
             setLoading(true);
-            axios.post("/reset-password", { email: email, }).then(res => {
+            axios.post("/accounts/password", { email: email, }).then(res => {
                 setStep(2);
                 setComplete(false);
                 setResentFreeze(60);
@@ -99,7 +99,7 @@ const Form = () => {
         }
         if (step === 3) {
             setLoading(true);
-            axios.post("/reset-password/confirm", {
+            axios.post("/accounts/password/confirm", {
                 "email": email,
                 "confirm_code": verificationCode,
                 "new_password": password
