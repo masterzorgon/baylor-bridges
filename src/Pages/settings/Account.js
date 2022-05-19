@@ -443,8 +443,8 @@ const Account = () => {
         setLoading(true);
 
         if (sendEmail) {
-            // UPDATE ACCOUNT VERIFIED EMAIL
-            axios.put("/signup/email/" + email)
+            // update account verified email
+            axios.put("/accounts/me/username", { email: email})
                 .then(res => {
                     console.log(res.data);
                 }).catch(err => {
@@ -466,7 +466,7 @@ const Account = () => {
         }
 
 
-        axios.put("/account/profile", update)
+        axios.put("/accounts/me", update)
             .then(res => {
                 console.log(res);
                 setAccount(res.data);

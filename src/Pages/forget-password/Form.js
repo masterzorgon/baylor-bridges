@@ -75,6 +75,7 @@ const Form = () => {
         setwrongVCode(false);
         if (step === 1) {
             setLoading(true);
+            // reset password
             axios.post("/accounts/password", { email: email, }).then(res => {
                 setStep(2);
                 setComplete(false);
@@ -99,6 +100,7 @@ const Form = () => {
         }
         if (step === 3) {
             setLoading(true);
+            // response to a reset password requests
             axios.post("/accounts/password/confirm", {
                 "email": email,
                 "confirm_code": verificationCode,
@@ -161,7 +163,7 @@ const Form = () => {
     };
 
     const handleResend = () => {
-        axios.post("/reset-password", { "email": email })
+        axios.post("/accounts/password", { "email": email })
             .then(res => {
                 console.log("click resend");
                 setIsResent(true);
