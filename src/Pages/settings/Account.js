@@ -444,7 +444,7 @@ const Account = () => {
 
         if (sendEmail) {
             // update account verified email
-            axios.put("/accounts/me/username", { email: email})
+            axios.put("/accounts/me/username", { username: email})
                 .then(res => {
                     console.log(res.data);
                 }).catch(err => {
