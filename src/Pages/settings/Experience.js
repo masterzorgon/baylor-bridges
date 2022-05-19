@@ -39,16 +39,17 @@ const MonthYearPicker = ({ month, year, onMonthChange, onYearChange, min, max })
         years = years.filter(y => y >= a.year());
         years = years.filter(y => y <= b.year());
 
-        if (a.year() === year) {
-            months = months.filter(m => monthToIndex(m) >= a.month());
-        }
+        // if (a.year() === year) {
+        //     months = months.filter(m => monthToIndex(m) >= a.month());
+        // }
 
-        if (b.year() === year) {
-            months = months.filter(m => monthToIndex(m) <= b.month());
-        }
+        // if (b.year() === year) {
+        //     months = months.filter(m => monthToIndex(m) <= b.month());
+        // }
 
         setYears(years);
         setMonths(months);
+        console.log(months);
     }, [month, year, min, max]);
 
 
