@@ -1,8 +1,9 @@
 import React, { useEffect, useState, Fragment } from "react";
 import axios from "axios";
-import { Menu, Transition, Dialog } from "@headlessui/react";
-import { PencilIcon, DotsVerticalIcon, TrashIcon, ExclamationIcon, PlusSmIcon } from "@heroicons/react/outline";
+import { Menu, Listbox, Transition, Dialog } from "@headlessui/react";
+import { PencilIcon, DotsVerticalIcon, TrashIcon, ExclamationIcon, PlusSmIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import { PaperClipIcon } from "@heroicons/react/solid";
+import { classNames } from "../../components/Utils";
 import dayjs from "dayjs";
 
 import Photo from "../../components/Photo";
@@ -16,86 +17,102 @@ const DELETE = 2;
 const EXPERIENCE = 0;
 const PUBLICATION = 1;
 
-const MonthYearPicker = ({ month, year, onMonthChange, onYearChange, min, max }) => {
+const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, disabled }) => {
+    console.log("raw value", raw_value);
+
+    if (!format) format = "MMM YYYY";
+    min = min ? dayjs(min, format) : null;
+    max = max ? dayjs(max, format) : null;
+
     const allMonths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    const allYears = Array.from(Array(50).keys()).map(i => {
-        return new Date().getFullYear() - i;
-    });
 
-    const [months, setMonths] = useState(allMonths);
-    const [years, setYears] = useState(allYears);
+    let value_parsed = raw_value ? dayjs(raw_value, format) : null;
+    let fallback = value_parsed ? value_parsed : dayjs();
 
-    const monthToIndex = month => {
-        return allMonths.indexOf(month);
+    const [value, setValue] = useState(value_parsed);
+    const [selectorYear, setSelectorYear] = useState(fallback.year());
+    const [selectorMonth, setSelectorMonth] = useState(fallback.month());
+
+    const isWithinRange = (month, year) => {
+        let a = min ? min : dayjs("1990-01-01");
+        let b = max ? max : dayjs("2099-01-01");
+        let c = dayjs().year(year).month(month);
+        return a.isBefore(c) && b.isAfter(c);
     };
 
     useEffect(() => {
-        let years = allYears;
-        let months = allMonths;
+        onChange(value ? value.format(format) : null);
+    }, [value]);
 
-        let a = (min !== undefined && min) ? dayjs(min) : dayjs("1990-01-01");
-        let b = (max !== undefined && max) ? dayjs(max) : dayjs();
 
-        years = years.filter(y => y >= a.year());
-        years = years.filter(y => y <= b.year());
+    const resetSelectors = () => {
+        setSelectorYear(value ? value.year() : fallback.year());
+        setSelectorMonth(value ? value.month() : fallback.month());
+    };
 
-        // if (a.year() === year) {
-        //     months = months.filter(m => monthToIndex(m) >= a.month());
-        // }
-
-        // if (b.year() === year) {
-        //     months = months.filter(m => monthToIndex(m) <= b.month());
-        // }
-
-        setYears(years);
-        setMonths(months);
-        console.log(months);
-    }, [month, year, min, max]);
-
+    const onSelectorChange = (selectorMonth, selectorYear) => {
+        if (selectorMonth !== null && selectorYear !== null) {
+            setValue(dayjs().month(selectorMonth).year(selectorYear));
+        } else {
+            setValue(null);
+        }
+    };
 
     return (
-        <div className="flex flex-row mt-1 border border-gray-300 shadow-sm rounded-md" name="start-date">
-            <div className="basis-3/5">
-                <label htmlFor="country" className="sr-only">
-                    Month
-                </label>
-                <select
-                    id="month"
-                    name="month"
-                    autoComplete="month"
-                    value={month}
-                    className="w-full py-2 px-3 focus:ring-emerald-500 focus:border-emerald-500 h-full pl-3 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md"
-                    onChange={onMonthChange}
-                >
+        <div className="mt-1">
+            <Listbox as="div" disabled={disabled === true} className="w-full relative inline-block text-left" value={selectorMonth} onChange={(selectorMonth) => onSelectorChange(selectorMonth, selectorYear)}>
+                <Listbox.Button onClick={() => resetSelectors()} className="inline-flex justify-between items-center mt-1 w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
                     {
-                        months.map((month, index) => (
-                            <option key={index} value={monthToIndex(month)}>{month}</option>
-                        ))
+                        (value && disabled !== true) ?
+                            <>{allMonths[value.month()]} {value.year()}</> :
+                            <span className={"text-gray-400"}>Select</span>
                     }
-                </select>
-            </div>
+                    <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5 text-gray-400" aria-hidden="true" />
+                </Listbox.Button>
 
-            <div className="grow">
-                <label htmlFor="year" className="sr-only">
-                    Year
-                </label>
-                <select
-                    id="year"
-                    name="year"
-                    autoComplete="year"
-                    value={year}
-                    className="w-full py-2 px-3 focus:ring-emerald-500 focus:border-emerald-500 h-full pl-3 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md"
-                    onChange={onYearChange}
+                <Transition
+                    as={Fragment}
+                    enter="transition ease-out duration-100"
+                    enterFrom="transform opacity-0 scale-95"
+                    enterTo="transform opacity-100 scale-100"
+                    leave="transition ease-in duration-75"
+                    leaveFrom="transform opacity-100 scale-100"
+                    leaveTo="transform opacity-0 scale-95"
                 >
-                    {
-                        years.map((year) => {
-                            return (
-                                <option key={year} value={year}>{year}</option>
-                            );
-                        })
-                    }
-                </select>
-            </div>
+                    <Listbox.Options className="z-10 origin-top-left absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        <div className="py-2 px-2">
+                            <div className="w-full text-center inline-flex justify-between items-center">
+                                <button className="p-2 rounded-full hover:bg-gray-100" onClick={() => setSelectorYear(selectorYear - 1)}>
+                                    <ChevronLeftIcon className="h-5 w-5 text-gray-400" />
+                                </button>
+                                <div className="text-sm">{selectorYear}</div>
+                                <button className="p-2 rounded-full hover:bg-gray-100" onClick={() => setSelectorYear(selectorYear + 1)}>
+                                    <ChevronRightIcon className="h-5 w-5 text-gray-400" />
+                                </button>
+                            </div>
+                            <div className="grid grid-cols-4 gap-1 my-1">
+                                {
+                                    allMonths.map((m, i) => {
+                                        const ranged = isWithinRange(i, selectorYear);
+                                        return (
+                                            <Listbox.Option key={m} value={i} className={({ selected, active }) => classNames("inline-flex justify-center items-center text-sm w-12 h-12 rounded-full text-center cursor-pointer", !ranged && "cursor-not-allowed text-gray-300", (selected && value && value.year() === selectorYear) && "bg-emerald-500 text-white", (active && !selected) && "bg-gray-100")} disabled={!ranged}>
+                                                {m.substring(0, 3)}
+                                            </Listbox.Option>
+                                        );
+                                    })
+                                }
+                            </div>
+                            <div className="border-t flex justify-end">
+                                <Listbox.Option key={"null"} value={null}>
+                                    {({ active }) => (
+                                        <button className="text-sm p-2 rounded-md text-red-600 hover:bg-gray-100 mt-1">Clear</button>
+                                    )}
+                                </Listbox.Option>
+                            </div>
+                        </div>
+                    </Listbox.Options>
+                </Transition>
+            </Listbox>
         </div>
     );
 };
@@ -152,12 +169,7 @@ const Experience = () => {
         if (!field) return;
 
         const onChange = (value, attribute) => {
-            if (attribute === "start_time" || attribute === "stop_time") {
-                let d = dayjs(value);
-                if (!d.isValid()) return;
-                value = d.date(1).format("YYYY-MM-DD");
-            }
-
+            console.log(value, attribute);
             setField({ ...field, [attribute]: value });
         };
 
@@ -275,11 +287,9 @@ const Experience = () => {
                                 Start Date
                             </label>
                             <MonthYearPicker
-                                month={getDateComponent(field.start_time, "month")}
-                                year={getDateComponent(field.start_time, "year")}
-                                max={field.stop_time}
-                                onMonthChange={(e) => onChange(changeDateComponent(field.start_time, "month", e.target.value), "start_time")}
-                                onYearChange={(e) => onChange(changeDateComponent(field.start_time, "year", e.target.value), "start_time")}
+                                value={field.start_time}
+                                max={field.stop_time || dayjs().format("MMM YYYY")}
+                                onChange={(value) => setField({ ...field, "start_time": value, "stop_time": value === null ? null : field.stop_time })}
                             />
                         </div>
 
@@ -288,11 +298,10 @@ const Experience = () => {
                                 End Date
                             </label>
                             <MonthYearPicker
-                                month={getDateComponent(field.stop_time, "month")}
-                                year={getDateComponent(field.stop_time, "year")}
-                                min={field.start_time}
-                                onMonthChange={(e) => onChange(changeDateComponent(field.stop_time, "month", e.target.value), "stop_time")}
-                                onYearChange={(e) => onChange(changeDateComponent(field.stop_time, "year", e.target.value), "stop_time")}
+                                value={field.stop_time}
+                                min={field.start_time || dayjs().format("MMM YYYY")}
+                                onChange={(value) => onChange(value, "stop_time")}
+                                disabled={!field.start_time}
                             />
                         </div>
 
@@ -472,16 +481,6 @@ const Experience = () => {
     const getFormattedDate = (date) => {
         let d = dayjs(date);
         return d.isValid() ? d.format("MMMM YYYY") : "";
-    };
-
-    const changeDateComponent = (date, component, value) => {
-        let d = date && date !== "" ? dayjs(date) : dayjs();
-        return d.isValid() ? d.set(component, value) : "";
-    };
-
-    const getDateComponent = (date, component) => {
-        let d = date && date !== "" ? dayjs(date) : dayjs();
-        return d.isValid() ? d.get(component) : "";
     };
 
     const emptyState = () => {
@@ -681,7 +680,7 @@ const Experience = () => {
                             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
-                            <div className="overflow-hidden sm:my-8 sm:align-middle sm:max-w-lg sm:w-full w-full inline-block align-bottom bg-white rounded-lg text-left shadow-xl transform space-y-4">
+                            <div className="overflow-visible sm:my-8 sm:align-middle sm:max-w-lg sm:w-full w-full inline-block align-bottom bg-white rounded-lg text-left shadow-xl transform space-y-4">
                                 {getModal(field)}
                             </div>
 
