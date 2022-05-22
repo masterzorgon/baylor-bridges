@@ -23,13 +23,13 @@ const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, disable
     if (!format) format = "MMM YYYY";
     min = min ? dayjs(min, format) : null;
     max = max ? dayjs(max, format) : null;
+    disabled = disabled === true;
 
     const allMonths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-    let value_parsed = raw_value ? dayjs(raw_value, format) : null;
-    let fallback = value_parsed ? value_parsed : dayjs();
+    let value = raw_value ? dayjs(raw_value, format) : null;
+    let fallback = value ? value : dayjs();
 
-    const [value, setValue] = useState(value_parsed);
     const [selectorYear, setSelectorYear] = useState(fallback.year());
     const [selectorMonth, setSelectorMonth] = useState(fallback.month());
 
@@ -40,11 +40,6 @@ const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, disable
         return a.isBefore(c) && b.isAfter(c);
     };
 
-    useEffect(() => {
-        onChange(value ? value.format(format) : null);
-    }, [value]);
-
-
     const resetSelectors = () => {
         setSelectorYear(value ? value.year() : fallback.year());
         setSelectorMonth(value ? value.month() : fallback.month());
@@ -52,20 +47,20 @@ const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, disable
 
     const onSelectorChange = (selectorMonth, selectorYear) => {
         if (selectorMonth !== null && selectorYear !== null) {
-            setValue(dayjs().month(selectorMonth).year(selectorYear));
+            onChange(dayjs().month(selectorMonth).year(selectorYear).format(format));
         } else {
-            setValue(null);
+            onChange(null);
         }
     };
 
     return (
         <div className="mt-1">
-            <Listbox as="div" disabled={disabled === true} className="w-full relative inline-block text-left" value={selectorMonth} onChange={(selectorMonth) => onSelectorChange(selectorMonth, selectorYear)}>
-                <Listbox.Button onClick={() => resetSelectors()} className="inline-flex justify-between items-center mt-1 w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
+            <Listbox as="div" disabled={disabled} className="w-full relative inline-block text-left" value={selectorMonth} onChange={(selectorMonth) => onSelectorChange(selectorMonth, selectorYear)}>
+                <Listbox.Button onClick={() => resetSelectors()} className={classNames(disabled && "cursor-not-allowed", "inline-flex justify-between items-center mt-1 w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm")}>
                     {
-                        (value && disabled !== true) ?
+                        (value && !disabled) ?
                             <>{allMonths[value.month()]} {value.year()}</> :
-                            <span className={"text-gray-400"}>Select</span>
+                            <span className="text-gray-400">Select</span>
                     }
                     <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5 text-gray-400" aria-hidden="true" />
                 </Listbox.Button>
@@ -85,7 +80,7 @@ const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, disable
                                 <button className="p-2 rounded-full hover:bg-gray-100" onClick={() => setSelectorYear(selectorYear - 1)}>
                                     <ChevronLeftIcon className="h-5 w-5 text-gray-400" />
                                 </button>
-                                <div className="text-sm">{selectorYear}</div>
+                                <div className="text-sm w-20">{selectorYear}</div>
                                 <button className="p-2 rounded-full hover:bg-gray-100" onClick={() => setSelectorYear(selectorYear + 1)}>
                                     <ChevronRightIcon className="h-5 w-5 text-gray-400" />
                                 </button>
@@ -169,7 +164,6 @@ const Experience = () => {
         if (!field) return;
 
         const onChange = (value, attribute) => {
-            console.log(value, attribute);
             setField({ ...field, [attribute]: value });
         };
 
