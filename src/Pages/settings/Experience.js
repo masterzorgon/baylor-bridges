@@ -17,7 +17,7 @@ const DELETE = 2;
 const EXPERIENCE = 0;
 const PUBLICATION = 1;
 
-const PRESENT = 0;
+const PRESENT = "present";
 
 const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, disabled }) => {
     console.log("raw value", raw_value);
@@ -57,10 +57,12 @@ const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, disable
     };
 
     const onSelectorChange = (selectorMonth, selectorYear) => {
-        if (selectorMonth !== null && selectorYear !== null) {
-            onChange(dayjs().month(selectorMonth).year(selectorYear).format(format));
-        } else {
+        if (selectorMonth === PRESENT || selectorYear === PRESENT) {
+            onChange(PRESENT);
+        } else if (selectorMonth === null || selectorYear === null) {
             onChange(null);
+        } else {
+            onChange(dayjs().month(selectorMonth).year(selectorYear).format(format));
         }
     };
 
@@ -103,18 +105,24 @@ const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, disable
                                     allMonths.map((m, i) => {
                                         const ranged = isWithinRange(i, selectorYear);
                                         const isCurrentYear = value && value instanceof dayjs && value.year() === selectorYear;
+                                        const isPresent = value === PRESENT;
                                         return (
-                                            <Listbox.Option key={m} value={i} className={({ selected, active }) => classNames("inline-flex justify-center items-center text-sm w-12 h-12 rounded-full text-center cursor-pointer", !ranged && "cursor-not-allowed text-gray-300", (selected && isCurrentYear) && "bg-emerald-500 text-white", (active && !selected) && "bg-gray-100")} disabled={!ranged}>
+                                            <Listbox.Option key={m} value={i} className={({ selected, active }) => classNames("inline-flex justify-center items-center text-sm w-12 h-12 rounded-full text-center cursor-pointer", !ranged && "cursor-not-allowed text-gray-300", (selected && isCurrentYear && !isPresent) && "bg-emerald-500 text-white", (active && !selected) && "bg-gray-100")} disabled={!ranged}>
                                                 {m.substring(0, 3)}
                                             </Listbox.Option>
                                         );
                                     })
                                 }
                             </div>
-                            <div className="border-t flex justify-end">
+                            <div className="border-t flex justify-between pt-1">
+                                <Listbox.Option key={"present"} value={PRESENT}>
+                                    {({ active }) => (
+                                        <button className="text-sm p-2 rounded-full text-gray-600 hover:bg-gray-100 mt-1">Present</button>
+                                    )}
+                                </Listbox.Option>
                                 <Listbox.Option key={"null"} value={null}>
                                     {({ active }) => (
-                                        <button className="text-sm p-2 rounded-md text-red-600 hover:bg-gray-100 mt-1">Clear</button>
+                                        <button className="text-sm p-2 rounded-full text-red-600 hover:bg-gray-100 mt-1">Clear</button>
                                     )}
                                 </Listbox.Option>
                             </div>
