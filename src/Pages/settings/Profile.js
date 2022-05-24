@@ -564,7 +564,8 @@ const Profile = () => {
     const onSubmit = () => {
         setLoading(true);
 
-        axios.put("/account/profile", update)
+        // update profile information
+        axios.put("/accounts/me", update)
             .then(res => {
                 console.log(res);
                 setAccount(res.data);
