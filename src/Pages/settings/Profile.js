@@ -11,6 +11,8 @@ import Markdown from "../../components/Markdown";
 import { classNames } from "../../components/Utils";
 
 
+const x_fields = "user_id, first_name, last_name, headline, role, occupation, graduate_year, graduate_semester, city, state, biography, contact_info";
+
 const states = [
     { title: "Arizona", value: "AZ", description: "AZ" }, { title: "New York", value: "NY", description: "NY" }, { title: "Connecticut", value: "CT", description: "CT" }, { title: "Maryland", value: "MD", description: "MD" }, { title: "Washington", value: "WA", description: "WA" }, { title: "Oregon", value: "OR", description: "OR" }, { title: "Nevada", value: "NV", description: "NV" }, { title: "New Mexico", value: "NM", description: "NM" }, { title: "District of Columbia", value: "DC", description: "DC" }, { title: "Delaware", value: "DE", description: "DE" }, { title: "Massachusetts", value: "MA", description: "MA" }, { title: "Minnesota", value: "MN", description: "MN" }, { title: "Wisconsin", value: "WI", description: "WI" }, { title: "Illinois", value: "IL", description: "IL" },
     { title: "Vermont", value: "VT", description: "VT" }, { title: "Rhode Island", value: "RI", description: "RI" }, { title: "New Jersey", value: "NJ", description: "NJ" }, { title: "Colorado", value: "CO", description: "CO" }, { title: "California", value: "CA", description: "CA" }, { title: "Pennsylvania", value: "PA", description: "PA" }, { title: "Virginia", value: "VA", description: "VA" }, { title: "Georgia", value: "GA", description: "GA" }, { title: "Maine", value: "ME", description: "ME" }, { title: "New Hampshire", value: "NH", description: "NH" }, { title: "Hawaii", value: "HI", description: "HI" }, { title: "Idaho", value: "ID", description: "ID" }, { title: "Montana", value: "MT", description: "MT" }, { title: "Indiana", value: "IN", description: "IN" },
@@ -144,7 +146,7 @@ const Profile = () => {
 
     // First enter this page, fetch account profile data
     useEffect(() => {
-        axios.get("/accounts/me", { headers: { "x-fields": "user_id, first_name, last_name, headline, role, occupation, graduate_year, city, state, biography, contact_info" }})
+        axios.get("/accounts/me", { headers: { "x-fields": x_fields } })
             .then(res => {
                 setAccount(res.data);
                 console.log(res.data);
@@ -564,7 +566,7 @@ const Profile = () => {
     const onSubmit = () => {
         setLoading(true);
 
-        axios.put("/accounts/me", update, { headers: { "x-fields": "user_id, first_name, last_name, headline, role, occupation, graduate_year, city, state, biography, contact_info" } })
+        axios.put("/accounts/me", update, { headers: { "x-fields": x_fields } })
             .then(res => {
                 console.log(res);
                 setAccount(res.data);
