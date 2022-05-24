@@ -17,32 +17,43 @@ const DELETE = 2;
 const EXPERIENCE = 0;
 const PUBLICATION = 1;
 
+const PRESENT = 0;
+
 const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, disabled }) => {
     console.log("raw value", raw_value);
 
+    const parseDate = (date, null_fallback, present_fallback) => {
+        null_fallback = null_fallback || null;
+        present_fallback = present_fallback || PRESENT;
+        if (!date) return null_fallback;
+        if (date === "present" || date === PRESENT) return present_fallback;
+        return dayjs(date, format);
+    };
+
+
     if (!format) format = "MMM YYYY";
-    min = min ? dayjs(min, format) : null;
-    max = max ? dayjs(max, format) : null;
+    min = parseDate(min, null, dayjs());
+    max = parseDate(max, null, dayjs());
     disabled = disabled === true;
 
     const allMonths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-    let value = raw_value ? dayjs(raw_value, format) : null;
-    let fallback = value ? value : dayjs();
+    let value = parseDate(raw_value); // value will be null, PRESENT or a dayjs() object
+    let now = parseDate(raw_value, dayjs(), dayjs());
 
-    const [selectorYear, setSelectorYear] = useState(fallback.year());
-    const [selectorMonth, setSelectorMonth] = useState(fallback.month());
+    const [selectorYear, setSelectorYear] = useState(now.year());
+    const [selectorMonth, setSelectorMonth] = useState(now.month());
 
     const isWithinRange = (month, year) => {
-        let a = min ? min : dayjs("1990-01-01");
+        let a = min ? min : dayjs("1980-01-01");
         let b = max ? max : dayjs("2099-01-01");
         let c = dayjs().year(year).month(month);
         return a.isBefore(c) && b.isAfter(c);
     };
 
     const resetSelectors = () => {
-        setSelectorYear(value ? value.year() : fallback.year());
-        setSelectorMonth(value ? value.month() : fallback.month());
+        setSelectorYear(parseDate(value, now, now).year());
+        setSelectorMonth(parseDate(value, now, now).month());
     };
 
     const onSelectorChange = (selectorMonth, selectorYear) => {
@@ -53,15 +64,17 @@ const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, disable
         }
     };
 
+    const parseDisplayText = (value) => {
+        if (value === null) return "Select";
+        if (value === PRESENT) return "Present";
+        return value.format(format);
+    };
+
     return (
         <div className="mt-1">
             <Listbox as="div" disabled={disabled} className="w-full relative inline-block text-left" value={selectorMonth} onChange={(selectorMonth) => onSelectorChange(selectorMonth, selectorYear)}>
                 <Listbox.Button onClick={() => resetSelectors()} className={classNames(disabled && "cursor-not-allowed", "inline-flex justify-between items-center mt-1 w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm")}>
-                    {
-                        (value && !disabled) ?
-                            <>{allMonths[value.month()]} {value.year()}</> :
-                            <span className="text-gray-400">Select</span>
-                    }
+                    {parseDisplayText(value)}
                     <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5 text-gray-400" aria-hidden="true" />
                 </Listbox.Button>
 
@@ -89,8 +102,9 @@ const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, disable
                                 {
                                     allMonths.map((m, i) => {
                                         const ranged = isWithinRange(i, selectorYear);
+                                        const isCurrentYear = value && value instanceof dayjs && value.year() === selectorYear;
                                         return (
-                                            <Listbox.Option key={m} value={i} className={({ selected, active }) => classNames("inline-flex justify-center items-center text-sm w-12 h-12 rounded-full text-center cursor-pointer", !ranged && "cursor-not-allowed text-gray-300", (selected && value && value.year() === selectorYear) && "bg-emerald-500 text-white", (active && !selected) && "bg-gray-100")} disabled={!ranged}>
+                                            <Listbox.Option key={m} value={i} className={({ selected, active }) => classNames("inline-flex justify-center items-center text-sm w-12 h-12 rounded-full text-center cursor-pointer", !ranged && "cursor-not-allowed text-gray-300", (selected && isCurrentYear) && "bg-emerald-500 text-white", (active && !selected) && "bg-gray-100")} disabled={!ranged}>
                                                 {m.substring(0, 3)}
                                             </Listbox.Option>
                                         );
@@ -465,14 +479,20 @@ const Experience = () => {
     };
 
     const getDisplayDateRange = (start, end) => {
+        start = getFormattedDate(start);
+        end = getFormattedDate(end);
+
         let display_date = "";
-        if (start) display_date += getFormattedDate(start);
+        if (start) display_date += start;
         if (start && end) display_date += " - ";
-        if (end) display_date += getFormattedDate(end);
+        if (end) display_date += end;
         return display_date;
     };
 
     const getFormattedDate = (date) => {
+        if (!date) return null;
+        if (date === "present") return "Present";
+
         let d = dayjs(date);
         return d.isValid() ? d.format("MMMM YYYY") : "";
     };
