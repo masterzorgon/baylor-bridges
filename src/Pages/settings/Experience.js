@@ -89,7 +89,7 @@ const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, disable
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                 >
-                    <Listbox.Options className="z-10 origin-top-left absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Listbox.Options className="z-10 origin-top-left absolute left-0 mt-2 w-full rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <div className="py-2 px-2">
                             <div className="w-full text-center inline-flex justify-between items-center">
                                 <button className="p-2 rounded-full hover:bg-gray-100" onClick={() => setSelectorYear(selectorYear - 1)}>
@@ -100,7 +100,7 @@ const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, disable
                                     <ChevronRightIcon className="h-5 w-5 text-gray-400" />
                                 </button>
                             </div>
-                            <div className="grid grid-cols-4 gap-1 my-1">
+                            <div className="grid grid-cols-4 gap-1 py-2 justify-items-center">
                                 {
                                     allMonths.map((m, i) => {
                                         const ranged = isWithinRange(i, selectorYear);
@@ -702,7 +702,7 @@ const Experience = () => {
                             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
-                            <div className="overflow-visible sm:my-8 sm:align-middle sm:max-w-lg sm:w-full w-full inline-block align-bottom bg-white rounded-lg text-left shadow-xl transform space-y-4">
+                            <div className="overflow-visible sm:my-8 sm:align-middle sm:max-w-xl sm:w-full w-full inline-block align-bottom bg-white rounded-lg text-left shadow-xl transform space-y-4">
                                 {getModal(field)}
                             </div>
 
