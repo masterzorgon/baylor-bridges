@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Fragment } from "react";
 import axios from "axios";
 import { Menu, Listbox, Transition, Dialog } from "@headlessui/react";
-import { PencilIcon, DotsVerticalIcon, TrashIcon, ExclamationIcon, PlusSmIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
+import { PencilIcon, DotsVerticalIcon, TrashIcon, ExclamationIcon, PlusSmIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, CalendarIcon } from "@heroicons/react/outline";
 import { PaperClipIcon } from "@heroicons/react/solid";
 import { classNames } from "../../components/Utils";
 import dayjs from "dayjs";
@@ -75,7 +75,10 @@ const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, disable
     return (
         <div className="mt-1">
             <Listbox as="div" disabled={disabled} className="w-full relative inline-block text-left" value={selectorMonth} onChange={(selectorMonth) => onSelectorChange(selectorMonth, selectorYear)}>
-                <Listbox.Button onClick={() => resetSelectors()} className={classNames(disabled && "cursor-not-allowed", "inline-flex justify-between items-center mt-1 w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm")}>
+                <Listbox.Button onClick={() => resetSelectors()} className={classNames(disabled && "cursor-not-allowed", "inline-flex justify-between items-center mt-1 w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 pl-10 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm")}>
+                    <div className="absolute inset-y-0 left-0 pl-3 pt-0.5 flex items-center pointer-events-none">
+                        <CalendarIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                    </div>
                     {parseDisplayText(value)}
                     <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5 text-gray-400" aria-hidden="true" />
                 </Listbox.Button>
