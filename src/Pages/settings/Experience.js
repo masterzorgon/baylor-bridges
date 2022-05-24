@@ -19,7 +19,7 @@ const PUBLICATION = 1;
 
 const PRESENT = "present";
 
-const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, disabled }) => {
+const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, disabled, type, name, id }) => {
     console.log("raw value", raw_value);
 
     const parseDate = (date, null_fallback, present_fallback) => {
@@ -67,7 +67,7 @@ const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, disable
     };
 
     const parseDisplayText = (value) => {
-        if (value === null) return "Select";
+        if (value === null) return <span className="text-gray-500">Select</span>;
         if (value === PRESENT) return "Present";
         return value.format(format);
     };
@@ -75,8 +75,8 @@ const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, disable
     return (
         <div className="mt-1">
             <Listbox as="div" disabled={disabled} className="w-full relative inline-block text-left" value={selectorMonth} onChange={(selectorMonth) => onSelectorChange(selectorMonth, selectorYear)}>
-                <Listbox.Button onClick={() => resetSelectors()} className={classNames(disabled && "cursor-not-allowed", "inline-flex justify-between items-center mt-1 w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 pl-10 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm")}>
-                    <div className="absolute inset-y-0 left-0 pl-3 pt-0.5 flex items-center pointer-events-none">
+                <Listbox.Button onClick={() => resetSelectors()} className={classNames(disabled && "cursor-not-allowed", "relative inline-flex justify-between items-center mt-1 w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 pl-10 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm")} type={type} name={name} id={id}>
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <CalendarIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                     </div>
                     {parseDisplayText(value)}
@@ -120,7 +120,7 @@ const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, disable
                             <div className="border-t flex justify-between pt-1">
                                 <Listbox.Option key={"present"} value={PRESENT}>
                                     {({ active }) => (
-                                        <button className="text-sm p-2 rounded-full text-gray-600 hover:bg-gray-100 mt-1">Present</button>
+                                        <button className="text-sm p-2 rounded-full text-gray-800 hover:bg-gray-100 mt-1">Present</button>
                                     )}
                                 </Listbox.Option>
                                 <Listbox.Option key={"null"} value={null}>
@@ -309,6 +309,8 @@ const Experience = () => {
                                 value={field.start_time}
                                 max={field.stop_time || dayjs().format("MMM YYYY")}
                                 onChange={(value) => setField({ ...field, "start_time": value, "stop_time": value === null ? null : field.stop_time })}
+                                id="start-date"
+                                name="start-date"
                             />
                         </div>
 
@@ -321,6 +323,8 @@ const Experience = () => {
                                 min={field.start_time || dayjs().format("MMM YYYY")}
                                 onChange={(value) => onChange(value, "stop_time")}
                                 disabled={!field.start_time}
+                                id="end-date"
+                                name="end-date"
                             />
                         </div>
 
