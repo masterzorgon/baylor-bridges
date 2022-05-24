@@ -209,26 +209,28 @@ const Navbar = ({ hideOnTop }) => {
                                                     )}
                                                 </Menu.Item>
                                             </div>
-                                            <Menu.Item>
-                                                {({ active }) => (
-                                                    <a
-                                                        href="/settings"
-                                                        className={classNames(active ? "bg-gray-100" : "", "block px-5 py-3 text-sm text-gray-700")}
-                                                    >
-                                                        Settings
-                                                    </a>
-                                                )}
-                                            </Menu.Item>
-                                            <Menu.Item>
-                                                {({ active }) => (
-                                                    <button
-                                                        className={classNames(active ? "bg-gray-100" : "", "block px-5 py-3 text-sm text-gray-700 w-full text-left")}
-                                                        onClick={handleSignOut}
-                                                    >
-                                                        Sign out
-                                                    </button>
-                                                )}
-                                            </Menu.Item>
+                                            <div>
+                                                <Menu.Item>
+                                                    {({ active }) => (
+                                                        <a
+                                                            href="/settings"
+                                                            className={classNames(active ? "bg-gray-100" : "", "block px-5 py-3 text-sm text-gray-700")}
+                                                        >
+                                                            Settings
+                                                        </a>
+                                                    )}
+                                                </Menu.Item>
+                                                <Menu.Item>
+                                                    {({ active }) => (
+                                                        <button
+                                                            className={classNames(active ? "bg-gray-100" : "", "block px-5 py-3 text-sm text-gray-700 w-full text-left")}
+                                                            onClick={handleSignOut}
+                                                        >
+                                                            Sign out
+                                                        </button>
+                                                    )}
+                                                </Menu.Item>
+                                            </div>
                                         </Menu.Items>
                                     </Transition>
                                 </Menu>
