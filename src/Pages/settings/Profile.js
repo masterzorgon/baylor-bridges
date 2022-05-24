@@ -564,7 +564,7 @@ const Profile = () => {
     const onSubmit = () => {
         setLoading(true);
 
-        axios.put("/accounts/me", update)
+        axios.put("/accounts/me", update, { headers: { "x-fields": "user_id, first_name, last_name, headline, role, occupation, graduate_year, city, state, biography, contact_info" } })
             .then(res => {
                 console.log(res);
                 setAccount(res.data);
