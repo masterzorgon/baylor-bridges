@@ -23,8 +23,6 @@ const PRESENT = "present";
 const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, displayFormat, disabled, type, name, id, presentable, nullable, placeholder, highlighted }) => {
     dayjs.extend(isBetween);
 
-    console.log("raw value", raw_value);
-
     const parseDate = (date, null_fallback, present_fallback) => {
         null_fallback = null_fallback || null;
         present_fallback = present_fallback || PRESENT;
@@ -60,7 +58,6 @@ const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, display
         let a = value;
         let b = highlighted;
         let c = dayjs().year(year).month(month);
-        console.log(c.format("MM-YYYY"), highlighted.format("MM-YYYY"), value.format("MM-YYYY"), c.isBetween(a, b, "month", "[]"));
         return c.isBetween(a, b, "month", "[]");
     };
 
