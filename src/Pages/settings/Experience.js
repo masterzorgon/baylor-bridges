@@ -20,7 +20,7 @@ const PUBLICATION = 1;
 
 const PRESENT = "present";
 
-const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, disabled, type, name, id, presentable, nullable, placeholder, highlighted }) => {
+const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, displayFormat, disabled, type, name, id, presentable, nullable, placeholder, highlighted }) => {
     dayjs.extend(isBetween);
 
     console.log("raw value", raw_value);
@@ -82,7 +82,7 @@ const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, disable
     const parseDisplayText = (value) => {
         if (value === null) return <span className="text-gray-500">{placeholder ? placeholder : "Select"}</span>;
         if (value === PRESENT) return "Present";
-        return value.format(format);
+        return value.format(displayFormat || format);
     };
 
     return (
@@ -350,6 +350,7 @@ const Experience = () => {
                                 nullable={true}
                                 placeholder={"Select start"}
                                 highlighted={field.stop_time}
+                                displayFormat={"MMMM YYYY"}
                             />
                         </div>
 
@@ -368,6 +369,7 @@ const Experience = () => {
                                 presentable={true}
                                 placeholder={field.start_time ? "Select end" : "Must select start"}
                                 highlighted={field.start_time}
+                                displayFormat={"MMMM YYYY"}
                             />
                         </div>
 
