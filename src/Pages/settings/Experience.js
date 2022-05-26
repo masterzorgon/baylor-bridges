@@ -20,7 +20,7 @@ const PUBLICATION = 1;
 
 const PRESENT = "present";
 
-const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, disabled, type, name, id, presentable, nullable }) => {
+const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, disabled, type, name, id, presentable, nullable, placeholder }) => {
     dayjs.extend(isBetween);
 
     console.log("raw value", raw_value);
@@ -70,7 +70,7 @@ const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, disable
     };
 
     const parseDisplayText = (value) => {
-        if (value === null) return <span className="text-gray-500">Select</span>;
+        if (value === null) return <span className="text-gray-500">{placeholder ? placeholder : "Select"}</span>;
         if (value === PRESENT) return "Present";
         return value.format(format);
     };
@@ -127,7 +127,7 @@ const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, disable
                                             presentable && (
                                                 <Listbox.Option key={"present"} value={PRESENT}>
                                                     {({ active }) => (
-                                                        <button className="text-sm py-2 px-3 rounded-full hover:bg-gray-100 mt-1">Present</button>
+                                                        <button className="text-sm p-3 rounded-full hover:bg-gray-100 mt-1">Present</button>
                                                     )}
                                                 </Listbox.Option>)
                                         }
@@ -135,7 +135,7 @@ const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, disable
                                             nullable && (
                                                 <Listbox.Option key={"null"} value={null}>
                                                     {({ active }) => (
-                                                        <button className="text-sm py-2 px-3 rounded-full text-red-600 hover:bg-gray-100 mt-1">Clear</button>
+                                                        <button className="text-sm p-3 rounded-full text-red-600 hover:bg-gray-100 mt-1">Clear</button>
                                                     )}
                                                 </Listbox.Option>)
                                         }
@@ -325,6 +325,7 @@ const Experience = () => {
                                 id="start-date"
                                 name="start-date"
                                 nullable={true}
+                                placeholder={"Select start"}
                             />
                         </div>
 
@@ -341,6 +342,7 @@ const Experience = () => {
                                 name="end-date"
                                 nullable={true}
                                 presentable={true}
+                                placeholder={field.start_time ? "Select end" : "Must select start"}
                             />
                         </div>
 
