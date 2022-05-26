@@ -5,6 +5,7 @@ import { PencilIcon, DotsVerticalIcon, TrashIcon, ExclamationIcon, PlusSmIcon, C
 import { PaperClipIcon } from "@heroicons/react/solid";
 import { classNames } from "../../components/Utils";
 import dayjs from "dayjs";
+import isBetween from "dayjs/plugin/isBetween";
 
 import Photo from "../../components/Photo";
 import Container from "./Container";
@@ -20,6 +21,8 @@ const PUBLICATION = 1;
 const PRESENT = "present";
 
 const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, disabled, type, name, id, presentable, nullable }) => {
+    dayjs.extend(isBetween);
+
     console.log("raw value", raw_value);
 
     const parseDate = (date, null_fallback, present_fallback) => {
@@ -44,11 +47,11 @@ const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, disable
     const [selectorYear, setSelectorYear] = useState(now.year());
     const [selectorMonth, setSelectorMonth] = useState(now.month());
 
-    const isWithinRange = (month, year) => {
+    const isWithinValidRange = (month, year) => {
         let a = min ? min : dayjs("1980-01-01");
         let b = max ? max : dayjs("2099-01-01");
         let c = dayjs().year(year).month(month);
-        return a.isBefore(c) && b.isAfter(c);
+        return c.isBetween(a, b, "month", "[]");
     };
 
     const resetSelectors = () => {
@@ -106,7 +109,7 @@ const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, disable
                             <div className="grid grid-cols-4 gap-1 py-2 justify-items-center">
                                 {
                                     allMonths.map((m, i) => {
-                                        const ranged = isWithinRange(i, selectorYear);
+                                        const ranged = isWithinValidRange(i, selectorYear);
                                         const isCurrentYear = value && value instanceof dayjs && value.year() === selectorYear;
                                         const isPresent = value === PRESENT;
                                         return (
