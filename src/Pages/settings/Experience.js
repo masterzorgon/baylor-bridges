@@ -20,7 +20,7 @@ const PUBLICATION = 1;
 
 const PRESENT = "present";
 
-const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, disabled, type, name, id, presentable, nullable, placeholder }) => {
+const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, disabled, type, name, id, presentable, nullable, placeholder, highlighted }) => {
     dayjs.extend(isBetween);
 
     console.log("raw value", raw_value);
@@ -37,6 +37,7 @@ const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, disable
     if (!format) format = "MMM YYYY";
     min = parseDate(min, null, dayjs());
     max = parseDate(max, null, dayjs());
+    highlighted = parseDate(highlighted);
     disabled = disabled === true;
 
     const allMonths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -51,6 +52,15 @@ const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, disable
         let a = min ? min : dayjs("1980-01-01");
         let b = max ? max : dayjs("2099-01-01");
         let c = dayjs().year(year).month(month);
+        return c.isBetween(a, b, "month", "[]");
+    };
+
+    const isWithinHighlightedRange = (month, year) => {
+        if (!highlighted || !value || highlighted === PRESENT || value === PRESENT) return false;
+        let a = value;
+        let b = highlighted;
+        let c = dayjs().year(year).month(month);
+        console.log(c.format("MM-YYYY"), highlighted.format("MM-YYYY"), value.format("MM-YYYY"), c.isBetween(a, b, "month", "[]"));
         return c.isBetween(a, b, "month", "[]");
     };
 
@@ -109,11 +119,24 @@ const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, disable
                             <div className="grid grid-cols-4 gap-1 py-2 justify-items-center">
                                 {
                                     allMonths.map((m, i) => {
-                                        const ranged = isWithinValidRange(i, selectorYear);
-                                        const isCurrentYear = value && value instanceof dayjs && value.year() === selectorYear;
-                                        const isPresent = value === PRESENT;
+                                        const validRanged = isWithinValidRange(i, selectorYear);
+                                        const highlightedRanged = isWithinHighlightedRange(i, selectorYear);
+                                        const isCurrentYear = value && value instanceof dayjs && value.year() === selectorYear && value !== PRESENT;
+                                        const isCurrentMonth = value && value instanceof dayjs && value.month() === i;
+                                        const isSelected = isCurrentYear && isCurrentMonth;
                                         return (
-                                            <Listbox.Option key={m} value={i} className={({ selected, active }) => classNames("inline-flex justify-center items-center text-sm w-12 h-12 rounded-full text-center cursor-pointer", !ranged && "cursor-not-allowed text-gray-300", (selected && isCurrentYear && !isPresent) && "bg-emerald-500 text-white", (active && !selected) && "bg-gray-100")} disabled={!ranged}>
+                                            <Listbox.Option
+                                                key={m} value={i}
+                                                className={
+                                                    ({ selected, active }) => classNames(
+                                                        "inline-flex justify-center items-center text-sm w-12 h-12 rounded-full text-center cursor-pointer",
+                                                        !validRanged && "cursor-not-allowed text-gray-300",
+                                                        isSelected && "bg-emerald-600 text-white",
+                                                        (highlightedRanged && !isSelected) && "bg-gray-100 text-gray-500",
+                                                        (active && !isSelected) && "bg-gray-100"
+                                                    )}
+                                                disabled={!validRanged}
+                                            >
                                                 {m.substring(0, 3)}
                                             </Listbox.Option>
                                         );
@@ -326,6 +349,7 @@ const Experience = () => {
                                 name="start-date"
                                 nullable={true}
                                 placeholder={"Select start"}
+                                highlighted={field.stop_time}
                             />
                         </div>
 
@@ -343,6 +367,7 @@ const Experience = () => {
                                 nullable={true}
                                 presentable={true}
                                 placeholder={field.start_time ? "Select end" : "Must select start"}
+                                highlighted={field.start_time}
                             />
                         </div>
 
