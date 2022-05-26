@@ -68,7 +68,7 @@ const Form = () => {
         // Email address
         if (step === 1) {
             setLoading(true);
-            axios.get("/signup/email/" + email)
+            axios.get("/accounts/usernames?email=" + email)
                 .then(res => {
                     setStep(2);
                 }).catch(err => {
@@ -92,7 +92,7 @@ const Form = () => {
         // Password
         if (step === 2) {
             setLoading(true);
-            axios.post("/signup", {
+            axios.post("/accounts/signup", {
                 email: email,
                 password: password,
                 role: role,
@@ -123,7 +123,7 @@ const Form = () => {
         if (step === 3) {
             setLoading(true);
 
-            axios.post("/signup/confirm", {
+            axios.post("/accounts/signup/confirm", {
                 username: email,
                 confirmation_code: confirmation_code,
             })

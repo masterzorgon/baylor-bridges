@@ -33,7 +33,7 @@ const Home = () => {
     }, [getAccount, getAccountLocal]);
 
     useEffect(() => {
-        axios.get("/landing/map_stats")
+        axios.get("/miscellaneous/landing-map")
             .then(({ data }) => {
                 setMapStats(data);
             });
@@ -99,11 +99,11 @@ const Home = () => {
                                                 <>
                                                     {/* You're signed in as: */}
                                                     <p className="sr-only">You are signed in as</p>
-                                                    <a href="/profile" className="flex-shrink-0 flex grow bg-gray-100 rounded-lg px-6 py-6 space-x-2 hover:bg-gray-200">
-                                                        <Photo size="11" />
-                                                        <div className="ml-3">
+                                                    <a href="/profile" className="flex-shrink-0 flex grow bg-gray-100 rounded-lg px-6 py-6 space-x-2.5 hover:bg-gray-200">
+                                                        <Photo size="11" badges={true} />
+                                                        <div className="">
                                                             <div className="text-base font-semibold text-gray-800">{account.first_name} {account.last_name}</div>
-                                                            <div className="text-sm font-medium text-gray-500">{account.email}</div>
+                                                            <div className="text-sm font-medium text-gray-500">{account.username}</div>
                                                         </div>
                                                         <div className="grow"></div>
                                                         <p className="text-gray-400 uppercase text-sm font-medium m-auto hidden sm:block text-center">Signed In</p>
@@ -252,7 +252,7 @@ const Home = () => {
                             <>
                                 <div className="inline-flex rounded-md shadow">
                                     <button
-                                        onClick={() => window.scrollTo({ top: 0, behavior: "smooth"}) }
+                                        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                                         className="inline-flex items-center justify-center px-5 py-3 text-base font-medium rounded-md text-white bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 hover:opacity-90"
                                     >
                                         Back to top

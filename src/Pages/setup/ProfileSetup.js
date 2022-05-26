@@ -1,6 +1,7 @@
 import React from "react";
 
 const ProfileSetup = () => {
+
     return (
         <>
             <div className="flex sm:block sm:absolute sm:inset-y-0 sm:h-full sm:w-full pointer-events-none -z-10" aria-hidden="true">

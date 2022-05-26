@@ -156,7 +156,10 @@ const Navbar = ({ hideOnTop }) => {
                             </Popover>
                         </Popover.Group>
 
-                        <SearchInput focus={isFocus} onFocus={setFocus} />
+                        {
+                            account !== null &&
+                            <SearchInput focus={isFocus} onFocus={setFocus} />
+                        }
 
                         {/* Account sign in / up / out */}
                         {
@@ -197,37 +200,40 @@ const Navbar = ({ hideOnTop }) => {
                                         leaveFrom="transform opacity-100 scale-100"
                                         leaveTo="transform opacity-0 scale-95"
                                     >
-                                        <Menu.Items className="origin-top-right bg-white absolute right-0 mt-2 w-48 rounded-md shadow-2xl py-2 ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                            <Menu.Item>
-                                                {({ active }) => (
-                                                    <a
-                                                        href="/profile"
-                                                        className={classNames(active ? "bg-gray-100" : "", "block px-6 py-3 text-sm text-gray-700")}
-                                                    >
-                                                        My Profile
-                                                    </a>
-                                                )}
-                                            </Menu.Item>
-                                            <Menu.Item>
-                                                {({ active }) => (
-                                                    <a
-                                                        href="/settings"
-                                                        className={classNames(active ? "bg-gray-100" : "", "block px-6 py-3 text-sm text-gray-700")}
-                                                    >
-                                                        Settings
-                                                    </a>
-                                                )}
-                                            </Menu.Item>
-                                            <Menu.Item>
-                                                {({ active }) => (
-                                                    <button
-                                                        className={classNames(active ? "bg-gray-100" : "", "block px-6 py-3 text-sm text-gray-700 w-full text-left")}
-                                                        onClick={handleSignOut}
-                                                    >
-                                                        Sign out
-                                                    </button>
-                                                )}
-                                            </Menu.Item>
+                                        <Menu.Items className="origin-top-right bg-white absolute right-0 mt-2 w-56 rounded-md shadow-2xl py-1 ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                            <div className="border-b border-gray-200 pb-1 mb-1">
+                                                <Menu.Item>
+                                                    {({ active }) => (
+                                                        <a href="/profile" className={classNames(active ? "bg-gray-100" : "", "block px-5 py-3")}>
+                                                            <p className="text-xs mb-1 uppercase text-gray-400">Signed in as</p>
+                                                            <p className="text-sm font-medium text-gray-900 truncate">{account.first_name} {account.last_name}</p>
+                                                            <p className="text-xs text-gray-600 truncate">{account.username}</p>
+                                                        </a>
+                                                    )}
+                                                </Menu.Item>
+                                            </div>
+                                            <div>
+                                                <Menu.Item>
+                                                    {({ active }) => (
+                                                        <a
+                                                            href="/settings"
+                                                            className={classNames(active ? "bg-gray-100" : "", "block px-5 py-3 text-sm text-gray-700")}
+                                                        >
+                                                            Settings
+                                                        </a>
+                                                    )}
+                                                </Menu.Item>
+                                                <Menu.Item>
+                                                    {({ active }) => (
+                                                        <button
+                                                            className={classNames(active ? "bg-gray-100" : "", "block px-5 py-3 text-sm text-gray-700 w-full text-left")}
+                                                            onClick={handleSignOut}
+                                                        >
+                                                            Sign out
+                                                        </button>
+                                                    )}
+                                                </Menu.Item>
+                                            </div>
                                         </Menu.Items>
                                     </Transition>
                                 </Menu>
@@ -300,7 +306,7 @@ const Navbar = ({ hideOnTop }) => {
                                                     <Photo size="10" />
                                                     <div className="ml-3">
                                                         <div className="text-base font-medium text-gray-800">{account.first_name} {account.last_name}</div>
-                                                        <div className="text-sm font-medium text-gray-500">{account.email}</div>
+                                                        <div className="text-sm font-medium text-gray-500">{account.username}</div>
                                                     </div>
                                                 </a>
                                                 {/* <button

@@ -88,7 +88,7 @@ const Account = () => {
 
     // First enter this page, fetch account profile data
     useEffect(() => {
-        axios.get("/account/profile")
+        axios.get("/accounts/me")
             .then(res => {
                 setAccount(res.data);
                 console.log(res.data);
@@ -209,7 +209,7 @@ const Account = () => {
             return (
                 <button
                     type="button"
-                    className={field.title === "Deactivate Account" ?  "bg-white rounded-md font-medium text-red-600 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" : "bg-white rounded-md font-medium text-emerald-600 hover:text-emerald-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"}
+                    className={field.title === "Deactivate Account" ? "bg-white rounded-md font-medium text-red-600 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" : "bg-white rounded-md font-medium text-emerald-600 hover:text-emerald-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"}
                     onClick={() => onOpenFieldModal(section_key, field)}
                 >
                     {field.title === "Deactivate Account" ? "Deactivate" : text}
@@ -443,8 +443,8 @@ const Account = () => {
         setLoading(true);
 
         if (sendEmail) {
-            // UPDATE ACCOUNT VERIFIED EMAIL
-            axios.put("/signup/email/" + email)
+            // update account verified email
+            axios.put("/accounts/me/username", { username: email})
                 .then(res => {
                     console.log(res.data);
                 }).catch(err => {
@@ -466,7 +466,7 @@ const Account = () => {
         }
 
 
-        axios.put("/account/profile", update)
+        axios.put("/accounts/me", update)
             .then(res => {
                 console.log(res);
                 setAccount(res.data);

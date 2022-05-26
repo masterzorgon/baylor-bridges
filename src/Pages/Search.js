@@ -24,7 +24,7 @@ const filters = {
             { title: "Occupation", value: "occupation" },
         ],
     },
-    keywords: {title: "Keyboard", },
+    keywords: { title: "Keywords", },
     role: {
         title: "Role",
         options: [
@@ -65,6 +65,7 @@ const queryToString = (query, addons) => {
         // Delete empty entries in value
         if (Array.isArray(value)) {
             value = value.filter((v) => v);
+            value = value.map((v) => encodeURIComponent(v));
             return `${key}=${value.join(",")}`;
         } else {
             return `${key}=${value}`;
@@ -144,21 +145,12 @@ const Search = () => {
         window.history.replaceState(null, null, "/search" + queryToString(query));
         axios.get("/search" + queryToString(query, { detailed: true })).then((res) => {
             setProfiles(res.data.profiles);
-            setMapStats(res.data.map_stats);
+            setMapStats(res.data.states);
         });
     }, [query]);
 
     const getMapConfig = (stats, current) => {
         let config = {};
-        let max = 0;
-
-        // Find the state with the highest number of people
-        for (const value of Object.values(stats)) {
-            if (max < value) {
-                max = value;
-            }
-        }
-
         states.forEach((state) => {
             config[state.value] = {};
 
@@ -170,7 +162,7 @@ const Search = () => {
                 }
             } else { // For the state has people, color it with different opacity
                 let value = stats[state.value];
-                let opacity = value / max;
+                let opacity = value;
 
                 if (current && state.value !== current) {
                     opacity *= 0.7;
@@ -384,16 +376,16 @@ const Search = () => {
 
                     {/* People list */}
                     <div className="bg-white sm:rounded-md mt-1">
-                        <ul className="divide-y divide-gray-100">
+                        <ul className="divide-y divide-gray-100 px-6">
                             {profiles && profiles.map((profile) => (
-                                <li key={profile.user_id} >
+                                <li key={profile.user_id}>
                                     {/*TODO add href for account detail page*/}
-                                    <a className="block hover:bg-gray-50" href={"/profile/" + profile.user_id} rel="noreferrer">
+                                    <a className="block hover:bg-gray-50 rounded-md -mx-6" href={"/profile/" + profile.user_id} rel="noreferrer">
                                         <div className="flex items-center px-4 py-4 sm:px-6">
                                             <div className="min-w-0 flex-1 flex items-center">
                                                 <div className="flex-shrink-0">
                                                     {/* <img className="h-12 w-12 rounded-full" src={avatar_url} alt="" /> */}
-                                                    <Photo size="12" account={profile} />
+                                                    <Photo size="12" account={profile} badges={true} />
                                                 </div>
                                                 <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
                                                     <div>
@@ -405,7 +397,7 @@ const Search = () => {
                                                         }
                                                         {
                                                             profile.headline &&
-                                                            <p className="mt-2 flex items-center text-sm text-gray-500">
+                                                            <p className="mt-0.5 flex items-center text-sm text-gray-500">
                                                                 <span className="truncate">{profile.headline}</span>
                                                             </p>
                                                         }
@@ -420,7 +412,7 @@ const Search = () => {
                                                             }
                                                             {
                                                                 profile.graduate_year &&
-                                                                <p className="mt-2 flex items-center text-sm text-gray-500">
+                                                                <p className="mt-0.5 flex items-center text-sm text-gray-500">
                                                                     {/* <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-400" aria-hidden="true" /> */}
                                                                     Class {profile.graduate_year}
                                                                 </p>
@@ -449,7 +441,7 @@ const SearchInput = ({ focus, onFocus }) => {
     const [searchParams] = useSearchParams();
     const [abortController, setAbortController] = useState(new AbortController());
 
-    const [profiles, setProfiles] = useState([]);
+    const [searchResult, setSearchResult] = useState([]);
     const [keywords, setKeywords] = useState("");
 
     useEffect(() => {
@@ -471,7 +463,7 @@ const SearchInput = ({ focus, onFocus }) => {
 
         axios.get("/search", { params: { keywords: keywords }, signal: newAbortController.signal })
             .then((res) => {
-                setProfiles(res.data);
+                setSearchResult(res.data);
             })
             .catch(error => {
                 console.log(error);
@@ -494,7 +486,7 @@ const SearchInput = ({ focus, onFocus }) => {
                         type="search"
                         name="search"
                         id="search"
-                        className="transition pl-10 shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md bg-gray-100 p-3 border-transparent border-0"
+                        className="transition pl-10 shadow-sm ring-1 border focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm rounded-md bg-gray-100 p-3 border-transparent ring-transparent"
                         placeholder="Search people"
                         autoComplete="off"
                         value={keywords}
@@ -504,7 +496,7 @@ const SearchInput = ({ focus, onFocus }) => {
                         onChange={(e) => { setKeywords(e.target.value); }}
                         onKeyPress={(e) => {
                             if (e.key === "Enter") {
-                                window.location.href = "/search?keywords=" + keywords;
+                                window.location.href = "/search?keywords=" + encodeURIComponent(keywords);
                             }
                         }}
                     />
@@ -520,19 +512,19 @@ const SearchInput = ({ focus, onFocus }) => {
                     leave="transition ease-in duration-75"
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
-                    show={focus && profiles.length > 0 && keywords.length > 0}
+                    show={focus && searchResult?.profiles?.length > 0 && keywords.length > 0}
                 >
                     <div className="z-50 bg-white absolute shadow-md py-2 rounded-md w-full max-w-md mt-4 top-16">
                         <ul className="">
-                            {profiles.map((person) => (
-                                <li key={person.email}>
-                                    <a className="transition-all py-4 px-5 flex hover:bg-gray-50" href={"/profile/" + person.user_id} rel="noreferrer">
+                            {searchResult?.profiles?.map((person) => (
+                                <li key={person.user_id}>
+                                    <a className="transition-all py-4 px-5 flex hover:bg-gray-50 space-x-2.5" href={"/profile/" + person.user_id} rel="noreferrer">
                                         <div className="h-10 w-10">
-                                            <Photo size="10" account={person} />
+                                            <Photo size="10" account={person} badges={true} />
                                         </div>
-                                        <div className="mx-3">
-                                            <p className="text-sm font-semibold text-gray-900">{person.first_name} {person.last_name}</p>
-                                            <p className="text-sm text-gray-500">{person.headline}</p>
+                                        <div className="flex justify-center flex-col">
+                                            <div className="text-sm font-semibold text-gray-900">{person.first_name} {person.last_name}</div>
+                                            {person.headline?.length > 0 && <div className="text-sm text-gray-500">{person.headline}</div>}
                                         </div>
                                     </a>
                                 </li>

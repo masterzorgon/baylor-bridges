@@ -4,9 +4,9 @@ import axios from "axios";
 const AccountContext = createContext();
 
 const Account = (props) => {
-    const signIn = async (email, password) => {
+    const signIn = async (username, password) => {
         return await new Promise((resolve, reject) => {
-            axios.post("/signin", { email: email, password: password })
+            axios.post("/accounts/signin", { username: username, password: password })
                 .then(response => {
                     if (response.status === 200) {
                         // Store to local storage and resolve
@@ -22,7 +22,7 @@ const Account = (props) => {
 
     const signInChallenge = async (name, session, response) => {
         return await new Promise((resolve, reject) => {
-            axios.post("/signin/challenge", {
+            axios.post("/accounts/signin/challenge", {
                 session: session,
                 challenge_name: name,
                 challenge_response: response
@@ -36,7 +36,7 @@ const Account = (props) => {
 
     const getAccount = async () => {
         return await new Promise((resolve, reject) => {
-            axios.get("/account", { withoutInterceptors: true })
+            axios.get("/accounts/me", { withoutInterceptors: true })
                 .then(response => {
                     if (response.status === 200) {
                         // Store to local storage and resolve
@@ -60,7 +60,7 @@ const Account = (props) => {
 
     const signOut = async () => {
         return await new Promise((resolve, reject) => {
-            axios.post("/signout").then(response => {
+            axios.get("/accounts/me/signout").then(response => {
                 if (response.status === 200) {
                     window.localStorage.removeItem("account");
                     resolve(response.data);

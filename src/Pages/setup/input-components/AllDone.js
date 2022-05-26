@@ -10,11 +10,13 @@ import Button from "../../../components/Button";
 
 const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
 
-    const transition = useTransition(show, { // used to fade icon in
+    // used to fade icon into view
+    const transition = useTransition(show, {
         from: { x: 0, y: 50, opacity: 0 },
         enter: { x: 0, y: -30, opacity: 1 },
         leave: { x: 0, y: -80, opacity: 0 }
     });
+
     const [alert, setAlert] = useState(false);
 
     const refAnimationInstance = useRef(null);
@@ -73,6 +75,8 @@ const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
 
     const [loading, setLoading] = useState(false);
 
+    const x_fields = "user_id, first_name, last_name, headline, role, occupation, graduate_year, graduate_semester, city, state, biography, contact_info";
+
     const onSubmit = () => {
         setLoading(true);
 
@@ -84,7 +88,8 @@ const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
             }
         });
 
-        axios.put("/account/profile", accountCopy)
+        // input form content to current account
+        axios.put("/accounts/me", accountCopy, { headers: { "x-fields": x_fields } })
             .then(res => {
                 fire();
                 console.log("---RESPONSE---", res);
