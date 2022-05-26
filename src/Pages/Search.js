@@ -518,13 +518,13 @@ const SearchInput = ({ focus, onFocus }) => {
                         <ul className="">
                             {searchResult?.profiles?.map((person) => (
                                 <li key={person.user_id}>
-                                    <a className="transition-all py-4 px-5 flex hover:bg-gray-50" href={"/profile/" + person.user_id} rel="noreferrer">
+                                    <a className="transition-all py-4 px-5 flex hover:bg-gray-50 space-x-2.5" href={"/profile/" + person.user_id} rel="noreferrer">
                                         <div className="h-10 w-10">
                                             <Photo size="10" account={person} badges={true} />
                                         </div>
-                                        <div className="mx-3">
-                                            <p className="text-sm font-semibold text-gray-900">{person.first_name} {person.last_name}</p>
-                                            <p className="text-sm text-gray-500">{person.headline}</p>
+                                        <div className="flex justify-center flex-col">
+                                            <div className="text-sm font-semibold text-gray-900">{person.first_name} {person.last_name}</div>
+                                            {person.headline?.length > 0 && <div className="text-sm text-gray-500">{person.headline}</div>}
                                         </div>
                                     </a>
                                 </li>
