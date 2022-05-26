@@ -85,7 +85,7 @@ const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, display
     return (
         <div className="mt-1">
             <Listbox as="div" disabled={disabled} className="w-full relative inline-block text-left" value={selectorMonth} onChange={(selectorMonth) => onSelectorChange(selectorMonth, selectorYear)}>
-                <Listbox.Button onClick={() => resetSelectors()} className={classNames(disabled && "cursor-not-allowed", "relative inline-flex justify-between items-center mt-1 w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 pl-10 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm")} type={type} name={name} id={id}>
+                <Listbox.Button onClick={() => resetSelectors()} className={classNames(disabled && "cursor-not-allowed", "relative inline-flex justify-between items-center mt-1 w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 pl-10 focus:outline-none focus:ring-1 focus:border focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm")} type={type} name={name} id={id}>
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <CalendarIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                     </div>
