@@ -1,9 +1,11 @@
 import React, { useEffect, useState, Fragment } from "react";
 import axios from "axios";
-import { Menu, Transition, Dialog } from "@headlessui/react";
-import { PencilIcon, DotsVerticalIcon, TrashIcon, ExclamationIcon, PlusSmIcon } from "@heroicons/react/outline";
+import { Menu, Listbox, Transition, Dialog } from "@headlessui/react";
+import { PencilIcon, DotsVerticalIcon, TrashIcon, ExclamationIcon, PlusSmIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, CalendarIcon } from "@heroicons/react/outline";
 import { PaperClipIcon } from "@heroicons/react/solid";
+import { classNames } from "../../components/Utils";
 import dayjs from "dayjs";
+import isBetween from "dayjs/plugin/isBetween";
 
 import Photo from "../../components/Photo";
 import Container from "./Container";
@@ -16,86 +18,154 @@ const DELETE = 2;
 const EXPERIENCE = 0;
 const PUBLICATION = 1;
 
-const MonthYearPicker = ({ month, year, onMonthChange, onYearChange, min, max }) => {
-    const allMonths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    const allYears = Array.from(Array(50).keys()).map(i => {
-        return new Date().getFullYear() - i;
-    });
+const PRESENT = "present";
 
-    const [months, setMonths] = useState(allMonths);
-    const [years, setYears] = useState(allYears);
+const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, displayFormat, disabled, type, name, id, presentable, nullable, placeholder, highlighted }) => {
+    dayjs.extend(isBetween);
 
-    const monthToIndex = month => {
-        return allMonths.indexOf(month);
+    const parseDate = (date, null_fallback, present_fallback) => {
+        null_fallback = null_fallback || null;
+        present_fallback = present_fallback || PRESENT;
+        if (!date) return null_fallback;
+        if (date === "present" || date === PRESENT) return present_fallback;
+        return dayjs(date, format);
     };
 
-    useEffect(() => {
-        let years = allYears;
-        let months = allMonths;
 
-        let a = (min !== undefined && min) ? dayjs(min) : dayjs("1990-01-01");
-        let b = (max !== undefined && max) ? dayjs(max) : dayjs();
+    if (!format) format = "MMM YYYY";
+    min = parseDate(min, null, dayjs());
+    max = parseDate(max, null, dayjs());
+    highlighted = parseDate(highlighted);
+    disabled = disabled === true;
 
-        years = years.filter(y => y >= a.year());
-        years = years.filter(y => y <= b.year());
+    const allMonths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-        // if (a.year() === year) {
-        //     months = months.filter(m => monthToIndex(m) >= a.month());
-        // }
+    let value = parseDate(raw_value); // value will be null, PRESENT or a dayjs() object
+    let now = parseDate(raw_value, dayjs(), dayjs());
 
-        // if (b.year() === year) {
-        //     months = months.filter(m => monthToIndex(m) <= b.month());
-        // }
+    const [selectorYear, setSelectorYear] = useState(now.year());
+    const [selectorMonth, setSelectorMonth] = useState(now.month());
 
-        setYears(years);
-        setMonths(months);
-        console.log(months);
-    }, [month, year, min, max]);
+    const isWithinValidRange = (month, year) => {
+        let a = min ? min : dayjs("1980-01-01");
+        let b = max ? max : dayjs("2099-01-01");
+        let c = dayjs().year(year).month(month);
+        return c.isBetween(a, b, "month", "[]");
+    };
 
+    const isWithinHighlightedRange = (month, year) => {
+        if (!highlighted || !value || highlighted === PRESENT || value === PRESENT) return false;
+        let a = value;
+        let b = highlighted;
+        let c = dayjs().year(year).month(month);
+        return c.isBetween(a, b, "month", "[]");
+    };
+
+    const resetSelectors = () => {
+        setSelectorYear(parseDate(value, now, now).year());
+        setSelectorMonth(parseDate(value, now, now).month());
+    };
+
+    const onSelectorChange = (selectorMonth, selectorYear) => {
+        if (selectorMonth === PRESENT || selectorYear === PRESENT) {
+            onChange(PRESENT);
+        } else if (selectorMonth === null || selectorYear === null) {
+            onChange(null);
+        } else {
+            onChange(dayjs().month(selectorMonth).year(selectorYear).format(format));
+        }
+    };
+
+    const parseDisplayText = (value) => {
+        if (value === null) return <span className="text-gray-500">{placeholder ? placeholder : "Select"}</span>;
+        if (value === PRESENT) return "Present";
+        return value.format(displayFormat || format);
+    };
 
     return (
-        <div className="flex flex-row mt-1 border border-gray-300 shadow-sm rounded-md" name="start-date">
-            <div className="basis-3/5">
-                <label htmlFor="country" className="sr-only">
-                    Month
-                </label>
-                <select
-                    id="month"
-                    name="month"
-                    autoComplete="month"
-                    value={month}
-                    className="w-full py-2 px-3 focus:ring-emerald-500 focus:border-emerald-500 h-full pl-3 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md"
-                    onChange={onMonthChange}
-                >
-                    {
-                        months.map((month, index) => (
-                            <option key={index} value={monthToIndex(month)}>{month}</option>
-                        ))
-                    }
-                </select>
-            </div>
+        <div className="mt-1">
+            <Listbox as="div" disabled={disabled} className="w-full relative inline-block text-left" value={selectorMonth} onChange={(selectorMonth) => onSelectorChange(selectorMonth, selectorYear)}>
+                <Listbox.Button onClick={() => resetSelectors()} className={classNames(disabled && "cursor-not-allowed", "relative inline-flex justify-between items-center mt-1 w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 pl-10 focus:outline-none focus:ring-1 focus:border focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm")} type={type} name={name} id={id}>
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <CalendarIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                    </div>
+                    {parseDisplayText(value)}
+                    <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5 text-gray-400" aria-hidden="true" />
+                </Listbox.Button>
 
-            <div className="grow">
-                <label htmlFor="year" className="sr-only">
-                    Year
-                </label>
-                <select
-                    id="year"
-                    name="year"
-                    autoComplete="year"
-                    value={year}
-                    className="w-full py-2 px-3 focus:ring-emerald-500 focus:border-emerald-500 h-full pl-3 pr-7 border-transparent bg-transparent text-gray-500 sm:text-sm rounded-md"
-                    onChange={onYearChange}
+                <Transition
+                    as={Fragment}
+                    enter="transition ease-out duration-100"
+                    enterFrom="transform opacity-0 scale-95"
+                    enterTo="transform opacity-100 scale-100"
+                    leave="transition ease-in duration-75"
+                    leaveFrom="transform opacity-100 scale-100"
+                    leaveTo="transform opacity-0 scale-95"
                 >
-                    {
-                        years.map((year) => {
-                            return (
-                                <option key={year} value={year}>{year}</option>
-                            );
-                        })
-                    }
-                </select>
-            </div>
+                    <Listbox.Options className="z-10 origin-top-left absolute left-0 mt-2 w-full rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        <div className="py-2 px-2">
+                            <div className="w-full text-center inline-flex justify-between items-center">
+                                <button className="p-2 rounded-full hover:bg-gray-100" onClick={() => setSelectorYear(selectorYear - 1)}>
+                                    <ChevronLeftIcon className="h-5 w-5 text-gray-400" />
+                                </button>
+                                <div className="text-sm w-20">{selectorYear}</div>
+                                <button className="p-2 rounded-full hover:bg-gray-100" onClick={() => setSelectorYear(selectorYear + 1)}>
+                                    <ChevronRightIcon className="h-5 w-5 text-gray-400" />
+                                </button>
+                            </div>
+                            <div className="grid grid-cols-4 gap-1 py-2 justify-items-center">
+                                {
+                                    allMonths.map((m, i) => {
+                                        const validRanged = isWithinValidRange(i, selectorYear);
+                                        const highlightedRanged = isWithinHighlightedRange(i, selectorYear);
+                                        const isCurrentYear = value && value instanceof dayjs && value.year() === selectorYear && value !== PRESENT;
+                                        const isCurrentMonth = value && value instanceof dayjs && value.month() === i;
+                                        const isSelected = isCurrentYear && isCurrentMonth;
+                                        return (
+                                            <Listbox.Option
+                                                key={m} value={i}
+                                                className={
+                                                    ({ selected, active }) => classNames(
+                                                        "inline-flex justify-center items-center text-sm w-12 h-12 rounded-full text-center cursor-pointer",
+                                                        !validRanged && "cursor-not-allowed text-gray-300",
+                                                        isSelected && "bg-emerald-600 text-white",
+                                                        (highlightedRanged && !isSelected) && "bg-gray-100 text-gray-500",
+                                                        (active && !isSelected) && "bg-gray-100"
+                                                    )}
+                                                disabled={!validRanged}
+                                            >
+                                                {m.substring(0, 3)}
+                                            </Listbox.Option>
+                                        );
+                                    })
+                                }
+                            </div>
+                            {
+                                (presentable || nullable) && (
+                                    <div className="border-t flex justify-end pt-1 gap-1">
+                                        {
+                                            presentable && (
+                                                <Listbox.Option key={"present"} value={PRESENT}>
+                                                    {({ active }) => (
+                                                        <button className="text-sm p-3 rounded-full hover:bg-gray-100 mt-1">Present</button>
+                                                    )}
+                                                </Listbox.Option>)
+                                        }
+                                        {
+                                            nullable && (
+                                                <Listbox.Option key={"null"} value={null}>
+                                                    {({ active }) => (
+                                                        <button className="text-sm p-3 rounded-full text-red-600 hover:bg-gray-100 mt-1">Clear</button>
+                                                    )}
+                                                </Listbox.Option>)
+                                        }
+                                    </div>
+                                )
+                            }
+                        </div>
+                    </Listbox.Options>
+                </Transition>
+            </Listbox>
         </div>
     );
 };
@@ -152,12 +222,6 @@ const Experience = () => {
         if (!field) return;
 
         const onChange = (value, attribute) => {
-            if (attribute === "start_time" || attribute === "stop_time") {
-                let d = dayjs(value);
-                if (!d.isValid()) return;
-                value = d.date(1).format("YYYY-MM-DD");
-            }
-
             setField({ ...field, [attribute]: value });
         };
 
@@ -275,11 +339,15 @@ const Experience = () => {
                                 Start Date
                             </label>
                             <MonthYearPicker
-                                month={getDateComponent(field.start_time, "month")}
-                                year={getDateComponent(field.start_time, "year")}
-                                max={field.stop_time}
-                                onMonthChange={(e) => onChange(changeDateComponent(field.start_time, "month", e.target.value), "start_time")}
-                                onYearChange={(e) => onChange(changeDateComponent(field.start_time, "year", e.target.value), "start_time")}
+                                value={field.start_time}
+                                max={field.stop_time || dayjs().format("MMM YYYY")}
+                                onChange={(value) => setField({ ...field, "start_time": value, "stop_time": value === null ? null : field.stop_time })}
+                                id="start-date"
+                                name="start-date"
+                                nullable={true}
+                                placeholder={"Select start"}
+                                highlighted={field.stop_time}
+                                displayFormat={"MMMM YYYY"}
                             />
                         </div>
 
@@ -288,11 +356,17 @@ const Experience = () => {
                                 End Date
                             </label>
                             <MonthYearPicker
-                                month={getDateComponent(field.stop_time, "month")}
-                                year={getDateComponent(field.stop_time, "year")}
-                                min={field.start_time}
-                                onMonthChange={(e) => onChange(changeDateComponent(field.stop_time, "month", e.target.value), "stop_time")}
-                                onYearChange={(e) => onChange(changeDateComponent(field.stop_time, "year", e.target.value), "stop_time")}
+                                value={field.stop_time}
+                                min={field.start_time || dayjs().format("MMM YYYY")}
+                                onChange={(value) => onChange(value, "stop_time")}
+                                disabled={!field.start_time}
+                                id="end-date"
+                                name="end-date"
+                                nullable={true}
+                                presentable={true}
+                                placeholder={field.start_time ? "Select end" : "Must select start"}
+                                highlighted={field.start_time}
+                                displayFormat={"MMMM YYYY"}
                             />
                         </div>
 
@@ -462,26 +536,22 @@ const Experience = () => {
     };
 
     const getDisplayDateRange = (start, end) => {
+        start = getFormattedDate(start);
+        end = getFormattedDate(end);
+
         let display_date = "";
-        if (start) display_date += getFormattedDate(start);
+        if (start) display_date += start;
         if (start && end) display_date += " - ";
-        if (end) display_date += getFormattedDate(end);
+        if (end) display_date += end;
         return display_date;
     };
 
     const getFormattedDate = (date) => {
+        if (!date) return null;
+        if (date === "present") return "Present";
+
         let d = dayjs(date);
         return d.isValid() ? d.format("MMMM YYYY") : "";
-    };
-
-    const changeDateComponent = (date, component, value) => {
-        let d = date && date !== "" ? dayjs(date) : dayjs();
-        return d.isValid() ? d.set(component, value) : "";
-    };
-
-    const getDateComponent = (date, component) => {
-        let d = date && date !== "" ? dayjs(date) : dayjs();
-        return d.isValid() ? d.get(component) : "";
     };
 
     const emptyState = () => {
@@ -516,7 +586,7 @@ const Experience = () => {
                         <div className="flex justify-center order-3 flex-shrink-0 sm:order-2 sm:mt-0 sm:w-auto">
                             <button
                                 onClick={() => onOpenModal({ title: null, start_time: null, stop_time: null, description: null }, EXPERIENCE, CREATE)}
-                                className="h-11 w-11 sm:h-10 sm:w-10 text-white bg-emerald-600 hover:bg-emerald-700 focus:ring-emerald-500 focus:ring-2 focus:ring-offset-2 flex justify-center rounded-full items-center"
+                                className="h-11 w-11 sm:h-11 sm:w-11 text-white bg-emerald-600 hover:bg-emerald-700 focus:ring-emerald-500 focus:ring-2 focus:ring-offset-2 flex justify-center rounded-full items-center"
                             >
                                 <PlusSmIcon className="h-7 w-7 sm:h-6 sm:w-6" aria-hidden="true" />
                             </button>
@@ -681,7 +751,7 @@ const Experience = () => {
                             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
-                            <div className="overflow-hidden sm:my-8 sm:align-middle sm:max-w-lg sm:w-full w-full inline-block align-bottom bg-white rounded-lg text-left shadow-xl transform space-y-4">
+                            <div className="overflow-visible sm:my-8 sm:align-middle sm:max-w-xl sm:w-full w-full inline-block align-bottom bg-white rounded-lg text-left shadow-xl transform space-y-4">
                                 {getModal(field)}
                             </div>
 
