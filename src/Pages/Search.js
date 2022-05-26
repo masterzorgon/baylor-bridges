@@ -486,7 +486,7 @@ const SearchInput = ({ focus, onFocus }) => {
                         type="search"
                         name="search"
                         id="search"
-                        className="transition pl-10 shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md bg-gray-100 p-3 border-transparent border-0"
+                        className="transition pl-10 shadow-sm ring-1 border focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm rounded-md bg-gray-100 p-3 border-transparent ring-transparent"
                         placeholder="Search people"
                         autoComplete="off"
                         value={keywords}
