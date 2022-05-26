@@ -89,7 +89,7 @@ const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
         });
 
         // input form content to current account
-        axios.put("/accounts/me", { headers: { "x-fields": x_fields }, data: accountCopy })
+        axios.put("/accounts/me", accountCopy, { headers: { "x-fields": x_fields } })
             .then(res => {
                 fire();
                 console.log("---RESPONSE---", res);
