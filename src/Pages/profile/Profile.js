@@ -134,14 +134,14 @@ const Profile = () => {
 
     const formatValue = (value, type) => {
         switch (type) {
-            case "email":
-                return <a className="underline underline-offset-4 decoration-dashed decoration-gray-500" href={`mailto:${value}`}>{value}</a>;
+        case "email":
+            return <a className="underline underline-offset-4 decoration-dashed decoration-gray-500" href={`mailto:${value}`}>{value}</a>;
 
-            case "phone":
-                return <a className="underline underline-offset-4 decoration-dashed decoration-gray-500" href={`tel:${value}`}>{value}</a>;
+        case "phone":
+            return <a className="underline underline-offset-4 decoration-dashed decoration-gray-500" href={`tel:${value}`}>{value}</a>;
 
-            default:
-                return value;
+        default:
+            return value;
         }
     };
 
