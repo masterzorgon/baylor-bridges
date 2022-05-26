@@ -426,7 +426,7 @@ const Profile = () => {
                                                                             <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
                                                                                 {
                                                                                     experience.publications.map((publication, pub_index) => (
-                                                                                        <li className="px-3 py-1 flex items-center justify-between text-sm" key={pub_index}>
+                                                                                        <li className="px-3 py-3 flex items-center justify-between text-sm" key={pub_index}>
                                                                                             <div className="w-0 flex-1 flex items-center">
                                                                                                 <PaperClipIcon className="flex-shrink-0 h-5 w-5 text-gray-400" />
                                                                                                 <span className="ml-2 flex-1 w-0 truncate text-gray-700">
