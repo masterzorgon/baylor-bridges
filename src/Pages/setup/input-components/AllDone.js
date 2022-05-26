@@ -75,6 +75,8 @@ const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
 
     const [loading, setLoading] = useState(false);
 
+    const x_fields = "user_id, first_name, last_name, headline, role, occupation, graduate_year, graduate_semester, city, state, biography, contact_info";
+
     const onSubmit = () => {
         setLoading(true);
 
@@ -87,7 +89,7 @@ const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
         });
 
         // input form content to current account
-        axios.put("/accounts/me", accountCopy)
+        axios.put("/accounts/me", { headers: { "x-fields": x_fields }, data: accountCopy })
             .then(res => {
                 fire();
                 console.log("---RESPONSE---", res);
