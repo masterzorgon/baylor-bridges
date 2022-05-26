@@ -19,7 +19,7 @@ const PUBLICATION = 1;
 
 const PRESENT = "present";
 
-const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, disabled, type, name, id }) => {
+const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, disabled, type, name, id, presentable, nullable }) => {
     console.log("raw value", raw_value);
 
     const parseDate = (date, null_fallback, present_fallback) => {
@@ -117,18 +117,28 @@ const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, disable
                                     })
                                 }
                             </div>
-                            <div className="border-t flex justify-between pt-1">
-                                <Listbox.Option key={"present"} value={PRESENT}>
-                                    {({ active }) => (
-                                        <button className="text-sm p-2 rounded-full text-gray-800 hover:bg-gray-100 mt-1">Present</button>
-                                    )}
-                                </Listbox.Option>
-                                <Listbox.Option key={"null"} value={null}>
-                                    {({ active }) => (
-                                        <button className="text-sm p-2 rounded-full text-red-600 hover:bg-gray-100 mt-1">Clear</button>
-                                    )}
-                                </Listbox.Option>
-                            </div>
+                            {
+                                (presentable || nullable) && (
+                                    <div className="border-t flex justify-end pt-1 gap-1">
+                                        {
+                                            presentable && (
+                                                <Listbox.Option key={"present"} value={PRESENT}>
+                                                    {({ active }) => (
+                                                        <button className="text-sm py-2 px-3 rounded-full hover:bg-gray-100 mt-1">Present</button>
+                                                    )}
+                                                </Listbox.Option>)
+                                        }
+                                        {
+                                            nullable && (
+                                                <Listbox.Option key={"null"} value={null}>
+                                                    {({ active }) => (
+                                                        <button className="text-sm py-2 px-3 rounded-full text-red-600 hover:bg-gray-100 mt-1">Clear</button>
+                                                    )}
+                                                </Listbox.Option>)
+                                        }
+                                    </div>
+                                )
+                            }
                         </div>
                     </Listbox.Options>
                 </Transition>
@@ -311,6 +321,7 @@ const Experience = () => {
                                 onChange={(value) => setField({ ...field, "start_time": value, "stop_time": value === null ? null : field.stop_time })}
                                 id="start-date"
                                 name="start-date"
+                                nullable={true}
                             />
                         </div>
 
@@ -325,6 +336,8 @@ const Experience = () => {
                                 disabled={!field.start_time}
                                 id="end-date"
                                 name="end-date"
+                                nullable={true}
+                                presentable={true}
                             />
                         </div>
 
