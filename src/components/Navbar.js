@@ -156,7 +156,10 @@ const Navbar = ({ hideOnTop }) => {
                             </Popover>
                         </Popover.Group>
 
-                        <SearchInput focus={isFocus} onFocus={setFocus} />
+                        {
+                            account !== null &&
+                            <SearchInput focus={isFocus} onFocus={setFocus} />
+                        }
 
                         {/* Account sign in / up / out */}
                         {
