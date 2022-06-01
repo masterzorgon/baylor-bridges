@@ -25,12 +25,15 @@ const GraduateYearSlider = ({ value, onChange }) => {
 
     return (
         <div>
-            <p className="text-sm">{value[0]} {value[1]}</p>
+            <div className="flex justify-items-stretch justify-between text-sm text-emerald-600 font-semibold">
+                <p>{value[0]}</p>
+                <p>{value[1]}</p>
+            </div>
             <TooltipSlider
                 range
                 min={MIN}
                 max={MAX}
-                className="w-72 mt-1 mb-4 mx-3"
+                className="w-72 mt-1 mb-4 mx-4"
                 step={1}
                 marks={marks}
                 defaultValue={[MIN, MAX]}
