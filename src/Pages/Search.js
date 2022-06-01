@@ -6,10 +6,43 @@ import USAMap from "react-usa-map";
 import axios from "axios";
 import dayjs from "dayjs";
 import { DebounceInput } from "react-debounce-input";
+import TooltipSlider from "rc-slider";
 
 import { classNames } from "../components/Utils";
 import Photo from "../components/Photo";
 import { states } from "../components/Utils";
+import { useDebounce } from "use-debounce";
+
+const GraduateYearSlider = ({ value, onChange }) => {
+    const MIN = 1970;
+    const MAX = dayjs().year() + 5;
+    value = value ? value : [MIN, MAX];
+
+    let marks = {};
+    for (let t = MIN; t <= MAX; t += 10) {
+        marks[t] = `${t}`;
+    }
+
+    return (
+        <div>
+            <div className="flex justify-items-stretch justify-between text-sm text-emerald-600 font-semibold">
+                <p>{value[0]}</p>
+                <p>{value[1]}</p>
+            </div>
+            <TooltipSlider
+                range
+                min={MIN}
+                max={MAX}
+                className="w-72 mt-1 mb-4 mx-4"
+                step={1}
+                marks={marks}
+                defaultValue={[MIN, MAX]}
+                value={value}
+                onChange={onChange}
+            />
+        </div>
+    );
+};
 
 /**
  * All filters and their attributes
@@ -18,10 +51,10 @@ const filters = {
     sort: {
         title: "Sort",
         options: [
+            { title: "Relavance", value: null },
             { title: "Name", value: "name" },
-            { title: "Class", value: "class" },
-            { title: "Location", value: "location" },
-            { title: "Occupation", value: "occupation" },
+            { title: "Role", value: "role" },
+            { title: "Graduate Year", value: "graduate_year" },
         ],
     },
     keywords: { title: "Keywords", },
@@ -33,12 +66,9 @@ const filters = {
         ],
         show: true,
     },
-    graduate_class: {
+    graduate_year: {
         title: "Class",
-        options: Array.from(Array(10).keys()).map((t) => ({
-            title: (dayjs().year() - (t * 10)) + " - " + (dayjs().year() - ((t + 1) * 10) + 1),
-            value: dayjs().year() - (t * 10),
-        })),
+        options: null,
         show: true,
     },
     state: {
@@ -92,11 +122,12 @@ const queryToString = (query, addons) => {
 
 const Search = () => {
     const [searchParams] = useSearchParams();
-    const [query, setQueryDict] = useState({});
+    const [query, setQuery] = useState({});
+    const [queryDebounce] = useDebounce(query, 250);
     const [mapStats, setMapStats] = useState({});
     const [profiles, setProfiles] = useState(null);
 
-    const setQuery = (key, value, checked) => {
+    const toggleFilterOption = (key, value, checked) => {
         if (!query[key] || !Array.isArray(query[key])) {
             query[key] = [];
         }
@@ -107,15 +138,17 @@ const Search = () => {
             query[key] = query[key].filter((v) => v !== value);
         }
 
-        setQueryDict({ ...query });
+        setQuery({ ...query });
     };
+
+    filters.graduate_year.options = <GraduateYearSlider value={query?.graduate_year?.split("-")} onChange={(value) => setQuery({ ...query, "graduate_year": value.join("-") })} />;
 
     useEffect(() => {
         Object.entries(filters).forEach(([filter_key, filter]) => {
             let value = searchParams.get(filter_key);
 
             if (value) {
-                if (filter.options) {
+                if (filter.options && Array.isArray(filter.options)) {
                     value = value.split(",");
                     value = value.map((v) => v.trim());
                     query[filter_key] = value;
@@ -126,28 +159,24 @@ const Search = () => {
             }
         });
 
-        // Give sorting a default value
-        if (!query.sort) {
-            query.sort = "name";
-        }
-
-        setQueryDict({ ...query });
+        console.log(query);
+        setQuery({ ...query });
     }, []);
 
 
     useEffect(() => {
-        if (!query.keywords || query.keywords.length <= 0) {
+        if (!queryDebounce.keywords || queryDebounce.keywords.length <= 0) {
             // TODO: Add "enter search keywords" message
             setProfiles(null);
             return;
         }
 
-        window.history.replaceState(null, null, "/search" + queryToString(query));
-        axios.get("/search" + queryToString(query, { detailed: true })).then((res) => {
+        window.history.replaceState(null, null, "/search" + queryToString(queryDebounce));
+        axios.get("/search" + queryToString(queryDebounce)).then((res) => {
             setProfiles(res.data.profiles);
             setMapStats(res.data.states);
         });
-    }, [query]);
+    }, [queryDebounce]);
 
     const getMapConfig = (stats, current) => {
         let config = {};
@@ -190,15 +219,15 @@ const Search = () => {
             }
         });
 
-        setQueryDict({ ...query_new });
+        setQuery({ ...query_new });
     };
 
     const onMapClick = (dataset) => {
         if (dataset.name === query["state"]) {
             delete query["state"];
-            setQueryDict({ ...query });
+            setQuery({ ...query });
         } else if (mapStats[dataset.name] && mapStats[dataset.name] !== 0) {
-            setQueryDict({ ...query, state: dataset.name });
+            setQuery({ ...query, state: dataset.name });
         }
     };
 
@@ -226,7 +255,7 @@ const Search = () => {
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center">
                                     <SearchIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                                 </div>
-                                <DebounceInput
+                                <input
                                     type="search"
                                     name="search"
                                     id="search"
@@ -234,8 +263,7 @@ const Search = () => {
                                     placeholder="Search people"
                                     autoComplete="off"
                                     value={query.keywords || ""}
-                                    debounceTimeout={250}
-                                    onChange={(e) => { setQueryDict({ ...query, keywords: e.target.value }); }}
+                                    onChange={(e) => { setQuery({ ...query, keywords: e.target.value }); }}
                                 />
                             </div>
                         </li>
@@ -270,7 +298,7 @@ const Search = () => {
                                             {filters.sort.options.map((option) => (
                                                 <Menu.Item
                                                     key={option.value}
-                                                    onClick={() => setQueryDict({ ...query, sort: option.value })}
+                                                    onClick={() => setQuery({ ...query, sort: option.value })}
                                                 >
                                                     <a
                                                         href={option.href}
@@ -346,7 +374,7 @@ const Search = () => {
                                                     className="origin-top-right absolute right-0 mt-2 bg-white rounded-md shadow-lg p-4 ring-1 ring-black ring-opacity-5 focus:outline-none max-h-96 overflow-y-auto"
                                                 >
                                                     <div className="space-y-4">
-                                                        {filter.options.map((option) => (
+                                                        {Array.isArray(filter.options) ? filter.options.map((option) => (
                                                             <div key={option.value} className="flex items-center">
                                                                 <input
                                                                     id={`filter-${filter_key}-${option.value}`}
@@ -355,7 +383,7 @@ const Search = () => {
                                                                     type="checkbox"
                                                                     className="h-4 w-4 border-gray-300 rounded text-emerald-600 focus:ring-emerald-500"
                                                                     defaultChecked={query[filter_key] && query[filter_key].includes(option.value)}
-                                                                    onClick={(e) => setQuery(filter_key, option.value, e.target.checked)}
+                                                                    onClick={(e) => toggleFilterOption(filter_key, option.value, e.target.checked)}
                                                                 />
                                                                 <label
                                                                     htmlFor={`filter-${filter_key}-${option.value}`}
@@ -364,7 +392,7 @@ const Search = () => {
                                                                     {option.title}
                                                                 </label>
                                                             </div>
-                                                        ))}
+                                                        )) : filter.options}
                                                     </div>
                                                 </Popover.Panel>
                                             </Transition>

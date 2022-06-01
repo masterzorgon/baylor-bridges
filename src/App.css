@@ -108,3 +108,42 @@ input, textarea, select {
 .link:hover .arrow-symbol path:last-child {
   stroke-dashoffset: 20;
 }
+
+.rc-slider-track {
+  background-color: #059669;
+}
+
+.rc-slider-dot {
+  background-color: #bebebe;
+  border: 0px solid #34d399;
+  opacity: 1;
+}
+
+.rc-slider-dot-active{
+  background-color: #059669;
+  border: 0px solid #059669;
+}
+
+.rc-slider-handle {
+  background: #059669;
+  border: solid 0px transparent;
+  opacity: 1;
+}
+.rc-slider-handle-dragging.rc-slider-handle-dragging.rc-slider-handle-dragging {
+  border-color: #059669;
+  box-shadow: 0 0 0 5px #10b98164;
+}
+.rc-slider-handle:focus-visible {
+  border-color: #059669;
+  box-shadow: 0 0 0 3px #10b98164;
+}
+.rc-slider-handle-click-focused:focus {
+  border-color: #10b981;
+}
+.rc-slider-handle:hover {
+  border-color: #059669;
+}
+.rc-slider-handle:active {
+  border-color: #059669;
+  box-shadow: 0 0 5px #10b98164;
+}
