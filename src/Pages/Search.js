@@ -159,13 +159,7 @@ const Search = () => {
             }
         });
 
-        // Give sorting a default value
-        if (!query.sort) {
-            query.sort = null;
-        }
-
         console.log(query);
-
         setQuery({ ...query });
     }, []);
 
