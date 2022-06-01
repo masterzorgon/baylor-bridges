@@ -489,7 +489,7 @@ const SearchInput = ({ focus, onFocus }) => {
             return;
         }
 
-        axios.get("/search", { params: { keywords: keywords }, signal: newAbortController.signal })
+        axios.get("/search", { params: { keywords: keywords, limit: 5 }, signal: newAbortController.signal })
             .then((res) => {
                 setSearchResult(res.data);
             })
