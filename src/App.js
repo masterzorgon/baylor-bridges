@@ -34,6 +34,7 @@ import { default as SettingsAccount } from "./Pages/settings/Account";
 
 import { Account } from "./components/Account";
 
+import "rc-slider/assets/index.css";
 import "./App.css";
 
 const components = (...components) => {

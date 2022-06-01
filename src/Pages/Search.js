@@ -6,10 +6,39 @@ import USAMap from "react-usa-map";
 import axios from "axios";
 import dayjs from "dayjs";
 import { DebounceInput } from "react-debounce-input";
+import TooltipSlider from "rc-slider";
 
 import { classNames } from "../components/Utils";
 import Photo from "../components/Photo";
 import { states } from "../components/Utils";
+
+const GraduateYearSlider = ({ value, onChange }) => {
+    const MIN = 1970;
+    const MAX = dayjs().year() + 5;
+    value = value ? value : [MIN, MAX];
+
+    let marks = {};
+    for (let t = MIN; t <= MAX; t += 10) {
+        marks[t] = `${t}`;
+    }
+
+    return (
+        <div>
+            <p className="text-sm">{value[0]} {value[1]}</p>
+            <TooltipSlider
+                range
+                min={MIN}
+                max={MAX}
+                className="w-72 mt-1 mb-4 mx-3"
+                step={1}
+                marks={marks}
+                defaultValue={[MIN, MAX]}
+                value={value}
+                onChange={onChange}
+            />
+        </div>
+    );
+};
 
 /**
  * All filters and their attributes
@@ -19,7 +48,7 @@ const filters = {
         title: "Sort",
         options: [
             { title: "Name", value: "name" },
-            { title: "Class", value: "class" },
+            { title: "Graduate Year", value: "graduate_year" },
             { title: "Location", value: "location" },
             { title: "Occupation", value: "occupation" },
         ],
@@ -33,12 +62,9 @@ const filters = {
         ],
         show: true,
     },
-    graduate_class: {
+    graduate_year: {
         title: "Class",
-        options: Array.from(Array(10).keys()).map((t) => ({
-            title: (dayjs().year() - (t * 10)) + " - " + (dayjs().year() - ((t + 1) * 10) + 1),
-            value: dayjs().year() - (t * 10),
-        })),
+        options: null,
         show: true,
     },
     state: {
@@ -110,6 +136,9 @@ const Search = () => {
         setQueryDict({ ...query });
     };
 
+    filters.graduate_year.options = <GraduateYearSlider value={query?.graduate_year?.split("-")} onChange={(value) => setQueryDict({ ...query, "graduate_year": value.join("-") })} />;
+    console.log(filters);
+
     useEffect(() => {
         Object.entries(filters).forEach(([filter_key, filter]) => {
             let value = searchParams.get(filter_key);
@@ -143,7 +172,7 @@ const Search = () => {
         }
 
         window.history.replaceState(null, null, "/search" + queryToString(query));
-        axios.get("/search" + queryToString(query, { detailed: true })).then((res) => {
+        axios.get("/search" + queryToString(query)).then((res) => {
             setProfiles(res.data.profiles);
             setMapStats(res.data.states);
         });
@@ -346,7 +375,7 @@ const Search = () => {
                                                     className="origin-top-right absolute right-0 mt-2 bg-white rounded-md shadow-lg p-4 ring-1 ring-black ring-opacity-5 focus:outline-none max-h-96 overflow-y-auto"
                                                 >
                                                     <div className="space-y-4">
-                                                        {filter.options.map((option) => (
+                                                        {Array.isArray(filter.options) ? filter.options.map((option) => (
                                                             <div key={option.value} className="flex items-center">
                                                                 <input
                                                                     id={`filter-${filter_key}-${option.value}`}
@@ -364,7 +393,7 @@ const Search = () => {
                                                                     {option.title}
                                                                 </label>
                                                             </div>
-                                                        ))}
+                                                        )) : filter.options}
                                                     </div>
                                                 </Popover.Panel>
                                             </Transition>
