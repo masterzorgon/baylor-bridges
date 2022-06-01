@@ -11,6 +11,7 @@ import TooltipSlider from "rc-slider";
 import { classNames } from "../components/Utils";
 import Photo from "../components/Photo";
 import { states } from "../components/Utils";
+import { useDebounce } from "use-debounce";
 
 const GraduateYearSlider = ({ value, onChange }) => {
     const MIN = 1970;
@@ -118,11 +119,12 @@ const queryToString = (query, addons) => {
 
 const Search = () => {
     const [searchParams] = useSearchParams();
-    const [query, setQueryDict] = useState({});
+    const [query, setQuery] = useState({});
+    const [queryDebounce] = useDebounce(query, 500);
     const [mapStats, setMapStats] = useState({});
     const [profiles, setProfiles] = useState(null);
 
-    const setQuery = (key, value, checked) => {
+    const toggleFilterOption = (key, value, checked) => {
         if (!query[key] || !Array.isArray(query[key])) {
             query[key] = [];
         }
@@ -133,18 +135,17 @@ const Search = () => {
             query[key] = query[key].filter((v) => v !== value);
         }
 
-        setQueryDict({ ...query });
+        setQuery({ ...query });
     };
 
-    filters.graduate_year.options = <GraduateYearSlider value={query?.graduate_year?.split("-")} onChange={(value) => setQueryDict({ ...query, "graduate_year": value.join("-") })} />;
-    console.log(filters);
+    filters.graduate_year.options = <GraduateYearSlider value={query?.graduate_year?.split("-")} onChange={(value) => setQuery({ ...query, "graduate_year": value.join("-") })} />;
 
     useEffect(() => {
         Object.entries(filters).forEach(([filter_key, filter]) => {
             let value = searchParams.get(filter_key);
 
             if (value) {
-                if (filter.options) {
+                if (filter.options && Array.isArray(filter.options)) {
                     value = value.split(",");
                     value = value.map((v) => v.trim());
                     query[filter_key] = value;
@@ -160,23 +161,25 @@ const Search = () => {
             query.sort = "name";
         }
 
-        setQueryDict({ ...query });
+        console.log(query);
+
+        setQuery({ ...query });
     }, []);
 
 
     useEffect(() => {
-        if (!query.keywords || query.keywords.length <= 0) {
+        if (!queryDebounce.keywords || queryDebounce.keywords.length <= 0) {
             // TODO: Add "enter search keywords" message
             setProfiles(null);
             return;
         }
 
-        window.history.replaceState(null, null, "/search" + queryToString(query));
-        axios.get("/search" + queryToString(query)).then((res) => {
+        window.history.replaceState(null, null, "/search" + queryToString(queryDebounce));
+        axios.get("/search" + queryToString(queryDebounce)).then((res) => {
             setProfiles(res.data.profiles);
             setMapStats(res.data.states);
         });
-    }, [query]);
+    }, [queryDebounce]);
 
     const getMapConfig = (stats, current) => {
         let config = {};
@@ -219,15 +222,15 @@ const Search = () => {
             }
         });
 
-        setQueryDict({ ...query_new });
+        setQuery({ ...query_new });
     };
 
     const onMapClick = (dataset) => {
         if (dataset.name === query["state"]) {
             delete query["state"];
-            setQueryDict({ ...query });
+            setQuery({ ...query });
         } else if (mapStats[dataset.name] && mapStats[dataset.name] !== 0) {
-            setQueryDict({ ...query, state: dataset.name });
+            setQuery({ ...query, state: dataset.name });
         }
     };
 
@@ -264,7 +267,7 @@ const Search = () => {
                                     autoComplete="off"
                                     value={query.keywords || ""}
                                     debounceTimeout={250}
-                                    onChange={(e) => { setQueryDict({ ...query, keywords: e.target.value }); }}
+                                    onChange={(e) => { setQuery({ ...query, keywords: e.target.value }); }}
                                 />
                             </div>
                         </li>
@@ -299,7 +302,7 @@ const Search = () => {
                                             {filters.sort.options.map((option) => (
                                                 <Menu.Item
                                                     key={option.value}
-                                                    onClick={() => setQueryDict({ ...query, sort: option.value })}
+                                                    onClick={() => setQuery({ ...query, sort: option.value })}
                                                 >
                                                     <a
                                                         href={option.href}
@@ -384,7 +387,7 @@ const Search = () => {
                                                                     type="checkbox"
                                                                     className="h-4 w-4 border-gray-300 rounded text-emerald-600 focus:ring-emerald-500"
                                                                     defaultChecked={query[filter_key] && query[filter_key].includes(option.value)}
-                                                                    onClick={(e) => setQuery(filter_key, option.value, e.target.checked)}
+                                                                    onClick={(e) => toggleFilterOption(filter_key, option.value, e.target.checked)}
                                                                 />
                                                                 <label
                                                                     htmlFor={`filter-${filter_key}-${option.value}`}
