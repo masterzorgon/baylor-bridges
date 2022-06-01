@@ -1,4 +1,4 @@
-"# Baylor Bridges
+# Baylor Bridges
 
 ## Run the website
 
