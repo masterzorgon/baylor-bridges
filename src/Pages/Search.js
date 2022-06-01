@@ -120,7 +120,7 @@ const queryToString = (query, addons) => {
 const Search = () => {
     const [searchParams] = useSearchParams();
     const [query, setQuery] = useState({});
-    const [queryDebounce] = useDebounce(query, 500);
+    const [queryDebounce] = useDebounce(query, 250);
     const [mapStats, setMapStats] = useState({});
     const [profiles, setProfiles] = useState(null);
 
@@ -258,7 +258,7 @@ const Search = () => {
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center">
                                     <SearchIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                                 </div>
-                                <DebounceInput
+                                <input
                                     type="search"
                                     name="search"
                                     id="search"
@@ -266,7 +266,6 @@ const Search = () => {
                                     placeholder="Search people"
                                     autoComplete="off"
                                     value={query.keywords || ""}
-                                    debounceTimeout={250}
                                     onChange={(e) => { setQuery({ ...query, keywords: e.target.value }); }}
                                 />
                             </div>
