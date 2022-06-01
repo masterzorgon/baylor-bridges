@@ -51,10 +51,10 @@ const filters = {
     sort: {
         title: "Sort",
         options: [
+            { title: "Relavance", value: null },
             { title: "Name", value: "name" },
+            { title: "Role", value: "role" },
             { title: "Graduate Year", value: "graduate_year" },
-            { title: "Location", value: "location" },
-            { title: "Occupation", value: "occupation" },
         ],
     },
     keywords: { title: "Keywords", },
@@ -161,7 +161,7 @@ const Search = () => {
 
         // Give sorting a default value
         if (!query.sort) {
-            query.sort = "name";
+            query.sort = null;
         }
 
         console.log(query);
