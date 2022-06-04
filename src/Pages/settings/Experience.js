@@ -5,6 +5,7 @@ import { PencilIcon, DotsVerticalIcon, TrashIcon, ExclamationIcon, PlusSmIcon, C
 import { PaperClipIcon } from "@heroicons/react/solid";
 import { classNames } from "../../components/Utils";
 import dayjs from "dayjs";
+import { notifyToast } from "../../components/MessageToast";
 import isBetween from "dayjs/plugin/isBetween";
 
 import Photo from "../../components/Photo";
@@ -174,6 +175,7 @@ const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, display
 const Experience = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [isError, setIsError] = useState(false);
     const [complete, setComplete] = useState(false);
 
     const [open, setOpen] = useState(false);
@@ -234,22 +236,38 @@ const Experience = () => {
                     experiences.push(res.data);
                     setExperiences(experiences);
                     setOpen(false);
+                    setIsError(false);
                 })
-                .catch(err => setError(err.response.data.message))
-                .finally(() => setLoading(false));
+                .catch(err => {
+                    setError(err.response.data.message);
+                    setIsError(true);
+                })
+                .finally(() => {
+                    setLoading(false);
+                    notifyToast(isError);
+                });
         };
 
         const onUpdateExperience = (field) => {
             setLoading(true);
+
+
             axios.put(`/experiences/${field.exper_id}`, field)
                 .then(res => {
                     setError(null);
                     experiences[experiences.findIndex(e => e.exper_id === field.exper_id)] = res.data;
                     setExperiences(experiences);
                     setOpen(false);
+                    setIsError(false);
                 })
-                .catch(err => setError(err.response.data.message))
-                .finally(() => setLoading(false));
+                .catch(err => {
+                    setError(err.response.data.message);
+                    setIsError(true);
+                })
+                .finally(() => {
+                    setLoading(false);
+                    notifyToast(isError);
+                });
         };
 
         const onDeleteExperience = (field) => {
@@ -266,15 +284,23 @@ const Experience = () => {
 
         const onCreatePublication = (field) => {
             setLoading(true);
+            notifyToast(isError);
+
             axios.post("/publications/me", field)
                 .then(res => {
                     setError(null);
                     experiences[experiences.findIndex(e => e.exper_id === field.exper_id)].publications.push(res.data);
                     setExperiences(experiences);
                     setOpen(false);
+                    setIsError(false);
                 })
-                .catch(err => setError(err.response.data.message))
-                .finally(() => setLoading(false));
+                .catch(err => {
+                    setError(err.response.data.message);
+                    setIsError(true);
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
         };
 
         const onUpdatePublication = (field) => {
@@ -574,13 +600,6 @@ const Experience = () => {
             </button>
         );
     };
-
-
-    //
-    //  [*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*]
-    //  [*][*][*][*] CONTENT AREA! [*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*]
-    //  [*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*]
-    //
 
     return (
         <>

@@ -19,18 +19,18 @@ export const notifyToast = (status) => {
     );
 
     status
-        ? toast.success(<SuccessMessage />, {
+        ? toast.error(<ErrorMessage />, {
             position: "top-right",
-            autoClose: 5000,
+            autoClose: 3000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
         })
-        : toast.error(<ErrorMessage />, {
+        : toast.success(<SuccessMessage />, {
             position: "top-right",
-            autoClose: 5000,
+            autoClose: 3000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
