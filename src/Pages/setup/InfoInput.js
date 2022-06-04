@@ -17,6 +17,7 @@ const InfoInput = () => {
     const [modal, setModal] = useState(1); // used to switch between modals
     const [account, setAccount] = useState({}); // updates account info
 
+
     const x_fields = "user_id, first_name, last_name, headline, role, occupation, graduate_year, graduate_semester, city, state, biography, contact_info";
 
     useEffect(() => {

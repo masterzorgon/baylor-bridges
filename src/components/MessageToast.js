@@ -1,39 +1,54 @@
 import React from "react";
-import { XCircleIcon } from "@heroicons/react/solid";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
+export const notifyToast = (status) => {
 
-const MessageToast = ({ header, message, status, onClose }) => {
-
-    const styles = {
-        bgOk: "rounded-md bg-green-50 p-4",
-        bgError: "rounded-md bg-red-50 p-4",
-        iconOk: "h-5 w-5 text-green-400",
-        iconError: "h-5 w-5 text-red-400",
-        headerOk: "text-sm font-medium text-green-800",
-        headerError: "text-sm font-medium text-red-800",
-        textOk: "mt-2 text-sm text-green-700",
-        textError: "mt-2 text-sm text-red-700",
-    };
-
-    return (
-        <div className={status ? styles.bgOk : styles.bgError}>
-            <div className="flex">
-                <div className="flex-shrink-0">
-                    <XCircleIcon className={status ? styles.iconOk : styles.iconError} aria-hidden="true" />
-                </div>
-                <div className="ml-3">
-                    <h3 className={status ? styles.headerOk : styles.headerError}>
-                        {header}
-                    </h3>
-                    <div className={status ? styles.textOk : styles.textError}>
-                        <div role="list" className="list-disc pl-5 space-y-1">
-                            {message}
-                        </div>
-                    </div>
-                </div>
-            </div>
+    const ErrorMessage = () => (
+        <div>
+            <h5 className="text-md">Something went wrong!</h5>
+            <p className="text-sm">Network issues - please try again</p>
         </div>
     );
+
+    const SuccessMessage = () => (
+        <div>
+            <h5 className="text-md">Submission successful!</h5>
+            <p className="text-sm">Your request processed successfully</p>
+        </div>
+    );
+
+    status
+        ? toast.success(<SuccessMessage />, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        })
+        : toast.error(<ErrorMessage />, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
 };
 
-export default MessageToast;
+export const MessageToast = () => (
+    <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+    />
+);

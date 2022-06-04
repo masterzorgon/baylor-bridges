@@ -1,9 +1,10 @@
 import React, { useState, useCallback, useRef } from "react";
 import ReactCanvasConfetti from "react-canvas-confetti";
-import { CheckCircleIcon, ExclamationCircleIcon, XIcon } from "@heroicons/react/outline";
+import { CheckCircleIcon } from "@heroicons/react/outline";
 import { Fragment } from "react/cjs/react.production.min";
 import { Transition } from "@headlessui/react";
 import { useTransition, animated } from "react-spring";
+import { MessageToast, notifyToast } from "../../../components/MessageToast";
 import axios from "axios";
 
 import Button from "../../../components/Button";
@@ -17,7 +18,7 @@ const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
         leave: { x: 0, y: -80, opacity: 0 }
     });
 
-    const [alert, setAlert] = useState(false);
+    const [isError, setIsError] = useState(false);
 
     const refAnimationInstance = useRef(null);
 
@@ -79,6 +80,7 @@ const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
 
     const onSubmit = () => {
         setLoading(true);
+        notifyToast(isError);
 
         // Replace null with empty string in account object
         const accountCopy = { ...account };
@@ -97,9 +99,12 @@ const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
             })
             .catch(err => {
                 console.log("---ERROR---", err);
-                setAlert(true);
+                setIsError(true);
             })
-            .finally(() => setLoading(false));
+            .finally(() => {
+                setLoading(false);
+                setIsError(false);
+            });
     };
 
     return (
@@ -120,50 +125,7 @@ const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
                     aria-labelledby="contact-heading"
                 >
                     <ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
-                    {/* ALERT NOTIFICATION BELOW */}
-                    <div
-                        aria-live="assertive"
-                        className="fixed z-50 inset-0 flex items-end px-4 py-6 pointer-events-none sm:p-6 sm:items-start"
-                    >
-                        <div className="w-full flex flex-col space-y-4 mb-auto items-end">
-                            {/* Notification panel, dynamically insert this into the live region when it needs to be displayed */}
-                            <Transition
-                                show={alert}
-                                as={Fragment}
-                                enter="transform ease-out duration-300 transition"
-                                enterFrom="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
-                                enterTo="translate-y-0 opacity-100 sm:translate-x-0"
-                                leave="transition ease-in duration-100"
-                                leaveFrom="opacity-100"
-                                leaveTo="opacity-0"
-                            >
-                                <div className="max-w-sm w-full bg-red-50 shadow-xl rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden">
-                                    <div className="p-4">
-                                        <div className="flex items-start">
-                                            <div className="flex-shrink-0">
-                                                <ExclamationCircleIcon className="h-6 w-6 text-red-400" aria-hidden="true" />
-                                            </div>
-                                            <div className="ml-3 w-0 flex-1 pt-0.5">
-                                                <p className="text-sm font-medium text-gray-900">Submission unsuccessful</p>
-                                                <p className="mt-1 text-sm text-gray-500">Network issues — Please try again.</p>
-                                            </div>
-                                            <div className="ml-4 flex-shrink-0 flex">
-                                                <button
-                                                    className="bg-red-50 rounded-md inline-flex text-gray-500 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                                                    onClick={() => {
-                                                        setAlert(false);
-                                                    }}
-                                                >
-                                                    <span className="sr-only">Close</span>
-                                                    <XIcon className="h-5 w-5" aria-hidden="true" />
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </Transition>
-                        </div>
-                    </div>
+                    <MessageToast />
 
                     {/* ALERT NOTIFICATION ABOVE */}
                     <div className="grid grid-cols-1 gap-y-20 lg:gap-y-0 lg:gap-x-8 mx-auto">
