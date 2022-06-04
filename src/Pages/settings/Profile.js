@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { Dialog, Transition, Listbox } from "@headlessui/react";
 import { SelectorIcon, CheckIcon, EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
+import { notifyToast } from "../../components/MessageToast";
 import axios from "axios";
 
 import Container from "./Container";
@@ -134,6 +135,7 @@ const Profile = () => {
     const [section_key, setSectionKey] = useState(null); // Current section key of the current fiels to change
     const [field, setField] = useState(null); // Current field to change in the modal
     const [update, setUpdate] = useState(null); // A dictionary to record everything need to be updated to axios
+    const [isError, setIsError] = useState(false); // Determines of MessageToast shows "success" or "error"
 
     const [loading, setLoading] = useState(false); // Whether the axios is requesting
     const [complete, setComplete] = useState(true); // Whether the fields in the modal are completed (prevent REQUIRED fields left empty)
@@ -571,9 +573,16 @@ const Profile = () => {
                 console.log(res);
                 setAccount(res.data);
                 setOpen(false);
+                setIsError(false);
             })
-            .catch(err => console.log(err))
-            .finally(() => setLoading(false));
+            .catch(err => {
+                console.log(err);
+                setIsError(true);
+            })
+            .finally(() => {
+                setLoading(false);
+                notifyToast(isError);
+            });
     };
 
     const makeField = (section_key, field_key, field) => {
