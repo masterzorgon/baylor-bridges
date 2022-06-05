@@ -6,11 +6,11 @@ import { DotsVerticalIcon } from "@heroicons/react/outline";
 import { PaperClipIcon } from "@heroicons/react/solid";
 import axios from "axios";
 import dayjs from "dayjs";
-import Markdown from "../../components/Markdown";
 
 import Photo from "../../components/Photo";
 import { AccountContext } from "../../components/Account";
 import SignInRequiredModal from "./SignInRequiredModal";
+import Markdown from "../../components/Markdown";
 
 const classNames = (...classes) => classes.filter(Boolean).join(" ");
 
@@ -404,20 +404,22 @@ const Profile = () => {
                                                                         <div className="flex-shrink-0">
                                                                             <Photo size="10" />
                                                                         </div>
-                                                                        <div className="min-w-0 flex-1">
-                                                                            <h1 className="text-md font-medium text-gray-800 -mt-0.5">
-                                                                                {experience.title}
-                                                                            </h1>
-                                                                            <h2 className="text-sm text-gray-500">
-                                                                                {getDisplayDateRange(experience.start_time, experience.stop_time)}
-                                                                            </h2>
+                                                                        <div className="min-w-0 flex-1 flex items-center">
+                                                                            <div>
+                                                                                <h1 className="text-md font-medium text-gray-800 -mt-0.5">
+                                                                                    {experience.title}
+                                                                                </h1>
+                                                                                <h2 className="text-sm text-gray-500">
+                                                                                    {getDisplayDateRange(experience.start_time, experience.stop_time)}
+                                                                                </h2>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
 
                                                                     <div className="mt-4 ml-12 pl-1 space-y-4">
                                                                         <div className="">
                                                                             <p className="block text-sm font-medium text-gray-600">
-                                                                                {experience.description?.length > 0 ? experience.description : <span className="text-gray-400">This experience has no description.</span>}
+                                                                                {experience.description?.length > 0 ? <Markdown>{experience.description}</Markdown> : <span className="text-gray-400">This experience has no description.</span>}
                                                                             </p>
                                                                         </div>
 
