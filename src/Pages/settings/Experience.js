@@ -10,6 +10,7 @@ import isBetween from "dayjs/plugin/isBetween";
 import Photo from "../../components/Photo";
 import Container from "./Container";
 import Button from "../../components/Button";
+import Markdown from "../../components/Markdown";
 
 const CREATE = 0;
 const UPDATE = 1;
@@ -666,7 +667,9 @@ const Experience = () => {
                                     <div className="mt-4 ml-12 pl-1 space-y-4">
                                         <div className="">
                                             <p className="block text-sm font-medium text-gray-600">
-                                                {experience.description}
+                                                <Markdown>
+                                                    {experience.description}
+                                                </Markdown>
                                             </p>
                                         </div>
 
