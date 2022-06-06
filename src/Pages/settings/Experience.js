@@ -195,7 +195,7 @@ const Experience = () => {
         if (!field) return; // field is null
 
         // Experience & Publication must have title
-        if (!field.title || field.title === "") {
+        if (!field.title || field.title === "" || !field.start_time || !field.stop_time) {
             setComplete(false);
             return;
         }
@@ -343,7 +343,7 @@ const Experience = () => {
                                 onChange={(value) => setField({ ...field, "start_time": value, "stop_time": value === null ? null : field.stop_time })}
                                 id="start-date"
                                 name="start-date"
-                                nullable={true}
+                                nullable={false}
                                 placeholder={"Select start"}
                                 highlighted={field.stop_time}
                                 displayFormat={"MMMM YYYY"}
@@ -361,7 +361,7 @@ const Experience = () => {
                                 disabled={!field.start_time}
                                 id="end-date"
                                 name="end-date"
-                                nullable={true}
+                                nullable={false}
                                 presentable={true}
                                 placeholder={field.start_time ? "Select end" : "Must select start"}
                                 highlighted={field.start_time}
