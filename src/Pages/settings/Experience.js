@@ -1,16 +1,14 @@
 import React, { useEffect, useState, Fragment } from "react";
 import axios from "axios";
-import { Menu, Listbox, Transition, Dialog } from "@headlessui/react";
-import { PencilIcon, DotsVerticalIcon, TrashIcon, ExclamationIcon, PlusSmIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, CalendarIcon } from "@heroicons/react/outline";
-import { PaperClipIcon } from "@heroicons/react/solid";
+import { Listbox, Transition, Dialog } from "@headlessui/react";
+import { ExclamationIcon, PlusSmIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, CalendarIcon } from "@heroicons/react/outline";
 import { classNames } from "../../components/Utils";
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 
-import Photo from "../../components/Photo";
 import Container from "./Container";
 import Button from "../../components/Button";
-import Markdown from "../../components/Markdown";
+import ExperienceCard from "../../components/profile/ExperienceCard";
 
 const CREATE = 0;
 const UPDATE = 1;
@@ -536,25 +534,6 @@ const Experience = () => {
         setOpen(true);
     };
 
-    const getDisplayDateRange = (start, end) => {
-        start = getFormattedDate(start);
-        end = getFormattedDate(end);
-
-        let display_date = "";
-        if (start) display_date += start;
-        if (start && end) display_date += " - ";
-        if (end) display_date += end;
-        return display_date;
-    };
-
-    const getFormattedDate = (date) => {
-        if (!date) return null;
-        if (date === "present") return "Present";
-
-        let d = dayjs(date);
-        return d.isValid() ? d.format("MMMM YYYY") : "";
-    };
-
     const emptyState = () => {
         return (
             <button
@@ -603,121 +582,8 @@ const Experience = () => {
                             */}
                             {experiences && experiences.length === 0 && emptyState()}
                             {experiences && experiences.map((experience, exper_index) => (
-                                <section key={exper_index} className="py-6">
-                                    <div className="flex space-x-3">
-                                        <div className="flex-shrink-0">
-                                            <Photo size="10" />
-                                        </div>
-                                        <div className="min-w-0 flex-1">
-                                            <h1 className="text-md font-medium text-gray-800 -mt-0.5">
-                                                {experience.title}
-                                            </h1>
-                                            <h2 className="text-sm text-gray-500">
-                                                {getDisplayDateRange(experience.start_time, experience.stop_time)}
-                                            </h2>
-                                        </div>
-                                        <div className="flex-shrink-0 self-center flex">
-                                            <Menu as="div" className="relative z-30 inline-block text-left">
-                                                <div>
-                                                    <Menu.Button className="-m-2 p-2 rounded-full flex items-center text-gray-400 hover:text-gray-600">
-                                                        <span className="sr-only">Open options</span>
-                                                        <DotsVerticalIcon className="h-5 w-5" aria-hidden="true" />
-                                                    </Menu.Button>
-                                                </div>
-
-                                                <Transition
-                                                    as={Fragment}
-                                                    enter="transition ease-out duration-100"
-                                                    enterFrom="transform opacity-0 scale-95"
-                                                    enterTo="transform opacity-100 scale-100"
-                                                    leave="transition ease-in duration-75"
-                                                    leaveFrom="transform opacity-100 scale-100"
-                                                    leaveTo="transform opacity-0 scale-95"
-                                                >
-                                                    <Menu.Items className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                                        <div className="py-2">
-                                                            {/* Edit experience */}
-                                                            <Menu.Item>
-                                                                <button
-                                                                    className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 cursor-pointer flex px-4 py-2 text-sm w-full"
-                                                                    onClick={() => onOpenModal(experience, EXPERIENCE, UPDATE)}
-                                                                >
-                                                                    <PencilIcon className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
-                                                                    <span>Edit</span>
-                                                                </button>
-                                                            </Menu.Item>
-
-                                                            {/* Delete experience */}
-                                                            <Menu.Item>
-                                                                <button
-                                                                    className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 cursor-pointer flex px-4 py-2 text-sm w-full"
-                                                                    onClick={() => onOpenModal(experience, EXPERIENCE, DELETE)}
-                                                                >
-                                                                    <TrashIcon className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
-                                                                    <span>Remove</span>
-                                                                </button>
-                                                            </Menu.Item>
-                                                        </div>
-                                                    </Menu.Items>
-                                                </Transition>
-                                            </Menu>
-                                        </div>
-                                    </div>
-
-                                    <div className="mt-4 ml-12 pl-1 space-y-4">
-                                        <div className="">
-                                            <p className="block text-sm font-medium text-gray-600">
-                                                <Markdown>
-                                                    {experience.description}
-                                                </Markdown>
-                                            </p>
-                                        </div>
-
-                                        <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
-                                            {
-                                                experience.publications.map((publication, pub_index) => (
-                                                    <li className="px-3 py-1 flex items-center justify-between text-sm" key={pub_index}>
-                                                        <div className="w-0 flex-1 flex items-center">
-                                                            <PaperClipIcon className="flex-shrink-0 h-5 w-5 text-gray-400" />
-                                                            <span className="ml-2 flex-1 w-0 truncate text-gray-700">
-                                                                <a href={/^http:\/\//.test(publication.duo_link) || /^https:\/\//.test(publication.duo_link) ? publication.duo_link : "//" + publication.duo_link}
-                                                                    className="font-medium text-emerald-600 hover:text-emerald-500" target="_blank" rel="noreferrer">
-                                                                    {publication.title}
-                                                                </a>
-                                                            </span>
-                                                        </div>
-                                                        <div className="ml-4 flex-shrink-0 flex justify-between gap-0 -mr-1">
-                                                            {/* Edit publication */}
-                                                            <button
-                                                                type="button"
-                                                                className="rounded-full p-2 hover:bg-gray-100"
-                                                                onClick={() => onOpenModal(Object.assign({}, publication, { exper_id: experience.exper_id, exper_index: exper_index, pub_index: pub_index }), PUBLICATION, UPDATE)}
-                                                            >
-                                                                <PencilIcon className="h-5 w-5 text-gray-400" />
-                                                            </button>
-
-                                                            {/* Delete publication */}
-                                                            <button
-                                                                className="rounded-full p-2 hover:bg-gray-100"
-                                                                onClick={() => onOpenModal(Object.assign({}, publication, { exper_id: experience.exper_id, exper_index: exper_index, pub_index: pub_index }), PUBLICATION, DELETE)}
-                                                            >
-                                                                <TrashIcon className="h-5 w-5 text-gray-400" />
-                                                            </button>
-                                                        </div>
-                                                    </li>
-                                                ))
-                                            }
-                                            <li className="flex items-center overflow-hidden">
-                                                {/* Add new publication */}
-                                                <button
-                                                    type="button"
-                                                    className="relative block w-full border-gray-300 border-dashed py-2.5 text-center hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-0 focus:ring-emerald-600"
-                                                    onClick={() => onOpenModal(Object.assign({}, { title: null, duo_link: null }, { exper_id: experience.exper_id, exper_index: exper_index }), PUBLICATION, CREATE)}>
-                                                    <PlusSmIcon className="mx-auto h-5 w-5 text-gray-400" />
-                                                </button>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                <section key={exper_index} className="py-5">
+                                    <ExperienceCard experience={experience} onEdit={(experience) => onOpenModal(experience, EXPERIENCE, UPDATE)} onDelete={(experience) => onOpenModal(experience, EXPERIENCE, DELETE)} />
                                 </section>
                             ))}
                         </dl>
