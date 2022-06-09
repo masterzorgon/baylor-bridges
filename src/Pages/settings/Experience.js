@@ -294,6 +294,7 @@ const Experience = () => {
                 .finally(() => setLoading(false));
         };
 
+        /* ERROR */
         const onDeletePublication = (field) => {
             setLoading(true);
             axios.delete(`/publications/${field.pub_id}`)
@@ -301,11 +302,17 @@ const Experience = () => {
                     setOpen(false);
 
                     let exper_index = experiences.findIndex(e => e.exper_id === field.exper_id);
-                    setExperiences(experiences[exper_index].publications.filter(p => p.pub_id !== field.pub_id));
+                    let pub_index = experiences[exper_index].publications.findIndex(p => p.pub_id === field.pub_id);
+
+                    experiences[exper_index].publications.pop(pub_index, 1);
+                    setExperiences(experiences);
 
                     setError(null);
                 })
-                .catch(err => setError(err.response.data.message))
+                .catch(err => {
+                    // setError(err.response.data.message);
+                    console.log("---- ERROR ----\n", err);
+                })
                 .finally(() => setLoading(false));
         };
 
@@ -596,11 +603,7 @@ const Experience = () => {
 
                     <div className="mt-6">
                         <dl className="divide-y divide-gray-200">
-                            {/*
-                                [*][*][*]                     [*][*][*]
-                                [*][*][*] EXPERIENCES SECTION [*][*][*]
-                                [*][*][*]                     [*][*][*]
-                            */}
+                            {/* EXPERIENCES */}
                             {experiences && experiences.length === 0 && emptyState()}
                             {experiences && experiences.map((experience, exper_index) => (
                                 <section key={exper_index} className="py-6">
