@@ -2,7 +2,7 @@ import React from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export const notifyToast = (status) => {
+export const notifyToast = (isError) => {
 
     const ErrorMessage = () => (
         <div>
@@ -18,7 +18,7 @@ export const notifyToast = (status) => {
         </div>
     );
 
-    status
+    isError
         ? toast.error(<ErrorMessage />, {
             position: "top-right",
             autoClose: 3000,

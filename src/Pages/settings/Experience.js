@@ -313,7 +313,6 @@ const Experience = () => {
                 .finally(() => setLoading(false));
         };
 
-        /* ERROR */
         const onDeletePublication = (field) => {
             setLoading(true);
             axios.delete(`/publications/${field.pub_id}`)
@@ -329,10 +328,15 @@ const Experience = () => {
                     setError(null);
                 })
                 .catch(err => {
-                    // setError(err.response.data.message);
                     console.log("---- ERROR ----\n", err);
+                    setError(err.response.data.message);
+                    setIsError(true);
                 })
-                .finally(() => setLoading(false));
+                .finally(() => {
+                    setLoading(false);
+                    if (isError) notifyToast(isError);
+                    setIsError(false);
+                });
         };
 
 
