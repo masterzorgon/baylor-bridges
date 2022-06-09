@@ -284,7 +284,6 @@ const Experience = () => {
 
         const onCreatePublication = (field) => {
             setLoading(true);
-            notifyToast(isError);
 
             axios.post("/publications/me", field)
                 .then(res => {
@@ -292,15 +291,9 @@ const Experience = () => {
                     experiences[experiences.findIndex(e => e.exper_id === field.exper_id)].publications.push(res.data);
                     setExperiences(experiences);
                     setOpen(false);
-                    setIsError(false);
                 })
-                .catch(err => {
-                    setError(err.response.data.message);
-                    setIsError(true);
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
+                .catch(err => setError(err.response.data.message))
+                .finally(() => setLoading(false));
         };
 
         const onUpdatePublication = (field) => {
