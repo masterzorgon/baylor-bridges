@@ -301,7 +301,10 @@ const Experience = () => {
                     setOpen(false);
 
                     let exper_index = experiences.findIndex(e => e.exper_id === field.exper_id);
-                    setExperiences(experiences[exper_index].publications.filter(p => p.pub_id !== field.pub_id));
+                    let pub_index = experiences[exper_index].publications.findIndex(p => p.pub_id === field.pub_id);
+
+                    experiences[exper_index].publications.pop(pub_index, 1);
+                    setExperiences(experiences);
 
                     setError(null);
                 })

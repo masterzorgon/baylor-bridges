@@ -492,6 +492,7 @@ const SearchInput = ({ focus, onFocus }) => {
         axios.get("/search", { params: { keywords: keywords, limit: 5 }, signal: newAbortController.signal })
             .then((res) => {
                 setSearchResult(res.data);
+                console.log("SEARCH RESULTS", searchResult);
             })
             .catch(error => {
                 console.log(error);
@@ -551,8 +552,15 @@ const SearchInput = ({ focus, onFocus }) => {
                                             <Photo size="10" account={person} badges={true} />
                                         </div>
                                         <div className="flex justify-center flex-col">
-                                            <div className="text-sm font-semibold text-gray-900">{person.first_name} {person.last_name}</div>
-                                            {person.headline?.length > 0 && <div className="text-sm text-gray-500">{person.headline}</div>}
+                                            <div className="text-sm text-gray-900" dangerouslySetInnerHTML={{ __html: `${person._highlightResult.first_name.value}, ${person._highlightResult.last_name.value}` }}>
+                                                {/* {person.first_name} {person.last_name} */}
+                                            </div>
+                                            {
+                                                person.headline?.length > 0 &&
+                                                <div className="text-sm text-gray-500" dangerouslySetInnerHTML={{ __html: `${person._highlightResult.headline.value}` }}>
+                                                    {/* {person.headline} */}
+                                                </div>
+                                            }
                                         </div>
                                     </a>
                                 </li>
