@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 
-import { MessageToast, notifyToast } from "../../components/MessageToast";
+import { notifyToast } from "../../components/MessageToast";
 import { AccountContext } from "../../components/Account";
 import { changeBaseURL, changeSearchParam, getSearchParam, requiresProfileSetup } from "../../components/Utils";
 import Button from "../../components/Button";
@@ -82,8 +82,6 @@ const SignIn = () => {
                 <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
                     <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
                         <div className="space-y-7">
-                            <MessageToast />
-
                             <div>
                                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                                     Email address

@@ -4,7 +4,7 @@ import { CheckCircleIcon } from "@heroicons/react/outline";
 import { Fragment } from "react/cjs/react.production.min";
 import { Transition } from "@headlessui/react";
 import { useTransition, animated } from "react-spring";
-import { MessageToast, notifyToast } from "../../../components/MessageToast";
+import { notifyToast } from "../../../components/MessageToast";
 import axios from "axios";
 
 import Button from "../../../components/Button";
@@ -125,7 +125,6 @@ const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
                     aria-labelledby="contact-heading"
                 >
                     <ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
-                    <MessageToast />
 
                     {/* ALERT NOTIFICATION ABOVE */}
                     <div className="grid grid-cols-1 gap-y-20 lg:gap-y-0 lg:gap-x-8 mx-auto">

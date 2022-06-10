@@ -147,3 +147,7 @@ input, textarea, select {
   border-color: #059669;
   box-shadow: 0 0 5px #10b98164;
 }
+
+.Toastify * {
+  font-family: 'Inter', sans-serif !important;
+}
