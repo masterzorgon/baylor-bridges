@@ -4,7 +4,7 @@ import { CheckCircleIcon } from "@heroicons/react/outline";
 import { Fragment } from "react/cjs/react.production.min";
 import { Transition } from "@headlessui/react";
 import { useTransition, animated } from "react-spring";
-import { notifyToast } from "../../../components/MessageToast";
+import { toast } from "react-toastify";
 import axios from "axios";
 
 import Button from "../../../components/Button";
@@ -18,8 +18,6 @@ const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
         leave: { x: 0, y: -80, opacity: 0 }
     });
 
-    const [isError, setIsError] = useState(false);
-
     const refAnimationInstance = useRef(null);
 
     const getInstance = useCallback((instance) => {
@@ -28,12 +26,12 @@ const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
 
     const makeShot = useCallback((particleRatio, opts) => {
         refAnimationInstance.current &&
-        refAnimationInstance.current({
-            ...opts,
-            origin: { y: 0.6 },
-            particleCount: Math.floor(750 * particleRatio),
-            colors: ["#6ee7b7", "#fbd34c"]
-        });
+            refAnimationInstance.current({
+                ...opts,
+                origin: { y: 0.6 },
+                particleCount: Math.floor(750 * particleRatio),
+                colors: ["#6ee7b7", "#fbd34c"]
+            });
     }, []);
 
     const canvasStyles = {
@@ -53,7 +51,7 @@ const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
             });
 
         makeShot(0.2,
-            {spread: 60});
+            { spread: 60 });
 
         makeShot(0.35, {
             spread: 180,
@@ -80,7 +78,6 @@ const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
 
     const onSubmit = () => {
         setLoading(true);
-        notifyToast(isError);
 
         // Replace null with empty string in account object
         const accountCopy = { ...account };
@@ -97,13 +94,9 @@ const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
                 console.log("---RESPONSE---", res);
                 setTimeout(() => window.location.href = "/", 1500);
             })
-            .catch(err => {
-                console.log("---ERROR---", err);
-                setIsError(true);
-            })
+            .catch(err => toast.error(err.response.data.message))
             .finally(() => {
                 setLoading(false);
-                setIsError(false);
             });
     };
 

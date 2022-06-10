@@ -5,7 +5,7 @@ import { PencilIcon, DotsVerticalIcon, TrashIcon, ExclamationIcon, PlusSmIcon, C
 import { PaperClipIcon } from "@heroicons/react/solid";
 import { classNames } from "../../components/Utils";
 import dayjs from "dayjs";
-import { notifyToast } from "../../components/MessageToast";
+import { toast } from "react-toastify";
 import isBetween from "dayjs/plugin/isBetween";
 
 import Photo from "../../components/Photo";
@@ -174,8 +174,6 @@ const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, display
 
 const Experience = () => {
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const [isError, setIsError] = useState(false);
     const [complete, setComplete] = useState(false);
 
     const [open, setOpen] = useState(false);
@@ -189,10 +187,7 @@ const Experience = () => {
             .then(res => {
                 setExperiences(res.data);
             })
-            .catch(err => {
-                console.log(error);
-                setError(err.response.data.message);
-            });
+            .catch(err => toast.error(err.response.data.message));
     }, []);
 
     useEffect(() => {
@@ -232,19 +227,13 @@ const Experience = () => {
             setLoading(true);
             axios.post("/experiences/me", field)
                 .then(res => {
-                    setError(null);
                     experiences.push(res.data);
                     setExperiences(experiences);
                     setOpen(false);
-                    setIsError(false);
                 })
-                .catch(err => {
-                    setError(err.response.data.message);
-                    setIsError(true);
-                })
+                .catch(err => toast.error(err.response.data.message))
                 .finally(() => {
                     setLoading(false);
-                    notifyToast(isError);
                 });
         };
 
@@ -254,19 +243,13 @@ const Experience = () => {
 
             axios.put(`/experiences/${field.exper_id}`, field)
                 .then(res => {
-                    setError(null);
                     experiences[experiences.findIndex(e => e.exper_id === field.exper_id)] = res.data;
                     setExperiences(experiences);
                     setOpen(false);
-                    setIsError(false);
                 })
-                .catch(err => {
-                    setError(err.response.data.message);
-                    setIsError(true);
-                })
+                .catch(err => toast.error(err.response.data.message))
                 .finally(() => {
                     setLoading(false);
-                    notifyToast(isError);
                 });
         };
 
@@ -275,10 +258,9 @@ const Experience = () => {
             axios.delete(`/experiences/${field.exper_id}`)
                 .then(res => {
                     setExperiences(experiences.filter(e => e.exper_id !== field.exper_id));
-                    setError(null);
                     setOpen(false);
                 })
-                .catch(err => setError(err.response.data.message))
+                .catch(err => toast.error(err.response.data.message))
                 .finally(() => setLoading(false));
         };
 
@@ -287,12 +269,11 @@ const Experience = () => {
 
             axios.post("/publications/me", field)
                 .then(res => {
-                    setError(null);
                     experiences[experiences.findIndex(e => e.exper_id === field.exper_id)].publications.push(res.data);
                     setExperiences(experiences);
                     setOpen(false);
                 })
-                .catch(err => setError(err.response.data.message))
+                .catch(err => toast.error(err.response.data.message))
                 .finally(() => setLoading(false));
         };
 
@@ -300,8 +281,6 @@ const Experience = () => {
             setLoading(true);
             axios.put(`/publications/${field.pub_id}`, field)
                 .then(res => {
-                    setError(null);
-
                     let exper_index = experiences.findIndex(e => e.exper_id === field.exper_id);
                     let pub_index = experiences[exper_index].publications.findIndex(p => p.pub_id === field.pub_id);
                     experiences[exper_index].publications[pub_index] = res.data;
@@ -309,7 +288,7 @@ const Experience = () => {
                     setExperiences(experiences);
                     setOpen(false);
                 })
-                .catch(err => setError(err.response.data.message))
+                .catch(err => toast.error(err.response.data.message))
                 .finally(() => setLoading(false));
         };
 
@@ -324,18 +303,10 @@ const Experience = () => {
 
                     experiences[exper_index].publications.pop(pub_index, 1);
                     setExperiences(experiences);
-
-                    setError(null);
                 })
-                .catch(err => {
-                    console.log("---- ERROR ----\n", err);
-                    setError(err.response.data.message);
-                    setIsError(true);
-                })
+                .catch(err => toast.error(err.response.data.message))
                 .finally(() => {
                     setLoading(false);
-                    if (isError) notifyToast(isError);
-                    setIsError(false);
                 });
         };
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, Slide } from "react-toastify";
 import axios from "axios";
 
 import Navbar from "./components/Navbar";
@@ -36,6 +36,7 @@ import { default as SettingsAccount } from "./Pages/settings/Account";
 import { Account } from "./components/Account";
 
 import "rc-slider/assets/index.css";
+import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
 const components = (...components) => {
@@ -138,6 +139,8 @@ const App = () => {
                 pauseOnFocusLoss
                 draggable
                 pauseOnHover
+                transition={Slide}
+                className="text-sm"
             />
         </Account>
     );

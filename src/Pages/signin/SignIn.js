@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
+import { toast } from "react-toastify";
 
-import { notifyToast } from "../../components/MessageToast";
 import { AccountContext } from "../../components/Account";
 import { changeBaseURL, changeSearchParam, getSearchParam, requiresProfileSetup } from "../../components/Utils";
 import Button from "../../components/Button";
@@ -10,7 +10,6 @@ const SignIn = () => {
     const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [isError, setIsError] = useState(false);
     const { signIn } = useContext(AccountContext);
 
 
@@ -19,7 +18,6 @@ const SignIn = () => {
 
         signIn(email, password)
             .then(response => {
-                setIsError(false);
                 console.log(response);
 
                 if (requiresProfileSetup(response)) {
@@ -40,7 +38,6 @@ const SignIn = () => {
                 }
             })
             .catch(error => {
-                setIsError(true);
                 let response = error.response.data;
 
                 // Needs authentication challenge
@@ -56,11 +53,12 @@ const SignIn = () => {
                     destination = changeSearchParam(destination, "sub", sub);
 
                     window.location.href = destination;
+                } else {
+                    toast.error(error.response.data.message);
                 }
             })
             .finally(() => {
                 setLoading(false);
-                notifyToast(isError);
             });
     };
 
