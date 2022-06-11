@@ -68,30 +68,39 @@ if (hostname === "localhost" || hostname === "127.0.0.1" || port === 3000) {
 }
 
 axios.defaults.withCredentials = true;
-axios.defaults.timeout = 8000;
+axios.defaults.timeout = 80000;
 axios.defaults.cancelToken = null;
 axios.interceptors.response.use((response) => {
     return response;
 }, (error) => {
-    // If unauthorized access, redirected to sign in page
-    // if (error.response && error.response.config.withoutInterceptors !== undefined && !error.response.config.withoutInterceptors && error.response.status === 401) {
-    //     window.location.href = "/sign-in";
-    //     return;
-    // }
+    if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        return Promise.reject(error);
+    } else if (error.request) {
+        // The request was made but no response was received
+        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+        // http.ClientRequest in node.js
+        error.response = {
+            data: {
+                code: "RequestError",
+                message: "There is an error with the request."
+            }
+        };
 
-    console.log(error.message);
+        return Promise.reject(error);
+    } else {
+        // Something happened in setting up the request that triggered an Error
+        console.log(error.toJSON());
 
-    // Convert network error into a readable error
-    error.response = {};
-    error.response.data = {};
-    error.response.data.code = "NetworkError";
-
-    if (error.message === "Network Error" || error.message.includes("timeout")) {
-        error.response.data.message = "There is a problem with your network connection.";
+        error.response = {
+            data: {
+                code: "NetworkError",
+                message: "There is an error with the network connection."
+            }
+        };
+        return Promise.reject(error);
     }
-
-
-    return Promise.reject(error);
 });
 
 const App = () => {
