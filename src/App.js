@@ -145,15 +145,15 @@ const App = () => {
             <ToastContainer
                 position="top-right"
                 autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
+                hideProgressBar={true}
+                newestOnTop={true}
                 closeOnClick
                 rtl={false}
                 pauseOnFocusLoss
                 draggable
                 pauseOnHover
                 transition={Slide}
-                className="text-sm"
+                className="text-sm rounded-md"
             />
         </Account>
     );
