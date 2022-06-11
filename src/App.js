@@ -74,18 +74,22 @@ axios.interceptors.response.use((response) => {
     return response;
 }, (error) => {
     // If unauthorized access, redirected to sign in page
-    if (error.response && error.response.config.withoutInterceptors !== undefined && !error.response.config.withoutInterceptors && error.response.status === 401) {
-        window.location.href = "/sign-in";
-        return;
+    // if (error.response && error.response.config.withoutInterceptors !== undefined && !error.response.config.withoutInterceptors && error.response.status === 401) {
+    //     window.location.href = "/sign-in";
+    //     return;
+    // }
+
+    console.log(error.message);
+
+    // Convert network error into a readable error
+    error.response = {};
+    error.response.data = {};
+    error.response.data.code = "NetworkError";
+
+    if (error.message === "Network Error" || error.message.includes("timeout")) {
+        error.response.data.message = "There is a problem with your network connection.";
     }
 
-    // Convert network error into a server error
-    if (error.message === "Network Error") {
-        error.response = {};
-        error.response.data = {};
-        error.response.data.code = "NetworkError";
-        error.response.data.message = "There is a problem with your network connection. Please try again.";
-    }
 
     return Promise.reject(error);
 });
