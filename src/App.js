@@ -68,7 +68,7 @@ if (hostname === "localhost" || hostname === "127.0.0.1" || port === 3000) {
 }
 
 axios.defaults.withCredentials = true;
-axios.defaults.timeout = 80000;
+axios.defaults.timeout = 30000;
 axios.defaults.cancelToken = null;
 axios.interceptors.response.use((response) => {
     return response;
