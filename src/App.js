@@ -103,6 +103,31 @@ axios.interceptors.response.use((response) => {
     }
 });
 
+const classicWrapper = (component) => {
+    return components(<Navbar />, component, <Footer />);
+};
+
+const routes = {
+    root: { path: "/", element: classicWrapper(<About />) },
+    about: { path: "/about", element: classicWrapper(<About />) },
+
+    settings: { path: "/settings", navigate: "/settings/profile" },
+    settings_account: { path: "/settings/account", element: classicWrapper(<SettingsAccount />) },
+    settings_profile: { path: "/settings/profile", element: classicWrapper(<SettingsProfile />) },
+    settings_experience: { path: "/settings/experience", element: classicWrapper(<SettingsExperience />) },
+
+    search: { path: "/search", element: classicWrapper(<Search />) },
+    profile: { path: "/profile", element: classicWrapper(<Profile />) },
+    profile_id: { path: "/profile/:id", element: classicWrapper(<Profile />) },
+
+    signin: { path: "/signin", element: <SignIn /> },
+    signin_challenge: { path: "/signin/challenge", element: <SignInChallenge /> },
+    reset_password: { path: "/reset-password", element: <ResetPassword /> },
+
+    setup_entry: { path: "/profile-setup", element: <ProfileSetup /> },
+    setup_info: { path: "/setup/info-input", element: <InfoInput /> },
+};
+
 const App = () => {
     return (
         <Account>
