@@ -206,9 +206,9 @@ const Experience = () => {
         }
 
         // Check date validity
-        let s = field.start_time ? dayjs(field.start_time) : dayjs();
-        let e = field.stop_time ? dayjs(field.stop_time) : dayjs();
-        if (s.isAfter(e)) {
+        let s = field.start_time ? dayjs(field.start_time) : null;
+        let e = field.stop_time ? dayjs(field.stop_time) : null;
+        if (!s || !e || s.isAfter(e)) {
             setComplete(false);
             return;
         }
