@@ -7,6 +7,7 @@ import { classNames } from "../../components/Utils";
 import dayjs from "dayjs";
 import { toast } from "react-toastify";
 import isBetween from "dayjs/plugin/isBetween";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 import Photo from "../../components/Photo";
 import Container from "./Container";
@@ -173,6 +174,8 @@ const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, display
 };
 
 const Experience = () => {
+    const [animation] = useAutoAnimate();
+
     const [loading, setLoading] = useState(false);
     const [complete, setComplete] = useState(false);
 
@@ -589,7 +592,7 @@ const Experience = () => {
                     </div>
 
                     <div className="mt-6">
-                        <dl className="divide-y divide-gray-200">
+                        <dl className="divide-y divide-gray-200" ref={animation}>
                             {/* EXPERIENCES */}
                             {experiences && experiences.length === 0 && emptyState()}
                             {experiences && experiences.map((experience, exper_index) => (
@@ -663,7 +666,7 @@ const Experience = () => {
                                             </p>
                                         </div>
 
-                                        <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
+                                        <ul ref={animation} className="border border-gray-200 rounded-md divide-y divide-gray-200">
                                             {
                                                 experience.publications.map((publication, pub_index) => (
                                                     <li className="px-3 py-1 flex items-center justify-between text-sm" key={pub_index}>
