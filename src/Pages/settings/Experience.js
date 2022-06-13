@@ -5,6 +5,7 @@ import { PencilIcon, DotsVerticalIcon, TrashIcon, ExclamationIcon, PlusSmIcon, C
 import { PaperClipIcon } from "@heroicons/react/solid";
 import { classNames } from "../../components/Utils";
 import dayjs from "dayjs";
+import { toast } from "react-toastify";
 import isBetween from "dayjs/plugin/isBetween";
 
 import Photo from "../../components/Photo";
@@ -173,7 +174,6 @@ const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, display
 
 const Experience = () => {
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
     const [complete, setComplete] = useState(false);
 
     const [open, setOpen] = useState(false);
@@ -187,10 +187,7 @@ const Experience = () => {
             .then(res => {
                 setExperiences(res.data);
             })
-            .catch(err => {
-                console.log(error);
-                setError(err.response.data.message);
-            });
+            .catch(err => toast.error(err.response.data.message));
     }, []);
 
     useEffect(() => {
@@ -230,26 +227,30 @@ const Experience = () => {
             setLoading(true);
             axios.post("/experiences/me", field)
                 .then(res => {
-                    setError(null);
                     experiences.push(res.data);
                     setExperiences(experiences);
                     setOpen(false);
                 })
-                .catch(err => setError(err.response.data.message))
-                .finally(() => setLoading(false));
+                .catch(err => toast.error(err.response.data.message))
+                .finally(() => {
+                    setLoading(false);
+                });
         };
 
         const onUpdateExperience = (field) => {
             setLoading(true);
+
+
             axios.put(`/experiences/${field.exper_id}`, field)
                 .then(res => {
-                    setError(null);
                     experiences[experiences.findIndex(e => e.exper_id === field.exper_id)] = res.data;
                     setExperiences(experiences);
                     setOpen(false);
                 })
-                .catch(err => setError(err.response.data.message))
-                .finally(() => setLoading(false));
+                .catch(err => toast.error(err.response.data.message))
+                .finally(() => {
+                    setLoading(false);
+                });
         };
 
         const onDeleteExperience = (field) => {
@@ -257,23 +258,22 @@ const Experience = () => {
             axios.delete(`/experiences/${field.exper_id}`)
                 .then(res => {
                     setExperiences(experiences.filter(e => e.exper_id !== field.exper_id));
-                    setError(null);
                     setOpen(false);
                 })
-                .catch(err => setError(err.response.data.message))
+                .catch(err => toast.error(err.response.data.message))
                 .finally(() => setLoading(false));
         };
 
         const onCreatePublication = (field) => {
             setLoading(true);
+
             axios.post("/publications/me", field)
                 .then(res => {
-                    setError(null);
                     experiences[experiences.findIndex(e => e.exper_id === field.exper_id)].publications.push(res.data);
                     setExperiences(experiences);
                     setOpen(false);
                 })
-                .catch(err => setError(err.response.data.message))
+                .catch(err => toast.error(err.response.data.message))
                 .finally(() => setLoading(false));
         };
 
@@ -281,8 +281,6 @@ const Experience = () => {
             setLoading(true);
             axios.put(`/publications/${field.pub_id}`, field)
                 .then(res => {
-                    setError(null);
-
                     let exper_index = experiences.findIndex(e => e.exper_id === field.exper_id);
                     let pub_index = experiences[exper_index].publications.findIndex(p => p.pub_id === field.pub_id);
                     experiences[exper_index].publications[pub_index] = res.data;
@@ -290,7 +288,7 @@ const Experience = () => {
                     setExperiences(experiences);
                     setOpen(false);
                 })
-                .catch(err => setError(err.response.data.message))
+                .catch(err => toast.error(err.response.data.message))
                 .finally(() => setLoading(false));
         };
 
@@ -301,12 +299,15 @@ const Experience = () => {
                     setOpen(false);
 
                     let exper_index = experiences.findIndex(e => e.exper_id === field.exper_id);
-                    setExperiences(experiences[exper_index].publications.filter(p => p.pub_id !== field.pub_id));
+                    let pub_index = experiences[exper_index].publications.findIndex(p => p.pub_id === field.pub_id);
 
-                    setError(null);
+                    experiences[exper_index].publications.pop(pub_index, 1);
+                    setExperiences(experiences);
                 })
-                .catch(err => setError(err.response.data.message))
-                .finally(() => setLoading(false));
+                .catch(err => toast.error(err.response.data.message))
+                .finally(() => {
+                    setLoading(false);
+                });
         };
 
 
@@ -568,13 +569,6 @@ const Experience = () => {
         );
     };
 
-
-    //
-    //  [*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*]
-    //  [*][*][*][*] CONTENT AREA! [*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*]
-    //  [*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*][*]
-    //
-
     return (
         <>
             <Container current="experience">
@@ -596,11 +590,7 @@ const Experience = () => {
 
                     <div className="mt-6">
                         <dl className="divide-y divide-gray-200">
-                            {/*
-                                [*][*][*]                     [*][*][*]
-                                [*][*][*] EXPERIENCES SECTION [*][*][*]
-                                [*][*][*]                     [*][*][*]
-                            */}
+                            {/* EXPERIENCES */}
                             {experiences && experiences.length === 0 && emptyState()}
                             {experiences && experiences.map((experience, exper_index) => (
                                 <section key={exper_index} className="py-6">
