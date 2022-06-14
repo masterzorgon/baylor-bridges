@@ -4,7 +4,7 @@ import { animated } from "react-spring";
 
 import Button from "../../../components/Button";
 
-const NameInput = ({ account, setAccount, show, handleChangeModal, transition }) => {
+const NameInput = ({ account, setAccount, handleChangeModal, transition }) => {
 
     return (
         <>

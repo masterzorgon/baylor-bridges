@@ -1,22 +1,13 @@
 import React, { useState, useCallback, useRef } from "react";
 import ReactCanvasConfetti from "react-canvas-confetti";
 import { CheckCircleIcon } from "@heroicons/react/outline";
-import { Fragment } from "react/cjs/react.production.min";
-import { Transition } from "@headlessui/react";
-import { useTransition, animated } from "react-spring";
+import { animated } from "react-spring";
 import { toast } from "react-toastify";
 import axios from "axios";
 
 import Button from "../../../components/Button";
 
-const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
-
-    // used to fade icon into view
-    const transition = useTransition(show, {
-        from: { x: 0, y: 50, opacity: 0 },
-        enter: { x: 0, y: -30, opacity: 1 },
-        leave: { x: 0, y: -80, opacity: 0 }
-    });
+const AllDone = ({ account, setAccount, modal, show, setModal, setShow, transition }) => {
 
     const refAnimationInstance = useRef(null);
 
@@ -102,61 +93,48 @@ const AllDone = ({ account, setAccount, modal, show, setModal, setShow }) => {
 
     return (
         <>
-            {/* Overlapping cards */}
-            <Transition
-                show={show && modal === 6}
-                as={Fragment}
-                enter="transform transition duration-[400ms]"
-                enterFrom="opacity-0"
-                enterTo="opacity-100"
-                leave="transform duration-[400ms] transition ease-out"
-                leaveFrom="opacity-100"
-                leaveTo="opacity-0"
+            <section
+                aria-labelledby="contact-heading"
             >
-                <section
-                    className=""
-                    aria-labelledby="contact-heading"
-                >
-                    <ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
+                <ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
 
-                    {/* ALERT NOTIFICATION ABOVE */}
-                    <div className="grid grid-cols-1 gap-y-20 lg:gap-y-0 lg:gap-x-8 mx-auto">
-                        <div className="flex flex-col bg-white rounded-2xl">
-                            <div className="flex-1 relative pt-16 pb-8">
+                {/* ALERT NOTIFICATION ABOVE */}
+                <div className="grid grid-cols-1 gap-y-20 lg:gap-y-0 lg:gap-x-8 mx-auto">
+                    <div className="flex flex-col bg-white rounded-2xl">
+                        <div className="flex-1 relative pt-16 pb-8">
 
-                                {transition((style, item) => {
-                                    return item
-                                        ?
-                                        <animated.div style={style} className="absolute top-0 p-5 inline-block bg-emerald-600 rounded-xl shadow-lg transform -translate-y-1/2">
-                                            <CheckCircleIcon className="h-6 w-6 text-white" aria-hidden="true" />
-                                        </animated.div>
-                                        : "";
-                                })}
-                                <h2 className="mt-6 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-                                    <span className="text-gradient bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500">You&apos;re all set!</span>
-                                    <span className="block">Great job.</span>
-                                </h2>
-                                <p className="mt-4 text-base text-gray-500">
-                                    Thank you so much for taking the time to set up your Baylor Bridges account.
-                                    We hope you enjoy our platform, and please feel to reach out via the Contact Us
-                                    page if you have any questions or concerns.
-                                </p>
-                                <div className="flex justify-between mt-6 space-x-2">
-                                    <Button
-                                        className="sm:w-fit px-5 py-3"
-                                        onClick={onSubmit}
-                                        arrow={true}
-                                        loading={loading}
-                                        disabled={loading}
-                                    >
-                                        Next
-                                    </Button>
-                                </div>
+                            {transition((style, item) => {
+                                return item
+                                    ?
+                                    <animated.div style={style} className="absolute top-0 p-5 inline-block bg-emerald-600 rounded-xl shadow-lg transform -translate-y-1/2">
+                                        <CheckCircleIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                                    </animated.div>
+                                    : "";
+                            })}
+                            <h2 className="mt-6 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                                <span className="text-gradient bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500">You&apos;re all set!</span>
+                                <span className="block">Great job.</span>
+                            </h2>
+                            <p className="mt-4 text-base text-gray-500">
+                                Thank you so much for taking the time to set up your Baylor Bridges account.
+                                We hope you enjoy our platform, and please feel to reach out via the Contact Us
+                                page if you have any questions or concerns.
+                            </p>
+                            <div className="flex justify-between mt-6 space-x-2">
+                                <Button
+                                    className="sm:w-fit px-5 py-3"
+                                    onClick={onSubmit}
+                                    arrow={true}
+                                    loading={loading}
+                                    disabled={loading}
+                                >
+                                    Next
+                                </Button>
                             </div>
                         </div>
                     </div>
-                </section>
-            </Transition>
+                </div>
+            </section>
         </>
     );
 };

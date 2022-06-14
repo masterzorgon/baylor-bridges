@@ -47,8 +47,8 @@ const InfoInput = () => {
     // allows use to toggle between next and previous modals
     const handleChangeModal = (status) => {
         status === "next"
-            ? setTimeout(() => setModal(modal + 1), 300)
-            : setTimeout(() => setModal(modal - 1), 300);
+            ? setTimeout(() => setModal(modal + 1), 400)
+            : setTimeout(() => setModal(modal - 1), 400);
         takeAwayModal();
     };
 
@@ -60,12 +60,12 @@ const InfoInput = () => {
     });
 
     const modals = () => {
-        if (modal === 1) { return <NameInput        account={account} setAccount={setAccount} show={show} transition={transition} handleChangeModal={handleChangeModal} />; }
-        if (modal === 2) { return <ContactInput     account={account} setAccount={setAccount} show={show} setShow={setShow} modal={modal} handleChangeModal={handleChangeModal} />; }
-        if (modal === 3) { return <LocationInput    account={account} setAccount={setAccount} show={show} setShow={setShow} modal={modal} handleChangeModal={handleChangeModal} />; }
-        if (modal === 4) { return <GradInput        account={account} setAccount={setAccount} show={show} setShow={setShow} modal={modal} handleChangeModal={handleChangeModal} />; }
-        if (modal === 5) { return <HeadlineInput    account={account} setAccount={setAccount} show={show} setShow={setShow} modal={modal} handleChangeModal={handleChangeModal} />; }
-        if (modal === 6) { return <AllDone          account={account} setAccount={setAccount} show={show} setShow={setShow} modal={modal} handleChangeModal={handleChangeModal} />; }
+        if (modal === 1) { return <NameInput        account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
+        if (modal === 2) { return <ContactInput     account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
+        if (modal === 3) { return <LocationInput    account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
+        if (modal === 4) { return <GradInput        account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
+        if (modal === 5) { return <HeadlineInput    account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
+        if (modal === 6) { return <AllDone          account={account} setAccount={setAccount} show={show} modal={modal} transition={transition} handleChangeModal={handleChangeModal} />; }
     };
 
     return (
