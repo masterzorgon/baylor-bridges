@@ -1,18 +1,16 @@
 import React, { useEffect, useState, Fragment } from "react";
 import axios from "axios";
-import { Menu, Listbox, Transition, Dialog } from "@headlessui/react";
-import { PencilIcon, DotsVerticalIcon, TrashIcon, ExclamationIcon, PlusSmIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, CalendarIcon } from "@heroicons/react/outline";
-import { PaperClipIcon } from "@heroicons/react/solid";
+import { Listbox, Transition, Dialog } from "@headlessui/react";
+import { ExclamationIcon, PlusSmIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, CalendarIcon } from "@heroicons/react/outline";
 import { classNames } from "../../components/Utils";
 import dayjs from "dayjs";
 import { toast } from "react-toastify";
 import isBetween from "dayjs/plugin/isBetween";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 
-import Photo from "../../components/Photo";
 import Container from "./Container";
 import Button from "../../components/Button";
-import Markdown from "../../components/Markdown";
+import ExperienceCard from "../../components/profile/ExperienceCard";
 
 const CREATE = 0;
 const UPDATE = 1;
@@ -204,19 +202,21 @@ const Experience = () => {
         }
 
         // Experience must also have start and end date
-        let s = field.start_time ? dayjs(field.start_time) : null;
-        let e = field.stop_time ? dayjs(field.stop_time) : null;
-        if (field._type === EXPERIENCE && (!s || !e || s.isAfter(e))) {
-            setComplete(false);
-            return;
+        if (field.type === EXPERIENCE) {
+            let s = field.start_time ? dayjs(field.start_time) : null;
+            let e = field.stop_time ? dayjs(field.stop_time) : null;
+            if (!s || !e || s.isAfter(e)) {
+                setComplete(false);
+                return;
+            }
         }
-
 
         // Publication must have a link
         if (field._type === PUBLICATION && (!field.duo_link || field.duo_link === "")) {
             setComplete(false);
             return;
         }
+
         setComplete(true);
     }, [field]);
 
@@ -343,7 +343,7 @@ const Experience = () => {
                                 onChange={(value) => setField({ ...field, "start_time": value, "stop_time": value === null ? null : field.stop_time })}
                                 id="start-date"
                                 name="start-date"
-                                nullable={true}
+                                nullable={false}
                                 placeholder={"Select start"}
                                 highlighted={field.stop_time}
                                 displayFormat={"MMMM YYYY"}
@@ -361,7 +361,7 @@ const Experience = () => {
                                 disabled={!field.start_time}
                                 id="end-date"
                                 name="end-date"
-                                nullable={true}
+                                nullable={false}
                                 presentable={true}
                                 placeholder={field.start_time ? "Select end" : "Must select start"}
                                 highlighted={field.start_time}
@@ -535,25 +535,6 @@ const Experience = () => {
         setOpen(true);
     };
 
-    const getDisplayDateRange = (start, end) => {
-        start = getFormattedDate(start);
-        end = getFormattedDate(end);
-
-        let display_date = "";
-        if (start) display_date += start;
-        if (start && end) display_date += " - ";
-        if (end) display_date += end;
-        return display_date;
-    };
-
-    const getFormattedDate = (date) => {
-        if (!date) return null;
-        if (date === "present") return "Present";
-
-        let d = dayjs(date);
-        return d.isValid() ? d.format("MMMM YYYY") : "";
-    };
-
     const emptyState = () => {
         return (
             <button
@@ -592,126 +573,21 @@ const Experience = () => {
                             {experiences && experiences.length === 0 && emptyState()}
                             {experiences && experiences.map((experience, t) => {
                                 experience._index = t;
+                                experience.publications.forEach((publication, i) => {
+                                    experience.publications[i]._index = i;
+                                    experience.publications[i]._experience_index = t;
+                                });
+
                                 return (
-                                    <section key={t} className="py-6">
-                                        <div className="flex space-x-3">
-                                            <div className="flex-shrink-0">
-                                                <Photo size="10" />
-                                            </div>
-                                            <div className="min-w-0 flex-1">
-                                                <h1 className="text-md font-medium text-gray-800 -mt-0.5">
-                                                    {experience.title}
-                                                </h1>
-                                                <h2 className="text-sm text-gray-500">
-                                                    {getDisplayDateRange(experience.start_time, experience.stop_time)}
-                                                </h2>
-                                            </div>
-                                            <div className="flex-shrink-0 self-center flex">
-                                                <Menu as="div" className="relative z-30 inline-block text-left">
-                                                    <div>
-                                                        <Menu.Button className="-m-2 p-2 rounded-full flex items-center text-gray-400 hover:text-gray-600">
-                                                            <span className="sr-only">Open options</span>
-                                                            <DotsVerticalIcon className="h-5 w-5" aria-hidden="true" />
-                                                        </Menu.Button>
-                                                    </div>
-
-                                                    <Transition
-                                                        as={Fragment}
-                                                        enter="transition ease-out duration-100"
-                                                        enterFrom="transform opacity-0 scale-95"
-                                                        enterTo="transform opacity-100 scale-100"
-                                                        leave="transition ease-in duration-75"
-                                                        leaveFrom="transform opacity-100 scale-100"
-                                                        leaveTo="transform opacity-0 scale-95"
-                                                    >
-                                                        <Menu.Items className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                                            <div className="py-2">
-                                                                {/* Edit experience */}
-                                                                <Menu.Item>
-                                                                    <button
-                                                                        className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 cursor-pointer flex px-4 py-2 text-sm w-full"
-                                                                        onClick={() => onOpenModal(experience, EXPERIENCE, UPDATE)}
-                                                                    >
-                                                                        <PencilIcon className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
-                                                                        <span>Edit</span>
-                                                                    </button>
-                                                                </Menu.Item>
-
-                                                                {/* Delete experience */}
-                                                                <Menu.Item>
-                                                                    <button
-                                                                        className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 cursor-pointer flex px-4 py-2 text-sm w-full"
-                                                                        onClick={() => onOpenModal(experience, EXPERIENCE, DELETE)}
-                                                                    >
-                                                                        <TrashIcon className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
-                                                                        <span>Remove</span>
-                                                                    </button>
-                                                                </Menu.Item>
-                                                            </div>
-                                                        </Menu.Items>
-                                                    </Transition>
-                                                </Menu>
-                                            </div>
-                                        </div>
-
-                                        <div className="mt-4 ml-12 pl-1 space-y-4">
-                                            <div className="">
-                                                <p className="block text-sm font-medium text-gray-600">
-                                                    <Markdown>
-                                                        {experience.description}
-                                                    </Markdown>
-                                                </p>
-                                            </div>
-                                            <ul ref={animation} className="border border-gray-200 rounded-md divide-y divide-gray-200">
-                                                {
-                                                    experience.publications.map((publication, r) => {
-                                                        publication._index = r;
-                                                        publication._experience_index = t;
-
-                                                        return (
-                                                            <li className="px-3 py-1 flex items-center justify-between text-sm" key={r}>
-                                                                <div className="w-0 flex-1 flex items-center">
-                                                                    <PaperClipIcon className="flex-shrink-0 h-5 w-5 text-gray-400" />
-                                                                    <span className="ml-2 flex-1 w-0 truncate text-gray-700">
-                                                                        <a href={/^http:\/\//.test(publication.duo_link) || /^https:\/\//.test(publication.duo_link) ? publication.duo_link : "//" + publication.duo_link}
-                                                                            className="font-medium text-emerald-600 hover:text-emerald-500" target="_blank" rel="noreferrer">
-                                                                            {publication.title}
-                                                                        </a>
-                                                                    </span>
-                                                                </div>
-                                                                <div className="ml-4 flex-shrink-0 flex justify-between gap-0 -mr-1">
-                                                                    {/* Edit publication */}
-                                                                    <button
-                                                                        type="button"
-                                                                        className="rounded-full p-2 hover:bg-gray-100"
-                                                                        onClick={() => onOpenModal(publication, PUBLICATION, UPDATE)}
-                                                                    >
-                                                                        <PencilIcon className="h-5 w-5 text-gray-400" />
-                                                                    </button>
-
-                                                                    {/* Delete publication */}
-                                                                    <button
-                                                                        className="rounded-full p-2 hover:bg-gray-100"
-                                                                        onClick={() => onOpenModal(publication, PUBLICATION, DELETE)}
-                                                                    >
-                                                                        <TrashIcon className="h-5 w-5 text-gray-400" />
-                                                                    </button>
-                                                                </div>
-                                                            </li>
-                                                        );
-                                                    })
-                                                }
-                                                <li className="flex items-center overflow-hidden">
-                                                    {/* Add new publication */}
-                                                    <button
-                                                        type="button"
-                                                        className="relative block w-full border-gray-300 border-dashed py-2.5 text-center hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-0 focus:ring-emerald-600"
-                                                        onClick={() => onOpenModal({ title: null, duo_link: null, exper_id: experience.exper_id, _experience_index: t }, PUBLICATION, CREATE)}>
-                                                        <PlusSmIcon className="mx-auto h-5 w-5 text-gray-400" />
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                        </div>
+                                    <section key={t} className="py-5">
+                                        <ExperienceCard
+                                            experience={experience}
+                                            onEditExperience={(experience) => onOpenModal(experience, EXPERIENCE, UPDATE)}
+                                            onDeleteExperience={(experience) => onOpenModal(experience, EXPERIENCE, DELETE)}
+                                            onCreatePublication={() => onOpenModal({ title: null, duo_link: null, exper_id: experience.exper_id, _experience_index: t }, PUBLICATION, CREATE)}
+                                            onEditPublication={(publication) => onOpenModal(publication, PUBLICATION, UPDATE)}
+                                            onDeletePublication={(publication) => onOpenModal(publication, PUBLICATION, DELETE)}
+                                        />
                                     </section>
                                 );
                             })}
