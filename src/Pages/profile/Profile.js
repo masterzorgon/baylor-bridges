@@ -3,14 +3,13 @@ import React, { Fragment, useEffect, useState, useContext } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { useParams } from "react-router-dom";
 import { DotsVerticalIcon } from "@heroicons/react/outline";
-import { PaperClipIcon } from "@heroicons/react/solid";
 import axios from "axios";
-import dayjs from "dayjs";
 
 import Photo from "../../components/Photo";
 import { AccountContext } from "../../components/Account";
 import SignInRequiredModal from "./SignInRequiredModal";
 import Markdown from "../../components/Markdown";
+import ExperienceCard from "../../components/profile/ExperienceCard";
 
 const classNames = (...classes) => classes.filter(Boolean).join(" ");
 
@@ -184,25 +183,6 @@ const Profile = () => {
                 </dd>
             </div>
         );
-    };
-
-    const getDisplayDateRange = (start, end) => {
-        start = getFormattedDate(start);
-        end = getFormattedDate(end);
-
-        let display_date = "";
-        if (start) display_date += start;
-        if (start && end) display_date += " - ";
-        if (end) display_date += end;
-        return display_date;
-    };
-
-    const getFormattedDate = (date) => {
-        if (!date) return null;
-        if (date === "present") return "Present";
-
-        let d = dayjs(date);
-        return d.isValid() ? d.format("MMMM YYYY") : "";
     };
 
     return (
@@ -399,52 +379,7 @@ const Profile = () => {
                                                     {
                                                         profileAccount && profileAccount.experiences && profileAccount.experiences.map((experience, index) => (
                                                             <li className="px-4 sm:px-6 py-5" key={index}>
-                                                                <section>
-                                                                    <div className="flex space-x-3">
-                                                                        <div className="flex-shrink-0">
-                                                                            <Photo size="10" />
-                                                                        </div>
-                                                                        <div className="min-w-0 flex-1 flex items-center">
-                                                                            <div>
-                                                                                <h1 className="text-md font-medium text-gray-800 -mt-0.5">
-                                                                                    {experience.title}
-                                                                                </h1>
-                                                                                <h2 className="text-sm text-gray-500">
-                                                                                    {getDisplayDateRange(experience.start_time, experience.stop_time)}
-                                                                                </h2>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div className="mt-4 ml-12 pl-1 space-y-4">
-                                                                        <div className="">
-                                                                            <p className="block text-sm font-medium text-gray-600">
-                                                                                {experience.description?.length > 0 ? <Markdown>{experience.description}</Markdown> : <span className="text-gray-400">This experience has no description.</span>}
-                                                                            </p>
-                                                                        </div>
-
-                                                                        {
-                                                                            experience.publications?.length > 0 &&
-                                                                            <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
-                                                                                {
-                                                                                    experience.publications.map((publication, pub_index) => (
-                                                                                        <li className="px-3 py-3 flex items-center justify-between text-sm" key={pub_index}>
-                                                                                            <div className="w-0 flex-1 flex items-center">
-                                                                                                <PaperClipIcon className="flex-shrink-0 h-5 w-5 text-gray-400" />
-                                                                                                <span className="ml-2 flex-1 w-0 truncate text-gray-700">
-                                                                                                    <a href={/^http:\/\//.test(publication.duo_link) || /^https:\/\//.test(publication.duo_link) ? publication.duo_link : "//" + publication.duo_link}
-                                                                                                        className="font-medium text-emerald-600 hover:text-emerald-500" target="_blank" rel="noreferrer">
-                                                                                                        {publication.title}
-                                                                                                    </a>
-                                                                                                </span>
-                                                                                            </div>
-                                                                                        </li>
-                                                                                    ))
-                                                                                }
-                                                                            </ul>
-                                                                        }
-                                                                    </div>
-                                                                </section>
+                                                                <ExperienceCard experience={experience} />
                                                             </li>
                                                         ))
                                                     }

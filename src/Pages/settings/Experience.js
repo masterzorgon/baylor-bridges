@@ -1,17 +1,16 @@
 import React, { useEffect, useState, Fragment } from "react";
 import axios from "axios";
-import { Menu, Listbox, Transition, Dialog } from "@headlessui/react";
-import { PencilIcon, DotsVerticalIcon, TrashIcon, ExclamationIcon, PlusSmIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, CalendarIcon } from "@heroicons/react/outline";
-import { PaperClipIcon } from "@heroicons/react/solid";
+import { Listbox, Transition, Dialog } from "@headlessui/react";
+import { ExclamationIcon, PlusSmIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, CalendarIcon } from "@heroicons/react/outline";
 import { classNames } from "../../components/Utils";
 import dayjs from "dayjs";
 import { toast } from "react-toastify";
 import isBetween from "dayjs/plugin/isBetween";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
-import Photo from "../../components/Photo";
 import Container from "./Container";
 import Button from "../../components/Button";
-import Markdown from "../../components/Markdown";
+import ExperienceCard from "../../components/profile/ExperienceCard";
 
 const CREATE = 0;
 const UPDATE = 1;
@@ -173,6 +172,8 @@ const MonthYearPicker = ({ value: raw_value, min, max, onChange, format, display
 };
 
 const Experience = () => {
+    const [animation] = useAutoAnimate();
+
     const [loading, setLoading] = useState(false);
     const [complete, setComplete] = useState(false);
 
@@ -181,8 +182,8 @@ const Experience = () => {
 
     const [experiences, setExperiences] = useState(null);
 
+    // When first access this page, retrieve all experiences of the account
     useEffect(() => {
-        // get all experiences of current account
         axios.get("/experiences/me")
             .then(res => {
                 setExperiences(res.data);
@@ -190,6 +191,7 @@ const Experience = () => {
             .catch(err => toast.error(err.response.data.message));
     }, []);
 
+    // Check field form completeness
     useEffect(() => {
         if (!field) return; // field is null
 
@@ -199,16 +201,18 @@ const Experience = () => {
             return;
         }
 
-        // Publication must have a link
-        if (field._type === PUBLICATION && (!field.duo_link || field.duo_link === "")) {
-            setComplete(false);
-            return;
+        // Experience must also have start and end date
+        if (field.type === EXPERIENCE) {
+            let s = field.start_time ? dayjs(field.start_time) : null;
+            let e = field.stop_time ? dayjs(field.stop_time) : null;
+            if (!s || !e || s.isAfter(e)) {
+                setComplete(false);
+                return;
+            }
         }
 
-        // Check date validity
-        let s = field.start_time ? dayjs(field.start_time) : dayjs();
-        let e = field.stop_time ? dayjs(field.stop_time) : dayjs();
-        if (s.isAfter(e)) {
+        // Publication must have a link
+        if (field._type === PUBLICATION && (!field.duo_link || field.duo_link === "")) {
             setComplete(false);
             return;
         }
@@ -225,6 +229,8 @@ const Experience = () => {
 
         const onCreateExperience = (field) => {
             setLoading(true);
+            console.log(field);
+
             axios.post("/experiences/me", field)
                 .then(res => {
                     experiences.push(res.data);
@@ -239,11 +245,11 @@ const Experience = () => {
 
         const onUpdateExperience = (field) => {
             setLoading(true);
-
+            console.log(field);
 
             axios.put(`/experiences/${field.exper_id}`, field)
                 .then(res => {
-                    experiences[experiences.findIndex(e => e.exper_id === field.exper_id)] = res.data;
+                    experiences[field._index] = res.data;
                     setExperiences(experiences);
                     setOpen(false);
                 })
@@ -255,9 +261,11 @@ const Experience = () => {
 
         const onDeleteExperience = (field) => {
             setLoading(true);
+            console.log(field);
             axios.delete(`/experiences/${field.exper_id}`)
                 .then(res => {
-                    setExperiences(experiences.filter(e => e.exper_id !== field.exper_id));
+                    experiences.splice(field._index, 1);
+                    setExperiences(experiences);
                     setOpen(false);
                 })
                 .catch(err => toast.error(err.response.data.message))
@@ -266,10 +274,11 @@ const Experience = () => {
 
         const onCreatePublication = (field) => {
             setLoading(true);
+            console.log(field);
 
             axios.post("/publications/me", field)
                 .then(res => {
-                    experiences[experiences.findIndex(e => e.exper_id === field.exper_id)].publications.push(res.data);
+                    experiences[field._experience_index].publications.push(res.data);
                     setExperiences(experiences);
                     setOpen(false);
                 })
@@ -279,12 +288,10 @@ const Experience = () => {
 
         const onUpdatePublication = (field) => {
             setLoading(true);
+            console.log(field);
             axios.put(`/publications/${field.pub_id}`, field)
                 .then(res => {
-                    let exper_index = experiences.findIndex(e => e.exper_id === field.exper_id);
-                    let pub_index = experiences[exper_index].publications.findIndex(p => p.pub_id === field.pub_id);
-                    experiences[exper_index].publications[pub_index] = res.data;
-
+                    experiences[field._experience_index].publications[field._index] = res.data;
                     setExperiences(experiences);
                     setOpen(false);
                 })
@@ -294,14 +301,11 @@ const Experience = () => {
 
         const onDeletePublication = (field) => {
             setLoading(true);
+            console.log(field);
             axios.delete(`/publications/${field.pub_id}`)
                 .then(res => {
                     setOpen(false);
-
-                    let exper_index = experiences.findIndex(e => e.exper_id === field.exper_id);
-                    let pub_index = experiences[exper_index].publications.findIndex(p => p.pub_id === field.pub_id);
-
-                    experiences[exper_index].publications.pop(pub_index, 1);
+                    experiences[field._experience_index].publications.splice(field._index, 1);
                     setExperiences(experiences);
                 })
                 .catch(err => toast.error(err.response.data.message))
@@ -311,16 +315,9 @@ const Experience = () => {
         };
 
 
-        const getExperienceDom = (field) => {
+        const getExperienceForm = (field) => {
             return (
                 <div className="p-4 pb-5 sm:align-middle sm:p-6">
-                    {/* <div>
-                        <h2 id="payment-details-heading" className="text-lg leading-6 font-medium text-gray-900">
-                            {field._operation === CREATE && "Add Experience"}
-                            {field._operation === UPDATE && "Edit Experience"}
-                        </h2>
-                    </div> */}
-
                     <div className="grid grid-cols-4 gap-3">
                         <div className="col-span-4 sm:col-span-4">
                             <label htmlFor="title" className="block text-sm font-medium text-gray-700">
@@ -346,7 +343,7 @@ const Experience = () => {
                                 onChange={(value) => setField({ ...field, "start_time": value, "stop_time": value === null ? null : field.stop_time })}
                                 id="start-date"
                                 name="start-date"
-                                nullable={true}
+                                nullable={false}
                                 placeholder={"Select start"}
                                 highlighted={field.stop_time}
                                 displayFormat={"MMMM YYYY"}
@@ -364,7 +361,7 @@ const Experience = () => {
                                 disabled={!field.start_time}
                                 id="end-date"
                                 name="end-date"
-                                nullable={true}
+                                nullable={false}
                                 presentable={true}
                                 placeholder={field.start_time ? "Select end" : "Must select start"}
                                 highlighted={field.start_time}
@@ -407,7 +404,7 @@ const Experience = () => {
         };
 
 
-        const getPublicationDom = (field) => {
+        const getPublicationForm = (field) => {
             return (
                 <div className="p-4 pb-5 sm:align-middle sm:p-6">
 
@@ -464,7 +461,7 @@ const Experience = () => {
         };
 
 
-        const getDeleteDom = (field) => {
+        const getDeletePopup = (field) => {
             let field_type_text = "";
             if (field._type === EXPERIENCE) {
                 field_type_text = "experience";
@@ -519,14 +516,15 @@ const Experience = () => {
             );
         };
 
+        // According to provided field type and operation, render the appropriate form
         if (field._operation === CREATE || field._operation === UPDATE) {
             if (field._type === EXPERIENCE) {
-                return getExperienceDom(field);
+                return getExperienceForm(field);
             } else if (field._type === PUBLICATION) {
-                return getPublicationDom(field);
+                return getPublicationForm(field);
             }
         } else if (field._operation === DELETE) {
-            return getDeleteDom(field);
+            return getDeletePopup(field);
         }
     };
 
@@ -535,25 +533,6 @@ const Experience = () => {
         setField(Object.assign({}, field, { _type: type, _operation: operation }));
         setComplete(false);
         setOpen(true);
-    };
-
-    const getDisplayDateRange = (start, end) => {
-        start = getFormattedDate(start);
-        end = getFormattedDate(end);
-
-        let display_date = "";
-        if (start) display_date += start;
-        if (start && end) display_date += " - ";
-        if (end) display_date += end;
-        return display_date;
-    };
-
-    const getFormattedDate = (date) => {
-        if (!date) return null;
-        if (date === "present") return "Present";
-
-        let d = dayjs(date);
-        return d.isValid() ? d.format("MMMM YYYY") : "";
     };
 
     const emptyState = () => {
@@ -589,127 +568,29 @@ const Experience = () => {
                     </div>
 
                     <div className="mt-6">
-                        <dl className="divide-y divide-gray-200">
+                        <dl className="divide-y divide-gray-200" ref={animation}>
                             {/* EXPERIENCES */}
                             {experiences && experiences.length === 0 && emptyState()}
-                            {experiences && experiences.map((experience, exper_index) => (
-                                <section key={exper_index} className="py-6">
-                                    <div className="flex space-x-3">
-                                        <div className="flex-shrink-0">
-                                            <Photo size="10" />
-                                        </div>
-                                        <div className="min-w-0 flex-1">
-                                            <h1 className="text-md font-medium text-gray-800 -mt-0.5">
-                                                {experience.title}
-                                            </h1>
-                                            <h2 className="text-sm text-gray-500">
-                                                {getDisplayDateRange(experience.start_time, experience.stop_time)}
-                                            </h2>
-                                        </div>
-                                        <div className="flex-shrink-0 self-center flex">
-                                            <Menu as="div" className="relative z-30 inline-block text-left">
-                                                <div>
-                                                    <Menu.Button className="-m-2 p-2 rounded-full flex items-center text-gray-400 hover:text-gray-600">
-                                                        <span className="sr-only">Open options</span>
-                                                        <DotsVerticalIcon className="h-5 w-5" aria-hidden="true" />
-                                                    </Menu.Button>
-                                                </div>
+                            {experiences && experiences.map((experience, t) => {
+                                experience._index = t;
+                                experience.publications.forEach((publication, i) => {
+                                    experience.publications[i]._index = i;
+                                    experience.publications[i]._experience_index = t;
+                                });
 
-                                                <Transition
-                                                    as={Fragment}
-                                                    enter="transition ease-out duration-100"
-                                                    enterFrom="transform opacity-0 scale-95"
-                                                    enterTo="transform opacity-100 scale-100"
-                                                    leave="transition ease-in duration-75"
-                                                    leaveFrom="transform opacity-100 scale-100"
-                                                    leaveTo="transform opacity-0 scale-95"
-                                                >
-                                                    <Menu.Items className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                                        <div className="py-2">
-                                                            {/* Edit experience */}
-                                                            <Menu.Item>
-                                                                <button
-                                                                    className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 cursor-pointer flex px-4 py-2 text-sm w-full"
-                                                                    onClick={() => onOpenModal(experience, EXPERIENCE, UPDATE)}
-                                                                >
-                                                                    <PencilIcon className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
-                                                                    <span>Edit</span>
-                                                                </button>
-                                                            </Menu.Item>
-
-                                                            {/* Delete experience */}
-                                                            <Menu.Item>
-                                                                <button
-                                                                    className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 cursor-pointer flex px-4 py-2 text-sm w-full"
-                                                                    onClick={() => onOpenModal(experience, EXPERIENCE, DELETE)}
-                                                                >
-                                                                    <TrashIcon className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
-                                                                    <span>Remove</span>
-                                                                </button>
-                                                            </Menu.Item>
-                                                        </div>
-                                                    </Menu.Items>
-                                                </Transition>
-                                            </Menu>
-                                        </div>
-                                    </div>
-
-                                    <div className="mt-4 ml-12 pl-1 space-y-4">
-                                        <div className="">
-                                            <p className="block text-sm font-medium text-gray-600">
-                                                <Markdown>
-                                                    {experience.description}
-                                                </Markdown>
-                                            </p>
-                                        </div>
-
-                                        <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
-                                            {
-                                                experience.publications.map((publication, pub_index) => (
-                                                    <li className="px-3 py-1 flex items-center justify-between text-sm" key={pub_index}>
-                                                        <div className="w-0 flex-1 flex items-center">
-                                                            <PaperClipIcon className="flex-shrink-0 h-5 w-5 text-gray-400" />
-                                                            <span className="ml-2 flex-1 w-0 truncate text-gray-700">
-                                                                <a href={/^http:\/\//.test(publication.duo_link) || /^https:\/\//.test(publication.duo_link) ? publication.duo_link : "//" + publication.duo_link}
-                                                                    className="font-medium text-emerald-600 hover:text-emerald-500" target="_blank" rel="noreferrer">
-                                                                    {publication.title}
-                                                                </a>
-                                                            </span>
-                                                        </div>
-                                                        <div className="ml-4 flex-shrink-0 flex justify-between gap-0 -mr-1">
-                                                            {/* Edit publication */}
-                                                            <button
-                                                                type="button"
-                                                                className="rounded-full p-2 hover:bg-gray-100"
-                                                                onClick={() => onOpenModal(Object.assign({}, publication, { exper_id: experience.exper_id, exper_index: exper_index, pub_index: pub_index }), PUBLICATION, UPDATE)}
-                                                            >
-                                                                <PencilIcon className="h-5 w-5 text-gray-400" />
-                                                            </button>
-
-                                                            {/* Delete publication */}
-                                                            <button
-                                                                className="rounded-full p-2 hover:bg-gray-100"
-                                                                onClick={() => onOpenModal(Object.assign({}, publication, { exper_id: experience.exper_id, exper_index: exper_index, pub_index: pub_index }), PUBLICATION, DELETE)}
-                                                            >
-                                                                <TrashIcon className="h-5 w-5 text-gray-400" />
-                                                            </button>
-                                                        </div>
-                                                    </li>
-                                                ))
-                                            }
-                                            <li className="flex items-center overflow-hidden">
-                                                {/* Add new publication */}
-                                                <button
-                                                    type="button"
-                                                    className="relative block w-full border-gray-300 border-dashed py-2.5 text-center hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-0 focus:ring-emerald-600"
-                                                    onClick={() => onOpenModal(Object.assign({}, { title: null, duo_link: null }, { exper_id: experience.exper_id, exper_index: exper_index }), PUBLICATION, CREATE)}>
-                                                    <PlusSmIcon className="mx-auto h-5 w-5 text-gray-400" />
-                                                </button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </section>
-                            ))}
+                                return (
+                                    <section key={t} className="py-5">
+                                        <ExperienceCard
+                                            experience={experience}
+                                            onEditExperience={(experience) => onOpenModal(experience, EXPERIENCE, UPDATE)}
+                                            onDeleteExperience={(experience) => onOpenModal(experience, EXPERIENCE, DELETE)}
+                                            onCreatePublication={() => onOpenModal({ title: null, duo_link: null, exper_id: experience.exper_id, _experience_index: t }, PUBLICATION, CREATE)}
+                                            onEditPublication={(publication) => onOpenModal(publication, PUBLICATION, UPDATE)}
+                                            onDeletePublication={(publication) => onOpenModal(publication, PUBLICATION, DELETE)}
+                                        />
+                                    </section>
+                                );
+                            })}
                         </dl>
                     </div>
                 </div>

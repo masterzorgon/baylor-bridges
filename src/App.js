@@ -39,13 +39,7 @@ import "rc-slider/assets/index.css";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
-const components = (...components) => {
-    return (
-        <>
-            {components.map(component => component)}
-        </>
-    );
-};
+const components = (...components) => components.map(component => component);
 
 axios.defaults.headers = {
     "Access-Control-Allow-Origin": "*",
