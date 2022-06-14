@@ -583,7 +583,13 @@ const Experience = () => {
                             {experiences && experiences.length === 0 && emptyState()}
                             {experiences && experiences.map((experience, exper_index) => (
                                 <section key={exper_index} className="py-5">
-                                    <ExperienceCard experience={experience} onEdit={(experience) => onOpenModal(experience, EXPERIENCE, UPDATE)} onDelete={(experience) => onOpenModal(experience, EXPERIENCE, DELETE)} />
+                                    <ExperienceCard
+                                        experience={experience}
+                                        onEditExperience={(experience) => onOpenModal(experience, EXPERIENCE, UPDATE)}
+                                        onDeleteExperience={(experience) => onOpenModal(experience, EXPERIENCE, DELETE)}
+                                        onEditPublication={(publication) => onOpenModal(publication, PUBLICATION, UPDATE)}
+                                        onDeletePublication={(publication) => onOpenModal(publication, PUBLICATION, DELETE)}
+                                    />
                                 </section>
                             ))}
                         </dl>

@@ -27,7 +27,7 @@ const getDisplayDateRange = (start, end) => {
     return display_date;
 };
 
-const ExperienceCard = ({ className, experience, onEdit, onDelete }) => {
+const ExperienceCard = ({ className, experience, onEditExperience, onDeleteExperience, onEditPublication, onDeletePublication }) => {
     return (
         <section>
             <div className={classNames("flex space-x-3", className)}>
@@ -45,7 +45,7 @@ const ExperienceCard = ({ className, experience, onEdit, onDelete }) => {
                     </div>
                 </div>
                 {
-                    (onEdit || onDelete) &&
+                    (onEditExperience || onDeleteExperience) &&
                     <div className="flex-shrink-0 self-center flex">
                         <Menu as="div" className="relative z-30 inline-block text-left">
                             <div>
@@ -70,7 +70,7 @@ const ExperienceCard = ({ className, experience, onEdit, onDelete }) => {
                                         <Menu.Item>
                                             <button
                                                 className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 cursor-pointer flex px-4 py-2 text-sm w-full"
-                                                onClick={() => onEdit(experience)}
+                                                onClick={() => onEditExperience(experience)}
                                             >
                                                 <PencilIcon className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
                                                 <span>Edit</span>
@@ -81,7 +81,7 @@ const ExperienceCard = ({ className, experience, onEdit, onDelete }) => {
                                         <Menu.Item>
                                             <button
                                                 className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 cursor-pointer flex px-4 py-2 text-sm w-full"
-                                                onClick={() => onDelete(experience)}
+                                                onClick={() => onDeleteExperience(experience)}
                                             >
                                                 <TrashIcon className="mr-3 h-5 w-5 text-gray-400" aria-hidden="true" />
                                                 <span>Remove</span>
@@ -117,6 +117,33 @@ const ExperienceCard = ({ className, experience, onEdit, onDelete }) => {
                                             </a>
                                         </span>
                                     </div>
+                                    {
+                                        (onEditPublication || onDeletePublication) &&
+                                        <div className="ml-4 flex-shrink-0 flex justify-between gap-0 -mr-1 -my-2">
+                                            {/* Edit publication */}
+                                            {
+                                                onEditPublication &&
+                                                <button
+                                                    type="button"
+                                                    className="rounded-full p-2 hover:bg-gray-100"
+                                                    onClick={() => onEditPublication(publication)}
+                                                >
+                                                    <PencilIcon className="h-5 w-5 text-gray-400" />
+                                                </button>
+                                            }
+
+                                            {/* Delete publication */}
+                                            {
+                                                onDeletePublication &&
+                                                <button
+                                                    className="rounded-full p-2 hover:bg-gray-100"
+                                                    onClick={() => onDeletePublication(publication)}
+                                                >
+                                                    <TrashIcon className="h-5 w-5 text-gray-400" />
+                                                </button>
+                                            }
+                                        </div>
+                                    }
                                 </li>
                             ))
                         }
