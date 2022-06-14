@@ -196,25 +196,27 @@ const Experience = () => {
         if (!field) return; // field is null
 
         // Experience & Publication must have title
-        if (!field.title || field.title === "" || !field.start_time || !field.stop_time) {
+        if (!field.title || field.title === "") {
             setComplete(false);
             return;
         }
 
         // Experience must also have start and end date
-        let s = field.start_time ? dayjs(field.start_time) : null;
-        let e = field.stop_time ? dayjs(field.stop_time) : null;
-        if (field._type === EXPERIENCE && (!s || !e || s.isAfter(e))) {
-            setComplete(false);
-            return;
+        if (field.type === EXPERIENCE) {
+            let s = field.start_time ? dayjs(field.start_time) : null;
+            let e = field.stop_time ? dayjs(field.stop_time) : null;
+            if (!s || !e || s.isAfter(e)) {
+                setComplete(false);
+                return;
+            }
         }
-
 
         // Publication must have a link
         if (field._type === PUBLICATION && (!field.duo_link || field.duo_link === "")) {
             setComplete(false);
             return;
         }
+
         setComplete(true);
     }, [field]);
 
