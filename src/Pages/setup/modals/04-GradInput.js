@@ -11,7 +11,7 @@ const semesters = [
     { title: "Fall", value: "fall" }
 ];
 
-const GradInput = ({ modal, account, setAccount, handleChangeModal, transition }) => {
+const GradInput = ({ loading, modal, account, setAccount, handleChangeModal, transition }) => {
 
     const [semester, setSemester] = useState(semesters[0]);
 
@@ -136,9 +136,10 @@ const GradInput = ({ modal, account, setAccount, handleChangeModal, transition }
                             {/* CHANGE MODAL BUTTONS */}
                             <div className="flex justify-between mt-6 space-x-2">
                                 <Buttons
-                                    modal={modal}
-                                    account={account}
                                     handleChangeModal={handleChangeModal}
+                                    account={account}
+                                    modal={modal}
+                                    loading={loading}
                                 />
                             </div>
                         </div>

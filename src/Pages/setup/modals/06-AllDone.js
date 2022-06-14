@@ -2,8 +2,8 @@ import React, { useState, useCallback, useRef } from "react";
 import ReactCanvasConfetti from "react-canvas-confetti";
 import { CheckCircleIcon } from "@heroicons/react/outline";
 import { animated } from "react-spring";
-import { toast } from "react-toastify";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 import Button from "../../../components/Button";
 
@@ -72,6 +72,7 @@ const AllDone = ({ account, transition }) => {
 
         // Replace null with empty string in account object
         const accountCopy = { ...account };
+
         Object.keys(accountCopy).forEach(key => {
             if (accountCopy[key] === null) {
                 accountCopy[key] = "";
@@ -82,7 +83,6 @@ const AllDone = ({ account, transition }) => {
         axios.put("/accounts/me", accountCopy, { headers: { "x-fields": x_fields } })
             .then(res => {
                 fire();
-                console.log("---RESPONSE---", res);
                 setTimeout(() => window.location.href = "/", 1500);
             })
             .catch(err => toast.error(err.response.data.message))
@@ -93,9 +93,7 @@ const AllDone = ({ account, transition }) => {
 
     return (
         <>
-            <section
-                aria-labelledby="contact-heading"
-            >
+            <section aria-labelledby="contact-heading">
                 <ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
 
                 {/* ALERT NOTIFICATION ABOVE */}

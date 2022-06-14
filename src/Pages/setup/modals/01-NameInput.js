@@ -4,7 +4,7 @@ import { animated } from "react-spring";
 
 import Buttons from "./components/Buttons";
 
-const NameInput = ({ modal, account, setAccount, handleChangeModal, transition }) => {
+const NameInput = ({ loading, setLoading, modal, account, setAccount, handleChangeModal, transition }) => {
     return (
         <>
             <section aria-labelledby="contact-heading">
@@ -62,6 +62,7 @@ const NameInput = ({ modal, account, setAccount, handleChangeModal, transition }
                                     handleChangeModal={handleChangeModal}
                                     account={account}
                                     modal={modal}
+                                    loading={loading}
                                 />
                             </div>
                         </div>

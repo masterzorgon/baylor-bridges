@@ -4,7 +4,7 @@ import { animated } from "react-spring";
 
 import Buttons from "./components/Buttons";
 
-const ContactInput = ({ modal, account, setAccount, transition, handleChangeModal }) => {
+const ContactInput = ({ loading, modal, account, setAccount, transition, handleChangeModal }) => {
     return (
         <>
             <section aria-labelledby="contact-heading">
@@ -62,9 +62,10 @@ const ContactInput = ({ modal, account, setAccount, transition, handleChangeModa
                             {/* CHANGE MODAL BUTTONS */}
                             <div className="flex justify-between mt-6 space-x-2">
                                 <Buttons
-                                    modal={modal}
-                                    account={account}
                                     handleChangeModal={handleChangeModal}
+                                    account={account}
+                                    modal={modal}
+                                    loading={loading}
                                 />
                             </div>
                         </div>

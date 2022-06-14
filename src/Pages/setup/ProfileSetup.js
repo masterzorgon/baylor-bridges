@@ -4,6 +4,7 @@ import { Transition } from "@headlessui/react";
 import { useTransition } from "react-spring";
 import { useTimeoutFn } from "react-use";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 import NameInput from "./modals/01-NameInput";
 import ContactInput from "./modals/02-ContactInput";
@@ -19,6 +20,10 @@ const InfoInput = () => {
     const [, , takeAwayModal] = useTimeoutFn(() => setShow(false), 100); // used to fade modal out
     const [modal, setModal] = useState(1); // used to switch between modals
     const [account, setAccount] = useState({}); // updates account info
+    const [loading, setLoading] = useState(false); // indicates that data is being sent to server
+
+    // this makes the modal fade in on refresh
+    useEffect(() => showTheModal(), [modal]);
 
     const x_fields = "user_id, first_name, last_name, headline, role, occupation, graduate_year, graduate_semester, city, state, biography, contact_info";
 
@@ -36,19 +41,23 @@ const InfoInput = () => {
             });
     }, []);
 
-    // this makes the modal fade in on refresh
-    useEffect(() => {
-        showTheModal();
-        console.log("MODAL", modal);
-    }, [modal]);
-
-    useEffect(() => console.log("ACCOUNT", account), [account]);
-
     // allows use to toggle between next and previous modals
-    const handleChangeModal = (status) => {
-        status === "next"
-            ? setTimeout(() => setModal(modal + 1), 400)
-            : setTimeout(() => setModal(modal - 1), 400);
+    const handleChangeModal = async (status) => {
+        if (status === "next") {
+            setLoading(true);
+
+            const accountCopy = { ...account };
+
+            try {
+                await axios.put("/accounts/me", accountCopy, { headers: { "x-fields": x_fields } });
+                setLoading(false);
+                setTimeout(() => setModal(modal + 1), 400);
+            } catch (error) {
+                toast.error(error.response.data.message);
+            }
+
+        } else setTimeout(() => setModal(modal - 1), 400);
+
         takeAwayModal();
     };
 
@@ -61,12 +70,12 @@ const InfoInput = () => {
 
     // displays modals
     const displayModals = () => {
-        if (modal === 1) { return <NameInput        modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
-        if (modal === 2) { return <ContactInput     modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
-        if (modal === 3) { return <LocationInput    modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
-        if (modal === 4) { return <GradInput        modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
-        if (modal === 5) { return <HeadlineInput    modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
-        if (modal === 6) { return <AllDone          modal={modal} account={account} transition={transition} />; }
+        if (modal === 1) { return <NameInput        loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
+        if (modal === 2) { return <ContactInput     loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
+        if (modal === 3) { return <LocationInput    loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
+        if (modal === 4) { return <GradInput        loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
+        if (modal === 5) { return <HeadlineInput    loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
+        if (modal === 6) { return <AllDone          loading={loading} setLoading={setLoading} modal={modal} account={account} transition={transition} />; }
     };
 
     return (

@@ -4,7 +4,7 @@ import { animated } from "react-spring";
 
 import Buttons from "./components/Buttons";
 
-const HeadlineInput = ({ modal, account, setAccount, transition, handleChangeModal }) => {
+const HeadlineInput = ({ loading, modal, account, setAccount, transition, handleChangeModal }) => {
 
     return (
         <>
@@ -64,8 +64,9 @@ const HeadlineInput = ({ modal, account, setAccount, transition, handleChangeMod
                             <div className="flex justify-between mt-6 space-x-2">
                                 <Buttons
                                     handleChangeModal={handleChangeModal}
-                                    modal={modal}
                                     account={account}
+                                    modal={modal}
+                                    loading={loading}
                                 />
                             </div>
                         </div>

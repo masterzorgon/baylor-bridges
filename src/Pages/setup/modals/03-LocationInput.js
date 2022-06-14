@@ -6,7 +6,7 @@ import { animated } from "react-spring";
 import Buttons from "./components/Buttons";
 import { states, classNames } from "../../../components/Utils";
 
-const LocationInput = ({ modal, account, setAccount, transition, handleChangeModal }) => {
+const LocationInput = ({ loading, modal, account, setAccount, transition, handleChangeModal }) => {
 
     const [state, setState] = useState(states[0]);
 
@@ -129,9 +129,10 @@ const LocationInput = ({ modal, account, setAccount, transition, handleChangeMod
                             {/* CHANGE MODAL BUTTONS */}
                             <div className="flex justify-between mt-6 space-x-2">
                                 <Buttons
-                                    modal={modal}
-                                    account={account}
                                     handleChangeModal={handleChangeModal}
+                                    account={account}
+                                    modal={modal}
+                                    loading={loading}
                                 />
                             </div>
                         </div>
