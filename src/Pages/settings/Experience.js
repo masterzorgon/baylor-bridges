@@ -574,17 +574,26 @@ const Experience = () => {
                         <dl className="divide-y divide-gray-200" ref={animation}>
                             {/* EXPERIENCES */}
                             {experiences && experiences.length === 0 && emptyState()}
-                            {experiences && experiences.map((experience, exper_index) => (
-                                <section key={exper_index} className="py-5">
-                                    <ExperienceCard
-                                        experience={experience}
-                                        onEditExperience={(experience) => onOpenModal(experience, EXPERIENCE, UPDATE)}
-                                        onDeleteExperience={(experience) => onOpenModal(experience, EXPERIENCE, DELETE)}
-                                        onEditPublication={(publication) => onOpenModal(publication, PUBLICATION, UPDATE)}
-                                        onDeletePublication={(publication) => onOpenModal(publication, PUBLICATION, DELETE)}
-                                    />
-                                </section>
-                            ))}
+                            {experiences && experiences.map((experience, t) => {
+                                experience._index = t;
+
+                                experience.publications.map((publication, i) => {
+                                    experience.publications[i]._index = i;
+                                    experience.publications[i]._experience_index = t;
+                                });
+
+                                return (
+                                    <section key={t} className="py-5">
+                                        <ExperienceCard
+                                            experience={experience}
+                                            onEditExperience={(experience) => onOpenModal(experience, EXPERIENCE, UPDATE)}
+                                            onDeleteExperience={(experience) => onOpenModal(experience, EXPERIENCE, DELETE)}
+                                            onEditPublication={(publication) => onOpenModal(publication, PUBLICATION, UPDATE)}
+                                            onDeletePublication={(publication) => onOpenModal(publication, PUBLICATION, DELETE)}
+                                        />
+                                    </section>
+                                );
+                            })}
                         </dl>
                     </div>
                 </div>
