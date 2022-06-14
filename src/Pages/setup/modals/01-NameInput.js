@@ -2,16 +2,12 @@ import React from "react";
 import { UserCircleIcon } from "@heroicons/react/outline";
 import { animated } from "react-spring";
 
-import Button from "../../../components/Button";
+import Buttons from "./components/Buttons";
 
-const NameInput = ({ account, setAccount, handleChangeModal, transition }) => {
-
+const NameInput = ({ modal, account, setAccount, handleChangeModal, transition }) => {
     return (
         <>
-            <section
-                className=""
-                aria-labelledby="contact-heading"
-            >
+            <section aria-labelledby="contact-heading">
                 <div className="grid grid-cols-1 gap-y-20 lg:gap-y-0 lg:gap-x-8 mx-auto">
                     <div className="flex flex-col bg-white rounded-2xl">
                         <div className="flex-1 relative pt-16 pb-8">
@@ -63,20 +59,11 @@ const NameInput = ({ account, setAccount, handleChangeModal, transition }) => {
                             </div>
 
                             <div className="flex justify-between mt-6 space-x-2">
-                                <Button
-                                    onClick={() => window.location.href = "/setup/profile-setup"}
-                                    className="sm:w-fit px-5 py-3 border shadow-sm text-sm bg-gray-100 font-medium rounded-md text-gray-600 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
-                                >
-                                    Back
-                                </Button>
-                                <Button
-                                    className="sm:w-fit px-5 py-3 text-sm"
-                                    disabled={account.first_name === "" || account.last_name === ""}
-                                    onClick={() => handleChangeModal("next")}
-                                    arrow={true}
-                                >
-                                    Next
-                                </Button>
+                                <Buttons
+                                    handleChangeModal={handleChangeModal}
+                                    account={account}
+                                    modal={modal}
+                                />
                             </div>
                         </div>
                     </div>

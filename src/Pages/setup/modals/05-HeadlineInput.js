@@ -2,9 +2,10 @@ import React, { Fragment } from "react";
 import { BriefcaseIcon } from "@heroicons/react/outline";
 import { animated } from "react-spring";
 
-import Button from "../../../components/Button";
+// import Button from "../../../components/Button";
+import Buttons from "./components/Buttons";
 
-const HeadlineInput = ({ account, setAccount, transition, handleChangeModal }) => {
+const HeadlineInput = ({ modal, account, setAccount, transition, handleChangeModal }) => {
 
     return (
         <>
@@ -62,21 +63,7 @@ const HeadlineInput = ({ account, setAccount, transition, handleChangeModal }) =
                                 </div>
                             </div>
                             <div className="flex justify-between mt-6 space-x-2">
-                                <Button
-                                    onClick={() => handleChangeModal("back")}
-                                    className="sm:w-fit px-5 py-3 border shadow-sm text-sm bg-gray-100 font-medium rounded-md text-gray-600 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
-                                >
-                                    Back
-                                </Button>
-                                <Button
-                                    className="sm:w-fit px-5 py-3 text-sm"
-                                    onClick={() => handleChangeModal("next")}
-                                    arrow={true}
-                                >
-                                    {
-                                        account.headline === "" && account.biography === "" ? "Skip" : "Next"
-                                    }
-                                </Button>
+                                <Buttons handleChangeModal={handleChangeModal} modal={modal} account={account} />
                             </div>
                         </div>
                     </div>

@@ -5,25 +5,25 @@ import { useTransition } from "react-spring";
 import { useTimeoutFn } from "react-use";
 import axios from "axios";
 
-import NameInput from "./input-components/01-NameInput";
-import ContactInput from "./input-components/02-ContactInput";
-import LocationInput from "./input-components/03-LocationInput";
-import GradInput from "./input-components/04-GradInput";
-import HeadlineInput from "./input-components/05-HeadlineInput";
-import AllDone from "./input-components/06-AllDone";
+import NameInput from "./modals/01-NameInput";
+import ContactInput from "./modals/02-ContactInput";
+import LocationInput from "./modals/03-LocationInput";
+import GradInput from "./modals/04-GradInput";
+import HeadlineInput from "./modals/05-HeadlineInput";
+import AllDone from "./modals/06-AllDone";
 
 const InfoInput = () => {
 
-    const [show, setShow] = useState(false); // used to fade modals out
+    const [show, setShow] = useState(false); // used to fade modals in and out
     const [, , showTheModal] = useTimeoutFn(() => setShow(true), 400); // used to fade modals in
+    const [, , takeAwayModal] = useTimeoutFn(() => setShow(false), 100); // used to fade modal out
     const [modal, setModal] = useState(1); // used to switch between modals
     const [account, setAccount] = useState({}); // updates account info
-    const [, , takeAwayModal] = useTimeoutFn(() => setShow(false), 50); // used to fade modal out
 
     const x_fields = "user_id, first_name, last_name, headline, role, occupation, graduate_year, graduate_semester, city, state, biography, contact_info";
 
+    // get current authenticated account
     useEffect(() => {
-        // get current authenticated account
         axios.get("/accounts/me", { headers: { "x-fields": x_fields } })
             .then(res => {
                 setAccount(res.data);
@@ -59,13 +59,14 @@ const InfoInput = () => {
         leave: { x: 0, y: -80, opacity: 0 }
     });
 
-    const modals = () => {
-        if (modal === 1) { return <NameInput        account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
-        if (modal === 2) { return <ContactInput     account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
-        if (modal === 3) { return <LocationInput    account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
-        if (modal === 4) { return <GradInput        account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
-        if (modal === 5) { return <HeadlineInput    account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
-        if (modal === 6) { return <AllDone          account={account} setAccount={setAccount} show={show} modal={modal} transition={transition} handleChangeModal={handleChangeModal} />; }
+    // displays modals
+    const displayModals = () => {
+        if (modal === 1) { return <NameInput        modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
+        if (modal === 2) { return <ContactInput     modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
+        if (modal === 3) { return <LocationInput    modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
+        if (modal === 4) { return <GradInput        modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
+        if (modal === 5) { return <HeadlineInput    modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
+        if (modal === 6) { return <AllDone          modal={modal} account={account} transition={transition} />; }
     };
 
     return (
@@ -131,7 +132,7 @@ const InfoInput = () => {
             >
                 <div className="z-10 min-h-screen flex flex-col justify-center ">
                     <div className="bg-white max-w-2xl mx-auto py-12 px-4 sm:px-6 md:py-16 lg:px-8 lg:py-20 mt-2">
-                        {modals()}
+                        {displayModals()}
                     </div>
                 </div>
             </Transition>

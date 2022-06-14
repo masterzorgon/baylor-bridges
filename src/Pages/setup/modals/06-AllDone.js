@@ -7,7 +7,7 @@ import axios from "axios";
 
 import Button from "../../../components/Button";
 
-const AllDone = ({ account, setAccount, modal, show, setModal, setShow, transition }) => {
+const AllDone = ({ account, transition }) => {
 
     const refAnimationInstance = useRef(null);
 

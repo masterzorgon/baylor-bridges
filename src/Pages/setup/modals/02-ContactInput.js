@@ -1,16 +1,13 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { InboxIcon } from "@heroicons/react/outline";
 import { animated } from "react-spring";
 
-import Button from "../../../components/Button";
+import Buttons from "./components/Buttons";
 
-const ContactInput = ({ account, setAccount, transition, handleChangeModal }) => {
-
+const ContactInput = ({ modal, account, setAccount, transition, handleChangeModal }) => {
     return (
         <>
-            <section
-                aria-labelledby="contact-heading"
-            >
+            <section aria-labelledby="contact-heading">
                 <div className="grid grid-cols-1 gap-y-20 lg:gap-y-0 lg:gap-x-8 mx-auto">
                     <div className="flex flex-col bg-white rounded-2xl">
                         <div className="flex-1 relative pt-16 pb-8">
@@ -62,21 +59,11 @@ const ContactInput = ({ account, setAccount, transition, handleChangeModal }) =>
                                 </div>
                             </div>
                             <div className="flex justify-between mt-6 space-x-2">
-                                <Button
-                                    onClick={() => handleChangeModal("back")}
-                                    className="sm:w-fit px-5 py-3 border shadow-sm text-sm bg-gray-100 font-medium rounded-md text-gray-600 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
-                                >
-                                    Back
-                                </Button>
-                                <Button
-                                    className="sm:w-fit px-5 py-3 text-sm"
-                                    onClick={() => handleChangeModal("next")}
-                                    arrow={true}
-                                >
-                                    {
-                                        account.contact_info.email === "" && account.contact_info.phone === "" ? "Skip" : "Next"
-                                    }
-                                </Button>
+                                <Buttons
+                                    modal={modal}
+                                    account={account}
+                                    handleChangeModal={handleChangeModal}
+                                />
                             </div>
                         </div>
                     </div>
