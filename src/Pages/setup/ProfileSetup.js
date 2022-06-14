@@ -1,9 +1,76 @@
-import React from "react";
+// import axios from "axios";
+import React, { Fragment, useState, useEffect } from "react";
+import { Transition } from "@headlessui/react";
+import { useTransition } from "react-spring";
+import { useTimeoutFn } from "react-use";
+import axios from "axios";
 
-const ProfileSetup = () => {
+import NameInput from "./input-components/01-NameInput";
+import ContactInput from "./input-components/02-ContactInput";
+import LocationInput from "./input-components/03-LocationInput";
+import GradInput from "./input-components/04-GradInput";
+import HeadlineInput from "./input-components/05-HeadlineInput";
+import AllDone from "./input-components/06-AllDone";
+
+const InfoInput = () => {
+
+    const [show, setShow] = useState(false); // used to fade modals out
+    const [, , showTheModal] = useTimeoutFn(() => setShow(true), 400); // used to fade modals in
+    const [modal, setModal] = useState(1); // used to switch between modals
+    const [account, setAccount] = useState({}); // updates account info
+    const [, , takeAwayModal] = useTimeoutFn(() => setShow(false), 50); // used to fade modal out
+
+    const x_fields = "user_id, first_name, last_name, headline, role, occupation, graduate_year, graduate_semester, city, state, biography, contact_info";
+
+    useEffect(() => {
+        // get current authenticated account
+        axios.get("/accounts/me", { headers: { "x-fields": x_fields } })
+            .then(res => {
+                setAccount(res.data);
+                console.log(res.data);
+            })
+            .catch(err => {
+                err.response.status && err.response.status === 401
+                    ? window.location.href = "/sign-in"
+                    : window.location.href = "/404";
+            });
+    }, []);
+
+    // this makes the modal fade in on refresh
+    useEffect(() => {
+        showTheModal();
+        console.log("MODAL", modal);
+    }, [modal]);
+
+    useEffect(() => console.log("ACCOUNT", account), [account]);
+
+    // allows use to toggle between next and previous modals
+    const handleChangeModal = (status) => {
+        status === "next"
+            ? setTimeout(() => setModal(modal + 1), 300)
+            : setTimeout(() => setModal(modal - 1), 300);
+        takeAwayModal();
+    };
+
+    // used to fade icon in
+    const transition = useTransition(show, {
+        from: { x: 0, y: 50, opacity: 0 },
+        enter: { x: 0, y: -30, opacity: 1 },
+        leave: { x: 0, y: -80, opacity: 0 }
+    });
+
+    const modals = () => {
+        if (modal === 1) { return <NameInput        account={account} setAccount={setAccount} show={show} transition={transition} handleChangeModal={handleChangeModal} />; }
+        if (modal === 2) { return <ContactInput     account={account} setAccount={setAccount} show={show} setShow={setShow} modal={modal} handleChangeModal={handleChangeModal} />; }
+        if (modal === 3) { return <LocationInput    account={account} setAccount={setAccount} show={show} setShow={setShow} modal={modal} handleChangeModal={handleChangeModal} />; }
+        if (modal === 4) { return <GradInput        account={account} setAccount={setAccount} show={show} setShow={setShow} modal={modal} handleChangeModal={handleChangeModal} />; }
+        if (modal === 5) { return <HeadlineInput    account={account} setAccount={setAccount} show={show} setShow={setShow} modal={modal} handleChangeModal={handleChangeModal} />; }
+        if (modal === 6) { return <AllDone          account={account} setAccount={setAccount} show={show} setShow={setShow} modal={modal} handleChangeModal={handleChangeModal} />; }
+    };
 
     return (
         <>
+            {/* Header */}
             <div className="flex sm:block sm:absolute sm:inset-y-0 sm:h-full sm:w-full pointer-events-none -z-10" aria-hidden="true">
                 <div className="relative h-full w-full mx-auto overflow-hidden">
                     <svg
@@ -51,35 +118,25 @@ const ProfileSetup = () => {
                 </div>
             </div>
 
-            {/* HERO SECTION */}
-            <div className="z-10 min-h-screen flex flex-col justify-center ">
-                <div className="bg-white max-w-2xl mx-auto py-12 px-4 sm:px-6 md:py-16 lg:px-8 lg:py-20 -mt-8">
-                    <lord-icon
-                        src="https://cdn.lordicon.com/lupuorrc.json"
-                        trigger="loop"
-                        style={{ width: "8rem", height: "8rem" }}
-                    >
-                    </lord-icon>
-                    <h2 className="mt-6 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-                        <span className="text-gradient bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500">Welcome!</span>
-                        <span className="block">We are so glad to have you.</span>
-                    </h2>
-                    <p className="mt-4 mx-auto text-gray-700">
-                        Since your account is so new, we will walk you through{" "}
-                    a few steps to get you started. You will be prompted to fill out
-                        some profile information to <span className="underline underline-offset-4 decoration-emerald-400">complete your profile</span>,
-                        so that others can better connect with you via your profile.
-                    </p>
-                    <a
-                        href="info-input"
-                        className="bg-emerald-600 mt-8 cursor-pointer shadow-md inline-flex items-center justify-center px-5 py-3 text-base font-medium rounded-md text-white hover:bg-emerald-700"
-                    >
-                        Get started
-                    </a>
+
+            <Transition
+                show={show}
+                as={Fragment}
+                enter="transform transition duration-[400ms]"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
+                leave="transform duration-[400ms] transition ease-out"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+            >
+                <div className="z-10 min-h-screen flex flex-col justify-center ">
+                    <div className="bg-white max-w-2xl mx-auto py-12 px-4 sm:px-6 md:py-16 lg:px-8 lg:py-20 mt-2">
+                        {modals()}
+                    </div>
                 </div>
-            </div>
+            </Transition>
         </>
     );
 };
 
-export default ProfileSetup;
+export default InfoInput;

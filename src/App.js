@@ -23,8 +23,8 @@ import { default as SignUpEntrace } from "./Pages/signup/Entrace";
 import { default as SignUpForm } from "./Pages/signup/Form";
 import { default as SignUpClosed } from "./Pages/signup/Closed";
 
+import WelcomePage from "./Pages/setup/WelcomePage";
 import ProfileSetup from "./Pages/setup/ProfileSetup";
-import InfoInput from "./Pages/setup/InfoInput";
 
 import Search from "./Pages/Search";
 import Profile from "./Pages/profile/Profile";
@@ -118,8 +118,8 @@ const App = () => {
                     <Route path="/sign-in/challenge" element={<SignInChallenge />} />
                     <Route path="/reset-password" element={<ResetPassword />} />
 
+                    <Route path="/setup/welcome-page" element={<WelcomePage />} />
                     <Route path="/setup/profile-setup" element={<ProfileSetup />} />
-                    <Route path="/setup/info-input" element={<InfoInput />} />
 
                     <Route path="/sign-up" element={components(<SignUpEntrace />, <CookieConsent />)} />
                     <Route path="/sign-up/:role" element={<SignUpForm />} />
