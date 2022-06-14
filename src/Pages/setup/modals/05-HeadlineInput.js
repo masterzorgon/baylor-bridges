@@ -2,16 +2,13 @@ import React, { Fragment } from "react";
 import { BriefcaseIcon } from "@heroicons/react/outline";
 import { animated } from "react-spring";
 
-// import Button from "../../../components/Button";
 import Buttons from "./components/Buttons";
 
 const HeadlineInput = ({ modal, account, setAccount, transition, handleChangeModal }) => {
 
     return (
         <>
-            <section
-                aria-labelledby="contact-heading"
-            >
+            <section aria-labelledby="contact-heading">
                 <div className="grid grid-cols-1 gap-y-20 lg:gap-y-0 lg:gap-x-8 mx-auto">
                     <div className="flex flex-col bg-white rounded-2xl">
                         <div className="flex-1 relative pt-16 pb-8">
@@ -25,12 +22,13 @@ const HeadlineInput = ({ modal, account, setAccount, transition, handleChangeMod
                             })}
                             <h3 className="text-xl font-medium text-gray-900">Headline</h3>
                             <p className="mt-4 text-base text-gray-500">
-                                Youe headline should be your professional title, and your biography should be
+                                Your headline should be your professional title, and your biography should be
                                 a summary of who you are and what you do.
 
                             </p>
                         </div>
                         <div className="bg-white rounded-bl-2xl rounded-br-2xl">
+                            {/* INPUT FIELDS */}
                             <div className="-space-y-px rounded-md shadow-sm">
                                 <div className="relative border border-gray-300 rounded-md rounded-b-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600 transition-colors">
                                     <label htmlFor="headline" className="block text-xs font-medium text-gray-900">
@@ -62,8 +60,13 @@ const HeadlineInput = ({ modal, account, setAccount, transition, handleChangeMod
                                     />
                                 </div>
                             </div>
+                            {/* CHANGE MODAL BUTTONS */}
                             <div className="flex justify-between mt-6 space-x-2">
-                                <Buttons handleChangeModal={handleChangeModal} modal={modal} account={account} />
+                                <Buttons
+                                    handleChangeModal={handleChangeModal}
+                                    modal={modal}
+                                    account={account}
+                                />
                             </div>
                         </div>
                     </div>
