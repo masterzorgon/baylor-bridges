@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { ToastContainer, Slide } from "react-toastify";
 import axios from "axios";
 
 import Navbar from "./components/Navbar";
@@ -35,15 +36,10 @@ import { default as SettingsAccount } from "./Pages/settings/Account";
 import { Account } from "./components/Account";
 
 import "rc-slider/assets/index.css";
+import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
-const components = (...components) => {
-    return (
-        <>
-            {components.map(component => component)}
-        </>
-    );
-};
+const components = (...components) => components.map(component => component);
 
 axios.defaults.headers = {
     "Access-Control-Allow-Origin": "*",
@@ -66,26 +62,39 @@ if (hostname === "localhost" || hostname === "127.0.0.1" || port === 3000) {
 }
 
 axios.defaults.withCredentials = true;
-axios.defaults.timeout = 8000;
+axios.defaults.timeout = 30000;
 axios.defaults.cancelToken = null;
 axios.interceptors.response.use((response) => {
     return response;
 }, (error) => {
-    // If unauthorized access, redirected to sign in page
-    if (error.response && error.response.config.withoutInterceptors !== undefined && !error.response.config.withoutInterceptors && error.response.status === 401) {
-        window.location.href = "/sign-in";
-        return;
-    }
+    if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        return Promise.reject(error);
+    } else if (error.request) {
+        // The request was made but no response was received
+        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+        // http.ClientRequest in node.js
+        error.response = {
+            data: {
+                code: "RequestError",
+                message: "There is an error with the request."
+            }
+        };
 
-    // Convert network error into a server error
-    if (error.message === "Network Error") {
-        error.response = {};
-        error.response.data = {};
-        error.response.data.code = "NetworkError";
-        error.response.data.message = "There is a problem with your network connection. Please try again.";
-    }
+        return Promise.reject(error);
+    } else {
+        // Something happened in setting up the request that triggered an Error
+        console.log(error.toJSON());
 
-    return Promise.reject(error);
+        error.response = {
+            data: {
+                code: "NetworkError",
+                message: "There is an error with the network connection."
+            }
+        };
+        return Promise.reject(error);
+    }
 });
 
 const App = () => {
@@ -127,6 +136,19 @@ const App = () => {
 
                 </Routes>
             </Router>
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={true}
+                newestOnTop={true}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                transition={Slide}
+                className="text-sm rounded-md"
+            />
         </Account>
     );
 };
