@@ -182,8 +182,8 @@ const Experience = () => {
 
     const [experiences, setExperiences] = useState(null);
 
+    // When first access this page, retrieve all experiences of the account
     useEffect(() => {
-        // get all experiences of current account
         axios.get("/experiences/me")
             .then(res => {
                 setExperiences(res.data);
@@ -191,6 +191,7 @@ const Experience = () => {
             .catch(err => toast.error(err.response.data.message));
     }, []);
 
+    // Check field form completeness
     useEffect(() => {
         if (!field) return; // field is null
 
@@ -200,20 +201,20 @@ const Experience = () => {
             return;
         }
 
+        // Experience must also have start and end date
+        let s = field.start_time ? dayjs(field.start_time) : null;
+        let e = field.stop_time ? dayjs(field.stop_time) : null;
+        if (field._type === EXPERIENCE && (!s || !e || s.isAfter(e))) {
+            setComplete(false);
+            return;
+        }
+
+
         // Publication must have a link
         if (field._type === PUBLICATION && (!field.duo_link || field.duo_link === "")) {
             setComplete(false);
             return;
         }
-
-        // Check date validity
-        let s = field.start_time ? dayjs(field.start_time) : dayjs();
-        let e = field.stop_time ? dayjs(field.stop_time) : dayjs();
-        if (s.isAfter(e)) {
-            setComplete(false);
-            return;
-        }
-
         setComplete(true);
     }, [field]);
 
@@ -226,6 +227,8 @@ const Experience = () => {
 
         const onCreateExperience = (field) => {
             setLoading(true);
+            console.log(field);
+
             axios.post("/experiences/me", field)
                 .then(res => {
                     experiences.push(res.data);
@@ -240,11 +243,11 @@ const Experience = () => {
 
         const onUpdateExperience = (field) => {
             setLoading(true);
-
+            console.log(field);
 
             axios.put(`/experiences/${field.exper_id}`, field)
                 .then(res => {
-                    experiences[experiences.findIndex(e => e.exper_id === field.exper_id)] = res.data;
+                    experiences[field._index] = res.data;
                     setExperiences(experiences);
                     setOpen(false);
                 })
@@ -256,9 +259,11 @@ const Experience = () => {
 
         const onDeleteExperience = (field) => {
             setLoading(true);
+            console.log(field);
             axios.delete(`/experiences/${field.exper_id}`)
                 .then(res => {
-                    setExperiences(experiences.filter(e => e.exper_id !== field.exper_id));
+                    experiences.splice(field._index, 1);
+                    setExperiences(experiences);
                     setOpen(false);
                 })
                 .catch(err => toast.error(err.response.data.message))
@@ -267,10 +272,11 @@ const Experience = () => {
 
         const onCreatePublication = (field) => {
             setLoading(true);
+            console.log(field);
 
             axios.post("/publications/me", field)
                 .then(res => {
-                    experiences[experiences.findIndex(e => e.exper_id === field.exper_id)].publications.push(res.data);
+                    experiences[field._experience_index].publications.push(res.data);
                     setExperiences(experiences);
                     setOpen(false);
                 })
@@ -280,12 +286,10 @@ const Experience = () => {
 
         const onUpdatePublication = (field) => {
             setLoading(true);
+            console.log(field);
             axios.put(`/publications/${field.pub_id}`, field)
                 .then(res => {
-                    let exper_index = experiences.findIndex(e => e.exper_id === field.exper_id);
-                    let pub_index = experiences[exper_index].publications.findIndex(p => p.pub_id === field.pub_id);
-                    experiences[exper_index].publications[pub_index] = res.data;
-
+                    experiences[field._experience_index].publications[field._index] = res.data;
                     setExperiences(experiences);
                     setOpen(false);
                 })
@@ -295,14 +299,11 @@ const Experience = () => {
 
         const onDeletePublication = (field) => {
             setLoading(true);
+            console.log(field);
             axios.delete(`/publications/${field.pub_id}`)
                 .then(res => {
                     setOpen(false);
-
-                    let exper_index = experiences.findIndex(e => e.exper_id === field.exper_id);
-                    let pub_index = experiences[exper_index].publications.findIndex(p => p.pub_id === field.pub_id);
-
-                    experiences[exper_index].publications.pop(pub_index, 1);
+                    experiences[field._experience_index].publications.splice(field._index, 1);
                     setExperiences(experiences);
                 })
                 .catch(err => toast.error(err.response.data.message))
@@ -312,16 +313,9 @@ const Experience = () => {
         };
 
 
-        const getExperienceDom = (field) => {
+        const getExperienceForm = (field) => {
             return (
                 <div className="p-4 pb-5 sm:align-middle sm:p-6">
-                    {/* <div>
-                        <h2 id="payment-details-heading" className="text-lg leading-6 font-medium text-gray-900">
-                            {field._operation === CREATE && "Add Experience"}
-                            {field._operation === UPDATE && "Edit Experience"}
-                        </h2>
-                    </div> */}
-
                     <div className="grid grid-cols-4 gap-3">
                         <div className="col-span-4 sm:col-span-4">
                             <label htmlFor="title" className="block text-sm font-medium text-gray-700">
@@ -408,7 +402,7 @@ const Experience = () => {
         };
 
 
-        const getPublicationDom = (field) => {
+        const getPublicationForm = (field) => {
             return (
                 <div className="p-4 pb-5 sm:align-middle sm:p-6">
 
@@ -465,7 +459,7 @@ const Experience = () => {
         };
 
 
-        const getDeleteDom = (field) => {
+        const getDeletePopup = (field) => {
             let field_type_text = "";
             if (field._type === EXPERIENCE) {
                 field_type_text = "experience";
@@ -520,14 +514,15 @@ const Experience = () => {
             );
         };
 
+        // According to provided field type and operation, render the appropriate form
         if (field._operation === CREATE || field._operation === UPDATE) {
             if (field._type === EXPERIENCE) {
-                return getExperienceDom(field);
+                return getExperienceForm(field);
             } else if (field._type === PUBLICATION) {
-                return getPublicationDom(field);
+                return getPublicationForm(field);
             }
         } else if (field._operation === DELETE) {
-            return getDeleteDom(field);
+            return getDeletePopup(field);
         }
     };
 
@@ -576,8 +571,7 @@ const Experience = () => {
                             {experiences && experiences.length === 0 && emptyState()}
                             {experiences && experiences.map((experience, t) => {
                                 experience._index = t;
-
-                                experience.publications.map((publication, i) => {
+                                experience.publications.forEach((publication, i) => {
                                     experience.publications[i]._index = i;
                                     experience.publications[i]._experience_index = t;
                                 });
