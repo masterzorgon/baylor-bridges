@@ -297,11 +297,7 @@ const Experience = () => {
             axios.delete(`/publications/${field.pub_id}`)
                 .then(res => {
                     setOpen(false);
-
-                    let exper_index = experiences.findIndex(e => e.exper_id === field.exper_id);
-                    let pub_index = experiences[exper_index].publications.findIndex(p => p.pub_id === field.pub_id);
-
-                    experiences[exper_index].publications.pop(pub_index, 1);
+                    experiences[field._experience_index].publications.splice(field._index, 1);
                     setExperiences(experiences);
                 })
                 .catch(err => toast.error(err.response.data.message))
