@@ -584,6 +584,7 @@ const Experience = () => {
                                             experience={experience}
                                             onEditExperience={(experience) => onOpenModal(experience, EXPERIENCE, UPDATE)}
                                             onDeleteExperience={(experience) => onOpenModal(experience, EXPERIENCE, DELETE)}
+                                            onCreatePublication={() => onOpenModal({ title: null, duo_link: null, exper_id: experience.exper_id, _experience_index: t }, PUBLICATION, CREATE)}
                                             onEditPublication={(publication) => onOpenModal(publication, PUBLICATION, UPDATE)}
                                             onDeletePublication={(publication) => onOpenModal(publication, PUBLICATION, DELETE)}
                                         />

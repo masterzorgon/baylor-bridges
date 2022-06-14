@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import dayjs from "dayjs";
 import { Menu, Transition } from "@headlessui/react";
 import { PaperClipIcon } from "@heroicons/react/solid";
-import { PencilIcon, DotsVerticalIcon, TrashIcon } from "@heroicons/react/outline";
+import { PencilIcon, DotsVerticalIcon, TrashIcon, PlusSmIcon } from "@heroicons/react/outline";
 
 import Photo from "../../components/Photo";
 import Markdown from "../../components/Markdown";
@@ -27,7 +27,7 @@ const getDisplayDateRange = (start, end) => {
     return display_date;
 };
 
-const ExperienceCard = ({ className, experience, onEditExperience, onDeleteExperience, onEditPublication, onDeletePublication }) => {
+const ExperienceCard = ({ className, experience, onEditExperience, onDeleteExperience, onCreatePublication, onEditPublication, onDeletePublication }) => {
     return (
         <section>
             <div className={classNames("flex space-x-3", className)}>
@@ -103,7 +103,7 @@ const ExperienceCard = ({ className, experience, onEditExperience, onDeleteExper
                 </div>
 
                 {
-                    experience.publications?.length > 0 &&
+                    (experience.publications?.length > 0 || onCreatePublication) &&
                     <ul className="border border-gray-200 rounded-md divide-y divide-gray-200">
                         {
                             experience.publications.map((publication, pub_index) => (
@@ -146,6 +146,18 @@ const ExperienceCard = ({ className, experience, onEditExperience, onDeleteExper
                                     }
                                 </li>
                             ))
+                        }
+                        {
+                            onCreatePublication &&
+                            <li className="flex items-center overflow-hidden">
+                                {/* Add new publication */}
+                                <button
+                                    type="button"
+                                    className="relative block w-full border-gray-300 border-dashed py-2.5 text-center hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-0 focus:ring-emerald-600"
+                                    onClick={() => onCreatePublication()}>
+                                    <PlusSmIcon className="mx-auto h-5 w-5 text-gray-400" />
+                                </button>
+                            </li>
                         }
                     </ul>
                 }
