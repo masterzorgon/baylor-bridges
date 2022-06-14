@@ -80,7 +80,7 @@ const InfoInput = () => {
 
     return (
         <>
-            {/* Header */}
+            {/* BACKGROUND */}
             <div className="flex sm:block sm:absolute sm:inset-y-0 sm:h-full sm:w-full pointer-events-none -z-10" aria-hidden="true">
                 <div className="relative h-full w-full mx-auto overflow-hidden">
                     <svg
@@ -129,6 +129,7 @@ const InfoInput = () => {
             </div>
 
 
+            {/* INPUT MODALS */}
             <Transition
                 show={show}
                 as={Fragment}
