@@ -60,7 +60,7 @@ const profile = {
             },
             headline: {
                 title: "Headline",
-                attribute: { type: "text", title: "Headline", placeholder: "Headline", key: "headline" },
+                attribute: { type: "text", maxLength: 100, title: "Headline", placeholder: "Headline", key: "headline" },
             },
             graduate_class_alumni: {
                 title: "Graduate Class",
@@ -343,6 +343,7 @@ const Profile = () => {
                                 placeholder={attribute.placeholder}
                                 value={section_key === "basic" ? update[attribute.key] : update[section_key][attribute.key]}
                                 onChange={(e) => updateAttributeValue(e.target.value)}
+                                maxLength={attribute.max_length}
                             />
                         </div>
                     </>

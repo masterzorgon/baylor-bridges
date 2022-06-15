@@ -39,9 +39,8 @@ const LocationInput = ({ loading, modal, account, setAccount, transition, handle
 
                             <h3 className="text-xl font-medium text-gray-900">Location Information</h3>
                             <p className="mt-4 text-base text-gray-500">
-                                At your discretion, please provide your location information. Your state
-                                information will be used to fill in the Baylor Bridges heat map displayed on the home page.
-
+                                At your discretion, please provide your location information. This
+                                information will be used to provide you better profile recommendation.
                             </p>
                         </div>
                         <div className="bg-white rounded-bl-2xl rounded-br-2xl">

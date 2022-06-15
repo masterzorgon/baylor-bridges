@@ -24,7 +24,6 @@ const HeadlineInput = ({ loading, modal, account, setAccount, transition, handle
                             <p className="mt-4 text-base text-gray-500">
                                 Your headline should be your professional title, and your biography should be
                                 a summary of who you are and what you do.
-
                             </p>
                         </div>
                         <div className="bg-white rounded-bl-2xl rounded-br-2xl">
@@ -42,6 +41,7 @@ const HeadlineInput = ({ loading, modal, account, setAccount, transition, handle
                                         placeholder="Orthopedic Surgeon"
                                         onChange={event => setAccount({ ...account, headline: event.target.value })}
                                         value={account.headline}
+                                        maxLength="100"
                                     />
                                 </div>
                                 <div className="relative border border-gray-300 rounded-md rounded-t-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600 transition-colors">

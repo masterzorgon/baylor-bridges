@@ -46,7 +46,7 @@ const GradInput = ({ loading, modal, account, setAccount, handleChangeModal, tra
                             <h3 className="text-xl font-medium text-gray-900">Graduating Class</h3>
                             <p className="mt-4 text-base text-gray-500">
                                 Please provide the {account.role === "student" && "expected"} year and semester of your graduating class
-                                from Baylor University.
+                                from Baylor University. If you are not yet graduating, please provide the expecting graduation year and semester.
                             </p>
                         </div>
                         <div className="bg-white rounded-bl-2xl rounded-br-2xl">

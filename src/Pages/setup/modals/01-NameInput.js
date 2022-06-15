@@ -20,14 +20,14 @@ const NameInput = ({ loading, setLoading, modal, account, setAccount, handleChan
                                     : "";
                             })}
                             <h3 className="text-xl font-medium text-gray-900">Name</h3>
-                            <p className="mt-4 text-base text-gray-500">Please provide your full, legal name. This is the name others will know you by via your Baylor Bridges account.</p>
+                            <p className="mt-4 text-base text-gray-500">Please provide your full name. This is the name others will see on your profile for others who may reach you.</p>
                         </div>
                         <div className="bg-white rounded-bl-2xl rounded-br-2xl">
                             {/* INPUT FIELDS */}
                             <div className="-space-y-px rounded-md shadow-sm">
                                 <div className="relative border border-gray-300 rounded-md rounded-b-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600 transition-colors">
                                     <label htmlFor="first-name" className="block text-xs font-medium text-gray-900">
-                                        First Name
+                                        First Name (and Middle Name)
                                     </label>
                                     <input
                                         type="text"
