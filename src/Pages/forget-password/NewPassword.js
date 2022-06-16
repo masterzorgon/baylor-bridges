@@ -14,6 +14,7 @@ const NewPassword = () => {
     const handleNewPassword = () => {
         if (password_checked) {
             setLoading(true);
+            // fetch email and confirm code from url params
             axios.post("/accounts/password/confirm", {
                 email: "",
                 confirm_code: "",
@@ -77,7 +78,6 @@ const NewPassword = () => {
                 </div>
             </div>
 
-            {/* HERO SECTION */}
             <div className="z-10 min-h-screen flex flex-col justify-center ">
                 <div className="bg-white max-w-2xl mx-auto py-12 px-4 sm:px-6 md:py-16 lg:px-8 lg:py-20 -mt-8">
                     <LockClosedIcon style={{ width: "3rem", height: "3rem" }} />
@@ -89,7 +89,8 @@ const NewPassword = () => {
                     </h2>
                     <p className="mt-4 mx-auto text-gray-700">
                         Please refer to the input field below where you will be able to enter the value
-                        of your new password. It is best practice to use a password manager for safe keeping.
+                        of your new password. It is best practice to use a password manager for safe keeping
+                        of your passwords.
                     </p>
                     <div className="mt-5">
                         <Password
