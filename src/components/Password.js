@@ -44,8 +44,6 @@ const Password = ({value, onChange, className}) => {
         }
     };
 
-
-
     return (
         <div className="sm:col-span-2">
             {/* <label htmlFor="password" className="block text-sm font-medium text-gray-700">

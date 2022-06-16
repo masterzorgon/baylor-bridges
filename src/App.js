@@ -17,7 +17,8 @@ import TermsConditions from "./Pages/policies&terms/Terms&Conditions";
 import CookiesPolicy from "./Pages/policies&terms/CookiesPolicy";
 
 import SignIn from "./Pages/signin/SignIn";
-import { default as ResetPassword } from "./Pages/forget-password/Form";
+import { default as ResetPassword } from "./Pages/forget-password/ResetForm";
+import NewPassword from "./Pages/forget-password/NewPassword";
 import { default as SignInChallenge } from "./Pages/signin/Challenge";
 import { default as SignUpEntrace } from "./Pages/signup/Entrace";
 import { default as SignUpForm } from "./Pages/signup/Form";
@@ -117,6 +118,7 @@ const App = () => {
                     <Route path="/sign-in" element={components(<SignIn />, <CookieConsent />)} />
                     <Route path="/sign-in/challenge" element={<SignInChallenge />} />
                     <Route path="/reset-password" element={<ResetPassword />} />
+                    <Route path="/new-password" element={<NewPassword />} />
 
                     <Route path="/setup/profile-setup" element={<ProfileSetup />} />
                     <Route path="/setup/info-input" element={<InfoInput />} />

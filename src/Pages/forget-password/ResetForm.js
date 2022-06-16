@@ -16,7 +16,7 @@ import { ArrowSmLeftIcon } from "@heroicons/react/solid";
 
 const steps = [
     { id: 1, name: "Email", button: "Next", isSent: true },
-    { id: 2, name: "Reset Password Email Sent", button: ["Enter Email", "Return to Sign In"], isSent: true },
+    { id: 2, name: "Reset Password Email Sent", button: ["Re-enter Email", "Return to Sign In"], isSent: true },
     { id: 3, name: "Reset Password", button: "Verify", isSent: false },
     { id: 4, name: "Success", button: "Sign In Account", isSent: true }
 ];
@@ -24,7 +24,7 @@ const steps = [
 const Form = () => {
     const [loading, setLoading] = useState(false);
     const [complete, setComplete] = useState(false);
-    const [step, setStep] = useState(1);
+    const [step, setStep] = useState(2); // sets the modal to be displayed
     const [error_message, setErrorMessage] = useState(null);
     const [email, setEmail] = useState("");
     const [verificationCode, setVerificationCode] = useState("");
@@ -179,9 +179,9 @@ const Form = () => {
 
         return (
             <>
-                <h3 className="text-lg leading-6 font-medium text-gray-900">Verification Code</h3>
+                <h3 className="text-lg leading-6 font-medium text-gray-900">Verification Email Sent</h3>
                 <p className="mt-1 text-sm font-medium mb-4 text-gray-500 pointer-events-auto">
-                    The Verification email 6-digit code is sent, please check your inbox.{" "}
+                    The verification email has been sent. If you do not see it, please check your spam or consider re-entering your email.{" "}
                     <button
                         className={isResent ? "text-gray-700 font-semibold" : "text-emerald-800 underline font-semibold"}
                         disabled={isResent}
@@ -191,42 +191,42 @@ const Form = () => {
                         }}
                     >{!isResent ? "Resend the code?" : "Already sent(" + resentFreeze + "S). "}</button>
                 </p>
-                <VerificationCode onChange={(verificationCode, checked) => {
+                {/* <VerificationCode onChange={(verificationCode, checked) => {
                     setVerificationCode(verificationCode);
                     setVerificationCode_checked(checked);
-                }} />
+                }} /> */}
             </>
         );
 
     };
 
-    const step3 = () => {
-        return (
-            <>
-                <h3 className="text-lg leading-6 font-medium text-gray-900">Password</h3>
-                <p className="mt-1 text-sm font-medium mb-4 text-gray-500">Set a password for your account.</p>
-                <Password
-                    className="py-2"
-                    onChange={(password, checked) => {
-                        setPassword(password);
-                        setPasswordChecked(checked);
-                    }}
-                />
+    // const step3 = () => {
+    //     return (
+    //         <>
+    //             <h3 className="text-lg leading-6 font-medium text-gray-900">Password</h3>
+    //             <p className="mt-1 text-sm font-medium mb-4 text-gray-500">Set a password for your account.</p>
+    //             <Password
+    //                 className="py-2"
+    //                 onChange={(password, checked) => {
+    //                     setPassword(password);
+    //                     setPasswordChecked(checked);
+    //                 }}
+    //             />
 
-            </>
-        );
-    };
+    //         </>
+    //     );
+    // };
 
-    const step4 = () => {
-        return (
-            <>
-                <h3 className="text-lg leading-6 font-medium text-gray-900">Successfully Reset The Password :)</h3>
-                <p className="mt-1 text-sm font-medium mb-4 text-gray-500 self-center">Your account password has been successfully reset. Sign in your account with new password</p>
+    // const step4 = () => {
+    //     return (
+    //         <>
+    //             <h3 className="text-lg leading-6 font-medium text-gray-900">Successfully Reset The Password :)</h3>
+    //             <p className="mt-1 text-sm font-medium mb-4 text-gray-500 self-center">Your account password has been successfully reset. Sign in your account with new password</p>
 
 
-            </>
-        );
-    };
+    //         </>
+    //     );
+    // };
 
 
     return (
@@ -252,8 +252,8 @@ const Form = () => {
 
                     {step === 1 && step1()}
                     {step === 2 && step2()}
-                    {step === 3 && step3()}
-                    {step === 4 && step4()}
+                    {/* {step === 3 && step3()} */}
+                    {/* {step === 4 && step4()} */}
                     {/* {step === 9 && step9()} */}
 
                     {/* Error message */}
@@ -269,9 +269,9 @@ const Form = () => {
                         {Array.isArray(steps[step - 1].button) ?
                             <>
                                 <Button
-                                    className="relative text-center col-span-2 sm:col-span-1 text-sm hover:ring px-4 py-2 border border-transparent font-medium rounded-md shadow-sm text-emerald-800 bg-white hover:bg-white border-zinc-200 hover:ring-emerald-400 focus:ring-2 ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="relative text-center col-span-2 sm:col-span-1 text-sm px-4 py-2 border border-transparent font-medium rounded-md shadow-sm text-emerald-800 bg-white border-zinc-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
                                     onClick={() => setStep(1)}
-                                    disabled={isResent}
+                                    // disabled={isResent}
                                     loading={loading}
                                 >
                                     <span className={`flex items-center ${loading ? "invisible" : ""}`}>
@@ -283,7 +283,7 @@ const Form = () => {
                                     className="relative text-center col-span-2 sm:col-span-1 text-sm px-4 py-2 border border-transparent font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed"
                                     onClick={onSubmit}
                                     loading={loading}
-                                    disabled={loading || !complete}
+                                    // disabled={loading || !complete}
                                     arrow={true}
                                 >
                                     <span className={`flex items-center ${loading ? "invisible" : ""}`}>
