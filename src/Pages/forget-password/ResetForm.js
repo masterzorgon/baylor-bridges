@@ -16,7 +16,7 @@ import { ArrowSmLeftIcon } from "@heroicons/react/solid";
 
 const steps = [
     { id: 1, name: "Email", button: "Next", isSent: true },
-    { id: 2, name: "Reset Password Email Sent", button: ["Re-enter Email", "Return to Sign In"], isSent: true },
+    { id: 2, name: "Reset Password Email Sent", button: ["Re-enter Email", "Return to Home"], isSent: true },
     { id: 3, name: "Reset Password", button: "Verify", isSent: false },
     { id: 4, name: "Success", button: "Sign In Account", isSent: true }
 ];
@@ -94,8 +94,9 @@ const Form = () => {
         }
         if (step === 2) {
             // setLoading(true);
-            setStep(3);
-            setComplete(false);
+            // setStep(3);
+            // setComplete(false);
+            window.location.href = "/";
 
             //todo: axios request
 
@@ -181,7 +182,7 @@ const Form = () => {
             <>
                 <h3 className="text-lg leading-6 font-medium text-gray-900">Verification Email Sent</h3>
                 <p className="mt-1 text-sm font-medium mb-4 text-gray-500 pointer-events-auto">
-                    The verification email has been sent. If you do not see it, please check your spam or consider re-entering your email.{" "}
+                    The verification email has been sent. If you do not see it, please check your spam or consider re-entering the account email you provided.{" "}
                     <button
                         className={isResent ? "text-gray-700 font-semibold" : "text-emerald-800 underline font-semibold"}
                         disabled={isResent}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { LockClosedIcon } from "@heroicons/react/outline";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -9,6 +9,8 @@ const NewPassword = () => {
 
     const [password, setPassword] = useState("");
     const [password_checked, setPasswordChecked] = useState("");
+    const [token, setToken] = useState("");
+    const [username, setUsername] = useState("");
     const [loading, setLoading] = useState(false);
 
     const handleNewPassword = () => {
@@ -16,8 +18,8 @@ const NewPassword = () => {
             setLoading(true);
             // fetch email and confirm code from url params
             axios.post("/accounts/password/confirm", {
-                email: "",
-                confirm_code: "",
+                email: username,
+                confirm_code: token,
                 new_password: password,
             })
                 .then(res => {
@@ -28,6 +30,15 @@ const NewPassword = () => {
                 .finally(() => setLoading(false));
         }
     };
+
+    useEffect(() => {
+        let url = window.location.href;
+        url.split("?")[1].split("&").forEach(param => {
+            param.split("=")[0] === "token"
+                ? setToken(param.split("=")[1])
+                : setUsername(param.split("=")[1]);
+        });
+    }, []);
 
     return (
         <>
@@ -108,7 +119,7 @@ const NewPassword = () => {
                         className={
                             password_checked
                                 ? "bg-emerald-600 mt-8 cursor-pointer shadow-md inline-flex items-center justify-center px-5 py-3 text-base font-medium rounded-md text-white hover:bg-emerald-700"
-                                : "bg-gray-200 mt-8 cursor-not-allowed shadow-md inline-flex items-center justify-center px-5 py-3 text-base font-medium rounded-md text-gray-700 hover:bg-gray-300"
+                                : "bg-emerald-600 opacity-40 mt-8 cursor-not-allowed shadow-md inline-flex items-center justify-center px-5 py-3 text-base font-medium rounded-md text-gray-700 hover:bg-gray-300"
                         }
                     >
                         Submit
