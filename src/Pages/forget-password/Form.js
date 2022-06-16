@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { ArrowSmRightIcon, MailIcon } from "@heroicons/react/outline";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 import Progress from "./Progress";
 import Button from "../../components/Button";
@@ -15,7 +16,7 @@ import { ArrowSmLeftIcon } from "@heroicons/react/solid";
 
 const steps = [
     { id: 1, name: "Email", button: "Next", isSent: true },
-    { id: 2, name: "Verification", button: ["Change Email", "Next Step"], isSent: true },
+    { id: 2, name: "Reset Password Email Sent", button: ["Enter Email", "Return to Sign In"], isSent: true },
     { id: 3, name: "Reset Password", button: "Verify", isSent: false },
     { id: 4, name: "Success", button: "Sign In Account", isSent: true }
 ];
@@ -83,6 +84,7 @@ const Form = () => {
                 setIsResent(true);
             }).catch(err => {
                 setErrorMessage(err.response.data.message);
+                toast.error(err.response.data.message);
             }).finally(() => {
                 setLoading(false);
             });
@@ -238,7 +240,7 @@ const Form = () => {
                             src="/Baylor-University-Athletics-01.svg"
                             alt="Workflow"
                         />
-                        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Forget Password</h2>
+                        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Forgot Password?</h2>
                     </a>
                 </div>
             </div>
@@ -265,7 +267,6 @@ const Form = () => {
 
                     <div className="mt-4 text-sm text-right w-full grid grid-cols-2 gap-4 place-items-center pt-2">
                         {Array.isArray(steps[step - 1].button) ?
-
                             <>
                                 <Button
                                     className="relative text-center col-span-2 sm:col-span-1 text-sm hover:ring px-4 py-2 border border-transparent font-medium rounded-md shadow-sm text-emerald-800 bg-white hover:bg-white border-zinc-200 hover:ring-emerald-400 focus:ring-2 ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -274,7 +275,7 @@ const Form = () => {
                                     loading={loading}
                                 >
                                     <span className={`flex items-center ${loading ? "invisible" : ""}`}>
-                                        <ArrowSmLeftIcon className="h-4 w-4" />
+
                                         <span>{steps[step - 1].button[0]}</span>
                                     </span>
                                 </Button>
@@ -304,7 +305,6 @@ const Form = () => {
                                 </span>
                             </Button>
                         }
-
                     </div>
                 </div>
             </div>
