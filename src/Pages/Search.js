@@ -419,13 +419,13 @@ const Search = () => {
                                                     <div>
                                                         {
                                                             (profile.first_name || profile.last_name)
-                                                                ? <p className="search-bar text-sm text-gray-900 truncate" dangerouslySetInnerHTML={{ __html: `${profile._highlightResult.first_name.value}, ${profile._highlightResult.last_name.value}` }} />
+                                                                ? <p className="search-result-field text-sm text-gray-900 truncate" dangerouslySetInnerHTML={{ __html: `${profile._highlightResult.first_name.value}, ${profile._highlightResult.last_name.value}` }} />
                                                                 : <p className="text-sm font-medium text-gray-500 truncate">Baylor Bridges User</p>
                                                         }
                                                         {
                                                             profile.headline &&
                                                             <p
-                                                                className="search-bar text-sm text-gray-500 flex mt-0.5 truncate"
+                                                                className="search-result-field text-sm text-gray-500 flex mt-0.5 truncate"
                                                                 dangerouslySetInnerHTML={{ __html: `${profile._highlightResult.headline.value}` }}
                                                             />
                                                         }
@@ -552,7 +552,7 @@ const SearchInput = ({ focus, onFocus }) => {
                                         </div>
                                         <div className="flex justify-center flex-col">
                                             <p
-                                                className="search-bar text-sm text-gray-900"
+                                                className="search-result-field text-sm text-gray-900"
                                                 dangerouslySetInnerHTML={
                                                     { __html: `${profile._highlightResult.first_name.value}, ${profile._highlightResult.last_name.value}` }
                                                 }
@@ -561,7 +561,7 @@ const SearchInput = ({ focus, onFocus }) => {
                                             {
                                                 profile.headline?.length > 0 &&
                                                 <p
-                                                    className="search-bar text-sm text-gray-500"
+                                                    className="search-result-field text-sm text-gray-500"
                                                     dangerouslySetInnerHTML={
                                                         { __html: `${profile._highlightResult.headline.value}` }
                                                     }
