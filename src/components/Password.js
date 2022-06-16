@@ -5,7 +5,6 @@ import { XCircleIcon, CheckCircleIcon } from "@heroicons/react/solid";
 
 import { classNames } from "./Utils";
 
-
 const Password = ({value, onChange, className}) => {
     const [password, setPassword] = useState("");
     const [check, setCheck] = useState({

@@ -1,15 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import { LockClosedIcon } from "@heroicons/react/outline";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 import Password from "../../components/Password";
 
 const NewPassword = () => {
 
-    // const [password, setPassword] = useState("");
-    // const [password_checked, setPasswordChecked] = useState("");
+    const [password, setPassword] = useState("");
+    const [password_checked, setPasswordChecked] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const handleNewPassword = () => {
-        console.log("CLICKED");
+        if (password_checked) {
+            setLoading(true);
+            axios.post("/accounts/password/confirm", {
+                email: "",
+                confirm_code: "",
+                new_password: password,
+            })
+                .then(res => {
+                    toast.success("Password updated successfully!");
+                    // setTimeout(() => window.location.href = "/sign-in", 1500);
+                })
+                .catch(err => toast.err(err.response.data.message))
+                .finally(() => setLoading(false));
+        }
     };
 
     return (
@@ -64,12 +80,6 @@ const NewPassword = () => {
             {/* HERO SECTION */}
             <div className="z-10 min-h-screen flex flex-col justify-center ">
                 <div className="bg-white max-w-2xl mx-auto py-12 px-4 sm:px-6 md:py-16 lg:px-8 lg:py-20 -mt-8">
-                    {/* <lord-icon
-                        src="https://cdn.lordicon.com/lupuorrc.json"
-                        trigger="loop"
-                        style={{ width: "8rem", height: "8rem" }}
-                    >
-                    </lord-icon> */}
                     <LockClosedIcon style={{ width: "3rem", height: "3rem" }} />
                     <h2 className="mt-6 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
                         <span className="block">Let&#39;s create your</span>
@@ -79,20 +89,26 @@ const NewPassword = () => {
                     </h2>
                     <p className="mt-4 mx-auto text-gray-700">
                         Please refer to the input field below where you will be able to enter the value
-                        of your new password.
+                        of your new password. It is best practice to use a password manager for safe keeping.
                     </p>
                     <div className="mt-5">
                         <Password
                             className="py-4"
-                            // onChange={(password, checked) => {
-                            //     setPassword(password);
-                            //     setPasswordChecked(checked);
-                            // }}
+                            onChange={(password, checked) => {
+                                setPassword(password);
+                                setPasswordChecked(checked);
+                            }}
                         />
                     </div>
                     <button
                         onClick={handleNewPassword}
-                        className="bg-emerald-600 mt-8 cursor-pointer shadow-md inline-flex items-center justify-center px-5 py-3 text-base font-medium rounded-md text-white hover:bg-emerald-700"
+                        disabled={!password_checked}
+                        loading={loading}
+                        className={
+                            password_checked
+                                ? "bg-emerald-600 mt-8 cursor-pointer shadow-md inline-flex items-center justify-center px-5 py-3 text-base font-medium rounded-md text-white hover:bg-emerald-700"
+                                : "bg-gray-200 mt-8 cursor-not-allowed shadow-md inline-flex items-center justify-center px-5 py-3 text-base font-medium rounded-md text-gray-700 hover:bg-gray-300"
+                        }
                     >
                         Submit
                     </button>
