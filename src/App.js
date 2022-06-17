@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer, Slide } from "react-toastify";
 import axios from "axios";
 
@@ -32,6 +32,7 @@ import Profile from "./Pages/profile/Profile";
 import { default as SettingsProfile } from "./Pages/settings/Profile";
 import { default as SettingsExperience } from "./Pages/settings/Experience";
 import { default as SettingsAccount } from "./Pages/settings/Account";
+import { default as Settings } from "./Pages/settings/Settings";
 
 import { Account } from "./components/Account";
 
@@ -122,6 +123,8 @@ const routes = {
     setup_info: { path: "/setup/info-input", element: <InfoInput /> },
 };
 
+console.log(routes);
+
 const App = () => {
     return (
         <Account>
@@ -131,10 +134,7 @@ const App = () => {
                     <Route path="/about" element={components(<Navbar />, <About />, <Footer />, <CookieConsent />)} />
                     <Route path="/search" element={components(<Navbar />, <Search />, <Footer />, <CookieConsent />)} />
 
-                    <Route path="/settings" element={<Navigate to="/settings/account" />} />
-                    <Route path="/settings/profile" element={components(<Navbar />, <SettingsProfile />, <Footer />)} />
-                    <Route path="/settings/experience" element={components(<Navbar />, <SettingsExperience />, <Footer />)} />
-                    <Route path="/settings/account" element={components(<Navbar />, <SettingsAccount />, <Footer />)} />
+                    <Route path="/settings/*" element={components(<Navbar />, <Settings />, <Footer />)} />
 
                     <Route path="/profile" element={components(<Navbar />, <Profile />, <Footer />)} />
                     <Route path="/profile/:user_id" element={components(<Navbar />, <Profile />, <Footer />)} />
@@ -157,7 +157,7 @@ const App = () => {
                     <Route path="/terms/cookies-policy" element={components(<Navbar />, <CookiesPolicy />, <Footer />)} />
 
                     <Route path="/404" element={components(<NotFound />)} />
-                    <Route path="*" element={<Navigate to="/404" />} />
+                    <Route path="*" element={<NotFound />} />
 
                 </Routes>
             </Router>
