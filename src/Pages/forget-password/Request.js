@@ -5,13 +5,9 @@ import { ArrowSmRightIcon, MailIcon } from "@heroicons/react/outline";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-import Progress from "./Progress";
 import Button from "../../components/Button";
-import Password from "../../components/Password";
-import VerificationCode from "../../components/VerificationCode";
 
 import { classNames } from "../../components/Utils";
-import { ArrowSmLeftIcon } from "@heroicons/react/solid";
 
 
 const steps = [

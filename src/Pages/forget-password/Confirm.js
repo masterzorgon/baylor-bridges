@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 
 import Password from "../../components/Password";
 
-const NewPassword = () => {
+const Confirm = () => {
 
     const [password, setPassword] = useState("");
     const [password_checked, setPasswordChecked] = useState("");
@@ -131,4 +131,4 @@ const NewPassword = () => {
     );
 };
 
-export default NewPassword;
+export default Confirm;
