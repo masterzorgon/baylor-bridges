@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { LockClosedIcon } from "@heroicons/react/outline";
 import axios from "axios";
-// import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 import Password from "../../components/Password";
 
@@ -20,8 +20,11 @@ const NewPassword = () => {
         })
             .then(res => {
                 console.log(res);
+                toast.success("Password changed successfully");
+                setTimeout(() => window.location.href = "/sign-in", 2000);
             })
             .catch(err => {
+                toast.err(err.response.data.message);
                 console.log(err);
                 console.log(`Token: ${token}, Username: ${username}, Password: ${password}`);
             });
