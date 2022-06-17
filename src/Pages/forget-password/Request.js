@@ -295,10 +295,10 @@ const Form = () => {
                                 onClick={onSubmit}
                                 loading={loading}
                                 disabled={loading || !complete}
+                                arrow={true}
                             >
                                 <span className={`flex items-center ${loading ? "invisible" : ""}`}>
                                     <span>{steps[step - 1].button}</span>
-
                                 </span>
                             </Button>
                         }
