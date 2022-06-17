@@ -18,7 +18,7 @@ const steps = [
 const Form = () => {
     const [loading, setLoading] = useState(false);
     const [complete, setComplete] = useState(false);
-    const [step, setStep] = useState(1); // sets the modal to be displayed
+    const [step, setStep] = useState(2); // sets the modal to be displayed
     const [error_message, setErrorMessage] = useState(null);
     const [email, setEmail] = useState("");
     const [wrongVCode, setwrongVCode] = useState(false);
@@ -123,7 +123,7 @@ const Form = () => {
             <>
                 <button onClick={() => setStep(1)} className=" flex items-center mb-4 text-sm text-green-600 hover:text-green-700">
                     <ArrowLeftIcon width="1em" />
-                    <span className="">{email}</span>
+                    <span className="ml-2">{email}</span>
                 </button>
                 <h3 className="text-lg leading-6 font-medium text-gray-900">
                     Verification Email Sent
@@ -137,8 +137,8 @@ const Form = () => {
                         isPlaying={resentFreeze === 0 ? false : true}
                         size={120}
                         duration={60}
-                        colors={["#d9d9d9", "#fec808", "#069668"]} // gray, yellow, green
-                        colorsTime={[60, 30, 0]}
+                        colors={["#069668"]} // green, yellow, gray
+                        onComplete={() => ({ shouldRepeat: resentFreeze === 0 ? false : true })}
                     >
                         {({ remainingTime }) => remainingTime}
                     </CountdownCircleTimer>
