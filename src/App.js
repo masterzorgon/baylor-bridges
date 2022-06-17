@@ -1,5 +1,5 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route, Outlet } from "react-router-dom";
+import React, { useContext } from "react";
+import { BrowserRouter as Router, Routes, Route, Outlet, Navigate, useLocation } from "react-router-dom";
 import { ToastContainer, Slide } from "react-toastify";
 import axios from "axios";
 
@@ -31,7 +31,7 @@ import Search from "./Pages/Search";
 import Profile from "./Pages/profile/Profile";
 
 
-import { Account } from "./components/Account";
+import { Account, AccountContext } from "./components/Account";
 
 import "rc-slider/assets/index.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -95,21 +95,25 @@ axios.interceptors.response.use((response) => {
 });
 
 const HomeLayout = () => (
-    <>
-        <Navbar hideOnTop={true} />
-        <Outlet />
-        <Footer />
-        <CookieConsent />
-    </>
+    <HamburgerLayout hideOnTop={true} />
 );
 
-const HamburgerLayout = () => (
-    <>
-        <Navbar />
-        <Outlet />
-        <Footer />
-    </>
-);
+const HamburgerLayout = ({ auth = false, hideOnTop = false }) => {
+    const { getAccountLocal } = useContext(AccountContext);
+    const location = useLocation();
+
+    if (auth === true && getAccountLocal() === null) {
+        return <Navigate to={`/sign-in?redirect=${location.pathname}`} />;
+    }
+
+    return (
+        <>
+            <Navbar hideOnTop={hideOnTop} />
+            <Outlet />
+            <Footer />
+        </>
+    );
+};
 
 const HamburgerLayoutWithCookieConsent = () => (
     <>
@@ -129,7 +133,6 @@ const App = () => {
 
                     <Route path="/" element={<HamburgerLayoutWithCookieConsent />}>
                         <Route path="about" element={<About />} />
-                        <Route path="search" element={<Search />} />
                         <Route path="contact-us" element={<ContactUs />} />
 
                         <Route path="terms/privacy-policy" element={<PrivacyPolicy />} />
@@ -137,7 +140,8 @@ const App = () => {
                         <Route path="terms/cookies-policy" element={<CookiesPolicy />} />
                     </Route>
 
-                    <Route path="/" element={<HamburgerLayout />}>
+                    <Route path="/" element={<HamburgerLayout auth={true} />}>
+                        <Route path="search" element={<Search />} />
                         <Route path="settings/*" element={<Settings />} />
                         <Route path="profile" element={<Profile />}>
                             <Route path=":user_id" exact element={<Profile />} />
