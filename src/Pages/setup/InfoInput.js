@@ -1,6 +1,7 @@
 // import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useTimeoutFn } from "react-use";
+import { toast } from "react-toastify";
 import axios from "axios";
 
 import NameInput from "./input-components/NameInput";
@@ -27,11 +28,7 @@ const InfoInput = () => {
                 setAccount(res.data);
                 console.log(res.data);
             })
-            .catch(err => {
-                err.response.status && err.response.status === 401
-                    ? window.location.href = "/sign-in"
-                    : window.location.href = "/404";
-            });
+            .catch(err => toast.error(err.response.data.message));
     }, []);
 
     // this makes the modal fade in on refresh

@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useParams } from "react-router-dom";
 import { EyeIcon, MailIcon, EyeOffIcon, ExclamationIcon, LockClosedIcon } from "@heroicons/react/outline";
+import { toast } from "react-toastify";
 import axios from "axios";
 
 import Button from "../../components/Button";
@@ -92,11 +93,7 @@ const Account = () => {
                 setAccount(res.data);
                 console.log(res.data);
             })
-            .catch(err => {
-                err.response.status && err.response.status === 401
-                    ? window.location.href = "/sign-in"
-                    : window.location.href = "/404";
-            });
+            .catch(err => toast.error(err.response.data.message));
 
     }, []);
 
