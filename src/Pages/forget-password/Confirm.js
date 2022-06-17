@@ -49,19 +49,21 @@ const Confirm = () => {
     return (
         <>
             <div className="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-                <a className="sm:mx-auto sm:w-full sm:max-w-md" href="/">
-                    <img
-                        className="mx-auto h-20 w-auto"
-                        src="/Baylor-University-Athletics-01.svg"
-                        alt="Workflow"
-                    />
+                <div className="sm:mx-auto sm:w-full sm:max-w-md">
+                    <a href="/">
+                        <img
+                            className="mx-auto h-20 w-auto"
+                            src="/Baylor-University-Athletics-01.svg"
+                            alt="Workflow"
+                        />
+                    </a>
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
                         Let&#39;s create your<br></br>
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500">
                             new password
                         </span>
                     </h2>
-                </a>
+                </div>
 
                 <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
                     <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
