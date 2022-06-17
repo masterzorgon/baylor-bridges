@@ -3,6 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 import Password from "../../components/Password";
+import Button from "../../components/Button";
 
 const Confirm = () => {
 
@@ -10,27 +11,25 @@ const Confirm = () => {
     const [password, setPassword] = useState(""); // input state for the user's new password
     const [token, setToken] = useState(""); // auth token parsed from the url params
     const [email, setEmail] = useState(""); // account submitting request parsed from url params
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false); // puts submit button in loading state when making api calls
 
     // submit new password request to backend
-    const handleNewPassword = () => {
-        setLoading(true);
-
-        axios.post("/accounts/password/confirm", {
-            email: email,
-            token: token,
-            new_password: password,
-        })
-            .then(res => {
-                console.log(res);
-                toast.success("Password changed successfully");
-                setTimeout(() => window.location.href = "/sign-in", 2000);
-            })
-            .catch(err => {
-                toast.err(err.response.data.message);
-                console.log(err);
-            })
-            .finally(() => setLoading(false));
+    const handleNewPassword = async () => {
+        try {
+            setLoading(true);
+            const res = await axios.post("/accounts/password/confirm", {
+                email: email,
+                token: token,
+                new_password: password,
+            });
+            toast.success("Password changed successfully");
+            setLoading(true);
+            console.log(res);
+            setTimeout(() => window.location.href = "/sign-in", 2000);
+        } catch (error) {
+            toast.err(error.response.data.message);
+            console.log(error);
+        }
     };
 
     // parse url for email and token
@@ -56,7 +55,9 @@ const Confirm = () => {
                         src="/Baylor-University-Athletics-01.svg"
                         alt="Workflow"
                     />
-                    <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
+                    <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                        Sign in to your account
+                    </h2>
                 </a>
 
                 <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
@@ -85,14 +86,15 @@ const Confirm = () => {
                             </div>
 
                             <div>
-                                <button
+                                <Button
                                     type="submit"
-                                    disabled={!password_checked}
-                                    className={`${loading ? "cursor-not-allowed" : ""} disabled:opacity-50 text-sm w-full flex justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500`}
-                                    onClick={handleNewPassword}
+                                    disabled={!password_checked || loading}
+                                    className="disabled:cursor-not-allowed disabled:opacity-50 text-sm w-full flex justify-center px-4 py-2 border border-transparent font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                                    onClick={async () => handleNewPassword()}
+                                    loading={loading}
                                 >
                                     Submit
-                                </button>
+                                </Button>
                             </div>
                         </div>
                     </div>
