@@ -23,7 +23,7 @@ const Confirm = () => {
                 new_password: password,
             });
             toast.success("Password changed successfully");
-            setLoading(true);
+            setLoading(false);
             console.log(res);
             setTimeout(() => window.location.href = "/sign-in", 2000);
         } catch (error) {
