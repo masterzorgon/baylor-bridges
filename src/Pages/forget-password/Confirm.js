@@ -15,21 +15,21 @@ const Confirm = () => {
 
     // submit new password request to backend
     const handleNewPassword = async () => {
+        setLoading(true);
         try {
-            setLoading(true);
             const res = await axios.post("/accounts/password/confirm", {
                 email: email,
                 token: token,
                 new_password: password,
             });
             toast.success("Password changed successfully");
-            setLoading(false);
             console.log(res);
             setTimeout(() => window.location.href = "/sign-in", 2000);
         } catch (error) {
-            toast.err(error.response.data.message);
+            toast.error(error.response.data.message);
             console.log(error);
         }
+        setLoading(false);
     };
 
     // parse url for email and token
@@ -56,7 +56,10 @@ const Confirm = () => {
                         alt="Workflow"
                     />
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                        Sign in to your account
+                        Let&#39;s create your<br></br>
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500">
+                            new password
+                        </span>
                     </h2>
                 </a>
 
