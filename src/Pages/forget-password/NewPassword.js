@@ -21,7 +21,7 @@ const NewPassword = () => {
             .then(res => {
                 console.log(res);
                 toast.success("Password changed successfully");
-                setTimeout(() => window.location.href = "/sign-in", 2000);
+                setTimeout(() => window.location.href = "/sign-in", 1500);
             })
             .catch(err => {
                 toast.err(err.response.data.message);
