@@ -22,7 +22,7 @@ const Form = () => {
     const [error_message, setErrorMessage] = useState(null);
     const [email, setEmail] = useState(""); // enter email input state
     const [wrongVCode, setwrongVCode] = useState(false);
-    const [isResent, setIsResent] = useState(false);
+    const [isResent, setIsResent] = useState(false); // email sent status
     const [resentFreeze, setResentFreeze] = useState(0); // timer till user can resend email
 
     useEffect(() => {
@@ -132,7 +132,8 @@ const Form = () => {
                     The link to reset your password has been sent. If you do not see it in your inbox,
                     please check your spam or consider re-entering the account email you provided.
                 </p>
-                <p className="text-3xl flex justify-center my-6">
+                {/* COUNTDOWN TIMER */}
+                <div className="text-3xl flex justify-center my-6">
                     <CountdownCircleTimer
                         isPlaying={resentFreeze === 0 ? false : true}
                         size={120}
@@ -142,13 +143,11 @@ const Form = () => {
                     >
                         {({ remainingTime }) => (
                             resentFreeze === 0
-                                ?
-                                <CheckIcon className="text-green-600 w-10" />
-                                :
-                                remainingTime
+                                ? <CheckIcon className="text-green-600 w-10" />
+                                : remainingTime
                         )}
                     </CountdownCircleTimer>
-                </p>
+                </div>
             </>
         );
     };
