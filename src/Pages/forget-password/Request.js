@@ -151,7 +151,7 @@ const Form = () => {
                         name="email"
                         id="email"
                         className={classNames("py-2 w-full pl-10 sm:text-sm rounded-md z-30", error_message === null ? "border-gray-300 focus:ring-emerald-500 focus:border-emerald-500" : "border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500")}
-                        placeholder="abc@123.com"
+                        placeholder="yourname@baylor.edu"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
