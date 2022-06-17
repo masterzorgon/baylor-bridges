@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 
 import React, { useState, useEffect } from "react";
-import { MailIcon, ArrowLeftIcon, InboxInIcon } from "@heroicons/react/outline";
+import { MailIcon, ArrowLeftIcon } from "@heroicons/react/outline";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -16,14 +16,14 @@ const steps = [
 ];
 
 const Form = () => {
-    const [loading, setLoading] = useState(false);
-    const [complete, setComplete] = useState(false);
-    const [step, setStep] = useState(2); // sets the modal to be displayed
+    const [loading, setLoading] = useState(false); // loading state for the button
+    const [complete, setComplete] = useState(false); // used to disable/enable button in step1
+    const [step, setStep] = useState(1); // sets the modal to be displayed
     const [error_message, setErrorMessage] = useState(null);
-    const [email, setEmail] = useState("");
+    const [email, setEmail] = useState(""); // enter email input state
     const [wrongVCode, setwrongVCode] = useState(false);
     const [isResent, setIsResent] = useState(false);
-    const [resentFreeze, setResentFreeze] = useState(0);
+    const [resentFreeze, setResentFreeze] = useState(0); // timer till user can resend email
 
     useEffect(() => {
         if (step === 1) {
@@ -137,7 +137,7 @@ const Form = () => {
                         isPlaying={resentFreeze === 0 ? false : true}
                         size={120}
                         duration={60}
-                        colors={["#069668"]} // green, yellow, gray
+                        colors={["#069668"]} // green
                         onComplete={() => ({ shouldRepeat: resentFreeze === 0 ? false : true })}
                     >
                         {({ remainingTime }) => remainingTime}
