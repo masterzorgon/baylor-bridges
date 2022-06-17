@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 
 import React, { useState, useEffect } from "react";
-import { MailIcon, ArrowLeftIcon } from "@heroicons/react/outline";
+import { MailIcon, ArrowLeftIcon, CheckIcon } from "@heroicons/react/outline";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -140,7 +140,13 @@ const Form = () => {
                         colors={["#069668"]} // green
                         onComplete={() => ({ shouldRepeat: resentFreeze === 0 ? false : true })}
                     >
-                        {({ remainingTime }) => remainingTime}
+                        {({ remainingTime }) => (
+                            resentFreeze === 0
+                                ?
+                                <CheckIcon className="text-green-600 w-10" />
+                                :
+                                remainingTime
+                        )}
                     </CountdownCircleTimer>
                 </p>
             </>
