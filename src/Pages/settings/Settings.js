@@ -1,6 +1,6 @@
 import React from "react";
 import { classNames } from "../../components/Utils";
-import { NavLink, Route, Routes } from "react-router-dom";
+import { Navigate, NavLink, Route, Routes } from "react-router-dom";
 
 import Account from "./Account";
 import Profile from "./Profile";
@@ -55,10 +55,10 @@ const Settings = () => {
                                 <div className="py-6">
                                     <Navbar />
                                     <Routes>
-                                        <Route path="profile" element={<Profile />} />
+                                        <Route path="profile" index element={<Profile />} />
                                         <Route path="experience" element={<Experience />} />
                                         <Route path="account" element={<Account />} />
-                                        <Route path="*" element={<Profile />} />
+                                        <Route path="*" element={<Navigate to="profile" />} />
                                     </Routes>
                                 </div>
                             </div>
