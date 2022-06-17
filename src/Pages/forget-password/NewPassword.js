@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { LockClosedIcon } from "@heroicons/react/outline";
 import axios from "axios";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 
 import Password from "../../components/Password";
 
@@ -11,33 +11,32 @@ const NewPassword = () => {
     const [password_checked, setPasswordChecked] = useState("");
     const [token, setToken] = useState("");
     const [username, setUsername] = useState("");
-    const [loading, setLoading] = useState(false);
 
     const handleNewPassword = () => {
-        if (password_checked) {
-            setLoading(true);
-            // fetch email and confirm code from url params
-            axios.post("/accounts/password/confirm", {
-                email: username,
-                confirm_code: token,
-                new_password: password,
+        axios.post("/accounts/password/confirm", {
+            email: username,
+            token: token,
+            new_password: password,
+        })
+            .then(res => {
+                console.log(res);
             })
-                .then(res => {
-                    toast.success("Password updated successfully!");
-                    // setTimeout(() => window.location.href = "/sign-in", 1500);
-                })
-                .catch(err => toast.err(err.response.data.message))
-                .finally(() => setLoading(false));
-        }
+            .catch(err => {
+                console.log(err);
+                console.log(`Token: ${token}, Username: ${username}, Password: ${password}`);
+            });
     };
 
     useEffect(() => {
         let url = window.location.href;
-        url.split("?")[1].split("&").forEach(param => {
-            param.split("=")[0] === "token"
-                ? setToken(param.split("=")[1])
-                : setUsername(param.split("=")[1]);
-        });
+        let params = url.split("?")[1].split("&");
+        for (let i = 0; i < params.length; i++) {
+            let param = params[i].split("=");
+            if (param[0] === "token") setToken(param[1]);
+            if (param[0] === "email") setUsername(param[1]);
+        }
+
+        console.log(`Token: ${token}, Username: ${username}`);
     }, []);
 
     return (
@@ -115,11 +114,10 @@ const NewPassword = () => {
                     <button
                         onClick={handleNewPassword}
                         disabled={!password_checked}
-                        loading={loading}
                         className={
                             password_checked
                                 ? "bg-emerald-600 mt-8 cursor-pointer shadow-md inline-flex items-center justify-center px-5 py-3 text-base font-medium rounded-md text-white hover:bg-emerald-700"
-                                : "bg-emerald-600 opacity-40 mt-8 cursor-not-allowed shadow-md inline-flex items-center justify-center px-5 py-3 text-base font-medium rounded-md text-gray-700 hover:bg-gray-300"
+                                : "bg-emerald-600 opacity-50 mt-8 cursor-not-allowed shadow-md inline-flex items-center justify-center px-5 py-3 text-base font-medium rounded-md text-white"
                         }
                     >
                         Submit
