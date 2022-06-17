@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Outlet } from "react-router-dom";
 import { ToastContainer, Slide } from "react-toastify";
 import axios from "axios";
 
@@ -22,6 +22,7 @@ import { default as SignInChallenge } from "./Pages/signin/Challenge";
 import { default as SignUpEntrace } from "./Pages/signup/Entrace";
 import { default as SignUpForm } from "./Pages/signup/Form";
 import { default as SignUpClosed } from "./Pages/signup/Closed";
+import { default as Settings } from "./Pages/settings/Settings";
 
 import ProfileSetup from "./Pages/setup/ProfileSetup";
 import InfoInput from "./Pages/setup/InfoInput";
@@ -29,10 +30,6 @@ import InfoInput from "./Pages/setup/InfoInput";
 import Search from "./Pages/Search";
 import Profile from "./Pages/profile/Profile";
 
-import { default as SettingsProfile } from "./Pages/settings/Profile";
-import { default as SettingsExperience } from "./Pages/settings/Experience";
-import { default as SettingsAccount } from "./Pages/settings/Account";
-import { default as Settings } from "./Pages/settings/Settings";
 
 import { Account } from "./components/Account";
 
@@ -40,7 +37,6 @@ import "rc-slider/assets/index.css";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
-const components = (...components) => components.map(component => component);
 
 axios.defaults.headers = {
     "Access-Control-Allow-Origin": "*",
@@ -98,67 +94,69 @@ axios.interceptors.response.use((response) => {
     }
 });
 
-const classicWrapper = (component) => {
-    return components(<Navbar />, component, <Footer />);
-};
+const HomeLayout = () => (
+    <>
+        <Navbar hideOnTop={true} />
+        <Outlet />
+        <Footer />
+        <CookieConsent />
+    </>
+);
 
-const routes = {
-    root: { path: "/", element: classicWrapper(<About />) },
-    about: { path: "/about", element: classicWrapper(<About />) },
+const HamburgerLayout = () => (
+    <>
+        <Navbar />
+        <Outlet />
+        <Footer />
+    </>
+);
 
-    settings: { path: "/settings", navigate: "/settings/profile" },
-    settings_account: { path: "/settings/account", element: classicWrapper(<SettingsAccount />) },
-    settings_profile: { path: "/settings/profile", element: classicWrapper(<SettingsProfile />) },
-    settings_experience: { path: "/settings/experience", element: classicWrapper(<SettingsExperience />) },
-
-    search: { path: "/search", element: classicWrapper(<Search />) },
-    profile: { path: "/profile", element: classicWrapper(<Profile />) },
-    profile_id: { path: "/profile/:id", element: classicWrapper(<Profile />) },
-
-    signin: { path: "/signin", element: <SignIn /> },
-    signin_challenge: { path: "/signin/challenge", element: <SignInChallenge /> },
-    reset_password: { path: "/reset-password", element: <ResetPassword /> },
-
-    setup_entry: { path: "/profile-setup", element: <ProfileSetup /> },
-    setup_info: { path: "/setup/info-input", element: <InfoInput /> },
-};
-
-console.log(routes);
+const HamburgerLayoutWithCookieConsent = () => (
+    <>
+        <HamburgerLayout />
+        <CookieConsent />
+    </>
+);
 
 const App = () => {
     return (
         <Account>
             <Router>
                 <Routes>
-                    <Route path="/" element={components(<Navbar hideOnTop={true} />, <Home />, <Footer />, <CookieConsent />)} />
-                    <Route path="/about" element={components(<Navbar />, <About />, <Footer />, <CookieConsent />)} />
-                    <Route path="/search" element={components(<Navbar />, <Search />, <Footer />, <CookieConsent />)} />
+                    <Route path="/" element={<HomeLayout />}>
+                        <Route index element={<Home />} />
+                    </Route>
 
-                    <Route path="/settings/*" element={components(<Navbar />, <Settings />, <Footer />)} />
+                    <Route path="/" element={<HamburgerLayoutWithCookieConsent />}>
+                        <Route path="about" element={<About />} />
+                        <Route path="search" element={<Search />} />
+                        <Route path="contact-us" element={<ContactUs />} />
 
-                    <Route path="/profile" element={components(<Navbar />, <Profile />, <Footer />)} />
-                    <Route path="/profile/:user_id" element={components(<Navbar />, <Profile />, <Footer />)} />
+                        <Route path="terms/privacy-policy" element={<PrivacyPolicy />} />
+                        <Route path="terms/terms-conditions" element={<TermsConditions />} />
+                        <Route path="terms/cookies-policy" element={<CookiesPolicy />} />
+                    </Route>
 
-                    <Route path="/sign-in" element={components(<SignIn />, <CookieConsent />)} />
+                    <Route path="/" element={<HamburgerLayout />}>
+                        <Route path="settings/*" element={<Settings />} />
+                        <Route path="profile" element={<Profile />}>
+                            <Route path=":user_id" exact element={<Profile />} />
+                        </Route>
+                    </Route>
+
+                    <Route path="/sign-in" element={<SignIn />} />
                     <Route path="/sign-in/challenge" element={<SignInChallenge />} />
                     <Route path="/reset-password" element={<ResetPassword />} />
 
                     <Route path="/setup/profile-setup" element={<ProfileSetup />} />
                     <Route path="/setup/info-input" element={<InfoInput />} />
 
-                    <Route path="/sign-up" element={components(<SignUpEntrace />, <CookieConsent />)} />
+                    <Route path="/sign-up" element={<SignUpEntrace />} />
                     <Route path="/sign-up/:role" element={<SignUpForm />} />
                     <Route path="/sign-up/closed" element={<SignUpClosed />} />
 
-                    <Route path="/contact-us" element={components(<Navbar />, <ContactUs />, <Footer />, <CookieConsent />)} />
-
-                    <Route path="/terms/privacy-policy" element={components(<Navbar />, <PrivacyPolicy />, <Footer />)} />
-                    <Route path="/terms/terms-conditions" element={components(<Navbar />, <TermsConditions />, <Footer />)} />
-                    <Route path="/terms/cookies-policy" element={components(<Navbar />, <CookiesPolicy />, <Footer />)} />
-
-                    <Route path="/404" element={components(<NotFound />)} />
+                    <Route path="/404" element={<NotFound />} />
                     <Route path="*" element={<NotFound />} />
-
                 </Routes>
             </Router>
             <ToastContainer
