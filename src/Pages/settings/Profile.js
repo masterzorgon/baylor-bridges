@@ -144,11 +144,7 @@ const Profile = () => {
                 setAccount(res.data);
                 console.log(res.data);
             })
-            .catch(err => {
-                err.response.status && err.response.status === 401
-                    ? window.location.href = "/sign-in"
-                    : window.location.href = "/404";
-            });
+            .catch(err => toast.error(err.response.data.message));
 
     }, []);
 
