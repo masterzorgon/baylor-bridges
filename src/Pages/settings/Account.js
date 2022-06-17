@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import { EyeIcon, MailIcon, EyeOffIcon, ExclamationIcon, LockClosedIcon } from "@heroicons/react/outline";
 import axios from "axios";
 
-import Container from "./Container";
 import Button from "../../components/Button";
 import Markdown from "../../components/Markdown";
 import Password from "../../components/Password";
@@ -444,7 +443,7 @@ const Account = () => {
 
         if (sendEmail) {
             // update account verified email
-            axios.put("/accounts/me/username", { username: email})
+            axios.put("/accounts/me/username", { username: email })
                 .then(res => {
                     console.log(res.data);
                 }).catch(err => {
@@ -511,28 +510,26 @@ const Account = () => {
 
     return (
         <>
-            <Container current="account">
-                {
-                    Object.entries(account_information).map(([section_key, section]) => (
-                        <div key={section_key} className="mt-10 divide-y divide-gray-200">
-                            {/* Title and description */}
-                            <div className="space-y-1">
-                                <h3 className="text-lg leading-6 font-medium text-gray-900">{section.title}</h3>
-                                <p className="max-w-2xl text-sm text-gray-500">{section.description}</p>
-                            </div>
-                            <div className="mt-6">
-                                <dl className="divide-y divide-gray-200">
-                                    {
-                                        Object.entries(section.fields).map(([field_key, field]) => (
-                                            makeField(section_key, field_key, field)
-                                        ))
-                                    }
-                                </dl>
-                            </div>
+            {
+                Object.entries(account_information).map(([section_key, section]) => (
+                    <div key={section_key} className="mt-10 divide-y divide-gray-200">
+                        {/* Title and description */}
+                        <div className="space-y-1">
+                            <h3 className="text-lg leading-6 font-medium text-gray-900">{section.title}</h3>
+                            <p className="max-w-2xl text-sm text-gray-500">{section.description}</p>
                         </div>
-                    ))
-                }
-            </Container>
+                        <div className="mt-6">
+                            <dl className="divide-y divide-gray-200">
+                                {
+                                    Object.entries(section.fields).map(([field_key, field]) => (
+                                        makeField(section_key, field_key, field)
+                                    ))
+                                }
+                            </dl>
+                        </div>
+                    </div>
+                ))
+            }
 
             <Transition.Root show={open} as={Fragment}>
                 <Dialog as="div" className="fixed z-50 inset-0 overflow-none" onClose={() => { if (!loading) setOpen(false); }}>
