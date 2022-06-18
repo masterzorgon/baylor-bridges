@@ -34,14 +34,13 @@ const Confirm = () => {
 
     // parse url for email and token
     useEffect(() => {
-        const url = window.location.href;
-        const params = url.split("?")[1].split("&");
+        // Get query params
+        const queryParams = new URLSearchParams(window.location.search);
+        const email = queryParams.get("email");
+        const token = queryParams.get("token");
 
-        for (let i = 0; i < params.length; i++) {
-            let param = params[i].split("=");
-            if (param[0] === "token") setToken(param[1]);
-            if (param[0] === "email") setEmail(param[1]);
-        }
+        setEmail(email);
+        setToken(token);
 
         console.log(`Token: ${token}, email: ${email}`);
     }, []);
