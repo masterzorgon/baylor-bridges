@@ -112,16 +112,15 @@ const Home = () => {
                                                 </>
                                                 :
                                                 <>
-                                                    <div className="sm:w-full sm:flex">
+                                                    <div className="sm:w-full sm:flex lg:max-w-md">
                                                         <a
-                                                            className="font-semibold text-center w-full flex justify-center px-4 py-5 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed relative bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 hover:opacity-90 shadow-md"
-                                                            // className="text-center w-full flex justify-center px-4 py-5 border border-transparent font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed relative"
+                                                            className="font-semibold text-center w-full flex justify-center px-4 py-5 text-lg rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed relative bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 hover:opacity-90 shadow-md"
                                                             href="/sign-up"
                                                         >
                                                             Join the Community
                                                         </a>
                                                     </div>
-                                                    <div className="mt-8 sm:mt-4 flex space-x-1 justify-center">
+                                                    <div className="mt-8 sm:mt-4 flex space-x-1 justify-center lg:max-w-md">
                                                         <div className="text-center">
                                                             <span className="block sm:inline text-gray-700">Already have an account?</span>{" "}
                                                             <HyperLink href="/sign-in" arrow={true} className="text-base font-medium text-emerald-600 hover:text-emerald-800">Continue</HyperLink>
