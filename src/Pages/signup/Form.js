@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Switch } from "@headlessui/react";
-import { MailIcon, ArrowSmRightIcon, CalculatorIcon } from "@heroicons/react/outline";
-import { useParams } from "react-router-dom";
+import { MailIcon, CalculatorIcon } from "@heroicons/react/outline";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 import Progress from "./Progress";
@@ -17,6 +17,8 @@ const steps = [
 ];
 
 const Form = () => {
+    const naviagte = useNavigate();
+
     const [loading, setLoading] = useState(false);
     const [complete, setComplete] = useState(false);
     const [step, setStep] = useState(1);
@@ -28,12 +30,7 @@ const Form = () => {
     const [agreed, setAgreed] = useState(false);
     const [confirmation_code, setConfirmationCode] = useState("");
 
-
     const { role } = useParams();
-    if (role !== "student" && role !== "alumni") {
-        window.location.href = "/404";
-    }
-
 
     useEffect(() => {
         if (step === 1) {
@@ -58,8 +55,9 @@ const Form = () => {
     }, [step, role, email, password_checked, agreed, confirmation_code]);
 
 
-    // FIXME: Self-sign up for alumni is disabled
-    if (role === "alumni") {
+    if (role !== "student" && role !== "alumni") {
+        naviagte("/404", { replace: true });
+    } else if (role === "alumni") {
         window.location.href = "https://baylor.qualtrics.com/jfe/form/SV_8v5U3apajzQVm86";
         return;
     }
@@ -198,7 +196,7 @@ const Form = () => {
                     </div>
                     <div className="ml-3">
                         <p className="text-sm text-gray-500">
-                            By selecting this, you agree to the{" "}
+                            By checking this, you agree to the{" "}
                             <a href="/terms/terms-conditions" className="font-medium text-gray-700 underline">
                                 Terms and Conditions
                             </a>
@@ -277,7 +275,7 @@ const Form = () => {
                 <Progress currentStep={step} steps={steps} />
 
 
-                <div className="px-5 mt-10 md:mt-2 md:bg-white md:shadow md:rounded-lg md:px-8 md:py-8 md:-mx-8">
+                <div className="px-5 mt-6 md:mt-2 md:bg-white md:shadow md:rounded-lg md:px-8 md:py-8 md:-mx-8">
 
                     {step === 1 && step1()}
                     {step === 2 && step2()}
@@ -299,11 +297,9 @@ const Form = () => {
                             onClick={onSubmit}
                             loading={loading}
                             disabled={loading || !complete}
+                            arrow={true}
                         >
-                            <span className={`flex items-center ${loading ? "invisible" : ""}`}>
-                                <span>Next</span>
-                                <ArrowSmRightIcon className="h-4 w-4" />
-                            </span>
+                            Next
                         </Button>
                     </div>
                 </div>
