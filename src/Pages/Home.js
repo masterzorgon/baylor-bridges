@@ -87,8 +87,8 @@ const Home = () => {
                                         <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">
                                             Connect with your <span className="text-gradient bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500">fellow Bears</span> today
                                         </h1>
-                                        <p className="mt-6 text-xl text-gray-500">
-                                            A brand new platform for Baylor alumni and current students to
+                                        <p className="mt-6 text-lg text-gray-500">
+                                            A brand new web platform for Baylor alumni and current students to
                                             connect and explore the vast and endless possibilities
                                             of the Baylor Brdges network.
                                         </p>
