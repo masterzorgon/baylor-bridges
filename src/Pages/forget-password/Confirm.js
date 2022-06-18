@@ -58,7 +58,7 @@ const Confirm = () => {
                         />
                     </a>
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                        Let&#39;s create your<br></br>
+                        Let&#39;s set your<br></br>
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500">
                             new password
                         </span>
@@ -79,7 +79,6 @@ const Confirm = () => {
                                 </div>
                                 <div className="mt-5 sm:flex sm:items-center">
                                     <Password
-                                        className="py-4"
                                         onChange={(password, checked) => {
                                             setPassword(password);
                                             setPasswordChecked(checked);

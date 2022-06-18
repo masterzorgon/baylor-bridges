@@ -125,7 +125,7 @@ const Form = () => {
                     We have sent you an email with the link to reset your password to your email address.
                 </p>
                 <p className="mt-1 text-sm font-medium mb-4 text-gray-500 pointer-events-auto">
-                    Dont receive the email? Check your spam filter.
+                    Don&#39;t receive the email? Check your spam filter.
                 </p>
                 {/* COUNTDOWN TIMER */}
                 <div className="text-xl flex justify-center my-6">
