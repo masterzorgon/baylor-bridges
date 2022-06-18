@@ -1,11 +1,9 @@
-/* eslint-disable no-useless-escape */
-
 import React, { useEffect, useState } from "react";
 import { XCircleIcon, CheckCircleIcon } from "@heroicons/react/solid";
 
 import { classNames } from "./Utils";
 
-const Password = ({value, onChange, className}) => {
+const Password = ({ value, onChange, className }) => {
     const [password, setPassword] = useState("");
     const [check, setCheck] = useState({
         is_low: false,
@@ -25,7 +23,7 @@ const Password = ({value, onChange, className}) => {
         let is_low = /[a-z]/.test(password);
         let is_cap = /[A-Z]/.test(password);
         let is_digit = /[0-9]/.test(password);
-        let is_special = /[!@#$%^&*()_+\-=\[\]{};':"\\|;.<>\/?]/.test(password);
+        let is_special = /[!@#$%^&*()_+\-=[\]{};':"\\|;.<>/?]/.test(password);
         let is_length = password.length >= 10;
         let all_check = (is_low && is_cap && is_digit && is_special && is_length);
 
@@ -41,6 +39,11 @@ const Password = ({value, onChange, className}) => {
         if (onChange) {
             onChange(password, all_check);
         }
+    };
+
+    const getIcon = (bool) => {
+        if (bool) return <CheckCircleIcon className="h-5 w-5 text-green-400" aria-hidden="true" />;
+        return <XCircleIcon className="h-5 w-5 text-red-400" aria-hidden="true" />;
     };
 
     return (
@@ -64,8 +67,7 @@ const Password = ({value, onChange, className}) => {
             <div className={classNames(check.all_check === true ? "bg-green-50" : "bg-red-50", "rounded-md p-4 mt-3")}>
                 <div className="flex">
                     <div className="flex-shrink-0">
-                        {check.is_length === false && <XCircleIcon className="h-5 w-5 text-red-400" aria-hidden="true" />}
-                        {check.is_length === true && <CheckCircleIcon className="h-5 w-5 text-green-400" aria-hidden="true" />}
+                        {getIcon(check.is_length)}
                     </div>
                     <div className="ml-2">
                         <div className={classNames(check.is_length === true ? "text-green-700" : "text-red-700", "text-sm")}>
@@ -77,8 +79,7 @@ const Password = ({value, onChange, className}) => {
                 </div>
                 <div className="flex">
                     <div className="flex-shrink-0">
-                        {check.is_cap === false && <XCircleIcon className="h-5 w-5 text-red-400" aria-hidden="true" />}
-                        {check.is_cap === true && <CheckCircleIcon className="h-5 w-5 text-green-400" aria-hidden="true" />}
+                        {getIcon(check.is_cap)}
                     </div>
                     <div className="ml-2">
                         <div className={classNames(check.is_cap === true ? "text-green-700" : "text-red-700", "text-sm")}>
@@ -90,8 +91,7 @@ const Password = ({value, onChange, className}) => {
                 </div>
                 <div className="flex">
                     <div className="flex-shrink-0">
-                        {check.is_low === false && <XCircleIcon className="h-5 w-5 text-red-400" aria-hidden="true" />}
-                        {check.is_low === true && <CheckCircleIcon className="h-5 w-5 text-green-400" aria-hidden="true" />}
+                        {getIcon(check.is_low)}
                     </div>
                     <div className="ml-2">
                         <div className={classNames(check.is_low === true ? "text-green-700" : "text-red-700", "text-sm")}>
@@ -103,8 +103,7 @@ const Password = ({value, onChange, className}) => {
                 </div>
                 <div className="flex">
                     <div className="flex-shrink-0">
-                        {check.is_special === false && <XCircleIcon className="h-5 w-5 text-red-400" aria-hidden="true" />}
-                        {check.is_special === true && <CheckCircleIcon className="h-5 w-5 text-green-400" aria-hidden="true" />}
+                        {getIcon(check.is_special)}
                     </div>
                     <div className="ml-2">
                         <div className={classNames(check.is_special === true ? "text-green-700" : "text-red-700", "text-sm")}>
