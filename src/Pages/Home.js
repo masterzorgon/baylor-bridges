@@ -6,6 +6,7 @@ import axios from "axios";
 import { AccountContext } from "../components/Account";
 import Photo from "../components/Photo";
 import { states } from "../components/Utils";
+import { HyperLink } from "../components/Button";
 
 
 // This is where the features in the landing page is configured
@@ -117,13 +118,13 @@ const Home = () => {
                                                             // className="text-center w-full flex justify-center px-4 py-5 border border-transparent font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed relative"
                                                             href="/sign-up"
                                                         >
-                                                            Sign Up / Join the Community
+                                                            Join the Community
                                                         </a>
                                                     </div>
-                                                    <div className="mt-8 sm:mt-5 flex space-x-1 justify-center">
+                                                    <div className="mt-8 sm:mt-4 flex space-x-1 justify-center">
                                                         <div className="text-center">
-                                                            <span className="block sm:inline">Already have an account?</span>{" "}
-                                                            <a href="/sign-in" className="text-base font-medium text-emerald-600 hover:text-emerald-800 underline underline-offset-4">Continue with Sign In</a>
+                                                            <span className="block sm:inline text-gray-700">Already have an account?</span>{" "}
+                                                            <HyperLink href="/sign-in" arrow={true} className="text-base font-medium text-emerald-600 hover:text-emerald-800">Continue</HyperLink>
                                                         </div>
                                                     </div>
                                                 </>
