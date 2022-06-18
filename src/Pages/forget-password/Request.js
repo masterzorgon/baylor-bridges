@@ -21,7 +21,6 @@ const Form = () => {
     const [step, setStep] = useState(1); // sets the modal to be displayed
     const [error_message, setErrorMessage] = useState(null);
     const [email, setEmail] = useState(""); // enter email input state
-    const [wrongVCode, setwrongVCode] = useState(false);
     const [isResent, setIsResent] = useState(false); // email sent status
     const [resentFreeze, setResentFreeze] = useState(0); // timer till user can resend email
 
@@ -33,10 +32,6 @@ const Form = () => {
             setComplete(email && email !== "" && is_valid);
         }
     }, [email]);
-
-    useEffect(() => {
-        if (!wrongVCode) setErrorMessage(null);
-    }, [step]);
 
     useEffect(() => {
         if (!resentFreeze) {
@@ -52,8 +47,6 @@ const Form = () => {
     }, [resentFreeze]);
 
     const onSubmit = () => {
-        setwrongVCode(false);
-
         if (step === 1) {
             setLoading(true);
             // reset password
@@ -121,29 +114,32 @@ const Form = () => {
     const step2 = () => {
         return (
             <>
-                <button onClick={() => setStep(1)} className=" flex items-center mb-4 text-sm text-green-600 hover:text-green-700">
+                <button onClick={() => setStep(1)} className=" flex items-center mb-4 text-sm text-emerald-600 hover:text-green-700">
                     <ArrowLeftIcon width="1em" />
                     <span className="ml-2">{email}</span>
                 </button>
                 <h3 className="text-lg leading-6 font-medium text-gray-900">
-                    Verification Email Sent
+                    Check your email
                 </h3>
                 <p className="mt-1 text-sm font-medium mb-4 text-gray-500 pointer-events-auto">
-                    The link to reset your password has been sent. If you do not see it in your inbox,
-                    please check your spam or consider re-entering the account email you provided.
+                    We have sent you an email with the link to reset your password to your email address.
+                </p>
+                <p className="mt-1 text-sm font-medium mb-4 text-gray-500 pointer-events-auto">
+                    Dont receive the email? Check your spam filter.
                 </p>
                 {/* COUNTDOWN TIMER */}
-                <div className="text-3xl flex justify-center my-6">
+                <div className="text-xl flex justify-center my-6">
                     <CountdownCircleTimer
                         isPlaying={resentFreeze === 0 ? false : true}
-                        size={120}
+                        size={80}
                         duration={60}
+                        strokeWidth={8}
                         colors={["#069668"]} // green
                         onComplete={() => ({ shouldRepeat: resentFreeze === 0 ? false : true })}
                     >
                         {({ remainingTime }) => (
                             resentFreeze === 0
-                                ? <CheckIcon className="text-green-600 w-10" />
+                                ? <CheckIcon className="text-emerald-600 w-10" />
                                 : remainingTime
                         )}
                     </CountdownCircleTimer>
