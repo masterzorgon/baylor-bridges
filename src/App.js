@@ -1,5 +1,5 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import React, { useContext } from "react";
+import { BrowserRouter as Router, Routes, Route, Outlet, Navigate, useLocation } from "react-router-dom";
 import { ToastContainer, Slide } from "react-toastify";
 import axios from "axios";
 
@@ -23,6 +23,7 @@ import { default as SignInChallenge } from "./Pages/signin/Challenge";
 import { default as SignUpEntrace } from "./Pages/signup/Entrace";
 import { default as SignUpForm } from "./Pages/signup/Form";
 import { default as SignUpClosed } from "./Pages/signup/Closed";
+import { default as Settings } from "./Pages/settings/Settings";
 
 import ProfileSetup from "./Pages/setup/ProfileSetup";
 import InfoInput from "./Pages/setup/InfoInput";
@@ -30,17 +31,13 @@ import InfoInput from "./Pages/setup/InfoInput";
 import Search from "./Pages/Search";
 import Profile from "./Pages/profile/Profile";
 
-import { default as SettingsProfile } from "./Pages/settings/Profile";
-import { default as SettingsExperience } from "./Pages/settings/Experience";
-import { default as SettingsAccount } from "./Pages/settings/Account";
 
-import { Account } from "./components/Account";
+import { Account, AccountContext } from "./components/Account";
 
 import "rc-slider/assets/index.css";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
-const components = (...components) => components.map(component => component);
 
 axios.defaults.headers = {
     "Access-Control-Allow-Origin": "*",
@@ -98,24 +95,61 @@ axios.interceptors.response.use((response) => {
     }
 });
 
+const HomeLayout = () => (
+    <HamburgerLayout hideOnTop={true} />
+);
+
+const HamburgerLayout = ({ auth = false, hideOnTop = false }) => {
+    const { getAccountLocal } = useContext(AccountContext);
+    const location = useLocation();
+
+    if (auth === true && getAccountLocal() === null) {
+        return <Navigate to={`/sign-in?redirect=${location.pathname}`} />;
+    }
+
+    return (
+        <>
+            <Navbar hideOnTop={hideOnTop} />
+            <Outlet />
+            <Footer />
+        </>
+    );
+};
+
+const HamburgerLayoutWithCookieConsent = () => (
+    <>
+        <HamburgerLayout />
+        <CookieConsent />
+    </>
+);
+
 const App = () => {
     return (
         <Account>
             <Router>
                 <Routes>
-                    <Route path="/" element={components(<Navbar hideOnTop={true} />, <Home />, <Footer />, <CookieConsent />)} />
-                    <Route path="/about" element={components(<Navbar />, <About />, <Footer />, <CookieConsent />)} />
-                    <Route path="/search" element={components(<Navbar />, <Search />, <Footer />, <CookieConsent />)} />
+                    <Route path="/" element={<HomeLayout />}>
+                        <Route index element={<Home />} />
+                    </Route>
 
-                    <Route path="/settings" element={<Navigate to="/settings/account" />} />
-                    <Route path="/settings/profile" element={components(<Navbar />, <SettingsProfile />, <Footer />)} />
-                    <Route path="/settings/experience" element={components(<Navbar />, <SettingsExperience />, <Footer />)} />
-                    <Route path="/settings/account" element={components(<Navbar />, <SettingsAccount />, <Footer />)} />
+                    <Route path="/" element={<HamburgerLayoutWithCookieConsent />}>
+                        <Route path="about" element={<About />} />
+                        <Route path="contact-us" element={<ContactUs />} />
 
-                    <Route path="/profile" element={components(<Navbar />, <Profile />, <Footer />)} />
-                    <Route path="/profile/:user_id" element={components(<Navbar />, <Profile />, <Footer />)} />
+                        <Route path="terms/privacy-policy" element={<PrivacyPolicy />} />
+                        <Route path="terms/terms-conditions" element={<TermsConditions />} />
+                        <Route path="terms/cookies-policy" element={<CookiesPolicy />} />
+                    </Route>
 
-                    <Route path="/sign-in" element={components(<SignIn />, <CookieConsent />)} />
+                    <Route path="/" element={<HamburgerLayout auth={true} />}>
+                        <Route path="search" element={<Search />} />
+                        <Route path="settings/*" element={<Settings />} />
+                        <Route path="profile" element={<Profile />}>
+                            <Route path=":user_id" exact element={<Profile />} />
+                        </Route>
+                    </Route>
+
+                    <Route path="/sign-in" element={<SignIn />} />
                     <Route path="/sign-in/challenge" element={<SignInChallenge />} />
                     <Route path="/reset-password" element={<ResetPasswordRequest />} />
                     <Route path="/reset-password/confirm" element={<ResetPasswordConfirm />} />
@@ -123,19 +157,12 @@ const App = () => {
                     <Route path="/setup/profile-setup" element={<ProfileSetup />} />
                     <Route path="/setup/info-input" element={<InfoInput />} />
 
-                    <Route path="/sign-up" element={components(<SignUpEntrace />, <CookieConsent />)} />
+                    <Route path="/sign-up" element={<SignUpEntrace />} />
                     <Route path="/sign-up/:role" element={<SignUpForm />} />
                     <Route path="/sign-up/closed" element={<SignUpClosed />} />
 
-                    <Route path="/contact-us" element={components(<Navbar />, <ContactUs />, <Footer />, <CookieConsent />)} />
-
-                    <Route path="/terms/privacy-policy" element={components(<Navbar />, <PrivacyPolicy />, <Footer />)} />
-                    <Route path="/terms/terms-conditions" element={components(<Navbar />, <TermsConditions />, <Footer />)} />
-                    <Route path="/terms/cookies-policy" element={components(<Navbar />, <CookiesPolicy />, <Footer />)} />
-
-                    <Route path="/404" element={components(<NotFound />)} />
-                    <Route path="*" element={<Navigate to="/404" />} />
-
+                    <Route path="/404" element={<NotFound />} />
+                    <Route path="*" element={<NotFound />} />
                 </Routes>
             </Router>
             <ToastContainer
