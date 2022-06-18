@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import USAMap from "react-usa-map";
-import { CheckIcon } from "@heroicons/react/outline";
+import { CheckIcon, ArrowSmRightIcon } from "@heroicons/react/outline";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 import { AccountContext } from "../components/Account";
@@ -248,27 +249,13 @@ const Home = () => {
                             <span className="block">Ready to dive in?</span>
                             <span className="block">Create your account today.</span>
                         </h2>
-                        <div className="mt-8 flex justify-center">
-                            <>
-                                <div className="inline-flex rounded-md shadow">
-                                    <button
-                                        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                                        className="inline-flex items-center justify-center px-5 py-3 text-base font-medium rounded-md text-white bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 hover:opacity-90"
-                                    >
-                                        Back to top
-                                    </button>
-                                </div>
-                                <div className="ml-3 inline-flex">
-                                    <a
-                                        href="https://www.baylor.edu/prehealth/index.php?id=981654"
-                                        target="_blank"
-                                        rel="noreferrer"
-                                        className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-emerald-700 bg-emerald-100 hover:bg-emerald-200"
-                                    >
-                                        Learn more
-                                    </a>
-                                </div>
-                            </>
+                        <div className="mt-4 flex justify-center">
+                            <Link
+                                to="/sign-up"
+                                className="font-sm p-4 rounded-full text-white bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 hover:opacity-90 w-16 h-16"
+                            >
+                                <ArrowSmRightIcon />
+                            </Link>
                         </div>
                     </div>
                 </div>
