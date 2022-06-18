@@ -20,7 +20,8 @@ import SignIn from "./Pages/signin/SignIn";
 import { default as ResetPassword } from "./Pages/forget-password/Form";
 import { default as SignInChallenge } from "./Pages/signin/Challenge";
 import { default as SignUpEntrace } from "./Pages/signup/Entrace";
-import { default as SignUpForm } from "./Pages/signup/Form";
+import { default as SignUpForm } from "./Pages/signup/InitialForm";
+import { default as SignUpInitialComplete } from "./Pages/signup/InitialFormComplete";
 import { default as SignUpClosed } from "./Pages/signup/Closed";
 
 import ProfileSetup from "./Pages/setup/ProfileSetup";
@@ -124,6 +125,7 @@ const App = () => {
                     <Route path="/sign-up" element={components(<SignUpEntrace />, <CookieConsent />)} />
                     <Route path="/sign-up/:role" element={<SignUpForm />} />
                     <Route path="/sign-up/closed" element={<SignUpClosed />} />
+                    <Route path="/sign-up/initial/closed" element={<SignUpInitialComplete />} />
 
                     <Route path="/contact-us" element={components(<Navbar />, <ContactUs />, <Footer />, <CookieConsent />)} />
 
