@@ -10,7 +10,7 @@ import axios from "axios";
 const EmailForm = () => {
     const [loading, setLoading] = useState(false);
     const [complete, setComplete] = useState(false);
-    const [step, setStep] = useState(1);
+    const [step, setStep] = useState(2);
     const [error_message, setErrorMessage] = useState(null);
 
     const [email, setEmail] = useState("");
@@ -102,7 +102,7 @@ const EmailForm = () => {
 
     const step2 = () => {
         return (
-            <>
+            <div className="md:mx-10 my-8">
                 <h2 className="mt-6 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
                     {/* <span className="text-gradient bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500">Welcome!</span> */}
                     <span className="block">You are almost there!</span>
@@ -113,7 +113,7 @@ const EmailForm = () => {
                     we are glad to have you joining our Baylor Bridges Family :)
 
                 </p>
-            </>
+            </div>
         );
     };
 
