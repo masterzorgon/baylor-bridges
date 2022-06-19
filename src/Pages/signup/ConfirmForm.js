@@ -88,9 +88,17 @@ const ConfirmForm = () => {
 
                 <div className="px-5 mt-10 md:mt-2 md:bg-white md:shadow md:rounded-lg md:px-8 md:py-8 md:-mx-8">
 
+
                     <>
                         <h3 className="text-lg leading-6 font-medium text-gray-900">Your password</h3>
                         <p className="mt-1 text-sm font-medium mb-4 text-gray-500">Set a password for your account.</p>
+                        {/* Error message */}
+                        {
+                            error_message !== null &&
+                            <p className="mt-2 text-sm text-red-600">
+                                {error_message}
+                            </p>
+                        }
                         <Password
                             className="py-4"
                             onChange={(password, checked) => {
@@ -135,21 +143,7 @@ const ConfirmForm = () => {
                         </div>
                     </>
 
-                    {/* Error message */}
-                    {
-                        error_message !== null &&
-                        <p className="mt-2 text-sm text-red-600">
-                            {error_message}
-                        </p>
-                    }
 
-                    {/* Error message */}
-                    {/* {
-                        error_message !== null &&
-                        <p className="mt-2 text-sm text-red-600">
-                            {error_message}
-                        </p>
-                    } */}
 
 
                     <div className="mt-6 text-sm text-right w-full grid place-items-center space-y-4">
