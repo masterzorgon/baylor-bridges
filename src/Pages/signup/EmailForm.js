@@ -10,7 +10,7 @@ import axios from "axios";
 const EmailForm = () => {
     const [loading, setLoading] = useState(false);
     const [complete, setComplete] = useState(false);
-    const [step, setStep] = useState(2);
+    const [step, setStep] = useState(1);
     const [error_message, setErrorMessage] = useState(null);
 
     const [email, setEmail] = useState("");
