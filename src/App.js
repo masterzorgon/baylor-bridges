@@ -22,7 +22,6 @@ import { default as ResetPasswordConfirm } from "./Pages/forget-password/Confirm
 import { default as SignInChallenge } from "./Pages/signin/Challenge";
 import { default as SignUpEntrace } from "./Pages/signup/Entrace";
 import { default as SignUpForm } from "./Pages/signup/EmailForm";
-import { default as SignUpInitialComplete } from "./Pages/signup/InitialFormComplete";
 import { default as SignUpConfirmForm } from "./Pages/signup/PasswordForm";
 import { default as SignUpClosed } from "./Pages/signup/Closed";
 import { default as Settings } from "./Pages/settings/Settings";
