@@ -13,8 +13,20 @@ const ConfirmForm = () => {
     const [error_message, setErrorMessage] = useState(null);
 
     const [password, setPassword] = useState("");
+    const [token, setToken] = useState(""); // auth token parsed from the url params
+    const [email, setEmail] = useState(""); // account submitting request parsed from url params
     const [agreed, setAgreed] = useState(false);
     const [password_checked, setPasswordChecked] = useState("");
+
+
+    useEffect(() => {
+        const queryParams = new URLSearchParams(window.location.search);
+        const email = queryParams.get("email");
+        const token = queryParams.get("token");
+
+        setEmail(email);
+        setToken(token);
+    });
 
     useEffect(() => {
         setComplete(agreed && password_checked);
@@ -26,12 +38,13 @@ const ConfirmForm = () => {
         setLoading(true);
         // TODO: sumbit password
         axios.post("/accounts/signup/confirm", {
-            email: "tinaxli@umich.edu",
+            username: email,
             password: password,
-            token: "token"
+            token: token
         })
             .then(res => {
                 // TODO: direct to sign in?
+                window.location.href = "/setup/profile-setup";
             }).catch(err => {
                 let response = err.response.data;
                 setErrorMessage(response.message);
