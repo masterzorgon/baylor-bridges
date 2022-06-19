@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 import isBetween from "dayjs/plugin/isBetween";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 
-import Container from "./Container";
 import Button from "../../components/Button";
 import ExperienceCard from "../../components/profile/ExperienceCard";
 
@@ -202,9 +201,10 @@ const Experience = () => {
         }
 
         // Experience must also have start and end date
-        if (field.type === EXPERIENCE) {
+        if (field._type === EXPERIENCE) {
             let s = field.start_time ? dayjs(field.start_time) : null;
             let e = field.stop_time ? dayjs(field.stop_time) : null;
+
             if (!s || !e || s.isAfter(e)) {
                 setComplete(false);
                 return;
@@ -550,51 +550,49 @@ const Experience = () => {
 
     return (
         <>
-            <Container current="experience">
-                <div className="mt-10 divide-y divide-gray-200">
-                    <div className="flex items-center justify-between space-x-4">
-                        <div className="space-y-1">
-                            <h3 className="text-lg leading-6 font-medium text-gray-900">Experience</h3>
-                            <p className="max-w-2xl text-sm text-gray-500">Manage all your past experiences and publications.</p>
-                        </div>
-                        <div className="flex justify-center order-3 flex-shrink-0 sm:order-2 sm:mt-0 sm:w-auto">
-                            <button
-                                onClick={() => onOpenModal({ title: null, start_time: null, stop_time: null, description: null }, EXPERIENCE, CREATE)}
-                                className="h-11 w-11 sm:h-11 sm:w-11 text-white bg-emerald-600 hover:bg-emerald-700 focus:ring-emerald-500 focus:ring-2 focus:ring-offset-2 flex justify-center rounded-full items-center"
-                            >
-                                <PlusSmIcon className="h-7 w-7 sm:h-6 sm:w-6" aria-hidden="true" />
-                            </button>
-                        </div>
+            <div className="mt-10 divide-y divide-gray-200">
+                <div className="flex items-center justify-between space-x-4">
+                    <div className="space-y-1">
+                        <h3 className="text-lg leading-6 font-medium text-gray-900">Experience</h3>
+                        <p className="max-w-2xl text-sm text-gray-500">Manage all your past experiences and publications.</p>
                     </div>
-
-                    <div className="mt-6">
-                        <dl className="divide-y divide-gray-200" ref={animation}>
-                            {/* EXPERIENCES */}
-                            {experiences && experiences.length === 0 && emptyState()}
-                            {experiences && experiences.map((experience, t) => {
-                                experience._index = t;
-                                experience.publications.forEach((publication, i) => {
-                                    experience.publications[i]._index = i;
-                                    experience.publications[i]._experience_index = t;
-                                });
-
-                                return (
-                                    <section key={t} className="py-5">
-                                        <ExperienceCard
-                                            experience={experience}
-                                            onEditExperience={(experience) => onOpenModal(experience, EXPERIENCE, UPDATE)}
-                                            onDeleteExperience={(experience) => onOpenModal(experience, EXPERIENCE, DELETE)}
-                                            onCreatePublication={() => onOpenModal({ title: null, duo_link: null, exper_id: experience.exper_id, _experience_index: t }, PUBLICATION, CREATE)}
-                                            onEditPublication={(publication) => onOpenModal(publication, PUBLICATION, UPDATE)}
-                                            onDeletePublication={(publication) => onOpenModal(publication, PUBLICATION, DELETE)}
-                                        />
-                                    </section>
-                                );
-                            })}
-                        </dl>
+                    <div className="flex justify-center order-3 flex-shrink-0 sm:order-2 sm:mt-0 sm:w-auto">
+                        <button
+                            onClick={() => onOpenModal({ title: null, start_time: null, stop_time: null, description: null }, EXPERIENCE, CREATE)}
+                            className="h-11 w-11 sm:h-11 sm:w-11 text-white bg-emerald-600 hover:bg-emerald-700 focus:ring-emerald-500 focus:ring-2 focus:ring-offset-2 flex justify-center rounded-full items-center"
+                        >
+                            <PlusSmIcon className="h-7 w-7 sm:h-6 sm:w-6" aria-hidden="true" />
+                        </button>
                     </div>
                 </div>
-            </Container>
+
+                <div className="mt-6">
+                    <dl className="divide-y divide-gray-200" ref={animation}>
+                        {/* EXPERIENCES */}
+                        {experiences && experiences.length === 0 && emptyState()}
+                        {experiences && experiences.map((experience, t) => {
+                            experience._index = t;
+                            experience.publications.forEach((publication, i) => {
+                                experience.publications[i]._index = i;
+                                experience.publications[i]._experience_index = t;
+                            });
+
+                            return (
+                                <section key={t} className="py-5">
+                                    <ExperienceCard
+                                        experience={experience}
+                                        onEditExperience={(experience) => onOpenModal(experience, EXPERIENCE, UPDATE)}
+                                        onDeleteExperience={(experience) => onOpenModal(experience, EXPERIENCE, DELETE)}
+                                        onCreatePublication={() => onOpenModal({ title: null, duo_link: null, exper_id: experience.exper_id, _experience_index: t }, PUBLICATION, CREATE)}
+                                        onEditPublication={(publication) => onOpenModal(publication, PUBLICATION, UPDATE)}
+                                        onDeletePublication={(publication) => onOpenModal(publication, PUBLICATION, DELETE)}
+                                    />
+                                </section>
+                            );
+                        })}
+                    </dl>
+                </div>
+            </div>
 
             <Transition.Root show={open} as={Fragment}>
                 <Dialog as="div" className="fixed z-50 inset-0 overflow-y-auto" onClose={() => { if (!loading) setOpen(false); }}>

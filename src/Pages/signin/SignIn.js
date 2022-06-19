@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { AccountContext } from "../../components/Account";
@@ -6,6 +7,7 @@ import { changeBaseURL, changeSearchParam, getSearchParam, requiresProfileSetup 
 import Button from "../../components/Button";
 
 const SignIn = () => {
+    const navigate = useNavigate();
 
     const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState("");
@@ -32,9 +34,9 @@ const SignIn = () => {
                     let destination = "";
                     destination = changeBaseURL(window.location.href, redirect);
                     destination = changeSearchParam(destination, "redirect", null);
-                    window.location.href = destination;
+                    navigate(destination, { replace: true });
                 } else {
-                    window.location.href = "/";
+                    navigate("/", { replace: true });
                 }
             })
             .catch(error => {
@@ -52,7 +54,7 @@ const SignIn = () => {
                     destination = changeSearchParam(destination, "session", session);
                     destination = changeSearchParam(destination, "sub", sub);
 
-                    window.location.href = destination;
+                    navigate(destination, { replace: true });
                 } else {
                     toast.error(error.response.data.message);
                 }

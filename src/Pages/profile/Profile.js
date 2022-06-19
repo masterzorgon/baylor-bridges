@@ -10,8 +10,7 @@ import { AccountContext } from "../../components/Account";
 import SignInRequiredModal from "./SignInRequiredModal";
 import Markdown from "../../components/Markdown";
 import ExperienceCard from "../../components/profile/ExperienceCard";
-
-const classNames = (...classes) => classes.filter(Boolean).join(" ");
+import { classNames } from "../../components/Utils";
 
 
 const profile = {

@@ -148,6 +148,21 @@ input, textarea, select {
   box-shadow: 0 0 5px #10b98164;
 }
 
+.search-result-field{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: -2px;
+  display: block;
+}
+
+.search-result-field b {
+  color: #059669;
+  font-weight: 600;
+  border-bottom-width: 2px;
+  border-color: #0596689e;
+}
+
 .Toastify * {
   font-family: 'Inter', sans-serif !important;
   --toastify-color-success: #059669;
