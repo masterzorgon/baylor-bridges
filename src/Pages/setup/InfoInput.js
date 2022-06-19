@@ -1,6 +1,7 @@
 // import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useTimeoutFn } from "react-use";
+import { toast } from "react-toastify";
 import axios from "axios";
 
 import NameInput from "./input-components/NameInput";
@@ -17,6 +18,7 @@ const InfoInput = () => {
     const [modal, setModal] = useState(1); // used to switch between modals
     const [account, setAccount] = useState({}); // updates account info
 
+
     const x_fields = "user_id, first_name, last_name, headline, role, occupation, graduate_year, graduate_semester, city, state, biography, contact_info";
 
     useEffect(() => {
@@ -26,11 +28,7 @@ const InfoInput = () => {
                 setAccount(res.data);
                 console.log(res.data);
             })
-            .catch(err => {
-                err.response.status && err.response.status === 401
-                    ? window.location.href = "/sign-in"
-                    : window.location.href = "/404";
-            });
+            .catch(err => toast.error(err.response.data.message));
     }, []);
 
     // this makes the modal fade in on refresh

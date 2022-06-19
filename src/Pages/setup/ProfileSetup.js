@@ -72,7 +72,7 @@ const ProfileSetup = () => {
                     </p>
                     <a
                         href="info-input"
-                        className="bg-emerald-600 mt-8 shadow-md inline-flex items-center justify-center px-5 py-3 text-base font-medium rounded-md text-white hover:bg-emerald-700"
+                        className="bg-emerald-600 mt-8 cursor-pointer shadow-md inline-flex items-center justify-center px-5 py-3 text-base font-medium rounded-md text-white hover:bg-emerald-700"
                     >
                         Get started
                     </a>

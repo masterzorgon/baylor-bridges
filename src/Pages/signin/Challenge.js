@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { XCircleIcon } from "@heroicons/react/solid";
 
 import { AccountContext } from "../../components/Account";
@@ -8,6 +9,7 @@ import Button from "../../components/Button";
 
 const Challenge = () => {
 
+    const navigate = useNavigate();
     const { authChallenge } = useContext(AccountContext);
 
     const [loading, setLoading] = useState(false);
@@ -85,7 +87,7 @@ const Challenge = () => {
                     destination = changeBaseURL(destination, "/");
                 }
 
-                window.location.href = destination;
+                navigate(destination, { replace: true });
             }
         }
     };

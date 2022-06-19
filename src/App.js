@@ -1,5 +1,6 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import React, { useContext } from "react";
+import { BrowserRouter as Router, Routes, Route, Outlet, Navigate, useLocation } from "react-router-dom";
+import { ToastContainer, Slide } from "react-toastify";
 import axios from "axios";
 
 import Navbar from "./components/Navbar";
@@ -16,11 +17,13 @@ import TermsConditions from "./Pages/policies&terms/Terms&Conditions";
 import CookiesPolicy from "./Pages/policies&terms/CookiesPolicy";
 
 import SignIn from "./Pages/signin/SignIn";
-import { default as ResetPassword } from "./Pages/forget-password/Form";
+import { default as ResetPasswordRequest } from "./Pages/forget-password/Request";
+import { default as ResetPasswordConfirm } from "./Pages/forget-password/Confirm";
 import { default as SignInChallenge } from "./Pages/signin/Challenge";
 import { default as SignUpEntrace } from "./Pages/signup/Entrace";
 import { default as SignUpForm } from "./Pages/signup/Form";
 import { default as SignUpClosed } from "./Pages/signup/Closed";
+import { default as Settings } from "./Pages/settings/Settings";
 
 import ProfileSetup from "./Pages/setup/ProfileSetup";
 import InfoInput from "./Pages/setup/InfoInput";
@@ -28,22 +31,13 @@ import InfoInput from "./Pages/setup/InfoInput";
 import Search from "./Pages/Search";
 import Profile from "./Pages/profile/Profile";
 
-import { default as SettingsProfile } from "./Pages/settings/Profile";
-import { default as SettingsExperience } from "./Pages/settings/Experience";
-import { default as SettingsAccount } from "./Pages/settings/Account";
 
-import { Account } from "./components/Account";
+import { Account, AccountContext } from "./components/Account";
 
 import "rc-slider/assets/index.css";
+import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
-const components = (...components) => {
-    return (
-        <>
-            {components.map(component => component)}
-        </>
-    );
-};
 
 axios.defaults.headers = {
     "Access-Control-Allow-Origin": "*",
@@ -66,67 +60,124 @@ if (hostname === "localhost" || hostname === "127.0.0.1" || port === 3000) {
 }
 
 axios.defaults.withCredentials = true;
-axios.defaults.timeout = 8000;
+axios.defaults.timeout = 30000;
 axios.defaults.cancelToken = null;
 axios.interceptors.response.use((response) => {
     return response;
 }, (error) => {
-    // If unauthorized access, redirected to sign in page
-    if (error.response && error.response.config.withoutInterceptors !== undefined && !error.response.config.withoutInterceptors && error.response.status === 401) {
-        window.location.href = "/sign-in";
-        return;
-    }
+    if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        return Promise.reject(error);
+    } else if (error.request) {
+        // The request was made but no response was received
+        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+        // http.ClientRequest in node.js
+        error.response = {
+            data: {
+                code: "RequestError",
+                message: "There is an error with the request."
+            }
+        };
 
-    // Convert network error into a server error
-    if (error.message === "Network Error") {
-        error.response = {};
-        error.response.data = {};
-        error.response.data.code = "NetworkError";
-        error.response.data.message = "There is a problem with your network connection. Please try again.";
-    }
+        return Promise.reject(error);
+    } else {
+        // Something happened in setting up the request that triggered an Error
+        console.log(error.toJSON());
 
-    return Promise.reject(error);
+        error.response = {
+            data: {
+                code: "NetworkError",
+                message: "There is an error with the network connection."
+            }
+        };
+        return Promise.reject(error);
+    }
 });
+
+const HomeLayout = () => (
+    <HamburgerLayout hideOnTop={true} />
+);
+
+const HamburgerLayout = ({ auth = false, hideOnTop = false }) => {
+    const { getAccountLocal } = useContext(AccountContext);
+    const location = useLocation();
+
+    if (auth === true && getAccountLocal() === null) {
+        return <Navigate to={`/sign-in?redirect=${location.pathname}`} />;
+    }
+
+    return (
+        <>
+            <Navbar hideOnTop={hideOnTop} />
+            <Outlet />
+            <Footer />
+        </>
+    );
+};
+
+const HamburgerLayoutWithCookieConsent = () => (
+    <>
+        <HamburgerLayout />
+        <CookieConsent />
+    </>
+);
 
 const App = () => {
     return (
         <Account>
             <Router>
                 <Routes>
-                    <Route path="/" element={components(<Navbar hideOnTop={true} />, <Home />, <Footer />, <CookieConsent />)} />
-                    <Route path="/about" element={components(<Navbar />, <About />, <Footer />, <CookieConsent />)} />
-                    <Route path="/search" element={components(<Navbar />, <Search />, <Footer />, <CookieConsent />)} />
+                    <Route path="/" element={<HomeLayout />}>
+                        <Route index element={<Home />} />
+                    </Route>
 
-                    <Route path="/settings" element={<Navigate to="/settings/account" />} />
-                    <Route path="/settings/profile" element={components(<Navbar />, <SettingsProfile />, <Footer />)} />
-                    <Route path="/settings/experience" element={components(<Navbar />, <SettingsExperience />, <Footer />)} />
-                    <Route path="/settings/account" element={components(<Navbar />, <SettingsAccount />, <Footer />)} />
+                    <Route path="/" element={<HamburgerLayoutWithCookieConsent />}>
+                        <Route path="about" element={<About />} />
+                        <Route path="contact-us" element={<ContactUs />} />
 
-                    <Route path="/profile" element={components(<Navbar />, <Profile />, <Footer />)} />
-                    <Route path="/profile/:user_id" element={components(<Navbar />, <Profile />, <Footer />)} />
+                        <Route path="terms/privacy-policy" element={<PrivacyPolicy />} />
+                        <Route path="terms/terms-conditions" element={<TermsConditions />} />
+                        <Route path="terms/cookies-policy" element={<CookiesPolicy />} />
+                    </Route>
 
-                    <Route path="/sign-in" element={components(<SignIn />, <CookieConsent />)} />
+                    <Route path="/" element={<HamburgerLayout auth={true} />}>
+                        <Route path="search" element={<Search />} />
+                        <Route path="settings/*" element={<Settings />} />
+                        <Route path="profile" element={<Profile />}>
+                            <Route path=":user_id" exact element={<Profile />} />
+                        </Route>
+                    </Route>
+
+                    <Route path="/sign-in" element={<SignIn />} />
                     <Route path="/sign-in/challenge" element={<SignInChallenge />} />
-                    <Route path="/reset-password" element={<ResetPassword />} />
+                    <Route path="/reset-password" element={<ResetPasswordRequest />} />
+                    <Route path="/reset-password/confirm" element={<ResetPasswordConfirm />} />
 
                     <Route path="/setup/profile-setup" element={<ProfileSetup />} />
                     <Route path="/setup/info-input" element={<InfoInput />} />
 
-                    <Route path="/sign-up" element={components(<SignUpEntrace />, <CookieConsent />)} />
+                    <Route path="/sign-up" element={<SignUpEntrace />} />
                     <Route path="/sign-up/:role" element={<SignUpForm />} />
                     <Route path="/sign-up/closed" element={<SignUpClosed />} />
 
-                    <Route path="/contact-us" element={components(<Navbar />, <ContactUs />, <Footer />, <CookieConsent />)} />
-
-                    <Route path="/terms/privacy-policy" element={components(<Navbar />, <PrivacyPolicy />, <Footer />)} />
-                    <Route path="/terms/terms-conditions" element={components(<Navbar />, <TermsConditions />, <Footer />)} />
-                    <Route path="/terms/cookies-policy" element={components(<Navbar />, <CookiesPolicy />, <Footer />)} />
-
-                    <Route path="/404" element={components(<NotFound />)} />
-                    <Route path="*" element={<Navigate to="/404" />} />
-
+                    <Route path="/404" element={<NotFound />} />
+                    <Route path="*" element={<NotFound />} />
                 </Routes>
             </Router>
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={true}
+                newestOnTop={true}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                transition={Slide}
+                className="text-sm rounded-md"
+            />
         </Account>
     );
 };

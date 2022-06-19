@@ -1,22 +1,22 @@
 import React, { useState, useContext } from "react";
-import { XCircleIcon } from "@heroicons/react/solid";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import { AccountContext } from "../../components/Account";
 import { changeBaseURL, changeSearchParam, getSearchParam, requiresProfileSetup } from "../../components/Utils";
 import Button from "../../components/Button";
 
 const SignIn = () => {
+    const navigate = useNavigate();
 
     const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error_message, setErrorMessage] = useState(null);
     const { signIn } = useContext(AccountContext);
 
 
     const onSubmit = () => {
         setLoading(true);
-        setErrorMessage(null);
 
         signIn(email, password)
             .then(response => {
@@ -34,9 +34,9 @@ const SignIn = () => {
                     let destination = "";
                     destination = changeBaseURL(window.location.href, redirect);
                     destination = changeSearchParam(destination, "redirect", null);
-                    window.location.href = destination;
+                    navigate(destination, { replace: true });
                 } else {
-                    window.location.href = "/";
+                    navigate("/", { replace: true });
                 }
             })
             .catch(error => {
@@ -54,8 +54,10 @@ const SignIn = () => {
                     destination = changeSearchParam(destination, "session", session);
                     destination = changeSearchParam(destination, "sub", sub);
 
-                    window.location.href = destination;
-                } else setErrorMessage(response.message);
+                    navigate(destination, { replace: true });
+                } else {
+                    toast.error(error.response.data.message);
+                }
             })
             .finally(() => {
                 setLoading(false);
@@ -80,25 +82,6 @@ const SignIn = () => {
                 <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
                     <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
                         <div className="space-y-7">
-                            {/* Error message */}
-                            {
-                                error_message !== null &&
-                                <div className="bg-red-50 rounded-md p-4 mt-3">
-                                    <div className="flex">
-                                        <div className="flex-shrink-0">
-                                            <XCircleIcon className="h-5 w-5 text-red-400" aria-hidden="true" />
-                                        </div>
-                                        <div className="ml-2">
-                                            <div className="text-red-700 text-sm">
-                                                <ul className="">
-                                                    <li>{error_message}</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-
                             <div>
                                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                                     Email address
@@ -113,7 +96,6 @@ const SignIn = () => {
                                         className="appearance-none block w-full px-3 py-2.5 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
                                         onChange={(event) => {
                                             setEmail(event.target.value);
-                                            setErrorMessage(null);
                                         }}
                                         onKeyPress={(event) => {
                                             if (event.key === "Enter") {
@@ -121,7 +103,6 @@ const SignIn = () => {
                                                 onSubmit();
                                             } else {
                                                 setEmail(event.target.value);
-                                                setErrorMessage(null);
                                             }
                                         }}
                                     />

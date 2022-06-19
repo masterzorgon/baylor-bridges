@@ -1,24 +1,17 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { Dialog, Transition, Listbox } from "@headlessui/react";
 import { SelectorIcon, CheckIcon, EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
+import { toast } from "react-toastify";
 import axios from "axios";
 
-import Container from "./Container";
 import Photo from "../../components/Photo";
 import Button from "../../components/Button";
 import Markdown from "../../components/Markdown";
 
-import { classNames } from "../../components/Utils";
+import { classNames, states } from "../../components/Utils";
 
 
 const x_fields = "user_id, first_name, last_name, headline, role, occupation, graduate_year, graduate_semester, city, state, biography, contact_info";
-
-const states = [
-    { title: "Arizona", value: "AZ", description: "AZ" }, { title: "New York", value: "NY", description: "NY" }, { title: "Connecticut", value: "CT", description: "CT" }, { title: "Maryland", value: "MD", description: "MD" }, { title: "Washington", value: "WA", description: "WA" }, { title: "Oregon", value: "OR", description: "OR" }, { title: "Nevada", value: "NV", description: "NV" }, { title: "New Mexico", value: "NM", description: "NM" }, { title: "District of Columbia", value: "DC", description: "DC" }, { title: "Delaware", value: "DE", description: "DE" }, { title: "Massachusetts", value: "MA", description: "MA" }, { title: "Minnesota", value: "MN", description: "MN" }, { title: "Wisconsin", value: "WI", description: "WI" }, { title: "Illinois", value: "IL", description: "IL" },
-    { title: "Vermont", value: "VT", description: "VT" }, { title: "Rhode Island", value: "RI", description: "RI" }, { title: "New Jersey", value: "NJ", description: "NJ" }, { title: "Colorado", value: "CO", description: "CO" }, { title: "California", value: "CA", description: "CA" }, { title: "Pennsylvania", value: "PA", description: "PA" }, { title: "Virginia", value: "VA", description: "VA" }, { title: "Georgia", value: "GA", description: "GA" }, { title: "Maine", value: "ME", description: "ME" }, { title: "New Hampshire", value: "NH", description: "NH" }, { title: "Hawaii", value: "HI", description: "HI" }, { title: "Idaho", value: "ID", description: "ID" }, { title: "Montana", value: "MT", description: "MT" }, { title: "Indiana", value: "IN", description: "IN" },
-    { title: "Alaska", value: "AK", description: "AK" }, { title: "Kentucky", value: "KY", description: "KY" }, { title: "North Carolina", value: "NC", description: "NC" }, { title: "West Virginia", value: "WV", description: "WV" }, { title: "Wyoming", value: "WY", description: "WY" }, { title: "North Dakota", value: "ND", description: "ND" }, { title: "South Dakota", value: "SD", description: "SD" }, { title: "Nebraska", value: "NE", description: "NE" }, { title: "Utah", value: "UT", description: "UT" }, { title: "Tennessee", value: "TN", description: "TN" }, { title: "Kansas", value: "KS", description: "KS" }, { title: "Oklahoma", value: "OK", description: "OK" }, { title: "Texas", value: "TX", description: "TX" },
-    { title: "Missouri", value: "MO", description: "MO" }, { title: "Arkansas", value: "AR", description: "AR" }, { title: "Alabama", value: "AL", description: "AL" }, { title: "Mississippi", value: "MS", description: "MS" }, { title: "Louisiana", value: "LA", description: "LA" }, { title: "Michigan", value: "MI", description: "MI" }, { title: "Florida", value: "FL", description: "FL" }, { title: "South Carolina", value: "SC", description: "SC" }, { title: "Ohio", value: "OH", description: "OH" }, { title: "Iowa", value: "IA", description: "IA" },
-];
 
 const semester = [
     { title: "Spring", value: "spring" },
@@ -151,11 +144,7 @@ const Profile = () => {
                 setAccount(res.data);
                 console.log(res.data);
             })
-            .catch(err => {
-                err.response.status && err.response.status === 401
-                    ? window.location.href = "/sign-in"
-                    : window.location.href = "/404";
-            });
+            .catch(err => toast.error(err.response.data.message));
 
     }, []);
 
@@ -572,8 +561,10 @@ const Profile = () => {
                 setAccount(res.data);
                 setOpen(false);
             })
-            .catch(err => console.log(err))
-            .finally(() => setLoading(false));
+            .catch(err => toast.error(err.response.data.message))
+            .finally(() => {
+                setLoading(false);
+            });
     };
 
     const makeField = (section_key, field_key, field) => {
@@ -611,28 +602,26 @@ const Profile = () => {
 
     return (
         <>
-            <Container current="profile">
-                {
-                    Object.entries(profile).map(([section_key, section]) => (
-                        <div key={section_key} className="mt-10 divide-y divide-gray-200">
-                            {/* Title and description */}
-                            <div className="space-y-1">
-                                <h3 className="text-lg leading-6 font-medium text-gray-900">{section.title}</h3>
-                                <p className="max-w-2xl text-sm text-gray-500">{section.description}</p>
-                            </div>
-                            <div className="mt-6">
-                                <dl className="divide-y divide-gray-200">
-                                    {
-                                        Object.entries(section.fields).map(([field_key, field]) => (
-                                            makeField(section_key, field_key, field)
-                                        ))
-                                    }
-                                </dl>
-                            </div>
+            {
+                Object.entries(profile).map(([section_key, section]) => (
+                    <div key={section_key} className="mt-10 divide-y divide-gray-200">
+                        {/* Title and description */}
+                        <div className="space-y-1">
+                            <h3 className="text-lg leading-6 font-medium text-gray-900">{section.title}</h3>
+                            <p className="max-w-2xl text-sm text-gray-500">{section.description}</p>
                         </div>
-                    ))
-                }
-            </Container>
+                        <div className="mt-6">
+                            <dl className="divide-y divide-gray-200">
+                                {
+                                    Object.entries(section.fields).map(([field_key, field]) => (
+                                        makeField(section_key, field_key, field)
+                                    ))
+                                }
+                            </dl>
+                        </div>
+                    </div>
+                ))
+            }
 
             <Transition.Root show={open} as={Fragment}>
                 <Dialog as="div" className="fixed z-50 inset-0 overflow-none" onClose={() => { if (!loading) setOpen(false); }}>

@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
 import USAMap from "react-usa-map";
-import { CheckIcon } from "@heroicons/react/outline";
+import { CheckIcon, ArrowSmRightIcon } from "@heroicons/react/outline";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 import { AccountContext } from "../components/Account";
 import Photo from "../components/Photo";
 import { states } from "../components/Utils";
+import { HyperLink } from "../components/Button";
 
 
 // This is where the features in the landing page is configured
@@ -87,13 +89,13 @@ const Home = () => {
                                         <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">
                                             Connect with your <span className="text-gradient bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500">fellow Bears</span> today
                                         </h1>
-                                        <p className="mt-6 text-xl text-gray-500">
-                                            A brand new platform for Baylor alumni and current students to
+                                        <p className="mt-6 text-lg text-gray-500">
+                                            A brand new web platform for Baylor alumni and current students to
                                             connect and explore the vast and endless possibilities
                                             of the Baylor Brdges network.
                                         </p>
                                     </div>
-                                    <div className="h-28 sm:max-w-lg mt-12">
+                                    <div className="h-28 sm:max-w-lg mt-12 lg:max-w-lg">
                                         {
                                             account ?
                                                 <>
@@ -113,17 +115,16 @@ const Home = () => {
                                                 <>
                                                     <div className="sm:w-full sm:flex">
                                                         <a
-                                                            className="font-semibold text-center w-full flex justify-center px-4 py-5 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed relative bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 hover:opacity-90 shadow-md"
-                                                            // className="text-center w-full flex justify-center px-4 py-5 border border-transparent font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed relative"
+                                                            className="font-semibold text-center w-full flex justify-center px-4 py-5 text-lg rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed relative bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 hover:opacity-90 shadow-md"
                                                             href="/sign-up"
                                                         >
-                                                            Sign Up / Join the Community
+                                                            Join the Community
                                                         </a>
                                                     </div>
-                                                    <div className="mt-8 sm:mt-5 flex space-x-1 justify-center">
+                                                    <div className="mt-8 sm:mt-4 flex space-x-1 justify-center">
                                                         <div className="text-center">
-                                                            <span className="block sm:inline">Already have an account?</span>{" "}
-                                                            <a href="/sign-in" className="text-base font-medium text-emerald-600 hover:text-emerald-800 underline underline-offset-4">Continue with Sign In</a>
+                                                            <span className="block sm:inline text-gray-700">Already have an account?</span>{" "}
+                                                            <HyperLink href="/sign-in" arrow={true} className="text-base font-medium text-emerald-600 hover:text-emerald-800">Continue</HyperLink>
                                                         </div>
                                                     </div>
                                                 </>
@@ -248,27 +249,13 @@ const Home = () => {
                             <span className="block">Ready to dive in?</span>
                             <span className="block">Create your account today.</span>
                         </h2>
-                        <div className="mt-8 flex justify-center">
-                            <>
-                                <div className="inline-flex rounded-md shadow">
-                                    <button
-                                        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                                        className="inline-flex items-center justify-center px-5 py-3 text-base font-medium rounded-md text-white bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 hover:opacity-90"
-                                    >
-                                        Back to top
-                                    </button>
-                                </div>
-                                <div className="ml-3 inline-flex">
-                                    <a
-                                        href="https://www.baylor.edu/prehealth/index.php?id=981654"
-                                        target="_blank"
-                                        rel="noreferrer"
-                                        className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-emerald-700 bg-emerald-100 hover:bg-emerald-200"
-                                    >
-                                        Learn more
-                                    </a>
-                                </div>
-                            </>
+                        <div className="mt-4 flex justify-center">
+                            <Link
+                                to="/sign-up"
+                                className="font-sm p-4 rounded-full text-white bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 hover:opacity-90 w-16 h-16"
+                            >
+                                <ArrowSmRightIcon />
+                            </Link>
                         </div>
                     </div>
                 </div>

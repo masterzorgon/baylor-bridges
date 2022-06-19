@@ -162,3 +162,25 @@ input, textarea, select {
   border-bottom-width: 2px;
   border-color: #0596689e;
 }
+
+.Toastify * {
+  font-family: 'Inter', sans-serif !important;
+  --toastify-color-success: #059669;
+}
+
+.Toastify__toast{
+  border-radius: 0.4rem;
+}
+
+.Toastify__toast{
+  padding: 1rem 0.75rem;
+}
+
+.Toastify__close-button{
+  margin: auto 0;
+}
+
+.Toastify__close-button > svg {
+  height: 1.0rem;
+  width: 1.2rem;
+}
