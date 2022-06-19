@@ -418,16 +418,16 @@ const Search = () => {
                                                 <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
                                                     <div>
                                                         {
-                                                            (profile.first_name || profile.last_name) ?
-                                                                <p className="text-sm font-medium text-emerald-600 truncate">{profile.first_name} {profile.last_name}</p>
-                                                                :
-                                                                <p className="text-sm font-medium text-gray-500 truncate">Baylor Bridges User</p>
+                                                            (profile.first_name || profile.last_name)
+                                                                ? <p className="text-sm text-gray-900 truncate" dangerouslySetInnerHTML={{ __html: `${profile._highlightResult.first_name.value}, ${profile._highlightResult.last_name.value}` }} />
+                                                                : <p className="text-sm font-medium text-gray-500 truncate">Baylor Bridges User</p>
                                                         }
                                                         {
                                                             profile.headline &&
-                                                            <p className="mt-0.5 flex items-center text-sm text-gray-500">
-                                                                <span className="truncate">{profile.headline}</span>
-                                                            </p>
+                                                            <p
+                                                                className="text-sm text-gray-500 flex mt-0.5 truncate"
+                                                                dangerouslySetInnerHTML={{ __html: `${profile._highlightResult.headline.value}` }}
+                                                            />
                                                         }
                                                     </div>
                                                     <div className="hidden md:block">
@@ -492,7 +492,6 @@ const SearchInput = ({ focus, onFocus }) => {
         axios.get("/search", { params: { keywords: keywords, limit: 5 }, signal: newAbortController.signal })
             .then((res) => {
                 setSearchResult(res.data);
-                console.log("SEARCH RESULTS", searchResult);
             })
             .catch(error => {
                 console.log(error);
@@ -545,21 +544,28 @@ const SearchInput = ({ focus, onFocus }) => {
                 >
                     <div className="z-50 bg-white absolute shadow-md py-2 rounded-md w-full max-w-md mt-4 top-16">
                         <ul className="">
-                            {searchResult?.profiles?.map((person) => (
-                                <li key={person.user_id}>
-                                    <a className="transition-all py-4 px-5 flex hover:bg-gray-50 space-x-2.5" href={"/profile/" + person.user_id} rel="noreferrer">
+                            {searchResult?.profiles?.map((profile) => (
+                                <li key={profile.user_id}>
+                                    <a className="transition-all py-4 px-5 flex hover:bg-gray-50 space-x-2.5" href={"/profile/" + profile.user_id} rel="noreferrer">
                                         <div className="h-10 w-10">
-                                            <Photo size="10" account={person} badges={true} />
+                                            <Photo size="10" account={profile} badges={true} />
                                         </div>
                                         <div className="flex justify-center flex-col">
-                                            <div className="text-sm text-gray-900" dangerouslySetInnerHTML={{ __html: `${person._highlightResult.first_name.value}, ${person._highlightResult.last_name.value}` }}>
-                                                {/* {person.first_name} {person.last_name} */}
-                                            </div>
+                                            <p
+                                                className="text-sm text-gray-900"
+                                                dangerouslySetInnerHTML={
+                                                    { __html: `${profile._highlightResult.first_name.value}, ${profile._highlightResult.last_name.value}` }
+                                                }
+                                            />
+
                                             {
-                                                person.headline?.length > 0 &&
-                                                <div className="text-sm text-gray-500" dangerouslySetInnerHTML={{ __html: `${person._highlightResult.headline.value}` }}>
-                                                    {/* {person.headline} */}
-                                                </div>
+                                                profile.headline?.length > 0 &&
+                                                <p
+                                                    className="text-sm text-gray-500"
+                                                    dangerouslySetInnerHTML={
+                                                        { __html: `${profile._highlightResult.headline.value}` }
+                                                    }
+                                                />
                                             }
                                         </div>
                                     </a>
