@@ -7,7 +7,7 @@ import { ArrowSmRightIcon, MailIcon } from "@heroicons/react/outline";
 import { classNames } from "../../components/Utils";
 import axios from "axios";
 
-const InitialForm = () => {
+const EmailForm = () => {
     const [loading, setLoading] = useState(false);
     const [complete, setComplete] = useState(false);
     const [step, setStep] = useState(1);
@@ -171,4 +171,4 @@ const InitialForm = () => {
     );
 };
 
-export default InitialForm;
+export default EmailForm;

@@ -7,7 +7,7 @@ import Button from "../../components/Button";
 
 import { classNames } from "../../components/Utils";
 import axios from "axios";
-const ConfirmForm = () => {
+const PasswordForm = () => {
     const [loading, setLoading] = useState(false);
     const [complete, setComplete] = useState(false);
     const [error_message, setErrorMessage] = useState(null);
@@ -164,4 +164,4 @@ const ConfirmForm = () => {
         </div>
     );
 };
-export default ConfirmForm;
+export default PasswordForm;

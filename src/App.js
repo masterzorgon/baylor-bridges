@@ -21,9 +21,9 @@ import { default as ResetPasswordRequest } from "./Pages/forget-password/Request
 import { default as ResetPasswordConfirm } from "./Pages/forget-password/Confirm";
 import { default as SignInChallenge } from "./Pages/signin/Challenge";
 import { default as SignUpEntrace } from "./Pages/signup/Entrace";
-import { default as SignUpForm } from "./Pages/signup/InitialForm";
+import { default as SignUpForm } from "./Pages/signup/EmailForm";
 import { default as SignUpInitialComplete } from "./Pages/signup/InitialFormComplete";
-import { default as SignUpConfirmForm } from "./Pages/signup/ConfirmForm";
+import { default as SignUpConfirmForm } from "./Pages/signup/PasswordForm";
 import { default as SignUpClosed } from "./Pages/signup/Closed";
 import { default as Settings } from "./Pages/settings/Settings";
 
@@ -162,7 +162,6 @@ const App = () => {
                     <Route path="/sign-up" element={<SignUpEntrace />} />
                     <Route path="/sign-up/:role" element={<SignUpForm />} />
                     <Route path="/sign-up/closed" element={<SignUpClosed />} />
-                    <Route path="/sign-up/initial" element={<SignUpInitialComplete />} />
                     <Route path="/sign-up/confirm" element={<SignUpConfirmForm/> } />
 
                     <Route path="/404" element={<NotFound />} />
