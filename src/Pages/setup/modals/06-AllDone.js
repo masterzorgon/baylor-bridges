@@ -93,46 +93,38 @@ const AllDone = ({ account, transition }) => {
 
     return (
         <>
-            <section aria-labelledby="contact-heading">
-                <ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
+            <ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
+            <div className="flex-1 relative pt-16 pb-8">
 
-                {/* ALERT NOTIFICATION ABOVE */}
-                <div className="grid grid-cols-1 gap-y-20 lg:gap-y-0 lg:gap-x-8 mx-auto">
-                    <div className="flex flex-col bg-white rounded-2xl">
-                        <div className="flex-1 relative pt-16 pb-8">
-
-                            {transition((style, item) => {
-                                return item
-                                    ?
-                                    <animated.div style={style} className="absolute top-0 p-5 inline-block bg-emerald-600 rounded-xl shadow-lg transform -translate-y-1/2">
-                                        <CheckCircleIcon className="h-6 w-6 text-white" aria-hidden="true" />
-                                    </animated.div>
-                                    : "";
-                            })}
-                            <h2 className="mt-6 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-                                <span className="text-gradient bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500">You&apos;re all set!</span>
-                                <span className="block">Great job.</span>
-                            </h2>
-                            <p className="mt-4 text-base text-gray-500">
-                                Thank you so much for taking the time to set up your Baylor Bridges account.
-                                We hope you enjoy our platform, and please feel to reach out via the Contact Us
-                                page if you have any questions or concerns.
-                            </p>
-                            <div className="flex justify-between mt-6 space-x-2">
-                                <Button
-                                    className="sm:w-fit px-5 py-3"
-                                    onClick={onSubmit}
-                                    arrow={true}
-                                    loading={loading}
-                                    disabled={loading}
-                                >
-                                    Next
-                                </Button>
-                            </div>
-                        </div>
-                    </div>
+                {transition((style, item) => {
+                    return item
+                        ?
+                        <animated.div style={style} className="absolute top-0 p-5 inline-block bg-emerald-600 rounded-xl shadow-lg transform -translate-y-1/2">
+                            <CheckCircleIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                        </animated.div>
+                        : "";
+                })}
+                <h2 className="mt-6 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    <span className="text-gradient bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500">You&apos;re all set!</span>
+                    <span className="block">Great job.</span>
+                </h2>
+                <p className="mt-4 text-base text-gray-500">
+                    Thank you so much for taking the time to set up your Baylor Bridges account.
+                    We hope you enjoy our platform, and please feel to reach out via the Contact Us
+                    page if you have any questions or concerns.
+                </p>
+                <div className="flex justify-between mt-6 space-x-2">
+                    <Button
+                        className="sm:w-fit px-5 py-3"
+                        onClick={onSubmit}
+                        arrow={true}
+                        loading={loading}
+                        disabled={loading}
+                    >
+                        Next
+                    </Button>
                 </div>
-            </section>
+            </div>
         </>
     );
 };

@@ -128,7 +128,6 @@ const InfoInput = () => {
                 </div>
             </div>
 
-
             {/* INPUT MODALS */}
             <Transition
                 show={show}
@@ -142,7 +141,13 @@ const InfoInput = () => {
             >
                 <div className="z-10 min-h-screen flex flex-col justify-center ">
                     <div className="bg-white max-w-2xl mx-auto py-12 px-4 sm:px-6 md:py-16 lg:px-8 lg:py-20 mt-2">
-                        {displayModals()}
+                        <section aria-labelledby="contact-heading">
+                            <div className="grid grid-cols-1 gap-y-20 lg:gap-y-0 lg:gap-x-8 mx-auto">
+                                <div className="flex flex-col bg-white rounded-2xl">
+                                    {displayModals()}
+                                </div>
+                            </div>
+                        </section>
                     </div>
                 </div>
             </Transition>
