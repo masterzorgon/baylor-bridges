@@ -39,6 +39,7 @@ const EmailForm = () => {
                     if (res.code === "EmailExistsException") {
                         setErrorMessage("This email address is already associated with another account.");
                     } else if (res.code === "ConfirmationRequiredException") {
+                        setStep(2);
                         // DO we still have this in case?
                     } else {
                         setErrorMessage("We are unable to continue for you at this moment.");
