@@ -64,7 +64,7 @@ const ContactInput = ({ required, loading, modal, account, setAccount, transitio
                         account={account}
                         modal={modal}
                         loading={loading}
-                        required={required && (account.contact_info.email !== "" && account.contact_info.phone !== "")}
+                        required={account.contact_info.email !== "" && account.contact_info.phone !== ""}
                     />
                 </div>
             </div>

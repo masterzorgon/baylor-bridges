@@ -118,11 +118,20 @@ const GradInput = ({ required, loading, modal, account, setAccount, handleChange
                             placeholder="2001"
                             onChange={event => {
                                 // Check if it's 4 digits
-                                console.log(event);
-                                console.log(!isNaN(event.target.value));
+                                console.log("CHANGE GRAD YEAR", event);
+                                console.log("IsNumber", !isNaN(event.target.value));
+                                console.log("TYPE", typeof(event.target.value));
+                                console.log("NUMBER", event.target.value);
+
+                                // verify that it is less than or equal to 4 characters
+                                // verify that the value provided is a number
+                                // take into consideration the user deletes their input
+
                                 if (event.target.value.length <= 4 && !isNaN(event.target.value)) {
                                     setAccount({ ...account, graduate_year: parseInt(event.target.value) });
                                 }
+                                if (event.target.value === "" || event.target.value === " ") setAccount({ ...account, graduate_year: "" });
+
                             }}
                             value={account.graduate_year}
                         />
@@ -135,7 +144,7 @@ const GradInput = ({ required, loading, modal, account, setAccount, handleChange
                         account={account}
                         modal={modal}
                         loading={loading}
-                        required={required && (account.graduate_year !== "" && account.graduate_semester !== "")}
+                        required={account.graduate_year !== "" && account.graduate_semester !== ""}
                     />
                 </div>
             </div>

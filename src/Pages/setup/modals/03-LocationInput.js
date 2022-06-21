@@ -129,7 +129,7 @@ const LocationInput = ({ required, loading, modal, account, setAccount, transiti
                         account={account}
                         modal={modal}
                         loading={loading}
-                        required={required && (account.state !== "" && account.city !== "")}
+                        required={account.state !== "" && account.city !== ""}
                     />
                 </div>
             </div>

@@ -18,7 +18,7 @@ const InfoInput = () => {
     const [show, setShow] = useState(false); // used to fade modals in and out
     const [, , showTheModal] = useTimeoutFn(() => setShow(true), 400); // used to fade modals in
     const [, , takeAwayModal] = useTimeoutFn(() => setShow(false), 100); // used to fade modal out
-    const [modal, setModal] = useState(1); // used to switch between modals
+    const [modal, setModal] = useState(4); // used to switch between modals
     const [account, setAccount] = useState({}); // updates account info
     const [loading, setLoading] = useState(false); // indicates that data is being sent to server
 
@@ -70,12 +70,12 @@ const InfoInput = () => {
 
     // displays modals
     const displayModals = () => {
-        if (modal === 1) { return <NameInput        required={true} loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
-        if (modal === 2) { return <ContactInput     required={true} loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
-        if (modal === 3) { return <LocationInput    required={true} loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
-        if (modal === 4) { return <GradInput        required={true} loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
-        if (modal === 5) { return <HeadlineInput    required={true} loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
-        if (modal === 6) { return <AllDone          required={true} loading={loading} setLoading={setLoading} modal={modal} account={account} transition={transition} />; }
+        if (modal === 1) { return <NameInput        loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
+        if (modal === 2) { return <ContactInput     loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
+        if (modal === 3) { return <LocationInput    loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
+        if (modal === 4) { return <GradInput        loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
+        if (modal === 5) { return <HeadlineInput    loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
+        if (modal === 6) { return <AllDone          loading={loading} setLoading={setLoading} modal={modal} account={account} transition={transition} />; }
     };
 
     return (

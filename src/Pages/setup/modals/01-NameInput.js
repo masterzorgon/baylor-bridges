@@ -60,7 +60,7 @@ const NameInput = ({ required, loading, setLoading, modal, account, setAccount, 
                         account={account}
                         modal={modal}
                         loading={loading}
-                        required={required}
+                        required={true}
                     />
                 </div>
             </div>
