@@ -70,12 +70,12 @@ const InfoInput = () => {
 
     // displays modals
     const displayModals = () => {
-        if (modal === 1) { return <NameInput        loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
-        if (modal === 2) { return <ContactInput     loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
-        if (modal === 3) { return <LocationInput    loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
-        if (modal === 4) { return <GradInput        loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
-        if (modal === 5) { return <HeadlineInput    loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
-        if (modal === 6) { return <AllDone          loading={loading} setLoading={setLoading} modal={modal} account={account} transition={transition} />; }
+        if (modal === 1) { return <NameInput        required={true} loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
+        if (modal === 2) { return <ContactInput     required={true} loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
+        if (modal === 3) { return <LocationInput    required={true} loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
+        if (modal === 4) { return <GradInput        required={true} loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
+        if (modal === 5) { return <HeadlineInput    required={true} loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
+        if (modal === 6) { return <AllDone          required={true} loading={loading} setLoading={setLoading} modal={modal} account={account} transition={transition} />; }
     };
 
     return (

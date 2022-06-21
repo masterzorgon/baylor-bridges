@@ -2,7 +2,7 @@ import React from "react";
 
 import Button from "../../../../components/Button";
 
-const Buttons = ({ loading, modal, account, handleChangeModal }) => {
+const Buttons = ({ required, loading, modal, account, handleChangeModal }) => {
 
     return (
         <>
@@ -23,11 +23,7 @@ const Buttons = ({ loading, modal, account, handleChangeModal }) => {
                 onClick={async () => handleChangeModal("next")}
                 arrow={true}
             >
-                {modal === 1 && "Next"}
-                {modal === 2 && (account.contact_info.email === "" && account.contact_info.phone === "" ? "Skip" : "Next")}
-                {modal === 3 && (account.state === "" && account.city === "" ? "Skip" : "Next")}
-                {modal === 4 && (account.graduate_year === "" && account.graduate_semester === "" ? "Skip" : "Next")}
-                {modal === 5 && (account.headline === "" && account.biography === "" ? "Skip" : "Next")}
+                {required ? "Next" : "Skip"}
             </Button>
         </>
     );

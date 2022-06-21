@@ -11,7 +11,7 @@ const semesters = [
     { title: "Fall", value: "fall" }
 ];
 
-const GradInput = ({ loading, modal, account, setAccount, handleChangeModal, transition }) => {
+const GradInput = ({ required, loading, modal, account, setAccount, handleChangeModal, transition }) => {
 
     const [semester, setSemester] = useState(semesters[0]);
 
@@ -135,6 +135,7 @@ const GradInput = ({ loading, modal, account, setAccount, handleChangeModal, tra
                         account={account}
                         modal={modal}
                         loading={loading}
+                        required={required && (account.graduate_year !== "" && account.graduate_semester !== "")}
                     />
                 </div>
             </div>

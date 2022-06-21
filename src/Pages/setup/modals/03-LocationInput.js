@@ -6,7 +6,7 @@ import { animated } from "react-spring";
 import Buttons from "./components/Buttons";
 import { states, classNames } from "../../../components/Utils";
 
-const LocationInput = ({ loading, modal, account, setAccount, transition, handleChangeModal }) => {
+const LocationInput = ({ required, loading, modal, account, setAccount, transition, handleChangeModal }) => {
 
     const [state, setState] = useState(states[0]);
 
@@ -129,6 +129,7 @@ const LocationInput = ({ loading, modal, account, setAccount, transition, handle
                         account={account}
                         modal={modal}
                         loading={loading}
+                        required={required && (account.state !== "" && account.city !== "")}
                     />
                 </div>
             </div>

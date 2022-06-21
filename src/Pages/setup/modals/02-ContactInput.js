@@ -4,7 +4,7 @@ import { animated } from "react-spring";
 
 import Buttons from "./components/Buttons";
 
-const ContactInput = ({ loading, modal, account, setAccount, transition, handleChangeModal }) => {
+const ContactInput = ({ required, loading, modal, account, setAccount, transition, handleChangeModal }) => {
     return (
         <>
             <div className="flex-1 relative pt-16 pb-8">
@@ -64,6 +64,7 @@ const ContactInput = ({ loading, modal, account, setAccount, transition, handleC
                         account={account}
                         modal={modal}
                         loading={loading}
+                        required={required && (account.contact_info.email !== "" && account.contact_info.phone !== "")}
                     />
                 </div>
             </div>

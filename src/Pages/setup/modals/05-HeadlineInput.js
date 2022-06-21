@@ -4,7 +4,7 @@ import { animated } from "react-spring";
 
 import Buttons from "./components/Buttons";
 
-const HeadlineInput = ({ loading, modal, account, setAccount, transition, handleChangeModal }) => {
+const HeadlineInput = ({ required, loading, modal, account, setAccount, transition, handleChangeModal }) => {
 
     return (
         <>
@@ -64,6 +64,7 @@ const HeadlineInput = ({ loading, modal, account, setAccount, transition, handle
                         account={account}
                         modal={modal}
                         loading={loading}
+                        required={required && (account.headline !== "" && account.biography !== "")}
                     />
                 </div>
             </div>
