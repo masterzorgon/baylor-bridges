@@ -1,10 +1,10 @@
 // import axios from "axios";
 import React, { Fragment, useState, useEffect } from "react";
 import { Transition } from "@headlessui/react";
-import { useTransition } from "react-spring";
 import { useTimeoutFn } from "react-use";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useTransition } from "react-spring";
 
 import NameInput from "./modals/01-NameInput";
 import ContactInput from "./modals/02-ContactInput";
@@ -18,7 +18,7 @@ const InfoInput = () => {
     const [show, setShow] = useState(false); // used to fade modals in and out
     const [, , showTheModal] = useTimeoutFn(() => setShow(true), 400); // used to fade modals in
     const [, , takeAwayModal] = useTimeoutFn(() => setShow(false), 100); // used to fade modal out
-    const [modal, setModal] = useState(4); // used to switch between modals
+    const [modal, setModal] = useState(1); // used to switch between modals
     const [account, setAccount] = useState({}); // updates account info
     const [loading, setLoading] = useState(false); // indicates that data is being sent to server
 
@@ -77,6 +77,35 @@ const InfoInput = () => {
         if (modal === 5) { return <HeadlineInput    loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
         if (modal === 6) { return <AllDone          loading={loading} setLoading={setLoading} modal={modal} account={account} transition={transition} />; }
     };
+
+    // const modalContent = {
+    //     modals: {
+    //         name: {
+    //             title: "Name",
+    //             icon: ""
+    //         },
+    //         contact: {
+    //             title: "Contact Information",
+    //             icon: ""
+    //         },
+    //         location: {
+    //             title: "Location Information",
+    //             icon: ""
+    //         },
+    //         grad: {
+    //             title: "Graduating Class",
+    //             icon: ""
+    //         },
+    //         headline: {
+    //             title: "Headline",
+    //             icon: ""
+    //         },
+    //         alldone: {
+    //             title: "",
+    //             icon: ""
+    //         }
+    //     }
+    // };
 
     return (
         <>

@@ -118,7 +118,6 @@ const profile = {
     },
 };
 
-
 const Profile = () => {
     const [account, setAccount] = useState(null);
 

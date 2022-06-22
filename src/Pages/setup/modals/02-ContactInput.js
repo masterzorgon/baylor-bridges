@@ -8,7 +8,6 @@ const ContactInput = ({ required, loading, modal, account, setAccount, transitio
     return (
         <>
             <div className="flex-1 relative pt-16 pb-8">
-
                 {transition((style, item) => {
                     return item
                         ?
@@ -17,7 +16,6 @@ const ContactInput = ({ required, loading, modal, account, setAccount, transitio
                         </animated.div>
                         : "";
                 })}
-
                 <h3 className="text-xl font-medium text-gray-900">Contact Information</h3>
                 <p className="mt-4 text-base text-gray-500">
                     Please provide the contact information through which
@@ -64,7 +62,10 @@ const ContactInput = ({ required, loading, modal, account, setAccount, transitio
                         account={account}
                         modal={modal}
                         loading={loading}
-                        required={account.contact_info.email !== "" && account.contact_info.phone !== ""}
+                        required={
+                            (account.contact_info.email !== null && account.contact_info.phone !== null) &&
+                            (account.contact_info.email !== "" && account.contact_info.phone !== "")
+                        }
                     />
                 </div>
             </div>

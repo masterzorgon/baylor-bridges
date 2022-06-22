@@ -64,7 +64,10 @@ const HeadlineInput = ({ required, loading, modal, account, setAccount, transiti
                         account={account}
                         modal={modal}
                         loading={loading}
-                        required={account.headline !== "" && account.biography !== ""}
+                        required={
+                            (account.headline !== null && account.biography !== null) &&
+                            (account.headline !== "" && account.biography !== "")
+                        }
                     />
                 </div>
             </div>

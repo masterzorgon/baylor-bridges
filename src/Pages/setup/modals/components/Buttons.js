@@ -3,7 +3,6 @@ import React from "react";
 import Button from "../../../../components/Button";
 
 const Buttons = ({ required, loading, modal, account, handleChangeModal }) => {
-
     return (
         <>
             <Button

@@ -125,12 +125,13 @@ const GradInput = ({ required, loading, modal, account, setAccount, handleChange
 
                                 // verify that it is less than or equal to 4 characters
                                 // verify that the value provided is a number
-                                // take into consideration the user deletes their input
-
+                                // take into consideration the user deletes their input and accidentally inputs a space char
                                 if (event.target.value.length <= 4 && !isNaN(event.target.value)) {
                                     setAccount({ ...account, graduate_year: parseInt(event.target.value) });
                                 }
-                                if (event.target.value === "" || event.target.value === " ") setAccount({ ...account, graduate_year: "" });
+                                if (event.target.value === "" || event.target.value === " ") {
+                                    setAccount({ ...account, graduate_year: "" });
+                                }
 
                             }}
                             value={account.graduate_year}
@@ -144,7 +145,10 @@ const GradInput = ({ required, loading, modal, account, setAccount, handleChange
                         account={account}
                         modal={modal}
                         loading={loading}
-                        required={account.graduate_year !== "" && account.graduate_semester !== ""}
+                        required={
+                            (account.graduate_year !== null && account.graduate_semester !== null) &&
+                            (account.graduate_year !== "" && account.graduate_semester !== "")
+                        }
                     />
                 </div>
             </div>
