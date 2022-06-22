@@ -44,7 +44,22 @@ const PasswordForm = () => {
         })
             .then(res => {
                 // TODO: direct to sign in?
-                window.location.href = "/setup/profile-setup";
+
+                // automatically sign in once success
+                axios.post("/accounts/signin", {
+                    username: email,
+                    password: password
+                }).then(res => {
+                    console.log("auto sign in");
+                    console.log(res);
+                    window.location.href = "/setup/profile-setup";
+                })
+                    .catch(err => {
+                        let response = err.response.data;
+                        setErrorMessage(response.message);
+                    });
+
+
             }).catch(err => {
                 let response = err.response.data;
                 setErrorMessage(response.message);

@@ -32,6 +32,7 @@ const EmailForm = () => {
                 .then(res => {
                     // to success page
                     console.log("success");
+                    setErrorMessage(null);
                     setStep(2);
                 }).catch(err => {
                     let res = err.response.data;
