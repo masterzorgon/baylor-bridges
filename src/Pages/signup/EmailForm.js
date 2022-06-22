@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import Button from "../../components/Button";
-import { ArrowSmRightIcon, MailIcon } from "@heroicons/react/outline";
+import { ArrowSmRightIcon, MailIcon, ArrowLeftIcon } from "@heroicons/react/outline";
 
 import { classNames } from "../../components/Utils";
 import axios from "axios";
@@ -108,12 +108,21 @@ const EmailForm = () => {
                     <span className="block">You are almost there!</span>
                 </h2>
                 <p className="mt-4 mx-auto text-gray-700">
-                    We send the <span className="underline underline-offset-4 decoration-emerald-400">verification link</span> to your email { email },
+                    We send the <span className="underline underline-offset-4 decoration-emerald-400">verification link</span> to your email {email},
                     please check your inboxes and complete the sign-up process!
                     we are glad to have you joining our Baylor Bridges Family :)
 
                 </p>
             </div>
+        );
+    };
+
+    const returnButton = () => {
+        return (
+            <button onClick={() => setStep(1)} className=" flex items-center mb-4 text-sm text-emerald-600 hover:text-green-700">
+                <ArrowLeftIcon width="1em" />
+                <span className="ml-2">{email}</span>
+            </button>
         );
     };
 
@@ -153,6 +162,8 @@ const EmailForm = () => {
 
                 <div className="px-5 mt-10 md:mt-2 md:bg-white md:shadow md:rounded-lg md:px-8 md:py-8 md:-mx-8">
 
+                    {step === 2 && returnButton()}
+
                     {/* Error message */}
                     {
                         error_message !== null &&
@@ -160,6 +171,7 @@ const EmailForm = () => {
                             {error_message}
                         </p>
                     }
+
 
                     {step === 1 && step1()}
                     {step === 2 && step2()}
