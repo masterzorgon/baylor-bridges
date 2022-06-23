@@ -1,6 +1,6 @@
 import React from "react";
 
-const Confirmation = ({email}) => {
+const Confirmation = ({ email }) => {
     return (
         <div className="md:mx-10 my-8">
             <h2 className="mt-6 font-serif text-xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">

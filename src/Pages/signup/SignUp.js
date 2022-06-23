@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
-import { useParams, useNavigate, Navigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import { classNames } from "../../components/Utils";
+import NotFound from "../404";
+
 import Entrance from "./Entrace";
 import EmailAddress from "./EmailAddress";
 import Confirmation from "./Confirmation";
@@ -49,78 +51,99 @@ const Progress = ({ currentStep }) => {
 
 const SignUp = () => {
     const [step, setStep] = useState(null);
+    const [email, setEmail] = useState(null);
+    const [token, setToken] = useState(null);
+
+    useEffect(() => {
+        const queryParams = new URLSearchParams(window.location.search);
+        const email = queryParams.get("email");
+        const token = queryParams.get("token");
+
+        setEmail(email);
+        setToken(token);
+    }, []);
 
     const Step = () => {
         const { step: step_route, role } = useParams();
-        const navigate = useNavigate();
 
         console.log("role", role, "step", step_route);
 
         if (role !== "student" && role !== "alumni") {
-            navigate("/404", { replace: true });
+            return <NotFound />;
         } else if (role === "alumni") {
             window.location.href = "https://baylor.qualtrics.com/jfe/form/SV_8v5U3apajzQVm86";
-            return <Navigate to={"https://baylor.qualtrics.com/jfe/form/SV_8v5U3apajzQVm86"} />;
+            return;
         }
 
         setStep(step_route);
 
-        if (step_route === "1") {
-            return <EmailAddress />;
+        let view = null;
+
+        if (step_route === "1" || !step_route) {
+            view = <EmailAddress email={email} />;
         } else if (step_route === "2") {
-            return <Confirmation />;
+            view = <Confirmation email={email} />;
         } else if (step_route === "3") {
-            return <Password />;
+            view = <Password email={email} token={token} />;
         } else {
-            navigate("/404", { replace: true });
+            return <NotFound />;
         }
+
+        return (
+
+            <div className="bg-white py-12 px-4 overflow-hidden sm:px-6 lg:px-8 h-screen">
+                <div className="relative max-w-xl mx-auto">
+                    <svg className="absolute left-full transdiv translate-x-1/2" width={404} height={404} fill="none" viewBox="0 0 404 404" aria-hidden="true">
+                        <defs>
+                            <pattern id="85737c0e-0916-41d7-917f-596dc7edfa27" x={0} y={0} width={20} height={20} patternUnits="userSpaceOnUse">
+                                <rect x={0} y={0} width={4} height={4} className="text-gray-200" fill="currentColor" />
+                            </pattern>
+                        </defs>
+                        <rect width={404} height={404} fill="url(#85737c0e-0916-41d7-917f-596dc7edfa27)" />
+                    </svg>
+                    <svg className="absolute right-full bottom-0 transdiv -translate-x-1/2" width={404} height={404} fill="none" viewBox="0 0 404 404" aria-hidden="true">
+                        <defs>
+                            <pattern id="85737c0e-0916-41d7-917f-596dc7edfa27" x={0} y={0} width={20} height={20} patternUnits="userSpaceOnUse">
+                                <rect x={0} y={0} width={4} height={4} className="text-gray-200" fill="currentColor" />
+                            </pattern>
+                        </defs>
+                        <rect width={404} height={404} fill="url(#85737c0e-0916-41d7-917f-596dc7edfa27)" />
+                    </svg>
+
+                    {/* Title and subtitle */}
+                    <div className="text-center">
+                        <a href="/">
+                            <img
+                                className="mx-auto h-9 w-auto"
+                                src="/Baylor-University-Athletics-01.svg"
+                                alt="Workflow"
+                            />
+                        </a>
+                        <h2 className="mt-2 text-lg font-extrabold tracking-tight text-gray-900 sm:text-2xl">Sign up</h2>
+                    </div>
+
+                    <Progress currentStep={step} />
+
+                    <div className="px-5 mt-10 md:mt-2 md:bg-white md:shadow md:rounded-lg md:px-8 md:py-8 md:-mx-8">
+                        {view}
+
+                    </div>
+
+                </div>
+            </div>
+        );
     };
 
     return (
-        <div className="bg-white py-12 px-4 overflow-hidden sm:px-6 lg:px-8 h-screen">
-            <div className="relative max-w-xl mx-auto">
-                <svg className="absolute left-full transdiv translate-x-1/2" width={404} height={404} fill="none" viewBox="0 0 404 404" aria-hidden="true">
-                    <defs>
-                        <pattern id="85737c0e-0916-41d7-917f-596dc7edfa27" x={0} y={0} width={20} height={20} patternUnits="userSpaceOnUse">
-                            <rect x={0} y={0} width={4} height={4} className="text-gray-200" fill="currentColor" />
-                        </pattern>
-                    </defs>
-                    <rect width={404} height={404} fill="url(#85737c0e-0916-41d7-917f-596dc7edfa27)" />
-                </svg>
-                <svg className="absolute right-full bottom-0 transdiv -translate-x-1/2" width={404} height={404} fill="none" viewBox="0 0 404 404" aria-hidden="true">
-                    <defs>
-                        <pattern id="85737c0e-0916-41d7-917f-596dc7edfa27" x={0} y={0} width={20} height={20} patternUnits="userSpaceOnUse">
-                            <rect x={0} y={0} width={4} height={4} className="text-gray-200" fill="currentColor" />
-                        </pattern>
-                    </defs>
-                    <rect width={404} height={404} fill="url(#85737c0e-0916-41d7-917f-596dc7edfa27)" />
-                </svg>
-
-                {/* Title and subtitle */}
-                <div className="text-center">
-                    <a href="/">
-                        <img
-                            className="mx-auto h-9 w-auto"
-                            src="/Baylor-University-Athletics-01.svg"
-                            alt="Workflow"
-                        />
-                    </a>
-                    <h2 className="mt-2 text-lg font-extrabold tracking-tight text-gray-900 sm:text-2xl">Sign up</h2>
-                </div>
-
-                <Progress currentStep={step} />
-
-                <div className="px-5 mt-10 md:mt-2 md:bg-white md:shadow md:rounded-lg md:px-8 md:py-8 md:-mx-8">
-                    <Routes>
-                        <Route path="/">
-                            <Route path="/" index element={<Entrance />} />
-                        </Route>
-                        <Route path=":role/step-:step" element={<Step />} />
-                    </Routes>
-                </div>
-
-            </div>
-        </div>
+        <Routes>
+            <Route path="/">
+                <Route path="/" index element={<Entrance />} />
+            </Route>
+            <Route path=":role" element={<Step />}>
+                <Route path="step-:step" element={<Step />} />
+            </Route>
+            <Route path="*" element={<NotFound />} />
+        </Routes>
     );
 };
 
