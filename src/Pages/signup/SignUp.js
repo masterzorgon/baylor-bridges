@@ -50,23 +50,20 @@ const Progress = ({ currentStep }) => {
 };
 
 const SignUp = () => {
-    const [step, setStep] = useState(null);
-    const [email, setEmail] = useState(null);
-    const [token, setToken] = useState(null);
-
-    useEffect(() => {
-        const queryParams = new URLSearchParams(window.location.search);
-        const email = queryParams.get("email");
-        const token = queryParams.get("token");
-
-        setEmail(email);
-        setToken(token);
-    }, []);
-
     const Step = () => {
-        const { step: step_route, role } = useParams();
+        const { step, role } = useParams();
+        const [email, setEmail] = useState(null);
+        const [token, setToken] = useState(null);
+        console.log("role", role, "step", step);
 
-        console.log("role", role, "step", step_route);
+        useEffect(() => {
+            const queryParams = new URLSearchParams(window.location.search);
+            const email = queryParams.get("email");
+            const token = queryParams.get("token");
+
+            setEmail(email);
+            setToken(token);
+        }, []);
 
         if (role !== "student" && role !== "alumni") {
             return <NotFound />;
@@ -75,15 +72,12 @@ const SignUp = () => {
             return;
         }
 
-        setStep(step_route);
-
         let view = null;
-
-        if (step_route === "1" || !step_route) {
+        if (step === "1" || !step) {
             view = <EmailAddress email={email} />;
-        } else if (step_route === "2") {
+        } else if (step === "2") {
             view = <Confirmation email={email} />;
-        } else if (step_route === "3") {
+        } else if (step === "3") {
             view = <Password email={email} token={token} />;
         } else {
             return <NotFound />;
