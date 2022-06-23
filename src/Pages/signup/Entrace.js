@@ -4,21 +4,20 @@ import { CheckCircleIcon } from "@heroicons/react/solid";
 
 import { classNames, changeBaseURL } from "../../components/Utils";
 
+const roles = [
+    {
+        key: "student",
+        title: "Current Students",
+        description: "Sign up as a current student of the Baylor University, and make your connections in the networks.",
+    },
+    {
+        key: "alumni",
+        title: "Baylor Alumni",
+        description: "Sign up as an aluminus of the Baylor University, and present yourself in the networks.",
+    },
+];
 
 const Entrace = () => {
-    const roles = [
-        {
-            key: "student",
-            title: "Current Students",
-            description: "Sign up as a current student of the Baylor University, and make your connections in the networks.",
-        },
-        {
-            key: "alumni",
-            title: "Baylor Alumni",
-            description: "Sign up as an aluminus of the Baylor University, and present yourself in the networks.",
-        },
-    ];
-
     const [currentRole, setCurrentRole] = useState(null);
 
     const onNext = () => {
