@@ -57,13 +57,14 @@ const PasswordForm = () => {
                     .catch(err => {
                         let response = err.response.data;
                         setErrorMessage(response.message);
+                    }).finally(() => {
+                        setLoading(false);
                     });
 
 
             }).catch(err => {
                 let response = err.response.data;
                 setErrorMessage(response.message);
-            }).finally(() => {
                 setLoading(false);
             });
     };
