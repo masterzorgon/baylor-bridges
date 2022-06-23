@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import Button from "../../components/Button";
 import { ArrowSmRightIcon, MailIcon, ArrowLeftIcon } from "@heroicons/react/outline";
@@ -15,14 +15,29 @@ const EmailForm = () => {
 
     const [email, setEmail] = useState("");
 
-
     const { role } = useParams();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        let reg = /^\w+([-+.'][^\s]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+        let is_valid = reg.test(email || "");
+
+        if (role === "student") {
+            is_valid = is_valid && email.endsWith("@baylor.edu");
+        }
+
+        setComplete(email && email !== "" && is_valid);
+        setErrorMessage(null);
+    }, [role, email]);
+
     if (role !== "student" && role !== "alumni") {
-        window.location.href = "/404";
+        navigate("/404", { replace: true });
+    } else if (role === "alumni") {
+        window.location.href = "https://baylor.qualtrics.com/jfe/form/SV_8v5U3apajzQVm86";
+        return;
     }
 
     const onSubmit = () => {
-
         if (step === 1) {
             setLoading(true);
             axios.post("/accounts/signup", {
@@ -51,18 +66,6 @@ const EmailForm = () => {
 
 
     };
-
-    useEffect(() => {
-        let reg = /^\w+([-+.'][^\s]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
-        let is_valid = reg.test(email || "");
-
-        if (role === "student") {
-            is_valid = is_valid && email.endsWith("@baylor.edu");
-        }
-
-        setComplete(email && email !== "" && is_valid);
-        setErrorMessage(null);
-    }, [role, email]);
 
     const step1 = () => {
         return (
