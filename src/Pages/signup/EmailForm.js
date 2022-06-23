@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { MailIcon, ArrowLeftIcon } from "@heroicons/react/outline";
+import axios from "axios";
 
 import Button from "../../components/Button";
-import { ArrowSmRightIcon, MailIcon, ArrowLeftIcon } from "@heroicons/react/outline";
-
 import { classNames } from "../../components/Utils";
-import axios from "axios";
 
 const EmailForm = () => {
     const [loading, setLoading] = useState(false);
@@ -38,33 +37,25 @@ const EmailForm = () => {
     }
 
     const onSubmit = () => {
-        if (step === 1) {
-            setLoading(true);
-            axios.post("/accounts/signup", {
-                username: email,
-                role: role
-            })
-                .then(res => {
-                    // to success page
-                    console.log("success");
-                    setErrorMessage(null);
+        setLoading(true);
+        axios.post("/accounts/signup", {
+            username: email,
+            role: role
+        })
+            .then(res => {
+                setErrorMessage(null);
+                setStep(2);
+            }).catch(err => {
+                let res = err.response.data;
+
+                if (res.code === "ConfirmationRequiredException") {
                     setStep(2);
-                }).catch(err => {
-                    let res = err.response.data;
-
-                    if (res.code === "EmailExistsException") {
-                        setErrorMessage("This email address is already associated with another account.");
-                    } else if (res.code === "ConfirmationRequiredException") {
-                        setStep(2);
-                    } else {
-                        setErrorMessage("We are unable to continue for you at this moment.");
-                    }
-                }).finally(() => {
-                    setLoading(false);
-                });
-        }
-
-
+                } else {
+                    setErrorMessage(res.message);
+                }
+            }).finally(() => {
+                setLoading(false);
+            });
     };
 
     const step1 = () => {
@@ -93,11 +84,9 @@ const EmailForm = () => {
                         onClick={onSubmit}
                         loading={loading}
                         disabled={loading || !complete}
+                        arrow={true}
                     >
-                        <span className={`flex items-center ${loading ? "invisible" : ""}`}>
-                            <span>Next</span>
-                            <ArrowSmRightIcon className="h-4 w-4" />
-                        </span>
+                        Next
                     </Button>
                 </div>
             </>
