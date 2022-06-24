@@ -1,29 +1,30 @@
 import React, { useState } from "react";
 import { RadioGroup } from "@headlessui/react";
 import { CheckCircleIcon } from "@heroicons/react/solid";
+import { useNavigate } from "react-router-dom";
 
 import { classNames, changeBaseURL } from "../../components/Utils";
 
+const roles = [
+    {
+        key: "student",
+        title: "Current Students",
+        description: "Sign up as a current student of the Baylor University, and make your connections in the networks.",
+    },
+    {
+        key: "alumni",
+        title: "Baylor Alumni",
+        description: "Sign up as an aluminus of the Baylor University, and present yourself in the networks.",
+    },
+];
 
 const Entrace = () => {
-    const roles = [
-        {
-            key: "student",
-            title: "Current Students",
-            description: "Sign up as a current student of the Baylor University, and make your connections in the networks.",
-        },
-        {
-            key: "alumni",
-            title: "Baylor Alumni",
-            description: "Sign up as an aluminus of the Baylor University, and present yourself in the networks.",
-        },
-    ];
-
     const [currentRole, setCurrentRole] = useState(null);
+    const navigate = useNavigate();
 
     const onNext = () => {
         const url = changeBaseURL(window.location.href, "/sign-up/" + currentRole);
-        window.location.href = url;
+        navigate(url);
     };
 
     return (
