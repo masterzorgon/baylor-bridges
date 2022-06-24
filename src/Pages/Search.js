@@ -1,17 +1,17 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Menu, Popover, Transition } from "@headlessui/react";
 import { ChevronRightIcon, ChevronDownIcon, TrashIcon, SearchIcon } from "@heroicons/react/outline";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, createSearchParams, useNavigate } from "react-router-dom";
 import USAMap from "react-usa-map";
 import axios from "axios";
 import dayjs from "dayjs";
 import { DebounceInput } from "react-debounce-input";
 import TooltipSlider from "rc-slider";
+import { useDebounce } from "use-debounce";
 
 import { classNames } from "../components/Utils";
 import Photo from "../components/Photo";
 import { states } from "../components/Utils";
-import { useDebounce } from "use-debounce";
 
 const GraduateYearSlider = ({ value, onChange }) => {
     const MIN = 1970;
@@ -466,6 +466,8 @@ const Search = () => {
 };
 
 const SearchInput = ({ focus, onFocus }) => {
+    const navigate = useNavigate();
+
     const [searchParams] = useSearchParams();
     const [abortController, setAbortController] = useState(new AbortController());
 
@@ -524,7 +526,10 @@ const SearchInput = ({ focus, onFocus }) => {
                         onChange={(e) => { setKeywords(e.target.value); }}
                         onKeyPress={(e) => {
                             if (e.key === "Enter") {
-                                window.location.href = "/search?keywords=" + encodeURIComponent(keywords);
+                                navigate({
+                                    pathname: "/search",
+                                    search: createSearchParams({ keywords: keywords }).toString()
+                                });
                             }
                         }}
                     />

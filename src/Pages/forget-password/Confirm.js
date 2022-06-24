@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 import Password from "../../components/Password";
 import Button from "../../components/Button";
 
 const Confirm = () => {
-
+    const navigate = useNavigate();
     const [password_checked, setPasswordChecked] = useState(""); // used to determine whether password meets security requirements
     const [password, setPassword] = useState(""); // input state for the user's new password
     const [token, setToken] = useState(""); // auth token parsed from the url params
@@ -17,14 +18,18 @@ const Confirm = () => {
     const handleNewPassword = async () => {
         setLoading(true);
         try {
-            const res = await axios.post("/accounts/password/confirm", {
+            axios.post("/accounts/password/confirm", {
                 email: email,
                 token: token,
                 new_password: password,
+            }).then((res) => {
+                toast.success("Password changed successfully");
+                console.log(res);
+                navigate("/sign-in");
+            }).catch((err) => {
+                toast.error(err.response.data.message);
+                console.log(err);
             });
-            toast.success("Password changed successfully");
-            console.log(res);
-            setTimeout(() => window.location.href = "/sign-in", 2000);
         } catch (error) {
             toast.error(error.response.data.message);
             console.log(error);

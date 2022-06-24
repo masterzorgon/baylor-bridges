@@ -94,7 +94,8 @@ const Challenge = () => {
 
     // If it is an undefined challenge, then it is an error (Or could be a challenge have not been implemented yet)
     if (challenges[name] === undefined) {
-        window.location.href = "/404";
+        navigate("/404");
+        return;
     }
 
     const onSubmit = (event) => {

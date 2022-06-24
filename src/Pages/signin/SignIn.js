@@ -24,7 +24,7 @@ const SignIn = () => {
 
                 if (requiresProfileSetup(response)) {
                     let destination = changeBaseURL(window.location.href, "/setup/profile-setup");
-                    window.location.href = destination;
+                    navigate(destination);
                     return;
                 }
 

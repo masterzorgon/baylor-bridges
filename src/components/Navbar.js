@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useContext, useEffect } from "react";
 import { Popover, Transition, Menu } from "@headlessui/react";
 import { MenuIcon, ChevronDownIcon, CogIcon, LogoutIcon } from "@heroicons/react/outline";
+import { useNavigate } from "react-router-dom";
 
 import { AccountContext } from "./Account";
 import { classNames, changeBaseURL, changeSearchParam } from "./Utils";
@@ -8,6 +9,7 @@ import Photo from "./Photo";
 import { SearchInput } from "../Pages/Search";
 
 const Navbar = ({ hideOnTop }) => {
+    const navigate = useNavigate();
     const { signOut, getAccount, getAccountLocal } = useContext(AccountContext);
     const [account, setAccount] = useState(null);
     const [signInUrl, setSignInUrl] = useState("");
@@ -44,12 +46,12 @@ const Navbar = ({ hideOnTop }) => {
         signOut()
             .then(() => {
                 setAccount(null);
-                window.location.href = "/";
+                navigate("/");
             });
     };
 
     const handleSettings = () => {
-        window.location.href = "/settings";
+        navigate("/settings");
     };
 
     const additionalClassNames = classNames((!hideOnTop || pageYOffset > window.screen.height * 0.5) ? "opacity-100" : "opacity-0 pointer-events-none", hideOnTop === true ? "fixed w-full" : "sticky", "transition-all");
