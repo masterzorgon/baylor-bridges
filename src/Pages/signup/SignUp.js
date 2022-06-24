@@ -77,7 +77,7 @@ const SignUp = () => {
             view = <EmailAddress email={email} role={role} />;
         } else if (step === "2") {
             view = <Confirmation email={email} role={role} />;
-        } else if (step === "3") {
+        } else if (step === "3" && email && role && token) {
             view = <Password email={email} role={role} token={token} />;
         } else {
             return <NotFound />;
