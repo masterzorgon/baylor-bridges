@@ -148,7 +148,7 @@ const Form = () => {
                                 </div>
 
                                 <div className="text-sm">
-                                    <a href="/reset-password" className="font-medium text-emerald-600 hover:text-emerald-500">
+                                    <a href="/forget-password" className="font-medium text-emerald-600 hover:text-emerald-500">
                                         Forgot your password?
                                     </a>
                                 </div>

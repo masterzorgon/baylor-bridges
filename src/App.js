@@ -15,17 +15,15 @@ import NotFound from "./Pages/404";
 import Terms from "./Pages/terms/Terms";
 
 import SignIn from "./Pages/signin/SignIn";
-import { default as ResetPasswordRequest } from "./Pages/forget-password/Request";
-import { default as ResetPasswordConfirm } from "./Pages/forget-password/Confirm";
 import SignUp from "./Pages/signup/SignUp";
-import Settings from "./Pages/settings/Settings";
+import ForgetPassword from "./Pages/forget-password/ForgetPassword";
 
 import ProfileSetup from "./Pages/setup/ProfileSetup";
 import InfoInput from "./Pages/setup/InfoInput";
 
 import Search from "./Pages/Search";
 import Profile from "./Pages/profile/Profile";
-
+import Settings from "./Pages/settings/Settings";
 
 import { Account, AccountContext } from "./components/Account";
 
@@ -141,14 +139,12 @@ const App = () => {
                         </Route>
                     </Route>
 
-                    <Route path="/reset-password" element={<ResetPasswordRequest />} />
-                    <Route path="/reset-password/confirm" element={<ResetPasswordConfirm />} />
-
                     <Route path="/setup/profile-setup" element={<ProfileSetup />} />
                     <Route path="/setup/info-input" element={<InfoInput />} />
 
                     <Route path="/sign-in/*" element={<SignIn />} />
                     <Route path="/sign-up/*" element={<SignUp />} />
+                    <Route path="/forget-password/*" element={<ForgetPassword />} />
 
                     <Route path="/404" element={<NotFound />} />
                     <Route path="*" element={<NotFound />} />
