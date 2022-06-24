@@ -109,6 +109,28 @@ input, textarea, select {
   stroke-dashoffset: 20;
 }
 
+.link:after, .link:before {
+  position: absolute;
+  bottom: -0.15em;
+  left: 0;
+  width: calc(100% - 1em);
+  height: 2px;
+  pointer-events: none;
+  content: "";
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: 0 0;
+  transition: transform .3s ease;
+  transition-property: transform, background-color;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
+}
+
+.link:hover:after, .link:hover:before{
+  transform: scaleX(1);
+}
+
 .rc-slider-track {
   background-color: #059669;
 }
