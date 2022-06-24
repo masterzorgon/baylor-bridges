@@ -264,7 +264,13 @@ const tech = {
             name: "Benjamin Li",
             role: ["Bug Developer", "Tina's Cat"],
             imageUrl: "Banjamin.jpg"
-        }
+        },
+        {
+            name: "Daniela Cortes Bermudez",
+            role: "Back-end / Database Developer",
+            imageUrl: "https://compote.slate.com/images/46d8cbe9-dd09-4a4b-be7b-1970e45a5220.jpeg?width=780&height=520&rect=3840x2560&offset=0x0",
+
+        },
         // More people...
     ]
 };
