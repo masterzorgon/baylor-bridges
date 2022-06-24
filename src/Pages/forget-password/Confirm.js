@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import Password from "../../components/Password";
 import Button from "../../components/Button";
@@ -54,13 +54,13 @@ const Confirm = () => {
         <>
             <div className="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-md">
-                    <a href="/">
+                    <Link to="/">
                         <img
                             className="mx-auto h-20 w-auto"
                             src="/Baylor-University-Athletics-01.svg"
                             alt="Workflow"
                         />
-                    </a>
+                    </Link>
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
                         Let&#39;s set your<br></br>
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500">

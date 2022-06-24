@@ -12,23 +12,18 @@ import About from "./Pages/About";
 import ContactUs from "./Pages/ContactUs";
 import NotFound from "./Pages/404";
 
-import PrivacyPolicy from "./Pages/policies&terms/PrivacyPolicy";
-import TermsConditions from "./Pages/policies&terms/Terms&Conditions";
-import CookiesPolicy from "./Pages/policies&terms/CookiesPolicy";
+import Terms from "./Pages/terms/Terms";
 
 import SignIn from "./Pages/signin/SignIn";
-import { default as ResetPasswordRequest } from "./Pages/forget-password/Request";
-import { default as ResetPasswordConfirm } from "./Pages/forget-password/Confirm";
-import { default as SignInChallenge } from "./Pages/signin/Challenge";
 import SignUp from "./Pages/signup/SignUp";
-import { default as Settings } from "./Pages/settings/Settings";
+import ForgetPassword from "./Pages/forget-password/ForgetPassword";
 
 import ProfileSetup from "./Pages/setup/ProfileSetup";
 import InfoInput from "./Pages/setup/InfoInput";
 
 import Search from "./Pages/Search";
 import Profile from "./Pages/profile/Profile";
-
+import Settings from "./Pages/settings/Settings";
 
 import { Account, AccountContext } from "./components/Account";
 
@@ -133,10 +128,7 @@ const App = () => {
                     <Route path="/" element={<HamburgerLayoutWithCookieConsent />}>
                         <Route path="about" element={<About />} />
                         <Route path="contact-us" element={<ContactUs />} />
-
-                        <Route path="terms/privacy-policy" element={<PrivacyPolicy />} />
-                        <Route path="terms/terms-conditions" element={<TermsConditions />} />
-                        <Route path="terms/cookies-policy" element={<CookiesPolicy />} />
+                        <Route path="terms/*" element={<Terms />} />
                     </Route>
 
                     <Route path="/" element={<HamburgerLayout auth={true} />}>
@@ -147,15 +139,12 @@ const App = () => {
                         </Route>
                     </Route>
 
-                    <Route path="/sign-in" element={<SignIn />} />
-                    <Route path="/sign-in/challenge" element={<SignInChallenge />} />
-                    <Route path="/reset-password" element={<ResetPasswordRequest />} />
-                    <Route path="/reset-password/confirm" element={<ResetPasswordConfirm />} />
-
                     <Route path="/setup/profile-setup" element={<ProfileSetup />} />
                     <Route path="/setup/info-input" element={<InfoInput />} />
 
+                    <Route path="/sign-in/*" element={<SignIn />} />
                     <Route path="/sign-up/*" element={<SignUp />} />
+                    <Route path="/forget-password/*" element={<ForgetPassword />} />
 
                     <Route path="/404" element={<NotFound />} />
                     <Route path="*" element={<NotFound />} />

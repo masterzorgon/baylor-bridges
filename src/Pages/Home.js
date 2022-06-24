@@ -101,7 +101,7 @@ const Home = () => {
                                                 <>
                                                     {/* You're signed in as: */}
                                                     <p className="sr-only">You are signed in as</p>
-                                                    <a href="/profile" className="flex-shrink-0 flex grow bg-gray-100 rounded-lg px-6 py-6 space-x-2.5 hover:bg-gray-200">
+                                                    <Link to="/profile" className="flex-shrink-0 flex grow bg-gray-100 rounded-lg px-6 py-6 space-x-2.5 hover:bg-gray-200">
                                                         <Photo size="11" badges={true} />
                                                         <div className="">
                                                             <div className="text-base font-semibold text-gray-800">{account.first_name} {account.last_name}</div>
@@ -109,7 +109,7 @@ const Home = () => {
                                                         </div>
                                                         <div className="grow"></div>
                                                         <p className="text-gray-400 uppercase text-sm font-medium m-auto hidden sm:block text-center">Signed In</p>
-                                                    </a>
+                                                    </Link>
                                                 </>
                                                 :
                                                 <>

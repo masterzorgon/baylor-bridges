@@ -1,20 +1,21 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 
-import Form from "./Form";
-import Challenge from "./Challenge";
 import NotFound from "../404";
 
-const SignIn = () => {
+import Request from "./Request";
+import Confirm from "./Confirm";
+
+const ForgetPassword = () => {
     return (
         <>
             <Routes>
-                <Route path="/" index element={<Form />} />
-                <Route path="challenge" element={<Challenge />} />
+                <Route path="/" index element={<Request />} />
+                <Route path="confirm" element={<Confirm />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </>
     );
 };
 
-export default SignIn;
+export default ForgetPassword;
