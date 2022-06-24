@@ -12,9 +12,7 @@ import About from "./Pages/About";
 import ContactUs from "./Pages/ContactUs";
 import NotFound from "./Pages/404";
 
-import PrivacyPolicy from "./Pages/policies&terms/PrivacyPolicy";
-import TermsConditions from "./Pages/policies&terms/Terms&Conditions";
-import CookiesPolicy from "./Pages/policies&terms/CookiesPolicy";
+import Terms from "./Pages/terms/Terms";
 
 import SignIn from "./Pages/signin/SignIn";
 import { default as ResetPasswordRequest } from "./Pages/forget-password/Request";
@@ -132,10 +130,7 @@ const App = () => {
                     <Route path="/" element={<HamburgerLayoutWithCookieConsent />}>
                         <Route path="about" element={<About />} />
                         <Route path="contact-us" element={<ContactUs />} />
-
-                        <Route path="terms/privacy-policy" element={<PrivacyPolicy />} />
-                        <Route path="terms/terms-conditions" element={<TermsConditions />} />
-                        <Route path="terms/cookies-policy" element={<CookiesPolicy />} />
+                        <Route path="terms/*" element={<Terms />} />
                     </Route>
 
                     <Route path="/" element={<HamburgerLayout auth={true} />}>
