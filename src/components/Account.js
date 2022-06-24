@@ -6,7 +6,7 @@ const AccountContext = createContext();
 const Account = (props) => {
     const signIn = async (username, password) => {
         return await new Promise((resolve, reject) => {
-            axios.post("/accounts/signin", { username: username, password: password })
+            axios.post("/accounts/signin", { username: username, password: password }, { timeout: 60000 })
                 .then(response => {
                     if (response.status === 200) {
                         // Store to local storage and resolve
