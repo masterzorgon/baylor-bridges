@@ -1,31 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { Switch } from "@headlessui/react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-import {default as PasswordInput} from "../../components/Password";
+import { default as PasswordInput } from "../../components/Password";
 import { classNames } from "../../components/Utils";
 import Button from "../../components/Button";
 
-const Password = () => {
+const Password = ({ email, token }) => {
     const [loading, setLoading] = useState(false);
     const [complete, setComplete] = useState(false);
     const [error_message, setErrorMessage] = useState(null);
 
     const [password, setPassword] = useState("");
-    const [token, setToken] = useState(""); // auth token parsed from the url params
-    const [email, setEmail] = useState(""); // account submitting request parsed from url params
     const [agreed, setAgreed] = useState(false);
     const [password_checked, setPasswordChecked] = useState("");
 
-
-    useEffect(() => {
-        const queryParams = new URLSearchParams(window.location.search);
-        const email = queryParams.get("email");
-        const token = queryParams.get("token");
-
-        setEmail(email);
-        setToken(token);
-    }, []);
+    const navigate = useNavigate();
 
     useEffect(() => {
         setComplete(agreed && password_checked);
@@ -47,7 +38,7 @@ const Password = () => {
             }).then(res => {
                 console.log("auto sign in");
                 console.log(res);
-                window.location.href = "/setup/profile-setup";
+                navigate("/setup/profile-setup", { replace: true });
             }).catch(err => {
                 let response = err.response.data;
                 setErrorMessage(response.message);
@@ -63,15 +54,8 @@ const Password = () => {
 
     return (
         <>
-            <h3 className="text-lg leading-6 font-medium text-gray-900">Your password</h3>
-            <p className="mt-1 text-sm font-medium mb-4 text-gray-500">Set a password for your account.</p>
-            {/* Error message */}
-            {
-                error_message !== null &&
-                            <p className="mt-2 text-sm text-red-600">
-                                {error_message}
-                            </p>
-            }
+            <h3 className="text-lg leading-6 font-medium text-gray-900">Set your password</h3>
+            <p className="mt-1 text-sm font-medium mb-4 text-gray-500">Please set a password for your account {email}.</p>
             <PasswordInput
                 className="py-4"
                 onChange={(password, checked) => {
@@ -102,19 +86,26 @@ const Password = () => {
                 </div>
                 <div className="ml-3">
                     <p className="text-sm text-gray-500">
-                                    By selecting this, you agree to the{" "}
+                        By selecting this, you agree to the{" "}
                         <a href="/terms/terms-conditions" className="font-medium text-gray-700 underline">
-                                        Terms and Conditions
+                            Terms and Conditions
                         </a>
                         {" "}and{" "}
                         <a href="/terms/privacy-policy" className="font-medium text-gray-700 underline">
-                                        Privacy Policy
+                            Privacy Policy
                         </a>
-                                    .
+                        .
                     </p>
                 </div>
             </div>
 
+            {/* Error message */}
+            {
+                error_message !== null &&
+                <p className="mt-2 text-sm text-red-600">
+                    {error_message}
+                </p>
+            }
             <div className="mt-6 text-sm text-right w-full grid place-items-center space-y-4">
                 <Button
                     className="relative text-center text-sm px-4 py-4 border border-transparent font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed"
