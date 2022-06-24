@@ -8,6 +8,7 @@ import dayjs from "dayjs";
 import { DebounceInput } from "react-debounce-input";
 import TooltipSlider from "rc-slider";
 import { useDebounce } from "use-debounce";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 import { classNames } from "../components/Utils";
 import Photo from "../components/Photo";
@@ -121,7 +122,8 @@ const queryToString = (query, addons) => {
 };
 
 const Search = () => {
-    const [searchParams] = useSearchParams();
+    const [animation] = useAutoAnimate();
+    const [searchParams, setSearchParams] = useSearchParams();
     const [query, setQuery] = useState({});
     const [queryDebounce] = useDebounce(query, 250);
     const [mapStats, setMapStats] = useState({});
@@ -161,7 +163,7 @@ const Search = () => {
 
         console.log(query);
         setQuery({ ...query });
-    }, []);
+    }, [searchParams]);
 
 
     useEffect(() => {
@@ -171,7 +173,7 @@ const Search = () => {
             return;
         }
 
-        window.history.replaceState(null, null, "/search" + queryToString(queryDebounce));
+        setSearchParams(queryToString(queryDebounce));
         axios.get("/search" + queryToString(queryDebounce)).then((res) => {
             setProfiles(res.data.profiles);
             setMapStats(res.data.states);
@@ -404,7 +406,7 @@ const Search = () => {
 
                     {/* People list */}
                     <div className="bg-white sm:rounded-md mt-1">
-                        <ul className="divide-y divide-gray-100 px-6">
+                        <ul className="divide-y divide-gray-100 px-6" ref={animation}>
                             {profiles && profiles.map((profile) => (
                                 <li key={profile.user_id}>
                                     {/*TODO add href for account detail page*/}
@@ -466,6 +468,7 @@ const Search = () => {
 };
 
 const SearchInput = ({ focus, onFocus }) => {
+    const [animation] = useAutoAnimate();
     const navigate = useNavigate();
 
     const [searchParams] = useSearchParams();
@@ -530,6 +533,8 @@ const SearchInput = ({ focus, onFocus }) => {
                                     pathname: "/search",
                                     search: createSearchParams({ keywords: keywords }).toString()
                                 });
+                                onFocus(false);
+                                e.target.blur();
                             }
                         }}
                     />
@@ -548,14 +553,14 @@ const SearchInput = ({ focus, onFocus }) => {
                     show={focus && searchResult?.profiles?.length > 0 && keywords.length > 0}
                 >
                     <div className="z-50 bg-white absolute shadow-md py-2 rounded-md w-full max-w-md mt-4 top-16">
-                        <ul className="">
+                        <ul className="" ref={animation}>
                             {searchResult?.profiles?.map((profile) => (
                                 <li key={profile.user_id}>
                                     <a className="transition-all py-4 px-5 flex hover:bg-gray-50 space-x-2.5" href={"/profile/" + profile.user_id} rel="noreferrer">
                                         <div className="h-10 w-10">
                                             <Photo size="10" account={profile} badges={true} />
                                         </div>
-                                        <div className="flex justify-center flex-col">
+                                        <div className="flex justify-center flex-col truncate">
                                             <p
                                                 className="search-result-field text-sm text-gray-900"
                                                 dangerouslySetInnerHTML={
