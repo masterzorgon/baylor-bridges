@@ -6,7 +6,7 @@ import axios from "axios";
 import Button from "../../components/Button";
 import { classNames } from "../../components/Utils";
 
-const EmailAddress = ({email: email_query, role}) => {
+const EmailAddress = ({ email: email_query, role }) => {
     const [loading, setLoading] = useState(false);
     const [complete, setComplete] = useState(false);
     const [error_message, setErrorMessage] = useState(null);
@@ -39,8 +39,8 @@ const EmailAddress = ({email: email_query, role}) => {
                 if (res.code === "ConfirmationRequiredException") {
                     navigate({
                         pathname: "step-2",
-                        search: createSearchParams({"email": email})
-                    });
+                        search: createSearchParams({ "email": email }).toString()
+                    }, { replace: true });
                 } else {
                     setErrorMessage(res.message);
                 }
@@ -48,15 +48,6 @@ const EmailAddress = ({email: email_query, role}) => {
                 setLoading(false);
             });
     };
-
-    // const returnButton = () => {
-    //     return (
-    //         <button onClick={() => null} className=" flex items-center mb-4 text-sm text-emerald-600 hover:text-green-700">
-    //             <ArrowLeftIcon width="1em" />
-    //             <span className="ml-2">{email}</span>
-    //         </button>
-    //     );
-    // };
 
     return (
         <>

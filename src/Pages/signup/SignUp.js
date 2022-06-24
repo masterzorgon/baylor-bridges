@@ -116,7 +116,7 @@ const SignUp = () => {
                         <h2 className="mt-2 text-lg font-extrabold tracking-tight text-gray-900 sm:text-2xl">Sign up</h2>
                     </div>
 
-                    <Progress currentStep={step} />
+                    <Progress currentStep={step || "1"} />
 
                     <div className="px-5 mt-10 md:mt-2 md:bg-white md:shadow md:rounded-lg md:px-8 md:py-8 md:-mx-8">
                         {view}

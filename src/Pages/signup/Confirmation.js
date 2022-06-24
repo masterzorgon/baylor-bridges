@@ -1,18 +1,37 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { ArrowLeftIcon } from "@heroicons/react/outline";
 
 const Confirmation = ({ email }) => {
+    const navigate = useNavigate();
+
     return (
-        <div className="md:mx-10 my-8">
-            <h2 className="mt-6 font-serif text-xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
+        <>
+            <button onClick={() => navigate("step-1")} className=" flex items-center mb-4 text-sm text-emerald-600 hover:text-green-700">
+                <ArrowLeftIcon width="1em" />
+                <span className="ml-2">{email}</span>
+            </button>
+
+            <h2 className="mt-4 text-xl font-bold tracking-tight text-gray-900 sm:text-3xl">
                 {/* <span className="text-gradient bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500">Welcome!</span> */}
                 <span className="block">You are almost there!</span>
             </h2>
-            <p className="mt-5 mx-auto text-gray-700">
-                We have sent the <span className="underline underline-offset-4 decoration-emerald-400">verification link</span> to your email {email},
-                please check your inboxes and complete the sign-up process!
-                we are glad to have you joining our Baylor Bridges Family
+
+            <div className="mx-auto text-center">
+                <lord-icon
+                    src="https://cdn.lordicon.com/rhvddzym.json"
+                    trigger="loop"
+                    style={{ width: "8rem", height: "8rem" }}
+                >
+                </lord-icon>
+            </div>
+
+            <p className="mt-1 text-sm font-medium mb-4 text-gray-500">
+                We have sent you an email to your email address contains a {" "}
+                <span className="underline underline-offset-4 decoration-emerald-400">confirmation link</span>.
+                Please check your inbox and complete the sign-up process instructed in the email.
             </p>
-        </div>
+        </>
     );
 };
 
