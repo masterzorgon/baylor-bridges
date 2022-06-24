@@ -33,7 +33,7 @@ const HyperLink = ({ href, children, className, arrow }) => {
     return (
         <a
             href={href}
-            className={classNames("btn text-center justify-center inline-flex items-center relative cursor-pointer", className)}
+            className={classNames("link text-center justify-center inline-flex items-center relative cursor-pointer", className)}
         >
             {children}
             {

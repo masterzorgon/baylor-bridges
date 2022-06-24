@@ -124,7 +124,7 @@ const Home = () => {
                                                     <div className="mt-8 sm:mt-4 flex space-x-1 justify-center">
                                                         <div className="text-center">
                                                             <span className="block sm:inline text-gray-700">Already have an account?</span>{" "}
-                                                            <HyperLink href="/sign-in" arrow={true} className="text-base font-medium text-emerald-600 hover:text-emerald-800">Continue</HyperLink>
+                                                            <HyperLink href="/sign-in" arrow={true} className="text-base font-medium text-emerald-600 hover:text-emerald-800 after:bg-emerald-600 after:hover:bg-emerald-800">Continue</HyperLink>
                                                         </div>
                                                     </div>
                                                 </>
