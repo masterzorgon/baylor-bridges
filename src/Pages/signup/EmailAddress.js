@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, createSearchParams } from "react-router-dom";
 import { MailIcon } from "@heroicons/react/outline";
 import axios from "axios";
 
 import Button from "../../components/Button";
 import { classNames } from "../../components/Utils";
 
-const EmailAddress = () => {
+const EmailAddress = ({email: email_query, role}) => {
     const [loading, setLoading] = useState(false);
     const [complete, setComplete] = useState(false);
     const [error_message, setErrorMessage] = useState(null);
-    const [email, setEmail] = useState("");
+    const [email, setEmail] = useState(email_query || "");
 
-    const { role } = useParams();
-    console.log("email form", role);
+    const navigate = useNavigate();
 
     useEffect(() => {
         let reg = /^\w+([-+.'][^\s]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
@@ -37,9 +36,11 @@ const EmailAddress = () => {
                 setErrorMessage(null);
             }).catch(err => {
                 let res = err.response.data;
-
                 if (res.code === "ConfirmationRequiredException") {
-                    console.log("pass");
+                    navigate({
+                        pathname: "step-2",
+                        search: createSearchParams({"email": email})
+                    });
                 } else {
                     setErrorMessage(res.message);
                 }
@@ -57,19 +58,8 @@ const EmailAddress = () => {
     //     );
     // };
 
-    console.log("email");
-
     return (
         <>
-            {/* Error message */}
-            {
-                error_message !== null &&
-                <p className="mt-2 text-sm text-red-600">
-                    {error_message}
-                </p>
-            }
-
-
             <h3 className="text-lg leading-6 font-medium text-gray-900">Your email address</h3>
             <p className="mt-1 text-sm font-medium mb-4 text-gray-500">{role === "student" ? "Please use your Baylor University email to sign up as a current student." : "Please use your email address to sign up as an alumnus."}</p>
             <div className="mt-4 relative rounded-md shadow-sm">
@@ -86,6 +76,14 @@ const EmailAddress = () => {
                     onChange={(e) => setEmail(e.target.value)}
                 />
             </div>
+
+            {/* Error message */}
+            {
+                error_message !== null &&
+                <p className="mt-2 text-sm text-red-600">
+                    {error_message}
+                </p>
+            }
 
             <div className="mt-6 text-sm text-right w-full grid place-items-center space-y-4">
                 <Button

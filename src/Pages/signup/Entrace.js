@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { RadioGroup } from "@headlessui/react";
 import { CheckCircleIcon } from "@heroicons/react/solid";
+import { useNavigate } from "react-router-dom";
 
 import { classNames, changeBaseURL } from "../../components/Utils";
 
@@ -19,10 +20,11 @@ const roles = [
 
 const Entrace = () => {
     const [currentRole, setCurrentRole] = useState(null);
+    const navigate = useNavigate();
 
     const onNext = () => {
         const url = changeBaseURL(window.location.href, "/sign-up/" + currentRole);
-        window.location.href = url;
+        navigate(url);
     };
 
     return (

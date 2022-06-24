@@ -74,11 +74,11 @@ const SignUp = () => {
 
         let view = null;
         if (step === "1" || !step) {
-            view = <EmailAddress email={email} />;
+            view = <EmailAddress email={email} role={role} />;
         } else if (step === "2") {
-            view = <Confirmation email={email} />;
+            view = <Confirmation email={email} role={role} />;
         } else if (step === "3") {
-            view = <Password email={email} token={token} />;
+            view = <Password email={email} role={role} token={token} />;
         } else {
             return <NotFound />;
         }
@@ -120,7 +120,6 @@ const SignUp = () => {
 
                     <div className="px-5 mt-10 md:mt-2 md:bg-white md:shadow md:rounded-lg md:px-8 md:py-8 md:-mx-8">
                         {view}
-
                     </div>
 
                 </div>
