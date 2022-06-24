@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
 import USAMap from "react-usa-map";
-import { CheckIcon, ArrowSmRightIcon } from "@heroicons/react/outline";
+import { CheckIcon } from "@heroicons/react/outline";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
 import { AccountContext } from "../components/Account";
 import Photo from "../components/Photo";
 import { states } from "../components/Utils";
-import { HyperLink } from "../components/Button";
+import { HyperLink, Arrow } from "../components/Button";
 
 
 // This is where the features in the landing page is configured
@@ -252,9 +252,9 @@ const Home = () => {
                         <div className="mt-4 flex justify-center">
                             <Link
                                 to="/sign-up"
-                                className="font-sm p-4 rounded-full text-white bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 hover:opacity-90 w-16 h-16"
+                                className="btn font-sm rounded-full text-white bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 hover:opacity-90 w-16 h-16 flex justify-center flex-col items-center cursor-pointer"
                             >
-                                <ArrowSmRightIcon />
+                                <Arrow size={28} />
                             </Link>
                         </div>
                     </div>
