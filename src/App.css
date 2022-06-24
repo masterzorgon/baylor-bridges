@@ -10,6 +10,7 @@ html{
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
+  --btn-shadow-hover: 0 3px 2px rgba(0,0,0,.07),0 7px 5px rgba(0,0,0,.04),0 12px 10px rgba(0,0,0,.03),0 22px 18px rgba(0,0,0,.03),0 42px 33px rgba(0,0,0,.02),0 100px 80px rgba(0,0,0,.02);
 }
 
 .text-gradient {
@@ -205,4 +206,12 @@ input, textarea, select {
 .Toastify__close-button > svg {
   height: 1.0rem;
   width: 1.2rem;
+}
+
+.home .primary-btn{
+  transition: box-shadow .2s;
+}
+
+.home .primary-btn:hover{
+  box-shadow: var(--btn-shadow-hover);
 }
