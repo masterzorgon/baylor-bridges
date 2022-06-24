@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import { classNames } from "./Utils";
 
@@ -31,8 +32,8 @@ const Button = ({ onClick, loading, disabled, children, className, arrow }) => {
 
 const HyperLink = ({ href, children, className, arrow }) => {
     return (
-        <a
-            href={href}
+        <Link
+            to={href}
             className={classNames("link text-center justify-center inline-flex items-center relative cursor-pointer", className)}
         >
             {children}
@@ -40,7 +41,7 @@ const HyperLink = ({ href, children, className, arrow }) => {
                 arrow === true &&
                 <Arrow />
             }
-        </a>
+        </Link>
     );
 };
 
