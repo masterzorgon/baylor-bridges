@@ -8,10 +8,16 @@ const Confirmation = ({ email }) => {
                 <span className="ml-2">{email}</span>
             </button> */}
 
-            <h2 className="text-xl font-bold tracking-tight text-gray-900 sm:text-3xl">
+            <h2 className="text-lg font-medium text-gray-900">
                 {/* <span className="text-gradient bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500">Welcome!</span> */}
                 <span className="block">You are half-way there!</span>
             </h2>
+
+            <p className="mt-1 text-sm font-medium mb-4 text-gray-500">
+                We have sent you an email to your email address contains a {" "}
+                <span className="underline underline-offset-4 decoration-emerald-400">confirmation link</span>.
+                Please check your inbox and complete the sign-up process instructed in the email.
+            </p>
 
             <div className="mx-auto text-center">
                 <lord-icon
@@ -21,12 +27,6 @@ const Confirmation = ({ email }) => {
                 >
                 </lord-icon>
             </div>
-
-            <p className="mt-1 text-sm font-medium mb-4 text-gray-500">
-                We have sent you an email to your email address contains a {" "}
-                <span className="underline underline-offset-4 decoration-emerald-400">confirmation link</span>.
-                Please check your inbox and complete the sign-up process instructed in the email.
-            </p>
         </>
     );
 };
