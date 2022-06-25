@@ -75,7 +75,7 @@ const filters = {
     state: {
         title: "State",
         options: states,
-        className: "block lg:hidden",
+        className: "inline-block lg:hidden",
         show: true,
     },
 };
@@ -320,7 +320,7 @@ const Search = () => {
 
 
                             {/* Filters */}
-                            <Popover.Group className="hidden sm:flex sm:items-center space-x-2">
+                            <Popover.Group className="sm:flex sm:items-center space-x-2">
                                 {/* Clear filters */}
                                 <Popover as="div" className="relative z-10 inline-block text-left">
                                     <button
