@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Outlet, Navigate, useLocation } from "react-router-dom";
 import { ToastContainer, Slide } from "react-toastify";
 import axios from "axios";
@@ -116,39 +116,50 @@ const HamburgerLayoutWithCookieConsent = () => (
     </>
 );
 
+const AlwaysOnTop = ({ children }) => {
+    const location = useLocation();
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [location]);
+
+    return <>{children}</>;
+};
+
 const App = () => {
     return (
         <Account>
             <Router>
-                <Routes>
-                    <Route path="/" element={<HomeLayout />}>
-                        <Route index element={<Home />} />
-                    </Route>
-
-                    <Route path="/" element={<HamburgerLayoutWithCookieConsent />}>
-                        <Route path="about" element={<About />} />
-                        <Route path="contact-us" element={<ContactUs />} />
-                        <Route path="terms/*" element={<Terms />} />
-                    </Route>
-
-                    <Route path="/" element={<HamburgerLayout auth={true} />}>
-                        <Route path="search" element={<Search />} />
-                        <Route path="settings/*" element={<Settings />} />
-                        <Route path="profile" element={<Profile />}>
-                            <Route path=":user_id" exact element={<Profile />} />
+                <AlwaysOnTop>
+                    <Routes>
+                        <Route path="/" element={<HomeLayout />}>
+                            <Route index element={<Home />} />
                         </Route>
-                    </Route>
 
-                    <Route path="/setup/profile-setup" element={<ProfileSetup />} />
-                    <Route path="/setup/info-input" element={<InfoInput />} />
+                        <Route path="/" element={<HamburgerLayoutWithCookieConsent />}>
+                            <Route path="about" element={<About />} />
+                            <Route path="contact-us" element={<ContactUs />} />
+                            <Route path="terms/*" element={<Terms />} />
+                        </Route>
 
-                    <Route path="/sign-in/*" element={<SignIn />} />
-                    <Route path="/sign-up/*" element={<SignUp />} />
-                    <Route path="/forget-password/*" element={<ForgetPassword />} />
+                        <Route path="/" element={<HamburgerLayout auth={true} />}>
+                            <Route path="search" element={<Search />} />
+                            <Route path="settings/*" element={<Settings />} />
+                            <Route path="profile" element={<Profile />}>
+                                <Route path=":user_id" exact element={<Profile />} />
+                            </Route>
+                        </Route>
 
-                    <Route path="/404" element={<NotFound />} />
-                    <Route path="*" element={<NotFound />} />
-                </Routes>
+                        <Route path="/setup/profile-setup" element={<ProfileSetup />} />
+                        <Route path="/setup/info-input" element={<InfoInput />} />
+
+                        <Route path="/sign-in/*" element={<SignIn />} />
+                        <Route path="/sign-up/*" element={<SignUp />} />
+                        <Route path="/forget-password/*" element={<ForgetPassword />} />
+
+                        <Route path="/404" element={<NotFound />} />
+                        <Route path="*" element={<NotFound />} />
+                    </Routes>
+                </AlwaysOnTop>
             </Router>
             <ToastContainer
                 position="top-right"
