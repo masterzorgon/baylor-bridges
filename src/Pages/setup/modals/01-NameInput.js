@@ -17,7 +17,10 @@ const NameInput = ({ required, loading, setLoading, modal, account, setAccount, 
                         : "";
                 })}
                 <h3 className="text-xl font-medium text-gray-900">Name</h3>
-                <p className="mt-4 text-base text-gray-500">Please provide your full name. This is the name others will see on your profile for others who may reach you.</p>
+                <p className="mt-4 text-base text-gray-500">
+                    Please provide your full name. This is the name others will see
+                    on your profile for others who may reach you.
+                </p>
             </div>
             <div className="bg-white rounded-bl-2xl rounded-br-2xl">
                 {/* INPUT FIELDS */}

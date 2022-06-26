@@ -78,34 +78,79 @@ const InfoInput = () => {
         if (modal === 6) { return <AllDone          loading={loading} setLoading={setLoading} modal={modal} account={account} transition={transition} />; }
     };
 
-    // const modalContent = {
-    //     modals: {
-    //         name: {
-    //             title: "Name",
-    //             icon: ""
-    //         },
-    //         contact: {
-    //             title: "Contact Information",
-    //             icon: ""
-    //         },
-    //         location: {
-    //             title: "Location Information",
-    //             icon: ""
-    //         },
-    //         grad: {
-    //             title: "Graduating Class",
-    //             icon: ""
-    //         },
-    //         headline: {
-    //             title: "Headline",
-    //             icon: ""
-    //         },
-    //         alldone: {
-    //             title: "",
-    //             icon: ""
-    //         }
-    //     }
-    // };
+    const modalInfo = {
+        basic: {
+            title: "Basic Information",
+            description: "Your basic personal information will be shown publicly to everyone.",
+            fields: {
+                name: {
+                    title: "Name",
+                    attribute: [
+                        { type: "text", title: "Prefix", placeholder: "Prefix", key: "prefix", role: "alumni" },
+                        { type: "text", title: "First name", placeholder: "First name", key: "first_name", required: true },
+                        { type: "text", title: "Last name", placeholder: "Last name", key: "last_name", required: true },
+                    ],
+                },
+                headline: {
+                    title: "Headline",
+                    attribute: { type: "text", maxLength: 100, title: "Headline", placeholder: "Headline", key: "headline" },
+                },
+                graduate_class_alumni: {
+                    title: "Graduate Class",
+                    role: "alumni",
+                    attribute: [
+                        { type: "dropdown", title: "Semester", placeholder: "Semester", key: "graduate_semester", options: semester },
+                        { type: "text", title: "Year", placeholder: "Year", key: "graduate_year" }
+                    ]
+                },
+                graduate_class_student: {
+                    title: "Expected Graduate Class",
+                    role: "student",
+                    attribute: [
+                        { type: "dropdown", title: "Semester", placeholder: "Semester", key: "graduate_semester", options: semester },
+                        { type: "text", title: "Year", placeholder: "Year", key: "graduate_year" }
+                    ]
+                },
+                occupation: {
+                    title: "Occupation",
+                    role: "alumni",
+                    attribute: { type: "text", title: "Occupation", placeholder: "Occupation", key: "occupation", role: "alumni" },
+                },
+                location: {
+                    title: "Location",
+                    attribute: [
+                        { type: "text", title: "City", placeholder: "City", key: "city" },
+                        { type: "dropdown", title: "State", placeholder: "State", key: "state", options: states },
+                    ],
+                },
+                biography: {
+                    title: "Biography",
+                    className: "sm:max-w-6xl",
+                    attribute: { type: "markdown-editor", title: "Biography", placeholder: "Biography", key: "biography" },
+                },
+            }
+        },
+        contact_info: {
+            title: "Contact Information",
+            description: "Manage your contact information and decide who can see them.",
+            fields: {
+                email: {
+                    title: "Email address",
+                    attribute: [
+                        { type: "text", title: "Email address", placeholder: "Email address", key: "email" },
+                        { type: "visibility", key: "email_visibility" },
+                    ]
+                },
+                phone: {
+                    title: "Phone number",
+                    attribute: [
+                        { type: "text", title: "Phone number", placeholder: "Phone number", key: "phone" },
+                        { type: "visibility", key: "phone_visibility" },
+                    ]
+                },
+            }
+        },
+    };
 
     return (
         <>

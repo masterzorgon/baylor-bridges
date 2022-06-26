@@ -47,7 +47,7 @@ const MarkdownIcon = () => {
 const profile = {
     basic: {
         title: "Basic Information",
-        description: "Your basic personal information will be shown publically to everyone.",
+        description: "Your basic personal information will be shown publicly to everyone.",
         fields: {
             name: {
                 title: "Name",
