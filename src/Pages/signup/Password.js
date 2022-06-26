@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Switch } from "@headlessui/react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
 import { default as PasswordInput } from "../../components/Password";
@@ -87,13 +87,13 @@ const Password = ({ email, token }) => {
                 <div className="ml-3">
                     <p className="text-sm text-gray-500">
                         By selecting this, you agree to the{" "}
-                        <a href="/terms/terms-conditions" className="font-medium text-gray-700 underline">
+                        <Link to="/terms/terms-conditions" className="font-medium text-gray-700 underline">
                             Terms and Conditions
-                        </a>
+                        </Link>
                         {" "}and{" "}
-                        <a href="/terms/privacy-policy" className="font-medium text-gray-700 underline">
+                        <Link to="/terms/privacy-policy" className="font-medium text-gray-700 underline">
                             Privacy Policy
-                        </a>
+                        </Link>
                         .
                     </p>
                 </div>
