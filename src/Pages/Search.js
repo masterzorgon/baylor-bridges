@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { Menu, Popover, Transition } from "@headlessui/react";
+import {Dialog, Disclosure, Menu, Popover, Transition } from "@headlessui/react";
 import { ChevronRightIcon, ChevronDownIcon, TrashIcon, SearchIcon } from "@heroicons/react/outline";
 import { useSearchParams, createSearchParams, useNavigate } from "react-router-dom";
 import USAMap from "react-usa-map";
@@ -9,7 +9,7 @@ import { DebounceInput } from "react-debounce-input";
 import TooltipSlider from "rc-slider";
 import { useDebounce } from "use-debounce";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-
+import { XIcon } from "@heroicons/react/outline";
 import { classNames } from "../components/Utils";
 import Photo from "../components/Photo";
 import { states } from "../components/Utils";
@@ -128,6 +128,8 @@ const Search = () => {
     const [queryDebounce] = useDebounce(query, 250);
     const [mapStats, setMapStats] = useState({});
     const [profiles, setProfiles] = useState(null);
+    const [open, setOpen] = useState(false);
+
 
     const toggleFilterOption = (key, value, checked) => {
         if (!query[key] || !Array.isArray(query[key])) {
@@ -233,6 +235,8 @@ const Search = () => {
         }
     };
 
+
+
     return (
         <>
             <div className="grid grid-cols-1 lg:grid-cols-2">
@@ -243,6 +247,103 @@ const Search = () => {
                         </div>
                     </div>
                 </div>
+
+
+                {/* Mobile view of the screen, copied from: https://tailwindui.com/components/ecommerce/components/category-filters */}
+                <Transition show={open} as={Fragment}>
+                    <Dialog as="div" className="relative z-40 sm:hidden" onClose={setOpen}>
+                        <Transition.Child
+                            as={Fragment}
+                            enter="transition-opacity ease-linear duration-300"
+                            enterFrom="opacity-0"
+                            enterTo="opacity-100"
+                            leave="transition-opacity ease-linear duration-300"
+                            leaveFrom="opacity-100"
+                            leaveTo="opacity-0"
+                        >
+                            <div className="fixed inset-0 bg-black bg-opacity-25" />
+                        </Transition.Child>
+
+                        <div className="fixed inset-0 flex z-40">
+                            <Transition.Child
+                                as={Fragment}
+                                enter="transition ease-in-out duration-300 transform"
+                                enterFrom="translate-x-full"
+                                enterTo="translate-x-0"
+                                leave="transition ease-in-out duration-300 transform"
+                                leaveFrom="translate-x-0"
+                                leaveTo="translate-x-full"
+                            >
+                                <Dialog.Panel className="ml-auto relative max-w-xs w-full h-full bg-white shadow-xl py-4 pb-6 flex flex-col overflow-y-auto">
+                                    <div className="px-4 flex items-center justify-between">
+                                        <h2 className="text-lg font-medium text-gray-900">Filters</h2>
+                                        <button
+                                            type="button"
+                                            className="-mr-2 w-10 h-10 bg-white p-2 rounded-md flex items-center justify-center text-gray-400 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                            onClick={() => setOpen(false)}
+                                        >
+                                            <span className="sr-only">Close menu</span>
+                                            <XIcon className="h-6 w-6" aria-hidden="true" />
+                                        </button>
+                                    </div>
+
+                                    {/* Filters */}
+                                    <form className="mt-4">
+                                        {Object.entries(filters)
+                                            .filter(([key, value]) => value.show === true) // Only show filters with options
+                                            .map(([filter_key, section]) => (
+                                                <Disclosure as="div" key={filter_key} className="border-t border-gray-200 px-4 py-6">
+                                                    {({ open }) => (
+                                                        <>
+                                                            <h3 className="-mx-2 -my-3 flow-root">
+                                                                <Disclosure.Button className="px-2 py-3 bg-white w-full flex items-center justify-between text-sm text-gray-400">
+                                                                    <span className="font-medium text-gray-900">{section.title}</span>
+                                                                    <span className="ml-6 flex items-center">
+                                                                        <ChevronDownIcon
+                                                                            className={classNames(open ? "-rotate-180" : "rotate-0", "h-5 w-5 transform")}
+                                                                            aria-hidden="true"
+                                                                        />
+                                                                    </span>
+                                                                </Disclosure.Button>
+                                                            </h3>
+                                                            <Disclosure.Panel className="pt-6">
+                                                                <div className="space-y-6">
+                                                                    {/* Code is copied from filter input */}
+                                                                    {Array.isArray(section.options) ? section.options.map((option) => (
+                                                                        <div key={option.value} className="flex items-center">
+                                                                            <input
+                                                                                id={`filter-${filter_key}-${option.value}`}
+                                                                                name={`filter-${filter_key}-${option.value}`}
+                                                                                defaultValue={option.value}
+                                                                                type="checkbox"
+                                                                                className="h-4 w-4 border-gray-300 rounded text-emerald-600 focus:ring-emerald-500"
+                                                                                defaultChecked={query[filter_key] && query[filter_key].includes(option.value)}
+                                                                                onClick={(e) => toggleFilterOption(filter_key, option.value, e.target.checked)}
+                                                                            />
+                                                                            <label
+                                                                                htmlFor={`filter-${filter_key}-${option.value}`}
+                                                                                className="ml-3 pr-6 text-sm font-medium text-gray-900 whitespace-nowrap"
+                                                                            >
+                                                                                {option.title}
+                                                                            </label>
+                                                                        </div>
+                                                                    )) : section.options}
+                                                                </div>
+                                                            </Disclosure.Panel>
+                                                        </>
+                                                    )}
+                                                </Disclosure>
+                                            ))}
+                                    </form>
+                                </Dialog.Panel>
+                            </Transition.Child>
+                        </div>
+                    </Dialog>
+                </Transition>
+
+
+
+
 
                 <div className="col-span-1 px-4">
                     {/* Filters & Search Input */}
@@ -319,8 +420,14 @@ const Search = () => {
                             </Menu>
 
 
+                            {/* Button responsible for collapsing and expanding the filters on mobile view.*/}
+                            <button
+                                type="button"
+                                className="text-sm font-medium text-gray-700 hover:text-gray-900 sm:hidden"
+                                onClick={() => setOpen(true)}
+                            >Filters</button>
                             {/* Filters */}
-                            <Popover.Group className="sm:flex sm:items-center space-x-2">
+                            <Popover.Group className="hidden sm:flex sm:items-center space-x-2">
                                 {/* Clear filters */}
                                 <Popover as="div" className="relative z-10 inline-block text-left">
                                     <button
@@ -333,7 +440,6 @@ const Search = () => {
                                         />
                                     </button>
                                 </Popover>
-
                                 {/* Filters */}
                                 {Object.entries(filters)
                                     .filter(([key, value]) => value.show === true) // Only show filters with options
