@@ -16,7 +16,7 @@ import { states } from "../components/Utils";
 
 const GraduateYearSlider = ({ value, onChange }) => {
     const MIN = 1970;
-    const MAX = dayjs().year() + 5;
+    const MAX = Math.floor((dayjs().year() + 5) / 10 + 1) * 10;
     value = value ? value : [MIN, MAX];
 
     let marks = {};
@@ -26,15 +26,15 @@ const GraduateYearSlider = ({ value, onChange }) => {
 
     return (
         <div>
-            <div className="flex justify-items-stretch justify-between text-sm text-emerald-600 font-semibold">
+            {/* <div className="flex justify-items-stretch justify-between text-sm text-emerald-600 font-semibold">
                 <p>{value[0]}</p>
                 <p>{value[1]}</p>
-            </div>
+            </div> */}
             <TooltipSlider
                 range
                 min={MIN}
                 max={MAX}
-                className="w-72 mt-1 mb-4 mx-4"
+                className="w-auto sm:w-72 mt-1 mb-7 mx-4"
                 step={1}
                 marks={marks}
                 defaultValue={[MIN, MAX]}
