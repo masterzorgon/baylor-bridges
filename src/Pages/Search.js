@@ -34,7 +34,7 @@ const GraduateYearSlider = ({ value, onChange }) => {
                 range
                 min={MIN}
                 max={MAX}
-                className="w-auto mt-1 mb-4 mx-4"
+                className="w-auto mt-1 mb-4 mx-4 sm:w-60"
                 step={1}
                 marks={marks}
                 defaultValue={[MIN, MAX]}
@@ -140,11 +140,13 @@ const Search = () => {
         }
 
         if (checked) {
+            //Clears the list and push the new one in, this way we only keep one element
+            query[key] = [];
             query[key].push(value);
         } else {
             query[key] = query[key].filter((v) => v !== value);
         }
-
+        console.log(query);
         setQuery({ ...query });
     };
 
@@ -326,9 +328,10 @@ const Search = () => {
                                                                                     id={`filter-${filter_key}-${option.value}`}
                                                                                     name={`filter-${filter_key}-${option.value}`}
                                                                                     defaultValue={option.value}
-                                                                                    type="checkbox"
+                                                                                    type="radio"
                                                                                     className="h-4 w-4 border-gray-300 rounded text-emerald-600 focus:ring-emerald-500"
                                                                                     defaultChecked={query[filter_key] && query[filter_key].includes(option.value)}
+                                                                                    checked={query[filter_key] && query[filter_key].includes(option.value)}
                                                                                     onClick={(e) => toggleFilterOption(filter_key, option.value, e.target.checked)}
                                                                                 />
                                                                                 <label
@@ -519,9 +522,10 @@ const Search = () => {
                                                                     id={`filter-${filter_key}-${option.value}`}
                                                                     name={`filter-${filter_key}-${option.value}`}
                                                                     defaultValue={option.value}
-                                                                    type="checkbox"
+                                                                    type="radio"
                                                                     className="h-4 w-4 border-gray-300 rounded text-emerald-600 focus:ring-emerald-500"
                                                                     defaultChecked={query[filter_key] && query[filter_key].includes(option.value)}
+                                                                    checked={query[filter_key] && query[filter_key].includes(option.value)}
                                                                     onClick={(e) => toggleFilterOption(filter_key, option.value, e.target.checked)}
                                                                 />
                                                                 <label
