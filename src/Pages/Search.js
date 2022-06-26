@@ -34,7 +34,7 @@ const GraduateYearSlider = ({ value, onChange }) => {
                 range
                 min={MIN}
                 max={MAX}
-                className="w-auto mt-1 mb-4 mx-4"
+                className="w-auto sm:w-72 mt-1 mb-7 mx-4"
                 step={1}
                 marks={marks}
                 defaultValue={[MIN, MAX]}
