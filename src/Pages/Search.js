@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from "react";
-import {Dialog, Disclosure, Menu, Popover, Transition } from "@headlessui/react";
+import { Dialog, Disclosure, Menu, Popover, Transition } from "@headlessui/react";
 import { ChevronRightIcon, ChevronDownIcon, TrashIcon, SearchIcon } from "@heroicons/react/outline";
 import { useSearchParams, createSearchParams, useNavigate } from "react-router-dom";
 import USAMap from "react-usa-map";
@@ -16,7 +16,7 @@ import { states } from "../components/Utils";
 
 const GraduateYearSlider = ({ value, onChange }) => {
     const MIN = 1970;
-    const MAX = dayjs().year() + 5;
+    const MAX = Math.floor((dayjs().year() + 5) / 10 + 1) * 10;
     value = value ? value : [MIN, MAX];
 
     let marks = {};
@@ -26,10 +26,10 @@ const GraduateYearSlider = ({ value, onChange }) => {
 
     return (
         <div>
-            <div className="flex justify-items-stretch justify-between text-sm text-emerald-600 font-semibold">
+            {/* <div className="flex justify-items-stretch justify-between text-sm text-emerald-600 font-semibold">
                 <p>{value[0]}</p>
                 <p>{value[1]}</p>
-            </div>
+            </div> */}
             <TooltipSlider
                 range
                 min={MIN}
@@ -70,6 +70,9 @@ const filters = {
     graduate_year: {
         title: "Class",
         options: null,
+        option_indicator: (options) => {
+            return options;
+        },
         show: true,
     },
     state: {
@@ -487,7 +490,7 @@ const Search = () => {
                                                         query[filter_key] && query[filter_key].length > 0 &&
                                                         <span
                                                             className="ml-1.5 rounded py-0.5 px-1.5 bg-gray-200 text-xs font-semibold text-gray-700 tabular-nums">
-                                                            {query[filter_key].length}
+                                                            {filter.option_indicator ? filter.option_indicator(query[filter_key]) : query[filter_key].length}
                                                         </span>
                                                     }
                                                     <ChevronDownIcon
@@ -555,7 +558,7 @@ const Search = () => {
                                                     <div>
                                                         {
                                                             (profile.first_name || profile.last_name)
-                                                                ? <p className="search-result-field text-sm text-gray-900 truncate" dangerouslySetInnerHTML={{ __html: `${profile._highlightResult.first_name.value}, ${profile._highlightResult.last_name.value}` }} />
+                                                                ? <p className="search-result-field text-sm text-gray-900 truncate" dangerouslySetInnerHTML={{ __html: `${profile._highlightResult.first_name.value} ${profile._highlightResult.last_name.value}` }} />
                                                                 : <p className="text-sm font-medium text-gray-500 truncate">Baylor Bridges User</p>
                                                         }
                                                         {
@@ -578,7 +581,7 @@ const Search = () => {
                                                                 profile.graduate_year &&
                                                                 <p className="mt-0.5 flex items-center text-sm text-gray-500">
                                                                     {/* <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-400" aria-hidden="true" /> */}
-                                                                    Class {profile.graduate_year}
+                                                                    Class of {profile.graduate_year}
                                                                 </p>
                                                             }
                                                         </div>
@@ -694,11 +697,11 @@ const SearchInput = ({ focus, onFocus }) => {
                                         <div className="h-10 w-10">
                                             <Photo size="10" account={profile} badges={true} />
                                         </div>
-                                        <div className="flex justify-center flex-col truncate">
+                                        <div className="flex justify-center flex-col truncate space-y-1">
                                             <p
                                                 className="search-result-field text-sm text-gray-900"
                                                 dangerouslySetInnerHTML={
-                                                    { __html: `${profile._highlightResult.first_name.value}, ${profile._highlightResult.last_name.value}` }
+                                                    { __html: `${profile._highlightResult.first_name.value} ${profile._highlightResult.last_name.value}` }
                                                 }
                                             />
 
