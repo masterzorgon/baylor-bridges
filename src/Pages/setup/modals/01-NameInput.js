@@ -4,7 +4,7 @@ import { animated } from "react-spring";
 
 import Buttons from "./components/Buttons";
 
-const NameInput = ({ required, loading, setLoading, modal, account, setAccount, handleChangeModal, transition }) => {
+const NameInput = ({ required, loading, modal, account, setAccount, handleChangeModal, transition }) => {
     return (
         <>
             <div className="flex-1 relative pt-16 pb-8">

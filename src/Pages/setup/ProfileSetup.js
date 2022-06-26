@@ -79,77 +79,99 @@ const InfoInput = () => {
     };
 
     const modalInfo = {
-        basic: {
-            title: "Basic Information",
-            description: "Your basic personal information will be shown publicly to everyone.",
+        NameInput: {
+            title: "Name",
+            description: "Please provide your full name. This is the name others will see on your profile for others who may reach you.",
+            icon: "UserCircleIcon",
             fields: {
-                name: {
-                    title: "Name",
+                firstName: {
+                    title: "First Name",
                     attribute: [
-                        { type: "text", title: "Prefix", placeholder: "Prefix", key: "prefix", role: "alumni" },
-                        { type: "text", title: "First name", placeholder: "First name", key: "first_name", required: true },
-                        { type: "text", title: "Last name", placeholder: "Last name", key: "last_name", required: true },
-                    ],
+                        { type: "text", title: "First Name", placeholder: "First Name", key: "firstName", required: true },
+                    ]
                 },
+                lastName: {
+                    title: "Last Name",
+                    attribute: [
+                        { type: "text", title: "Last Name", placeholder: "Last Name", key: "lastName", required: true },
+                    ]
+                },
+            }
+        },
+        ContactInput: {
+            title: "Contact Information",
+            description: "Please provide the contact information through which will be displayed on your profile for others who may reach you.",
+            icon: "InboxIcon",
+            fields: {
+                phone: {
+                    title: "Phone Number",
+                    attribute: [
+                        { type: "text", title: "Phone Number", placeholder: "Phone Number", key: "phoneNumber", required: false },
+                    ]
+                },
+                email: {
+                    title: "Email Address",
+                    attribute: [
+                        { type: "text", title: "Email Address", placeholder: "Email Address", key: "emailAddress", required: false },
+                    ]
+                }
+            }
+        },
+        LocationInput: {
+            title: "Location Information",
+            description: "At your discretion, please provide your location information. This information will be used to provide you better profile recommendation.",
+            icon: "LocationMarkerIcon",
+            fields: {
+                state: {
+                    title: "State",
+                    attribute: [
+                        { type: "text", title: "State", placeholder: "State", key: "state", required: true }
+                    ]
+                },
+                city: {
+                    title: "City",
+                    attribute: [
+                        { type: "text", title: "State", placeholder: "State", key: "state", required: false }
+                    ]
+                }
+            }
+        },
+        GradInput: {
+            title: "Graduating Class",
+            description: "Please provide the year and semester of your graduating class from Baylor University. If you are not yet graduating, please provide the expecting graduation year and semester.",
+            icon: "AcademicCapIcon",
+            fields: {
+                semester: {
+                    title: "Semester",
+                    attribute: [
+                        { type: "text", title: "Semester", placeholder: "Semester", key: "semester", required: false }
+                    ]
+                },
+                year: {
+                    title: "Year",
+                    attribute: [
+                        { type: "number", title: "Year", placeholder: "Year", key: "year", required: false }
+                    ]
+                }
+            }
+        },
+        HeadlineInput: {
+            title: "Headline",
+            description: "Your headline should be your professional title, and your biography should be a summary of who you are and what you do.",
+            icon: "BriefcaseIcon",
+            fields: {
                 headline: {
-                    title: "Headline",
-                    attribute: { type: "text", maxLength: 100, title: "Headline", placeholder: "Headline", key: "headline" },
-                },
-                graduate_class_alumni: {
-                    title: "Graduate Class",
-                    role: "alumni",
                     attribute: [
-                        { type: "dropdown", title: "Semester", placeholder: "Semester", key: "graduate_semester", options: semester },
-                        { type: "text", title: "Year", placeholder: "Year", key: "graduate_year" }
+                        { type: "text", title: "Headline", placeholder: "Headline", key: "headline", required: false }
                     ]
-                },
-                graduate_class_student: {
-                    title: "Expected Graduate Class",
-                    role: "student",
-                    attribute: [
-                        { type: "dropdown", title: "Semester", placeholder: "Semester", key: "graduate_semester", options: semester },
-                        { type: "text", title: "Year", placeholder: "Year", key: "graduate_year" }
-                    ]
-                },
-                occupation: {
-                    title: "Occupation",
-                    role: "alumni",
-                    attribute: { type: "text", title: "Occupation", placeholder: "Occupation", key: "occupation", role: "alumni" },
-                },
-                location: {
-                    title: "Location",
-                    attribute: [
-                        { type: "text", title: "City", placeholder: "City", key: "city" },
-                        { type: "dropdown", title: "State", placeholder: "State", key: "state", options: states },
-                    ],
                 },
                 biography: {
-                    title: "Biography",
-                    className: "sm:max-w-6xl",
-                    attribute: { type: "markdown-editor", title: "Biography", placeholder: "Biography", key: "biography" },
-                },
-            }
-        },
-        contact_info: {
-            title: "Contact Information",
-            description: "Manage your contact information and decide who can see them.",
-            fields: {
-                email: {
-                    title: "Email address",
                     attribute: [
-                        { type: "text", title: "Email address", placeholder: "Email address", key: "email" },
-                        { type: "visibility", key: "email_visibility" },
+                        { type: "text", title: "Biography", placeholder: "Biography", key: "biography", required: false }
                     ]
-                },
-                phone: {
-                    title: "Phone number",
-                    attribute: [
-                        { type: "text", title: "Phone number", placeholder: "Phone number", key: "phone" },
-                        { type: "visibility", key: "phone_visibility" },
-                    ]
-                },
+                }
             }
-        },
+        }
     };
 
     return (
