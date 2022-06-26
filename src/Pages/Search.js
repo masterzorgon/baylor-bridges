@@ -70,6 +70,9 @@ const filters = {
     graduate_year: {
         title: "Class",
         options: null,
+        option_indicator: (options) => {
+            return options;
+        },
         show: true,
     },
     state: {
@@ -353,7 +356,7 @@ const Search = () => {
                                                         query[filter_key] && query[filter_key].length > 0 &&
                                                         <span
                                                             className="ml-1.5 rounded py-0.5 px-1.5 bg-gray-200 text-xs font-semibold text-gray-700 tabular-nums">
-                                                            {query[filter_key].length}
+                                                            {filter.option_indicator ? filter.option_indicator(query[filter_key]) : query[filter_key].length}
                                                         </span>
                                                     }
                                                     <ChevronDownIcon
