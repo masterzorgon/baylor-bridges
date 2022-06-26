@@ -3,6 +3,7 @@ import React, { Fragment, useEffect, useState, useContext } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { useParams } from "react-router-dom";
 import { DotsVerticalIcon } from "@heroicons/react/outline";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 import Photo from "../../components/Photo";
@@ -263,9 +264,9 @@ const Profile = () => {
                                                 <Menu.Items className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                     <div className="my-2">
                                                         <Menu.Item>
-                                                            <a href="/settings/profile" className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 block px-4 py-2 text-sm">
+                                                            <Link to="/settings/profile" className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 block px-4 py-2 text-sm">
                                                                 Edit Personal Information
-                                                            </a>
+                                                            </Link>
                                                         </Menu.Item>
                                                     </div>
                                                 </Menu.Items>

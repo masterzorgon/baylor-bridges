@@ -1,6 +1,7 @@
 /* This example requires Tailwind CSS v2.0+ */
 import React, { Fragment, useState, useEffect } from "react";
 import { Transition } from "@headlessui/react";
+import { Link } from "react-router-dom";
 
 import { changeBaseURL, changeSearchParam } from "../../components/Utils";
 
@@ -89,7 +90,7 @@ export default function SignInRequiredModal() {
                                 {/* Sign in link, TODO: to be visible in future -Cloudy */}
                                 <div className="text-sm space-x-1 flex items-center justify-center">
                                     <p className="text-gray-600">Already have an account?</p>
-                                    <a href={signInUrl} className="text-emerald-800">Sign in</a>
+                                    <Link to={signInUrl} className="text-emerald-800">Sign in</Link>
                                 </div>
                             </div>
                         </div>

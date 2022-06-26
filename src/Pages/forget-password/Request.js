@@ -5,6 +5,7 @@ import { MailIcon, ArrowLeftIcon, CheckIcon } from "@heroicons/react/outline";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 import Button from "../../components/Button";
 
@@ -153,7 +154,7 @@ const Form = () => {
             <div className="relative max-w-xl mx-auto">
                 {/* Title and subtitle */}
                 <div className="text-center">
-                    <a className="sm:mx-auto sm:w-full sm:max-w-md" href="/">
+                    <Link className="sm:mx-auto sm:w-full sm:max-w-md" to="/">
                         <img
                             className="mx-auto h-20 w-auto"
                             src="/Baylor-University-Athletics-01.svg"
@@ -162,7 +163,7 @@ const Form = () => {
                         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
                             Forgot your password?
                         </h2>
-                    </a>
+                    </Link>
                 </div>
             </div>
 
