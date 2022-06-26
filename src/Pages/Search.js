@@ -424,7 +424,7 @@ const Search = () => {
                                                     <div>
                                                         {
                                                             (profile.first_name || profile.last_name)
-                                                                ? <p className="search-result-field text-sm text-gray-900 truncate" dangerouslySetInnerHTML={{ __html: `${profile._highlightResult.first_name.value}, ${profile._highlightResult.last_name.value}` }} />
+                                                                ? <p className="search-result-field text-sm text-gray-900 truncate" dangerouslySetInnerHTML={{ __html: `${profile._highlightResult.first_name.value} ${profile._highlightResult.last_name.value}` }} />
                                                                 : <p className="text-sm font-medium text-gray-500 truncate">Baylor Bridges User</p>
                                                         }
                                                         {
@@ -447,7 +447,7 @@ const Search = () => {
                                                                 profile.graduate_year &&
                                                                 <p className="mt-0.5 flex items-center text-sm text-gray-500">
                                                                     {/* <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-400" aria-hidden="true" /> */}
-                                                                    Class {profile.graduate_year}
+                                                                    Class of {profile.graduate_year}
                                                                 </p>
                                                             }
                                                         </div>
@@ -563,11 +563,11 @@ const SearchInput = ({ focus, onFocus }) => {
                                         <div className="h-10 w-10">
                                             <Photo size="10" account={profile} badges={true} />
                                         </div>
-                                        <div className="flex justify-center flex-col truncate">
+                                        <div className="flex justify-center flex-col truncate space-y-1">
                                             <p
                                                 className="search-result-field text-sm text-gray-900"
                                                 dangerouslySetInnerHTML={
-                                                    { __html: `${profile._highlightResult.first_name.value}, ${profile._highlightResult.last_name.value}` }
+                                                    { __html: `${profile._highlightResult.first_name.value} ${profile._highlightResult.last_name.value}` }
                                                 }
                                             />
 
