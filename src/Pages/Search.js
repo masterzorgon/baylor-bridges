@@ -244,7 +244,7 @@ const Search = () => {
 
     return (
         <>
-            <div className="grid grid-cols-1 lg:grid-cols-2">
+            <div className="grid grid-cols-1 lg:grid-cols-2 relative">
                 <div className="hidden lg:block col-span-1">
                     <div className="bg-gray-50 sticky top-20 -mt-1 p-2 h-screen">
                         <div className="align-middle relative flex clickable-map">
@@ -279,12 +279,12 @@ const Search = () => {
                                 leaveFrom="translate-x-0"
                                 leaveTo="translate-x-full"
                             >
-                                <Dialog.Panel className="ml-auto relative max-w-xs w-full h-full bg-white shadow-xl py-4 pb-6 flex flex-col overflow-y-auto">
+                                <Dialog.Panel className="ml-auto relative max-w-xs w-full h-full bg-white shadow-xl py-4 pb-6 flex flex-col overflow-y-auto" style={{paddingTop: "5.5rem"}}>
                                     <div className="px-4 flex items-center justify-between">
-                                        <h2 className="text-lg font-medium text-gray-900">Filters</h2>
+                                        <h2 className="text-md font-medium text-gray-900">Filters</h2>
                                         <button
                                             type="button"
-                                            className="-mr-2 w-10 h-10 bg-white p-2 rounded-md flex items-center justify-center text-gray-400 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                            className="-mr-2 w-9 h-9 bg-white p-2 rounded-md flex items-center justify-center text-gray-400 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                                             onClick={() => setOpen(false)}
                                         >
                                             <span className="sr-only">Close menu</span>
