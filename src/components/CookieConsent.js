@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Fragment } from "react";
 import { Transition } from "@headlessui/react";
 import { ExclamationIcon } from "@heroicons/react/outline";
+import { Link } from "react-router-dom";
+
 export default function CookieConsent() {
     const [cookieConsent, setcookieConsent] = useState(true);
 
@@ -39,10 +41,10 @@ export default function CookieConsent() {
                                         <p className="text-sm font-medium text-gray-900">Cookie Alert</p>
                                         <p className="mt-1 text-sm text-gray-500">
                                             We use cookies to improve the user experience on our site. To find out more, read our{" "}
-                                            <a href="/terms/privacy-policy" className="underline" target="_blank" rel="noopener noreferrer">
-                                                privacy policy</a>
+                                            <Link to="/terms/privacy-policy" className="underline" target="_blank" rel="noopener noreferrer">
+                                                privacy policy</Link>
                                             {" "}and{" "}
-                                            <a href="/terms/cookies-policy" className="underline" target="_blank" rel="noopener noreferrer">cookie policy</a>.
+                                            <Link to="/terms/cookies-policy" className="underline" target="_blank" rel="noopener noreferrer">cookie policy</Link>.
                                         </p>
                                         <div className="mt-3 flex space-x-7">
                                             <button

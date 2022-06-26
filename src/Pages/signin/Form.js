@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { AccountContext } from "../../components/Account";
@@ -69,13 +69,13 @@ const Form = () => {
         <>
             <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-md -mt-14">
-                    <a href="/">
+                    <Link to="/">
                         <img
                             className="mx-auto h-20 w-auto"
                             src="/Baylor-University-Athletics-01.svg"
                             alt="Workflow"
                         />
-                    </a>
+                    </Link>
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
                 </div>
 
@@ -148,9 +148,9 @@ const Form = () => {
                                 </div>
 
                                 <div className="text-sm">
-                                    <a href="/forget-password" className="font-medium text-emerald-600 hover:text-emerald-500">
+                                    <Link to="/forget-password" className="font-medium text-emerald-600 hover:text-emerald-500">
                                         Forgot your password?
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
 

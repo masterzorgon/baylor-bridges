@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Dialog, Disclosure, Menu, Popover, Transition } from "@headlessui/react";
 import { ChevronRightIcon, ChevronDownIcon, TrashIcon, SearchIcon } from "@heroicons/react/outline";
-import { useSearchParams, createSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams, createSearchParams, useNavigate, Link } from "react-router-dom";
 import USAMap from "react-usa-map";
 import axios from "axios";
 import dayjs from "dayjs";
@@ -34,7 +34,7 @@ const GraduateYearSlider = ({ value, onChange }) => {
                 range
                 min={MIN}
                 max={MAX}
-                className="w-auto mt-1 mb-4 mx-4 sm:w-60"
+                className="w-auto sm:w-72 mt-1 mb-7 mx-4"
                 step={1}
                 marks={marks}
                 defaultValue={[MIN, MAX]}
@@ -551,7 +551,7 @@ const Search = () => {
                             {profiles && profiles.map((profile) => (
                                 <li key={profile.user_id}>
                                     {/*TODO add href for account detail page*/}
-                                    <a className="block hover:bg-gray-50 rounded-md -mx-6" href={"/profile/" + profile.user_id} rel="noreferrer">
+                                    <Link className="block hover:bg-gray-50 rounded-md -mx-6" to={"/profile/" + profile.user_id} rel="noreferrer">
                                         <div className="flex items-center px-4 py-4 sm:px-6">
                                             <div className="min-w-0 flex-1 flex items-center">
                                                 <div className="flex-shrink-0">
@@ -596,7 +596,7 @@ const Search = () => {
                                                 <ChevronRightIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                                             </div>
                                         </div>
-                                    </a>
+                                    </Link>
                                 </li>
                             ))}
                         </ul>
@@ -697,7 +697,7 @@ const SearchInput = ({ focus, onFocus }) => {
                         <ul className="" ref={animation}>
                             {searchResult?.profiles?.map((profile) => (
                                 <li key={profile.user_id}>
-                                    <a className="transition-all py-4 px-5 flex hover:bg-gray-50 space-x-2.5" href={"/profile/" + profile.user_id} rel="noreferrer">
+                                    <Link className="transition-all py-4 px-5 flex hover:bg-gray-50 space-x-2.5" to={"/profile/" + profile.user_id} rel="noreferrer">
                                         <div className="h-10 w-10">
                                             <Photo size="10" account={profile} badges={true} />
                                         </div>
@@ -719,13 +719,13 @@ const SearchInput = ({ focus, onFocus }) => {
                                                 />
                                             }
                                         </div>
-                                    </a>
+                                    </Link>
                                 </li>
                             ))}
                         </ul>
-                        <a key="more" className="py-3 px-5 pb-2 flex text-sm text-emerald-600 font-medium" href={"/search?keywords=" + keywords}>
+                        <Link key="more" className="py-3 px-5 pb-2 flex text-sm text-emerald-600 font-medium" to={"/search?keywords=" + keywords}>
                             More results
-                        </a>
+                        </Link>
                     </div>
                 </Transition>
             </div>
