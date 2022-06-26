@@ -79,6 +79,9 @@ const filters = {
         title: "State",
         options: states,
         className: "inline-block lg:hidden",
+        option_indicator: (options) => {
+            return options;
+        },
         show: true,
     },
 };
