@@ -34,7 +34,7 @@ const GraduateYearSlider = ({ value, onChange }) => {
                 range
                 min={MIN}
                 max={MAX}
-                className="w-72 mt-1 mb-4 mx-4"
+                className="w-auto mt-1 mb-4 mx-4"
                 step={1}
                 marks={marks}
                 defaultValue={[MIN, MAX]}
@@ -286,7 +286,6 @@ const Search = () => {
                                             <XIcon className="h-6 w-6" aria-hidden="true" />
                                         </button>
                                     </div>
-
                                     {/* Filters */}
                                     <form className="mt-4">
                                         {Object.entries(filters)
@@ -306,30 +305,40 @@ const Search = () => {
                                                                     </span>
                                                                 </Disclosure.Button>
                                                             </h3>
-                                                            <Disclosure.Panel className="pt-6">
-                                                                <div className="space-y-6">
-                                                                    {/* Code is copied from filter input */}
-                                                                    {Array.isArray(section.options) ? section.options.map((option) => (
-                                                                        <div key={option.value} className="flex items-center">
-                                                                            <input
-                                                                                id={`filter-${filter_key}-${option.value}`}
-                                                                                name={`filter-${filter_key}-${option.value}`}
-                                                                                defaultValue={option.value}
-                                                                                type="checkbox"
-                                                                                className="h-4 w-4 border-gray-300 rounded text-emerald-600 focus:ring-emerald-500"
-                                                                                defaultChecked={query[filter_key] && query[filter_key].includes(option.value)}
-                                                                                onClick={(e) => toggleFilterOption(filter_key, option.value, e.target.checked)}
-                                                                            />
-                                                                            <label
-                                                                                htmlFor={`filter-${filter_key}-${option.value}`}
-                                                                                className="ml-3 pr-6 text-sm font-medium text-gray-900 whitespace-nowrap"
-                                                                            >
-                                                                                {option.title}
-                                                                            </label>
-                                                                        </div>
-                                                                    )) : section.options}
-                                                                </div>
-                                                            </Disclosure.Panel>
+                                                            <Transition
+                                                                show={open}
+                                                                enter="transition duration-100 ease-out"
+                                                                enterFrom="transform scale-95 opacity-0"
+                                                                enterTo="transform scale-100 opacity-100"
+                                                                leave="transition duration-75 ease-out"
+                                                                leaveFrom="transform scale-100 opacity-100"
+                                                                leaveTo="transform scale-95 opacity-0"
+                                                            >
+                                                                <Disclosure.Panel className="pt-6">
+                                                                    <div className="space-y-6">
+                                                                        {/* Code is copied from filter input */}
+                                                                        {Array.isArray(section.options) ? section.options.map((option) => (
+                                                                            <div key={option.value} className="flex items-center">
+                                                                                <input
+                                                                                    id={`filter-${filter_key}-${option.value}`}
+                                                                                    name={`filter-${filter_key}-${option.value}`}
+                                                                                    defaultValue={option.value}
+                                                                                    type="checkbox"
+                                                                                    className="h-4 w-4 border-gray-300 rounded text-emerald-600 focus:ring-emerald-500"
+                                                                                    defaultChecked={query[filter_key] && query[filter_key].includes(option.value)}
+                                                                                    onClick={(e) => toggleFilterOption(filter_key, option.value, e.target.checked)}
+                                                                                />
+                                                                                <label
+                                                                                    htmlFor={`filter-${filter_key}-${option.value}`}
+                                                                                    className="ml-3 pr-6 text-sm font-medium text-gray-900 whitespace-nowrap"
+                                                                                >
+                                                                                    {option.title}
+                                                                                </label>
+                                                                            </div>
+                                                                        )) : section.options}
+                                                                    </div>
+                                                                </Disclosure.Panel>
+                                                            </Transition>
                                                         </>
                                                     )}
                                                 </Disclosure>
@@ -419,13 +428,32 @@ const Search = () => {
                                 </Transition>
                             </Menu>
 
+                            {/* The filter and filter clear button that appears on mobile screen */}
+                            <Popover.Group className="sm:hidden flex items-center space-x-2">
+                                {/* Clear filters */}
+                                <Popover as="div" className="relative z-10 text-left inline-flex items-center justify-center">
+                                    <button
+                                        className="p-2 text-gray-400 hover:text-gray-700 "
+                                        onClick={() => clearFilters()}
+                                    >
+                                        <span className="text-transparent sr-only" aria-hidden="true">Clear</span>
+                                        <TrashIcon
+                                            className="flex-shrink-0 h-5 w-5"
+                                        />
+                                    </button>
+                                </Popover>
+                                {/* Button responsible for collapsing and expanding the filters on mobile view.*/}
+                                <Popover as="div" className="relative z-10 text-left inline-flex items-center justify-center">
+                                    <button
+                                        type="button"
+                                        className="text-sm font-medium text-gray-700 hover:text-gray-900"
+                                        onClick={() => setOpen(true)}
+                                    >Filters</button>
+                                </Popover>
+                            </Popover.Group>
 
-                            {/* Button responsible for collapsing and expanding the filters on mobile view.*/}
-                            <button
-                                type="button"
-                                className="text-sm font-medium text-gray-700 hover:text-gray-900 sm:hidden"
-                                onClick={() => setOpen(true)}
-                            >Filters</button>
+
+
                             {/* Filters */}
                             <Popover.Group className="hidden sm:flex sm:items-center space-x-2">
                                 {/* Clear filters */}
