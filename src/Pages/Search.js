@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Dialog, Disclosure, Menu, Popover, Transition } from "@headlessui/react";
-import { ChevronRightIcon, ChevronDownIcon, TrashIcon, SearchIcon } from "@heroicons/react/outline";
+import { ChevronRightIcon, ChevronDownIcon, TrashIcon, SearchIcon, FilterIcon } from "@heroicons/react/outline";
 import { useSearchParams, createSearchParams, useNavigate, Link } from "react-router-dom";
 import USAMap from "react-usa-map";
 import axios from "axios";
@@ -144,7 +144,10 @@ const Search = () => {
 
         if (checked) {
             //Clears the list and push the new one in, this way we only keep one element
-            query[key] = [];
+            if (key == "state") {
+                query[key] = [];
+            }
+
             query[key].push(value);
         } else {
             query[key] = query[key].filter((v) => v !== value);
@@ -243,7 +246,13 @@ const Search = () => {
         }
     };
 
-
+    const renderType = (string) => {
+        if (string == "Role") {
+            return "checkbox";
+        } else {
+            return "radio";
+        }
+    };
 
     return (
         <>
@@ -284,7 +293,19 @@ const Search = () => {
                             >
                                 <Dialog.Panel className="ml-auto relative max-w-xs w-full h-full bg-white shadow-xl py-4 pb-6 flex flex-col overflow-y-auto" style={{paddingTop: "5.5rem"}}>
                                     <div className="px-4 flex items-center justify-between">
-                                        <h2 className="text-md font-medium text-gray-900">Filters</h2>
+                                        {/* Clear filters */}
+                                        <Popover as="div" className="relative z-10 text-left inline-flex items-center justify-center">
+                                            <h2 className="text-md font-medium text-gray-900">Filters </h2>
+                                            <button
+                                                className="p-2 text-gray-400 hover:text-gray-700 "
+                                                onClick={() => clearFilters()}
+                                            >
+                                                <span className="text-transparent sr-only" aria-hidden="true">Clear</span>
+                                                <TrashIcon
+                                                    className="flex-shrink-0 h-5 w-5"
+                                                />
+                                            </button>
+                                        </Popover>
                                         <button
                                             type="button"
                                             className="-mr-2 w-9 h-9 bg-white p-2 rounded-md flex items-center justify-center text-gray-400 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-emerald-500"
@@ -304,7 +325,17 @@ const Search = () => {
                                                         <>
                                                             <h3 className="-mx-2 -my-3 flow-root">
                                                                 <Disclosure.Button className="px-2 py-3 bg-white w-full flex items-center justify-between text-sm text-gray-400">
-                                                                    <span className="font-medium text-gray-900">{section.title}</span>
+                                                                    <span>
+                                                                        <span className="font-medium text-gray-900">{section.title}</span>
+                                                                        {
+                                                                            // Display how many options are selected
+                                                                            query[filter_key] && query[filter_key].length > 0 &&
+                                                                            <span
+                                                                                className="ml-1.5 rounded py-0.5 px-1.5 bg-gray-200 text-xs font-semibold text-gray-700 tabular-nums">
+                                                                                {section.option_indicator ? section.option_indicator(query[filter_key]) : query[filter_key].length}
+                                                                            </span>
+                                                                        }
+                                                                    </span>
                                                                     <span className="ml-6 flex items-center">
                                                                         <ChevronDownIcon
                                                                             className={classNames(open ? "-rotate-180" : "rotate-0", "h-5 w-5 transform")}
@@ -331,8 +362,8 @@ const Search = () => {
                                                                                     id={`filter-${filter_key}-${option.value}`}
                                                                                     name={`filter-${filter_key}-${option.value}`}
                                                                                     defaultValue={option.value}
-                                                                                    type="radio"
-                                                                                    className="h-4 w-4 border-gray-300 rounded text-emerald-600 focus:ring-emerald-500"
+                                                                                    type={renderType(section.title)}
+                                                                                    className="h-4 w-4 border-gray-300 text-emerald-600 focus:ring-emerald-500"
                                                                                     defaultChecked={query[filter_key] && query[filter_key].includes(option.value)}
                                                                                     checked={query[filter_key] && query[filter_key].includes(option.value)}
                                                                                     onClick={(e) => toggleFilterOption(filter_key, option.value, e.target.checked)}
@@ -438,26 +469,20 @@ const Search = () => {
                             </Menu>
 
                             {/* The filter and filter clear button that appears on mobile screen */}
-                            <Popover.Group className="sm:hidden flex items-center space-x-2">
-                                {/* Clear filters */}
-                                <Popover as="div" className="relative z-10 text-left inline-flex items-center justify-center">
-                                    <button
-                                        className="p-2 text-gray-400 hover:text-gray-700 "
-                                        onClick={() => clearFilters()}
-                                    >
-                                        <span className="text-transparent sr-only" aria-hidden="true">Clear</span>
-                                        <TrashIcon
-                                            className="flex-shrink-0 h-5 w-5"
-                                        />
-                                    </button>
-                                </Popover>
+                            <Popover.Group className="sdfad flex items-center space-x-2">
                                 {/* Button responsible for collapsing and expanding the filters on mobile view.*/}
                                 <Popover as="div" className="relative z-10 text-left inline-flex items-center justify-center">
                                     <button
                                         type="button"
                                         className="text-sm font-medium text-gray-700 hover:text-gray-900"
                                         onClick={() => setOpen(true)}
-                                    >Filters</button>
+                                    >
+                                        <span>
+                                            <FilterIcon
+                                                className="flex-shrink-0 h-5 w-5 inline-block"
+                                            /></span>
+                                        <span> Filters</span>
+                                    </button>
                                 </Popover>
                             </Popover.Group>
 
@@ -525,8 +550,8 @@ const Search = () => {
                                                                     id={`filter-${filter_key}-${option.value}`}
                                                                     name={`filter-${filter_key}-${option.value}`}
                                                                     defaultValue={option.value}
-                                                                    type="radio"
-                                                                    className="h-4 w-4 border-gray-300 rounded text-emerald-600 focus:ring-emerald-500"
+                                                                    type={renderType(filter.title)}
+                                                                    className="h-4 w-4 border-gray-300 text-emerald-600 focus:ring-emerald-500"
                                                                     defaultChecked={query[filter_key] && query[filter_key].includes(option.value)}
                                                                     checked={query[filter_key] && query[filter_key].includes(option.value)}
                                                                     onClick={(e) => toggleFilterOption(filter_key, option.value, e.target.checked)}
