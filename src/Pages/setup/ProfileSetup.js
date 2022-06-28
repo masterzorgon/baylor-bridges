@@ -8,13 +8,13 @@ import { useTransition } from "react-spring";
 import { animated } from "react-spring";
 import { UserCircleIcon, InboxIcon, LocationMarkerIcon, AcademicCapIcon, BriefcaseIcon } from "@heroicons/react/outline";
 
-import NameInput from "./modals/01-NameInput";
-import ContactInput from "./modals/02-ContactInput";
-import LocationInput from "./modals/03-LocationInput";
-import GradInput from "./modals/04-GradInput";
-import HeadlineInput from "./modals/05-HeadlineInput";
-import AllDone from "./modals/06-AllDone";
-// import Buttons from "./modals/components/Buttons";
+// import NameInput from "./modals/01-NameInput";
+// import ContactInput from "./modals/02-ContactInput";
+// import LocationInput from "./modals/03-LocationInput";
+// import GradInput from "./modals/04-GradInput";
+// import HeadlineInput from "./modals/05-HeadlineInput";
+// import AllDone from "./modals/06-AllDone";
+import Buttons from "./modals/components/Buttons";
 
 const InfoInput = () => {
 
@@ -72,14 +72,14 @@ const InfoInput = () => {
     });
 
     //displays modals
-    const displayModals = () => {
-        if (modal === 1) { return <NameInput        modalInfo={modalInfo.NameInput} loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
-        if (modal === 2) { return <ContactInput     modalInfo={modalInfo.ContactInput} loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
-        if (modal === 3) { return <LocationInput    modalInfo={modalInfo.LocationInput} loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
-        if (modal === 4) { return <GradInput        modalInfo={modalInfo.GradInput} loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
-        if (modal === 5) { return <HeadlineInput    modalInfo={modalInfo.HeadlineInput} loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
-        if (modal === 6) { return <AllDone          loading={loading} setLoading={setLoading} modal={modal} account={account} transition={transition} />; }
-    };
+    // const displayModals = () => {
+    //     if (modal === 1) { return <NameInput        modalInfo={modalInfo.NameInput} loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
+    //     if (modal === 2) { return <ContactInput     modalInfo={modalInfo.ContactInput} loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
+    //     if (modal === 3) { return <LocationInput    modalInfo={modalInfo.LocationInput} loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
+    //     if (modal === 4) { return <GradInput        modalInfo={modalInfo.GradInput} loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
+    //     if (modal === 5) { return <HeadlineInput    modalInfo={modalInfo.HeadlineInput} loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
+    //     if (modal === 6) { return <AllDone          loading={loading} setLoading={setLoading} modal={modal} account={account} transition={transition} />; }
+    // };
 
     useEffect(() => {
         console.log("ACCOUNT CHANGED:", account);
@@ -91,6 +91,7 @@ const InfoInput = () => {
             sequence: 1,
             description: "Please provide your full name. This is the name others will see on your profile for others who may reach you.",
             icon: UserCircleIcon,
+            buttons: true,
             fields: {
                 firstField: {
                     attribute: [
@@ -100,6 +101,7 @@ const InfoInput = () => {
                             placeholder: "First Name",
                             key: "first_name",
                             required: true,
+                            value: account.first_name,
                             change: event => setAccount({ ...account, first_name: event.target.value })
                         },
                     ]
@@ -112,6 +114,7 @@ const InfoInput = () => {
                             placeholder: "Last Name",
                             key: "last_name",
                             required: true,
+                            value: account.last_name,
                             change: event => setAccount({ ...account, last_name: event.target.value })
                         },
                     ]
@@ -123,6 +126,7 @@ const InfoInput = () => {
             sequence: 2,
             description: "Please provide the contact information through which you wish to be contacted. This information will be publicly displayed on your account.",
             icon: InboxIcon,
+            buttons: (account.contact_info.email !== null && account.contact_info.phone !== null) && (account.contact_info.email !== "" && account.contact_info.phone !== ""),
             fields: {
                 firstField: {
                     attribute: [
@@ -132,6 +136,7 @@ const InfoInput = () => {
                             placeholder: "Phone Number",
                             key: "phone",
                             required: false,
+                            value: account.contact_info.phone,
                             change: event => setAccount({ ...account, contact_info: { ...account.contact_info, phone: event.target.value } })
                         },
                     ]
@@ -144,6 +149,7 @@ const InfoInput = () => {
                             placeholder: "Email Address",
                             key: "email",
                             required: false,
+                            value: account.contact_info.email,
                             change: event => setAccount({ ...account, contact_info: { ...account.contact_info, email: event.target.value } })
                         },
                     ]
@@ -155,6 +161,7 @@ const InfoInput = () => {
             sequence: 3,
             description: "Please provide your location information. This information will be used to fill out our Baylor Bridges heat map as displayed on the home page.",
             icon: LocationMarkerIcon,
+            buttons: (account.state !== null && account.city !== null) && (account.state !== "" && account.city !== ""),
             fields: {
                 firstField: {
                     attribute: [
@@ -163,7 +170,8 @@ const InfoInput = () => {
                             title: "State",
                             placeholder: "State",
                             key: "state",
-                            required: false
+                            required: false,
+                            value: account.state,
                         }
                     ]
                 },
@@ -174,7 +182,8 @@ const InfoInput = () => {
                             title: "City",
                             placeholder: "City",
                             key: "city",
-                            required: false
+                            required: false,
+                            value: account.city,
                         }
                     ]
                 }
@@ -185,6 +194,7 @@ const InfoInput = () => {
             sequence: 4,
             description: "Please provide the year and semester of your graduating class from Baylor University. If you have not yet graduated, please provide the  graduation year and semester.",
             icon: AcademicCapIcon,
+            buttons: (account.graduate_year !== null && account.graduate_semester !== null) && (account.graduate_year !== "" && account.graduate_semester !== ""),
             fields: {
                 firstField: {
                     attribute: [
@@ -193,7 +203,8 @@ const InfoInput = () => {
                             title: "Semester",
                             placeholder: "Semester",
                             key: "graduate_semester",
-                            required: false
+                            required: false,
+                            value: account.graduate_semester,
                         }
                     ]
                 },
@@ -204,7 +215,8 @@ const InfoInput = () => {
                             title: "Year",
                             placeholder: "Year",
                             key: "graduate_year",
-                            required: false
+                            required: false,
+                            value: account.graduate_year,
                         }
                     ]
                 }
@@ -215,6 +227,7 @@ const InfoInput = () => {
             sequence: 5,
             description: "Your headline should be your professional title, and your biography should be a summary of who you are and what you do.",
             icon: BriefcaseIcon,
+            buttons: (account.headline !== null && account.biography !== null) && (account.headline !== "" && account.biography !== ""),
             fields: {
                 firstField: {
                     attribute: [
@@ -223,7 +236,8 @@ const InfoInput = () => {
                             title: "Headline",
                             placeholder: "Headline",
                             key: "headline",
-                            required: false
+                            required: false,
+                            value: account.headline,
                         }
                     ]
                 },
@@ -234,7 +248,8 @@ const InfoInput = () => {
                             title: "Biography",
                             placeholder: "Biography",
                             key: "biography",
-                            required: false
+                            required: false,
+                            value: account.biography,
                         }
                     ]
                 }
@@ -244,7 +259,6 @@ const InfoInput = () => {
 
     for (const property in modalInfo) {
         if (modalInfo[property].sequence === modal) {
-            console.log("CURRENT MODAL:", modalInfo[property].title);
             const modalField = modalInfo[property];
             return (
                 <>
@@ -346,7 +360,11 @@ const InfoInput = () => {
                                                             placeholder=""
                                                             autoComplete="off"
                                                             onChange={event => modalField.fields.firstField.attribute[0].change(event)}
-                                                            value={account.first_name}
+                                                            value={
+                                                                modalField.fields.firstField.attribute[0].value
+                                                                    ? modalField.fields.firstField.attribute[0].value
+                                                                    : ""
+                                                            }
                                                         />
                                                     </div>
                                                     <div className="relative border border-gray-300 rounded-md rounded-t-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600 transition-colors">
@@ -361,12 +379,24 @@ const InfoInput = () => {
                                                             placeholder=""
                                                             autoComplete="off"
                                                             onChange={event => modalField.fields.secondField.attribute[0].change(event)}
-                                                            value={account.last_name}
+                                                            value={
+                                                                modalField.fields.secondField.attribute[0].value
+                                                                    ? modalField.fields.secondField.attribute[0].value
+                                                                    : ""
+                                                            }
                                                         />
                                                     </div>
                                                 </div>
                                                 {/* CHANGE MODAL BUTTONS */}
-                                                {displayModals()}
+                                                <div className="flex justify-between mt-6 space-x-2">
+                                                    <Buttons
+                                                        handleChangeModal={handleChangeModal}
+                                                        account={account}
+                                                        modal={modal}
+                                                        loading={loading}
+                                                        required={modalField.buttons}
+                                                    />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -378,7 +408,6 @@ const InfoInput = () => {
             );
         }
     }
-
 };
 
 export default InfoInput;
