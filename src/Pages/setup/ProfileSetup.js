@@ -6,7 +6,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useTransition } from "react-spring";
 import { animated } from "react-spring";
-import { UserCircleIcon, InboxIcon, LocationMarkerIcon, AcademicCapIcon, BriefcaseIcon } from "@heroicons/react/outline";
+import { UserCircleIcon, LocationMarkerIcon, AcademicCapIcon, BriefcaseIcon } from "@heroicons/react/outline";
 
 // import NameInput from "./modals/01-NameInput";
 // import ContactInput from "./modals/02-ContactInput";
@@ -121,41 +121,41 @@ const InfoInput = () => {
                 },
             }
         },
-        ContactInput: {
-            title: "Contact Information",
-            sequence: 2,
-            description: "Please provide the contact information through which you wish to be contacted. This information will be publicly displayed on your account.",
-            icon: InboxIcon,
-            buttons: (account.contact_info.email !== null && account.contact_info.phone !== null) && (account.contact_info.email !== "" && account.contact_info.phone !== ""),
-            fields: {
-                firstField: {
-                    attribute: [
-                        {
-                            type: "text",
-                            title: "Phone Number",
-                            placeholder: "Phone Number",
-                            key: "phone",
-                            required: false,
-                            value: account.contact_info.phone,
-                            change: event => setAccount({ ...account, contact_info: { ...account.contact_info, phone: event.target.value } })
-                        },
-                    ]
-                },
-                secondField: {
-                    attribute: [
-                        {
-                            type: "text",
-                            title: "Email Address",
-                            placeholder: "Email Address",
-                            key: "email",
-                            required: false,
-                            value: account.contact_info.email,
-                            change: event => setAccount({ ...account, contact_info: { ...account.contact_info, email: event.target.value } })
-                        },
-                    ]
-                }
-            }
-        },
+        // ContactInput: {
+        //     title: "Contact Information",
+        //     sequence: 2,
+        //     description: "Please provide the contact information through which you wish to be contacted. This information will be publicly displayed on your account.",
+        //     icon: InboxIcon,
+        //     buttons: (account.contact_info.email !== null && account.contact_info.phone !== null) && (account.contact_info.email !== "" && account.contact_info.phone !== ""),
+        //     fields: {
+        //         firstField: {
+        //             attribute: [
+        //                 {
+        //                     type: "text",
+        //                     title: "Phone Number",
+        //                     placeholder: "Phone Number",
+        //                     key: "phone",
+        //                     required: false,
+        //                     value: account.contact_info.phone,
+        //                     change: event => setAccount({ ...account, contact_info: { ...account.contact_info, phone: event.target.value } })
+        //                 },
+        //             ]
+        //         },
+        //         secondField: {
+        //             attribute: [
+        //                 {
+        //                     type: "text",
+        //                     title: "Email Address",
+        //                     placeholder: "Email Address",
+        //                     key: "email",
+        //                     required: false,
+        //                     value: account.contact_info.email,
+        //                     change: event => setAccount({ ...account, contact_info: { ...account.contact_info, email: event.target.value } })
+        //                 },
+        //             ]
+        //         }
+        //     }
+        // },
         LocationInput: {
             title: "Location Information",
             sequence: 3,
@@ -349,21 +349,32 @@ const InfoInput = () => {
                                             <div className="bg-white rounded-bl-2xl rounded-br-2xl">
                                                 <div className="-space-y-px rounded-md shadow-sm">
                                                     <div className="relative border border-gray-300 rounded-md rounded-b-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600 transition-colors">
-                                                        <label htmlFor="first-name" className="block text-xs font-medium text-gray-900">
-                                                            {modalField.fields.firstField.attribute[0].title}
-                                                        </label>
+                                                        {
+                                                            modalField.fields.firstField.attribute[0].required
+                                                                ?
+                                                                <div className="flex justify-between">
+                                                                    <label htmlFor="state" className="block text-xs font-medium text-gray-900">
+                                                                        {modalField.fields.firstField.attribute[0].title}
+                                                                    </label>
+                                                                    <span className="text-sm text-gray-500" id="email-optional">
+                                                                        Required
+                                                                    </span>
+                                                                </div>
+                                                                :
+                                                                <label htmlFor="first-name" className="block text-xs font-medium text-gray-900">
+                                                                    {modalField.fields.firstField.attribute[0].title}
+                                                                </label>
+                                                        }
                                                         <input
                                                             type="text"
                                                             name="first-name"
                                                             id="first-name"
                                                             className="block w-full border-0 px-0 py-2 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
-                                                            placeholder=""
+                                                            placeholder={modalField.fields.firstField.attribute[0].placeholder}
                                                             autoComplete="off"
                                                             onChange={event => modalField.fields.firstField.attribute[0].change(event)}
                                                             value={
                                                                 modalField.fields.firstField.attribute[0].value
-                                                                    ? modalField.fields.firstField.attribute[0].value
-                                                                    : ""
                                                             }
                                                         />
                                                     </div>
@@ -376,13 +387,11 @@ const InfoInput = () => {
                                                             name="last-name"
                                                             id="last-name"
                                                             className="block w-full border-0 px-0 py-2 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
-                                                            placeholder=""
+                                                            placeholder={modalField.fields.secondField.attribute[0].placeholder}
                                                             autoComplete="off"
                                                             onChange={event => modalField.fields.secondField.attribute[0].change(event)}
                                                             value={
                                                                 modalField.fields.secondField.attribute[0].value
-                                                                    ? modalField.fields.secondField.attribute[0].value
-                                                                    : ""
                                                             }
                                                         />
                                                     </div>
