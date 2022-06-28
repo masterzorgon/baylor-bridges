@@ -2,11 +2,12 @@ import React, { createContext } from "react";
 import axios from "axios";
 
 const AccountContext = createContext();
+const x_fields = "user_id, username, first_name, last_name, headline, photo, role, occupation, graduate_year, graduate_semester, city, state, biography, contact_info";
 
 const Account = (props) => {
     const signIn = async (username, password) => {
         return await new Promise((resolve, reject) => {
-            axios.post("/accounts/signin", { username: username, password: password }, { timeout: 60000 })
+            axios.post("/accounts/signin", { username: username, password: password }, { timeout: 60000, headers: { "x-fields": x_fields } })
                 .then(response => {
                     if (response.status === 200) {
                         // Store to local storage and resolve
@@ -36,7 +37,7 @@ const Account = (props) => {
 
     const getAccount = async () => {
         return await new Promise((resolve, reject) => {
-            axios.get("/accounts/me", { withoutInterceptors: true })
+            axios.get("/accounts/me", { headers: { "x-fields": x_fields } })
                 .then(response => {
                     if (response.status === 200) {
                         // Store to local storage and resolve

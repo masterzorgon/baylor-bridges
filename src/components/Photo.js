@@ -8,7 +8,13 @@ const adaptSize = (size) => {
     let font_size = "xs";
     let ring_size = 1;
 
-    if (size >= 16) {
+    if (size >= 20) {
+        font_size = "3xl";
+        ring_size = 3;
+    } else if (size >= 18) {
+        font_size = "3xl";
+        ring_size = 3;
+    } else if (size >= 16) {
         font_size = "2xl";
         ring_size = 3;
     } else if (size >= 14) {
@@ -59,22 +65,19 @@ const Photo = ({ size, account, badges }) => {
     let initials = getInitials(account);
     let isAlumni = account?.role === "alumni";
 
-    if (account && "photo" in account) {
-        return (
-            <img
-                className={`h-${size} w-${size} rounded-full`}
-                src={account.photo}
-                alt=""
-            />
-        );
-    }
-
-
     return (
-        <div className={`h-${size} w-${size}`}>
-            <div className={classNames(`inline-flex items-center justify-center h-${size} w-${size} rounded-full bg-gray-500`, (badges === true && isAlumni) && `ring-${ring_size} ring-violet-600 ring-offset-2`, (badges === true && isAlumni && ring_size === 3) && "ring")}>
-                <span className={`text-${font_size} font-medium leading-none text-white uppercase`}>{initials}</span>
+        <div className={`h-${size} w-${size} relative`}>
+            <div className={classNames(`abolute top-0 left-0 inline-flex items-center justify-center h-${size} w-${size} rounded-full bg-gray-500`, (badges === true && isAlumni) && `ring-${ring_size} ring-violet-600 ring-offset-2`, (badges === true && isAlumni && ring_size === 3) && "ring")}>
+                <span className={`flex flex-col justify-center items-center text-${font_size} font-medium leading-none text-white uppercase`}>{initials}</span>
             </div>
+            {
+                (account && account.photo != null) &&
+                <img
+                    className={`h-${size} w-${size} rounded-full absolute top-0 left-0`}
+                    src={account.photo}
+                    alt=""
+                />
+            }
         </div>
     );
 };

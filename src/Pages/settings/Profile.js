@@ -11,7 +11,7 @@ import Markdown from "../../components/Markdown";
 import { classNames, states } from "../../components/Utils";
 
 
-const x_fields = "user_id, first_name, last_name, headline, role, occupation, graduate_year, graduate_semester, city, state, biography, contact_info";
+const x_fields = "user_id, first_name, last_name, headline, photo, role, occupation, graduate_year, graduate_semester, city, state, biography, contact_info";
 
 const semester = [
     { title: "Spring", value: "spring" },
