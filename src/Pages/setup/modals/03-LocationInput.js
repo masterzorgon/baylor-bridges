@@ -1,12 +1,11 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { LocationMarkerIcon, SelectorIcon, CheckIcon } from "@heroicons/react/outline";
+import { SelectorIcon, CheckIcon } from "@heroicons/react/outline";
 import { Listbox, Transition } from "@headlessui/react";
-import { animated } from "react-spring";
 
 import Buttons from "./components/Buttons";
 import { states, classNames } from "../../../components/Utils";
 
-const LocationInput = ({ required, loading, modal, account, setAccount, transition, handleChangeModal }) => {
+const LocationInput = ({ loading, modal, account, setAccount, handleChangeModal }) => {
 
     const [state, setState] = useState(states[0]);
 
@@ -24,22 +23,6 @@ const LocationInput = ({ required, loading, modal, account, setAccount, transiti
 
     return (
         <>
-            <div className="flex-1 relative pt-16 pb-8">
-                {transition((style, item) => {
-                    return item
-                        ?
-                        <animated.div style={style} className="absolute top-0 p-5 inline-block bg-emerald-600 rounded-xl shadow-xl transform -translate-y-1/2">
-                            <LocationMarkerIcon className="h-6 w-6 text-white" aria-hidden="true" />
-                        </animated.div>
-                        : "";
-                })}
-
-                <h3 className="text-xl font-medium text-gray-900">Location Information</h3>
-                <p className="mt-4 text-base text-gray-500">
-                    At your discretion, please provide your location information. This
-                    information will be used to provide you better profile recommendation.
-                </p>
-            </div>
             <div className="bg-white rounded-bl-2xl rounded-br-2xl">
                 <div className="-space-y-px rounded-md shadow-sm">
                     {/* INPUT FIELDS */}

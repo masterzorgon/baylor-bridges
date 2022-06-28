@@ -1,28 +1,11 @@
 import React, { Fragment } from "react";
-import { BriefcaseIcon } from "@heroicons/react/outline";
-import { animated } from "react-spring";
 
 import Buttons from "./components/Buttons";
 
-const HeadlineInput = ({ required, loading, modal, account, setAccount, transition, handleChangeModal }) => {
+const HeadlineInput = ({ loading, modal, account, setAccount, handleChangeModal }) => {
 
     return (
         <>
-            <div className="flex-1 relative pt-16 pb-8">
-                {transition((style, item) => {
-                    return item
-                        ?
-                        <animated.div style={style} className="absolute top-0 p-5 inline-block bg-emerald-600 rounded-xl shadow-lg transform -translate-y-1/2">
-                            <BriefcaseIcon className="h-6 w-6 text-white" aria-hidden="true" />
-                        </animated.div>
-                        : "";
-                })}
-                <h3 className="text-xl font-medium text-gray-900">Headline</h3>
-                <p className="mt-4 text-base text-gray-500">
-                    Your headline should be your professional title, and your biography should be
-                    a summary of who you are and what you do.
-                </p>
-            </div>
             <div className="bg-white rounded-bl-2xl rounded-br-2xl">
                 {/* INPUT FIELDS */}
                 <div className="-space-y-px rounded-md shadow-sm">

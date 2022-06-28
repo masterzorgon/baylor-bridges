@@ -8,13 +8,13 @@ import { useTransition } from "react-spring";
 import { animated } from "react-spring";
 import { UserCircleIcon, InboxIcon, LocationMarkerIcon, AcademicCapIcon, BriefcaseIcon } from "@heroicons/react/outline";
 
-// import NameInput from "./modals/01-NameInput";
-// import ContactInput from "./modals/02-ContactInput";
-// import LocationInput from "./modals/03-LocationInput";
-// import GradInput from "./modals/04-GradInput";
-// import HeadlineInput from "./modals/05-HeadlineInput";
-// import AllDone from "./modals/06-AllDone";
-import Buttons from "./modals/components/Buttons";
+import NameInput from "./modals/01-NameInput";
+import ContactInput from "./modals/02-ContactInput";
+import LocationInput from "./modals/03-LocationInput";
+import GradInput from "./modals/04-GradInput";
+import HeadlineInput from "./modals/05-HeadlineInput";
+import AllDone from "./modals/06-AllDone";
+// import Buttons from "./modals/components/Buttons";
 
 const InfoInput = () => {
 
@@ -71,15 +71,19 @@ const InfoInput = () => {
         leave: { x: 0, y: -80, opacity: 0 }
     });
 
-    // displays modals
-    // const displayModals = () => {
-    //     if (modal === 1) { return <NameInput        modalInfo={modalInfo.NameInput} loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
-    //     if (modal === 2) { return <ContactInput     modalInfo={modalInfo.ContactInput} loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
-    //     if (modal === 3) { return <LocationInput    modalInfo={modalInfo.LocationInput} loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
-    //     if (modal === 4) { return <GradInput        modalInfo={modalInfo.GradInput} loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
-    //     if (modal === 5) { return <HeadlineInput    modalInfo={modalInfo.HeadlineInput} loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
-    //     if (modal === 6) { return <AllDone          loading={loading} setLoading={setLoading} modal={modal} account={account} transition={transition} />; }
-    // };
+    //displays modals
+    const displayModals = () => {
+        if (modal === 1) { return <NameInput        modalInfo={modalInfo.NameInput} loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
+        if (modal === 2) { return <ContactInput     modalInfo={modalInfo.ContactInput} loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
+        if (modal === 3) { return <LocationInput    modalInfo={modalInfo.LocationInput} loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
+        if (modal === 4) { return <GradInput        modalInfo={modalInfo.GradInput} loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
+        if (modal === 5) { return <HeadlineInput    modalInfo={modalInfo.HeadlineInput} loading={loading} setLoading={setLoading} modal={modal} account={account} setAccount={setAccount} transition={transition} handleChangeModal={handleChangeModal} />; }
+        if (modal === 6) { return <AllDone          loading={loading} setLoading={setLoading} modal={modal} account={account} transition={transition} />; }
+    };
+
+    useEffect(() => {
+        console.log("ACCOUNT CHANGED:", account);
+    }, [account]);
 
     const modalInfo = {
         NameInput: {
@@ -87,16 +91,29 @@ const InfoInput = () => {
             sequence: 1,
             description: "Please provide your full name. This is the name others will see on your profile for others who may reach you.",
             icon: UserCircleIcon,
-            required: true,
             fields: {
                 firstField: {
                     attribute: [
-                        { type: "text", title: "First Name (and Middle Name)", placeholder: "First Name", key: "first_name" },
+                        {
+                            type: "text",
+                            title: "First Name (and Middle Name)",
+                            placeholder: "First Name",
+                            key: "first_name",
+                            required: true,
+                            change: event => setAccount({ ...account, first_name: event.target.value })
+                        },
                     ]
                 },
                 secondField: {
                     attribute: [
-                        { type: "text", title: "Last Name", placeholder: "Last Name", key: "last_name" },
+                        {
+                            type: "text",
+                            title: "Last Name",
+                            placeholder: "Last Name",
+                            key: "last_name",
+                            required: true,
+                            change: event => setAccount({ ...account, last_name: event.target.value })
+                        },
                     ]
                 },
             }
@@ -106,16 +123,29 @@ const InfoInput = () => {
             sequence: 2,
             description: "Please provide the contact information through which you wish to be contacted. This information will be publicly displayed on your account.",
             icon: InboxIcon,
-            required: false,
             fields: {
                 firstField: {
                     attribute: [
-                        { type: "text", title: "Phone Number", placeholder: "Phone Number", key: "phone" },
+                        {
+                            type: "text",
+                            title: "Phone Number",
+                            placeholder: "Phone Number",
+                            key: "phone",
+                            required: false,
+                            change: event => setAccount({ ...account, contact_info: { ...account.contact_info, phone: event.target.value } })
+                        },
                     ]
                 },
                 secondField: {
                     attribute: [
-                        { type: "text", title: "Email Address", placeholder: "Email Address", key: "email" },
+                        {
+                            type: "text",
+                            title: "Email Address",
+                            placeholder: "Email Address",
+                            key: "email",
+                            required: false,
+                            change: event => setAccount({ ...account, contact_info: { ...account.contact_info, email: event.target.value } })
+                        },
                     ]
                 }
             }
@@ -125,16 +155,27 @@ const InfoInput = () => {
             sequence: 3,
             description: "Please provide your location information. This information will be used to fill out our Baylor Bridges heat map as displayed on the home page.",
             icon: LocationMarkerIcon,
-            required: true,
             fields: {
                 firstField: {
                     attribute: [
-                        { type: "text", title: "State", placeholder: "State", key: "state" }
+                        {
+                            type: "list",
+                            title: "State",
+                            placeholder: "State",
+                            key: "state",
+                            required: false
+                        }
                     ]
                 },
                 secondField: {
                     attribute: [
-                        { type: "text", title: "State", placeholder: "State", key: "city" }
+                        {
+                            type: "text",
+                            title: "City",
+                            placeholder: "City",
+                            key: "city",
+                            required: false
+                        }
                     ]
                 }
             }
@@ -142,18 +183,29 @@ const InfoInput = () => {
         GradInput: {
             title: "Graduating Class",
             sequence: 4,
-            description: "Please provide the year and semester of your graduating class from Baylor University. If you have not yet graduated, please provide the expected graduation year and semester.",
+            description: "Please provide the year and semester of your graduating class from Baylor University. If you have not yet graduated, please provide the  graduation year and semester.",
             icon: AcademicCapIcon,
-            required: false,
             fields: {
                 firstField: {
                     attribute: [
-                        { type: "text", title: "Semester", placeholder: "Semester", key: "graduate_semester" }
+                        {
+                            type: "list",
+                            title: "Semester",
+                            placeholder: "Semester",
+                            key: "graduate_semester",
+                            required: false
+                        }
                     ]
                 },
                 secondField: {
                     attribute: [
-                        { type: "number", title: "Year", placeholder: "Year", key: "graduate_year" }
+                        {
+                            type: "text",
+                            title: "Year",
+                            placeholder: "Year",
+                            key: "graduate_year",
+                            required: false
+                        }
                     ]
                 }
             }
@@ -163,20 +215,31 @@ const InfoInput = () => {
             sequence: 5,
             description: "Your headline should be your professional title, and your biography should be a summary of who you are and what you do.",
             icon: BriefcaseIcon,
-            required: false,
             fields: {
                 firstField: {
                     attribute: [
-                        { type: "text", title: "Headline", placeholder: "Headline", key: "headline" }
+                        {
+                            type: "text",
+                            title: "Headline",
+                            placeholder: "Headline",
+                            key: "headline",
+                            required: false
+                        }
                     ]
                 },
                 secondField: {
                     attribute: [
-                        { type: "text", title: "Biography", placeholder: "Biography", key: "biography" }
+                        {
+                            type: "bio",
+                            title: "Biography",
+                            placeholder: "Biography",
+                            key: "biography",
+                            required: false
+                        }
                     ]
                 }
             }
-        }
+        },
     };
 
     for (const property in modalInfo) {
@@ -260,14 +323,16 @@ const InfoInput = () => {
                                                         </animated.div>
                                                         : "";
                                                 })}
-                                                <h3 className="text-xl font-medium text-gray-900">{modalField.title}</h3>
+                                                <h3 className={modalField.style ? modalField.style : "text-xl font-medium text-gray-900"}>
+                                                    {modalField.title}
+                                                </h3>
                                                 <p className="mt-4 text-base text-gray-500">
                                                     {modalField.description}
                                                 </p>
                                             </div>
 
+                                            {/* INPUT FIELDS */}
                                             <div className="bg-white rounded-bl-2xl rounded-br-2xl">
-                                                {/* INPUT FIELDS */}
                                                 <div className="-space-y-px rounded-md shadow-sm">
                                                     <div className="relative border border-gray-300 rounded-md rounded-b-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600 transition-colors">
                                                         <label htmlFor="first-name" className="block text-xs font-medium text-gray-900">
@@ -280,7 +345,7 @@ const InfoInput = () => {
                                                             className="block w-full border-0 px-0 py-2 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
                                                             placeholder=""
                                                             autoComplete="off"
-                                                            onChange={event => setAccount({ ...account, first_name: event.target.value })}
+                                                            onChange={event => modalField.fields.firstField.attribute[0].change(event)}
                                                             value={account.first_name}
                                                         />
                                                     </div>
@@ -295,21 +360,13 @@ const InfoInput = () => {
                                                             className="block w-full border-0 px-0 py-2 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
                                                             placeholder=""
                                                             autoComplete="off"
-                                                            onChange={event => setAccount({ ...account, last_name: event.target.value })}
+                                                            onChange={event => modalField.fields.secondField.attribute[0].change(event)}
                                                             value={account.last_name}
                                                         />
                                                     </div>
                                                 </div>
                                                 {/* CHANGE MODAL BUTTONS */}
-                                                <div className="flex justify-between mt-6 space-x-2">
-                                                    <Buttons
-                                                        handleChangeModal={handleChangeModal}
-                                                        account={account}
-                                                        modal={modal}
-                                                        loading={loading}
-                                                        required={true}
-                                                    />
-                                                </div>
+                                                {displayModals()}
                                             </div>
                                         </div>
                                     </div>

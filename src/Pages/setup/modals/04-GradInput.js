@@ -1,7 +1,6 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { AcademicCapIcon, SelectorIcon, CheckIcon } from "@heroicons/react/outline";
+import { SelectorIcon, CheckIcon } from "@heroicons/react/outline";
 import { Listbox, Transition } from "@headlessui/react";
-import { animated } from "react-spring";
 
 import Buttons from "./components/Buttons";
 import { classNames } from "../../../components/Utils";
@@ -11,7 +10,7 @@ const semesters = [
     { title: "Fall", value: "fall" }
 ];
 
-const GradInput = ({ required, loading, modal, account, setAccount, handleChangeModal, transition }) => {
+const GradInput = ({ loading, modal, account, setAccount, handleChangeModal }) => {
 
     const [semester, setSemester] = useState(semesters[0]);
 
@@ -29,21 +28,6 @@ const GradInput = ({ required, loading, modal, account, setAccount, handleChange
 
     return (
         <>
-            <div className="flex-1 relative pt-16 pb-8">
-                {transition((style, item) => {
-                    return item
-                        ?
-                        <animated.div style={style} className="absolute top-0 p-5 inline-block bg-emerald-600 rounded-xl shadow-xl transform -translate-y-1/2">
-                            <AcademicCapIcon className="h-6 w-6 text-white" aria-hidden="true" />
-                        </animated.div>
-                        : "";
-                })}
-                <h3 className="text-xl font-medium text-gray-900">Graduating Class</h3>
-                <p className="mt-4 text-base text-gray-500">
-                    Please provide the {account.role === "student" && "expected"} year and semester of your graduating class
-                    from Baylor University. If you are not yet graduating, please provide the expecting graduation year and semester.
-                </p>
-            </div>
             <div className="bg-white rounded-bl-2xl rounded-br-2xl">
                 {/* INPUT FIELDS */}
                 <div className="-space-y-px rounded-md shadow-sm">

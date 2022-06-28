@@ -95,7 +95,6 @@ const AllDone = ({ account, transition }) => {
         <>
             <ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
             <div className="flex-1 relative pt-16 pb-8">
-
                 {transition((style, item) => {
                     return item
                         ?
@@ -105,7 +104,9 @@ const AllDone = ({ account, transition }) => {
                         : "";
                 })}
                 <h2 className="mt-6 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-                    <span className="text-gradient bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500">You&apos;re all set!</span>
+                    <span className="text-gradient bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500">
+                        You&apos;re all set!
+                    </span>
                     <span className="block">Great job.</span>
                 </h2>
                 <p className="mt-4 text-base text-gray-500">

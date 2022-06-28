@@ -1,28 +1,11 @@
 import React from "react";
-import { animated } from "react-spring";
 
 import Buttons from "./components/Buttons";
 
-const NameInput = ({ modalInfo, loading, modal, account, setAccount, handleChangeModal, transition }) => {
+const NameInput = ({ loading, modal, account, setAccount, handleChangeModal }) => {
     return (
         <>
-            <div className="flex-1 relative pt-16 pb-8">
-                {transition((style, item) => {
-                    return item
-                        ?
-                        <animated.div style={style} className="absolute top-0 p-5 inline-block bg-emerald-600 rounded-xl shadow-md transform -translate-y-1/2">
-                            <modalInfo.icon className="h-6 w-6 text-white" aria-hidden="true" />
-                        </animated.div>
-                        : "";
-                })}
-                <h3 className="text-xl font-medium text-gray-900">{modalInfo.title}</h3>
-                <p className="mt-4 text-base text-gray-500">
-                    {modalInfo.description}
-                </p>
-            </div>
-
-            <div className="bg-white rounded-bl-2xl rounded-br-2xl">
-                {/* INPUT FIELDS */}
+            {/* <div className="bg-white rounded-bl-2xl rounded-br-2xl">
                 <div className="-space-y-px rounded-md shadow-sm">
                     <div className="relative border border-gray-300 rounded-md rounded-b-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600 transition-colors">
                         <label htmlFor="first-name" className="block text-xs font-medium text-gray-900">
@@ -54,18 +37,18 @@ const NameInput = ({ modalInfo, loading, modal, account, setAccount, handleChang
                             value={account.last_name}
                         />
                     </div>
-                </div>
-                {/* CHANGE MODAL BUTTONS */}
-                <div className="flex justify-between mt-6 space-x-2">
-                    <Buttons
-                        handleChangeModal={handleChangeModal}
-                        account={account}
-                        modal={modal}
-                        loading={loading}
-                        required={true}
-                    />
-                </div>
+                </div> */}
+            {/* CHANGE MODAL BUTTONS */}
+            <div className="flex justify-between mt-6 space-x-2">
+                <Buttons
+                    handleChangeModal={handleChangeModal}
+                    account={account}
+                    modal={modal}
+                    loading={loading}
+                    required={true}
+                />
             </div>
+            {/* </div> */}
         </>
     );
 };
