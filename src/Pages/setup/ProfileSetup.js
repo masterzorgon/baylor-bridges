@@ -15,8 +15,22 @@ const InfoInput = () => {
     const [, , showTheModal] = useTimeoutFn(() => setShow(true), 400); // used to fade modals in
     const [, , takeAwayModal] = useTimeoutFn(() => setShow(false), 100); // used to fade modal out
     const [modal, setModal] = useState(1); // used to switch between modals
-    const [account, setAccount] = useState({}); // updates account info
     const [loading, setLoading] = useState(false); // indicates that data is being sent to server
+    const [account, setAccount] = useState({  // updates account info
+        first_name: "",
+        last_name: "",
+        state: "",
+        city: "",
+        biography: "",
+        headline: "",
+        role: "",
+        contact_info: {
+            email: "",
+            email_visibility: "self",
+            phone: "",
+            phone_visibility: "self"
+        }
+    });
 
     // this makes the modal fade in on refresh
     useEffect(() => showTheModal(), [modal]);
@@ -110,7 +124,7 @@ const InfoInput = () => {
             description: "Please provide the contact information through which you wish to be contacted. This information will be publicly displayed on your account.",
             icon: InboxIcon,
             buttons: (account.contact_info.email !== null && account.contact_info.phone !== null) &&
-                            (account.contact_info.email !== "" && account.contact_info.phone !== ""),
+                (account.contact_info.email !== "" && account.contact_info.phone !== ""),
             fields: {
                 firstField: {
                     attribute: [
@@ -145,7 +159,8 @@ const InfoInput = () => {
             sequence: 3,
             description: "Please provide your location information. This information will be used to fill out our Baylor Bridges heat map as displayed on the home page.",
             icon: LocationMarkerIcon,
-            buttons: (account.state !== null && account.city !== null) && (account.state !== "" && account.city !== ""),
+            buttons: (account.state !== null && account.city !== null) &&
+                (account.state !== "" && account.city !== ""),
             fields: {
                 firstField: {
                     attribute: [
@@ -178,7 +193,8 @@ const InfoInput = () => {
             sequence: 4,
             description: "Please provide the year and semester of your graduating class from Baylor University. If you have not yet graduated, please provide the  graduation year and semester.",
             icon: AcademicCapIcon,
-            buttons: (account.graduate_year !== null && account.graduate_semester !== null) && (account.graduate_year !== "" && account.graduate_semester !== ""),
+            buttons: (account.graduate_year !== null && account.graduate_semester !== null) &&
+                (account.graduate_year !== "" && account.graduate_semester !== ""),
             fields: {
                 firstField: {
                     attribute: [
@@ -211,7 +227,8 @@ const InfoInput = () => {
             sequence: 5,
             description: "Your headline should be your professional title, and your biography should be a summary of who you are and what you do.",
             icon: BriefcaseIcon,
-            buttons: (account.headline !== null && account.biography !== null) && (account.headline !== "" && account.biography !== ""),
+            buttons: (account.headline !== null && account.biography !== null) &&
+                (account.headline !== "" && account.biography !== ""),
             fields: {
                 firstField: {
                     attribute: [

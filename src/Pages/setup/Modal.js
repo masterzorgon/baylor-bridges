@@ -75,16 +75,29 @@ const Modal = ({
                                                 autoComplete="off"
                                                 onChange={event => modalField.fields.firstField.attribute[0].change(event)}
                                                 value={
-                                                    modalField.fields.firstField.attribute[0].value
+                                                    modalField.fields.firstField.attribute[0].value !== null
                                                         ? modalField.fields.firstField.attribute[0].value
                                                         : ""
                                                 }
                                             />
                                         </div>
                                         <div className="relative border border-gray-300 rounded-md rounded-t-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600 transition-colors">
-                                            <label htmlFor="last-name" className="block text-xs font-medium text-gray-900">
-                                                {modalField.fields.secondField.attribute[0].title}
-                                            </label>
+                                            {
+                                                modalField.fields.secondField.attribute[0].required
+                                                    ?
+                                                    <div className="flex justify-between">
+                                                        <label htmlFor="state" className="block text-xs font-medium text-gray-900">
+                                                            {modalField.fields.secondField.attribute[0].title}
+                                                        </label>
+                                                        <span className="text-sm text-gray-500" id="email-optional">
+                                                            Required
+                                                        </span>
+                                                    </div>
+                                                    :
+                                                    <label htmlFor="first-name" className="block text-xs font-medium text-gray-900">
+                                                        {modalField.fields.secondField.attribute[0].title}
+                                                    </label>
+                                            }
                                             <input
                                                 type="text"
                                                 name="last-name"
@@ -94,7 +107,7 @@ const Modal = ({
                                                 autoComplete="off"
                                                 onChange={event => modalField.fields.secondField.attribute[0].change(event)}
                                                 value={
-                                                    modalField.fields.secondField.attribute[0].value
+                                                    modalField.fields.secondField.attribute[0].value !== null
                                                         ? modalField.fields.secondField.attribute[0].value
                                                         : ""
                                                 }
