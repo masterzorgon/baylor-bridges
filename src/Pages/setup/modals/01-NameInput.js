@@ -1,10 +1,9 @@
 import React from "react";
-import { UserCircleIcon } from "@heroicons/react/outline";
 import { animated } from "react-spring";
 
 import Buttons from "./components/Buttons";
 
-const NameInput = ({ required, loading, modal, account, setAccount, handleChangeModal, transition }) => {
+const NameInput = ({ modalInfo, loading, modal, account, setAccount, handleChangeModal, transition }) => {
     return (
         <>
             <div className="flex-1 relative pt-16 pb-8">
@@ -12,16 +11,16 @@ const NameInput = ({ required, loading, modal, account, setAccount, handleChange
                     return item
                         ?
                         <animated.div style={style} className="absolute top-0 p-5 inline-block bg-emerald-600 rounded-xl shadow-md transform -translate-y-1/2">
-                            <UserCircleIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                            <modalInfo.icon className="h-6 w-6 text-white" aria-hidden="true" />
                         </animated.div>
                         : "";
                 })}
-                <h3 className="text-xl font-medium text-gray-900">Name</h3>
+                <h3 className="text-xl font-medium text-gray-900">{modalInfo.title}</h3>
                 <p className="mt-4 text-base text-gray-500">
-                    Please provide your full name. This is the name others will see
-                    on your profile for others who may reach you.
+                    {modalInfo.description}
                 </p>
             </div>
+
             <div className="bg-white rounded-bl-2xl rounded-br-2xl">
                 {/* INPUT FIELDS */}
                 <div className="-space-y-px rounded-md shadow-sm">
