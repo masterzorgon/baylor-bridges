@@ -5,7 +5,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useTransition } from "react-spring";
 import { UserCircleIcon, LocationMarkerIcon, AcademicCapIcon, BriefcaseIcon } from "@heroicons/react/outline";
-// import { InboxIcon } from "@heroicons/react/outline";
+import { InboxIcon } from "@heroicons/react/outline";
 
 import Modal from "./Modal";
 
@@ -104,42 +104,42 @@ const InfoInput = () => {
                 },
             }
         },
-        // ContactInput: {
-        //     title: "Contact Information",
-        //     sequence: 2,
-        //     description: "Please provide the contact information through which you wish to be contacted. This information will be publicly displayed on your account.",
-        //     icon: InboxIcon,
-        //     buttons: (account.contact_info.email !== null && account.contact_info.phone !== null) &&
-        //                     (account.contact_info.email !== "" && account.contact_info.phone !== ""),
-        //     fields: {
-        //         firstField: {
-        //             attribute: [
-        //                 {
-        //                     type: "text",
-        //                     title: "Phone Number",
-        //                     placeholder: "Phone Number",
-        //                     key: "phone",
-        //                     required: false,
-        //                     value: account.contact_info.phone,
-        //                     change: event => setAccount({ ...account, contact_info: { ...account.contact_info, phone: event.target.value } })
-        //                 },
-        //             ]
-        //         },
-        //         secondField: {
-        //             attribute: [
-        //                 {
-        //                     type: "text",
-        //                     title: "Email Address",
-        //                     placeholder: "Email Address",
-        //                     key: "email",
-        //                     required: false,
-        //                     value: account.contact_info.email,
-        //                     change: event => setAccount({ ...account, contact_info: { ...account.contact_info, email: event.target.value } })
-        //                 },
-        //             ]
-        //         }
-        //     }
-        // },
+        ContactInput: {
+            title: "Contact Information",
+            sequence: 2,
+            description: "Please provide the contact information through which you wish to be contacted. This information will be publicly displayed on your account.",
+            icon: InboxIcon,
+            buttons: (account.contact_info.email !== null && account.contact_info.phone !== null) &&
+                            (account.contact_info.email !== "" && account.contact_info.phone !== ""),
+            fields: {
+                firstField: {
+                    attribute: [
+                        {
+                            type: "text",
+                            title: "Phone Number",
+                            placeholder: "Phone Number",
+                            key: "phone",
+                            required: false,
+                            value: account.contact_info.phone,
+                            change: event => setAccount({ ...account, contact_info: { ...account.contact_info, phone: event.target.value } })
+                        },
+                    ]
+                },
+                secondField: {
+                    attribute: [
+                        {
+                            type: "text",
+                            title: "Email Address",
+                            placeholder: "Email Address",
+                            key: "email",
+                            required: false,
+                            value: account.contact_info.email,
+                            change: event => setAccount({ ...account, contact_info: { ...account.contact_info, email: event.target.value } })
+                        },
+                    ]
+                }
+            }
+        },
         LocationInput: {
             title: "Location Information",
             sequence: 3,
@@ -293,6 +293,7 @@ const InfoInput = () => {
                             </svg>
                         </div>
                     </div>
+                    {/* INPUT MODALS */}
                     <Modal
                         modalField={modalField}
                         loading={loading}
