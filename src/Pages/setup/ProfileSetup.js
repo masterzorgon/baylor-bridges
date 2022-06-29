@@ -89,184 +89,140 @@ const InfoInput = () => {
             description: "Please provide your full name. This is the name others will see on your profile for others who may reach you.",
             icon: UserCircleIcon,
             buttons: true,
-            fields: {
-                firstField: {
-                    attribute: [
-                        {
-                            type: "text",
-                            title: "First Name (and Middle Name)",
-                            placeholder: "Peter",
-                            key: "first_name",
-                            required: true,
-                            value: account.first_name,
-                            filtered: false,
-                            change: event => setAccount({ ...account, first_name: event.target.value })
-                        },
-                    ]
+            fields: [
+                {
+                    type: "text",
+                    title: "First Name (and Middle Name)",
+                    placeholder: "Peter",
+                    key: "first_name",
+                    required: true,
+                    value: account.first_name,
+                    filtered: false,
+                    change: event => setAccount({ ...account, first_name: event.target.value })
                 },
-                secondField: {
-                    attribute: [
-                        {
-                            type: "text",
-                            title: "Last Name",
-                            placeholder: "Parker",
-                            key: "last_name",
-                            required: true,
-                            value: account.last_name,
-                            filtered: false,
-                            change: event => setAccount({ ...account, last_name: event.target.value })
-                        },
-                    ]
+                {
+                    type: "text",
+                    title: "Last Name",
+                    placeholder: "Parker",
+                    key: "last_name",
+                    required: true,
+                    value: account.last_name,
+                    filtered: false,
+                    change: event => setAccount({ ...account, last_name: event.target.value })
                 },
-            }
+            ]
         },
         ContactInput: {
             title: "Contact Information",
             sequence: 2,
             description: "Please provide the contact information through which you wish to be contacted. This information will be publicly displayed on your account.",
             icon: InboxIcon,
-            buttons: (account.contact_info.email !== null && account.contact_info.phone !== null) &&
-                (account.contact_info.email !== "" && account.contact_info.phone !== ""),
-            fields: {
-                firstField: {
-                    attribute: [
-                        {
-                            type: "text",
-                            title: "Phone Number",
-                            placeholder: "(123) 456-7890",
-                            key: "phone",
-                            required: false,
-                            value: account.contact_info.phone,
-                            filtered: false,
-                            change: event => setAccount({ ...account, contact_info: { ...account.contact_info, phone: event.target.value } })
-                        },
-                    ]
+            buttons: (account.contact_info.email !== null && account.contact_info.phone !== null) && (account.contact_info.email !== "" && account.contact_info.phone !== ""),
+            fields: [
+                {
+                    type: "text",
+                    title: "Phone Number",
+                    placeholder: "(123) 456-7890",
+                    key: "phone",
+                    required: false,
+                    value: account.contact_info.phone,
+                    filtered: false,
+                    change: event => setAccount({ ...account, contact_info: { ...account.contact_info, phone: event.target.value } })
                 },
-                secondField: {
-                    attribute: [
-                        {
-                            type: "text",
-                            title: "Email Address",
-                            placeholder: "example@email.com",
-                            key: "email",
-                            required: false,
-                            value: account.contact_info.email,
-                            filtered: false,
-                            change: event => setAccount({ ...account, contact_info: { ...account.contact_info, email: event.target.value } })
-                        },
-                    ]
-                }
-            }
+                {
+                    type: "text",
+                    title: "Email Address",
+                    placeholder: "example@email.com",
+                    key: "email",
+                    required: false,
+                    value: account.contact_info.email,
+                    filtered: false,
+                    change: event => setAccount({ ...account, contact_info: { ...account.contact_info, email: event.target.value } })
+                },
+            ]
         },
         LocationInput: {
             title: "Location Information",
             sequence: 3,
             description: "Please provide your location information. This information will be used to fill out our Baylor Bridges heat map as displayed on the home page.",
             icon: LocationMarkerIcon,
-            buttons: (account.state !== null && account.city !== null) &&
-                (account.state !== "" && account.city !== ""),
-            fields: {
-                firstField: {
-                    attribute: [
-                        {
-                            type: "list",
-                            title: "State",
-                            placeholder: "TX",
-                            key: "state",
-                            required: true,
-                            value: account.state,
-                            filtered: false,
-                        }
-                    ]
+            buttons: (account.state !== null && account.city !== null) && (account.state !== "" && account.city !== ""),
+            fields: [
+                {
+                    type: "list",
+                    title: "State",
+                    placeholder: "TX",
+                    key: "state",
+                    required: true,
+                    value: account.state,
+                    filtered: false,
                 },
-                secondField: {
-                    attribute: [
-                        {
-                            type: "text",
-                            title: "City",
-                            placeholder: "San Antonio",
-                            key: "city",
-                            required: false,
-                            value: account.city,
-                            filtered: false,
-                        }
-                    ]
+                {
+                    type: "text",
+                    title: "City",
+                    placeholder: "San Antonio",
+                    key: "city",
+                    required: false,
+                    value: account.city,
+                    filtered: false,
                 }
-            }
+            ]
         },
         GradInput: {
             title: "Graduating Class",
             sequence: 4,
             description: "Please provide the year and semester of your graduating class from Baylor University. If you have not yet graduated, please provide the  graduation year and semester.",
             icon: AcademicCapIcon,
-            buttons: (account.graduate_year !== null && account.graduate_semester !== null) &&
-                (account.graduate_year !== "" && account.graduate_semester !== ""),
-            fields: {
-                firstField: {
-                    attribute: [
-                        {
-                            type: "list",
-                            title: "Semester",
-                            placeholder: "Spring",
-                            key: "graduate_semester",
-                            required: false,
-                            value: account.graduate_semester,
-                            filtered: false,
-                        }
-                    ]
+            buttons: (account.graduate_year !== null && account.graduate_semester !== null) && (account.graduate_year !== "" && account.graduate_semester !== ""),
+            fields: [
+                {
+                    type: "list",
+                    title: "Semester",
+                    placeholder: "Spring",
+                    key: "graduate_semester",
+                    required: false,
+                    value: account.graduate_semester,
+                    filtered: false,
                 },
-                secondField: {
-                    attribute: [
-                        {
-                            type: "text",
-                            title: "Year",
-                            placeholder: "2001",
-                            key: "graduate_year",
-                            required: false,
-                            value: account.graduate_year,
-                            filtered: true,
-                        }
-                    ]
+                {
+                    type: "text",
+                    title: "Year",
+                    placeholder: "2001",
+                    key: "graduate_year",
+                    required: false,
+                    value: account.graduate_year,
+                    filtered: true,
                 }
-            }
+            ]
         },
         HeadlineInput: {
             title: "Headline",
             sequence: 5,
             description: "Your headline should be your professional title, and your biography should be a summary of who you are and what you do.",
             icon: BriefcaseIcon,
-            buttons: (account.headline !== null && account.biography !== null) &&
-                (account.headline !== "" && account.biography !== ""),
-            fields: {
-                firstField: {
-                    attribute: [
-                        {
-                            type: "text",
-                            title: "Headline",
-                            placeholder: "Headline",
-                            key: "headline",
-                            required: false,
-                            value: account.headline,
-                            filtered: false,
-                            change: event => setAccount({ ...account, headline: event.target.value })
-                        }
-                    ]
+            buttons: (account.headline !== null && account.biography !== null) && (account.headline !== "" && account.biography !== ""),
+            fields: [
+                {
+                    type: "text",
+                    title: "Headline",
+                    placeholder: "Headline",
+                    key: "headline",
+                    required: false,
+                    value: account.headline,
+                    filtered: false,
+                    change: event => setAccount({ ...account, headline: event.target.value })
                 },
-                secondField: {
-                    attribute: [
-                        {
-                            type: "bio",
-                            title: "Biography",
-                            placeholder: "Biography",
-                            key: "biography",
-                            required: false,
-                            value: account.biography,
-                            filtered: false,
-                            change: event => setAccount({ ...account, biography: event.target.biography })
-                        }
-                    ]
+                {
+                    type: "bio",
+                    title: "Biography",
+                    placeholder: "Biography",
+                    key: "biography",
+                    required: false,
+                    value: account.biography,
+                    filtered: false,
+                    change: event => setAccount({ ...account, biography: event.target.biography })
                 }
-            }
+            ]
         },
     };
 
@@ -288,146 +244,11 @@ const InfoInput = () => {
         }
     };
 
+    // RENDER MODAL COMPONENTS
     for (const property in modalInfo) {
+
         if (modalInfo[property].sequence === modal) {
-
             const modalField = modalInfo[property];
-
-            const handleInputFields = () => {
-                if (modalField.fields.firstField.attribute[0].type === "text") {
-                    return (
-                        <div className="bg-white rounded-bl-2xl rounded-br-2xl">
-                            <div className="-space-y-px rounded-md shadow-sm">
-                                <div className="relative border border-gray-300 rounded-md rounded-b-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600 transition-colors">
-                                    {
-                                        modalField.fields.firstField.attribute[0].required
-                                            ?
-                                            <div className="flex justify-between">
-                                                <label htmlFor="state" className="block text-xs font-medium text-gray-900">
-                                                    {modalField.fields.firstField.attribute[0].title}
-                                                </label>
-                                                <span className="text-sm text-gray-500" id="email-optional">
-                                                    Required
-                                                </span>
-                                            </div>
-                                            :
-                                            <label htmlFor="first-name" className="block text-xs font-medium text-gray-900">
-                                                {modalField.fields.firstField.attribute[0].title}
-                                            </label>
-                                    }
-                                    <input
-                                        type="text"
-                                        name="first-name"
-                                        id="first-name"
-                                        className="block w-full border-0 px-0 py-2 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
-                                        placeholder={modalField.fields.firstField.attribute[0].placeholder}
-                                        autoComplete="off"
-                                        onChange={
-                                            modalField.fields.firstField.attribute[0].filtered
-                                                ? event => handleFilteredInput(event)
-                                                : event => modalField.fields.firstField.attribute[0].change(event)
-                                        }
-                                        value={
-                                            modalField.fields.firstField.attribute[0].value !== null
-                                                ? modalField.fields.firstField.attribute[0].value
-                                                : ""
-                                        }
-                                    />
-                                </div>
-                                <div className="relative border border-gray-300 rounded-md rounded-t-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600 transition-colors">
-                                    {
-                                        modalField.fields.secondField.attribute[0].required
-                                            ?
-                                            <div className="flex justify-between">
-                                                <label htmlFor="state" className="block text-xs font-medium text-gray-900">
-                                                    {modalField.fields.secondField.attribute[0].title}
-                                                </label>
-                                                <span className="text-sm text-gray-500" id="email-optional">
-                                                    Required
-                                                </span>
-                                            </div>
-                                            :
-                                            <label htmlFor="first-name" className="block text-xs font-medium text-gray-900">
-                                                {modalField.fields.secondField.attribute[0].title}
-                                            </label>
-                                    }
-                                    <input
-                                        type="text"
-                                        name="last-name"
-                                        id="last-name"
-                                        className="block w-full border-0 px-0 py-2 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
-                                        placeholder={modalField.fields.secondField.attribute[0].placeholder}
-                                        autoComplete="off"
-                                        onChange={
-                                            modalField.fields.secondField.attribute[0].filtered
-                                                ? event => handleFilteredInput(event)
-                                                : event => modalField.fields.secondField.attribute[0].change(event)
-                                        }
-                                        value={
-                                            modalField.fields.secondField.attribute[0].value !== null
-                                                ? modalField.fields.secondField.attribute[0].value
-                                                : ""
-                                        }
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    );
-                }
-
-                if (modalField.fields.firstField.attribute[0].type === "bio") {
-                    return (
-                        <>
-                            <div className="relative border border-gray-300 rounded-md rounded-t-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600 transition-colors">
-                                <label htmlFor="bio" className="block text-xs font-medium text-gray-900">
-                                    {modalField.fields.firstField.attribute[0].title}
-                                </label>
-                                <textarea
-                                    type="text"
-                                    name="bio"
-                                    id="bio"
-                                    className="block w-full border-0 px-0 py-2 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
-                                    style={{ "height": "10rem" }}
-                                    placeholder="As an orthopedic surgeon, I..."
-                                    onChange={
-                                        modalField.fields.firstField.attribute[0].filtered
-                                            ? event => handleFilteredInput(event)
-                                            : event => modalField.fields.firstField.attribute[0].change(event)
-                                    }
-                                    value={
-                                        modalField.fields.firstField.attribute[0].value !== null
-                                            ? modalField.fields.firstField.attribute[0].value
-                                            : ""
-                                    }
-                                />
-                            </div>
-                            <div className="relative border border-gray-300 rounded-md rounded-t-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600 transition-colors">
-                                <label htmlFor="bio" className="block text-xs font-medium text-gray-900">
-                                    {modalField.fields.secondField.attribute[0].title}
-                                </label>
-                                <textarea
-                                    type="text"
-                                    name="bio"
-                                    id="bio"
-                                    className="block w-full border-0 px-0 py-2 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
-                                    style={{ "height": "10rem" }}
-                                    placeholder="As an orthopedic surgeon, I..."
-                                    onChange={
-                                        modalField.fields.secondField.attribute[0].filtered
-                                            ? event => handleFilteredInput(event)
-                                            : event => modalField.fields.firstField.attribute[0].change(event)
-                                    }
-                                    value={
-                                        modalField.fields.secondField.attribute[0].value !== null
-                                            ? modalField.fields.secondField.attribute[0].value
-                                            : ""
-                                    }
-                                />
-                            </div>
-                        </>
-                    );
-                }
-            };
 
             return (
                 <>
@@ -488,7 +309,8 @@ const InfoInput = () => {
                         modal={modal}
                         transition={transition}
                         handleChangeModal={handleChangeModal}
-                        handleInputFields={handleInputFields}
+                        // handleInputFields={handleInputFields}
+                        handleFilteredInput={handleFilteredInput}
                     />
                 </>
             );

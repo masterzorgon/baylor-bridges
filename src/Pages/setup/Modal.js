@@ -12,8 +12,27 @@ const Modal = ({
     account,
     modal,
     handleChangeModal,
-    handleInputFields
+    // handleInputFields,
+    handleFilteredInput
 }) => {
+
+    const inputFieldLabel = (required, title) => (
+        required
+            ?
+            <div className="flex justify-between">
+                <label htmlFor="state" className="block text-xs font-medium text-gray-900">
+                    {title}
+                </label>
+                <span className="text-sm text-gray-500" id="email-optional">
+                    Required
+                </span>
+            </div>
+            :
+            <label htmlFor="first-name" className="block text-xs font-medium text-gray-900">
+                {title}
+            </label>
+    );
+
     return (
         <>
             <Transition
@@ -49,7 +68,69 @@ const Modal = ({
                                     </div>
 
                                     {/* INPUT FIELDS */}
-                                    {handleInputFields()}
+                                    <div className="bg-white rounded-bl-2xl rounded-br-2xl">
+                                        <div className="-space-y-px rounded-md shadow-sm">
+                                            {modalField.fields.map(field => {
+                                                // RENDER TEXT INPUT
+                                                if (field.type === "text") {
+                                                    return (
+                                                        <>
+                                                            <div key={field.title} className="relative border border-gray-300 rounded-sm px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600 transition-colors">
+                                                                {inputFieldLabel(field.required, field.title)}
+                                                                <input
+                                                                    type="text"
+                                                                    name={field.title}
+                                                                    id={field.key}
+                                                                    className="block w-full border-0 px-0 py-2 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
+                                                                    placeholder={field.placeholder}
+                                                                    autoComplete="off"
+                                                                    onChange={
+                                                                        field.filtered
+                                                                            ? event => handleFilteredInput(event)
+                                                                            : event => field.change(event)
+                                                                    }
+                                                                    value={
+                                                                        field.value !== null
+                                                                            ? field.value
+                                                                            : ""
+                                                                    }
+                                                                />
+                                                            </div>
+                                                        </>
+                                                    );
+                                                }
+
+                                                // RENDER BIO INPUT
+                                                if (field.type === "bio") {
+                                                    return (
+                                                        <>
+                                                            <div className="relative border border-gray-300 rounded-md rounded-t-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600 transition-colors">
+                                                                {inputFieldLabel(field.required, field.title)}
+                                                                <textarea
+                                                                    type="text"
+                                                                    name="bio"
+                                                                    id="bio"
+                                                                    className="block w-full border-0 px-0 py-2 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
+                                                                    style={{ "height": "10rem" }}
+                                                                    placeholder={field.placeholder}
+                                                                    onChange={
+                                                                        field.filtered
+                                                                            ? event => handleFilteredInput(event)
+                                                                            : event => field.change(event)
+                                                                    }
+                                                                    value={
+                                                                        field.value !== null
+                                                                            ? field.value
+                                                                            : ""
+                                                                    }
+                                                                />
+                                                            </div>
+                                                        </>
+                                                    );
+                                                }
+                                            })}
+                                        </div>
+                                    </div>
 
                                     {/* CHANGE MODAL BUTTONS */}
                                     <div className="flex justify-between mt-6 space-x-2">
