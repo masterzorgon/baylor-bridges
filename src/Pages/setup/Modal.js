@@ -103,7 +103,7 @@ const Modal = ({
 
                                     {/* INPUT FIELDS */}
                                     <div className="bg-white rounded-bl-2xl rounded-br-2xl">
-                                        <div className="-space-y-px rounded-md shadow-sm">
+                                        <div className="-space-y-pxsm shadow-sm">
                                             {modalField.fields.map(field => {
                                                 // RENDER TEXT INPUT
                                                 if (field.type === "text") {
@@ -138,7 +138,7 @@ const Modal = ({
                                                 if (field.type === "bio") {
                                                     return (
                                                         <>
-                                                            <div className="relative border border-gray-300 rounded-md rounded-t-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600 transition-colors">
+                                                            <div className="relative border border-gray-300 rounded-sm rounded-t-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600 transition-colors">
                                                                 {inputFieldLabel(field.required, field.title)}
                                                                 <textarea
                                                                     type="text"
@@ -172,7 +172,7 @@ const Modal = ({
                                                                     <>
                                                                         <div className="relative border border-gray-300 rounded-sm px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600 transition-colors">
                                                                             {inputFieldLabel(field.required, field.title)}
-                                                                            <Listbox.Button className="cursor-pointer bg-white relative w-full rounded-md text-left focus:outline-none focus:ring-0 sm:text-sm">
+                                                                            <Listbox.Button className="cursor-pointer bg-white relative w-full rounded-sm text-left focus:outline-none focus:ring-0 sm:text-sm">
                                                                                 <span className="block truncate">{state.title}</span>
                                                                                 <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                                                                                     <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
@@ -186,7 +186,7 @@ const Modal = ({
                                                                                 leaveFrom="opacity-100"
                                                                                 leaveTo="opacity-0"
                                                                             >
-                                                                                <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                                                                                <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-sm text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
                                                                                     {states.map((state) => (
                                                                                         <Listbox.Option
                                                                                             key={state.value}
@@ -229,13 +229,13 @@ const Modal = ({
                                                 if (field.type === "list" && field.title === "Semester") {
                                                     return (
                                                         <>
-                                                            <div className="relative border border-gray-300 rounded-md rounded-b-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600 transition-colors">
+                                                            <div className="relative border border-gray-300 rounded-sm px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600 transition-colors">
                                                                 {inputFieldLabel(field.required, field.title)}
                                                                 <Listbox value={semester} onChange={setSemester}>
                                                                     {({ open }) => (
                                                                         <>
-                                                                            <div className="p-0 mt-1 relative">
-                                                                                <Listbox.Button className="bg-white relative w-full rounded-md text-left py-1 cursor-default focus:outline-none focus:ring-0 sm:text-sm">
+                                                                            <div className="px-0 py-0 mt-1 relative">
+                                                                                <Listbox.Button className="bg-white relative w-full rounded-sm text-left py-1 cursor-default focus:outline-none focus:ring-0 sm:text-sm">
                                                                                     <span className="block truncate">{semester.title}</span>
                                                                                     <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                                                                                         <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
@@ -249,7 +249,7 @@ const Modal = ({
                                                                                     leaveFrom="opacity-100"
                                                                                     leaveTo="opacity-0"
                                                                                 >
-                                                                                    <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                                                                                    <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-sm text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
                                                                                         {semesters.map((semester) => (
                                                                                             <Listbox.Option
                                                                                                 key={semester.value}

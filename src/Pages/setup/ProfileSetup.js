@@ -165,6 +165,7 @@ const InfoInput = () => {
                     required: false,
                     value: account.city,
                     filtered: false,
+                    change: event => setAccount({ ...account, city: event.target.value })
                 }
             ]
         },
