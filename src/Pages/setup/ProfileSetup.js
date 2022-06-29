@@ -32,6 +32,7 @@ const InfoInput = () => {
         }
     });
 
+
     // this makes the modal fade in on refresh
     useEffect(() => showTheModal(), [modal]);
 
