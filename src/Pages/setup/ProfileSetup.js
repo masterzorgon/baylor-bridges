@@ -4,7 +4,7 @@ import { useTimeoutFn } from "react-use";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useTransition } from "react-spring";
-import { UserCircleIcon, LocationMarkerIcon, AcademicCapIcon, BriefcaseIcon } from "@heroicons/react/outline";
+import { CheckCircleIcon, UserCircleIcon, LocationMarkerIcon, AcademicCapIcon, BriefcaseIcon } from "@heroicons/react/outline";
 import { InboxIcon } from "@heroicons/react/outline";
 
 import Modal from "./Modal";
@@ -225,6 +225,14 @@ const InfoInput = () => {
                 }
             ]
         },
+        AllDone: {
+            title: "You're all set!",
+            subtitle: "Great job.",
+            sequence: 6,
+            description: "Thank you so much for taking the time to set up your Baylor Bridges account. We hope you enjoy our platform, and please feel to reach out via the Contact Us page if you have any questions or concerns.",
+            icon: CheckCircleIcon,
+            buttons: true
+        }
     };
 
     const handleFilteredInput = event => {
@@ -307,9 +315,9 @@ const InfoInput = () => {
                         loading={loading}
                         show={show}
                         account={account}
-                        setAccount={setAccount}
                         modal={modal}
                         transition={transition}
+                        setAccount={setAccount}
                         handleChangeModal={handleChangeModal}
                         handleFilteredInput={handleFilteredInput}
                     />

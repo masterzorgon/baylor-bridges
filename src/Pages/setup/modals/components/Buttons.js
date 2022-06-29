@@ -2,7 +2,7 @@ import React from "react";
 
 import Button from "../../../../components/Button";
 
-const Buttons = ({ required, loading, modal, account, handleChangeModal }) => {
+const Buttons = ({ required, loading, modal, account, handleChangeModal, onSubmit }) => {
     return (
         <>
             <Button
@@ -19,7 +19,7 @@ const Buttons = ({ required, loading, modal, account, handleChangeModal }) => {
                 disabled={(modal === 1 && (account.first_name === "" || account.last_name === "")) || loading}
                 loading={loading}
                 className="sm:w-fit px-5 py-3 text-sm"
-                onClick={async () => handleChangeModal("next")}
+                onClick={modal === 6 ? () => onSubmit() : async () => handleChangeModal("next")}
                 arrow={true}
             >
                 {required ? "Next" : "Skip"}
