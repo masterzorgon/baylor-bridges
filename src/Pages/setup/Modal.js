@@ -1,6 +1,8 @@
-import React, { Fragment } from "react";
-import { Transition } from "@headlessui/react";
+import React, { Fragment, useState, useEffect } from "react";
+import { Listbox, Transition } from "@headlessui/react";
 import { animated } from "react-spring";
+import { SelectorIcon, CheckIcon } from "@heroicons/react/outline";
+import { states, classNames } from "../../components/Utils";
 
 import Buttons from "./modals/components/Buttons";
 
@@ -10,11 +12,25 @@ const Modal = ({
     modalField,
     loading,
     account,
+    setAccount,
     modal,
     handleChangeModal,
-    // handleInputFields,
-    handleFilteredInput
+    handleFilteredInput,
 }) => {
+
+    const [state, setState] = useState(states[0]);
+
+    useEffect(() => {
+        for (let state of states) {
+            if (state.value === account.state) {
+                setState(state);
+            }
+        }
+    }, []);
+
+    useEffect(() => {
+        setAccount({ ...account, state: state.value });
+    }, [state, setAccount]);
 
     const inputFieldLabel = (required, title) => (
         required
@@ -125,6 +141,69 @@ const Modal = ({
                                                                     }
                                                                 />
                                                             </div>
+                                                        </>
+                                                    );
+                                                }
+
+                                                // RENDER LIST INPUT
+                                                if (field.type === "list") {
+                                                    return (
+                                                        <>
+                                                            <Listbox value={state} onChange={setState}>
+                                                                {({ open }) => (
+                                                                    <>
+                                                                        <div className="relative border border-gray-300 rounded-sm px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600 transition-colors">
+                                                                            {inputFieldLabel(field.required, field.title)}
+                                                                            <Listbox.Button className="bg-white relative w-full rounded-md text-left cursor-default focus:outline-none focus:ring-0 sm:text-sm">
+                                                                                <span className="block truncate">{state.title}</span>
+                                                                                <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                                                                                    <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                                                                                </span>
+                                                                            </Listbox.Button>
+
+                                                                            <Transition
+                                                                                show={open}
+                                                                                as={Fragment}
+                                                                                leave="transition ease-in duration-100"
+                                                                                leaveFrom="opacity-100"
+                                                                                leaveTo="opacity-0"
+                                                                            >
+                                                                                <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                                                                                    {states.map((state) => (
+                                                                                        <Listbox.Option
+                                                                                            key={state.value}
+                                                                                            className={({ active }) => classNames(
+                                                                                                active ? "text-white bg-emerald-600" : "text-gray-900",
+                                                                                                "cursor-default select-none relative py-2 pl-3 pr-9"
+                                                                                            )}
+                                                                                            value={state}
+                                                                                        >
+                                                                                            {({ selected, active }) => (
+                                                                                                <>
+                                                                                                    <span className={classNames(selected ? "font-semibold" : "font-normal", "block truncate")}>
+                                                                                                        {state.title}
+                                                                                                    </span>
+
+                                                                                                    {selected ? (
+                                                                                                        <span
+                                                                                                            className={classNames(
+                                                                                                                active ? "text-white" : "text-emerald-600",
+                                                                                                                "absolute inset-y-0 right-0 flex items-center pr-4"
+                                                                                                            )}
+                                                                                                        >
+                                                                                                            <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                                                                                                        </span>
+                                                                                                    ) : null}
+                                                                                                </>
+                                                                                            )}
+                                                                                        </Listbox.Option>
+                                                                                    ))}
+                                                                                </Listbox.Options>
+                                                                            </Transition>
+                                                                        </div>
+                                                                    </>
+                                                                )}
+                                                            </Listbox>
                                                         </>
                                                     );
                                                 }

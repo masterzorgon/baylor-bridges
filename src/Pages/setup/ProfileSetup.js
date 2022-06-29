@@ -205,7 +205,7 @@ const InfoInput = () => {
                 {
                     type: "text",
                     title: "Headline",
-                    placeholder: "Headline",
+                    placeholder: "Cardiovascular Surgeon",
                     key: "headline",
                     required: false,
                     value: account.headline,
@@ -215,7 +215,7 @@ const InfoInput = () => {
                 {
                     type: "bio",
                     title: "Biography",
-                    placeholder: "Biography",
+                    placeholder: "I am a cardiovascular surgeon at St. Luke's, where I...",
                     key: "biography",
                     required: false,
                     value: account.biography,
@@ -306,10 +306,10 @@ const InfoInput = () => {
                         loading={loading}
                         show={show}
                         account={account}
+                        setAccount={setAccount}
                         modal={modal}
                         transition={transition}
                         handleChangeModal={handleChangeModal}
-                        // handleInputFields={handleInputFields}
                         handleFilteredInput={handleFilteredInput}
                     />
                 </>
