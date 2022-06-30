@@ -469,7 +469,7 @@ const Search = () => {
                             </Menu>
 
                             {/* The filter and filter clear button that appears on mobile screen */}
-                            <Popover.Group className="sdfad flex items-center space-x-2">
+                            <Popover.Group className="flex sm:hidden items-center space-x-2">
                                 {/* Button responsible for collapsing and expanding the filters on mobile view.*/}
                                 <Popover as="div" className="relative z-10 text-left inline-flex items-center justify-center">
                                     <button
@@ -479,7 +479,7 @@ const Search = () => {
                                     >
                                         <span>
                                             <FilterIcon
-                                                className="flex-shrink-0 h-5 w-5 inline-block"
+                                                className="flex-shrink-0 h-5 w-5 inline-block text-gray-400"
                                             /></span>
                                         <span> Filters</span>
                                     </button>
