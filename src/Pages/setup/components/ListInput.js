@@ -1,12 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { SelectorIcon, CheckIcon } from "@heroicons/react/outline";
-import { classNames, states } from "../../../components/Utils";
-
-const semesters = [
-    { title: "Spring", value: "spring" },
-    { title: "Fall", value: "fall" }
-];
+import { classNames, states, semesters } from "../../../components/Utils";
 
 const ListInput = ({ field, inputFieldLabel, setAccount, account }) => {
 
@@ -64,19 +59,19 @@ const ListInput = ({ field, inputFieldLabel, setAccount, account }) => {
                                 leaveTo="opacity-0"
                             >
                                 <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-sm text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
-                                    {semesters.map((semester) => (
+                                    {semesters.map((listItem) => (
                                         <Listbox.Option
-                                            key={semester.value}
+                                            key={listItem.value}
                                             className={({ active }) => classNames(
                                                 active ? "text-white bg-emerald-600" : "text-gray-900",
                                                 "cursor-default select-none relative py-2 pl-3 pr-9"
                                             )}
-                                            value={semester}
+                                            value={listItem}
                                         >
                                             {({ selected, active }) => (
                                                 <>
                                                     <span className={classNames(selected ? "font-semibold" : "font-normal", "block truncate")}>
-                                                        {semester.title}
+                                                        {listItem.title}
                                                     </span>
 
                                                     {selected ? (

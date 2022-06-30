@@ -53,6 +53,11 @@ const states = [
     { title: "Missouri", value: "MO", description: "MO" }, { title: "Arkansas", value: "AR", description: "AR" }, { title: "Alabama", value: "AL", description: "AL" }, { title: "Mississippi", value: "MS", description: "MS" }, { title: "Louisiana", value: "LA", description: "LA" }, { title: "Michigan", value: "MI", description: "MI" }, { title: "Florida", value: "FL", description: "FL" }, { title: "South Carolina", value: "SC", description: "SC" }, { title: "Ohio", value: "OH", description: "OH" }, { title: "Iowa", value: "IA", description: "IA" },
 ];
 
+const semesters = [
+    { title: "Spring", value: "spring" },
+    { title: "Fall", value: "fall" }
+];
+
 const requiresProfileSetup = (profile) => {
     let requiresProfileSetup = profile && (profile.first_name === null || profile.last_name === null || profile.state === null);
     return requiresProfileSetup;
@@ -67,5 +72,5 @@ const Utils = {
     states,
 };
 
-export { classNames, changeSearchParam, changeBaseURL, getSearchParam, states, requiresProfileSetup };
+export { classNames, changeSearchParam, changeBaseURL, getSearchParam, states, semesters, requiresProfileSetup };
 export default Utils;
