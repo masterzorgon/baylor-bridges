@@ -128,7 +128,7 @@ const InfoInput = () => {
                     required: false,
                     value: account.contact_info.phone,
                     filtered: false,
-                    change: event => setAccount({ ...account, contact_info: { ...account.contact_info, phone: event.target.value } })
+                    change: event => handlePhoneInput(event)
                 },
                 {
                     type: "text",
@@ -194,6 +194,7 @@ const InfoInput = () => {
                     required: false,
                     value: account.graduate_year,
                     filtered: true,
+                    change: event => handleGradYearInput(event)
                 }
             ]
         },
@@ -236,13 +237,7 @@ const InfoInput = () => {
         }
     };
 
-    const handleFilteredInput = event => {
-        // Check if it's 4 digits
-        console.log("CHANGE GRAD YEAR", event);
-        console.log("IsNumber", !isNaN(event.target.value));
-        console.log("TYPE", typeof (event.target.value));
-        console.log("NUMBER", event.target.value);
-
+    const handleGradYearInput = event => {
         // verify that it is less than or equal to 4 characters
         // verify that the value provided is a number
         // take into consideration the user deletes their input and accidentally inputs a space char
@@ -251,6 +246,19 @@ const InfoInput = () => {
         }
         if (event.target.value === "" || event.target.value === " ") {
             setAccount({ ...account, graduate_year: "" });
+        }
+    };
+
+    const handlePhoneInput = event => {
+        // only allow numbers, dashes, and spaces, and parentheses
+        if (
+            !isNaN(event.target.value) ||
+            event.target.value === "-" ||
+            event.target.value === "(" ||
+            event.target.value === ")"
+        ) {
+            setAccount({ ...account, contact_info: { ...account.contact_info, phone: event.target.value } });
+            console.log("PHONE", account.contact_info.phone);
         }
     };
 
@@ -320,7 +328,6 @@ const InfoInput = () => {
                         transition={transition}
                         setAccount={setAccount}
                         handleChangeModal={handleChangeModal}
-                        handleFilteredInput={handleFilteredInput}
                     />
                 </>
             );

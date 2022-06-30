@@ -17,9 +17,9 @@ const Modal = ({
     setAccount,
     modal,
     handleChangeModal,
-    handleFilteredInput,
 }) => {
 
+    // display the label for each input field
     const inputFieldLabel = (required, title) => (
         required
             ?
@@ -79,7 +79,10 @@ const Modal = ({
                                             {/* INPUT FIELDS */}
                                             <div className="bg-white rounded-bl-2xl rounded-br-2xl">
                                                 <div className="-space-y-pxsm shadow-sm">
-                                                    {modal === 6 && <AllDone transition={transition} account={account} />}
+                                                    {/*
+                                                        loop over input fields for each modal
+                                                        and render the appropriate input field
+                                                    */}
                                                     {modalField.fields.map(field => {
                                                         // RENDER TEXT INPUT
                                                         if (field.type === "text") {
@@ -88,7 +91,6 @@ const Modal = ({
                                                                     <TextInput
                                                                         field={field}
                                                                         inputFieldLabel={inputFieldLabel}
-                                                                        handleFilteredInput={handleFilteredInput}
                                                                     />
                                                                 </>
                                                             );
@@ -101,7 +103,6 @@ const Modal = ({
                                                                     <BioInput
                                                                         field={field}
                                                                         inputFieldLabel={inputFieldLabel}
-                                                                        handleFilteredInput={handleFilteredInput}
                                                                     />
                                                                 </>
                                                             );

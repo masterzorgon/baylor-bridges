@@ -1,7 +1,7 @@
 import React from "react";
 
 const BioInput = ({ field, inputFieldLabel, handleFilteredInput }) => (
-    <div className="relative border border-gray-300 rounded-sm rounded-t-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600 transition-colors">
+    <div className="relative border border-gray-300 rounded-md my-2 rounded-t-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600 transition-colors">
         {inputFieldLabel(field.required, field.title)}
         <textarea
             type="text"
