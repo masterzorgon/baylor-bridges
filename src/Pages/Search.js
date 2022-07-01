@@ -473,14 +473,14 @@ const Search = () => {
                                 <Popover as="div" className="relative z-10 text-left inline-flex items-center justify-center">
                                     <button
                                         type="button"
-                                        className="text-sm font-medium text-gray-700 hover:text-gray-900"
+                                        className="p-2 -mr-2 group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900"
                                         onClick={() => setOpen(true)}
                                     >
-                                        <span>
-                                            <FilterIcon
-                                                className="flex-shrink-0 h-5 w-5 inline-block text-gray-400"
-                                            /></span>
-                                        <span> Filters</span>
+                                        <FilterIcon
+                                            className="flex-shrink-0 -ml-1 mr-1 h-5 w-5 text-gray-400 group-hover:text-gray-500"
+                                            aria-hidden="true"
+                                        />
+                                        Filters
                                     </button>
                                 </Popover>
                             </Popover.Group>
