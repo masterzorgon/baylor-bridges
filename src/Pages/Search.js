@@ -291,29 +291,31 @@ const Search = () => {
                                 leaveFrom="translate-x-0"
                                 leaveTo="translate-x-full"
                             >
-                                <Dialog.Panel className="ml-auto relative max-w-xs w-full h-full bg-white shadow-xl py-4 pb-6 flex flex-col overflow-y-auto" style={{paddingTop: "5.5rem"}}>
+                                <Dialog.Panel className="ml-auto relative max-w-xs w-full h-full bg-white shadow-xl py-4 pb-6 flex flex-col overflow-y-auto" style={{ paddingTop: "5.5rem" }}>
                                     <div className="px-4 flex items-center justify-between">
                                         {/* Clear filters */}
                                         <Popover as="div" className="relative z-10 text-left inline-flex items-center justify-center">
-                                            <h2 className="text-md font-medium text-gray-900">Filters </h2>
+                                            <h2 className="text-md font-medium text-gray-900">Filters</h2>
+                                        </Popover>
+                                        <div className="flex -mr-2">
                                             <button
-                                                className="p-2 text-gray-400 hover:text-gray-700 "
+                                                className="w-9 h-9 p-2 text-gray-400 hover:text-gray-700 "
                                                 onClick={() => clearFilters()}
                                             >
-                                                <span className="text-transparent sr-only" aria-hidden="true">Clear</span>
+                                                <span className="text-transparent sr-only" aria-hidden="true">Clear all filters</span>
                                                 <TrashIcon
                                                     className="flex-shrink-0 h-5 w-5"
                                                 />
                                             </button>
-                                        </Popover>
-                                        <button
-                                            type="button"
-                                            className="-mr-2 w-9 h-9 bg-white p-2 rounded-md flex items-center justify-center text-gray-400 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                                            onClick={() => setOpen(false)}
-                                        >
-                                            <span className="sr-only">Close menu</span>
-                                            <XIcon className="h-6 w-6" aria-hidden="true" />
-                                        </button>
+                                            <button
+                                                type="button"
+                                                className="w-9 h-9 bg-white p-2 rounded-md flex items-center justify-center text-gray-400 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                                                onClick={() => setOpen(false)}
+                                            >
+                                                <span className="text-transparent sr-only">Close filters menu</span>
+                                                <XIcon className="h-6 w-6" aria-hidden="true" />
+                                            </button>
+                                        </div>
                                     </div>
                                     {/* Filters */}
                                     <form className="mt-4">
@@ -363,7 +365,7 @@ const Search = () => {
                                                                                     name={`filter-${filter_key}-${option.value}`}
                                                                                     defaultValue={option.value}
                                                                                     type={renderType(section.title)}
-                                                                                    className="h-4 w-4 border-gray-300 text-emerald-600 focus:ring-emerald-500"
+                                                                                    className="h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
                                                                                     defaultChecked={query[filter_key] && query[filter_key].includes(option.value)}
                                                                                     checked={query[filter_key] && query[filter_key].includes(option.value)}
                                                                                     onClick={(e) => toggleFilterOption(filter_key, option.value, e.target.checked)}
@@ -389,9 +391,6 @@ const Search = () => {
                         </div>
                     </Dialog>
                 </Transition>
-
-
-
 
 
                 <div className="col-span-1 px-4">
@@ -502,6 +501,7 @@ const Search = () => {
                                         />
                                     </button>
                                 </Popover>
+
                                 {/* Filters */}
                                 {Object.entries(filters)
                                     .filter(([key, value]) => value.show === true) // Only show filters with options
@@ -551,7 +551,7 @@ const Search = () => {
                                                                     name={`filter-${filter_key}-${option.value}`}
                                                                     defaultValue={option.value}
                                                                     type={renderType(filter.title)}
-                                                                    className="h-4 w-4 border-gray-300 text-emerald-600 focus:ring-emerald-500"
+                                                                    className="h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
                                                                     defaultChecked={query[filter_key] && query[filter_key].includes(option.value)}
                                                                     checked={query[filter_key] && query[filter_key].includes(option.value)}
                                                                     onClick={(e) => toggleFilterOption(filter_key, option.value, e.target.checked)}
