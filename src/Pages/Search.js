@@ -148,7 +148,7 @@ const Search = () => {
 
         if (checked) {
             //Clears the list and push the new one in, this way we only keep one element
-            if (key == "state") {
+            if (filters[key].option_type === "radio") {
                 query[key] = [];
             }
 
