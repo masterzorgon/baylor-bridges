@@ -6,6 +6,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { AccountContext } from "./Account";
 import { classNames, changeBaseURL, changeSearchParam } from "./Utils";
 import Photo from "./Photo";
+import { HyperLink } from "./Button";
 import { SearchInput } from "../Pages/Search";
 
 const Navbar = ({ hideOnTop }) => {
@@ -288,14 +289,14 @@ const Navbar = ({ hideOnTop }) => {
                                 {
                                     account === null &&
                                     <div className="pt-6">
-                                        <Link to="/sign-up" className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-600 hover:bg-emerald-700">
+                                        <Link to="/sign-up" className="w-full flex items-center justify-center px-4 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-600 hover:bg-emerald-700">
                                             Sign up
                                         </Link>
-                                        <p className="mt-4 text-center text-base font-medium text-gray-500">
-                                            Existing student or alumini?{" "}
-                                            <Link to="/sign-in" className="text-emerald-600 hover:text-emerald-500">
+                                        <p className="mt-3 text-center text-base font-medium text-gray-500">
+                                            Already have an account?{" "}
+                                            <HyperLink arrow={true} to="/sign-in" className="text-emerald-600 hover:text-emerald-500">
                                                 Sign in
-                                            </Link>
+                                            </HyperLink>
                                         </p>
                                     </div>
                                 }
