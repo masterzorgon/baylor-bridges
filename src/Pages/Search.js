@@ -57,6 +57,7 @@ const filters = {
             { title: "Role", value: "role" },
             { title: "Graduate Year", value: "graduate_year" },
         ],
+        option_type: "radio",
     },
     keywords: { title: "Keywords", },
     role: {
@@ -65,6 +66,7 @@ const filters = {
             { title: "Alumni", value: "alumni" },
             { title: "Current student", value: "student" },
         ],
+        option_type: "checkbox",
         show: true,
     },
     graduate_year: {
@@ -73,6 +75,7 @@ const filters = {
         option_indicator: (options) => {
             return options;
         },
+        option_type: "graduate-year-slider",
         show: true,
     },
     state: {
@@ -82,6 +85,7 @@ const filters = {
         option_indicator: (options) => {
             return options;
         },
+        option_type: "radio",
         show: true,
     },
 };
@@ -246,14 +250,6 @@ const Search = () => {
         }
     };
 
-    const renderType = (string) => {
-        if (string == "Role") {
-            return "checkbox";
-        } else {
-            return "radio";
-        }
-    };
-
     return (
         <>
             <div className="grid grid-cols-1 lg:grid-cols-2 relative">
@@ -321,20 +317,20 @@ const Search = () => {
                                     <form className="mt-4">
                                         {Object.entries(filters)
                                             .filter(([key, value]) => value.show === true) // Only show filters with options
-                                            .map(([filter_key, section]) => (
+                                            .map(([filter_key, filter]) => (
                                                 <Disclosure as="div" key={filter_key} className="border-t border-gray-200 px-4 py-6">
                                                     {({ open }) => (
                                                         <>
                                                             <h3 className="-mx-2 -my-3 flow-root">
                                                                 <Disclosure.Button className="px-2 py-3 bg-white w-full flex items-center justify-between text-sm text-gray-400">
                                                                     <span>
-                                                                        <span className="font-medium text-gray-900">{section.title}</span>
+                                                                        <span className="font-medium text-gray-900">{filter.title}</span>
                                                                         {
                                                                             // Display how many options are selected
                                                                             query[filter_key] && query[filter_key].length > 0 &&
                                                                             <span
                                                                                 className="ml-1.5 rounded py-0.5 px-1.5 bg-gray-200 text-xs font-semibold text-gray-700 tabular-nums">
-                                                                                {section.option_indicator ? section.option_indicator(query[filter_key]) : query[filter_key].length}
+                                                                                {filter.option_indicator ? filter.option_indicator(query[filter_key]) : query[filter_key].length}
                                                                             </span>
                                                                         }
                                                                     </span>
@@ -358,14 +354,14 @@ const Search = () => {
                                                                 <Disclosure.Panel className="pt-6">
                                                                     <div className="space-y-6">
                                                                         {/* Code is copied from filter input */}
-                                                                        {Array.isArray(section.options) ? section.options.map((option) => (
+                                                                        {Array.isArray(filter.options) ? filter.options.map((option) => (
                                                                             <div key={option.value} className="flex items-center">
                                                                                 <input
                                                                                     id={`filter-${filter_key}-${option.value}`}
                                                                                     name={`filter-${filter_key}-${option.value}`}
                                                                                     defaultValue={option.value}
-                                                                                    type={renderType(section.title)}
-                                                                                    className="h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+                                                                                    type={filter.option_type}
+                                                                                    className="h-4 w-4"
                                                                                     defaultChecked={query[filter_key] && query[filter_key].includes(option.value)}
                                                                                     checked={query[filter_key] && query[filter_key].includes(option.value)}
                                                                                     onClick={(e) => toggleFilterOption(filter_key, option.value, e.target.checked)}
@@ -377,7 +373,7 @@ const Search = () => {
                                                                                     {option.title}
                                                                                 </label>
                                                                             </div>
-                                                                        )) : section.options}
+                                                                        )) : filter.options}
                                                                     </div>
                                                                 </Disclosure.Panel>
                                                             </Transition>
@@ -546,7 +542,7 @@ const Search = () => {
                                                                     id={`filter-${filter_key}-${option.value}`}
                                                                     name={`filter-${filter_key}-${option.value}`}
                                                                     defaultValue={option.value}
-                                                                    type={renderType(filter.title)}
+                                                                    type={filter.option_type}
                                                                     className="h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
                                                                     defaultChecked={query[filter_key] && query[filter_key].includes(option.value)}
                                                                     checked={query[filter_key] && query[filter_key].includes(option.value)}
