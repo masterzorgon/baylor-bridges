@@ -8,6 +8,7 @@ import { CheckCircleIcon, UserCircleIcon, LocationMarkerIcon, AcademicCapIcon, B
 import { InboxIcon } from "@heroicons/react/outline";
 
 import { states, semesters } from "../../components/Utils";
+
 import Modal from "./Modal";
 
 const InfoInput = () => {
