@@ -12,11 +12,11 @@ import About from "./Pages/About";
 import ContactUs from "./Pages/ContactUs";
 import NotFound from "./Pages/404";
 
-import Terms from "./Pages/terms/Terms";
+import Terms from "./Pages/terms";
 
-import SignIn from "./Pages/signin/SignIn";
-import SignUp from "./Pages/signup/SignUp";
-import ForgetPassword from "./Pages/forget-password/ForgetPassword";
+import SignIn from "./Pages/signin";
+import SignUp from "./Pages/signup";
+import ForgetPassword from "./Pages/forget-password";
 
 import ProfileSetup from "./Pages/setup/ProfileSetup";
 import InfoInput from "./Pages/setup/InfoInput";
