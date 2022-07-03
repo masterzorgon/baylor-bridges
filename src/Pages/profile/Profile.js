@@ -3,6 +3,7 @@ import React, { Fragment, useEffect, useState, useContext } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { useParams } from "react-router-dom";
 import { DotsVerticalIcon } from "@heroicons/react/outline";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 import Photo from "../../components/Photo";
@@ -11,6 +12,8 @@ import SignInRequiredModal from "./SignInRequiredModal";
 import Markdown from "../../components/Markdown";
 import ExperienceCard from "../../components/profile/ExperienceCard";
 import { classNames } from "../../components/Utils";
+
+import NotFoundModal from "./NotFoundModal";
 
 
 const profile = {
@@ -74,6 +77,7 @@ const Profile = () => {
     const [profileAccount, setProfileAccount] = useState(null);
 
     const [authenticated, setAuthenticated] = useState(null);
+    const [notFound, setNotFound] = useState(false);
 
 
     useEffect(() => {
@@ -104,6 +108,7 @@ const Profile = () => {
                     console.log(err.response.data.code);
                 } else {
                     console.log("other errors");
+                    setNotFound(true);
                 }
             });
     }, [user_id]);
@@ -187,8 +192,9 @@ const Profile = () => {
     return (
         <>
             {authenticated === false ? <SignInRequiredModal /> : ""}
+            {notFound === true ? <NotFoundModal /> : ""}
 
-            <div className={classNames("min-h-full bg-gray-100", authenticated !== false ? "" : "blur-sm")}>
+            <div className={classNames("min-h-full bg-gray-100", (authenticated === false || notFound === true) && "blur-sm")}>
                 <main className="py-10">
 
 
@@ -263,9 +269,9 @@ const Profile = () => {
                                                 <Menu.Items className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                     <div className="my-2">
                                                         <Menu.Item>
-                                                            <a href="/settings/profile" className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 block px-4 py-2 text-sm">
+                                                            <Link to="/settings/profile" className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 block px-4 py-2 text-sm">
                                                                 Edit Personal Information
-                                                            </a>
+                                                            </Link>
                                                         </Menu.Item>
                                                     </div>
                                                 </Menu.Items>

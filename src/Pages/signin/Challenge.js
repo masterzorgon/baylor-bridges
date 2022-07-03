@@ -1,14 +1,14 @@
 import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { XCircleIcon } from "@heroicons/react/solid";
 
 import { AccountContext } from "../../components/Account";
-import { changeBaseURL, changeSearchParam, getSearchParam } from "../../components/Utils";
+import { changeBaseURL, changeSearchParam, getSearchParam, requiresProfileSetup } from "../../components/Utils";
 import Password from "../../components/Password";
 import Button from "../../components/Button";
+import NotFound from "../404";
 
 const Challenge = () => {
-
     const navigate = useNavigate();
     const { authChallenge } = useContext(AccountContext);
 
@@ -21,9 +21,9 @@ const Challenge = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const session = urlParams.get("session");
     const name = urlParams.get("name");
-    const sub = urlParams.get("sub");
+    const username = urlParams.get("username");
 
-    console.log(name, sub);
+    console.log(name, username);
 
     const challenges = {
         "NEW_PASSWORD_REQUIRED": {
@@ -40,9 +40,10 @@ const Challenge = () => {
                     </div>
                     <div className="mt-5 sm:flex sm:items-center">
                         <Password
+                            className="text-sm py-3"
                             onChange={
                                 (password, checked) => {
-                                    setResponse({ ...response, new_password: password, username: sub });
+                                    setResponse({ ...response, new_password: password, username: username });
                                     setComplete(checked);
                                 }
                             }
@@ -53,12 +54,19 @@ const Challenge = () => {
             success: (
                 <div>
                     <h3 className="text-lg leading-6 font-medium text-gray-900">
-                        Your new password is set
+                        Your new password is set!
                     </h3>
                     <div className="mt-2 max-w-xl text-sm text-gray-500">
                         <p>
                             For future sign in, please use your new password.
                         </p>
+                        <div className="flex flex-col justify-center items-center mt-4">
+                            <lord-icon
+                                src="https://cdn.lordicon.com/rcopausw.json"
+                                trigger="loop"
+                                style={{ width: "8rem", height: "8rem" }}>
+                            </lord-icon>
+                        </div>
                     </div>
                 </div>
             ),
@@ -67,6 +75,7 @@ const Challenge = () => {
 
                 authChallenge(name, session, response).then(response => {
                     setSuccess(true);
+                    setResponse(response);
                 }).catch(error => {
                     setErrorMessage(error.response.data.message);
                 }).finally(() => {
@@ -74,6 +83,12 @@ const Challenge = () => {
                 });
             },
             done: () => {
+                if (requiresProfileSetup(response)) {
+                    let destination = changeBaseURL(window.location.href, "/setup/profile-setup");
+                    navigate(destination);
+                    return;
+                }
+
                 let redirect = getSearchParam(window.location.href, "redirect");
                 let destination = "";
 
@@ -93,8 +108,8 @@ const Challenge = () => {
     };
 
     // If it is an undefined challenge, then it is an error (Or could be a challenge have not been implemented yet)
-    if (challenges[name] === undefined) {
-        window.location.href = "/404";
+    if (!challenges[name] || !username || !session) {
+        return <NotFound />;
     }
 
     const onSubmit = (event) => {
@@ -105,14 +120,14 @@ const Challenge = () => {
     return (
         <>
             <div className="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-                <a className="sm:mx-auto sm:w-full sm:max-w-md" href="/">
+                <Link className="sm:mx-auto sm:w-full sm:max-w-md" to="/">
                     <img
                         className="mx-auto h-20 w-auto"
                         src="/Baylor-University-Athletics-01.svg"
                         alt="Workflow"
                     />
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
-                </a>
+                </Link>
 
                 <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
                     <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
@@ -158,7 +173,7 @@ const Challenge = () => {
                                 <div>
                                     <button
                                         type="submit"
-                                        className={`${loading ? "cursor-not-allowed" : ""} text-sm w-full flex justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-emerald-700 bg-emerald-100 hover:bg-emerald-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500`}
+                                        className={`${loading ? "cursor-not-allowed" : ""} w-full flex justify-center px-4 py-3 border border-transparent text-sm font-medium rounded-md text-emerald-700 bg-emerald-50 hover:text-emerald-800 hover:bg-emerald-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500`}
                                         onClick={challenges[name].done}
                                     >
                                         Complete

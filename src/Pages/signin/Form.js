@@ -1,12 +1,12 @@
 import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { AccountContext } from "../../components/Account";
 import { changeBaseURL, changeSearchParam, getSearchParam, requiresProfileSetup } from "../../components/Utils";
 import Button from "../../components/Button";
 
-const SignIn = () => {
+const Form = () => {
     const navigate = useNavigate();
 
     const [loading, setLoading] = useState(false);
@@ -24,7 +24,7 @@ const SignIn = () => {
 
                 if (requiresProfileSetup(response)) {
                     let destination = changeBaseURL(window.location.href, "/setup/profile-setup");
-                    window.location.href = destination;
+                    navigate(destination);
                     return;
                 }
 
@@ -47,12 +47,12 @@ const SignIn = () => {
                     let payload = response.payload;
                     let name = payload["challenge_name"];
                     let session = payload["session"];
-                    let sub = payload["sub"];
+                    let username = payload["username"];
 
                     let destination = changeBaseURL(window.location.href, "/sign-in/challenge");
                     destination = changeSearchParam(destination, "name", name);
                     destination = changeSearchParam(destination, "session", session);
-                    destination = changeSearchParam(destination, "sub", sub);
+                    destination = changeSearchParam(destination, "username", username);
 
                     navigate(destination, { replace: true });
                 } else {
@@ -69,13 +69,13 @@ const SignIn = () => {
         <>
             <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-md -mt-14">
-                    <a href="/">
+                    <Link to="/">
                         <img
                             className="mx-auto h-20 w-auto"
                             src="/Baylor-University-Athletics-01.svg"
                             alt="Workflow"
                         />
-                    </a>
+                    </Link>
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
                 </div>
 
@@ -148,9 +148,9 @@ const SignIn = () => {
                                 </div>
 
                                 <div className="text-sm">
-                                    <a href="/reset-password" className="font-medium text-emerald-600 hover:text-emerald-500">
+                                    <Link to="/forget-password" className="font-medium text-emerald-600 hover:text-emerald-500">
                                         Forgot your password?
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
 
@@ -172,4 +172,4 @@ const SignIn = () => {
     );
 };
 
-export default SignIn;
+export default Form;

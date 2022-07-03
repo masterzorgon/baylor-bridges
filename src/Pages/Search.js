@@ -1,21 +1,22 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Menu, Popover, Transition } from "@headlessui/react";
 import { ChevronRightIcon, ChevronDownIcon, TrashIcon, SearchIcon } from "@heroicons/react/outline";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, createSearchParams, useNavigate, Link } from "react-router-dom";
 import USAMap from "react-usa-map";
 import axios from "axios";
 import dayjs from "dayjs";
 import { DebounceInput } from "react-debounce-input";
 import TooltipSlider from "rc-slider";
+import { useDebounce } from "use-debounce";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 import { classNames } from "../components/Utils";
 import Photo from "../components/Photo";
 import { states } from "../components/Utils";
-import { useDebounce } from "use-debounce";
 
 const GraduateYearSlider = ({ value, onChange }) => {
     const MIN = 1970;
-    const MAX = dayjs().year() + 5;
+    const MAX = Math.floor((dayjs().year() + 5) / 10 + 1) * 10;
     value = value ? value : [MIN, MAX];
 
     let marks = {};
@@ -25,15 +26,15 @@ const GraduateYearSlider = ({ value, onChange }) => {
 
     return (
         <div>
-            <div className="flex justify-items-stretch justify-between text-sm text-emerald-600 font-semibold">
+            {/* <div className="flex justify-items-stretch justify-between text-sm text-emerald-600 font-semibold">
                 <p>{value[0]}</p>
                 <p>{value[1]}</p>
-            </div>
+            </div> */}
             <TooltipSlider
                 range
                 min={MIN}
                 max={MAX}
-                className="w-72 mt-1 mb-4 mx-4"
+                className="w-auto sm:w-72 mt-1 mb-7 mx-4"
                 step={1}
                 marks={marks}
                 defaultValue={[MIN, MAX]}
@@ -69,6 +70,9 @@ const filters = {
     graduate_year: {
         title: "Class",
         options: null,
+        option_indicator: (options) => {
+            return options;
+        },
         show: true,
     },
     state: {
@@ -121,7 +125,8 @@ const queryToString = (query, addons) => {
 };
 
 const Search = () => {
-    const [searchParams] = useSearchParams();
+    const [animation] = useAutoAnimate();
+    const [searchParams, setSearchParams] = useSearchParams();
     const [query, setQuery] = useState({});
     const [queryDebounce] = useDebounce(query, 250);
     const [mapStats, setMapStats] = useState({});
@@ -161,7 +166,7 @@ const Search = () => {
 
         console.log(query);
         setQuery({ ...query });
-    }, []);
+    }, [searchParams]);
 
 
     useEffect(() => {
@@ -171,7 +176,7 @@ const Search = () => {
             return;
         }
 
-        window.history.replaceState(null, null, "/search" + queryToString(queryDebounce));
+        setSearchParams(queryToString(queryDebounce));
         axios.get("/search" + queryToString(queryDebounce)).then((res) => {
             setProfiles(res.data.profiles);
             setMapStats(res.data.states);
@@ -351,7 +356,7 @@ const Search = () => {
                                                         query[filter_key] && query[filter_key].length > 0 &&
                                                         <span
                                                             className="ml-1.5 rounded py-0.5 px-1.5 bg-gray-200 text-xs font-semibold text-gray-700 tabular-nums">
-                                                            {query[filter_key].length}
+                                                            {filter.option_indicator ? filter.option_indicator(query[filter_key]) : query[filter_key].length}
                                                         </span>
                                                     }
                                                     <ChevronDownIcon
@@ -404,11 +409,11 @@ const Search = () => {
 
                     {/* People list */}
                     <div className="bg-white sm:rounded-md mt-1">
-                        <ul className="divide-y divide-gray-100 px-6">
+                        <ul className="divide-y divide-gray-100 px-6" ref={animation}>
                             {profiles && profiles.map((profile) => (
                                 <li key={profile.user_id}>
                                     {/*TODO add href for account detail page*/}
-                                    <a className="block hover:bg-gray-50 rounded-md -mx-6" href={"/profile/" + profile.user_id} rel="noreferrer">
+                                    <Link className="block hover:bg-gray-50 rounded-md -mx-6" to={"/profile/" + profile.user_id} rel="noreferrer">
                                         <div className="flex items-center px-4 py-4 sm:px-6">
                                             <div className="min-w-0 flex-1 flex items-center">
                                                 <div className="flex-shrink-0">
@@ -419,7 +424,7 @@ const Search = () => {
                                                     <div>
                                                         {
                                                             (profile.first_name || profile.last_name)
-                                                                ? <p className="search-result-field text-sm text-gray-900 truncate" dangerouslySetInnerHTML={{ __html: `${profile._highlightResult.first_name.value}, ${profile._highlightResult.last_name.value}` }} />
+                                                                ? <p className="search-result-field text-sm text-gray-900 truncate" dangerouslySetInnerHTML={{ __html: `${profile._highlightResult.first_name.value} ${profile._highlightResult.last_name.value}` }} />
                                                                 : <p className="text-sm font-medium text-gray-500 truncate">Baylor Bridges User</p>
                                                         }
                                                         {
@@ -442,7 +447,7 @@ const Search = () => {
                                                                 profile.graduate_year &&
                                                                 <p className="mt-0.5 flex items-center text-sm text-gray-500">
                                                                     {/* <CheckCircleIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-green-400" aria-hidden="true" /> */}
-                                                                    Class {profile.graduate_year}
+                                                                    Class of {profile.graduate_year}
                                                                 </p>
                                                             }
                                                         </div>
@@ -453,7 +458,7 @@ const Search = () => {
                                                 <ChevronRightIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                                             </div>
                                         </div>
-                                    </a>
+                                    </Link>
                                 </li>
                             ))}
                         </ul>
@@ -466,6 +471,9 @@ const Search = () => {
 };
 
 const SearchInput = ({ focus, onFocus }) => {
+    const [animation] = useAutoAnimate();
+    const navigate = useNavigate();
+
     const [searchParams] = useSearchParams();
     const [abortController, setAbortController] = useState(new AbortController());
 
@@ -524,7 +532,12 @@ const SearchInput = ({ focus, onFocus }) => {
                         onChange={(e) => { setKeywords(e.target.value); }}
                         onKeyPress={(e) => {
                             if (e.key === "Enter") {
-                                window.location.href = "/search?keywords=" + encodeURIComponent(keywords);
+                                navigate({
+                                    pathname: "/search",
+                                    search: createSearchParams({ keywords: keywords }).toString()
+                                });
+                                onFocus(false);
+                                e.target.blur();
                             }
                         }}
                     />
@@ -543,18 +556,18 @@ const SearchInput = ({ focus, onFocus }) => {
                     show={focus && searchResult?.profiles?.length > 0 && keywords.length > 0}
                 >
                     <div className="z-50 bg-white absolute shadow-md py-2 rounded-md w-full max-w-md mt-4 top-16">
-                        <ul className="">
+                        <ul className="" ref={animation}>
                             {searchResult?.profiles?.map((profile) => (
                                 <li key={profile.user_id}>
-                                    <a className="transition-all py-4 px-5 flex hover:bg-gray-50 space-x-2.5" href={"/profile/" + profile.user_id} rel="noreferrer">
+                                    <Link className="transition-all py-4 px-5 flex hover:bg-gray-50 space-x-2.5" to={"/profile/" + profile.user_id} rel="noreferrer">
                                         <div className="h-10 w-10">
                                             <Photo size="10" account={profile} badges={true} />
                                         </div>
-                                        <div className="flex justify-center flex-col">
+                                        <div className="flex justify-center flex-col truncate space-y-1">
                                             <p
                                                 className="search-result-field text-sm text-gray-900"
                                                 dangerouslySetInnerHTML={
-                                                    { __html: `${profile._highlightResult.first_name.value}, ${profile._highlightResult.last_name.value}` }
+                                                    { __html: `${profile._highlightResult.first_name.value} ${profile._highlightResult.last_name.value}` }
                                                 }
                                             />
 
@@ -568,13 +581,13 @@ const SearchInput = ({ focus, onFocus }) => {
                                                 />
                                             }
                                         </div>
-                                    </a>
+                                    </Link>
                                 </li>
                             ))}
                         </ul>
-                        <a key="more" className="py-3 px-5 pb-2 flex text-sm text-emerald-600 font-medium" href={"/search?keywords=" + keywords}>
+                        <Link key="more" className="py-3 px-5 pb-2 flex text-sm text-emerald-600 font-medium" to={"/search?keywords=" + keywords}>
                             More results
-                        </a>
+                        </Link>
                     </div>
                 </Transition>
             </div>

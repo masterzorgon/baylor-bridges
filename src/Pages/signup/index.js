@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
 import { classNames } from "../../components/Utils";
@@ -77,7 +77,7 @@ const SignUp = () => {
             view = <EmailAddress email={email} role={role} />;
         } else if (step === "2") {
             view = <Confirmation email={email} role={role} />;
-        } else if (step === "3") {
+        } else if (step === "3" && email && role && token) {
             view = <Password email={email} role={role} token={token} />;
         } else {
             return <NotFound />;
@@ -106,13 +106,13 @@ const SignUp = () => {
 
                     {/* Title and subtitle */}
                     <div className="text-center">
-                        <a href="/">
+                        <Link to="/">
                             <img
                                 className="mx-auto h-9 w-auto"
                                 src="/Baylor-University-Athletics-01.svg"
                                 alt="Workflow"
                             />
-                        </a>
+                        </Link>
                         <h2 className="mt-2 text-lg font-extrabold tracking-tight text-gray-900 sm:text-2xl">Sign up</h2>
                     </div>
 

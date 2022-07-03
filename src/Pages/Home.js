@@ -72,7 +72,7 @@ const Home = () => {
     return (
         <>
             <main>
-                <div>
+                <div className="home">
                     {/* Hero section */}
                     <div className="pt-8 overflow-hidden sm:pt-12 lg:relative lg:py-24" id="top">
                         <div className="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl lg:grid lg:grid-cols-2 lg:gap-24">
@@ -101,7 +101,7 @@ const Home = () => {
                                                 <>
                                                     {/* You're signed in as: */}
                                                     <p className="sr-only">You are signed in as</p>
-                                                    <a href="/profile" className="flex-shrink-0 flex grow bg-gray-100 rounded-lg px-6 py-6 space-x-2.5 hover:bg-gray-200">
+                                                    <Link to="/profile" className="flex-shrink-0 flex grow bg-gray-100 rounded-lg px-6 py-6 space-x-2.5 hover:bg-gray-200">
                                                         <Photo size="11" badges={true} />
                                                         <div className="">
                                                             <div className="text-base font-semibold text-gray-800">{account.first_name} {account.last_name}</div>
@@ -109,13 +109,13 @@ const Home = () => {
                                                         </div>
                                                         <div className="grow"></div>
                                                         <p className="text-gray-400 uppercase text-sm font-medium m-auto hidden sm:block text-center">Signed In</p>
-                                                    </a>
+                                                    </Link>
                                                 </>
                                                 :
                                                 <>
                                                     <div className="sm:w-full sm:flex">
                                                         <a
-                                                            className="font-semibold text-center w-full flex justify-center px-4 py-5 text-lg rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed relative bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 hover:opacity-90 shadow-md"
+                                                            className="primary-btn font-semibold text-center w-full flex justify-center px-4 py-5 text-lg rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed relative bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 shadow-sm"
                                                             href="/sign-up"
                                                         >
                                                             Join the Community
@@ -252,7 +252,7 @@ const Home = () => {
                         <div className="mt-4 flex justify-center">
                             <Link
                                 to="/sign-up"
-                                className="btn font-sm rounded-full text-white bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 hover:opacity-90 w-16 h-16 flex justify-center flex-col items-center cursor-pointer"
+                                className="btn font-sm rounded-full text-white bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 w-16 h-16 flex justify-center flex-col items-center cursor-pointer"
                             >
                                 <Arrow size={28} />
                             </Link>

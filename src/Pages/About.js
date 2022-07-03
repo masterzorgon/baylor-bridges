@@ -1,5 +1,6 @@
 import React from "react";
-import { ArrowSmRightIcon } from "@heroicons/react/outline";
+
+import { HyperLink } from "../components/Button";
 
 // TODO: Replace the profile pictures with actual pictures
 
@@ -263,7 +264,13 @@ const tech = {
             name: "Benjamin Li",
             role: ["Bug Developer", "Tina's Cat"],
             imageUrl: "Banjamin.jpg"
-        }
+        },
+        {
+            name: "Daniela Cortes Bermudez",
+            role: "Back-end / Database Developer",
+            imageUrl: "https://compote.slate.com/images/46d8cbe9-dd09-4a4b-be7b-1970e45a5220.jpeg?width=780&height=520&rect=3840x2560&offset=0x0",
+
+        },
         // More people...
     ]
 };
@@ -321,15 +328,9 @@ const About = () => {
                         Baylor Bridges Governing Board
                     </h1>
                     <p className="mt-6 text-xl text-emerald-100 max-w-3xl">
-                        <a
-                            target="_blank"
-                            rel="noreferrer"
-                            href="https://www.baylor.edu/prehealth/index.php?id=982101"
-                            className="font-medium text-white hover:text-emerald-100 flex items-center space-x-0.5 underline underline-offset-4"
-                        >
-                            <span className="text-sm sm:text-lg">View Governing Board List on Baylor University</span>
-                            <ArrowSmRightIcon className="h-5 w-5" />
-                        </a>
+                        <HyperLink href="https://www.baylor.edu/prehealth/index.php?id=982101" arrow={true} className="text-sm sm:text-lg font-medium text-white hover:text-gray-50 after:bg-white">
+                            View Governing Board List on Baylor University
+                        </HyperLink>
                     </p>
                 </div>
             </div>
