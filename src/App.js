@@ -22,7 +22,7 @@ import ProfileSetup from "./Pages/setup/ProfileSetup";
 import InfoInput from "./Pages/setup/InfoInput";
 
 import Search from "./Pages/Search";
-import Profile from "./Pages/profile/Profile";
+import Profile from "./Pages/profile";
 import Settings from "./Pages/settings";
 
 import { Account, AccountContext } from "./components/Account";
@@ -144,9 +144,7 @@ const App = () => {
                         <Route path="/" element={<HamburgerLayout auth={true} />}>
                             <Route path="search" element={<Search />} />
                             <Route path="settings/*" element={<Settings />} />
-                            <Route path="profile" element={<Profile />}>
-                                <Route path=":user_id" exact element={<Profile />} />
-                            </Route>
+                            <Route path="profile/*" element={<Profile />} />
                         </Route>
 
                         <Route path="/setup/profile-setup" element={<ProfileSetup />} />

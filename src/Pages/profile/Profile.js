@@ -13,6 +13,8 @@ import Markdown from "../../components/Markdown";
 import ExperienceCard from "../../components/profile/ExperienceCard";
 import { classNames } from "../../components/Utils";
 
+import NotFoundModal from "./NotFoundModal";
+
 
 const profile = {
     graduate_alumni: {
@@ -75,6 +77,7 @@ const Profile = () => {
     const [profileAccount, setProfileAccount] = useState(null);
 
     const [authenticated, setAuthenticated] = useState(null);
+    const [notFound, setNotFound] = useState(false);
 
 
     useEffect(() => {
@@ -105,6 +108,7 @@ const Profile = () => {
                     console.log(err.response.data.code);
                 } else {
                     console.log("other errors");
+                    setNotFound(true);
                 }
             });
     }, [user_id]);
@@ -188,6 +192,7 @@ const Profile = () => {
     return (
         <>
             {authenticated === false ? <SignInRequiredModal /> : ""}
+            {notFound ? <NotFoundModal /> : ""}
 
             <div className={classNames("min-h-full bg-gray-100", authenticated !== false ? "" : "blur-sm")}>
                 <main className="py-10">
