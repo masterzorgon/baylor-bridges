@@ -1,14 +1,17 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 import Button from "../../../components/Button";
 
 const Buttons = ({ required, loading, modal, account, handleChangeModal, onSubmit }) => {
+    const navigate = useNavigate();
+
     return (
         <>
             <Button
                 onClick={
                     modal === 1
-                        ? () => window.location.href = "/setup/welcome-page"
+                        ? () => navigate("/setup/welcome")
                         : async () => handleChangeModal("back")
                 }
                 className="sm:w-fit px-5 py-3 border shadow-sm text-sm bg-gray-100 font-medium rounded-md text-gray-600 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"

@@ -16,8 +16,7 @@ import Terms from "./Pages/terms";
 import SignIn from "./Pages/signin";
 import SignUp from "./Pages/signup";
 import ForgetPassword from "./Pages/forget-password";
-import ProfileSetup from "./Pages/setup/ProfileSetup";
-import WelcomePage from "./Pages/setup/WelcomePage";
+import ProfileSetup from "./Pages/setup";
 import Search from "./Pages/Search";
 import Profile from "./Pages/profile";
 import Settings from "./Pages/settings";
@@ -111,6 +110,19 @@ const HamburgerLayoutWithCookieConsent = () => (
     </>
 );
 
+const EmptyLayout = ({ auth = false }) => {
+    const { getAccountLocal } = useContext(AccountContext);
+    const location = useLocation();
+
+    if (auth === true && getAccountLocal() === null) {
+        return <Navigate to={`/sign-in?redirect=${location.pathname}`} />;
+    }
+
+    return (
+        <Outlet />
+    );
+};
+
 const AlwaysOnTop = ({ children }) => {
     const location = useLocation();
     useEffect(() => {
@@ -136,9 +148,6 @@ const App = () => {
                             <Route path="terms/*" element={<Terms />} />
                         </Route>
 
-                        <Route path="/setup/welcome-page" element={<WelcomePage />} />
-                        <Route path="/setup/profile-setup" element={<ProfileSetup />} />
-
                         <Route path="/" element={<HamburgerLayout auth={false} />}>
                             <Route path="profile/*" element={<Profile />} />
                         </Route>
@@ -146,6 +155,10 @@ const App = () => {
                         <Route path="/" element={<HamburgerLayout auth={true} />}>
                             <Route path="search" element={<Search />} />
                             <Route path="settings/*" element={<Settings />} />
+                        </Route>
+
+                        <Route path="/" element={<EmptyLayout auth={true} />}>
+                            <Route path="setup/*" element={<ProfileSetup />} />
                         </Route>
 
                         <Route path="/sign-in/*" element={<SignIn />} />
