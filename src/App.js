@@ -6,26 +6,21 @@ import axios from "axios";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import CookieConsent from "./components/CookieConsent";
+import { Account, AccountContext } from "./components/Account";
 
 import Home from "./Pages/Home";
 import About from "./Pages/About";
 import ContactUs from "./Pages/ContactUs";
 import NotFound from "./Pages/404";
-
 import Terms from "./Pages/terms";
-
 import SignIn from "./Pages/signin";
 import SignUp from "./Pages/signup";
 import ForgetPassword from "./Pages/forget-password";
-
 import ProfileSetup from "./Pages/setup/ProfileSetup";
 import InfoInput from "./Pages/setup/InfoInput";
-
 import Search from "./Pages/Search";
 import Profile from "./Pages/profile";
 import Settings from "./Pages/settings";
-
-import { Account, AccountContext } from "./components/Account";
 
 import "rc-slider/assets/index.css";
 import "react-toastify/dist/ReactToastify.css";
