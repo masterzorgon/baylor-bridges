@@ -139,6 +139,9 @@ const App = () => {
                             <Route path="about" element={<About />} />
                             <Route path="contact-us" element={<ContactUs />} />
                             <Route path="terms/*" element={<Terms />} />
+                        </Route>
+
+                        <Route path="/" element={<HamburgerLayout auth={false} />}>
                             <Route path="profile/*" element={<Profile />} />
                         </Route>
 
