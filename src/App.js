@@ -23,7 +23,7 @@ import InfoInput from "./Pages/setup/InfoInput";
 
 import Search from "./Pages/Search";
 import Profile from "./Pages/profile/Profile";
-import Settings from "./Pages/settings/Settings";
+import Settings from "./Pages/settings";
 
 import { Account, AccountContext } from "./components/Account";
 
