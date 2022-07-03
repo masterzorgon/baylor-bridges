@@ -192,9 +192,9 @@ const Profile = () => {
     return (
         <>
             {authenticated === false ? <SignInRequiredModal /> : ""}
-            {notFound ? <NotFoundModal /> : ""}
+            {notFound === true ? <NotFoundModal /> : ""}
 
-            <div className={classNames("min-h-full bg-gray-100", authenticated !== false ? "" : "blur-sm")}>
+            <div className={classNames("min-h-full bg-gray-100", (authenticated === false || notFound === true) && "blur-sm")}>
                 <main className="py-10">
 
 

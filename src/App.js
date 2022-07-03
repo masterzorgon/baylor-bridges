@@ -139,12 +139,12 @@ const App = () => {
                             <Route path="about" element={<About />} />
                             <Route path="contact-us" element={<ContactUs />} />
                             <Route path="terms/*" element={<Terms />} />
+                            <Route path="profile/*" element={<Profile />} />
                         </Route>
 
                         <Route path="/" element={<HamburgerLayout auth={true} />}>
                             <Route path="search" element={<Search />} />
                             <Route path="settings/*" element={<Settings />} />
-                            <Route path="profile/*" element={<Profile />} />
                         </Route>
 
                         <Route path="/setup/profile-setup" element={<ProfileSetup />} />

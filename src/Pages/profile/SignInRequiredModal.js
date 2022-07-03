@@ -24,7 +24,7 @@ export default function SignInRequiredModal() {
     useEffect(() => {
         setTimeout(() => {
             setOpen(true);
-        }, 400);
+        }, 50);
     }, []);
 
     return (
