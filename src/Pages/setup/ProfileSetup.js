@@ -126,7 +126,7 @@ const InfoInput = () => {
                 {
                     type: "text",
                     title: "Phone Number",
-                    placeholder: "(123) 456-7890",
+                    placeholder: "123-456-7890",
                     key: "phone",
                     required: false,
                     value: account.contact_info.phone,
@@ -256,11 +256,13 @@ const InfoInput = () => {
 
     const handlePhoneInput = event => {
         // only allow numbers, dashes, and spaces, and parentheses
+        let latestInput = event.target.value[event.target.value.length - 1];
         if (
-            !isNaN(event.target.value) ||
-            event.target.value === "-" ||
-            event.target.value === "(" ||
-            event.target.value === ")"
+            !isNaN(latestInput || event.target.value) ||
+            latestInput === " " ||
+            latestInput === "-" ||
+            latestInput === "(" ||
+            latestInput === ")"
         ) {
             setAccount({ ...account, contact_info: { ...account.contact_info, phone: event.target.value } });
             console.log("PHONE", account.contact_info.phone);
