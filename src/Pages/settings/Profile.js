@@ -43,23 +43,23 @@ const profile = {
     basic: {
         title: "Basic Information",
         description: "Your basic personal information will be shown publicly to everyone.",
-        fields: {
-            name: Properties.name,
-            headline: Properties.headline,
-            graduate_class_alumni: Properties.graduate_alumni,
-            graduate_class_student: Properties.graduate_student,
-            occupation: Properties.occupation,
-            location: Properties.location,
-            biography: Properties.biography,
-        }
+        fields: [
+            Properties.name,
+            Properties.headline,
+            Properties.graduate_alumni,
+            Properties.graduate_student,
+            Properties.occupation,
+            Properties.location,
+            Properties.biography,
+        ]
     },
     contact_info: {
         title: "Contact Information",
         description: "Manage your contact information and decide who can see them.",
-        fields: {
-            email: Properties.email,
-            phone: Properties.phone,
-        }
+        fields: [
+            Properties.email,
+            Properties.phone,
+        ]
     },
 };
 
@@ -514,7 +514,7 @@ const Profile = () => {
     };
 
     const makeField = (section_key, field_key, field) => {
-        if (field.role === undefined || (account != null && "role" in account && field.role === account.role)) {
+        if (field && (field.role === undefined || (account != null && "role" in account && field.role === account.role))) {
             // If account is not ready because axios is requesting, show animated data-placeholder
             if (account === null) {
                 return (

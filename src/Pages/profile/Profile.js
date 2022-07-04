@@ -18,6 +18,9 @@ import NotFoundModal from "./NotFoundModal";
 
 
 const profile = Properties;
+delete profile.name;
+delete profile.headline;
+delete profile.biography;
 
 const Profile = () => {
     const { user_id } = useParams();
