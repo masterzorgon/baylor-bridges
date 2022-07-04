@@ -69,7 +69,9 @@ const Profile = () => {
 
     const getFieldDisplayValueRaw = (field) => {
         let string = "";
-        field.attributes.forEach((attribute, index) => {
+        field.attributes.forEach((attribute) => {
+            if (attribute.type === "visibility") return;
+
             if (attribute.key && attribute.key in profileAccount && profileAccount[attribute.key]) {
                 string += profileAccount[attribute.key] + " ";
             } else if (attribute.section && attribute.section in profileAccount && attribute.key in profileAccount[attribute.section] && profileAccount[attribute.section][attribute.key]) {
@@ -114,9 +116,14 @@ const Profile = () => {
         }
 
         let value = getFieldDisplayValueRaw(field);
+        let has_visibility = false;
+
+        field.attributes.forEach((attribute) => {
+            has_visibility = has_visibility || attribute.visibility;
+        });
 
         if (value === null) {
-            if (field.has_visibility && !isSelf) {
+            if (has_visibility && !isSelf) {
                 if (profileAccount.first_name) {
                     value = <div className="text-gray-400">Connect with {profileAccount.first_name} to view</div>;
                 } else {
