@@ -77,7 +77,7 @@ const filters = {
     },
     state: {
         title: "State",
-        options: states,
+        options: States,
         className: "block lg:hidden",
         show: true,
     },
@@ -185,7 +185,7 @@ const Search = () => {
 
     const getMapConfig = (stats, current) => {
         let config = {};
-        states.forEach((state) => {
+        States.forEach((state) => {
             config[state.value] = {};
 
             if (!(state.value in stats)) { // For the state has no people, grey out
