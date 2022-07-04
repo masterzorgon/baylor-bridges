@@ -121,7 +121,7 @@ const InfoInput = () => {
             sequence: 2,
             description: "Please provide the contact information through which you wish to be contacted. This information will be publicly displayed on your account.",
             icon: InboxIcon,
-            buttons: (account.contact_info.email !== null && account.contact_info.phone !== null) && (account.contact_info.email !== "" && account.contact_info.phone !== ""),
+            buttons: (account.contact_info.email !== null || account.contact_info.phone !== null) && (account.contact_info.email !== "" || account.contact_info.phone !== ""),
             fields: [
                 {
                     type: "text",
