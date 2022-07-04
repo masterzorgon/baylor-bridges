@@ -86,7 +86,7 @@ const SignUp = () => {
         return (
 
             <div className="bg-white py-12 px-4 overflow-hidden sm:px-6 lg:px-8 h-screen">
-                <div className="relative max-w-xl mx-auto">
+                <div className="relative max-w-xl mx-auto h-screen">
                     <svg className="absolute left-full transdiv translate-x-1/2" width={404} height={404} fill="none" viewBox="0 0 404 404" aria-hidden="true">
                         <defs>
                             <pattern id="85737c0e-0916-41d7-917f-596dc7edfa27" x={0} y={0} width={20} height={20} patternUnits="userSpaceOnUse">
