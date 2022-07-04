@@ -77,7 +77,7 @@ const Modal = ({
                                             </div>
 
                                             {/* INPUT FIELDS */}
-                                            <div className="bg-white rounded-bl-2xl rounded-br-2xl">
+                                            {modalField.fields && <div className="bg-white rounded-bl-2xl rounded-br-2xl">
                                                 <div className="-space-y-pxsm shadow-sm">
                                                     {/*
                                                         loop over input fields for each modal
@@ -123,7 +123,7 @@ const Modal = ({
                                                         }
                                                     })}
                                                 </div>
-                                            </div>
+                                            </div>}
 
                                             {/* CHANGE MODAL BUTTONS */}
                                             <div className="flex justify-between mt-6 space-x-2">

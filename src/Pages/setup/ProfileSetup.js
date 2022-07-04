@@ -90,7 +90,7 @@ const InfoInput = () => {
             sequence: 1,
             description: "Please provide your full name. This is the name others will see on your profile for others who may reach you.",
             icon: UserCircleIcon,
-            buttons: true,
+            buttons: (account.first_name !== null && account.last_name !== null) && (account.first_name !== "" && account.last_name !== ""),
             fields: [
                 {
                     type: "text",
@@ -236,7 +236,7 @@ const InfoInput = () => {
             sequence: 6,
             description: "Thank you so much for taking the time to set up your Baylor Bridges account. We hope you enjoy our platform, and please feel to reach out via the Contact Us page if you have any questions or concerns.",
             icon: CheckCircleIcon,
-            buttons: true
+            buttons: true,
         }
     };
 

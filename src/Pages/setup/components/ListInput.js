@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { SelectorIcon, CheckIcon } from "@heroicons/react/outline";
+
 import { classNames, states, semesters } from "../../../components/Utils";
 
 const ListInput = ({ field, inputFieldLabel, setAccount, account }) => {
@@ -91,9 +92,7 @@ const ListInput = ({ field, inputFieldLabel, setAccount, account }) => {
                                 leaveTo="opacity-0"
                             >
                                 <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-sm text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
-                                    {
-                                        renderList(field.list)
-                                    }
+                                    {renderList(field.list)}
                                 </Listbox.Options>
                             </Transition>
                         </div>
