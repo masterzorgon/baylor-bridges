@@ -22,6 +22,14 @@ delete profile.name;
 delete profile.headline;
 delete profile.biography;
 
+
+const option_value_to_title = (options, value) => {
+    // Find the option with the matching value
+    const option = options.find(option => option.value === value);
+    return option ? option.title : "";
+};
+
+
 const Profile = () => {
     const { user_id } = useParams();
 
@@ -72,10 +80,16 @@ const Profile = () => {
         field.attributes.forEach((attribute) => {
             if (attribute.type === "visibility") return;
 
-            if (attribute.key && attribute.key in profileAccount && profileAccount[attribute.key]) {
-                string += profileAccount[attribute.key] + " ";
-            } else if (attribute.section && attribute.section in profileAccount && attribute.key in profileAccount[attribute.section] && profileAccount[attribute.section][attribute.key]) {
-                string += profileAccount[attribute.section][attribute.key] + " ";
+            const section = attribute.section;
+            const key = attribute.key;
+            const value = section ? profileAccount[section][key] : profileAccount[key];
+
+            if (value) {
+                if (attribute.type === "dropdown") {
+                    string += option_value_to_title(attribute.options, value);
+                } else {
+                    string += value + " ";
+                }
             }
         });
 
