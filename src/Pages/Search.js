@@ -12,7 +12,7 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 import { classNames } from "../components/Utils";
 import Photo from "../components/Photo";
-import { states } from "../components/Utils";
+import { States } from "../components/Utils";
 
 const GraduateYearSlider = ({ value, onChange }) => {
     const MIN = 1970;

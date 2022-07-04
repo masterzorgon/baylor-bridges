@@ -7,16 +7,11 @@ import axios from "axios";
 import Photo from "../../components/Photo";
 import Button from "../../components/Button";
 import Markdown from "../../components/Markdown";
-
-import { classNames, states } from "../../components/Utils";
+import { classNames } from "../../components/Utils";
+import { Properties } from "../../components/profile/Fields";
 
 
 const x_fields = "user_id, first_name, last_name, headline, role, occupation, graduate_year, graduate_semester, city, state, biography, contact_info";
-
-const semester = [
-    { title: "Spring", value: "spring" },
-    { title: "Fall", value: "fall" }
-];
 
 const visibility_options = [
     { title: "Self", value: "self", description: "Only visibie to yourself" },
@@ -49,74 +44,25 @@ const profile = {
         title: "Basic Information",
         description: "Your basic personal information will be shown publicly to everyone.",
         fields: {
-            name: {
-                title: "Name",
-                attribute: [
-                    { type: "text", title: "Prefix", placeholder: "Prefix", key: "prefix", role: "alumni" },
-                    { type: "text", title: "First name", placeholder: "First name", key: "first_name", required: true },
-                    { type: "text", title: "Last name", placeholder: "Last name", key: "last_name", required: true },
-                ],
-            },
-            headline: {
-                title: "Headline",
-                attribute: { type: "text", maxLength: 100, title: "Headline", placeholder: "Headline", key: "headline" },
-            },
-            graduate_class_alumni: {
-                title: "Graduate Class",
-                role: "alumni",
-                attribute: [
-                    { type: "dropdown", title: "Semester", placeholder: "Semester", key: "graduate_semester", options: semester },
-                    { type: "text", title: "Year", placeholder: "Year", key: "graduate_year" }
-                ]
-            },
-            graduate_class_student: {
-                title: "Expected Graduate Class",
-                role: "student",
-                attribute: [
-                    { type: "dropdown", title: "Semester", placeholder: "Semester", key: "graduate_semester", options: semester },
-                    { type: "text", title: "Year", placeholder: "Year", key: "graduate_year" }
-                ]
-            },
-            occupation: {
-                title: "Occupation",
-                role: "alumni",
-                attribute: { type: "text", title: "Occupation", placeholder: "Occupation", key: "occupation", role: "alumni" },
-            },
-            location: {
-                title: "Location",
-                attribute: [
-                    { type: "text", title: "City", placeholder: "City", key: "city" },
-                    { type: "dropdown", title: "State", placeholder: "State", key: "state", options: states },
-                ],
-            },
-            biography: {
-                title: "Biography",
-                className: "sm:max-w-6xl",
-                attribute: { type: "markdown-editor", title: "Biography", placeholder: "Biography", key: "biography" },
-            },
+            name: Properties.name,
+            headline: Properties.headline,
+            graduate_class_alumni: Properties.graduate_alumni,
+            graduate_class_student: Properties.graduate_student,
+            occupation: Properties.occupation,
+            location: Properties.location,
+            biography: Properties.biography,
         }
     },
     contact_info: {
         title: "Contact Information",
         description: "Manage your contact information and decide who can see them.",
         fields: {
-            email: {
-                title: "Email address",
-                attribute: [
-                    { type: "text", title: "Email address", placeholder: "Email address", key: "email" },
-                    { type: "visibility", key: "email_visibility" },
-                ]
-            },
-            phone: {
-                title: "Phone number",
-                attribute: [
-                    { type: "text", title: "Phone number", placeholder: "Phone number", key: "phone" },
-                    { type: "visibility", key: "phone_visibility" },
-                ]
-            },
+            email: Properties.email,
+            phone: Properties.phone,
         }
     },
 };
+
 
 const Profile = () => {
     const [account, setAccount] = useState(null);

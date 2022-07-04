@@ -6,7 +6,7 @@ import axios from "axios";
 
 import { AccountContext } from "../components/Account";
 import Photo from "../components/Photo";
-import { states } from "../components/Utils";
+import { States } from "../components/Utils";
 import { HyperLink, Arrow } from "../components/Button";
 
 
@@ -52,7 +52,7 @@ const Home = () => {
             }
         }
 
-        states.forEach((state) => {
+        States.forEach((state) => {
             config[state.value] = {};
 
             if (!(state.value in stats)) { // For the state has no people, grey out
