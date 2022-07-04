@@ -103,6 +103,7 @@ Object.entries(Properties).forEach(([key, property]) => {
                 placeholder: Visibilities[0].value,
                 title: "Visibility",
                 description: "Who can see this information",
+                validator: Joi.string().valid(...attribute.visibility.map(visibility => visibility.value)),
             });
         }
     });

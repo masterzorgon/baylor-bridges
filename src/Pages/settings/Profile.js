@@ -97,12 +97,26 @@ const Profile = () => {
 
         // For all atomic attribute in this field, check if required ones are not empty
         let complete = true;
-        let required = field.attributes.filter(value => value.required); // Fetch all REQUIRED atomic attribute
-        required.forEach(value => {
-            let _value = update[value.key];
 
-            if (!_value || _value === "") {
-                complete = false;
+        field.attributes.forEach(attribute => {
+            const section = attribute.section;
+            const key = attribute.key;
+            const value = section ? update[section][key] : update[key];
+
+            // All required attributes are filled
+            if (attribute.required === true) {
+                if (!value || value === "") {
+                    console.log("VAL", attribute, value);
+                    complete = false;
+                }
+            }
+
+            // All attributes passes their validator
+            if (attribute.validator) {
+                const result = attribute.validator.validate(value);
+                if (result.error) {
+                    complete = false;
+                }
             }
         });
 
@@ -222,30 +236,16 @@ const Profile = () => {
             const key = attribute.key;
             const value = section ? update[section][key] : update[key];
 
-            console.log(section, key, value);
-
-            // Put value validation condition when inputing here
-            const isValidAttributeValue = (value) => {
-                // Graduate year: can only input 4 digits
-                if (attribute.key === "graduate_year") {
-                    return /^\d{0,4}$/.test(value);
-                }
-
-                return true;
-            };
-
             // Update values to be updated through axios
             const updateAttributeValue = (v) => {
                 if (v === undefined) {
                     return;
                 }
 
-                if (isValidAttributeValue(v)) {
-                    if (attribute.section) {
-                        setUpdate({ ...update, [section]: { ...update[section], [key]: v } });
-                    } else {
-                        setUpdate({ ...update, [key]: v });
-                    }
+                if (attribute.section) {
+                    setUpdate({ ...update, [section]: { ...update[section], [key]: v } });
+                } else {
+                    setUpdate({ ...update, [key]: v });
                 }
             };
 
