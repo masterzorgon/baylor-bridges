@@ -21,7 +21,7 @@ const Role = {
 const Properties = {
     name: {
         title: "Name",
-        attribute: [
+        attributes: [
             { key: "prefix", type: "text", title: "Prefix", placeholder: "Prefix", role: Role.Alumni },
             { key: "first_name", type: "text", title: "First name", placeholder: "First name", required: true, validator: Joi.string().required() },
             { key: "last_name", type: "text", title: "Last name", placeholder: "Last name", required: true, validator: Joi.string().required() },
@@ -29,12 +29,12 @@ const Properties = {
     },
     headline: {
         title: "Headline",
-        attribute: { key: "headline", type: "text", maxLength: 100, title: "Headline", placeholder: "Headline" },
+        attributes: { key: "headline", type: "text", maxLength: 100, title: "Headline", placeholder: "Headline" },
     },
     graduate_alumni: {
         title: "Graduate Class",
         role: Role.Alumni,
-        attribute: [
+        attributes: [
             { key: "graduate_semester", type: "dropdown", title: "Semester", placeholder: "Semester", options: Semesters },
             { key: "graduate_year", type: "text", title: "Year", placeholder: "Year", validator: Joi.number().integer().min(1900).max(2099) },
         ]
@@ -42,7 +42,7 @@ const Properties = {
     graduate_student: {
         title: "Expected Graduate Class",
         role: Role.Student,
-        attribute: [
+        attributes: [
             { key: "graduate_semester", type: "dropdown", title: "Semester", placeholder: "Semester", options: Semesters },
             { key: "graduate_year", type: "text", title: "Year", placeholder: "Year", validator: Joi.number().integer().min(1900).max(2099) },
         ]
@@ -50,35 +50,50 @@ const Properties = {
     occupation: {
         title: "Occupation",
         role: Role.Alumni,
-        attribute: { key: "occupation", type: "text", title: "Occupation", placeholder: "Occupation" },
+        attributes: { key: "occupation", type: "text", title: "Occupation", placeholder: "Occupation" },
     },
     location: {
         title: "Location",
-        attribute: [
+        attributes: [
             { key: "city", type: "text", title: "City", placeholder: "City" },
             { key: "state", type: "dropdown", title: "State", placeholder: "State", options: States },
         ],
     },
     role: {
         title: "Role",
-        attribute: { key: "role", type: "dropdown", title: "Role", options: [{ title: "Alumni", value: Role.Alumni }, { title: "Student", value: Role.Student }] },
+        attributes: {
+            key: "role", type: "dropdown", title: "Role",
+            options: [{ title: "Alumni", value: Role.Alumni }, { title: "Student", value: Role.Student }]
+        },
     },
     biography: {
         title: "Biography",
-        attribute: { key: "biography", type: "markdown", title: "Biography", placeholder: "Biography" },
+        attributes: { key: "biography", type: "markdown", title: "Biography", placeholder: "Biography" },
     },
     email: {
         title: "Email",
         type: "email",
         visibility: Visibilities,
-        attribute: { section: "contact_info", key: "email" },
+        attributes: {
+            section: "contact_info", key: "email",
+            validator: Joi.string().regex(/^\S+@\S+\.\S+$/),
+        },
     },
     phone: {
         title: "Phone",
         type: "phone",
         visibility: Visibilities,
-        attribute: { section: "contact_info", key: "phone", validator: Joi.string().regex(/^(\+[0-9]{1,2})?( )?[0-9-() ]{10,}$/) },
+        attributes: {
+            section: "contact_info", key: "phone",
+            alidator: Joi.string().regex(/^(\+[0-9]{1,2})?( )?[0-9-() ]{10,}$/)
+        },
     },
 };
+
+Object.entries(Properties).forEach(([key, property]) => {
+    if (!Array.isArray(property.attributes)) {
+        property.attributes = [property.attributes];
+    }
+});
 
 export { Properties, Semesters, Visibilities, Role };

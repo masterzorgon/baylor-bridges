@@ -13,12 +13,6 @@ import { Properties } from "../../components/profile/Fields";
 
 const x_fields = "user_id, first_name, last_name, headline, role, occupation, graduate_year, graduate_semester, city, state, biography, contact_info";
 
-const visibility_options = [
-    { title: "Self", value: "self", description: "Only visibie to yourself" },
-    { title: "Alumni", value: "alumni", description: "Only visible to other alumni" },
-    { title: "Public", value: "all", description: "Visibie to every user" },
-];
-
 const option_value_to_title = (options, value) => {
     // Find the option with the matching value
     const option = options.find(option => option.value === value);
@@ -63,6 +57,8 @@ const profile = {
     },
 };
 
+console.log(profile);
+
 
 const Profile = () => {
     const [account, setAccount] = useState(null);
@@ -102,13 +98,9 @@ const Profile = () => {
         // Set complete to default true
         setComplete(true);
 
-        if (!Array.isArray(field.attribute)) {
-            field.attribute = [field.attribute];
-        }
-
         // For all atomic attribute in this field, check if required ones are not empty
         let complete = true;
-        let required = field.attribute.filter(value => value.required); // Fetch all REQUIRED atomic attribute
+        let required = field.attributes.filter(value => value.required); // Fetch all REQUIRED atomic attribute
         required.forEach(value => {
             let _value = update[value.key];
 
@@ -129,17 +121,12 @@ const Profile = () => {
         // Basic section would be from root, other sections from their sub-dictionary
         let account_from = account;
 
-        // If field attribute is not an array, make it an array, with only itself
-        if (!Array.isArray(field.attribute)) {
-            field.attribute = [field.attribute];
-        }
-
         // Initialize values
         let string = "";
         let visibility = null;
 
         // Traverse each atomic attribute
-        field.attribute.forEach((attribute, index) => {
+        field.attributes.forEach((attribute, index) => {
             if (attribute.key in account_from && account_from[attribute.key]) {
                 // If visibility attribute, then get the visibility value
                 // If other attribute, then get the value
@@ -165,7 +152,7 @@ const Profile = () => {
 
     const getFieldDisplayValue = (field) => {
         // Photo - Return Photo component
-        if (field.attribute && field.attribute.type === "photo") {
+        if (field.attributes && field.attributes.type === "photo") {
             return <Photo size="10" />;
         }
 
@@ -206,7 +193,7 @@ const Profile = () => {
         };
 
         // Photo - Return special operations button for photo field - Update | Delete
-        if (field.attribute === "photo") {
+        if (field.attributes === "photo") {
             return (
                 <>
                     {makeButton("Update")}
@@ -391,12 +378,12 @@ const Profile = () => {
                 let value_copy = {};
                 Object.assign(value_copy, attribute);
                 value_copy.type = "dropdown";
-                value_copy.options = visibility_options;
+                value_copy.options = attribute.visibility;
                 value_copy.placeholder = value_copy.placeholder ? value_copy.placeholder : "self";
                 value_copy.title = value_copy.title ? value_copy.title : "Visibility";
                 value_copy.description = value_copy.description ? value_copy.description : "Who can see this?";
                 return getAttributeDom(value_copy);
-            } else if (attribute.type === "markdown-editor") {
+            } else if (attribute.type === "markdown") {
                 return (
                     <>
                         <label htmlFor="comment" className="block text-sm font-medium text-gray-700 sr-only">
@@ -448,16 +435,11 @@ const Profile = () => {
             return;
         }
 
-        // If this field has only one attribute, make it an array of one
-        if (!Array.isArray(field.attributes)) {
-            field.attributes = [field.attributes];
-        }
-
         return (
             <>
                 <legend className="block text-sm font-medium text-gray-700">{field.title}</legend>
                 {
-                    field.attribute.map((attribute, index) => (
+                    field.attributes.map((attribute, index) => (
                         (attribute.role ? attribute.role === account.role : true) ? getAttributeDom(attribute) : null
                     ))
                 }
@@ -477,12 +459,8 @@ const Profile = () => {
     const onOpenFieldModal = (field) => {
         let update = {};
 
-        if (!Array.isArray(field.attribute)) {
-            field.attribute = [field.attribute];
-        }
-
         // Copy all related field attribute value to update dictionary
-        for (const attribute of field.attribute) {
+        for (const attribute of field.attributes) {
             if (attribute.section) {
                 const section = attribute.section;
                 const key = attribute.key;
@@ -497,6 +475,8 @@ const Profile = () => {
         setUpdate(update); // Set update dictionary
         setField(field); // Set current field for modal to update
         setOpen(true); // Open the modal
+
+        console.log(field);
     };
 
     const onSubmit = () => {

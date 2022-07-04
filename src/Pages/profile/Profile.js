@@ -17,7 +17,7 @@ import { Properties } from "../../components/profile/Fields";
 import NotFoundModal from "./NotFoundModal";
 
 
-const profile = {...Properties};
+const profile = { ...Properties };
 delete profile.name;
 delete profile.headline;
 delete profile.biography;
@@ -68,12 +68,8 @@ const Profile = () => {
     }, [user_id]);
 
     const getFieldDisplayValueRaw = (field) => {
-        if (!Array.isArray(field.attribute)) {
-            field.attribute = [field.attribute];
-        }
-
         let string = "";
-        field.attribute.forEach((attribute, index) => {
+        field.attributes.forEach((attribute, index) => {
             if (attribute.key && attribute.key in profileAccount && profileAccount[attribute.key]) {
                 string += profileAccount[attribute.key] + " ";
             } else if (attribute.section && attribute.section in profileAccount && attribute.key in profileAccount[attribute.section] && profileAccount[attribute.section][attribute.key]) {
