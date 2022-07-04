@@ -1,25 +1,9 @@
 /* This example requires Tailwind CSS v2.0+ */
 import React, { Fragment, useState, useEffect } from "react";
 import { Transition } from "@headlessui/react";
-import { Link } from "react-router-dom";
-
-import { changeBaseURL, changeSearchParam } from "../../components/Utils";
 
 export default function SignInRequiredModal() {
     const [open, setOpen] = useState(false);
-    const [signUpUrl, setSignUpUrl] = useState("");
-    const [signInUrl, setSignInUrl] = useState("");
-
-    useEffect(() => {
-        let current = changeSearchParam(window.location.href, "redirect", window.location.pathname);
-        let signUpURL = changeBaseURL(current, "/sign-up");
-        let signInURL = changeBaseURL(current, "/sign-in");
-
-        setSignUpUrl(signUpURL);
-        setSignInUrl(signInURL);
-
-        console.log(signInUrl);
-    }, []);
 
     useEffect(() => {
         setTimeout(() => {
@@ -61,36 +45,21 @@ export default function SignInRequiredModal() {
                             <div>
                                 <div className="flex justify-center">
                                     <lord-icon
-                                        src="https://cdn.lordicon.com/zpxybbhl.json"
-                                        trigger="loop"
+                                        src="https://cdn.lordicon.com/tdrtiskw.json"
+                                        trigger=""
                                         style={{ width: "8rem", height: "8rem" }}
                                     >
                                     </lord-icon>
                                 </div>
-                                <div className="mt-3 text-center sm:mt-5">
+                                <div className="my-3 text-center sm:mt-5">
                                     <div as="h2" className="text-lg leading-6 font-medium text-gray-900">
-                                        Join Baylor Bridges today
+                                        Oops, something is missing.
                                     </div>
                                     <div className="mt-2">
                                         <p className="text-sm text-gray-500">
-                                            Be a part of the community, start expanding your network with everyone else.
+                                            Please check the URL, or come back and try again later.
                                         </p>
                                     </div>
-                                </div>
-                            </div>
-                            <div className="pt-1 space-y-3">
-                                {/* Sign up link */}
-                                <a
-                                    type="button"
-                                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-3 bg-emerald-600 text-base font-medium text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 sm:col-start-2 sm:text-sm"
-                                    href={signUpUrl}
-                                >
-                                    Sign up to continue
-                                </a>
-                                {/* Sign in link, TODO: to be visible in future -Cloudy */}
-                                <div className="text-sm space-x-1 flex items-center justify-center">
-                                    <p className="text-gray-600">Already have an account?</p>
-                                    <Link to={signInUrl} className="text-emerald-800">Sign in</Link>
                                 </div>
                             </div>
                         </div>

@@ -6,26 +6,20 @@ import axios from "axios";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import CookieConsent from "./components/CookieConsent";
+import { Account, AccountContext } from "./components/Account";
 
 import Home from "./Pages/Home";
 import About from "./Pages/About";
 import ContactUs from "./Pages/ContactUs";
 import NotFound from "./Pages/404";
-
-import Terms from "./Pages/terms/Terms";
-
-import SignIn from "./Pages/signin/SignIn";
-import SignUp from "./Pages/signup/SignUp";
-import ForgetPassword from "./Pages/forget-password/ForgetPassword";
-
-import ProfileSetup from "./Pages/setup/ProfileSetup";
-import InfoInput from "./Pages/setup/InfoInput";
-
+import Terms from "./Pages/terms";
+import SignIn from "./Pages/signin";
+import SignUp from "./Pages/signup";
+import ForgetPassword from "./Pages/forget-password";
+import ProfileSetup from "./Pages/setup";
 import Search from "./Pages/Search";
-import Profile from "./Pages/profile/Profile";
-import Settings from "./Pages/settings/Settings";
-
-import { Account, AccountContext } from "./components/Account";
+import Profile from "./Pages/profile";
+import Settings from "./Pages/settings";
 
 import "rc-slider/assets/index.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -116,6 +110,19 @@ const HamburgerLayoutWithCookieConsent = () => (
     </>
 );
 
+const EmptyLayout = ({ auth = false }) => {
+    const { getAccountLocal } = useContext(AccountContext);
+    const location = useLocation();
+
+    if (auth === true && getAccountLocal() === null) {
+        return <Navigate to={`/sign-in?redirect=${location.pathname}`} />;
+    }
+
+    return (
+        <Outlet />
+    );
+};
+
 const AlwaysOnTop = ({ children }) => {
     const location = useLocation();
     useEffect(() => {
@@ -141,16 +148,18 @@ const App = () => {
                             <Route path="terms/*" element={<Terms />} />
                         </Route>
 
+                        <Route path="/" element={<HamburgerLayout auth={false} />}>
+                            <Route path="profile/*" element={<Profile />} />
+                        </Route>
+
                         <Route path="/" element={<HamburgerLayout auth={true} />}>
                             <Route path="search" element={<Search />} />
                             <Route path="settings/*" element={<Settings />} />
-                            <Route path="profile" element={<Profile />}>
-                                <Route path=":user_id" exact element={<Profile />} />
-                            </Route>
                         </Route>
 
-                        <Route path="/setup/profile-setup" element={<ProfileSetup />} />
-                        <Route path="/setup/info-input" element={<InfoInput />} />
+                        <Route path="/" element={<EmptyLayout auth={true} />}>
+                            <Route path="setup/*" element={<ProfileSetup />} />
+                        </Route>
 
                         <Route path="/sign-in/*" element={<SignIn />} />
                         <Route path="/sign-up/*" element={<SignUp />} />
