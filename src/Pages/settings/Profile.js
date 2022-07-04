@@ -106,7 +106,6 @@ const Profile = () => {
             // All required attributes are filled
             if (attribute.required === true) {
                 if (!value || value === "") {
-                    console.log("VAL", attribute, value);
                     complete = false;
                 }
             }
