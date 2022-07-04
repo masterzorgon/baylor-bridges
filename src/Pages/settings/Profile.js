@@ -69,7 +69,6 @@ const Profile = () => {
 
     const [open, setOpen] = useState(false); // Whether modal is opened
 
-    const [section_key, setSectionKey] = useState(null); // Current section key of the current fiels to change
     const [field, setField] = useState(null); // Current field to change in the modal
     const [update, setUpdate] = useState(null); // A dictionary to record everything need to be updated to axios
 
@@ -122,18 +121,13 @@ const Profile = () => {
     }, [update, field]);
 
     // Get the raw value of a field, return either the field attribute value, or null, with the visibility value
-    const getFieldDisplayValueRaw = (section_key, field) => {
+    const getFieldDisplayValueRaw = (field) => {
         if (account === null) {
             return [null, null];
         }
 
         // Basic section would be from root, other sections from their sub-dictionary
         let account_from = account;
-
-        // If not basic section, then get the sub-dictionary
-        if (section_key !== "basic") {
-            account_from = account[section_key];
-        }
 
         // If field attribute is not an array, make it an array, with only itself
         if (!Array.isArray(field.attribute)) {
@@ -169,14 +163,14 @@ const Profile = () => {
         return [string, visibility];
     };
 
-    const getFieldDisplayValue = (section_key, field) => {
+    const getFieldDisplayValue = (field) => {
         // Photo - Return Photo component
         if (field.attribute && field.attribute.type === "photo") {
             return <Photo size="10" />;
         }
 
         // Other fields
-        const [value, visibility] = getFieldDisplayValueRaw(section_key, field);
+        const [value, visibility] = getFieldDisplayValueRaw(field);
         if (value === null) {
             return <div className="text-gray-400">Not set</div>;
         } else {
@@ -197,14 +191,14 @@ const Profile = () => {
     };
 
     // Get modal button for given field
-    const getFieldModalButton = (section_key, field) => {
+    const getFieldModalButton = (field) => {
         // Make a button with given text
         const makeButton = (text) => {
             return (
                 <button
                     type="button"
                     className="bg-white rounded-md font-medium text-emerald-600 hover:text-emerald-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
-                    onClick={() => onOpenFieldModal(section_key, field)}
+                    onClick={() => onOpenFieldModal(field)}
                 >
                     {text}
                 </button>
@@ -224,7 +218,7 @@ const Profile = () => {
 
         // Return different button according to raw value
         // eslint-disable-next-line no-unused-vars
-        const [value, visibility] = getFieldDisplayValueRaw(section_key, field);
+        const [value, visibility] = getFieldDisplayValueRaw(field);
 
         if (value === null) {
             return makeButton("Set");
@@ -241,8 +235,12 @@ const Profile = () => {
         }
 
         const getAttributeDom = (attribute) => {
+            const section = attribute.section;
+            const key = attribute.key;
+            const value = section ? update[section][key] : update[key];
+
             // Put value validation condition when inputing here
-            const isValidAttributeValue = (attribute, value) => {
+            const isValidAttributeValue = (value) => {
                 // Graduate year: can only input 4 digits
                 if (attribute.key === "graduate_year") {
                     return /^\d{0,4}$/.test(value);
@@ -257,11 +255,11 @@ const Profile = () => {
                     return;
                 }
 
-                if (isValidAttributeValue(attribute, v)) {
-                    if (section_key === "basic") {
-                        setUpdate({ ...update, [attribute.key]: v });
+                if (isValidAttributeValue(v)) {
+                    if (attribute.section) {
+                        setUpdate({ ...update, [section]: { ...update[section], [key]: v } });
                     } else {
-                        setUpdate({ ...update, [section_key]: { ...update[section_key], [attribute.key]: v } });
+                        setUpdate({ ...update, [key]: v });
                     }
                 }
             };
@@ -281,7 +279,7 @@ const Profile = () => {
                                 id={attribute.key}
                                 className="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                 placeholder={attribute.placeholder}
-                                value={section_key === "basic" ? update[attribute.key] : update[section_key][attribute.key]}
+                                value={value}
                                 onChange={(e) => updateAttributeValue(e.target.value)}
                                 maxLength={attribute.max_length}
                             />
@@ -300,7 +298,7 @@ const Profile = () => {
                                 name="comment"
                                 id="comment"
                                 className="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                                value={section_key === "basic" ? update[attribute.key] : update[section_key][attribute.key]}
+                                value={value}
                                 onChange={(e) => updateAttributeValue(e.target.value)}
                             />
                         </div>
@@ -315,7 +313,7 @@ const Profile = () => {
 
                         <Listbox
                             as="div"
-                            value={(section_key === "basic" ? update[attribute.key] : update[section_key][attribute.key]) || (attribute.placeholder)}
+                            value={value || attribute.placeholder}
                             onChange={(value) => {
                                 updateAttributeValue(value);
                             }}
@@ -325,8 +323,8 @@ const Profile = () => {
                                     <div className="relative">
                                         <Listbox.Button className="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
                                             <span className="w-full inline-flex truncate">
-                                                <span className="">{option_value_to_title(attribute.options, section_key === "basic" ? update[attribute.key] : update[section_key][attribute.key]) || option_value_to_title(attribute.options, attribute.placeholder) || <div className="text-gray-500">{attribute.title}</div>}</span>
-                                                <span className="ml-2 truncate text-gray-500">{option_value_to_description(attribute.options, section_key === "basic" ? update[attribute.key] : update[section_key][attribute.key]) || option_value_to_description(attribute.options, attribute.placeholder)}</span>
+                                                <span className="">{option_value_to_title(attribute.options, value) || option_value_to_title(attribute.options, attribute.placeholder) || <div className="text-gray-500">{attribute.title}</div>}</span>
+                                                <span className="ml-2 truncate text-gray-500">{option_value_to_description(attribute.options, value) || option_value_to_description(attribute.options, attribute.placeholder)}</span>
                                             </span>
                                             <span className="absolute inset-y-0 right-0 flex items-center pr-2">
                                                 <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
@@ -426,13 +424,13 @@ const Profile = () => {
                                     name="comment"
                                     id="comment"
                                     className="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md h-full resize-none"
-                                    value={section_key === "basic" ? (update[attribute.key] || "") : (update[section_key][attribute.key] || "")}
+                                    value={value}
                                     onChange={(e) => updateAttributeValue(e.target.value)}
                                 />
                             </div>
                             <div className={classNames("col-span-2 sm:col-span-1 overflow-auto shadow-sm px-4 py-2 rounded-md border-gray-300 border", markdownEditorTab === "preview" ? "" : "hidden md:block")}>
                                 <Markdown>
-                                    {section_key === "basic" ? update[attribute.key] : update[section_key][attribute.key]}
+                                    {value}
                                 </Markdown>
                             </div>
                             <a className="col-span-2 md:col-span-1 flex text-xs space-x-1 items-center text-gray-500 fill-gray-500 hover:text-gray-800 hover:fill-gray-800" href="https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax" target="_blank" rel="noreferrer">
@@ -476,7 +474,7 @@ const Profile = () => {
     };
 
     // For button "Set" or "Update", press and trigger this function
-    const onOpenFieldModal = (section_key, field) => {
+    const onOpenFieldModal = (field) => {
         let update = {};
 
         if (!Array.isArray(field.attribute)) {
@@ -484,16 +482,19 @@ const Profile = () => {
         }
 
         // Copy all related field attribute value to update dictionary
-        for (const a of field.attribute) {
-            if (section_key === "basic") update[a.key] = account[a.key];
-            else {
-                if (!update[section_key]) update[section_key] = {};
-                update[section_key][a.key] = account[section_key][a.key];
+        for (const attribute of field.attribute) {
+            if (attribute.section) {
+                const section = attribute.section;
+                const key = attribute.key;
+                if (!update[section]) update[section] = {};
+                update[section][key] = account[section][key];
+            } else {
+                const key = attribute.key;
+                update[key] = account[key];
             }
         }
 
         setUpdate(update); // Set update dictionary
-        setSectionKey(section_key); // Set current section key for current field
         setField(field); // Set current field for modal to update
         setOpen(true); // Open the modal
     };
@@ -513,7 +514,7 @@ const Profile = () => {
             });
     };
 
-    const makeField = (section_key, field_key, field) => {
+    const makeField = (field_key, field) => {
         if (field && (field.role === undefined || (account != null && "role" in account && field.role === account.role))) {
             // If account is not ready because axios is requesting, show animated data-placeholder
             if (account === null) {
@@ -535,10 +536,10 @@ const Profile = () => {
                     </dt>
                     <dd className="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                         <span className="flex-grow">
-                            {getFieldDisplayValue(section_key, field)}
+                            {getFieldDisplayValue(field)}
                         </span>
                         <span className="ml-4 flex-shrink-0 flex item-start space-x-4">
-                            {getFieldModalButton(section_key, field)}
+                            {getFieldModalButton(field)}
                         </span>
                     </dd>
                 </div>
@@ -560,7 +561,7 @@ const Profile = () => {
                             <dl className="divide-y divide-gray-200">
                                 {
                                     Object.entries(section.fields).map(([field_key, field]) => (
-                                        makeField(section_key, field_key, field)
+                                        makeField(field_key, field)
                                     ))
                                 }
                             </dl>
