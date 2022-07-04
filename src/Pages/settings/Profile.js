@@ -121,12 +121,20 @@ const Profile = () => {
 
         // Traverse each atomic attribute
         field.attributes.forEach((attribute) => {
-            if (attribute.key in account && account[attribute.key]) {
-                if (attribute.type === "dropdown") {
-                    string += option_value_to_title(attribute.options, account[attribute.key]) + " ";
-                } else {
-                    string += account[attribute.key] + " ";
-                }
+            if (attribute.type === "visibility") {
+                visibility = account[attribute.key];
+                return;
+            }
+
+            const section = attribute.section;
+            const key = attribute.key;
+            const value = section ? account[section][key] : account[key];
+
+            if (!value) return;
+            if (attribute.type === "dropdown") {
+                string += option_value_to_title(attribute.options, value) + " ";
+            } else {
+                string += value + " ";
             }
         });
 
@@ -192,7 +200,8 @@ const Profile = () => {
         }
 
         // Return different button according to raw value
-        const [value, ] = getFieldDisplayValueRaw(field);
+        // eslint-disable-next-line no-unused-vars
+        const [value, visibility] = getFieldDisplayValueRaw(field);
 
         if (value === null) {
             return makeButton("Set");
@@ -457,8 +466,6 @@ const Profile = () => {
         setUpdate(update); // Set update dictionary
         setField(field); // Set current field for modal to update
         setOpen(true); // Open the modal
-
-        console.log(field);
     };
 
     const onSubmit = () => {
