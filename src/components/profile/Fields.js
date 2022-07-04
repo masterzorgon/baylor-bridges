@@ -1,3 +1,5 @@
+import Joi from "joi";
+
 import { States } from "../../components/Utils";
 
 const Semesters = [
@@ -21,8 +23,8 @@ const Properties = {
         title: "Name",
         attribute: [
             { key: "prefix", type: "text", title: "Prefix", placeholder: "Prefix", role: Role.Alumni },
-            { key: "first_name", type: "text", title: "First name", placeholder: "First name", required: true },
-            { key: "last_name", type: "text", title: "Last name", placeholder: "Last name", required: true },
+            { key: "first_name", type: "text", title: "First name", placeholder: "First name", required: true, validator: Joi.string().required() },
+            { key: "last_name", type: "text", title: "Last name", placeholder: "Last name", required: true, validator: Joi.string().required() },
         ],
     },
     headline: {
@@ -34,7 +36,7 @@ const Properties = {
         role: Role.Alumni,
         attribute: [
             { key: "graduate_semester", type: "dropdown", title: "Semester", placeholder: "Semester", options: Semesters },
-            { key: "graduate_year", type: "text", title: "Year", placeholder: "Year" }
+            { key: "graduate_year", type: "text", title: "Year", placeholder: "Year", validator: Joi.number().integer().min(1900).max(2099) },
         ]
     },
     graduate_student: {
@@ -42,7 +44,7 @@ const Properties = {
         role: Role.Student,
         attribute: [
             { key: "graduate_semester", type: "dropdown", title: "Semester", placeholder: "Semester", options: Semesters },
-            { key: "graduate_year", type: "text", title: "Year", placeholder: "Year" }
+            { key: "graduate_year", type: "text", title: "Year", placeholder: "Year", validator: Joi.number().integer().min(1900).max(2099) },
         ]
     },
     occupation: {
@@ -59,7 +61,7 @@ const Properties = {
     },
     role: {
         title: "Role",
-        attribute: { key: "role" },
+        attribute: { key: "role", type: "dropdown", title: "Role", options: [{ title: "Alumni", value: Role.Alumni }, { title: "Student", value: Role.Student }] },
     },
     biography: {
         title: "Biography",
@@ -75,7 +77,7 @@ const Properties = {
         title: "Phone",
         type: "phone",
         visibility: Visibilities,
-        attribute: { section: "contact_info", key: "phone" },
+        attribute: { section: "contact_info", key: "phone", validator: Joi.string().regex(/^(\+[0-9]{1,2})?( )?[0-9-() ]{10,}$/) },
     },
 };
 
