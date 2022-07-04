@@ -197,7 +197,7 @@ const Profile = () => {
             return (
                 <button
                     type="button"
-                    className="bg-white rounded-md font-medium text-emerald-600 hover:text-emerald-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                    className="p-1 -m-1 bg-white rounded-md font-medium text-emerald-600 hover:text-emerald-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
                     onClick={() => onOpenFieldModal(field)}
                 >
                     {text}
