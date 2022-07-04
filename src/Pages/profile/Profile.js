@@ -17,7 +17,7 @@ import { Properties } from "../../components/profile/Fields";
 import NotFoundModal from "./NotFoundModal";
 
 
-const profile = Properties;
+const profile = {...Properties};
 delete profile.name;
 delete profile.headline;
 delete profile.biography;
