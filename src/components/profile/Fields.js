@@ -1,6 +1,9 @@
-import Joi from "joi";
+import { default as Joi_ } from "joi";
+import JoiPhoneNumber from "joi-phone-number";
 
 import { States } from "../../components/Utils";
+
+const Joi = Joi_.extend(JoiPhoneNumber);
 
 const Semesters = [
     { title: "Spring", value: "spring" },
@@ -74,7 +77,7 @@ const Properties = {
         title: "Email",
         attributes: {
             section: "contact_info", key: "email", type: "text", title: "Email", placeholder: "Email",
-            validator: Joi.string().regex(/^\S+@\S+\.\S+$/),
+            validator: Joi.string().email({ tlds: { allow: false } }),
             visibility: Visibilities,
         },
     },
@@ -82,7 +85,7 @@ const Properties = {
         title: "Phone",
         attributes: {
             section: "contact_info", key: "phone", type: "text", title: "Phone", placeholder: "Phone",
-            validator: Joi.string().regex(/^(\+[0-9]{1,2})?( )?[0-9-() ]{10,}$/),
+            validator: Joi.string().phoneNumber({ defaultCountry: "US", strict: true }),
             visibility: Visibilities,
         },
     },

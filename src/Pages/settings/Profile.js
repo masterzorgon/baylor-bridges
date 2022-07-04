@@ -113,6 +113,7 @@ const Profile = () => {
             // All attributes passes their validator
             if (attribute.validator) {
                 const result = attribute.validator.validate(value);
+                console.log(result);
                 if (result.error) {
                     complete = false;
                 }
