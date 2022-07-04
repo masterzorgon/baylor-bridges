@@ -1,15 +1,16 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { SelectorIcon, CheckIcon } from "@heroicons/react/outline";
-import { classNames, states, semesters } from "../../../components/Utils";
+import { classNames, States } from "../../../components/Utils";
+import { Semesters } from "../../../components/profile/Fields";
 
 const ListInput = ({ field, inputFieldLabel, setAccount, account }) => {
 
-    const [state, setState] = useState(states[0]);
-    const [semester, setSemester] = useState(semesters[0]);
+    const [state, setState] = useState(States[0]);
+    const [semester, setSemester] = useState(Semesters[0]);
 
     useEffect(() => {
-        for (let state of states) {
+        for (let state of States) {
             if (state.value === account.state) {
                 setState(state);
             }
@@ -21,7 +22,7 @@ const ListInput = ({ field, inputFieldLabel, setAccount, account }) => {
     }, [state, setAccount]);
 
     useEffect(() => {
-        for (let semester of semesters) {
+        for (let semester of Semesters) {
             if (semester.value === account.graduate_semester) {
                 setSemester(semester);
             }
