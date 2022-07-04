@@ -44,7 +44,7 @@ const profile = {
             Properties.graduate_student,
             Properties.occupation,
             Properties.location,
-            Properties.biography,
+            { ...Properties.biography, className: "sm:max-w-6xl" },
         ]
     },
     contact_info: {
