@@ -3,6 +3,7 @@ import React, { Fragment, useEffect, useState, useContext } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { useParams } from "react-router-dom";
 import { DotsVerticalIcon } from "@heroicons/react/outline";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 import Photo from "../../components/Photo";
@@ -11,59 +12,15 @@ import SignInRequiredModal from "./SignInRequiredModal";
 import Markdown from "../../components/Markdown";
 import ExperienceCard from "../../components/profile/ExperienceCard";
 import { classNames } from "../../components/Utils";
+import { Properties } from "../../components/profile/Fields";
+
+import NotFoundModal from "./NotFoundModal";
 
 
-const profile = {
-    graduate_alumni: {
-        title: "Graduate Class",
-        role: "alumni",
-        value_class: "capitalize",
-        attribute: [
-            { key: "graduate_semester" },
-            { key: "graduate_year" }
-        ]
-    },
-    graduate_student: {
-        title: "Expected Graduate Class",
-        role: "student",
-        value_class: "capitalize",
-        attribute: [
-            { key: "graduate_semester" },
-            { key: "graduate_year" }
-        ]
-    },
-    occupation: {
-        title: "Occupation",
-        role: "alumni",
-        attribute: { key: "occupation" },
-    },
-    location: {
-        title: "Location",
-        field_class: "col-span-1 sm:col-span-1",
-        attribute: [
-            { key: "city" },
-            { key: "state" },
-        ],
-    },
-    role: {
-        title: "Role",
-        field_class: "col-span-1 sm:col-span-1",
-        value_class: "capitalize",
-        attribute: { key: "role" },
-    },
-    email: {
-        title: "Email",
-        type: "email",
-        has_visibility: true,
-        attribute: { section: "contact_info", key: "email" },
-    },
-    phone: {
-        title: "Phone",
-        type: "phone",
-        has_visibility: true,
-        attribute: { section: "contact_info", key: "phone" },
-    },
-};
+const profile = Properties;
+delete profile.name;
+delete profile.headline;
+delete profile.biography;
 
 const Profile = () => {
     const { user_id } = useParams();
@@ -74,6 +31,7 @@ const Profile = () => {
     const [profileAccount, setProfileAccount] = useState(null);
 
     const [authenticated, setAuthenticated] = useState(null);
+    const [notFound, setNotFound] = useState(false);
 
 
     useEffect(() => {
@@ -104,6 +62,7 @@ const Profile = () => {
                     console.log(err.response.data.code);
                 } else {
                     console.log("other errors");
+                    setNotFound(true);
                 }
             });
     }, [user_id]);
@@ -187,8 +146,9 @@ const Profile = () => {
     return (
         <>
             {authenticated === false ? <SignInRequiredModal /> : ""}
+            {notFound === true ? <NotFoundModal /> : ""}
 
-            <div className={classNames("min-h-full bg-gray-100", authenticated !== false ? "" : "blur-sm")}>
+            <div className={classNames("min-h-full bg-gray-100", (authenticated === false || notFound === true) && "blur-sm")}>
                 <main className="py-10">
 
 
@@ -263,9 +223,9 @@ const Profile = () => {
                                                 <Menu.Items className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                     <div className="my-2">
                                                         <Menu.Item>
-                                                            <a href="/settings/profile" className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 block px-4 py-2 text-sm">
+                                                            <Link to="/settings/profile" className="text-gray-700 hover:bg-gray-100 hover:text-gray-900 block px-4 py-2 text-sm">
                                                                 Edit Personal Information
-                                                            </a>
+                                                            </Link>
                                                         </Menu.Item>
                                                     </div>
                                                 </Menu.Items>

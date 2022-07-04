@@ -7,7 +7,9 @@ import { useTransition } from "react-spring";
 import { CheckCircleIcon, UserCircleIcon, LocationMarkerIcon, AcademicCapIcon, BriefcaseIcon } from "@heroicons/react/outline";
 import { InboxIcon } from "@heroicons/react/outline";
 
-import { states, semesters } from "../../components/Utils";
+import { States } from "../../components/Utils";
+import { Semesters } from "../../components/profile/Fields";
+
 import Modal from "./Modal";
 
 const InfoInput = () => {
@@ -158,7 +160,7 @@ const InfoInput = () => {
                     required: true,
                     value: account.state,
                     filtered: false,
-                    list: states
+                    list: States
                 },
                 {
                     type: "text",
@@ -187,7 +189,7 @@ const InfoInput = () => {
                     required: false,
                     value: account.graduate_semester,
                     filtered: false,
-                    list: semesters
+                    list: Semesters
                 },
                 {
                     type: "text",

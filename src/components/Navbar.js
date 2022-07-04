@@ -1,13 +1,16 @@
 import React, { Fragment, useState, useContext, useEffect } from "react";
 import { Popover, Transition, Menu } from "@headlessui/react";
 import { MenuIcon, ChevronDownIcon, CogIcon, LogoutIcon } from "@heroicons/react/outline";
+import { useNavigate, Link } from "react-router-dom";
 
 import { AccountContext } from "./Account";
 import { classNames, changeBaseURL, changeSearchParam } from "./Utils";
 import Photo from "./Photo";
+import { HyperLink } from "./Button";
 import { SearchInput } from "../Pages/Search";
 
 const Navbar = ({ hideOnTop }) => {
+    const navigate = useNavigate();
     const { signOut, getAccount, getAccountLocal } = useContext(AccountContext);
     const [account, setAccount] = useState(null);
     const [signInUrl, setSignInUrl] = useState("");
@@ -44,12 +47,12 @@ const Navbar = ({ hideOnTop }) => {
         signOut()
             .then(() => {
                 setAccount(null);
-                window.location.href = "/";
+                navigate("/");
             });
     };
 
     const handleSettings = () => {
-        window.location.href = "/settings";
+        navigate("/settings");
     };
 
     const additionalClassNames = classNames((!hideOnTop || pageYOffset > window.screen.height * 0.5) ? "opacity-100" : "opacity-0 pointer-events-none", hideOnTop === true ? "fixed w-full" : "sticky", "transition-all");
@@ -76,14 +79,14 @@ const Navbar = ({ hideOnTop }) => {
                 <div className="flex shadow-md justify-between items-center px-4 py-5 sm:px-6 md:justify-start bg-white">
                     {/* Baylor University logo */}
                     <div className="h-8 w-auto sm:h-10 mr-4">
-                        <a href="/" className="flex">
+                        <Link to="/" className="flex">
                             <span className="sr-only">Baylor Bridge</span>
                             <img
                                 className="h-8 w-auto sm:h-10"
                                 src="/Baylor-University-Athletics-01.svg"
                                 alt="Baylor University logo"
                             />
-                        </a>
+                        </Link>
                     </div>
 
                     {/* MOBILE MENU ICON */}
@@ -100,9 +103,9 @@ const Navbar = ({ hideOnTop }) => {
                     {/* DESKTOP NAVBAR */}
                     <div className="hidden md:flex-1 md:flex md:items-center md:justify-between">
                         <Popover.Group as="nav" className="flex space-x-0">
-                            <a href="/" className="px-4 py-2 rounded-md text-base font-medium text-gray-500 hover:text-gray-900">
+                            <Link to="/" className="px-4 py-2 rounded-md text-base font-medium text-gray-500 hover:text-gray-900">
                                 Home
-                            </a>
+                            </Link>
 
                             <Popover className="relative">
                                 {({ open }) => (
@@ -137,16 +140,16 @@ const Navbar = ({ hideOnTop }) => {
                                             <Popover.Panel className="absolute bg-white z-10 left-1/2 transform -translate-x-1/2 mt-3 px-2 w-screen max-w-xs sm:px-0">
                                                 <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
                                                     <div className="relative grid gap-6 px-5 py-6 sm:gap-8 sm:p-8">
-                                                        {/* <a href="/about" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
+                                                        {/* <Link to="/about" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
                                                             <div className="ml-4 text-base font-medium text-gray-900">About</div>
-                                                        </a> */}
+                                                        </Link> */}
                                                         {/*TODO to create this page and connect the url*/}
-                                                        <a href="/about" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
+                                                        <Link to="/about" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
                                                             <div className="ml-4 text-base font-medium text-gray-900">About Us</div>
-                                                        </a>
-                                                        <a href="/contact-us" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
+                                                        </Link>
+                                                        <Link to="/contact-us" className="-m-3 p-3 flex items-center rounded-lg hover:bg-gray-50">
                                                             <div className="ml-4 text-base font-medium text-gray-900">Contact Us</div>
-                                                        </a>
+                                                        </Link>
                                                     </div>
                                                 </div>
                                             </Popover.Panel>
@@ -165,12 +168,12 @@ const Navbar = ({ hideOnTop }) => {
                         {
                             account === null &&
                             <div className="flex items-center md:ml-12">
-                                <a href={signInUrl} className="px-4 py-2 rounded-md text-base font-medium text-gray-500 hover:text-gray-900">
+                                <Link to={signInUrl} className="px-4 py-2 rounded-md text-base font-medium text-gray-500 hover:text-gray-900">
                                     Sign in
-                                </a>
-                                <a href={signUpUrl} className="ml-4 inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-600 hover:bg-emerald-700">
+                                </Link>
+                                <Link to={signUpUrl} className="ml-4 inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-600 hover:bg-emerald-700">
                                     Sign up
-                                </a>
+                                </Link>
                             </div>
                         }
                         {
@@ -204,23 +207,23 @@ const Navbar = ({ hideOnTop }) => {
                                             <div className="border-b border-gray-200 pb-1 mb-1">
                                                 <Menu.Item>
                                                     {({ active }) => (
-                                                        <a href="/profile" className={classNames(active ? "bg-gray-100" : "", "block px-5 py-3")}>
+                                                        <Link to="/profile" className={classNames(active ? "bg-gray-100" : "", "block px-5 py-3")}>
                                                             <p className="text-xs mb-1 uppercase text-gray-400">Signed in as</p>
                                                             <p className="text-sm font-medium text-gray-900 truncate">{account.first_name} {account.last_name}</p>
                                                             <p className="text-xs text-gray-600 truncate">{account.username}</p>
-                                                        </a>
+                                                        </Link>
                                                     )}
                                                 </Menu.Item>
                                             </div>
                                             <div>
                                                 <Menu.Item>
                                                     {({ active }) => (
-                                                        <a
-                                                            href="/settings"
+                                                        <Link
+                                                            to="/settings"
                                                             className={classNames(active ? "bg-gray-100" : "", "block px-5 py-3 text-sm text-gray-700")}
                                                         >
                                                             Settings
-                                                        </a>
+                                                        </Link>
                                                     )}
                                                 </Menu.Item>
                                                 <Menu.Item>
@@ -268,32 +271,32 @@ const Navbar = ({ hideOnTop }) => {
                             <div className="pt-3 pb-6 px-6 space-y-1">
                                 {/* Navbar links */}
                                 <div className="grid grid-cols-1 gap-6">
-                                    <a href="/" className="text-base font-medium text-gray-900 hover:text-gray-700">
+                                    <Link to="/" className="text-base font-medium text-gray-900 hover:text-gray-700">
                                         Home
-                                    </a>
-                                    <a href="/search" className="text-base font-medium text-gray-900 hover:text-gray-700">
+                                    </Link>
+                                    <Link to="/search" className="text-base font-medium text-gray-900 hover:text-gray-700">
                                         Search
-                                    </a>
-                                    <a href="/about" className="text-base font-medium text-gray-900 hover:text-gray-700">
+                                    </Link>
+                                    <Link to="/about" className="text-base font-medium text-gray-900 hover:text-gray-700">
                                         About
-                                    </a>
-                                    <a href="/contact-us" className="text-base font-medium text-gray-900 hover:text-gray-700">
+                                    </Link>
+                                    <Link to="/contact-us" className="text-base font-medium text-gray-900 hover:text-gray-700">
                                         Contact Us
-                                    </a>
+                                    </Link>
                                 </div>
 
                                 {/* Account sign in / up / out */}
                                 {
                                     account === null &&
                                     <div className="pt-6">
-                                        <a href="/sign-up" className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-600 hover:bg-emerald-700">
+                                        <Link to="/sign-up" className="w-full flex items-center justify-center px-4 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-600 hover:bg-emerald-700">
                                             Sign up
-                                        </a>
-                                        <p className="mt-4 text-center text-base font-medium text-gray-500">
-                                            Existing student or alumini?{" "}
-                                            <a href="/sign-in" className="text-emerald-600 hover:text-emerald-500">
+                                        </Link>
+                                        <p className="mt-3 text-center text-base font-medium text-gray-500">
+                                            Already have an account?{" "}
+                                            <HyperLink arrow={true} to="/sign-in" className="text-emerald-600 hover:text-emerald-500">
                                                 Sign in
-                                            </a>
+                                            </HyperLink>
                                         </p>
                                     </div>
                                 }
@@ -302,13 +305,13 @@ const Navbar = ({ hideOnTop }) => {
                                     <>
                                         <div className="pt-8 pb-2 -mr-2">
                                             <div className="flex items-center">
-                                                <a href="/profile" className="flex-shrink-0 flex grow">
+                                                <Link to="/profile" className="flex-shrink-0 flex grow">
                                                     <Photo size="10" />
                                                     <div className="ml-3">
                                                         <div className="text-base font-medium text-gray-800">{account.first_name} {account.last_name}</div>
                                                         <div className="text-sm font-medium text-gray-500">{account.username}</div>
                                                     </div>
-                                                </a>
+                                                </Link>
                                                 {/* <button
                                                     type="button"
                                                     className="p-2 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"

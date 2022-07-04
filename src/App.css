@@ -4,12 +4,22 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
+@layer components {
+  input[type=checkbox] {
+    @apply rounded text-emerald-600 focus:ring-emerald-500 border-gray-300;
+  }
+  input[type=radio] {
+    @apply rounded-full text-emerald-600 focus:ring-emerald-500 border-gray-300;
+  }
+}
+
 html{
   font-family: 'Inter', sans-serif !important;
-  user-select: none;
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
+  --btn-shadow-hover: 0 3px 2px rgba(0,0,0,.07),0 7px 5px rgba(0,0,0,.04),0 12px 10px rgba(0,0,0,.03),0 22px 18px rgba(0,0,0,.03),0 42px 33px rgba(0,0,0,.02),0 100px 80px rgba(0,0,0,.02);
+  user-select: none;
 }
 
 .text-gradient {
@@ -57,10 +67,10 @@ path {
 }
 
 pre, code {
-  user-select: text;
   -moz-user-select: text;
   -webkit-user-select: text;
   -ms-user-select: text;
+  user-select: auto;
 }
 
 button, a {
@@ -88,11 +98,6 @@ input, textarea, select {
   overflow: visible !important;
   vertical-align: text-bottom;
   transform-origin: 0px 0px;
-}
-
-.btn .arrow-symbol path,
-.link .arrow-symbol path {
-  /* stroke-width: 3px; */
 }
 
 .btn .arrow-symbol path:last-child,
@@ -138,6 +143,7 @@ input, textarea, select {
 .rc-slider-dot {
   background-color: #bebebe;
   border: 0px solid #34d399;
+  display: none !important;
   opacity: 1;
 }
 
@@ -150,6 +156,9 @@ input, textarea, select {
   background: #059669;
   border: solid 0px transparent;
   opacity: 1;
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-top: -0.4rem;
 }
 .rc-slider-handle-dragging.rc-slider-handle-dragging.rc-slider-handle-dragging {
   border-color: #059669;
@@ -168,6 +177,12 @@ input, textarea, select {
 .rc-slider-handle:active {
   border-color: #059669;
   box-shadow: 0 0 5px #10b98164;
+}
+.rc-slider-mark{
+  margin-top: 0.4rem;
+}
+.rc-slider-mark-text{
+  font-size: 0.8rem;
 }
 
 .search-result-field{
@@ -205,4 +220,12 @@ input, textarea, select {
 .Toastify__close-button > svg {
   height: 1.0rem;
   width: 1.2rem;
+}
+
+.home .primary-btn{
+  transition: box-shadow .2s;
+}
+
+.home .primary-btn:hover{
+  box-shadow: var(--btn-shadow-hover);
 }

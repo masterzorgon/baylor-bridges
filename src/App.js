@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Outlet, Navigate, useLocation } from "react-router-dom";
 import { ToastContainer, Slide } from "react-toastify";
 import axios from "axios";
@@ -6,31 +6,20 @@ import axios from "axios";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import CookieConsent from "./components/CookieConsent";
+import { Account, AccountContext } from "./components/Account";
 
 import Home from "./Pages/Home";
 import About from "./Pages/About";
 import ContactUs from "./Pages/ContactUs";
 import NotFound from "./Pages/404";
-
-import PrivacyPolicy from "./Pages/policies&terms/PrivacyPolicy";
-import TermsConditions from "./Pages/policies&terms/Terms&Conditions";
-import CookiesPolicy from "./Pages/policies&terms/CookiesPolicy";
-
-import SignIn from "./Pages/signin/SignIn";
-import { default as ResetPasswordRequest } from "./Pages/forget-password/Request";
-import { default as ResetPasswordConfirm } from "./Pages/forget-password/Confirm";
-import { default as SignInChallenge } from "./Pages/signin/Challenge";
-import SignUp from "./Pages/signup/SignUp";
-import { default as Settings } from "./Pages/settings/Settings";
-
-import WelcomePage from "./Pages/setup/WelcomePage";
-import ProfileSetup from "./Pages/setup/ProfileSetup";
-
+import Terms from "./Pages/terms";
+import SignIn from "./Pages/signin";
+import SignUp from "./Pages/signup";
+import ForgetPassword from "./Pages/forget-password";
+import ProfileSetup from "./Pages/setup";
 import Search from "./Pages/Search";
-import Profile from "./Pages/profile/Profile";
-
-
-import { Account, AccountContext } from "./components/Account";
+import Profile from "./Pages/profile";
+import Settings from "./Pages/settings";
 
 import "rc-slider/assets/index.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -121,45 +110,65 @@ const HamburgerLayoutWithCookieConsent = () => (
     </>
 );
 
+const EmptyLayout = ({ auth = false }) => {
+    const { getAccountLocal } = useContext(AccountContext);
+    const location = useLocation();
+
+    if (auth === true && getAccountLocal() === null) {
+        return <Navigate to={`/sign-in?redirect=${location.pathname}`} />;
+    }
+
+    return (
+        <Outlet />
+    );
+};
+
+const AlwaysOnTop = ({ children }) => {
+    const location = useLocation();
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [location]);
+
+    return <>{children}</>;
+};
+
 const App = () => {
     return (
         <Account>
             <Router>
-                <Routes>
-                    <Route path="/" element={<HomeLayout />}>
-                        <Route index element={<Home />} />
-                    </Route>
-
-                    <Route path="/" element={<HamburgerLayoutWithCookieConsent />}>
-                        <Route path="about" element={<About />} />
-                        <Route path="contact-us" element={<ContactUs />} />
-
-                        <Route path="terms/privacy-policy" element={<PrivacyPolicy />} />
-                        <Route path="terms/terms-conditions" element={<TermsConditions />} />
-                        <Route path="terms/cookies-policy" element={<CookiesPolicy />} />
-                    </Route>
-
-                    <Route path="/" element={<HamburgerLayout auth={true} />}>
-                        <Route path="search" element={<Search />} />
-                        <Route path="settings/*" element={<Settings />} />
-                        <Route path="profile" element={<Profile />}>
-                            <Route path=":user_id" exact element={<Profile />} />
+                <AlwaysOnTop>
+                    <Routes>
+                        <Route path="/" element={<HomeLayout />}>
+                            <Route index element={<Home />} />
                         </Route>
-                    </Route>
 
-                    <Route path="/sign-in" element={<SignIn />} />
-                    <Route path="/sign-in/challenge" element={<SignInChallenge />} />
-                    <Route path="/reset-password" element={<ResetPasswordRequest />} />
-                    <Route path="/reset-password/confirm" element={<ResetPasswordConfirm />} />
+                        <Route path="/" element={<HamburgerLayoutWithCookieConsent />}>
+                            <Route path="about" element={<About />} />
+                            <Route path="contact-us" element={<ContactUs />} />
+                            <Route path="terms/*" element={<Terms />} />
+                        </Route>
 
-                    <Route path="/setup/welcome-page" element={<WelcomePage />} />
-                    <Route path="/setup/profile-setup" element={<ProfileSetup />} />
+                        <Route path="/" element={<HamburgerLayout auth={false} />}>
+                            <Route path="profile/*" element={<Profile />} />
+                        </Route>
 
-                    <Route path="/sign-up/*" element={<SignUp />} />
+                        <Route path="/" element={<HamburgerLayout auth={true} />}>
+                            <Route path="search" element={<Search />} />
+                            <Route path="settings/*" element={<Settings />} />
+                        </Route>
 
-                    <Route path="/404" element={<NotFound />} />
-                    <Route path="*" element={<NotFound />} />
-                </Routes>
+                        <Route path="/" element={<EmptyLayout auth={true} />}>
+                            <Route path="setup/*" element={<ProfileSetup />} />
+                        </Route>
+
+                        <Route path="/sign-in/*" element={<SignIn />} />
+                        <Route path="/sign-up/*" element={<SignUp />} />
+                        <Route path="/forget-password/*" element={<ForgetPassword />} />
+
+                        <Route path="/404" element={<NotFound />} />
+                        <Route path="*" element={<NotFound />} />
+                    </Routes>
+                </AlwaysOnTop>
             </Router>
             <ToastContainer
                 position="top-right"
