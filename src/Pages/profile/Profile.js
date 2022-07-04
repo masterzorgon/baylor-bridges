@@ -12,61 +12,12 @@ import SignInRequiredModal from "./SignInRequiredModal";
 import Markdown from "../../components/Markdown";
 import ExperienceCard from "../../components/profile/ExperienceCard";
 import { classNames } from "../../components/Utils";
+import { Properties } from "../../components/profile/Fields";
 
 import NotFoundModal from "./NotFoundModal";
 
 
-const profile = {
-    graduate_alumni: {
-        title: "Graduate Class",
-        role: "alumni",
-        value_class: "capitalize",
-        attribute: [
-            { key: "graduate_semester" },
-            { key: "graduate_year" }
-        ]
-    },
-    graduate_student: {
-        title: "Expected Graduate Class",
-        role: "student",
-        value_class: "capitalize",
-        attribute: [
-            { key: "graduate_semester" },
-            { key: "graduate_year" }
-        ]
-    },
-    occupation: {
-        title: "Occupation",
-        role: "alumni",
-        attribute: { key: "occupation" },
-    },
-    location: {
-        title: "Location",
-        field_class: "col-span-1 sm:col-span-1",
-        attribute: [
-            { key: "city" },
-            { key: "state" },
-        ],
-    },
-    role: {
-        title: "Role",
-        field_class: "col-span-1 sm:col-span-1",
-        value_class: "capitalize",
-        attribute: { key: "role" },
-    },
-    email: {
-        title: "Email",
-        type: "email",
-        has_visibility: true,
-        attribute: { section: "contact_info", key: "email" },
-    },
-    phone: {
-        title: "Phone",
-        type: "phone",
-        has_visibility: true,
-        attribute: { section: "contact_info", key: "phone" },
-    },
-};
+const profile = Properties;
 
 const Profile = () => {
     const { user_id } = useParams();

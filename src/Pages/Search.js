@@ -12,7 +12,7 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { XIcon } from "@heroicons/react/outline";
 import { classNames } from "../components/Utils";
 import Photo from "../components/Photo";
-import { states } from "../components/Utils";
+import { States } from "../components/Utils";
 
 const GraduateYearSlider = ({ value, onChange }) => {
     const MIN = 1970;
@@ -80,7 +80,7 @@ const filters = {
     },
     state: {
         title: "State",
-        options: states,
+        options: States,
         className: "inline-block lg:hidden",
         option_indicator: (options) => {
             return options;
@@ -199,7 +199,7 @@ const Search = () => {
 
     const getMapConfig = (stats, current) => {
         let config = {};
-        states.forEach((state) => {
+        States.forEach((state) => {
             config[state.value] = {};
 
             if (!(state.value in stats)) { // For the state has no people, grey out

@@ -16,8 +16,7 @@ import Terms from "./Pages/terms";
 import SignIn from "./Pages/signin";
 import SignUp from "./Pages/signup";
 import ForgetPassword from "./Pages/forget-password";
-import ProfileSetup from "./Pages/setup/ProfileSetup";
-import InfoInput from "./Pages/setup/InfoInput";
+import ProfileSetup from "./Pages/setup";
 import Search from "./Pages/Search";
 import Profile from "./Pages/profile";
 import Settings from "./Pages/settings";
@@ -111,6 +110,19 @@ const HamburgerLayoutWithCookieConsent = () => (
     </>
 );
 
+const EmptyLayout = ({ auth = false }) => {
+    const { getAccountLocal } = useContext(AccountContext);
+    const location = useLocation();
+
+    if (auth === true && getAccountLocal() === null) {
+        return <Navigate to={`/sign-in?redirect=${location.pathname}`} />;
+    }
+
+    return (
+        <Outlet />
+    );
+};
+
 const AlwaysOnTop = ({ children }) => {
     const location = useLocation();
     useEffect(() => {
@@ -145,8 +157,9 @@ const App = () => {
                             <Route path="settings/*" element={<Settings />} />
                         </Route>
 
-                        <Route path="/setup/profile-setup" element={<ProfileSetup />} />
-                        <Route path="/setup/info-input" element={<InfoInput />} />
+                        <Route path="/" element={<EmptyLayout auth={true} />}>
+                            <Route path="setup/*" element={<ProfileSetup />} />
+                        </Route>
 
                         <Route path="/sign-in/*" element={<SignIn />} />
                         <Route path="/sign-up/*" element={<SignUp />} />
