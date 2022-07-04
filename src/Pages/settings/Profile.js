@@ -57,9 +57,6 @@ const profile = {
     },
 };
 
-console.log(profile);
-
-
 const Profile = () => {
     const [account, setAccount] = useState(null);
 
@@ -118,26 +115,17 @@ const Profile = () => {
             return [null, null];
         }
 
-        // Basic section would be from root, other sections from their sub-dictionary
-        let account_from = account;
-
         // Initialize values
         let string = "";
         let visibility = null;
 
         // Traverse each atomic attribute
-        field.attributes.forEach((attribute, index) => {
-            if (attribute.key in account_from && account_from[attribute.key]) {
-                // If visibility attribute, then get the visibility value
-                // If other attribute, then get the value
-                if (attribute.type === "visibility") {
-                    visibility = account_from[attribute.key];
+        field.attributes.forEach((attribute) => {
+            if (attribute.key in account && account[attribute.key]) {
+                if (attribute.type === "dropdown") {
+                    string += option_value_to_title(attribute.options, account[attribute.key]) + " ";
                 } else {
-                    if (attribute.type === "dropdown") {
-                        string += option_value_to_title(attribute.options, account_from[attribute.key]) + " ";
-                    } else {
-                        string += account_from[attribute.key] + " ";
-                    }
+                    string += account[attribute.key] + " ";
                 }
             }
         });
@@ -178,7 +166,7 @@ const Profile = () => {
     };
 
     // Get modal button for given field
-    const getFieldModalButton = (field) => {
+    const getFieldActionButton = (field) => {
         // Make a button with given text
         const makeButton = (text) => {
             return (
@@ -204,8 +192,7 @@ const Profile = () => {
         }
 
         // Return different button according to raw value
-        // eslint-disable-next-line no-unused-vars
-        const [value, visibility] = getFieldDisplayValueRaw(field);
+        const [value, ] = getFieldDisplayValueRaw(field);
 
         if (value === null) {
             return makeButton("Set");
@@ -225,6 +212,8 @@ const Profile = () => {
             const section = attribute.section;
             const key = attribute.key;
             const value = section ? update[section][key] : update[key];
+
+            console.log(section, key, value);
 
             // Put value validation condition when inputing here
             const isValidAttributeValue = (value) => {
@@ -375,14 +364,7 @@ const Profile = () => {
             } else if (attribute.type === "visibility") {
                 // Visibility is a special type of dropdown
                 // Define it's behavior and render it using dropdown
-                let value_copy = {};
-                Object.assign(value_copy, attribute);
-                value_copy.type = "dropdown";
-                value_copy.options = attribute.visibility;
-                value_copy.placeholder = value_copy.placeholder ? value_copy.placeholder : "self";
-                value_copy.title = value_copy.title ? value_copy.title : "Visibility";
-                value_copy.description = value_copy.description ? value_copy.description : "Who can see this?";
-                return getAttributeDom(value_copy);
+                return getAttributeDom({ ...attribute, type: "dropdown" });
             } else if (attribute.type === "markdown") {
                 return (
                     <>
@@ -440,7 +422,7 @@ const Profile = () => {
                 <legend className="block text-sm font-medium text-gray-700">{field.title}</legend>
                 {
                     field.attributes.map((attribute, index) => (
-                        (attribute.role ? attribute.role === account.role : true) ? getAttributeDom(attribute) : null
+                        (attribute.role ? attribute.role === account.role : true) && getAttributeDom(attribute)
                     ))
                 }
                 <Button
@@ -519,7 +501,7 @@ const Profile = () => {
                             {getFieldDisplayValue(field)}
                         </span>
                         <span className="ml-4 flex-shrink-0 flex item-start space-x-4">
-                            {getFieldModalButton(field)}
+                            {getFieldActionButton(field)}
                         </span>
                     </dd>
                 </div>

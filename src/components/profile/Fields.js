@@ -8,9 +8,9 @@ const Semesters = [
 ];
 
 const Visibilities = [
-    { title: "Self", value: "self", description: "Only visibie to yourself" },
+    { title: "Self", value: "self", description: "Only visible to yourself" },
     { title: "Alumni", value: "alumni", description: "Only visible to other alumni" },
-    { title: "Public", value: "all", description: "Visibie to every user" },
+    { title: "Public", value: "all", description: "Visible to every user" },
 ];
 
 const Role = {
@@ -72,20 +72,18 @@ const Properties = {
     },
     email: {
         title: "Email",
-        type: "email",
-        visibility: Visibilities,
         attributes: {
-            section: "contact_info", key: "email",
+            section: "contact_info", key: "email", type: "text", title: "Email", placeholder: "Email",
             validator: Joi.string().regex(/^\S+@\S+\.\S+$/),
+            visibility: Visibilities,
         },
     },
     phone: {
         title: "Phone",
-        type: "phone",
-        visibility: Visibilities,
         attributes: {
-            section: "contact_info", key: "phone",
-            alidator: Joi.string().regex(/^(\+[0-9]{1,2})?( )?[0-9-() ]{10,}$/)
+            section: "contact_info", key: "phone", type: "text", title: "Phone", placeholder: "Phone",
+            validator: Joi.string().regex(/^(\+[0-9]{1,2})?( )?[0-9-() ]{10,}$/),
+            visibility: Visibilities,
         },
     },
 };
@@ -94,6 +92,20 @@ Object.entries(Properties).forEach(([key, property]) => {
     if (!Array.isArray(property.attributes)) {
         property.attributes = [property.attributes];
     }
+
+    property.attributes.forEach(attribute => {
+        if (attribute.visibility) {
+            property.attributes.push({
+                ...attribute,
+                options: attribute.visibility,
+                type: "visibility",
+                key: `${attribute.key}_visibility`,
+                placeholder: Visibilities[0].value,
+                title: "Visibility",
+                description: "Who can see this information",
+            });
+        }
+    });
 });
 
 export { Properties, Semesters, Visibilities, Role };
