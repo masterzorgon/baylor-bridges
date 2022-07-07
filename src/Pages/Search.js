@@ -711,11 +711,13 @@ const SearchInput = ({ focus, onFocus }) => {
                     leave="transition ease-in duration-75"
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
-                    show={focus && searchResult?.profiles?.length > 0 && keywords.length > 0}
+                    show={focus}
                 >
                     <div className="z-50 bg-white absolute shadow-md py-2 rounded-md w-full max-w-md mt-4 top-16">
-                        <ul className="" ref={animation}>
-                            {searchResult?.profiles?.map((profile) => (
+                        {/* If keyword is empty then render the text that asks for input. Else render the search result.*/}
+                        {keywords.length > 0 ? <ul className="" ref={animation}>
+                            {/* If search result is empty then render the text that says try other inputs. Else render the search result.*/}
+                            {searchResult?.profiles?.length > 0 ? searchResult?.profiles?.map((profile) => (
                                 <li key={profile.user_id}>
                                     <Link className="transition-all py-4 px-5 flex hover:bg-gray-50 space-x-2.5" to={"/profile/" + profile.user_id} rel="noreferrer">
                                         <div className="h-10 w-10">
@@ -741,8 +743,8 @@ const SearchInput = ({ focus, onFocus }) => {
                                         </div>
                                     </Link>
                                 </li>
-                            ))}
-                        </ul>
+                            )) : <li className="flex justify-center text-gray-500"><p>Try another search</p></li>}
+                        </ul> : <p className="text-center text-gray-500">Please put keywords to search</p>}
                         <Link key="more" className="py-3 px-5 pb-2 flex text-sm text-emerald-600 font-medium" to={"/search?keywords=" + keywords}>
                             More results
                         </Link>
