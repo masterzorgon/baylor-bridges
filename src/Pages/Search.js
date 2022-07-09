@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Dialog, Disclosure, Menu, Popover, Transition } from "@headlessui/react";
-import { ChevronRightIcon, ChevronDownIcon, TrashIcon, SearchIcon } from "@heroicons/react/outline";
+import { ChevronRightIcon, ChevronDownIcon, TrashIcon, SearchIcon} from "@heroicons/react/outline";
 import { useSearchParams, createSearchParams, useNavigate, Link } from "react-router-dom";
 import USAMap from "react-usa-map";
 import axios from "axios";
@@ -568,7 +568,7 @@ const Search = () => {
                     {/* People list */}
                     <div className="bg-white sm:rounded-md mt-1">
                         <ul className="divide-y divide-gray-100 px-6" ref={animation}>
-                            {profiles && profiles.map((profile) => (
+                            {profiles?.length > 0 ? profiles && profiles.map((profile) => (
                                 <li key={profile.user_id}>
                                     {/*TODO add href for account detail page*/}
                                     <Link className="block hover:bg-gray-50 rounded-md -mx-6" to={"/profile/" + profile.user_id} rel="noreferrer">
@@ -618,7 +618,11 @@ const Search = () => {
                                         </div>
                                     </Link>
                                 </li>
-                            ))}
+                            )) : <li className="content-center text-gray-500">
+                                <SearchIcon className="flex-shrink-0 w-20 self-center text-gray-400 m-0" aria-hidden="true" />
+                                <p className="block text-gray-400 text-center text-3xl pb-4">No result Found</p>
+                                <p className="block text-gray-400 text-center">Try another search</p>
+                            </li>}
                         </ul>
 
                     </div>
