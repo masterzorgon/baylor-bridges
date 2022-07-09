@@ -41,7 +41,7 @@ const Profile = () => {
     const [profileAccount, setProfileAccount] = useState(null);
 
     const [authenticated, setAuthenticated] = useState(null);
-    const [notFound, setNotFound] = useState(false);
+    const [found, setFound] = useState(null);
 
 
     useEffect(() => {
@@ -65,6 +65,7 @@ const Profile = () => {
                 setProfileAccount(data);
                 setIsSelf(account && account.user_id === data.user_id);
                 setAuthenticated(true);
+                setFound(true);
             })
             .catch(err => {
                 if (err.response.data.code && err.response.data.code === "AuthenticationRequiredException") {
@@ -72,7 +73,7 @@ const Profile = () => {
                     console.log(err.response.data.code);
                 } else {
                     console.log("other errors");
-                    setNotFound(true);
+                    setFound(false);
                 }
             });
     }, [user_id]);
@@ -165,9 +166,9 @@ const Profile = () => {
     return (
         <>
             {authenticated === false ? <SignInRequiredModal /> : ""}
-            {notFound === true ? <NotFoundModal /> : ""}
+            {found === false ? <NotFoundModal /> : ""}
 
-            <div className={classNames("min-h-full bg-gray-100", (authenticated === false || notFound === true) && "blur-sm")}>
+            <div className="min-h-full bg-gray-100">
                 <main className="py-10">
 
 
