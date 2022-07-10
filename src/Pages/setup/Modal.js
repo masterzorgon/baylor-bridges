@@ -43,6 +43,9 @@ const Modal = ({
                     case "radio":
                         return <ListInput {...attribute} />;
 
+                    case "markdown":
+                        return <TextareaInput {...attribute} />;
+
                     default:
                         return null;
                 }
@@ -136,7 +139,7 @@ const TextInput = ({ title, required, value, onChange, placeholder }) => {
                 placeholder={placeholder}
                 autoComplete="off"
                 onChange={event => onChange(event.target.value)}
-                value={value ? value : ""}
+                value={value ?? ""}
             />
         </div>
     );
@@ -200,6 +203,7 @@ const ListInput = ({ title, required, value, options, onChange, placeholder }) =
             <Listbox
                 value={value ?? placeholder}
                 onChange={onChange}
+                id={id}
             >
                 {({ open }) => (
                     <>
@@ -228,6 +232,36 @@ const ListInput = ({ title, required, value, options, onChange, placeholder }) =
                     </>
                 )}
             </Listbox>
+        </div>
+    );
+};
+
+const TextareaInput = ({ title, required, value, onChange, placeholder }) => {
+    const id = useId();
+
+    return (
+        <div className="relative border border-gray-300 rounded-md my-2 px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600 transition-colors">
+            <div className="flex justify-between">
+                <label htmlFor={id} className="block text-xs font-medium text-gray-900">
+                    {title}
+                </label>
+                {
+                    required &&
+                    <label htmlFor={id} className="text-xs text-gray-500" id="email-optional">
+                        Required
+                    </label>
+                }
+            </div>
+            <textarea
+                type="text"
+                name="bio"
+                id={id}
+                className="block w-full border-0 px-0 py-2 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
+                style={{ "height": "8rem" }}
+                placeholder={placeholder}
+                onChange={onChange}
+                value={value ?? ""}
+            />
         </div>
     );
 };
