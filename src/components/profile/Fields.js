@@ -59,13 +59,13 @@ const Properties = {
         title: "Location",
         attributes: [
             { key: "city", type: "text", title: "City", placeholder: "City" },
-            { key: "state", type: "dropdown", title: "State", placeholder: "State", options: States },
+            { key: "state", type: "radio", title: "State", placeholder: "State", options: States },
         ],
     },
     role: {
         title: "Role",
         attributes: {
-            key: "role", type: "dropdown", title: "Role",
+            key: "role", type: "radio", title: "Role",
             options: [{ title: "Alumni", value: Role.Alumni }, { title: "Student", value: Role.Student }]
         },
     },

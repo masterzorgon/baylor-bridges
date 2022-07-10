@@ -145,7 +145,7 @@ const Profile = () => {
             const value = section ? account[section][key] : account[key];
 
             if (!value) return;
-            if (attribute.type === "dropdown") {
+            if (attribute.type === "radio") {
                 string += option_value_to_title(attribute.options, value) + " ";
             } else {
                 string += value + " ";
@@ -289,7 +289,7 @@ const Profile = () => {
                         </div>
                     </>
                 );
-            } else if (attribute.type === "dropdown") {
+            } else if (attribute.type === "radio") {
                 return (
                     <>
                         <label htmlFor="dropdown" className="block text-sm font-medium text-gray-700 sr-only">
@@ -373,7 +373,7 @@ const Profile = () => {
             } else if (attribute.type === "visibility") {
                 // Visibility is a special type of dropdown
                 // Define it's behavior and render it using dropdown
-                return getAttributeDom({ ...attribute, type: "dropdown" });
+                return getAttributeDom({ ...attribute, type: "radio" });
             } else if (attribute.type === "markdown") {
                 return (
                     <>
