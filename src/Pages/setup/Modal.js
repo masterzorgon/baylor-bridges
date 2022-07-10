@@ -25,16 +25,14 @@ const Modal = ({
                 const value = jp.value(account, attribute.path);
 
                 const onChange = value => {
-                    setAccount({ ...account, [attribute.key]: value });
-                    console.log(account);
+                    jp.apply(account, attribute.path, () => value);
+                    setAccount({ ...account });
                 };
 
                 if (attribute.role && account.role !== attribute.role) return null;
 
                 attribute.value = value;
                 attribute.onChange = onChange;
-
-                console.log(attribute.key, attribute.value);
 
                 switch (attribute.type) {
                     case "text":
