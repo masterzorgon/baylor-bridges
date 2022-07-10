@@ -1,8 +1,10 @@
 import React, { Fragment, useId } from "react";
+import { Listbox, Transition } from "@headlessui/react";
+import { SelectorIcon, CheckIcon } from "@heroicons/react/outline";
 import { animated } from "react-spring";
-import { Transition } from "@headlessui/react";
 import jp from "jsonpath";
 
+import { classNames } from "../../components/Utils";
 import Buttons from "./components/Buttons";
 
 const Modal = ({
@@ -16,12 +18,11 @@ const Modal = ({
     handleChangeModal,
 }) => {
     const render = () => {
-
         return field.fields.map(field => {
             if (field.role && account.role !== field.role) return null;
 
             return field.attributes.map(attribute => {
-                const value = jp.query(account, attribute.path);
+                const value = jp.value(account, attribute.path);
 
                 const onChange = value => {
                     setAccount({ ...account, [attribute.key]: value });
@@ -33,9 +34,14 @@ const Modal = ({
                 attribute.value = value;
                 attribute.onChange = onChange;
 
+                console.log(attribute.key, attribute.value);
+
                 switch (attribute.type) {
                     case "text":
                         return <TextInput {...attribute} />;
+
+                    case "radio":
+                        return <ListInput {...attribute} />;
 
                     default:
                         return null;
@@ -136,5 +142,94 @@ const TextInput = ({ title, required, value, onChange, placeholder }) => {
     );
 };
 
+const ListInput = ({ title, required, value, options, onChange, placeholder }) => {
+    const id = useId();
+
+    const option_value_to_title = (options, value) => {
+        // Find the option with the matching value
+        const option = options.find(option => option.value === value);
+        console.log(option, value);
+        return option ? option.title : null;
+    };
+
+    const render = options => {
+        return options.map(option => (
+            <Listbox.Option
+                key={option.value}
+                className={({ active }) => classNames(
+                    active ? "text-white bg-emerald-600" : "text-gray-800",
+                    "cursor-default select-none relative py-2 pl-3 pr-9"
+                )}
+                value={option.value}
+            >
+                {({ selected, active }) => (
+                    <>
+                        <span className={classNames(selected ? "font-semibold" : "font-normal", selected && !active && "text-emerald-600", "block truncate")}>
+                            {option.title}
+                        </span>
+
+                        {selected &&
+                            <span
+                                className={classNames(
+                                    active ? "text-white" : "text-emerald-600",
+                                    "absolute inset-y-0 right-0 flex items-center pr-4"
+                                )}
+                            >
+                                <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                            </span>
+                        }
+                    </>
+                )}
+            </Listbox.Option>
+        ));
+    };
+
+    return (
+        <div className="relative border border-gray-300 rounded-md my-2 px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-emerald-600 focus-within:border-emerald-600 transition-colors">
+            <div className="flex justify-between">
+                <label htmlFor={id} className="block text-xs font-medium text-gray-900">
+                    {title}
+                </label>
+                {
+                    required &&
+                    <label htmlFor={id} className="text-xs text-gray-500" id="email-optional">
+                        Required
+                    </label>
+                }
+            </div>
+            <Listbox
+                value={value ?? placeholder}
+                onChange={onChange}
+            >
+                {({ open }) => (
+                    <>
+                        <div className="px-0 py-0 mt-1 relative">
+                            <Listbox.Button className="bg-white relative w-full rounded-sm text-left py-1 cursor-default focus:outline-none focus:ring-0 sm:text-sm">
+                                <span className="block truncate">
+                                    {option_value_to_title(options, value) ?? placeholder}
+                                </span>
+                                <span className="absolute inset-y-0 right-0 flex items-center -mr-1 pointer-events-none">
+                                    <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                                </span>
+                            </Listbox.Button>
+
+                            <Transition
+                                show={open}
+                                as={Fragment}
+                                leave="transition ease-in duration-100"
+                                leaveFrom="opacity-100"
+                                leaveTo="opacity-0"
+                            >
+                                <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                                    {render(options)}
+                                </Listbox.Options>
+                            </Transition>
+                        </div>
+                    </>
+                )}
+            </Listbox>
+        </div>
+    );
+};
 
 export default Modal;
