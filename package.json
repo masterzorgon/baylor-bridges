@@ -19,7 +19,7 @@
     "axios": "^0.24.0",
     "classnames": "^2.3.1",
     "dayjs": "^1.11.2",
-    "eslint": "^8.6.0",
+    "eslint": "^8.19.0",
     "joi": "^17.6.0",
     "joi-phone-number": "^5.1.1",
     "rc-slider": "^10.0.0",
@@ -61,7 +61,10 @@
       "react/prop-types": "off",
       "indent": [
         "error",
-        4
+        4,
+        {
+          "SwitchCase": 1
+        }
       ],
       "linebreak-style": [
         "error",
