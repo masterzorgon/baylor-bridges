@@ -509,7 +509,7 @@ const Account = () => {
         <>
             {
                 Object.entries(account_information).map(([section_key, section]) => (
-                    <div key={section_key} className="mt-10 divide-y divide-gray-200">
+                    <div key={section_key} className="divide-y divide-gray-200">
                         {/* Title and description */}
                         <div className="space-y-1">
                             <h3 className="text-lg leading-6 font-medium text-gray-900">{section.title}</h3>

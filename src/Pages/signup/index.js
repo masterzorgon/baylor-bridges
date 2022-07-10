@@ -20,12 +20,12 @@ const steps = [
 const Progress = ({ currentStep }) => {
     return (
         <nav aria-label="Progress" className="my-2 sm:my-6">
-            <ol className="space-y-4 md:flex md:space-y-0 md:space-x-8">
+            <ol className="space-y-0 md:flex md:space-y-0 md:space-x-8">
                 {steps.map((step) => (
                     <li key={step.name} className="md:flex-1">
                         {step.id <= currentStep ? (
                             <div
-                                className={classNames(step.id !== currentStep && "hidden sm:flex", "flex group pl-4 py-2 flex-col border-l-4 border-emerald-600 hover:border-emerald-800 md:pl-0 md:pt-4 md:pb-0 md:border-l-0 md:border-t-4")}
+                                className={classNames("flex group pl-4 py-2 flex-col border-l-4 border-emerald-600 hover:border-emerald-800 md:pl-0 md:pt-4 md:pb-0 md:border-l-0 md:border-t-4", step.id - currentStep !== 0 && "hidden sm:flex")}
                             >
                                 <span className="text-xs text-emerald-600 font-semibold tracking-wide uppercase group-hover:text-emerald-800">
                                     Step {step.id}
@@ -86,7 +86,7 @@ const SignUp = () => {
         return (
 
             <div className="bg-white py-12 px-4 overflow-hidden sm:px-6 lg:px-8 h-screen">
-                <div className="relative max-w-xl mx-auto">
+                <div className="relative max-w-xl mx-auto h-screen">
                     <svg className="absolute left-full transdiv translate-x-1/2" width={404} height={404} fill="none" viewBox="0 0 404 404" aria-hidden="true">
                         <defs>
                             <pattern id="85737c0e-0916-41d7-917f-596dc7edfa27" x={0} y={0} width={20} height={20} patternUnits="userSpaceOnUse">
@@ -118,7 +118,7 @@ const SignUp = () => {
 
                     <Progress currentStep={step || "1"} />
 
-                    <div className="px-5 mt-10 md:mt-2 md:bg-white md:shadow md:rounded-lg md:px-8 md:py-8 md:-mx-8">
+                    <div className="px-5 mt-4 md:mt-2 md:bg-white md:shadow md:rounded-lg md:px-8 md:py-8 md:-mx-8">
                         {view}
                     </div>
 

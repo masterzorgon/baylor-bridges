@@ -24,7 +24,7 @@ export default function SignInRequiredModal() {
                         leaveFrom="opacity-100"
                         leaveTo="opacity-0"
                     >
-                        <div className="fixed inset-0 bg-black bg-opacity-10 transition-opacity" />
+                        <div className="fixed inset-0 bg-gray-100 bg-opacity-100 transition-opacity" />
                     </Transition.Child>
 
                     {/* This element is to trick the browser into centering the modal contents. */}
@@ -41,7 +41,7 @@ export default function SignInRequiredModal() {
                         leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                         leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                     >
-                        <div className="w-full inline-block bg-white rounded-lg p-4 text-left shadow-xl transform sm:my-8 align-middle sm:max-w-lg sm:w-full sm:p-6 space-y-4">
+                        <div className="w-full inline-block bg-white rounded-lg p-4 text-left shadow transform sm:my-8 align-middle sm:max-w-lg sm:w-full sm:p-6 space-y-4">
                             <div>
                                 <div className="flex justify-center">
                                     <lord-icon

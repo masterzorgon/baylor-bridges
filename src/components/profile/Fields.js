@@ -1,6 +1,9 @@
-import Joi from "joi";
+import { default as Joi_ } from "joi";
+import JoiPhoneNumber from "joi-phone-number";
 
 import { States } from "../../components/Utils";
+
+const Joi = Joi_.extend(JoiPhoneNumber);
 
 const Semesters = [
     { title: "Spring", value: "spring" },
@@ -8,9 +11,9 @@ const Semesters = [
 ];
 
 const Visibilities = [
-    { title: "Self", value: "self", description: "Only visibie to yourself" },
+    { title: "Self", value: "self", description: "Only visible to yourself" },
     { title: "Alumni", value: "alumni", description: "Only visible to other alumni" },
-    { title: "Public", value: "all", description: "Visibie to every user" },
+    { title: "Public", value: "all", description: "Visible to every user" },
 ];
 
 const Role = {
@@ -21,7 +24,7 @@ const Role = {
 const Properties = {
     name: {
         title: "Name",
-        attribute: [
+        attributes: [
             { key: "prefix", type: "text", title: "Prefix", placeholder: "Prefix", role: Role.Alumni },
             { key: "first_name", type: "text", title: "First name", placeholder: "First name", required: true, validator: Joi.string().required() },
             { key: "last_name", type: "text", title: "Last name", placeholder: "Last name", required: true, validator: Joi.string().required() },
@@ -29,12 +32,12 @@ const Properties = {
     },
     headline: {
         title: "Headline",
-        attribute: { key: "headline", type: "text", maxLength: 100, title: "Headline", placeholder: "Headline" },
+        attributes: { key: "headline", type: "text", maxLength: 100, title: "Headline", placeholder: "Headline" },
     },
     graduate_alumni: {
         title: "Graduate Class",
         role: Role.Alumni,
-        attribute: [
+        attributes: [
             { key: "graduate_semester", type: "dropdown", title: "Semester", placeholder: "Semester", options: Semesters },
             { key: "graduate_year", type: "text", title: "Year", placeholder: "Year", validator: Joi.number().integer().min(1900).max(2099) },
         ]
@@ -42,7 +45,7 @@ const Properties = {
     graduate_student: {
         title: "Expected Graduate Class",
         role: Role.Student,
-        attribute: [
+        attributes: [
             { key: "graduate_semester", type: "dropdown", title: "Semester", placeholder: "Semester", options: Semesters },
             { key: "graduate_year", type: "text", title: "Year", placeholder: "Year", validator: Joi.number().integer().min(1900).max(2099) },
         ]
@@ -50,35 +53,63 @@ const Properties = {
     occupation: {
         title: "Occupation",
         role: Role.Alumni,
-        attribute: { key: "occupation", type: "text", title: "Occupation", placeholder: "Occupation" },
+        attributes: { key: "occupation", type: "text", title: "Occupation", placeholder: "Occupation" },
     },
     location: {
         title: "Location",
-        attribute: [
+        attributes: [
             { key: "city", type: "text", title: "City", placeholder: "City" },
             { key: "state", type: "dropdown", title: "State", placeholder: "State", options: States },
         ],
     },
     role: {
         title: "Role",
-        attribute: { key: "role", type: "dropdown", title: "Role", options: [{ title: "Alumni", value: Role.Alumni }, { title: "Student", value: Role.Student }] },
+        attributes: {
+            key: "role", type: "dropdown", title: "Role",
+            options: [{ title: "Alumni", value: Role.Alumni }, { title: "Student", value: Role.Student }]
+        },
     },
     biography: {
         title: "Biography",
-        attribute: { key: "biography", type: "markdown", title: "Biography", placeholder: "Biography" },
+        attributes: { key: "biography", type: "markdown", title: "Biography", placeholder: "Biography" },
     },
     email: {
         title: "Email",
-        type: "email",
-        visibility: Visibilities,
-        attribute: { section: "contact_info", key: "email" },
+        attributes: {
+            section: "contact_info", key: "email", type: "text", title: "Email", placeholder: "Email",
+            validator: Joi.string().email({ tlds: { allow: false } }),
+            visibility: Visibilities,
+        },
     },
     phone: {
         title: "Phone",
-        type: "phone",
-        visibility: Visibilities,
-        attribute: { section: "contact_info", key: "phone", validator: Joi.string().regex(/^(\+[0-9]{1,2})?( )?[0-9-() ]{10,}$/) },
+        attributes: {
+            section: "contact_info", key: "phone", type: "text", title: "Phone", placeholder: "Phone",
+            validator: Joi.string().phoneNumber({ defaultCountry: "US", strict: true }),
+            visibility: Visibilities,
+        },
     },
 };
+
+Object.entries(Properties).forEach(([key, property]) => {
+    if (!Array.isArray(property.attributes)) {
+        property.attributes = [property.attributes];
+    }
+
+    property.attributes.forEach(attribute => {
+        if (attribute.visibility) {
+            property.attributes.push({
+                ...attribute,
+                options: attribute.visibility,
+                type: "visibility",
+                key: `${attribute.key}_visibility`,
+                placeholder: Visibilities[0].value,
+                title: "Visibility",
+                description: "Who can see this information",
+                validator: Joi.string().valid(...attribute.visibility.map(visibility => visibility.value)),
+            });
+        }
+    });
+});
 
 export { Properties, Semesters, Visibilities, Role };
