@@ -12,6 +12,7 @@ import Home from "./Pages/Home";
 import About from "./Pages/About";
 import ContactUs from "./Pages/ContactUs";
 import NotFound from "./Pages/404";
+import Components from "./Pages/Components";
 import Terms from "./Pages/terms";
 import SignIn from "./Pages/signin";
 import SignUp from "./Pages/signup";
@@ -166,6 +167,8 @@ const App = () => {
                         <Route path="/forget-password/*" element={<ForgetPassword />} />
 
                         <Route path="/404" element={<NotFound />} />
+                        <Route path="components" element={<Components />} />
+
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                 </AlwaysOnTop>
