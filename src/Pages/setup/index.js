@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 
 import NotFound from "../404";
 
-import WelcomePage from "./WelcomePage";
+import WelcomePage from "./Welcome";
 import ProfileSetup from "./ProfileSetup";
 
 const index = () => {
