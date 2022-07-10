@@ -35,7 +35,7 @@ const option_value_to_title = (options, value) => {
 const Profile = () => {
     const { user_id } = useParams();
 
-    const { getAccountLocal } = useContext(AccountContext);
+    const { account } = useContext(AccountContext);
 
     const [isSelf, setIsSelf] = useState(false);
     const [profileAccount, setProfileAccount] = useState(null);
@@ -45,7 +45,6 @@ const Profile = () => {
 
 
     useEffect(() => {
-        let account = getAccountLocal();
         if (account) {
             setAuthenticated(true);
         } else {

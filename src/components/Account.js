@@ -1,22 +1,38 @@
-import React, { createContext } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import axios from "axios";
 
 const AccountContext = createContext();
+const x_fields = "user_id, username, first_name, last_name, headline, role, occupation, graduate_year, graduate_semester, city, state, biography, contact_info";
 
 const Account = (props) => {
+    const [account, setAccount] = useState(null);
+
+    useEffect(() => {
+        let account = window.localStorage.getItem("account");
+        if (account) setAccount(JSON.parse(account));
+
+        axios.get("/accounts/me", { headers: { "x-fields": x_fields } })
+            .then(response => {
+                window.localStorage.setItem("account", JSON.stringify(response.data));
+                setAccount(response.data);
+            }).catch(error => {
+                window.localStorage.removeItem("account");
+                setAccount(null);
+            });
+    }, []);
+
     const signIn = async (username, password) => {
         return await new Promise((resolve, reject) => {
             axios.post("/accounts/signin", { username: username, password: password }, { timeout: 60000 })
                 .then(response => {
-                    if (response.status === 200) {
-                        // Store to local storage and resolve
-                        window.localStorage.setItem("account", JSON.stringify(response.data));
-                        resolve(response.data);
-                    } else {
-                        window.localStorage.removeItem("account");
-                        reject(response.data);
-                    }
-                }).catch(error => reject(error));
+                    // Store to local storage and resolve
+                    window.localStorage.setItem("account", JSON.stringify(response.data));
+                    setAccount(response.data);
+                    resolve(response.data);
+                }).catch(error => {
+                    reject(error);
+                    setAccount(null);
+                });
         });
     };
 
@@ -34,35 +50,12 @@ const Account = (props) => {
         });
     };
 
-    const getAccount = async () => {
-        return await new Promise((resolve, reject) => {
-            axios.get("/accounts/me", { withoutInterceptors: true })
-                .then(response => {
-                    if (response.status === 200) {
-                        // Store to local storage and resolve
-                        window.localStorage.setItem("account", JSON.stringify(response.data));
-                        resolve(response.data);
-                    } else {
-                        window.localStorage.removeItem("account");
-                        reject(response.data);
-                    }
-                }).catch(error => {
-                    window.localStorage.removeItem("account");
-                    reject(error);
-                });
-        });
-    };
-
-    const getAccountLocal = () => {
-        let account = window.localStorage.getItem("account");
-        return account !== null ? JSON.parse(account) : null;
-    };
-
     const signOut = async () => {
         return await new Promise((resolve, reject) => {
             axios.get("/accounts/me/signout").then(response => {
                 if (response.status === 200) {
                     window.localStorage.removeItem("account");
+                    setAccount(null);
                     resolve(response.data);
                 } else reject(response.data);
 
@@ -71,7 +64,7 @@ const Account = (props) => {
     };
 
     return (
-        <AccountContext.Provider value={{ signIn: signIn, getAccount, getAccountLocal, signOut, authChallenge: signInChallenge }}>
+        <AccountContext.Provider value={{ signIn, account, signOut, authChallenge: signInChallenge }}>
             {props.children}
         </AccountContext.Provider>
     );
