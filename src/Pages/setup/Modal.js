@@ -1,6 +1,7 @@
 import React, { Fragment, useId } from "react";
 import { animated } from "react-spring";
 import { Transition } from "@headlessui/react";
+import jp from "jsonpath";
 
 import Buttons from "./components/Buttons";
 
@@ -15,17 +16,29 @@ const Modal = ({
     handleChangeModal,
 }) => {
     const render = () => {
+
         return field.fields.map(field => {
+            if (field.role && account.role !== field.role) return null;
+
             return field.attributes.map(attribute => {
+                const value = jp.query(account, attribute.path);
+
+                const onChange = value => {
+                    setAccount({ ...account, [attribute.key]: value });
+                    console.log(account);
+                };
+
                 if (attribute.role && account.role !== attribute.role) return null;
 
-                switch (attribute.type) {
-                case "text":
-                    console.log("TEXT", attribute);
-                    return <TextInput {...attribute} onChange={value => setAccount({ ...account, [attribute.key]: value})} />;
+                attribute.value = value;
+                attribute.onChange = onChange;
 
-                default:
-                    return null;
+                switch (attribute.type) {
+                    case "text":
+                        return <TextInput {...attribute} />;
+
+                    default:
+                        return null;
                 }
             });
         });
