@@ -11,8 +11,7 @@ import { SearchInput } from "../Pages/Search";
 
 const Navbar = ({ hideOnTop }) => {
     const navigate = useNavigate();
-    const { signOut, getAccount, getAccountLocal } = useContext(AccountContext);
-    const [account, setAccount] = useState(null);
+    const { signOut, account } = useContext(AccountContext);
     const [signInUrl, setSignInUrl] = useState("");
     const [signUpUrl, setSignUpUrl] = useState("");
     const [pageYOffset, setPageYOffset] = useState(0);
@@ -23,15 +22,6 @@ const Navbar = ({ hideOnTop }) => {
             setPageYOffset(window.pageYOffset);
         }
     });
-
-    useEffect(() => {
-        setAccount(getAccountLocal());
-
-        getAccount()
-            .then(account => setAccount(account))
-            .catch(error => setAccount(null));
-
-    }, [getAccount, getAccountLocal]);
 
     useEffect(() => {
         let current = changeSearchParam(window.location.href, "redirect", window.location.pathname);
@@ -46,7 +36,6 @@ const Navbar = ({ hideOnTop }) => {
     const handleSignOut = () => {
         signOut()
             .then(() => {
-                setAccount(null);
                 navigate("/");
             });
     };

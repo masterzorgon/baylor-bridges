@@ -88,10 +88,10 @@ const HomeLayout = () => (
 );
 
 const HamburgerLayout = ({ auth = false, hideOnTop = false }) => {
-    const { getAccountLocal } = useContext(AccountContext);
+    const { account } = useContext(AccountContext);
     const location = useLocation();
 
-    if (auth === true && getAccountLocal() === null) {
+    if (auth === true && account === null) {
         return <Navigate to={`/sign-in?redirect=${location.pathname}`} />;
     }
 
@@ -112,10 +112,10 @@ const HamburgerLayoutWithCookieConsent = () => (
 );
 
 const EmptyLayout = ({ auth = false }) => {
-    const { getAccountLocal } = useContext(AccountContext);
+    const { account } = useContext(AccountContext);
     const location = useLocation();
 
-    if (auth === true && getAccountLocal() === null) {
+    if (auth === true && account === null) {
         return <Navigate to={`/sign-in?redirect=${location.pathname}`} />;
     }
 
