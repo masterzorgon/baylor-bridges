@@ -5,12 +5,10 @@ const AccountContext = createContext();
 const x_fields = "user_id, username, first_name, last_name, headline, role, occupation, graduate_year, graduate_semester, city, state, biography, contact_info";
 
 const Account = (props) => {
-    const [account, setAccount] = useState(null);
+    let account_local = window.localStorage.getItem("account");
+    const [account, setAccount] = useState(account_local ? JSON.parse(account_local) : null);
 
     useEffect(() => {
-        let account = window.localStorage.getItem("account");
-        if (account) setAccount(JSON.parse(account));
-
         axios.get("/accounts/me", { headers: { "x-fields": x_fields } })
             .then(response => {
                 window.localStorage.setItem("account", JSON.stringify(response.data));
