@@ -98,7 +98,7 @@ const InfoInput = () => {
     useEffect(() => showTheModal(), [modal]);
 
     // get current authenticated account profile
-    const x_fields = "user_id, first_name, last_name, headline, role, occupation, graduate_year, graduate_semester, city, state, biography, contact_info";
+    const x_fields = "user_id, first_name, last_name, headline, prefix, role, occupation, graduate_year, graduate_semester, city, state, occupation, biography, contact_info";
     useEffect(() => {
         axios.get("/accounts/me", { headers: { "x-fields": x_fields } })
             .then(res => {
