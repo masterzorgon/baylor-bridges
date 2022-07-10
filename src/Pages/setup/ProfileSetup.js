@@ -199,12 +199,12 @@ const InfoInput = () => {
 
                     {/* INPUT MODALS */}
                     <Modal
-                        modalField={modalField}
+                        field={modalField}
                         loading={loading}
                         show={show}
-                        account={account}
                         modal={modal}
                         transition={transition}
+                        account={account}
                         setAccount={setAccount}
                         handleChangeModal={handleChangeModal}
                     />
