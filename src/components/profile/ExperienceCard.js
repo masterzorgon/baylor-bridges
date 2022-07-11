@@ -28,12 +28,12 @@ const getDisplayDateRange = (start, end) => {
     return display_date;
 };
 
-const ExperienceCard = ({ className, experience, onEditExperience, onDeleteExperience, onCreatePublication, onEditPublication, onDeletePublication }) => {
+const ExperienceCard = ({ className, account, experience, onEditExperience, onDeleteExperience, onCreatePublication, onEditPublication, onDeletePublication }) => {
     return (
         <section>
             <div className={classNames("flex space-x-3", className)}>
                 <div className="flex-shrink-0">
-                    <Photo size="10" />
+                    <Photo account={account} size="10" />
                 </div>
                 <div className="min-w-0 flex-1 flex items-center">
                     <div>
