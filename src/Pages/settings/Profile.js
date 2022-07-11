@@ -136,17 +136,19 @@ const Profile = () => {
             }
 
             return { key, value, visibility };
-        });
+        }).filter(a => a);
 
         let visibility = null;
-        let value = attributes.filter(a => a).map(attribute => {
+        let value = attributes.map(attribute => {
             visibility = attribute.visibility ?? null;
             return attribute.value;
         });
 
+        console.log(field.title, attributes);
+
         // Return values
-        if (attributes === []) {
-            return null;
+        if (attributes.length === 0) {
+            value = null;
         }
 
         return { value, visibility };
@@ -155,7 +157,6 @@ const Profile = () => {
     const getFieldDisplayValue = (field) => {
         // Other fields
         const { value, visibility } = getFieldDisplayValueRaw(field);
-        console.log("get", value, visibility);
         if (value === null) {
             return <div className="text-gray-400">Not set</div>;
         } else {
@@ -202,7 +203,7 @@ const Profile = () => {
         }
 
         // Return different button according to raw value
-        const value = getFieldDisplayValueRaw(field);
+        const { value, } = getFieldDisplayValueRaw(field);
 
         if (value === null) {
             return makeButton("Set");
