@@ -58,8 +58,8 @@ const getInitials = (account) => {
 const Photo = ({ size, account, badges }) => {
     size = size ? size : 8;
 
-    const { getAccountLocal } = useContext(AccountContext);
-    account = account !== undefined ? account : getAccountLocal();
+    const { account: defaultAccount } = useContext(AccountContext);
+    account = account !== undefined ? account : defaultAccount;
 
     let [font_size, ring_size] = adaptSize(size);
     let initials = getInitials(account);

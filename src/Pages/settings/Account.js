@@ -264,7 +264,7 @@ const Account = () => {
                 // Define it's behavior and render it using dropdown
                 let value_copy = {};
                 Object.assign(value_copy, attribute);
-                value_copy.type = "dropdown";
+                value_copy.type = "radio";
                 value_copy.options = visibility_options;
                 value_copy.placeholder = value_copy.placeholder ? value_copy.placeholder : "self";
                 value_copy.title = value_copy.title ? value_copy.title : "Visibility";
@@ -509,7 +509,7 @@ const Account = () => {
         <>
             {
                 Object.entries(account_information).map(([section_key, section]) => (
-                    <div key={section_key} className="mt-10 divide-y divide-gray-200">
+                    <div key={section_key} className="divide-y divide-gray-200">
                         {/* Title and description */}
                         <div className="space-y-1">
                             <h3 className="text-lg leading-6 font-medium text-gray-900">{section.title}</h3>

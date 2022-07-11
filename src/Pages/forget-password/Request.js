@@ -1,11 +1,9 @@
-/* eslint-disable no-unused-vars */
-
 import React, { useState, useEffect } from "react";
-import { MailIcon, ArrowLeftIcon, CheckIcon } from "@heroicons/react/outline";
-import { CountdownCircleTimer } from "react-countdown-circle-timer";
+import { MailIcon, ArrowLeftIcon } from "@heroicons/react/outline";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import Joi from "joi";
 
 import Button from "../../components/Button";
 
@@ -22,54 +20,25 @@ const Form = () => {
     const [step, setStep] = useState(1); // sets the modal to be displayed
     const [error_message, setErrorMessage] = useState(null);
     const [email, setEmail] = useState(""); // enter email input state
-    const [isResent, setIsResent] = useState(false); // email sent status
-    const [resentFreeze, setResentFreeze] = useState(0); // timer till user can resend email
 
     useEffect(() => {
-        if (step === 1) {
-            let reg = /^\w+([-+.'][^\s]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
-            let is_valid = reg.test(email || "");
-
-            setComplete(email && email !== "" && is_valid);
-        }
+        const result = Joi.string().email({ tlds: { allow: false } }).required().validate(email);
+        setComplete(!result.error);
     }, [email]);
 
-    useEffect(() => {
-        if (!resentFreeze) {
-            setIsResent(false);
-            return;
-        }
-
-        const intervalId = setInterval(() => {
-            setResentFreeze(resentFreeze - 1);
-        }, 1000);
-
-        return () => clearInterval(intervalId);
-    }, [resentFreeze]);
-
     const onSubmit = () => {
-        if (step === 1) {
-            setLoading(true);
-            // reset password
-            axios.post("/accounts/password", { email: email, }).then(res => {
-                setStep(2);
-                setComplete(false);
-                setResentFreeze(60);
-                setIsResent(true);
-            }).catch(err => {
-                setErrorMessage(err.response.data.message);
-                toast.error(err.response.data.message);
-            }).finally(() => {
-                setLoading(false);
-            });
-        }
-
-        if (step === 2) window.location.href = "/";
+        setLoading(true);
+        // reset password
+        axios.post("/accounts/password", { email: email, }).then(res => {
+            setStep(2);
+            setComplete(false);
+        }).catch(err => {
+            setErrorMessage(err.response.data.message);
+            toast.error(err.response.data.message);
+        }).finally(() => {
+            setLoading(false);
+        });
     };
-
-    useEffect(() => {
-        console.log("resentFreeze:", resentFreeze);
-    }, [resentFreeze]);
 
     const step1 = () => {
         return (
@@ -96,20 +65,33 @@ const Form = () => {
                         onChange={event => setEmail(event.target.value)}
                     />
                 </div>
+
+                {/* Error message */}
+                {
+                    error_message !== null &&
+                    <p className="mt-2 text-sm text-red-600">
+                        {error_message}
+                    </p>
+                }
+
+                <div className="mt-4 text-sm text-right w-full grid grid-cols-2 gap-4 place-items-center pt-2">
+                    {step === 1 &&
+                        <Button
+                            className="relative col-span-2 text-center text-sm px-4 py-3 border border-transparent font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                            onClick={onSubmit}
+                            loading={loading}
+                            disabled={loading || !complete}
+                            arrow={true}
+                        >
+                            <span className={`flex items-center ${loading ? "invisible" : ""}`}>
+                                <span>{steps[step - 1].button}</span>
+                            </span>
+                        </Button>
+                    }
+                </div>
             </>
         );
 
-    };
-
-    const handleResend = () => {
-        axios.post("/accounts/password", { "email": email })
-            .then(res => {
-                console.log("click resend");
-                setIsResent(true);
-                setResentFreeze(60);
-            }).catch(err => {
-                setErrorMessage(err.response.data.message);
-            });
     };
 
     const step2 = () => {
@@ -128,22 +110,13 @@ const Form = () => {
                 <p className="mt-1 text-sm font-medium mb-4 text-gray-500 pointer-events-auto">
                     Don&#39;t receive the email? Check your spam filter.
                 </p>
-                {/* COUNTDOWN TIMER */}
-                <div className="text-xl flex justify-center my-6">
-                    <CountdownCircleTimer
-                        isPlaying={resentFreeze === 0 ? false : true}
-                        size={80}
-                        duration={60}
-                        strokeWidth={8}
-                        colors={["#069668"]} // green
-                        onComplete={() => ({ shouldRepeat: resentFreeze === 0 ? false : true })}
+                <div className="text-xl flex justify-center -mt-4 -mb-3">
+                    <lord-icon
+                        src="https://cdn.lordicon.com/rhvddzym.json"
+                        trigger="loop"
+                        style={{ width: "8rem", height: "8rem" }}
                     >
-                        {({ remainingTime }) => (
-                            resentFreeze === 0
-                                ? <CheckIcon className="text-emerald-600 w-10" />
-                                : remainingTime
-                        )}
-                    </CountdownCircleTimer>
+                    </lord-icon>
                 </div>
             </>
         );
@@ -169,42 +142,8 @@ const Form = () => {
 
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
                 <div className="mt-8 bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-
                     {step === 1 && step1()}
                     {step === 2 && step2()}
-
-                    {/* Error message */}
-                    {
-                        error_message !== null &&
-                        <p className="mt-2 text-sm text-red-600">
-                            {error_message}
-                        </p>
-                    }
-
-                    <div className="mt-4 text-sm text-right w-full grid grid-cols-2 gap-4 place-items-center pt-2">
-                        {step === 2
-                            ?
-                            <button
-                                className="w-full relative col-span-2 text-center text-sm px-4 py-3 border border-transparent font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed"
-                                onClick={handleResend}
-                                disabled={isResent}
-                            >
-                                Resend email
-                            </button>
-                            :
-                            <Button
-                                className="relative col-span-2 text-center text-sm px-4 py-3 border border-transparent font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed"
-                                onClick={onSubmit}
-                                loading={loading}
-                                disabled={loading || !complete}
-                                arrow={true}
-                            >
-                                <span className={`flex items-center ${loading ? "invisible" : ""}`}>
-                                    <span>{steps[step - 1].button}</span>
-                                </span>
-                            </Button>
-                        }
-                    </div>
                 </div>
             </div>
         </div>

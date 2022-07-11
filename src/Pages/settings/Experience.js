@@ -550,7 +550,7 @@ const Experience = () => {
 
     return (
         <>
-            <div className="mt-10 divide-y divide-gray-200">
+            <div className="divide-y divide-gray-200">
                 <div className="flex items-center justify-between space-x-4">
                     <div className="space-y-1">
                         <h3 className="text-lg leading-6 font-medium text-gray-900">Experience</h3>

@@ -22,17 +22,7 @@ const features = [
 
 const Home = () => {
     const [mapStats, setMapStats] = useState({});
-    const { getAccount, getAccountLocal } = useContext(AccountContext);
-    const [account, setAccount] = useState(null);
-
-    useEffect(() => {
-        setAccount(getAccountLocal());
-
-        getAccount()
-            .then(account => setAccount(account))
-            .catch(error => setAccount(null));
-
-    }, [getAccount, getAccountLocal]);
+    const { account } = useContext(AccountContext);
 
     useEffect(() => {
         axios.get("/miscellaneous/landing-map")

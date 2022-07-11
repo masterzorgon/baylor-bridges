@@ -12,6 +12,7 @@ import Home from "./Pages/Home";
 import About from "./Pages/About";
 import ContactUs from "./Pages/ContactUs";
 import NotFound from "./Pages/404";
+import Components from "./Pages/Components";
 import Terms from "./Pages/terms";
 import SignIn from "./Pages/signin";
 import SignUp from "./Pages/signup";
@@ -87,10 +88,10 @@ const HomeLayout = () => (
 );
 
 const HamburgerLayout = ({ auth = false, hideOnTop = false }) => {
-    const { getAccountLocal } = useContext(AccountContext);
+    const { account } = useContext(AccountContext);
     const location = useLocation();
 
-    if (auth === true && getAccountLocal() === null) {
+    if (auth === true && account === null) {
         return <Navigate to={`/sign-in?redirect=${location.pathname}`} />;
     }
 
@@ -111,10 +112,10 @@ const HamburgerLayoutWithCookieConsent = () => (
 );
 
 const EmptyLayout = ({ auth = false }) => {
-    const { getAccountLocal } = useContext(AccountContext);
+    const { account } = useContext(AccountContext);
     const location = useLocation();
 
-    if (auth === true && getAccountLocal() === null) {
+    if (auth === true && account === null) {
         return <Navigate to={`/sign-in?redirect=${location.pathname}`} />;
     }
 
@@ -166,6 +167,8 @@ const App = () => {
                         <Route path="/forget-password/*" element={<ForgetPassword />} />
 
                         <Route path="/404" element={<NotFound />} />
+                        <Route path="components" element={<Components />} />
+
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                 </AlwaysOnTop>

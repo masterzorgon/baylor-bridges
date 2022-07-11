@@ -17,25 +17,35 @@ import { Properties } from "../../components/profile/Fields";
 import NotFoundModal from "./NotFoundModal";
 
 
-const profile = Properties;
+const profile = { ...Properties };
 delete profile.name;
 delete profile.headline;
 delete profile.biography;
+profile.email = { ...profile.email, type: "email" };
+profile.phone = { ...profile.phone, type: "phone" };
+profile.role = {...profile.role, value_class: "capitalize"};
+
+
+const option_value_to_title = (options, value) => {
+    // Find the option with the matching value
+    const option = options.find(option => option.value === value);
+    return option ? option.title : "";
+};
+
 
 const Profile = () => {
     const { user_id } = useParams();
 
-    const { getAccountLocal } = useContext(AccountContext);
+    const { account } = useContext(AccountContext);
 
     const [isSelf, setIsSelf] = useState(false);
     const [profileAccount, setProfileAccount] = useState(null);
 
     const [authenticated, setAuthenticated] = useState(null);
-    const [notFound, setNotFound] = useState(false);
+    const [found, setFound] = useState(null);
 
 
     useEffect(() => {
-        let account = getAccountLocal();
         if (account) {
             setAuthenticated(true);
         } else {
@@ -55,6 +65,7 @@ const Profile = () => {
                 setProfileAccount(data);
                 setIsSelf(account && account.user_id === data.user_id);
                 setAuthenticated(true);
+                setFound(true);
             })
             .catch(err => {
                 if (err.response.data.code && err.response.data.code === "AuthenticationRequiredException") {
@@ -62,22 +73,26 @@ const Profile = () => {
                     console.log(err.response.data.code);
                 } else {
                     console.log("other errors");
-                    setNotFound(true);
+                    setFound(false);
                 }
             });
     }, [user_id]);
 
     const getFieldDisplayValueRaw = (field) => {
-        if (!Array.isArray(field.attribute)) {
-            field.attribute = [field.attribute];
-        }
-
         let string = "";
-        field.attribute.forEach((attribute, index) => {
-            if (attribute.key && attribute.key in profileAccount && profileAccount[attribute.key]) {
-                string += profileAccount[attribute.key] + " ";
-            } else if (attribute.section && attribute.section in profileAccount && attribute.key in profileAccount[attribute.section] && profileAccount[attribute.section][attribute.key]) {
-                string += profileAccount[attribute.section][attribute.key] + " ";
+        field.attributes.forEach((attribute) => {
+            if (attribute.type === "visibility") return;
+
+            const section = attribute.section;
+            const key = attribute.key;
+            const value = section ? profileAccount[section][key] : profileAccount[key];
+
+            if (value) {
+                if (attribute.type === "radio") {
+                    string += option_value_to_title(attribute.options, value);
+                } else {
+                    string += value + " ";
+                }
             }
         });
 
@@ -91,14 +106,14 @@ const Profile = () => {
 
     const formatValue = (value, type) => {
         switch (type) {
-        case "email":
-            return <a className="underline underline-offset-4 decoration-dashed decoration-gray-500" href={`mailto:${value}`}>{value}</a>;
+            case "email":
+                return <a className="underline underline-offset-4 decoration-dashed decoration-gray-500" href={`mailto:${value}`}>{value}</a>;
 
-        case "phone":
-            return <a className="underline underline-offset-4 decoration-dashed decoration-gray-500" href={`tel:${value}`}>{value}</a>;
+            case "phone":
+                return <a className="underline underline-offset-4 decoration-dashed decoration-gray-500" href={`tel:${value}`}>{value}</a>;
 
-        default:
-            return value;
+            default:
+                return value;
         }
     };
 
@@ -118,9 +133,14 @@ const Profile = () => {
         }
 
         let value = getFieldDisplayValueRaw(field);
+        let has_visibility = false;
+
+        field.attributes.forEach((attribute) => {
+            has_visibility = has_visibility || attribute.visibility;
+        });
 
         if (value === null) {
-            if (field.has_visibility && !isSelf) {
+            if (has_visibility && !isSelf) {
                 if (profileAccount.first_name) {
                     value = <div className="text-gray-400">Connect with {profileAccount.first_name} to view</div>;
                 } else {
@@ -146,9 +166,9 @@ const Profile = () => {
     return (
         <>
             {authenticated === false ? <SignInRequiredModal /> : ""}
-            {notFound === true ? <NotFoundModal /> : ""}
+            {found === false ? <NotFoundModal /> : ""}
 
-            <div className={classNames("min-h-full bg-gray-100", (authenticated === false || notFound === true) && "blur-sm")}>
+            <div className="min-h-full bg-gray-100">
                 <main className="py-10">
 
 
