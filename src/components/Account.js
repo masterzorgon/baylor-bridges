@@ -9,12 +9,7 @@ const Account = (props) => {
     const [account, setAccountLocal] = useState(account_local ? JSON.parse(account_local) : null);
 
     useEffect(() => {
-        axios.get("/accounts/me", { headers: { "x-fields": x_fields } })
-            .then(response => {
-                setAccountLocal(response.data);
-            }).catch(error => {
-                setAccountLocal(null);
-            });
+        getAccount();
     }, []);
 
     useEffect(() => {
@@ -27,7 +22,7 @@ const Account = (props) => {
 
     const signIn = async (username, password) => {
         return await new Promise((resolve, reject) => {
-            axios.post("/accounts/signin", { username: username, password: password }, { timeout: 60000 })
+            axios.post("/accounts/signin", { username: username, password: password }, { timeout: 60000, headers: { "x-fields": x_fields } })
                 .then(response => {
                     setAccountLocal(response.data);
                     resolve(response.data);
@@ -44,11 +39,37 @@ const Account = (props) => {
                 session: session,
                 challenge_name: name,
                 challenge_response: response
-            }).then(response => {
-                if (response.status === 200) resolve(response.data);
-                else reject(response.data);
+            }, { headers: { "x-fields": x_fields } })
+                .then(response => {
+                    resolve(response.data);
+                }).catch(error => reject(error));
+        });
+    };
 
-            }).catch(error => reject(error));
+    const getAccount = async () => {
+        return await new Promise((resolve, reject) => {
+            axios.get("/accounts/me", { headers: { "x-fields": x_fields } })
+                .then(response => {
+                    setAccountLocal(response.data);
+                    resolve(response.data);
+                }).catch(error => {
+                    setAccountLocal(null);
+                    reject(error);
+                });
+        });
+    };
+
+    const setAccount = async (account) => {
+        return await new Promise((resolve, reject) => {
+            axios.put("/accounts/me", account, { headers: { "x-fields": x_fields } })
+                .then(response => {
+                    setAccountLocal(response.data);
+                    resolve(response.data);
+                })
+                .catch(error => {
+                    setAccountLocal(null);
+                    reject(error);
+                });
         });
     };
 
@@ -65,7 +86,7 @@ const Account = (props) => {
     };
 
     return (
-        <AccountContext.Provider value={{ signIn, account, signOut, authChallenge: signInChallenge }}>
+        <AccountContext.Provider value={{ signIn, account, getAccount, setAccount, signOut, authChallenge: signInChallenge }}>
             {props.children}
         </AccountContext.Provider>
     );
