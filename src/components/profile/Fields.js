@@ -38,7 +38,7 @@ const Properties = {
         title: "Graduate Class",
         role: Role.Alumni,
         attributes: [
-            { key: "graduate_semester", type: "dropdown", title: "Semester", placeholder: "Semester", options: Semesters },
+            { key: "graduate_semester", type: "radio", title: "Semester", placeholder: "Semester", options: Semesters },
             { key: "graduate_year", type: "text", title: "Year", placeholder: "Year", validator: Joi.number().integer().min(1900).max(2099) },
         ]
     },
@@ -46,7 +46,7 @@ const Properties = {
         title: "Expected Graduate Class",
         role: Role.Student,
         attributes: [
-            { key: "graduate_semester", type: "dropdown", title: "Semester", placeholder: "Semester", options: Semesters },
+            { key: "graduate_semester", type: "radio", title: "Semester", placeholder: "Semester", options: Semesters },
             { key: "graduate_year", type: "text", title: "Year", placeholder: "Year", validator: Joi.number().integer().min(1900).max(2099) },
         ]
     },

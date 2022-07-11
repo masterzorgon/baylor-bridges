@@ -264,7 +264,7 @@ const Account = () => {
                 // Define it's behavior and render it using dropdown
                 let value_copy = {};
                 Object.assign(value_copy, attribute);
-                value_copy.type = "dropdown";
+                value_copy.type = "radio";
                 value_copy.options = visibility_options;
                 value_copy.placeholder = value_copy.placeholder ? value_copy.placeholder : "self";
                 value_copy.title = value_copy.title ? value_copy.title : "Visibility";

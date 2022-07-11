@@ -88,7 +88,7 @@ const Profile = () => {
             const value = section ? profileAccount[section][key] : profileAccount[key];
 
             if (value) {
-                if (attribute.type === "dropdown") {
+                if (attribute.type === "radio") {
                     string += option_value_to_title(attribute.options, value);
                 } else {
                     string += value + " ";
