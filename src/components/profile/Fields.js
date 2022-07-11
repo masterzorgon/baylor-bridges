@@ -38,7 +38,7 @@ const Properties = {
         title: "Graduate Class",
         role: Role.Alumni,
         attributes: [
-            { key: "graduate_semester", type: "dropdown", title: "Semester", placeholder: "Semester", options: Semesters },
+            { key: "graduate_semester", type: "radio", title: "Semester", placeholder: "Semester", options: Semesters },
             { key: "graduate_year", type: "text", title: "Year", placeholder: "Year", validator: Joi.number().integer().min(1900).max(2099) },
         ]
     },
@@ -46,7 +46,7 @@ const Properties = {
         title: "Expected Graduate Class",
         role: Role.Student,
         attributes: [
-            { key: "graduate_semester", type: "dropdown", title: "Semester", placeholder: "Semester", options: Semesters },
+            { key: "graduate_semester", type: "radio", title: "Semester", placeholder: "Semester", options: Semesters },
             { key: "graduate_year", type: "text", title: "Year", placeholder: "Year", validator: Joi.number().integer().min(1900).max(2099) },
         ]
     },
@@ -59,13 +59,13 @@ const Properties = {
         title: "Location",
         attributes: [
             { key: "city", type: "text", title: "City", placeholder: "City" },
-            { key: "state", type: "dropdown", title: "State", placeholder: "State", options: States },
+            { key: "state", type: "radio", title: "State", placeholder: "State", options: States },
         ],
     },
     role: {
         title: "Role",
         attributes: {
-            key: "role", type: "dropdown", title: "Role",
+            key: "role", type: "radio", title: "Role",
             options: [{ title: "Alumni", value: Role.Alumni }, { title: "Student", value: Role.Student }]
         },
     },

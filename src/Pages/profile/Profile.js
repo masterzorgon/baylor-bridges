@@ -23,6 +23,7 @@ delete profile.headline;
 delete profile.biography;
 profile.email = { ...profile.email, type: "email" };
 profile.phone = { ...profile.phone, type: "phone" };
+profile.role = {...profile.role, value_class: "capitalize"};
 
 
 const option_value_to_title = (options, value) => {
@@ -35,7 +36,7 @@ const option_value_to_title = (options, value) => {
 const Profile = () => {
     const { user_id } = useParams();
 
-    const { getAccountLocal } = useContext(AccountContext);
+    const { account } = useContext(AccountContext);
 
     const [isSelf, setIsSelf] = useState(false);
     const [profileAccount, setProfileAccount] = useState(null);
@@ -45,7 +46,6 @@ const Profile = () => {
 
 
     useEffect(() => {
-        let account = getAccountLocal();
         if (account) {
             setAuthenticated(true);
         } else {
@@ -88,7 +88,7 @@ const Profile = () => {
             const value = section ? profileAccount[section][key] : profileAccount[key];
 
             if (value) {
-                if (attribute.type === "dropdown") {
+                if (attribute.type === "radio") {
                     string += option_value_to_title(attribute.options, value);
                 } else {
                     string += value + " ";
@@ -106,14 +106,14 @@ const Profile = () => {
 
     const formatValue = (value, type) => {
         switch (type) {
-        case "email":
-            return <a className="underline underline-offset-4 decoration-dashed decoration-gray-500" href={`mailto:${value}`}>{value}</a>;
+            case "email":
+                return <a className="underline underline-offset-4 decoration-dashed decoration-gray-500" href={`mailto:${value}`}>{value}</a>;
 
-        case "phone":
-            return <a className="underline underline-offset-4 decoration-dashed decoration-gray-500" href={`tel:${value}`}>{value}</a>;
+            case "phone":
+                return <a className="underline underline-offset-4 decoration-dashed decoration-gray-500" href={`tel:${value}`}>{value}</a>;
 
-        default:
-            return value;
+            default:
+                return value;
         }
     };
 

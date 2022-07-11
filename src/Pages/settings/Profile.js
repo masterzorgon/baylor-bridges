@@ -1,17 +1,15 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect, useContext } from "react";
 import { Dialog, Transition, Listbox } from "@headlessui/react";
 import { SelectorIcon, CheckIcon, EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
 import { toast } from "react-toastify";
-import axios from "axios";
 
 import Photo from "../../components/Photo";
 import Button from "../../components/Button";
 import Markdown from "../../components/Markdown";
 import { classNames } from "../../components/Utils";
 import { Properties } from "../../components/profile/Fields";
+import { AccountContext } from "../../components/Account";
 
-
-const x_fields = "user_id, first_name, last_name, headline, role, occupation, graduate_year, graduate_semester, city, state, biography, contact_info";
 
 const option_value_to_title = (options, value) => {
     // Find the option with the matching value
@@ -58,8 +56,7 @@ const profile = {
 };
 
 const Profile = () => {
-    const [account, setAccount] = useState(null);
-
+    const { account, setAccount } = useContext(AccountContext);
     const [open, setOpen] = useState(false); // Whether modal is opened
 
     const [field, setField] = useState(null); // Current field to change in the modal
@@ -73,17 +70,6 @@ const Profile = () => {
     useEffect(() => {
         console.log(markdownEditorTab, markdownEditorTab === 0, markdownEditorTab === 1);
     }, [markdownEditorTab]);
-
-    // First enter this page, fetch account profile data
-    useEffect(() => {
-        axios.get("/accounts/me", { headers: { "x-fields": x_fields } })
-            .then(res => {
-                setAccount(res.data);
-                console.log(res.data);
-            })
-            .catch(err => toast.error(err.response.data.message));
-
-    }, []);
 
     // When update field changed, check completeness
     useEffect(() => {
@@ -145,7 +131,7 @@ const Profile = () => {
             const value = section ? account[section][key] : account[key];
 
             if (!value) return;
-            if (attribute.type === "dropdown") {
+            if (attribute.type === "radio") {
                 string += option_value_to_title(attribute.options, value) + " ";
             } else {
                 string += value + " ";
@@ -289,7 +275,7 @@ const Profile = () => {
                         </div>
                     </>
                 );
-            } else if (attribute.type === "dropdown") {
+            } else if (attribute.type === "radio") {
                 return (
                     <>
                         <label htmlFor="dropdown" className="block text-sm font-medium text-gray-700 sr-only">
@@ -373,7 +359,7 @@ const Profile = () => {
             } else if (attribute.type === "visibility") {
                 // Visibility is a special type of dropdown
                 // Define it's behavior and render it using dropdown
-                return getAttributeDom({ ...attribute, type: "dropdown" });
+                return getAttributeDom({ ...attribute, type: "radio" });
             } else if (attribute.type === "markdown") {
                 return (
                     <>
@@ -471,10 +457,9 @@ const Profile = () => {
     const onSubmit = () => {
         setLoading(true);
 
-        axios.put("/accounts/me", update, { headers: { "x-fields": x_fields } })
+        setAccount(update)
             .then(res => {
                 console.log(res);
-                setAccount(res.data);
                 setOpen(false);
             })
             .catch(err => toast.error(err.response.data.message))
@@ -520,7 +505,7 @@ const Profile = () => {
         <>
             {
                 Object.entries(profile).map(([section_key, section]) => (
-                    <div key={section_key} className="mt-10 divide-y divide-gray-200">
+                    <div key={section_key} className="divide-y divide-gray-200">
                         {/* Title and description */}
                         <div className="space-y-1">
                             <h3 className="text-lg leading-6 font-medium text-gray-900">{section.title}</h3>

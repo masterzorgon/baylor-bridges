@@ -1,22 +1,35 @@
-import React, { createContext } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import axios from "axios";
 
 const AccountContext = createContext();
+const x_fields = "user_id, username, first_name, last_name, headline, role, occupation, graduate_year, graduate_semester, city, state, biography, contact_info";
 
 const Account = (props) => {
-    const signIn = async (username, password) => {
+    let account_local = window.localStorage.getItem("account");
+    const [account, setAccountLocal] = useState(account_local ? JSON.parse(account_local) : null);
+
+    useEffect(() => {
+        getAccount();
+    }, []);
+
+    useEffect(() => {
+        if (account) {
+            window.localStorage.setItem("account", JSON.stringify(account));
+        } else {
+            window.localStorage.removeItem("account");
+        }
+    }, [account]);
+
+    const signIn = async (username, password, remember = false) => {
         return await new Promise((resolve, reject) => {
-            axios.post("/accounts/signin", { username: username, password: password }, { timeout: 60000 })
+            axios.post("/accounts/signin", { username: username, password: password, remember_me: remember }, { timeout: 60000, headers: { "x-fields": x_fields } })
                 .then(response => {
-                    if (response.status === 200) {
-                        // Store to local storage and resolve
-                        window.localStorage.setItem("account", JSON.stringify(response.data));
-                        resolve(response.data);
-                    } else {
-                        window.localStorage.removeItem("account");
-                        reject(response.data);
-                    }
-                }).catch(error => reject(error));
+                    setAccountLocal(response.data);
+                    resolve(response.data);
+                }).catch(error => {
+                    setAccountLocal(null);
+                    reject(error);
+                });
         });
     };
 
@@ -26,43 +39,45 @@ const Account = (props) => {
                 session: session,
                 challenge_name: name,
                 challenge_response: response
-            }).then(response => {
-                if (response.status === 200) resolve(response.data);
-                else reject(response.data);
-
-            }).catch(error => reject(error));
+            }, { headers: { "x-fields": x_fields } })
+                .then(response => {
+                    resolve(response.data);
+                }).catch(error => reject(error));
         });
     };
 
     const getAccount = async () => {
         return await new Promise((resolve, reject) => {
-            axios.get("/accounts/me", { withoutInterceptors: true })
+            axios.get("/accounts/me", { headers: { "x-fields": x_fields } })
                 .then(response => {
-                    if (response.status === 200) {
-                        // Store to local storage and resolve
-                        window.localStorage.setItem("account", JSON.stringify(response.data));
-                        resolve(response.data);
-                    } else {
-                        window.localStorage.removeItem("account");
-                        reject(response.data);
-                    }
+                    setAccountLocal(response.data);
+                    resolve(response.data);
                 }).catch(error => {
-                    window.localStorage.removeItem("account");
+                    setAccountLocal(null);
                     reject(error);
                 });
         });
     };
 
-    const getAccountLocal = () => {
-        let account = window.localStorage.getItem("account");
-        return account !== null ? JSON.parse(account) : null;
+    const setAccount = async (account) => {
+        return await new Promise((resolve, reject) => {
+            axios.put("/accounts/me", account, { headers: { "x-fields": x_fields } })
+                .then(response => {
+                    setAccountLocal(response.data);
+                    resolve(response.data);
+                })
+                .catch(error => {
+                    setAccountLocal(null);
+                    reject(error);
+                });
+        });
     };
 
     const signOut = async () => {
         return await new Promise((resolve, reject) => {
             axios.get("/accounts/me/signout").then(response => {
                 if (response.status === 200) {
-                    window.localStorage.removeItem("account");
+                    setAccountLocal(null);
                     resolve(response.data);
                 } else reject(response.data);
 
@@ -71,7 +86,7 @@ const Account = (props) => {
     };
 
     return (
-        <AccountContext.Provider value={{ signIn: signIn, getAccount, getAccountLocal, signOut, authChallenge: signInChallenge }}>
+        <AccountContext.Provider value={{ signIn, account, getAccount, setAccount, signOut, authChallenge: signInChallenge }}>
             {props.children}
         </AccountContext.Provider>
     );
