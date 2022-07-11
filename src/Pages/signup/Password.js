@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Switch } from "@headlessui/react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
+import { AccountContext } from "../../components/Account";
 import { default as PasswordInput } from "../../components/Password";
 import { classNames } from "../../components/Utils";
 import Button from "../../components/Button";
@@ -15,6 +16,8 @@ const Password = ({ email, token }) => {
     const [password, setPassword] = useState("");
     const [agreed, setAgreed] = useState(false);
     const [password_checked, setPasswordChecked] = useState("");
+
+    const { signIn } = useContext(AccountContext);
 
     const navigate = useNavigate();
 
@@ -32,19 +35,17 @@ const Password = ({ email, token }) => {
             token: token
         }).then(res => {
             // automatically sign in once success
-            axios.post("/accounts/signin", {
-                username: email,
-                password: password
-            }).then(res => {
-                console.log("auto sign in");
-                console.log(res);
-                navigate("/setup/profile-setup", { replace: true });
-            }).catch(err => {
-                let response = err.response.data;
-                setErrorMessage(response.message);
-            }).finally(() => {
-                setLoading(false);
-            });
+            signIn(email, password)
+                .then(res => {
+                    console.log("auto sign in");
+                    console.log(res);
+                    navigate("/setup", { replace: true });
+                }).catch(err => {
+                    let response = err.response.data;
+                    setErrorMessage(response.message);
+                }).finally(() => {
+                    setLoading(false);
+                });
         }).catch(err => {
             let response = err.response.data;
             setErrorMessage(response.message);

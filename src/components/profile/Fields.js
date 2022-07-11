@@ -46,7 +46,7 @@ const Properties = {
         title: "Expected Graduate Class",
         role: Role.Student,
         attributes: [
-            { key: "graduate_semester", path: "$.graduate_semester", type: "dropdown", title: "Semester", placeholder: "Semester", options: Semesters },
+            { key: "graduate_semester", path: "$.graduate_semester", type: "radio", title: "Semester", placeholder: "Semester", options: Semesters },
             { key: "graduate_year", path: "$.graduate_year", type: "text", title: "Year", placeholder: "Year", validator: Joi.number().integer().allow(null).min(1900).max(2099) },
         ]
     },
