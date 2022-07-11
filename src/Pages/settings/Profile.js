@@ -1,17 +1,15 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect, useContext } from "react";
 import { Dialog, Transition, Listbox } from "@headlessui/react";
 import { SelectorIcon, CheckIcon, EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
 import { toast } from "react-toastify";
-import axios from "axios";
 
 import Photo from "../../components/Photo";
 import Button from "../../components/Button";
 import Markdown from "../../components/Markdown";
 import { classNames } from "../../components/Utils";
 import { Properties } from "../../components/profile/Fields";
+import { AccountContext } from "../../components/Account";
 
-
-const x_fields = "user_id, first_name, last_name, headline, role, occupation, graduate_year, graduate_semester, city, state, biography, contact_info";
 
 const option_value_to_title = (options, value) => {
     // Find the option with the matching value
@@ -58,8 +56,7 @@ const profile = {
 };
 
 const Profile = () => {
-    const [account, setAccount] = useState(null);
-
+    const { account, setAccount } = useContext(AccountContext);
     const [open, setOpen] = useState(false); // Whether modal is opened
 
     const [field, setField] = useState(null); // Current field to change in the modal
@@ -73,17 +70,6 @@ const Profile = () => {
     useEffect(() => {
         console.log(markdownEditorTab, markdownEditorTab === 0, markdownEditorTab === 1);
     }, [markdownEditorTab]);
-
-    // First enter this page, fetch account profile data
-    useEffect(() => {
-        axios.get("/accounts/me", { headers: { "x-fields": x_fields } })
-            .then(res => {
-                setAccount(res.data);
-                console.log(res.data);
-            })
-            .catch(err => toast.error(err.response.data.message));
-
-    }, []);
 
     // When update field changed, check completeness
     useEffect(() => {
@@ -471,10 +457,9 @@ const Profile = () => {
     const onSubmit = () => {
         setLoading(true);
 
-        axios.put("/accounts/me", update, { headers: { "x-fields": x_fields } })
+        setAccount(update)
             .then(res => {
                 console.log(res);
-                setAccount(res.data);
                 setOpen(false);
             })
             .catch(err => toast.error(err.response.data.message))
