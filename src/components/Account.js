@@ -6,30 +6,29 @@ const x_fields = "user_id, username, first_name, last_name, headline, prefix, ro
 
 const Account = (props) => {
     let account_local = window.localStorage.getItem("account");
-    const [account, setAccount] = useState(account_local ? JSON.parse(account_local) : null);
+    const [account, setAccountLocal] = useState(account_local ? JSON.parse(account_local) : null);
 
     useEffect(() => {
-        axios.get("/accounts/me", { headers: { "x-fields": x_fields } })
-            .then(response => {
-                window.localStorage.setItem("account", JSON.stringify(response.data));
-                setAccount(response.data);
-            }).catch(error => {
-                window.localStorage.removeItem("account");
-                setAccount(null);
-            });
+        getAccount();
     }, []);
+
+    useEffect(() => {
+        if (account) {
+            window.localStorage.setItem("account", JSON.stringify(account));
+        } else {
+            window.localStorage.removeItem("account");
+        }
+    }, [account]);
 
     const signIn = async (username, password) => {
         return await new Promise((resolve, reject) => {
-            axios.post("/accounts/signin", { username: username, password: password }, { timeout: 60000 })
+            axios.post("/accounts/signin", { username: username, password: password }, { timeout: 60000, headers: { "x-fields": x_fields } })
                 .then(response => {
-                    // Store to local storage and resolve
-                    window.localStorage.setItem("account", JSON.stringify(response.data));
-                    setAccount(response.data);
+                    setAccountLocal(response.data);
                     resolve(response.data);
                 }).catch(error => {
+                    setAccountLocal(null);
                     reject(error);
-                    setAccount(null);
                 });
         });
     };
@@ -40,11 +39,37 @@ const Account = (props) => {
                 session: session,
                 challenge_name: name,
                 challenge_response: response
-            }).then(response => {
-                if (response.status === 200) resolve(response.data);
-                else reject(response.data);
+            }, { headers: { "x-fields": x_fields } })
+                .then(response => {
+                    resolve(response.data);
+                }).catch(error => reject(error));
+        });
+    };
 
-            }).catch(error => reject(error));
+    const getAccount = async () => {
+        return await new Promise((resolve, reject) => {
+            axios.get("/accounts/me", { headers: { "x-fields": x_fields } })
+                .then(response => {
+                    setAccountLocal(response.data);
+                    resolve(response.data);
+                }).catch(error => {
+                    setAccountLocal(null);
+                    reject(error);
+                });
+        });
+    };
+
+    const setAccount = async (account) => {
+        return await new Promise((resolve, reject) => {
+            axios.put("/accounts/me", account, { headers: { "x-fields": x_fields } })
+                .then(response => {
+                    setAccountLocal(response.data);
+                    resolve(response.data);
+                })
+                .catch(error => {
+                    setAccountLocal(null);
+                    reject(error);
+                });
         });
     };
 
@@ -52,8 +77,7 @@ const Account = (props) => {
         return await new Promise((resolve, reject) => {
             axios.get("/accounts/me/signout").then(response => {
                 if (response.status === 200) {
-                    window.localStorage.removeItem("account");
-                    setAccount(null);
+                    setAccountLocal(null);
                     resolve(response.data);
                 } else reject(response.data);
 
@@ -62,7 +86,7 @@ const Account = (props) => {
     };
 
     return (
-        <AccountContext.Provider value={{ signIn, account, signOut, authChallenge: signInChallenge }}>
+        <AccountContext.Provider value={{ signIn, account, getAccount, setAccount, signOut, authChallenge: signInChallenge }}>
             {props.children}
         </AccountContext.Provider>
     );
