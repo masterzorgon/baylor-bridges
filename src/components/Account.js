@@ -6,30 +6,34 @@ const x_fields = "user_id, username, first_name, last_name, headline, role, occu
 
 const Account = (props) => {
     let account_local = window.localStorage.getItem("account");
-    const [account, setAccount] = useState(account_local ? JSON.parse(account_local) : null);
+    const [account, setAccountLocal] = useState(account_local ? JSON.parse(account_local) : null);
 
     useEffect(() => {
         axios.get("/accounts/me", { headers: { "x-fields": x_fields } })
             .then(response => {
-                window.localStorage.setItem("account", JSON.stringify(response.data));
-                setAccount(response.data);
+                setAccountLocal(response.data);
             }).catch(error => {
-                window.localStorage.removeItem("account");
-                setAccount(null);
+                setAccountLocal(null);
             });
     }, []);
+
+    useEffect(() => {
+        if (account) {
+            window.localStorage.setItem("account", JSON.stringify(account));
+        } else {
+            window.localStorage.removeItem("account");
+        }
+    }, [account]);
 
     const signIn = async (username, password) => {
         return await new Promise((resolve, reject) => {
             axios.post("/accounts/signin", { username: username, password: password }, { timeout: 60000 })
                 .then(response => {
-                    // Store to local storage and resolve
-                    window.localStorage.setItem("account", JSON.stringify(response.data));
-                    setAccount(response.data);
+                    setAccountLocal(response.data);
                     resolve(response.data);
                 }).catch(error => {
+                    setAccountLocal(null);
                     reject(error);
-                    setAccount(null);
                 });
         });
     };
@@ -52,8 +56,7 @@ const Account = (props) => {
         return await new Promise((resolve, reject) => {
             axios.get("/accounts/me/signout").then(response => {
                 if (response.status === 200) {
-                    window.localStorage.removeItem("account");
-                    setAccount(null);
+                    setAccountLocal(null);
                     resolve(response.data);
                 } else reject(response.data);
 
