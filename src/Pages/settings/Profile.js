@@ -128,7 +128,7 @@ const Profile = () => {
             if (!value) return "";
 
             if (attribute.type === "photo") {
-                value = <Photo size="10" />;
+                value = <Photo size="12" />;
             } else if (attribute.type === "radio") {
                 value = option_value_to_title(attribute.options, value) + " ";
             } else {
@@ -191,24 +191,24 @@ const Profile = () => {
             );
         };
 
+        // Return different button according to raw value
+        const { value, } = getFieldDisplayValueRaw(field);
+
         // Photo - Return special operations button for photo field - Update | Delete
-        if (field.attributes === "photo") {
+        if (field.attributes.find(a => a.type === "photo")) {
             return (
                 <>
-                    {makeButton("Update")}
-                    <span className="text-gray-300 mt-2.5" aria-hidden="true">|</span>
+                    {value ? makeButton("Update") : makeButton("Add")}
+                    <span className="text-gray-300 flex items-center px-2" aria-hidden="true">|</span>
                     {makeButton("Remove")}
                 </>
             );
         }
 
-        // Return different button according to raw value
-        const { value, } = getFieldDisplayValueRaw(field);
-
-        if (value === null) {
-            return makeButton("Set");
-        } else {
+        if (value) {
             return makeButton("Update");
+        } else {
+            return makeButton("Set");
         }
     };
 
@@ -487,14 +487,14 @@ const Profile = () => {
 
             return (
                 <div key={field_key} className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4" >
-                    <dt className="text-sm font-medium text-gray-500">
+                    <dt className="text-sm font-medium text-gray-500 flex items-center">
                         {field.title}
                     </dt>
                     <dd className="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                         <span className="flex-grow">
                             {getFieldDisplayValue(field)}
                         </span>
-                        <span className="ml-4 flex-shrink-0 flex item-start space-x-4">
+                        <span className="ml-4 flex-shrink-0 flex item-start">
                             {getFieldActionButton(field)}
                         </span>
                     </dd>
