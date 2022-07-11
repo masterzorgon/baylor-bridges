@@ -39,7 +39,7 @@ const Properties = {
         role: Role.Alumni,
         attributes: [
             { key: "graduate_semester", path: "$.graduate_semester", type: "radio", title: "Semester", placeholder: "Semester", options: Semesters },
-            { key: "graduate_year", path: "$.graduate_year", type: "text", title: "Year", placeholder: "Year", validator: Joi.number().integer().min(1900).max(2099) },
+            { key: "graduate_year", path: "$.graduate_year", type: "text", title: "Year", placeholder: "Year", validator: Joi.number().integer().allow(null).min(1900).max(2099) },
         ]
     },
     graduate_student: {
@@ -47,7 +47,7 @@ const Properties = {
         role: Role.Student,
         attributes: [
             { key: "graduate_semester", path: "$.graduate_semester", type: "dropdown", title: "Semester", placeholder: "Semester", options: Semesters },
-            { key: "graduate_year", path: "$.graduate_year", type: "text", title: "Year", placeholder: "Year", validator: Joi.number().integer().min(1900).max(2099) },
+            { key: "graduate_year", path: "$.graduate_year", type: "text", title: "Year", placeholder: "Year", validator: Joi.number().integer().allow(null).min(1900).max(2099) },
         ]
     },
     occupation: {
@@ -77,7 +77,7 @@ const Properties = {
         title: "Email",
         attributes: {
             section: "contact_info", key: "email", path: "$.contact_info.email", type: "text", title: "Email", placeholder: "Email",
-            validator: Joi.string().email({ tlds: { allow: false } }),
+            validator: Joi.string().allow(null).email({ tlds: { allow: false } }),
             visibility: Visibilities,
         },
     },
@@ -85,7 +85,7 @@ const Properties = {
         title: "Phone",
         attributes: {
             section: "contact_info", key: "phone", path: "$.contact_info.phone", type: "text", title: "Phone", placeholder: "Phone",
-            validator: Joi.string().phoneNumber({ defaultCountry: "US", strict: true }),
+            validator: Joi.string().allow(null).phoneNumber({ defaultCountry: "US", strict: true }),
             visibility: Visibilities,
         },
     },
@@ -103,6 +103,7 @@ Object.entries(Properties).forEach(([key, property]) => {
                 options: attribute.visibility,
                 type: "visibility",
                 key: `${attribute.key}_visibility`,
+                path: `$.contact_info.${attribute.key}_visibility`,
                 placeholder: Visibilities[0].value,
                 title: "Visibility",
                 description: "Who can see this information",

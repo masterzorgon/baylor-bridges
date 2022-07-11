@@ -1,11 +1,11 @@
-import React, { Fragment, useId } from "react";
+import React, { Fragment, useId, useEffect, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { SelectorIcon, CheckIcon } from "@heroicons/react/outline";
 import { animated } from "react-spring";
 import jp from "jsonpath";
 
 import { classNames } from "../../components/Utils";
-import Buttons from "./components/Buttons";
+import { Button } from "../../components/Button";
 
 const Modal = ({
     show,
@@ -14,25 +14,47 @@ const Modal = ({
     loading,
     account,
     setAccount,
-    modal,
-    handleChangeModal,
+    next,
+    back
 }) => {
+    const [completed, setCompleted] = useState(false);
+    const [skippable, setSkippable] = useState(true);
+
+    useEffect(() => {
+        let completed = true;
+
+        field.fields.forEach(field => {
+            field.attributes.forEach(attribute => {
+                const value = jp.value(account, attribute.path);
+
+                if (attribute.required) {
+                    setSkippable(false);
+                }
+
+                if (attribute.validator) {
+                    const result = attribute.validator.validate(value);
+                    if (result.error) completed = false;
+                    console.log(attribute.key, value, result);
+                }
+            });
+        });
+
+        setCompleted(completed);
+    }, [account, completed, field.fields]);
+
     const render = () => {
         return field.fields.map(field => {
             if (field.role && account.role !== field.role) return null;
 
             return field.attributes.map(attribute => {
-                const value = jp.value(account, attribute.path);
+                if (attribute.role && account.role !== attribute.role) return null;
 
-                const onChange = value => {
+                attribute.value = jp.value(account, attribute.path);
+                attribute.onChange = value => {
+                    if (value === "") value = null;
                     jp.apply(account, attribute.path, () => value);
                     setAccount({ ...account });
                 };
-
-                if (attribute.role && account.role !== attribute.role) return null;
-
-                attribute.value = value;
-                attribute.onChange = onChange;
 
                 switch (attribute.type) {
                     case "text":
@@ -87,20 +109,28 @@ const Modal = ({
 
                                     {/* INPUT FIELDS */}
                                     {field.fields && <div className="bg-white rounded-bl-2xl rounded-br-2xl">
-                                        <div className="-space-y-pxsm shadow-sm">
+                                        <div className="shadow-sm">
                                             {render()}
                                         </div>
                                     </div>}
 
                                     {/* CHANGE MODAL BUTTONS */}
                                     <div className="flex justify-between mt-6 space-x-2">
-                                        <Buttons
-                                            handleChangeModal={handleChangeModal}
-                                            account={account}
-                                            modal={modal}
+                                        <Button
+                                            onClick={back}
+                                            className="sm:w-fit px-5 py-3 border shadow-sm text-sm bg-gray-100 font-medium rounded-md text-gray-600 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                                        >
+                                            Back
+                                        </Button>
+                                        <Button
+                                            disabled={loading || !completed}
                                             loading={loading}
-                                            required={field.buttons}
-                                        />
+                                            className="sm:w-fit px-5 py-3 text-sm"
+                                            onClick={next}
+                                            arrow={true}
+                                        >
+                                            {skippable ? "Skip" : "Next"}
+                                        </Button>
                                     </div>
                                 </div>
                             </div>

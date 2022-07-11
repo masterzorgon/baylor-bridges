@@ -1,5 +1,5 @@
 // import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useTimeoutFn } from "react-use";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -8,6 +8,7 @@ import { CheckCircleIcon, UserCircleIcon, LocationMarkerIcon, AcademicCapIcon, B
 import { InboxIcon } from "@heroicons/react/outline";
 
 import { Properties } from "../../components/profile/Fields";
+import { AccountContext } from "../../components/Account";
 
 import Modal from "./Modal";
 
@@ -77,21 +78,9 @@ const InfoInput = () => {
     const [, , takeAwayModal] = useTimeoutFn(() => setShow(false), 100); // used to fade modal out
     const [modal, setModal] = useState(1); // used to switch between modals
     const [loading, setLoading] = useState(false); // indicates that data is being sent to server
-    const [account, setAccount] = useState({  // updates account info
-        first_name: "",
-        last_name: "",
-        state: "",
-        city: "",
-        biography: "",
-        headline: "",
-        role: "",
-        contact_info: {
-            email: "",
-            email_visibility: "self",
-            phone: "",
-            phone_visibility: "self"
-        }
-    });
+
+    const { account: defaultAccount } = useContext(AccountContext);
+    const [account, setAccount] = useState(defaultAccount);
 
 
     // this makes the modal fade in on refresh
@@ -111,22 +100,24 @@ const InfoInput = () => {
             });
     }, []);
 
-    // allows use to toggle between next and previous modals
-    const handleChangeModal = async (status) => {
-        if (status === "next") {
-            setLoading(true);
+    const next = () => {
+        setLoading(true);
 
-            axios.put("/accounts/me", account, { headers: { "x-fields": x_fields } })
-                .then(res => {
-                    setLoading(false);
-                    setTimeout(() => setModal(modal + 1), 400);
-                }).catch(err => {
-                    toast.error(err.response.data.message);
-                });
-        } else {
-            setTimeout(() => setModal(modal - 1), 400);
-        }
+        axios.put("/accounts/me", account, { headers: { "x-fields": x_fields } })
+            .then(res => {
+                setLoading(false);
+                setTimeout(() => setModal(modal + 1), 400);
+            }).catch(err => {
+                toast.error(err.response.data.message);
+            }).finally(() => {
+                setLoading(false);
+                takeAwayModal();
+            });
+    };
 
+    const back = () => {
+        setLoading(false);
+        setTimeout(() => setModal(modal - 1), 400);
         takeAwayModal();
     };
 
@@ -206,7 +197,8 @@ const InfoInput = () => {
                         transition={transition}
                         account={account}
                         setAccount={setAccount}
-                        handleChangeModal={handleChangeModal}
+                        next={next}
+                        back={back}
                     />
                 </>
             );
