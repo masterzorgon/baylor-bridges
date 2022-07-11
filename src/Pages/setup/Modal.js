@@ -127,12 +127,16 @@ const Modal = ({
 
                                     {/* CHANGE MODAL BUTTONS */}
                                     <div className="flex justify-between mt-6 space-x-2">
-                                        <Button
-                                            onClick={back}
-                                            className="sm:w-fit px-5 py-3 border shadow-sm text-sm bg-gray-100 font-medium rounded-md text-gray-600 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
-                                        >
-                                            Back
-                                        </Button>
+                                        {
+                                            back ?
+                                                <Button
+                                                    onClick={back}
+                                                    className="sm:w-fit px-5 py-3 border shadow-sm text-sm bg-gray-100 font-medium rounded-md text-gray-600 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                                                >
+                                                Back
+                                                </Button>
+                                                : <p></p>
+                                        }
                                         <Button
                                             disabled={loading || !completed}
                                             loading={loading}

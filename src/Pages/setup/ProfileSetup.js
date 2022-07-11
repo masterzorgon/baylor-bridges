@@ -1,6 +1,7 @@
 // import axios from "axios";
 import React, { useState, useEffect, useContext } from "react";
 import { useTimeoutFn } from "react-use";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useTransition } from "react-spring";
@@ -76,15 +77,16 @@ const InfoInput = () => {
     const [show, setShow] = useState(false); // used to fade modals in and out
     const [, , showTheModal] = useTimeoutFn(() => setShow(true), 200); // used to fade modals in
     const [, , takeAwayModal] = useTimeoutFn(() => setShow(false), 200); // used to fade modal out
-    const [modal, setModal] = useState(1); // used to switch between modals
+    const [sequence, setSequence] = useState(1); // used to switch between modals
     const [loading, setLoading] = useState(false); // indicates that data is being sent to server
 
     const { account: defaultAccount } = useContext(AccountContext);
     const [account, setAccount] = useState(defaultAccount);
 
+    const navigate = useNavigate();
 
     // this makes the modal fade in on refresh
-    useEffect(() => showTheModal(), [modal]);
+    useEffect(() => showTheModal(), [sequence]);
 
     // get current authenticated account profile
     const x_fields = "user_id, first_name, last_name, headline, prefix, role, occupation, graduate_year, graduate_semester, city, state, occupation, biography, contact_info";
@@ -101,12 +103,17 @@ const InfoInput = () => {
     }, []);
 
     const next = () => {
+        if (sequence === 6) {
+            navigate("/setup/done");
+            return;
+        }
+
         setLoading(true);
 
         axios.put("/accounts/me", account, { headers: { "x-fields": x_fields } })
             .then(res => {
                 setLoading(false);
-                setTimeout(() => setModal(modal + 1), 400);
+                setTimeout(() => setSequence(sequence + 1), 400);
             }).catch(err => {
                 toast.error(err.response.data.message);
             }).finally(() => {
@@ -117,7 +124,7 @@ const InfoInput = () => {
 
     const back = () => {
         setLoading(false);
-        setTimeout(() => setModal(modal - 1), 400);
+        setTimeout(() => setSequence(sequence - 1), 400);
         takeAwayModal();
     };
 
@@ -135,7 +142,7 @@ const InfoInput = () => {
     // RENDER MODAL COMPONENTS
     for (const property in fields) {
 
-        if (fields[property].sequence === modal) {
+        if (fields[property].sequence === sequence) {
             const modalField = fields[property];
 
             return (
@@ -193,12 +200,12 @@ const InfoInput = () => {
                         field={modalField}
                         loading={loading}
                         show={show}
-                        modal={modal}
+                        modal={sequence}
                         transition={transition}
                         account={account}
                         setAccount={setAccount}
                         next={next}
-                        back={back}
+                        {...(sequence > 1 ? {back} : null)}
                     />
                 </>
             );
