@@ -20,9 +20,9 @@ const Account = (props) => {
         }
     }, [account]);
 
-    const signIn = async (username, password) => {
+    const signIn = async (username, password, remember = false) => {
         return await new Promise((resolve, reject) => {
-            axios.post("/accounts/signin", { username: username, password: password }, { timeout: 60000, headers: { "x-fields": x_fields } })
+            axios.post("/accounts/signin", { username: username, password: password, remember_me: remember }, { timeout: 60000, headers: { "x-fields": x_fields } })
                 .then(response => {
                     setAccountLocal(response.data);
                     resolve(response.data);
