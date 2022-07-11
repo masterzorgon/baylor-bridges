@@ -11,7 +11,7 @@ const Buttons = ({ required, loading, modal, account, handleChangeModal, onSubmi
             <Button
                 onClick={
                     modal === 1
-                        ? () => navigate("/setup/welcome")
+                        ? () => navigate("/setup")
                         : async () => handleChangeModal("back")
                 }
                 className="sm:w-fit px-5 py-3 border shadow-sm text-sm bg-gray-100 font-medium rounded-md text-gray-600 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
