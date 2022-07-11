@@ -148,10 +148,11 @@ const Profile = () => {
             let value = jp.value(account, attribute.path);
             let visibility = jp.value(account, `${attribute.path}_visibility`);
 
-            if (!value) return "";
 
             if (attribute.type === "photo") {
                 value = <Photo size="12" />;
+            } else if (!value) {
+                value = null;
             } else if (attribute.type === "radio") {
                 value = option_value_to_title(attribute.options, value) + " ";
             } else {
@@ -200,12 +201,12 @@ const Profile = () => {
     // Get modal button for given field
     const getFieldActionButton = (field) => {
         // Make a button with given text
-        const makeButton = (text) => {
+        const makeButton = (text, onClick = () => onOpenFieldModal(field)) => {
             return (
                 <button
                     type="button"
                     className="p-1 -m-1 bg-white rounded-md font-medium text-emerald-600 hover:text-emerald-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
-                    onClick={() => onOpenFieldModal(field)}
+                    onClick={onClick}
                 >
                     {text}
                 </button>
@@ -220,8 +221,8 @@ const Profile = () => {
             return (
                 <>
                     {value ? makeButton("Update") : makeButton("Add")}
-                    <span className="text-gray-300 flex items-center px-2" aria-hidden="true">|</span>
-                    {makeButton("Remove")}
+                    {value && <span className="text-gray-300 flex items-center px-2" aria-hidden="true">|</span>}
+                    {value && makeButton("Remove", () => setAccount({ ...account, photo: null }))}
                 </>
             );
         }
@@ -262,12 +263,13 @@ const Profile = () => {
                 return (
                     <div className="flex items-center space-x-4">
                         <Photo account={{ ...account, ...update }} size={20} />
-                        <div className="space-y-3">
+                        <div className="space-y-2">
                             {filesContent.map((file, index) => (
-                                <div key={index}>
-                                    <p>{file.name}</p>
-                                </div>
+                                <div key={index}>{file.name}</div>
                             ))}
+                            {(!filesContent || filesContent?.length === 0) &&
+                                <div>No file selected</div>
+                            }
                             <button className="secondary" onClick={() => openFileSelector()}>Select</button>
                         </div>
                     </div>
@@ -502,7 +504,6 @@ const Profile = () => {
                         update.photo = res.data.filename;
                         delete update.photo_plain;
                         setUpdate(update);
-                        console.log(update);
                         resolve();
                     }
                     ).catch(err => {
