@@ -96,10 +96,8 @@ const Form = () => {
         axios.get("/accounts/me", { headers: { "x-fields": x_fields } })
             .then(res => {
                 setAccount(res.data);
-                console.log(res.data);
             })
             .catch(err => {
-                console.log(err);
                 toast.error(err.response.data.message);
             });
     }, []);
@@ -136,10 +134,6 @@ const Form = () => {
         enter: { x: 0, y: -30, opacity: 1 },
         leave: { x: 0, y: -80, opacity: 0 }
     });
-
-    useEffect(() => {
-        console.log(account);
-    }, [account]);
 
     // RENDER MODAL COMPONENTS
     for (const property in fields) {
@@ -251,7 +245,6 @@ const Modal = ({
                     const result = attribute.validator.validate(value);
                     if (result.error) {
                         completed = false;
-                        console.log(attribute.key, value, result);
                     }
                 }
             });
@@ -349,7 +342,7 @@ const Modal = ({
                                         <Button
                                             disabled={loading || !completed}
                                             loading={loading}
-                                            className="sm:w-fit px-5 py-3.5 text-sm"
+                                            className="sm:w-fit px-5 py-3.5 text-sm font-medium"
                                             onClick={next}
                                             arrow={true}
                                         >
@@ -405,7 +398,6 @@ const Radio = ({ title, required, value, options, onChange, placeholder }) => {
     const option_value_to_title = (options, value) => {
         // Find the option with the matching value
         const option = options.find(option => option.value === value);
-        console.log(option, value);
         return option ? option.title : null;
     };
 

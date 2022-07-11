@@ -131,11 +131,11 @@ const Done = () => {
                         </p>
                         <div className="flex justify-between mt-6 space-x-2">
                             <Button
-                                className="sm:w-fit px-5 py-3"
+                                className="sm:w-fit px-5 py-4 font-medium rounded-md shadow-md cursor-pointer text-base"
                                 onClick={() => navigate("/profile")}
                                 arrow={true}
                             >
-                                Next
+                                Go to Profile
                             </Button>
                         </div>
                     </div>
