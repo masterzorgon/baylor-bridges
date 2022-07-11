@@ -358,7 +358,7 @@ const Profile = () => {
                                                     {
                                                         profileAccount && profileAccount.experiences && profileAccount.experiences.map((experience, index) => (
                                                             <li className="px-4 sm:px-6 py-5" key={index}>
-                                                                <ExperienceCard experience={experience} />
+                                                                <ExperienceCard experience={experience} account={profileAccount} />
                                                             </li>
                                                         ))
                                                     }

@@ -12,13 +12,14 @@ const Form = () => {
     const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [remember, setRemember] = useState(true);
     const { signIn } = useContext(AccountContext);
 
 
     const onSubmit = () => {
         setLoading(true);
 
-        signIn(email, password)
+        signIn(email, password, remember)
             .then(response => {
                 console.log(response);
 
@@ -140,7 +141,9 @@ const Form = () => {
                                         id="remember-me"
                                         name="remember-me"
                                         type="checkbox"
-                                        className="h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-gray-300 rounded"
+                                        className="h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-gray-300 rounded-sm"
+                                        checked={remember}
+                                        onChange={(event) => setRemember(event.target.checked)}
                                     />
                                     <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
                                         Remember me
