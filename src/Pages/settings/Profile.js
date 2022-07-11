@@ -1,6 +1,8 @@
 import React, { Fragment, useState, useEffect, useContext } from "react";
 import { Dialog, Transition, Listbox } from "@headlessui/react";
 import { SelectorIcon, CheckIcon, EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
+import { useFilePicker } from "use-file-picker";
+import axios from "axios";
 import { toast } from "react-toastify";
 import jp from "jsonpath";
 
@@ -69,9 +71,31 @@ const Profile = () => {
 
     const [markdownEditorTab, setMarkdownEditorTab] = useState("edit");
 
+    const [openFileSelector, { filesContent, plainFiles, loading: fileUploaderLoading, errors }] = useFilePicker({
+        readAs: "DataURL",
+        accept: "image/*",
+        multiple: false,
+        limitFilesConfig: { max: 1 },
+        maxFileSize: 50,
+    });
+
     useEffect(() => {
         console.log(markdownEditorTab, markdownEditorTab === 0, markdownEditorTab === 1);
     }, [markdownEditorTab]);
+
+    useEffect(() => {
+        setLoading(fileUploaderLoading);
+    }, [fileUploaderLoading]);
+
+    useEffect(() => {
+        toast.error(errors);
+    }, [errors]);
+
+    useEffect(() => {
+        if (plainFiles?.length > 0) {
+            setUpdate({ ...update, photo: filesContent[0].content, photo_plain: plainFiles[0] });
+        }
+    }, [plainFiles, filesContent]);
 
     // When update field changed, check completeness
     useEffect(() => {
@@ -99,7 +123,6 @@ const Profile = () => {
             // All attributes passes their validator
             if (attribute.validator) {
                 const result = attribute.validator.validate(value);
-                console.log(result);
                 if (result.error) {
                     complete = false;
                 }
@@ -143,8 +166,6 @@ const Profile = () => {
             visibility = attribute.visibility ?? null;
             return attribute.value;
         });
-
-        console.log(field.title, attributes);
 
         // Return values
         if (attributes.length === 0) {
@@ -237,8 +258,20 @@ const Profile = () => {
                 }
             };
 
-            if (attribute.type === "file") {
-                return <></>;
+            if (attribute.type === "photo") {
+                return (
+                    <div className="flex items-center space-x-4">
+                        <Photo account={{ ...account, ...update }} size={20} />
+                        <div className="space-y-3">
+                            {filesContent.map((file, index) => (
+                                <div key={index}>
+                                    <p>{file.name}</p>
+                                </div>
+                            ))}
+                            <button className="secondary" onClick={() => openFileSelector()}>Select</button>
+                        </div>
+                    </div>
+                );
             } else if (attribute.type === "text") {
                 return (
                     <>
@@ -459,15 +492,39 @@ const Profile = () => {
     const onSubmit = () => {
         setLoading(true);
 
-        setAccount(update)
-            .then(res => {
-                console.log(res);
-                setOpen(false);
-            })
-            .catch(err => toast.error(err.response.data.message))
-            .finally(() => {
-                setLoading(false);
+        new Promise((resolve, reject) => {
+            // Upload photo if there's one
+            if (update.photo_plain) {
+                let formData = new FormData();
+                formData.set("file", update.photo_plain);
+                axios.post("/files", formData, { headers: { "content-type": "multipart/form-data" } })
+                    .then(res => {
+                        update.photo = res.data.filename;
+                        delete update.photo_plain;
+                        setUpdate(update);
+                        console.log(update);
+                        resolve();
+                    }
+                    ).catch(err => {
+                        toast.error(err);
+                        reject();
+                    });
+            } else {
+                resolve();
+            }
+        })
+            .then(() => {
+                setAccount(update)
+                    .then(res => {
+                        console.log(res);
+                        setOpen(false);
+                    })
+                    .catch(err => toast.error(err.response.data.message))
+                    .finally(() => {
+                        setLoading(false);
+                    });
             });
+
     };
 
     const makeField = (field_key, field) => {
