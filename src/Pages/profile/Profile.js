@@ -23,6 +23,7 @@ delete profile.headline;
 delete profile.biography;
 profile.email = { ...profile.email, type: "email" };
 profile.phone = { ...profile.phone, type: "phone" };
+profile.role = {...profile.role, value_class: "capitalize"};
 
 
 const option_value_to_title = (options, value) => {
