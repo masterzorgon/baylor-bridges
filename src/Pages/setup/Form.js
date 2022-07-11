@@ -82,8 +82,8 @@ const Form = () => {
     const [sequence, setSequence] = useState(1); // used to switch between modals
     const [loading, setLoading] = useState(false); // indicates that data is being sent to server
 
-    const { account: defaultAccount } = useContext(AccountContext);
-    const [account, setAccount] = useState(defaultAccount);
+    const { account, setAccount } = useContext(AccountContext);
+    const [accountLocal, setAccountLocal] = useState(account);
 
     const navigate = useNavigate();
 
@@ -95,7 +95,7 @@ const Form = () => {
     useEffect(() => {
         axios.get("/accounts/me", { headers: { "x-fields": x_fields } })
             .then(res => {
-                setAccount(res.data);
+                setAccountLocal(res.data);
             })
             .catch(err => {
                 toast.error(err.response.data.message);
@@ -105,7 +105,7 @@ const Form = () => {
     const next = () => {
         setLoading(true);
 
-        axios.put("/accounts/me", account, { headers: { "x-fields": x_fields } })
+        setAccount(accountLocal)
             .then(res => {
                 setLoading(false);
 
@@ -198,8 +198,8 @@ const Form = () => {
                         show={show}
                         modal={sequence}
                         transition={transition}
-                        account={account}
-                        setAccount={setAccount}
+                        account={accountLocal}
+                        setAccount={setAccountLocal}
                         next={next}
                         {...(sequence > 1 ? { back } : null)}
                     />
