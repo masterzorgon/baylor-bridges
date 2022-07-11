@@ -17,28 +17,41 @@ const Modal = ({
     next,
     back
 }) => {
+    const [modified, setModified] = useState(false);
     const [completed, setCompleted] = useState(false);
-    const [skippable, setSkippable] = useState(true);
+    const [skippable, setSkippable] = useState(false);
 
     useEffect(() => {
+        let modified = false;
         let completed = true;
+        let skippable = true;
 
         field.fields.forEach(field => {
             field.attributes.forEach(attribute => {
                 const value = jp.value(account, attribute.path);
 
+                if (attribute.type !== "visibility" && value && value !== "") {
+                    modified = true;
+                }
+
                 if (attribute.required) {
-                    setSkippable(false);
+                    skippable = false;
                 }
 
                 if (attribute.validator) {
                     const result = attribute.validator.validate(value);
-                    if (result.error) completed = false;
-                    console.log(attribute.key, value, result);
+                    if (result.error) {
+                        completed = false;
+                        console.log(attribute.key, value, result);
+                    }
                 }
             });
         });
 
+        console.log(modified, completed, skippable);
+
+        setModified(modified);
+        setSkippable(skippable);
         setCompleted(completed);
     }, [account, completed, field.fields]);
 
@@ -129,7 +142,9 @@ const Modal = ({
                                             onClick={next}
                                             arrow={true}
                                         >
-                                            {skippable ? "Skip" : "Next"}
+                                            {
+                                                (skippable && !modified) ? "Skip" : "Next"
+                                            }
                                         </Button>
                                     </div>
                                 </div>
