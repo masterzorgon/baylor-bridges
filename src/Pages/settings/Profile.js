@@ -37,6 +37,7 @@ const profile = {
         description: "Your basic personal information will be shown publicly to everyone.",
         fields: [
             Properties.name,
+            Properties.photo,
             Properties.headline,
             Properties.graduate_alumni,
             Properties.graduate_student,
