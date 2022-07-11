@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect, useContext } from "react";
 import { Dialog, Transition, Listbox } from "@headlessui/react";
 import { SelectorIcon, CheckIcon, EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
 import { toast } from "react-toastify";
+import jp from "jsonpath";
 
 import Photo from "../../components/Photo";
 import Button from "../../components/Button";
@@ -85,9 +86,7 @@ const Profile = () => {
         let complete = true;
 
         field.attributes.forEach(attribute => {
-            const section = attribute.section;
-            const key = attribute.key;
-            const value = section ? update[section][key] : update[key];
+            const value = jp.value(update, attribute.path);
 
             // All required attributes are filled
             if (attribute.required === true) {
@@ -112,54 +111,56 @@ const Profile = () => {
     // Get the raw value of a field, return either the field attribute value, or null, with the visibility value
     const getFieldDisplayValueRaw = (field) => {
         if (account === null) {
-            return [null, null];
+            return null;
         }
 
-        // Initialize values
-        let string = "";
-        let visibility = null;
-
         // Traverse each atomic attribute
-        field.attributes.forEach((attribute) => {
+        const attributes = field.attributes.map((attribute) => {
             if (attribute.type === "visibility") {
-                visibility = account[attribute.key];
-                return;
+                return null;
             }
 
-            const section = attribute.section;
-            const key = attribute.key;
-            const value = section ? account[section][key] : account[key];
+            let key = attribute.key;
+            let value = jp.value(account, attribute.path);
+            let visibility = jp.value(account, `${attribute.path}_visibility`);
 
-            if (!value) return;
-            if (attribute.type === "radio") {
-                string += option_value_to_title(attribute.options, value) + " ";
+            if (!value) return "";
+
+            if (attribute.type === "photo") {
+                value = <Photo size="10" />;
+            } else if (attribute.type === "radio") {
+                value = option_value_to_title(attribute.options, value) + " ";
             } else {
-                string += value + " ";
+                value = value + " ";
             }
+
+            return { key, value, visibility };
+        });
+
+        let visibility = null;
+        let value = attributes.filter(a => a).map(attribute => {
+            visibility = attribute.visibility ?? null;
+            return attribute.value;
         });
 
         // Return values
-        string = string.trim(); // Remove spaces
-        if (string === "") {
-            return [null, visibility];
+        if (attributes === []) {
+            return null;
         }
-        return [string, visibility];
+
+        return { value, visibility };
     };
 
     const getFieldDisplayValue = (field) => {
-        // Photo - Return Photo component
-        if (field.attributes && field.attributes.type === "photo") {
-            return <Photo size="10" />;
-        }
-
         // Other fields
-        const [value, visibility] = getFieldDisplayValueRaw(field);
+        const { value, visibility } = getFieldDisplayValueRaw(field);
+        console.log("get", value, visibility);
         if (value === null) {
             return <div className="text-gray-400">Not set</div>;
         } else {
             // If has visibility attribute, display eye/eyeoff icon
             // else, return just the value
-            if (visibility !== null) {
+            if (visibility) {
                 return (
                     <div className="flex items-center space-x-1">
                         <p>{value}</p>
@@ -200,8 +201,7 @@ const Profile = () => {
         }
 
         // Return different button according to raw value
-        // eslint-disable-next-line no-unused-vars
-        const [value, visibility] = getFieldDisplayValueRaw(field);
+        const value = getFieldDisplayValueRaw(field);
 
         if (value === null) {
             return makeButton("Set");
