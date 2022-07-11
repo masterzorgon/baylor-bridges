@@ -23,6 +23,7 @@ delete profile.headline;
 delete profile.biography;
 profile.email = { ...profile.email, type: "email" };
 profile.phone = { ...profile.phone, type: "phone" };
+profile.role = {...profile.role, value_class: "capitalize"};
 
 
 const option_value_to_title = (options, value) => {
@@ -87,7 +88,7 @@ const Profile = () => {
             const value = section ? profileAccount[section][key] : profileAccount[key];
 
             if (value) {
-                if (attribute.type === "dropdown") {
+                if (attribute.type === "radio") {
                     string += option_value_to_title(attribute.options, value);
                 } else {
                     string += value + " ";
