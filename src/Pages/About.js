@@ -280,22 +280,22 @@ const About = () => {
 
     const getSection = (section) => {
         return (
-            <div className="mx-auto py-8 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-10">
-                <div className="space-y-12 lg:grid lg:grid-cols-3 lg:gap-8 lg:space-y-0">
-                    <div className="space-y-5 sm:space-y-4">
-                        <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">{section.title}</h2>
-                        <p className="text-xl text-gray-500">
+            <div className="mx-auto py-6 px-4 max-w-7xl sm:px-6 lg:px-8 lg:py-7">
+                <div className="space-y-5 lg:grid lg:grid-cols-3 lg:gap-10 lg:space-y-0">
+                    <div className="space-y-5 sm:space-y-2">
+                        <h2 className="text-3xl font-extrabold tracking-tight sm:text-2xl">{section.title}</h2>
+                        <p className="text-gray-500">
                             {section.description}
                         </p>
                     </div>
                     {/* PROFILE CARDS BELOW */}
                     <div className="lg:col-span-2">
-                        <ul className="space-y-10 sm:grid sm:grid-cols-2 sm:gap-10 sm:space-y-0 lg:gap-x-8">
+                        <ul className="space-y-2 sm:grid sm:grid-cols-2 sm:gap-4 sm:space-y-0 lg:gap-x-6">
                             {section.people.map((person) => (
                                 <li key={person.name}>
                                     <div className="flex items-center space-x-4 lg:space-x-6">
                                         <img className="object-cover w-16 h-16 rounded-full lg:w-20 lg:h-20" src={person.imageUrl ? person.imageUrl : defaultBg} alt={`${person.name}`} />
-                                        <div className="text-lg leading-6 space-y-1">
+                                        <div className="text-base leading-6">
                                             <h3 className="font-medium">
                                                 {person.name}
                                             </h3>
@@ -323,12 +323,12 @@ const About = () => {
     return (
         <>
             <div className="relative bg-gradient bg-gradient-to-r from-emerald-600 via-emerald-600 to-teal-600 mb-4">
-                <div className="relative max-w-7xl mx-auto py-20 px-4 sm:py-28 sm:px-6 lg:px-8">
-                    <h1 className="text-3xl font-bold tracking-tight text-white sm:text-5xl lg:text-5xl">
+                <div className="relative max-w-7xl mx-auto py-20 px-4 sm:py-18 sm:px-6 lg:px-8">
+                    <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
                         Baylor Bridges Governing Board
                     </h1>
-                    <p className="mt-6 text-xl text-emerald-100 max-w-3xl">
-                        <HyperLink href="https://www.baylor.edu/prehealth/index.php?id=982101" arrow={true} className="text-sm sm:text-lg font-medium text-white hover:text-gray-50 after:bg-white">
+                    <p className="mt-3 text-xl text-emerald-100 max-w-3xl">
+                        <HyperLink to={"#"} onClick={() => window.open("https://www.baylor.edu/prehealth/index.php?id=982101", "_blank")} arrow={true} className="text-sm sm:text-lg font-medium text-white hover:text-gray-50 after:bg-white">
                             View Governing Board List on Baylor University
                         </HyperLink>
                     </p>

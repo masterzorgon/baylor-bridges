@@ -30,11 +30,12 @@ const Button = ({ onClick, loading, disabled, children, className, arrow }) => {
     );
 };
 
-const HyperLink = ({ href, to, children, className, arrow }) => {
+const HyperLink = ({ href, to, children, className, arrow, ...properties}) => {
     return (
         <Link
             to={href || to}
             className={classNames("link text-center justify-center inline-flex items-center relative cursor-pointer", className)}
+            {...properties}
         >
             {children}
             {
