@@ -74,8 +74,8 @@ const fields = {
 
 const InfoInput = () => {
     const [show, setShow] = useState(false); // used to fade modals in and out
-    const [, , showTheModal] = useTimeoutFn(() => setShow(true), 400); // used to fade modals in
-    const [, , takeAwayModal] = useTimeoutFn(() => setShow(false), 100); // used to fade modal out
+    const [, , showTheModal] = useTimeoutFn(() => setShow(true), 200); // used to fade modals in
+    const [, , takeAwayModal] = useTimeoutFn(() => setShow(false), 200); // used to fade modal out
     const [modal, setModal] = useState(1); // used to switch between modals
     const [loading, setLoading] = useState(false); // indicates that data is being sent to server
 
@@ -129,7 +129,7 @@ const InfoInput = () => {
     });
 
     useEffect(() => {
-        console.log("ACCOUNT CHANGED:", account);
+        console.log(account);
     }, [account]);
 
     // RENDER MODAL COMPONENTS

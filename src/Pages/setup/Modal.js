@@ -48,8 +48,6 @@ const Modal = ({
             });
         });
 
-        console.log(modified, completed, skippable);
-
         setModified(modified);
         setSkippable(skippable);
         setCompleted(completed);
@@ -302,7 +300,7 @@ const TextareaInput = ({ title, required, value, onChange, placeholder }) => {
                 className="block w-full border-0 px-0 py-2 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
                 style={{ "height": "8rem" }}
                 placeholder={placeholder}
-                onChange={onChange}
+                onChange={(event) => onChange(event.target.value)}
                 value={value ?? ""}
             />
         </div>
