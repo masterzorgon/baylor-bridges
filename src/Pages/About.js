@@ -328,7 +328,7 @@ const About = () => {
                         Baylor Bridges Governing Board
                     </h1>
                     <p className="mt-3 text-xl text-emerald-100 max-w-3xl">
-                        <HyperLink href="https://www.baylor.edu/prehealth/index.php?id=982101" arrow={true} className="text-sm sm:text-lg font-medium text-white hover:text-gray-50 after:bg-white">
+                        <HyperLink to={"#"} onClick={() => window.open("https://www.baylor.edu/prehealth/index.php?id=982101", "_blank")} arrow={true} className="text-sm sm:text-lg font-medium text-white hover:text-gray-50 after:bg-white">
                             View Governing Board List on Baylor University
                         </HyperLink>
                     </p>
