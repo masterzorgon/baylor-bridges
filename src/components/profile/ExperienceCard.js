@@ -3,7 +3,6 @@ import dayjs from "dayjs";
 import { Menu, Transition } from "@headlessui/react";
 import { PaperClipIcon } from "@heroicons/react/solid";
 import { PencilIcon, DotsVerticalIcon, TrashIcon, PlusSmIcon } from "@heroicons/react/outline";
-import { Link } from "react-router-dom";
 
 import Photo from "../../components/Photo";
 import Markdown from "../../components/Markdown";
@@ -112,10 +111,10 @@ const ExperienceCard = ({ className, account, experience, onEditExperience, onDe
                                     <div className="w-0 flex-1 flex items-center">
                                         <PaperClipIcon className="flex-shrink-0 h-5 w-5 text-gray-400" />
                                         <span className="ml-2 flex-1 w-0 truncate text-gray-700">
-                                            <Link to={/^http:\/\//.test(publication.duo_link) || /^https:\/\//.test(publication.duo_link) ? publication.duo_link : "//" + publication.duo_link}
+                                            <a href={/^http:\/\//.test(publication.duo_link) || /^https:\/\//.test(publication.duo_link) ? publication.duo_link : "//" + publication.duo_link}
                                                 className="font-medium text-emerald-600 hover:text-emerald-500" target="_blank" rel="noreferrer">
                                                 {publication.title}
-                                            </Link>
+                                            </a>
                                         </span>
                                     </div>
                                     {
