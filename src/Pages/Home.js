@@ -184,7 +184,7 @@ const Home = () => {
                     {/* Logo cloud */}
                     {/* TODO: Add logos for baylor prehealth student orginization, ABB, and baylor prehealth office */}
                     <div className="bg-gray-50 mt-6">
-                        <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-6">
+                        <div className="max-w-2xl mx-auto py-16 px-4 sm:px-6 lg:px-6">
                             <p className="text-center text-sm font-semibold uppercase text-gray-500 tracking-wide">
                                 Proudly supported By
                             </p>

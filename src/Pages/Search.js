@@ -568,9 +568,8 @@ const Search = () => {
                     {/* People list */}
                     <div className="bg-white sm:rounded-md mt-1">
                         <ul className="divide-y divide-gray-100 px-6" ref={animation}>
-                            {profiles && profiles.map((profile) => (
+                            {profiles?.map((profile) => (
                                 <li key={profile.user_id}>
-                                    {/*TODO add href for account detail page*/}
                                     <Link className="block hover:bg-gray-50 rounded-md -mx-6" to={"/profile/" + profile.user_id} rel="noreferrer">
                                         <div className="flex items-center px-4 py-4 sm:px-6">
                                             <div className="min-w-0 flex-1 flex items-center">
@@ -619,6 +618,20 @@ const Search = () => {
                                     </Link>
                                 </li>
                             ))}
+                            {
+                                (profiles?.length === 0) &&
+                                <li className="text-center text-gray-500">
+                                    <h3 className="mt-2 text-lg font-medium text-gray-900">No matching result</h3>
+                                    <p className="mt-1 text-sm text-gray-500">Sorry, we cannot find anything matching {query.keywords}.</p>
+                                </li>
+                            }
+                            {
+                                !profiles &&
+                                <li className="text-center text-gray-500">
+                                    <h3 className="mt-2 text-lg font-medium text-gray-900">There is no search</h3>
+                                    <p className="mt-1 text-sm text-gray-500">Type in keywords appears in name or headline, and filter by graduating class, role or state.</p>
+                                </li>
+                            }
                         </ul>
 
                     </div>
