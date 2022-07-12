@@ -30,6 +30,10 @@ const Properties = {
             { key: "last_name", path: "$.last_name", type: "text", title: "Last name", placeholder: "Last name", required: true, validator: Joi.string().required() },
         ],
     },
+    photo: {
+        title: "Photo",
+        attributes: { key: "photo", path: "$.photo", type: "photo", title: "Photo" }
+    },
     headline: {
         title: "Headline",
         attributes: { key: "headline", path: "$.headline", type: "text", maxLength: 100, title: "Headline", placeholder: "Headline" },

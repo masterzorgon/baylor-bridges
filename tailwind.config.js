@@ -4,7 +4,9 @@ module.exports = {
     ],
     theme: { extend: { fontSize: { "base": [".95rem", "1.425rem"], }, }, },
     plugins: [
-        require("@tailwindcss/forms"),
         require("@tailwindcss/typography"),
+        require("@tailwindcss/forms"),
+        require("@tailwindcss/line-clamp"),
+        require("@tailwindcss/aspect-ratio"),
     ],
 };

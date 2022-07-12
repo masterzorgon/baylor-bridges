@@ -18,12 +18,13 @@ import NotFoundModal from "./NotFoundModal";
 
 
 const profile = { ...Properties };
+delete profile.photo;
 delete profile.name;
 delete profile.headline;
 delete profile.biography;
 profile.email = { ...profile.email, type: "email" };
 profile.phone = { ...profile.phone, type: "phone" };
-profile.role = {...profile.role, value_class: "capitalize"};
+profile.role = { ...profile.role, value_class: "capitalize" };
 
 
 const option_value_to_title = (options, value) => {
@@ -60,7 +61,7 @@ const Profile = () => {
             url = `/accounts/${user_id}`;
         }
 
-        axios.get(url, { withoutInterceptors: true, headers: { "x-fields": "user_id, first_name, last_name, headline, role, occupation, graduate_year, city, state, biography, contact_info, experiences" } })
+        axios.get(url, { headers: { "x-fields": "user_id, first_name, last_name, headline, photo, role, occupation, graduate_year, city, state, biography, contact_info, experiences" } })
             .then(({ data }) => {
                 setProfileAccount(data);
                 setIsSelf(account && account.user_id === data.user_id);
@@ -174,12 +175,9 @@ const Profile = () => {
 
                     {/* Page header */}
                     <div className="max-w-3xl mx-auto px-4 sm:px-6 md:flex md:items-center md:justify-between md:space-x-5 lg:max-w-7xl lg:px-8">
-                        <div className="flex items-center space-x-5">
+                        <div className="flex items-center space-x-3">
                             <div className="flex-shrink-0">
-                                <div className="relative">
-                                    <Photo size="16" account={profileAccount} badges={true} />
-                                    <span className="absolute inset-0 shadow-inner rounded-full w-16 h-16" aria-hidden="true" />
-                                </div>
+                                <Photo size="20" account={profileAccount} badges={true} />
                             </div>
                             {
                                 profileAccount === null &&

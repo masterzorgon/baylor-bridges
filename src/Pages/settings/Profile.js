@@ -1,6 +1,8 @@
 import React, { Fragment, useState, useEffect, useContext } from "react";
 import { Dialog, Transition, Listbox } from "@headlessui/react";
 import { SelectorIcon, CheckIcon, EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
+import { useFilePicker } from "use-file-picker";
+import axios from "axios";
 import { toast } from "react-toastify";
 import jp from "jsonpath";
 
@@ -37,6 +39,7 @@ const profile = {
         title: "Basic Information",
         description: "Your basic personal information will be shown publicly to everyone.",
         fields: [
+            Properties.photo,
             Properties.name,
             Properties.headline,
             Properties.graduate_alumni,
@@ -68,9 +71,31 @@ const Profile = () => {
 
     const [markdownEditorTab, setMarkdownEditorTab] = useState("edit");
 
+    const [openFileSelector, { filesContent, plainFiles, loading: fileUploaderLoading, errors }] = useFilePicker({
+        readAs: "DataURL",
+        accept: "image/*",
+        multiple: false,
+        limitFilesConfig: { max: 1 },
+        maxFileSize: 50,
+    });
+
     useEffect(() => {
         console.log(markdownEditorTab, markdownEditorTab === 0, markdownEditorTab === 1);
     }, [markdownEditorTab]);
+
+    useEffect(() => {
+        setLoading(fileUploaderLoading);
+    }, [fileUploaderLoading]);
+
+    useEffect(() => {
+        toast.error(errors);
+    }, [errors]);
+
+    useEffect(() => {
+        if (plainFiles?.length > 0) {
+            setUpdate({ ...update, photo: filesContent[0].content, photo_plain: plainFiles[0] });
+        }
+    }, [plainFiles, filesContent]);
 
     // When update field changed, check completeness
     useEffect(() => {
@@ -98,7 +123,6 @@ const Profile = () => {
             // All attributes passes their validator
             if (attribute.validator) {
                 const result = attribute.validator.validate(value);
-                console.log(result);
                 if (result.error) {
                     complete = false;
                 }
@@ -124,10 +148,11 @@ const Profile = () => {
             let value = jp.value(account, attribute.path);
             let visibility = jp.value(account, `${attribute.path}_visibility`);
 
-            if (!value) return "";
 
             if (attribute.type === "photo") {
-                value = <Photo size="10" />;
+                value = <Photo size="12" />;
+            } else if (!value) {
+                value = null;
             } else if (attribute.type === "radio") {
                 value = option_value_to_title(attribute.options, value) + " ";
             } else {
@@ -142,8 +167,6 @@ const Profile = () => {
             visibility = attribute.visibility ?? null;
             return attribute.value;
         });
-
-        console.log(field.title, attributes);
 
         // Return values
         if (attributes.length === 0) {
@@ -178,36 +201,36 @@ const Profile = () => {
     // Get modal button for given field
     const getFieldActionButton = (field) => {
         // Make a button with given text
-        const makeButton = (text) => {
+        const makeButton = (text, onClick = () => onOpenFieldModal(field)) => {
             return (
                 <button
                     type="button"
                     className="p-1 -m-1 bg-white rounded-md font-medium text-emerald-600 hover:text-emerald-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
-                    onClick={() => onOpenFieldModal(field)}
+                    onClick={onClick}
                 >
                     {text}
                 </button>
             );
         };
 
+        // Return different button according to raw value
+        const { value, } = getFieldDisplayValueRaw(field);
+
         // Photo - Return special operations button for photo field - Update | Delete
-        if (field.attributes === "photo") {
+        if (field.attributes.find(a => a.type === "photo")) {
             return (
                 <>
-                    {makeButton("Update")}
-                    <span className="text-gray-300 mt-2.5" aria-hidden="true">|</span>
-                    {makeButton("Remove")}
+                    {value ? makeButton("Update") : makeButton("Add")}
+                    {value && <span className="text-gray-300 flex items-center px-2" aria-hidden="true">|</span>}
+                    {value && makeButton("Remove", () => setAccount({ ...account, photo: null }))}
                 </>
             );
         }
 
-        // Return different button according to raw value
-        const { value, } = getFieldDisplayValueRaw(field);
-
-        if (value === null) {
-            return makeButton("Set");
-        } else {
+        if (value) {
             return makeButton("Update");
+        } else {
+            return makeButton("Set");
         }
     };
 
@@ -236,8 +259,21 @@ const Profile = () => {
                 }
             };
 
-            if (attribute.type === "file") {
-                return <></>;
+            if (attribute.type === "photo") {
+                return (
+                    <div className="flex items-center space-x-4">
+                        <Photo account={{ ...account, ...update }} size={20} />
+                        <div className="space-y-2">
+                            {filesContent.map((file, index) => (
+                                <div key={index}>{file.name}</div>
+                            ))}
+                            {(!filesContent || filesContent?.length === 0) &&
+                                <div>No file selected</div>
+                            }
+                            <button className="secondary" onClick={() => openFileSelector()}>Select</button>
+                        </div>
+                    </div>
+                );
             } else if (attribute.type === "text") {
                 return (
                     <>
@@ -458,15 +494,38 @@ const Profile = () => {
     const onSubmit = () => {
         setLoading(true);
 
-        setAccount(update)
-            .then(res => {
-                console.log(res);
-                setOpen(false);
-            })
-            .catch(err => toast.error(err.response.data.message))
-            .finally(() => {
-                setLoading(false);
+        new Promise((resolve, reject) => {
+            // Upload photo if there's one
+            if (update.photo_plain) {
+                let formData = new FormData();
+                formData.set("file", update.photo_plain);
+                axios.post("/files", formData, { headers: { "content-type": "multipart/form-data" } })
+                    .then(res => {
+                        update.photo = res.data.filename;
+                        delete update.photo_plain;
+                        setUpdate(update);
+                        resolve();
+                    }
+                    ).catch(err => {
+                        toast.error(err);
+                        reject();
+                    });
+            } else {
+                resolve();
+            }
+        })
+            .then(() => {
+                setAccount(update)
+                    .then(res => {
+                        console.log(res);
+                        setOpen(false);
+                    })
+                    .catch(err => toast.error(err.response.data.message))
+                    .finally(() => {
+                        setLoading(false);
+                    });
             });
+
     };
 
     const makeField = (field_key, field) => {
@@ -486,14 +545,14 @@ const Profile = () => {
 
             return (
                 <div key={field_key} className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4" >
-                    <dt className="text-sm font-medium text-gray-500">
+                    <dt className="text-sm font-medium text-gray-500 flex items-center">
                         {field.title}
                     </dt>
                     <dd className="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                         <span className="flex-grow">
                             {getFieldDisplayValue(field)}
                         </span>
-                        <span className="ml-4 flex-shrink-0 flex item-start space-x-4">
+                        <span className="ml-4 flex-shrink-0 flex item-start">
                             {getFieldActionButton(field)}
                         </span>
                     </dd>
