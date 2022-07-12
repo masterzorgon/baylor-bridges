@@ -169,7 +169,7 @@ const Profile = () => {
         });
 
         // Return values
-        if (attributes.length === 0) {
+        if (attributes.length === 0 || value.join("").trim() === "") {
             value = null;
         }
 
