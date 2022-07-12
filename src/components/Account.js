@@ -2,7 +2,8 @@ import React, { createContext, useEffect, useState } from "react";
 import axios from "axios";
 
 const AccountContext = createContext();
-const x_fields = "user_id, username, first_name, last_name, headline, photo, role, occupation, graduate_year, graduate_semester, city, state, biography, contact_info";
+
+const x_fields = "user_id, username, first_name, last_name, headline, prefix, photo, role, occupation, graduate_year, graduate_semester, city, state, biography, contact_info";
 
 const Account = (props) => {
     let account_local = window.localStorage.getItem("account");
