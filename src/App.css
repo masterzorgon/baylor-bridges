@@ -208,7 +208,6 @@ input, textarea, select {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  margin-bottom: -2px;
   display: block;
 }
 

@@ -139,6 +139,7 @@ const Search = () => {
     const [mapStats, setMapStats] = useState({});
     const [profiles, setProfiles] = useState(null);
     const [open, setOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
 
 
     const toggleFilterOption = (key, value, checked) => {
@@ -190,10 +191,13 @@ const Search = () => {
             return;
         }
 
+        setLoading(true);
+
         setSearchParams(queryToString(queryDebounce));
         axios.get("/search" + queryToString(queryDebounce)).then((res) => {
             setProfiles(res.data.profiles);
             setMapStats(res.data.states);
+            setLoading(false);
         });
     }, [queryDebounce]);
 
@@ -619,14 +623,14 @@ const Search = () => {
                                 </li>
                             ))}
                             {
-                                (profiles?.length === 0) &&
+                                (profiles?.length === 0 && !loading) &&
                                 <li className="text-center text-gray-500">
                                     <h3 className="mt-2 text-lg font-medium text-gray-900">No matching result</h3>
                                     <p className="mt-1 text-sm text-gray-500">Sorry, we cannot find anything matching {query.keywords}.</p>
                                 </li>
                             }
                             {
-                                !profiles &&
+                                !profiles && !loading &&
                                 <li className="text-center text-gray-500">
                                     <h3 className="mt-2 text-lg font-medium text-gray-900">There is no search</h3>
                                     <p className="mt-1 text-sm text-gray-500">Type in keywords appears in name or headline, and filter by graduating class, role or state.</p>
@@ -730,7 +734,7 @@ const SearchInput = ({ focus, onFocus }) => {
                         <ul className="" ref={animation}>
                             {searchResult?.profiles?.map((profile) => (
                                 <li key={profile.user_id}>
-                                    <Link className="transition-all py-4 px-5 flex hover:bg-gray-50 space-x-2.5" to={"/profile/" + profile.user_id} rel="noreferrer">
+                                    <Link className="transition-all py-4 px-5 flex hover:bg-gray-50 space-x-2.5" to={"/profile/" + profile.user_id} rel="noreferrer" onClick={() => onFocus(false)}>
                                         <div className="h-10 w-10">
                                             <Photo size="10" account={profile} badges={true} />
                                         </div>

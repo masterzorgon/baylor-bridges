@@ -47,12 +47,15 @@ const Profile = () => {
 
 
     useEffect(() => {
+        setProfileAccount(null);
+        setFound(null);
+        setAuthenticated(null);
+
         if (account) {
             setAuthenticated(true);
         } else {
             setAuthenticated(false);
         }
-
 
         let url = "";
         if (user_id === undefined) {
