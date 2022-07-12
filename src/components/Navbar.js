@@ -72,7 +72,7 @@ const Navbar = ({ hideOnTop }) => {
                             <span className="sr-only">Baylor Bridge</span>
                             <img
                                 className="h-8 w-auto sm:h-10"
-                                src="/Baylor-University-Athletics-01.svg"
+                                src="/bu-logo.svg"
                                 alt="Baylor University logo"
                             />
                         </Link>
@@ -251,7 +251,7 @@ const Navbar = ({ hideOnTop }) => {
                                     <div>
                                         <img
                                             className="h-8 w-auto sm:h-10"
-                                            src="/Baylor-University-Athletics-01.svg"
+                                            src="/bu-logo.svg"
                                             alt="Baylor University logo"
                                         />
                                     </div>

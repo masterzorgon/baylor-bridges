@@ -52,7 +52,7 @@ const Entrace = () => {
                     <Link to="/">
                         <img
                             className="mx-auto h-20 w-auto"
-                            src="/Baylor-University-Athletics-01.svg"
+                            src="/bu-logo.svg"
                             alt="Workflow"
                         />
                     </Link>

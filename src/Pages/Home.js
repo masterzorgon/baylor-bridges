@@ -70,7 +70,7 @@ const Home = () => {
                                 <div>
                                     <img
                                         className="h-20 w-auto"
-                                        src="/Baylor-University-Athletics-01.svg"
+                                        src="/bu-logo.svg"
                                         alt="Baylor University icon"
                                     />
                                 </div>
