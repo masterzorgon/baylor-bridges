@@ -1,16 +1,19 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 
 import NotFound from "../404";
 
-import WelcomePage from "./WelcomePage";
-import ProfileSetup from "./ProfileSetup";
+import WelcomePage from "./Welcome";
+import Form from "./Form";
+import Done from "./Done";
 
 const index = () => {
     return (
         <Routes>
+            <Route path="/" element={<Navigate to="welcome" />} />
             <Route path="welcome" element={<WelcomePage />} />
-            <Route path="profile-setup" element={<ProfileSetup />} />
+            <Route path="form" element={<Form />} />
+            <Route path="done" element={<Done />} />
             <Route path="*" element={<NotFound />} />
         </Routes>
     );

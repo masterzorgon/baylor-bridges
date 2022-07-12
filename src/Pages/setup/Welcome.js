@@ -1,6 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+
+import { Button } from "../../components/Button";
 
 const ProfileSetup = () => {
+    const navigate = useNavigate();
 
     return (
         <>
@@ -64,18 +68,19 @@ const ProfileSetup = () => {
                         <span className="text-gradient bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500">Welcome!</span>
                         <span className="block">We are so glad to have you.</span>
                     </h2>
-                    <p className="mt-4 mx-auto text-gray-700">
+                    <p className="mt-4 mx-auto text-gray-700 text-base">
                         Since your account is so new, we will walk you through{" "}
-                    a few steps to get you started. You will be prompted to fill out
+                        a few steps to get you started. You will be prompted to fill out
                         some profile information to <span className="underline underline-offset-4 decoration-emerald-400">complete your profile</span>,
                         so that others can better connect with you via your profile.
                     </p>
-                    <a
-                        href="profile-setup"
-                        className="bg-emerald-600 mt-8 cursor-pointer shadow-md inline-flex items-center justify-center px-5 py-3 text-base font-medium rounded-md text-white hover:bg-emerald-700"
+                    <Button
+                        onClick={() => navigate("/setup/form")}
+                        arrow={true}
+                        className="bg-emerald-600 mt-8 cursor-pointer shadow-md inline-flex items-center justify-center px-5 py-4 text-base font-medium rounded-md text-white hover:bg-emerald-700 w-auto"
                     >
                         Get started
-                    </a>
+                    </Button>
                 </div>
             </div>
         </>
