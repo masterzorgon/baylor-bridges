@@ -552,7 +552,7 @@ const Profile = () => {
                         <span className="flex-grow">
                             {getFieldDisplayValue(field)}
                         </span>
-                        <span className="ml-4 flex-shrink-0 flex item-start">
+                        <span className="ml-4 flex-shrink-0 flex items-center">
                             {getFieldActionButton(field)}
                         </span>
                     </dd>
