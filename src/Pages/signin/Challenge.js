@@ -84,7 +84,7 @@ const Challenge = () => {
             },
             done: () => {
                 if (requiresProfileSetup(response)) {
-                    let destination = changeBaseURL(window.location.href, "/setup/profile-setup");
+                    let destination = changeBaseURL(window.location.href, "/setup");
                     navigate(destination);
                     return;
                 }
