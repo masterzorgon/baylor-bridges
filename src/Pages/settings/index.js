@@ -58,7 +58,7 @@ const Settings = () => {
                                         <Route path="profile" index element={<Profile />} />
                                         <Route path="experience" element={<Experience />} />
                                         <Route path="account" element={<Account />} />
-                                        <Route path="*" element={<Navigate to="profile" />} />
+                                        <Route path="*" element={<Navigate to="profile" replace={true} />} />
                                     </Routes>
                                 </div>
                             </div>

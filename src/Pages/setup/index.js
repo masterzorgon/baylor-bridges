@@ -10,7 +10,7 @@ import Done from "./Done";
 const index = () => {
     return (
         <Routes>
-            <Route path="/" element={<Navigate to="welcome" />} />
+            <Route path="/" element={<Navigate to="welcome" replace={true} />} />
             <Route path="welcome" element={<WelcomePage />} />
             <Route path="form" element={<Form />} />
             <Route path="done" element={<Done />} />
