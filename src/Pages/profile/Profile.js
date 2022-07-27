@@ -35,7 +35,7 @@ const option_value_to_title = (options, value) => {
 
 
 const Profile = () => {
-    const { user_id } = useParams();
+    const { account_id } = useParams();
 
     const { account } = useContext(AccountContext);
 
@@ -58,16 +58,16 @@ const Profile = () => {
         }
 
         let url = "";
-        if (user_id === undefined) {
+        if (account_id === undefined) {
             url = "/accounts/me";
         } else {
-            url = `/accounts/${user_id}`;
+            url = `/accounts/${account_id}`;
         }
 
-        axios.get(url, { headers: { "x-fields": "user_id, first_name, last_name, headline, photo, role, occupation, graduate_year, city, state, biography, contact_info, experiences" } })
+        axios.get(url, { headers: { "x-fields": "account_id, first_name, last_name, headline, photo, role, occupation, graduate_year, city, state, biography, contact_info, experiences" } })
             .then(({ data }) => {
                 setProfileAccount(data);
-                setIsSelf(account && account.user_id === data.user_id);
+                setIsSelf(account && account.account_id === data.account_id);
                 setAuthenticated(true);
                 setFound(true);
             })
@@ -80,7 +80,7 @@ const Profile = () => {
                     setFound(false);
                 }
             });
-    }, [user_id]);
+    }, [account_id]);
 
     const getFieldDisplayValueRaw = (field) => {
         let string = "";

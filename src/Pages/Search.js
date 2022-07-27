@@ -573,8 +573,8 @@ const Search = () => {
                     <div className="bg-white sm:rounded-md mt-1">
                         <ul className="divide-y divide-gray-100 px-6" ref={animation}>
                             {profiles?.map((profile) => (
-                                <li key={profile.user_id}>
-                                    <Link className="block hover:bg-gray-50 rounded-md -mx-6" to={"/profile/" + profile.user_id} rel="noreferrer">
+                                <li key={profile.account_id}>
+                                    <Link className="block hover:bg-gray-50 rounded-md -mx-6" to={"/profile/" + profile.account_id} rel="noreferrer">
                                         <div className="flex items-center px-4 py-4 sm:px-6">
                                             <div className="min-w-0 flex-1 flex items-center">
                                                 <div className="flex-shrink-0">
@@ -733,8 +733,8 @@ const SearchInput = ({ focus, onFocus }) => {
                     <div className="z-50 bg-white absolute shadow-md py-2 rounded-md w-full max-w-md mt-4 top-16">
                         <ul className="" ref={animation}>
                             {searchResult?.profiles?.map((profile) => (
-                                <li key={profile.user_id}>
-                                    <Link className="transition-all py-4 px-5 flex hover:bg-gray-50 space-x-2.5" to={"/profile/" + profile.user_id} rel="noreferrer" onClick={() => onFocus(false)}>
+                                <li key={profile.account_id}>
+                                    <Link className="transition-all py-4 px-5 flex hover:bg-gray-50 space-x-2.5" to={"/profile/" + profile.account_id} rel="noreferrer" onClick={() => onFocus(false)}>
                                         <div className="h-10 w-10">
                                             <Photo size="10" account={profile} badges={true} />
                                         </div>
