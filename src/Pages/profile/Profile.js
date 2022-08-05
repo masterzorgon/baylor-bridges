@@ -8,7 +8,8 @@ import axios from "axios";
 
 import Photo from "../../components/Photo";
 import { AccountContext } from "../../components/Account";
-import SignInRequiredModal from "./SignInRequiredModal";
+// import SignInRequiredModal from "./SignInRequiredModal";
+import MakeConnectionModal from "./MakeConnectionModal";
 import Markdown from "../../components/Markdown";
 import ExperienceCard from "../../components/profile/ExperienceCard";
 import { classNames } from "../../components/Utils";
@@ -42,19 +43,22 @@ const Profile = () => {
     const [isSelf, setIsSelf] = useState(false);
     const [profileAccount, setProfileAccount] = useState(null);
 
-    const [authenticated, setAuthenticated] = useState(null);
+    // const [authenticated, setAuthenticated] = useState(null);
     const [found, setFound] = useState(null);
+    const [makeConnection, setMakeConnection] = useState(false);
+    const [connectionPending, setConnectionPending] = useState(false);
+    const [connectionMsg, setConnectionMsg] = useState("");
 
 
     useEffect(() => {
         setProfileAccount(null);
         setFound(null);
-        setAuthenticated(null);
+        // setAuthenticated(null);
 
         if (account) {
-            setAuthenticated(true);
+            // setAuthenticated(true);
         } else {
-            setAuthenticated(false);
+            // setAuthenticated(false);
         }
 
         let url = "";
@@ -68,12 +72,12 @@ const Profile = () => {
             .then(({ data }) => {
                 setProfileAccount(data);
                 setIsSelf(account && account.account_id === data.account_id);
-                setAuthenticated(true);
+                // setAuthenticated(true);
                 setFound(true);
             })
             .catch(err => {
                 if (err.response.data.code && err.response.data.code === "AuthenticationRequiredException") {
-                    setAuthenticated(false);
+                    // setAuthenticated(false);
                     console.log(err.response.data.code);
                 } else {
                     console.log("other errors");
@@ -169,14 +173,23 @@ const Profile = () => {
 
     return (
         <>
-            {authenticated === false ? <SignInRequiredModal /> : ""}
+            {/* {authenticated === false ? <SignInRequiredModal /> : ""} */}
             {found === false ? <NotFoundModal /> : ""}
+            {
+                makeConnection &&
+                <MakeConnectionModal
+                    makeConnection={makeConnection}
+                    connectionMsg={connectionMsg}
+
+                    setMakeConnection={setMakeConnection}
+                    setConnectionPending={setConnectionPending}
+                    setConnectionMsg={setConnectionMsg}
+                />
+            }
 
             <div className="min-h-full bg-gray-100">
                 <main className="py-10">
-
-
-                    {/* Page header */}
+                    {/* PAGE HEADER */}
                     <div className="max-w-3xl mx-auto px-4 sm:px-6 md:flex md:items-center md:justify-between md:space-x-5 lg:max-w-7xl lg:px-8">
                         <div className="flex items-center space-x-3">
                             <div className="flex-shrink-0">
@@ -197,14 +210,16 @@ const Profile = () => {
                                 </div>
                             }
                         </div>
-                        {/* <div className="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3">
+                        <div className="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3">
                             <button
                                 type="button"
-                                className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-emerald-500"
+                                onClick={() => setMakeConnection(true)}
+                                disabled={connectionPending}
+                                className="disabled:bg-transparent disabled:text-gray-600 disabled:border-gray-600 disabled:cursor-not-allowed inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-emerald-600 !disabled:hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-emerald-500"
                             >
-                                Connect
+                                {connectionPending ? "Pending" : "Connect"}
                             </button>
-                        </div> */}
+                        </div>
                     </div>
 
                     <div className="mt-8 max-w-3xl mx-auto grid grid-cols-1 gap-6 sm:px-6 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-2">
