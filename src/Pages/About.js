@@ -253,9 +253,16 @@ const tech = {
                 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRm2kXPZYElBjWmCyDrB3VaWhnRKKrsVcyc3Q&usqp=CAU",
             linkedinUrl: "https://www.linkedin.com/in/xiayan-li-92b448192/",
         },
+        // {
+        //     name: "Joseph (Yang-En) Yu",
+        //     role: "Database Lead",
+        //     imageUrl:
+        //         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8vG6oOaY1JO4s1lT3L7rqMOM7__8thZzpDQ&usqp=CAU",
+        //     linkedinUrl: "#",
+        // },
         {
-            name: "Joseph (Yang-En) Yu",
-            role: "Database Lead",
+            name: "Yanbo Liu (Ned)",
+            role: "Front-end Developer",
             imageUrl:
                 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8vG6oOaY1JO4s1lT3L7rqMOM7__8thZzpDQ&usqp=CAU",
             linkedinUrl: "#",
