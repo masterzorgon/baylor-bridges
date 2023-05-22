@@ -44,7 +44,7 @@ const Navbar = ({ hideOnTop }) => {
         navigate("/settings");
     };
 
-    const additionalClassNames = classNames((!hideOnTop || pageYOffset > window.screen.height * 0.5) ? "opacity-100" : "opacity-0 pointer-events-none", hideOnTop === true ? "fixed w-full" : "sticky", "transition-all");
+    const additionalClassNames = classNames((!hideOnTop || pageYOffset > window.screen.height * 0.1) ? "opacity-100" : "opacity-0 pointer-events-none", hideOnTop === true ? "fixed w-full" : "sticky", "transition-all");
 
     return (
         <>
@@ -65,15 +65,15 @@ const Navbar = ({ hideOnTop }) => {
             </Transition>
 
             <Popover className={classNames("z-50 top-0", additionalClassNames)}>
-                <div className="flex shadow justify-between items-center px-4 py-5 sm:px-6 md:justify-start bg-white">
+                <div className="flex shadow justify-between items-center px-4 py-5 sm:px-6 md:justify-start bg-white bg">
                     {/* Baylor University logo */}
                     <div className="h-8 w-auto sm:h-10 mr-4">
                         <Link to="/" className="flex">
                             <span className="sr-only">Baylor Bridge</span>
                             <img
                                 className="h-8 w-auto sm:h-10"
-                                src="/bu-logo.svg"
-                                alt="Baylor University logo"
+                                src="/vlyss-pink.png"
+                                alt="Vlyss logo"
                             />
                         </Link>
                     </div>
@@ -160,7 +160,7 @@ const Navbar = ({ hideOnTop }) => {
                                 <Link to={signInUrl} className="px-4 py-2 rounded-md text-base font-medium text-gray-500 hover:text-gray-900">
                                     Sign in
                                 </Link>
-                                <Link to={signUpUrl} className="ml-4 inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-emerald-600 hover:bg-emerald-700">
+                                <Link to={signUpUrl} className="ml-4 inline-flex items-center justify-center px-4 py-2 ring-2 ring-[#ff72f9] rounded-md bg-[#ff72f9] text-white hover:bg-white hover:text-[#ff72f9] font-medium">
                                     Sign up
                                 </Link>
                             </div>

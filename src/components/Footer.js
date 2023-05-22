@@ -4,11 +4,8 @@ import { Link } from "react-router-dom";
 const navigation = {
     main: [
         { name: "About", href: "/about" },
-        { name: "Contact Us", href: "/contact-us" },
+        { name: "Contact", href: "/contact-us" },
         { name: "Terms", href: "/terms/terms-conditions" },
-        // { name: "Privacy", href: "/terms/privacy-policy" },
-        // { name: "Cookies", href: "/terms/cookies-policy" },
-        { name: "Baylor Prehealth", href: "//www.baylor.edu/prehealth/index.php?id=981654" },
     ],
     social: [
         // {
@@ -97,7 +94,7 @@ export default function Footer() {
                         </a>
                     ))}
                     </div> */}
-                <p className="mt-8 text-center text-base text-gray-400">&copy; 2021-2022 Baylor Bridges&trade; All rights reserved.</p>
+                <p className="mt-8 text-center text-base text-gray-400">&copy; 2023 Vlyss&trade; All rights reserved.</p>
             </div>
         </footer>
     );
